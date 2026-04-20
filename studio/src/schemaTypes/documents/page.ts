@@ -30,21 +30,39 @@ export const page = defineType({
       },
     }),
     defineField({
-      name: 'heading',
-      title: 'Heading',
-      type: 'string',
+      name: 'description',
+      title: 'Description',
+      type: 'text',
       validation: (Rule) => Rule.required(),
+      description: 'The description of this page. Important for SEO.'
     }),
     defineField({
-      name: 'subheading',
-      title: 'Subheading',
-      type: 'string',
+      name: 'keywords',
+      title: 'Keywords',
+      type: 'array',
+      of: [{type: 'string'}],
+      validation: (Rule) => Rule.required(),
+      description: 'The keywords of this page. Important for SEO. (though less relevant for Google today)'
     }),
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
-      of: [{type: 'callToAction'}, {type: 'infoSection'}],
+      of: [
+        {type: 'homeHero'},
+        {type: 'list'},
+        {type: 'cta'},
+        {type: 'methodology'},
+        {type: 'origin'},
+        {type: 'portfolio'},
+        {type: 'pricing'},
+        {type: 'signature'},
+        {type: 'story'},
+        {type: 'team'},
+        {type: 'testimonials'},
+        {type: 'whatWeDo'},
+        {type: 'why'},
+      ],
       options: {
         insertMenu: {
           // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/studio/array-type#efb1fe03459d

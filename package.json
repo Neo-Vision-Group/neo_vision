@@ -1,18 +1,15 @@
 {
-  "name": "sanity-template-nextjs-clean",
-  "description": "Next.js + Sanity: A Powerful Website Starter with Real-time Visual Editing",
+  "name": "neoxai",
+  "description": "Neo xAI - AI-native engineering and transformation for companies that need working systems, not slide decks. We embed in your business, prove ROI, then scale it.",
   "keywords": [
-    "Sanity",
-    "Next.js",
-    "Headless CMS",
-    "Visual Editing",
-    "Live Content API (LCAPI)",
-    "Real-time"
+    "AI",
+    "Software",
+    "Development",
+    "Engineering",
+    "Transformation",
+    "Future"
   ],
-  "homepage": "https://github.com/sanity-io/sanity-template-nextjs-clean#readme",
-  "bugs": {
-    "url": "https://github.com/sanity-io/sanity-template-nextjs-clean/issues"
-  },
+  "homepage": "https://neovision.dev",
   "workspaces": [
     "studio",
     "frontend"

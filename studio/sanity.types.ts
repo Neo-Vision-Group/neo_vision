@@ -15,6 +15,212 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: ../sanity.schema.json
+export type Callout = {
+  heading?: string
+  body?: string
+  cta?: Button
+}
+
+export type ValueCard = {
+  value?: string
+  body?: string
+}
+
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type Texture = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "texture.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type Why = {
+  _type: 'why'
+  eyebrow?: string
+  heading?: string
+  points?: Array<{
+    title?: string
+    body?: string
+    _key: string
+  }>
+}
+
+export type ServiceReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'service'
+}
+
+export type WhatWeDo = {
+  _type: 'whatWeDo'
+  eyebrow?: string
+  cards: Array<{
+    kind?: 'engineering' | 'ai'
+    label?: string
+    title: string
+    body: string
+    services: Array<
+      {
+        _key: string
+      } & ServiceReference
+    >
+    cta: Button
+    texture?: Texture
+    _key: string
+  }>
+}
+
+export type TestimonialReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'testimonial'
+}
+
+export type Testimonials = {
+  _type: 'testimonials'
+  eyebrow: string
+  testimonials: Array<
+    {
+      _key: string
+    } & TestimonialReference
+  >
+}
+
+export type TeamMemberReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'teamMember'
+}
+
+export type Team = {
+  _type: 'team'
+  eyebrow?: string
+  heading: string
+  members: Array<
+    {
+      _key: string
+    } & TeamMemberReference
+  >
+  closingStatement: string
+}
+
+export type Story = {
+  _type: 'story'
+  eyebrow?: string
+  heading?: string
+  milestones?: Array<{
+    year?: string
+    body?: string
+    _key: string
+  }>
+}
+
+export type Signature = {
+  _type: 'signature'
+  eyebrow?: string
+  heading?: string
+  body?: string
+  secondaryLine?: string
+  steps?: Array<{
+    title?: string
+    duration?: string
+    body?: string
+    textured?: boolean
+    _key: string
+  }>
+  cta?: Button
+  valueCard?: ValueCard
+}
+
+export type Pricing = {
+  _type: 'pricing'
+  eyebrow?: string
+  heading?: string
+  cards?: Array<{
+    kind?: 'engineering' | 'ai'
+    title?: string
+    items?: Array<
+      {
+        _key: string
+      } & ServiceReference
+    >
+    _key: string
+  }>
+  callout?: Callout
+}
+
+export type ProjectReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'project'
+}
+
+export type Portfolio = {
+  _type: 'portfolio'
+  eyebrow: string
+  heading: string
+  projects: Array<
+    {
+      _key: string
+    } & ProjectReference
+  >
+}
+
+export type Origin = {
+  _type: 'origin'
+  eyebrow?: string
+  heading: string
+  body: string
+  subtext?: string
+}
+
+export type Methodology = {
+  _type: 'methodology'
+  eyebrow?: string
+  heading?: string
+  steps?: Array<{
+    title?: string
+    body?: string
+    _key: string
+  }>
+}
+
+export type Cta = {
+  _type: 'cta'
+  heading: string
+  body: string
+  cta: Button
+  subtext?: string
+}
+
+export type HomeHero = {
+  _type: 'homeHero'
+  label?: string
+  heading?: string
+  body?: string
+  primaryCta?: Button
+  stats?: string
+  dimensionLine?: string
+  ctaText: string
+  secondaryCta?: Button
+}
+
+export type List = {
+  _type: 'list'
+  pageBuilder?: null
+}
+
 export type PageReference = {
   _ref: string
   _type: 'reference'
@@ -36,37 +242,6 @@ export type Link = {
   page?: PageReference
   post?: PostReference
   openInNewTab?: boolean
-}
-
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-}
-
-export type CallToAction = {
-  _type: 'callToAction'
-  eyebrow?: string
-  heading: string
-  body?: BlockContentTextOnly
-  button?: Button
-  image?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  theme?: 'light' | 'dark'
-  contentAlignment?: 'textFirst' | 'imageFirst'
-}
-
-export type InfoSection = {
-  _type: 'infoSection'
-  heading?: string
-  subheading?: string
-  content?: BlockContent
 }
 
 export type BlockContentTextOnly = Array<{
@@ -127,6 +302,42 @@ export type Button = {
   link?: Link
 }
 
+export type Testimonial = {
+  _id: string
+  _type: 'testimonial'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+}
+
+export type Project = {
+  _id: string
+  _type: 'project'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+}
+
+export type TeamMember = {
+  _id: string
+  _type: 'teamMember'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: string
+}
+
+export type Service = {
+  _id: string
+  _type: 'service'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+}
+
 export type Settings = {
   _id: string
   _type: 'settings'
@@ -183,26 +394,6 @@ export type SanityImageHotspot = {
   width: number
 }
 
-export type Page = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name: string
-  slug: Slug
-  heading: string
-  subheading?: string
-  pageBuilder?: Array<
-    | ({
-        _key: string
-      } & CallToAction)
-    | ({
-        _key: string
-      } & InfoSection)
-  >
-}
-
 export type PersonReference = {
   _ref: string
   _type: 'reference'
@@ -254,6 +445,59 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
+}
+
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
+  description: string
+  keywords: Array<string>
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & List)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+  >
 }
 
 export type SanityAssistInstructionTask = {
@@ -491,23 +735,45 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | Callout
+  | ValueCard
+  | SanityImageAssetReference
+  | Texture
+  | Why
+  | ServiceReference
+  | WhatWeDo
+  | TestimonialReference
+  | Testimonials
+  | TeamMemberReference
+  | Team
+  | Story
+  | Signature
+  | Pricing
+  | ProjectReference
+  | Portfolio
+  | Origin
+  | Methodology
+  | Cta
+  | HomeHero
+  | List
   | PageReference
   | PostReference
   | Link
-  | SanityImageAssetReference
-  | CallToAction
-  | InfoSection
   | BlockContentTextOnly
   | BlockContent
   | Button
+  | Testimonial
+  | Project
+  | TeamMember
+  | Service
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
-  | Page
   | PersonReference
   | Post
   | Person
   | Slug
+  | Page
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations
