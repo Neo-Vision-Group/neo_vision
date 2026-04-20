@@ -30,6 +30,22 @@ export const page = defineType({
       },
     }),
     defineField({
+      name: 'pageType',
+      title: 'Page Type',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+      options: {
+        list: [
+          {title: 'Home', value: 'home'},
+          {title: 'Services', value: 'services'},
+          {title: 'Insights', value: 'insights'},
+          {title: 'Case Studies', value: 'caseStudies'},
+        ],
+        layout: 'radio',
+      },
+      description: 'Select the type of page this represents',
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',

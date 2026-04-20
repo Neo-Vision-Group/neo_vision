@@ -3,6 +3,23 @@ import {dataset, projectId, studioUrl} from '@/sanity/lib/api'
 import {createDataAttribute, CreateDataAttributeProps} from 'next-sanity'
 import {createImageUrlBuilder, type SanityImageSource} from '@sanity/image-url'
 import {DereferencedLink} from '@/sanity/lib/types'
+import {stegaClean} from '@sanity/client/stega'
+
+// Clean stega-encoded strings to prevent decode errors
+export function cleanStega<T>(value: T): T {
+  if (typeof value === 'string') {
+    return stegaClean(value) as T
+  }
+  if (Array.isArray(value)) {
+    return value.map(cleanStega) as T
+  }
+  if (value && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, val]) => [key, cleanStega(val)])
+    ) as T
+  }
+  return value
+}
 
 const builder = createImageUrlBuilder({
   projectId: projectId || '',

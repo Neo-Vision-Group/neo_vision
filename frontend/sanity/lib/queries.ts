@@ -2,6 +2,66 @@ import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
 
+export const homePageQuery = defineQuery(`
+  *[_type == 'page' && pageType == 'home'][0]{
+    _id,
+    _type,
+    name,
+    pageType,
+    "pageBuilder": pageBuilder[]{
+      ...,
+      _type == "homeHero" => {
+        ...,
+        primaryCta {
+          ...,
+          link {
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        },
+        secondaryCta {
+          ...,
+          link {
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        }
+      },
+      _type == "callToAction" => {
+        ...,
+        button {
+          ...,
+          link {
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        }
+      },
+      _type == "infoSection" => {
+        content[]{
+          ...,
+          markDefs[]{
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        }
+      },
+    },
+  }
+`)
+
 const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),

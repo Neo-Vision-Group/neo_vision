@@ -1,6 +1,7 @@
 import React from 'react'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
+import {Hero, HeroData} from '@/components/sections/Hero'
 
 type BlockProps = {
   index: number
@@ -14,7 +15,9 @@ type BlocksType = {
 }
 
 const Blocks = {
-  // nothing yet
+  homeHero: ({block}: BlockProps) => {
+    return <Hero data={block as any as HeroData} />
+  },
 } as BlocksType
 
 /**
