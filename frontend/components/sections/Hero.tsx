@@ -4,8 +4,6 @@ import { RevealOnScroll } from "../partials/motion/RevealOnScroll";
 import { SplitTextReveal } from "../partials/motion/SplitTextReveal";
 import { cleanStega } from "@/sanity/lib/utils";
 
-/** Hero data shape — loose, to match Sanity's optional fields. Full
- *  types via `npm run typegen` once we freeze the schema. */
 export type HeroData = {
   label?: string;
   heading?: string;
@@ -17,20 +15,6 @@ export type HeroData = {
   secondaryCta?: { buttonText?: string; link?: any } | null;
 };
 
-/**
- * Hero — responsive across 4 Figma variants (1920 / 1280 / 800 / 375).
- *
- * Data source: props.data (from Sanity) with hardcoded `home.ts`
- * fallback. Each field is resolved individually so partial Sanity
- * data still renders with sensible defaults.
- *
- * Motion:
- *  - "TwelveTen" label: SplitText char reveal on mount (0.02s stagger)
- *  - 1210 logotype: mask-reveal bottom → top (300ms delay after label)
- *  - Headline: SplitText words reveal (0.05s stagger, starts at 0.6s)
- *  - Body + CTA: fade-up stagger
- *  - Bottom bar: fades in when scrolled into view
- */
 export function Hero({ data }: { data?: HeroData }) {
   const cleanData = data ? cleanStega(data) : data;
   
@@ -69,10 +53,6 @@ export function Hero({ data }: { data?: HeroData }) {
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
 
-      {/* Main content block — flex-1 so it distributes space between
-          top padding and the bottom bar, keeping the whole hero within
-          one viewport. Internal spacing compresses at larger viewports
-          to prevent overflow on 1600–1920 displays. */}
       <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-[120px] 2xl:pt-24">
         {/* Brand block: label + 1210 logotype */}
         <div className="flex w-full flex-col gap-3 md:gap-4">
@@ -131,9 +111,6 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      {/* Bottom bar: stats | A NEW DIMENSION | merger note + secondary CTA.
-          No mt-* — the flex-1 middle takes leftover space, so the bar
-          sits flush to the bottom of the viewport on any viewport size. */}
       <div className="relative w-full shrink-0 border-t border-border">
         <div className="flex flex-col md:grid md:grid-cols-[210px_1px_1fr] lg:grid-cols-[minmax(240px,360px)_1px_1fr] 2xl:grid-cols-[480px_1px_1fr]">
           {/* Stats */}
