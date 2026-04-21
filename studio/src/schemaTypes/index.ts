@@ -6,6 +6,8 @@ import {teamMember} from './documents/teamMember'
 import {project} from './documents/project'
 import {testimonial} from './documents/testimonial'
 import {settings} from './singletons/settings'
+import {termsAndConditions} from './singletons/termsAndConditions'
+import {privacyPolicy} from './singletons/privacyPolicy'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import button from './objects/button'
@@ -29,6 +31,8 @@ import {why} from './objects/home/why'
 export const schemaTypes = [
   // Singletons
   settings,
+  termsAndConditions,
+  privacyPolicy,
   // Documents
   page,
   post,

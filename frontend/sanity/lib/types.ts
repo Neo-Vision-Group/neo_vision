@@ -15,3 +15,8 @@ export type DereferencedLink = {
   post?: string | null
   openInNewTab?: boolean
 }
+
+export type NavPageType = {
+  name: string
+  slug: string
+}

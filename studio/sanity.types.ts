@@ -302,6 +302,17 @@ export type Button = {
   link?: Link
 }
 
+export type LegalLink = {
+  _id: string
+  _type: 'legalLink'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  label: string
+  href: string
+  order?: number
+}
+
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
@@ -336,6 +347,13 @@ export type Service = {
   _updatedAt: string
   _rev: string
   title?: string
+}
+
+export type LegalLinkReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'legalLink'
 }
 
 export type Settings = {
@@ -376,6 +394,39 @@ export type Settings = {
     metadataBase?: string
     _type: 'image'
   }
+  brandName: string
+  logoPicture?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  legalName?: string
+  email?: string
+  location?: string
+  navLinks?: Array<{
+    label: string
+    page?: PageReference
+    href?: string
+    _key: string
+  }>
+  footerColumns?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      href: string
+      accent?: boolean
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: Array<
+    {
+      _key: string
+    } & LegalLinkReference
+  >
 }
 
 export type SanityImageCrop = {
@@ -455,7 +506,7 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
-  pageType: 'home' | 'services' | 'insights' | 'caseStudies'
+  pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
   description: string
   keywords: Array<string>
   pageBuilder?: Array<
@@ -638,6 +689,15 @@ export type SanityAssistSchemaTypeField = {
   >
 }
 
+export type MediaTag = {
+  _id: string
+  _type: 'media.tag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: Slug
+}
+
 export type SanityImagePaletteSwatch = {
   _type: 'sanity.imagePaletteSwatch'
   background?: string
@@ -763,10 +823,12 @@ export type AllSanitySchemaTypes =
   | BlockContentTextOnly
   | BlockContent
   | Button
+  | LegalLink
   | Testimonial
   | Project
   | TeamMember
   | Service
+  | LegalLinkReference
   | Settings
   | SanityImageCrop
   | SanityImageHotspot
@@ -788,6 +850,7 @@ export type AllSanitySchemaTypes =
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
   | SanityAssistSchemaTypeField
+  | MediaTag
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions

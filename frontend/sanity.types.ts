@@ -14,6 +14,12 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol
 
+type ArrayOf<T> = Array<
+  T & {
+    _key: string
+  }
+>
+
 // Source: ../sanity.schema.json
 export type Callout = {
   heading?: string
@@ -329,13 +335,36 @@ export type TeamMember = {
   name?: string
 }
 
-export type Service = {
+export type PrivacyPolicy = {
   _id: string
-  _type: 'service'
+  _type: 'privacyPolicy'
   _createdAt: string
   _updatedAt: string
   _rev: string
   title?: string
+}
+
+export type TermsAndConditions = {
+  _id: string
+  _type: 'termsAndConditions'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+}
+
+export type TermsAndConditionsReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'termsAndConditions'
+}
+
+export type PrivacyPolicyReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'privacyPolicy'
 }
 
 export type Settings = {
@@ -376,6 +405,55 @@ export type Settings = {
     metadataBase?: string
     _type: 'image'
   }
+  brandName: string
+  logoPicture?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  legalName?: string
+  email?: string
+  phoneNumber?: string
+  location?: string
+  instagram?: string
+  facebook?: string
+  linkedin?: string
+  github?: string
+  x?: string
+  tiktok?: string
+  cta?: Button
+  navLinks?: Array<{
+    label: string
+    page?: PageReference
+    href?: string
+    _key: string
+  }>
+  footerColumns?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      linkType: 'page' | 'service' | 'href'
+      page?: PageReference
+      service?: ServiceReference
+      href?: string
+      accent?: boolean
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: ArrayOf<TermsAndConditionsReference | PrivacyPolicyReference>
+}
+
+export type Service = {
+  _id: string
+  _type: 'service'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
 }
 
 export type SanityImageCrop = {
@@ -455,7 +533,7 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
-  pageType: 'home' | 'services' | 'insights' | 'caseStudies'
+  pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
   description: string
   keywords: Array<string>
   pageBuilder?: Array<
@@ -638,6 +716,15 @@ export type SanityAssistSchemaTypeField = {
   >
 }
 
+export type MediaTag = {
+  _id: string
+  _type: 'media.tag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name?: Slug
+}
+
 export type SanityImagePaletteSwatch = {
   _type: 'sanity.imagePaletteSwatch'
   background?: string
@@ -766,8 +853,12 @@ export type AllSanitySchemaTypes =
   | Testimonial
   | Project
   | TeamMember
-  | Service
+  | PrivacyPolicy
+  | TermsAndConditions
+  | TermsAndConditionsReference
+  | PrivacyPolicyReference
   | Settings
+  | Service
   | SanityImageCrop
   | SanityImageHotspot
   | PersonReference
@@ -788,6 +879,7 @@ export type AllSanitySchemaTypes =
   | SanityAssistInstructionFieldRef
   | SanityAssistInstruction
   | SanityAssistSchemaTypeField
+  | MediaTag
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -799,7 +891,7 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]
+// Query: *[_type == "settings"][0]{    ...,    navLinks[]{      "name": label,      "slug": "/" + page->slug.current    },    cta {      buttonText,      link {        linkType,        href,        "page": page->slug.current,        "post": post->slug.current,        openInNewTab      }    }  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -838,6 +930,53 @@ export type SettingsQueryResult = {
     metadataBase?: string
     _type: 'image'
   }
+  brandName: string
+  logoPicture?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  legalName?: string
+  email?: string
+  phoneNumber?: string
+  location?: string
+  instagram?: string
+  facebook?: string
+  linkedin?: string
+  github?: string
+  x?: string
+  tiktok?: string
+  cta: {
+    buttonText: string | null
+    link: {
+      linkType: 'href' | 'page' | 'post' | null
+      href: string | null
+      page: string | null
+      post: string | null
+      openInNewTab: boolean | null
+    } | null
+  } | null
+  navLinks: Array<{
+    name: string
+    slug: string | null
+  }> | null
+  footerColumns?: Array<{
+    title: string
+    links?: Array<{
+      label: string
+      linkType: 'href' | 'page' | 'service'
+      page?: PageReference
+      service?: ServiceReference
+      href?: string
+      accent?: boolean
+      _key: string
+    }>
+    _key: string
+  }>
+  legalLinks?: ArrayOf<PrivacyPolicyReference | TermsAndConditionsReference>
 } | null
 
 // Source: sanity/lib/queries.ts
@@ -1355,7 +1494,7 @@ export type PagesSlugsResult = Array<{
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    '*[_type == "settings"][0]': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    ...,\n    navLinks[]{\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        openInNewTab\n      }\n    }\n  }\n': SettingsQueryResult
     '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    pageType,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        },\n        secondaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n    },\n  }\n': HomePageQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult

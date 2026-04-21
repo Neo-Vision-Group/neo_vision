@@ -1,6 +1,24 @@
 import {defineQuery} from 'next-sanity'
 
-export const settingsQuery = defineQuery(`*[_type == "settings"][0]`)
+export const settingsQuery = defineQuery(`
+  *[_type == "settings"][0]{
+    ...,
+    navLinks[]{
+      "name": label,
+      "slug": "/" + page->slug.current
+    },
+    cta {
+      buttonText,
+      link {
+        linkType,
+        href,
+        "page": page->slug.current,
+        "post": post->slug.current,
+        openInNewTab
+      }
+    }
+  }
+`)
 
 export const homePageQuery = defineQuery(`
   *[_type == 'page' && pageType == 'home'][0]{

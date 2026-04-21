@@ -5,7 +5,6 @@ import PageBuilderPage from '@/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
 import {getPageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {GetPageQueryResult} from '@/sanity.types'
-import {PageOnboarding} from '@/components/Onboarding'
 
 type Props = {
   params: Promise<{slug: string}>
@@ -48,26 +47,18 @@ export default async function Page(props: Props) {
   const params = await props.params
   const [{data: page}] = await Promise.all([sanityFetch({query: getPageQuery, params})])
 
-  if (!page?._id) {
-    return (
-      <div className="py-40">
-        <PageOnboarding />
-      </div>
-    )
-  }
-
   return (
     <div className="my-12 lg:my-24">
       <Head>
-        <title>{page.heading}</title>
+        <title>{page?.heading}</title>
       </Head>
       <div className="">
         <div className="container">
           <div className="pb-6 border-b border-gray-100">
             <div className="max-w-3xl">
-              <h1 className="text-4xl text-gray-900 sm:text-5xl lg:text-7xl">{page.heading}</h1>
+              <h1 className="text-4xl text-gray-900 sm:text-5xl lg:text-7xl">{page?.heading}</h1>
               <p className="mt-4 text-base lg:text-lg leading-relaxed text-gray-600 uppercase font-light">
-                {page.subheading}
+                {page?.subheading}
               </p>
             </div>
           </div>

@@ -53,12 +53,6 @@ export const hero = {
   secondaryCtaHref: "/about",
 } as const;
 
-/**
- * Origin — intentional copy fades to create typographic rhythm:
- *   full   → "In 2015, we started "
- *   70%    → "Neo Vision — an "
- *   50%    → the rest (trails off, "merged them into one.")
- */
 export const origin = {
   eyebrow: "THE ORIGIN",
   heading: {

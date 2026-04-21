@@ -1,16 +1,16 @@
 import { defineType, defineField } from 'sanity'
 import { ComponentIcon } from '@sanity/icons'
 
-export const service = defineType({
-    name: 'service',
-    title: 'Service',
-    description: 'This is a service that can be used in a page.',
+export const termsAndConditions = defineType({
+    name: 'termsAndConditions',
+    title: 'Terms & Conditions',
+    description: 'This is the Terms and Conditions page.',
     type: 'document',
     icon: ComponentIcon,
     fields: [
         defineField({
             name: 'title',
-            title: 'Service Name',
+            title: 'Terms & Conditions Title',
             type: 'string',
         })
     ]

@@ -33,7 +33,6 @@ export const page = defineType({
       name: 'pageType',
       title: 'Page Type',
       type: 'string',
-      validation: (Rule) => Rule.required(),
       options: {
         list: [
           {title: 'Home', value: 'home'},

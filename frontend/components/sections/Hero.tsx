@@ -48,7 +48,7 @@ export function Hero({ data }: { data?: HeroData }) {
         loop
         muted
         playsInline
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-multiply"
       >
         <source src="/videos/hero.mp4" type="video/mp4" />
       </video>
@@ -61,7 +61,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light text-white text-[28px] leading-none tracking-tight md:text-[36px] lg:text-[40px] 2xl:text-[48px]"
+            className="inline-block font-light font-betatron dark:text-white text-black text-[28px] leading-none tracking-tight md:text-[36px] lg:text-[40px] 2xl:text-[48px]"
           >
             {hero.label}
           </SplitTextReveal>
@@ -157,7 +157,7 @@ export function Hero({ data }: { data?: HeroData }) {
                 href={hero.secondaryCtaHref}
                 variant="secondary"
                 size="sm"
-                className="w-full justify-between md:w-auto md:justify-center"
+                className="w-full justify-between bg-black text-white md:w-auto md:justify-center dark:bg-white dark:text-black"
               >
                 {hero.secondaryCtaLabel}
               </Button>
