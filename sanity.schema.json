@@ -2659,6 +2659,31 @@
         },
         "optional": false
       },
+      "pageType": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "union",
+          "of": [
+            {
+              "type": "string",
+              "value": "home"
+            },
+            {
+              "type": "string",
+              "value": "services"
+            },
+            {
+              "type": "string",
+              "value": "insights"
+            },
+            {
+              "type": "string",
+              "value": "caseStudies"
+            }
+          ]
+        },
+        "optional": false
+      },
       "description": {
         "type": "objectAttribute",
         "value": {

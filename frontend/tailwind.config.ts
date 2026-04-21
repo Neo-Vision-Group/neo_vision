@@ -97,6 +97,8 @@ export default {
       fontFamily: {
         sans: ['var(--font-inter)'],
         mono: ['var(--font-ibm-plex-mono)'],
+        betatron: ['var(--font-betatron)'],
+        funnel: ['var(--font-funnel-display)'],
       },
     },
   },

@@ -2,13 +2,14 @@ import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata} from 'next'
-import {Inter, IBM_Plex_Mono} from 'next/font/google'
+import {Inter, IBM_Plex_Mono, Funnel_Display} from 'next/font/google'
+import localFont from 'next/font/local'
 import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
 
-import DraftModeToast from '@/components/DraftModeToast'
+import DraftModeToast from '@/components/partials/DraftModeToast'
 import Footer from '@/components/layout/Footer'
 import Nav from '@/components/layout/Nav'
 import * as demo from '@/sanity/lib/demo'
@@ -65,11 +66,23 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: 'swap',
 })
 
+const funnelDisplay = Funnel_Display({
+  variable: '--font-funnel-display',
+  subsets: ['latin'],
+  display: 'swap',
+})
+
+const betatron = localFont({
+  src: '../public/fonts/betatron.woff2',
+  variable: '--font-betatron',
+  display: 'swap',
+})
+
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} bg-white text-black`}>
+    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} bg-white text-black`}>
       <body>
         <section className="min-h-screen pt-24">
           {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}

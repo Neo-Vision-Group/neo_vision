@@ -455,6 +455,7 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
+  pageType: 'home' | 'services' | 'insights' | 'caseStudies'
   description: string
   keywords: Array<string>
   pageBuilder?: Array<

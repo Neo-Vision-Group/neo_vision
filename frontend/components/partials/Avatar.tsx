@@ -1,5 +1,5 @@
 import Image from '@/components/SanityImage'
-import DateComponent from '@/components/Date'
+import DateComponent from '@/components/partials/Date'
 
 type Props = {
   person: {

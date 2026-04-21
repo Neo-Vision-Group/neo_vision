@@ -455,6 +455,7 @@ export type Page = {
   _rev: string
   name: string
   slug: Slug
+  pageType: 'home' | 'services' | 'insights' | 'caseStudies'
   description: string
   keywords: Array<string>
   pageBuilder?: Array<
@@ -840,6 +841,192 @@ export type SettingsQueryResult = {
 } | null
 
 // Source: sanity/lib/queries.ts
+// Variable: homePageQuery
+// Query: *[_type == 'page' && pageType == 'home'][0]{    _id,    _type,    name,    pageType,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        },        secondaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "callToAction" => {        ...,        button {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },    },  }
+export type HomePageQueryResult = {
+  _id: string
+  _type: 'page'
+  name: string
+  pageType: 'home'
+  pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'cta'
+        heading: string
+        body: string
+        cta: Button
+        subtext?: string
+      }
+    | {
+        _key: string
+        _type: 'homeHero'
+        label?: string
+        heading?: string
+        body?: string
+        primaryCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        stats?: string
+        dimensionLine?: string
+        ctaText: string
+        secondaryCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post'
+            href?: string
+            page: string | null
+            post: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'list'
+        pageBuilder?: null
+      }
+    | {
+        _key: string
+        _type: 'methodology'
+        eyebrow?: string
+        heading?: string
+        steps?: Array<{
+          title?: string
+          body?: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'origin'
+        eyebrow?: string
+        heading: string
+        body: string
+        subtext?: string
+      }
+    | {
+        _key: string
+        _type: 'portfolio'
+        eyebrow: string
+        heading: string
+        projects: Array<
+          {
+            _key: string
+          } & ProjectReference
+        >
+      }
+    | {
+        _key: string
+        _type: 'pricing'
+        eyebrow?: string
+        heading?: string
+        cards?: Array<{
+          kind?: 'ai' | 'engineering'
+          title?: string
+          items?: Array<
+            {
+              _key: string
+            } & ServiceReference
+          >
+          _key: string
+        }>
+        callout?: Callout
+      }
+    | {
+        _key: string
+        _type: 'signature'
+        eyebrow?: string
+        heading?: string
+        body?: string
+        secondaryLine?: string
+        steps?: Array<{
+          title?: string
+          duration?: string
+          body?: string
+          textured?: boolean
+          _key: string
+        }>
+        cta?: Button
+        valueCard?: ValueCard
+      }
+    | {
+        _key: string
+        _type: 'story'
+        eyebrow?: string
+        heading?: string
+        milestones?: Array<{
+          year?: string
+          body?: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'team'
+        eyebrow?: string
+        heading: string
+        members: Array<
+          {
+            _key: string
+          } & TeamMemberReference
+        >
+        closingStatement: string
+      }
+    | {
+        _key: string
+        _type: 'testimonials'
+        eyebrow: string
+        testimonials: Array<
+          {
+            _key: string
+          } & TestimonialReference
+        >
+      }
+    | {
+        _key: string
+        _type: 'whatWeDo'
+        eyebrow?: string
+        cards: Array<{
+          kind?: 'ai' | 'engineering'
+          label?: string
+          title: string
+          body: string
+          services: Array<
+            {
+              _key: string
+            } & ServiceReference
+          >
+          cta: Button
+          texture?: Texture
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'why'
+        eyebrow?: string
+        heading?: string
+        points?: Array<{
+          title?: string
+          body?: string
+          _key: string
+        }>
+      }
+  > | null
+} | null
+
+// Source: sanity/lib/queries.ts
 // Variable: getPageQuery
 // Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
 export type GetPageQueryResult = {
@@ -1169,6 +1356,7 @@ import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "settings"][0]': SettingsQueryResult
+    '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    pageType,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        },\n        secondaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n    },\n  }\n': HomePageQueryResult
     '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
