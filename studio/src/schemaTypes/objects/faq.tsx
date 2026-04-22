@@ -1,30 +1,54 @@
 import { defineField, defineType } from "sanity";
 
-/**
- * FAQ question + rich-text answer. Reused on About, Services listing,
- * Service [slug], Contact, Insight [slug] (newsletter/support block).
- */
 export const faq = defineType({
   name: "faq",
   title: "FAQ",
   type: "object",
   fields: [
     defineField({
-      name: "question",
-      title: "Question",
+      name: "eyebrow",
+      title: "Eyebrow",
       type: "string",
-      validation: (r) => r.required(),
+      initialValue: "FREQUENTLY ASKED",
     }),
     defineField({
-      name: "answer",
-      title: "Answer",
+      name: "heading",
+      title: "Heading",
+      type: "string",
+      initialValue: "Common questions.",
+    }),
+    defineField({
+      name: "items",
+      title: "FAQ Items",
       type: "array",
-      of: [{ type: "block" }],
-      description: "Supports paragraphs, links, inline emphasis.",
-      validation: (r) => r.required(),
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({
+              name: "question",
+              title: "Question",
+              type: "string",
+              validation: (r) => r.required(),
+            }),
+            defineField({
+              name: "answer",
+              title: "Answer",
+              type: "array",
+              of: [{ type: "block" }],
+              description: "Supports paragraphs, links, inline emphasis.",
+              validation: (r) => r.required(),
+            }),
+          ],
+          preview: {
+            select: { title: "question" },
+          },
+        },
+      ],
+      validation: (r) => r.required().min(1),
     }),
   ],
   preview: {
-    select: { title: "question" },
+    select: { title: "heading" },
   },
 });

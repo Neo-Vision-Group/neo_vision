@@ -68,48 +68,70 @@ export const settingsQuery = defineQuery(`
   }
 `)
 
-export const homePageQuery = defineQuery(`
-  *[_type == 'page' && pageType == 'home'][0]{
+export const pageQuery = defineQuery(`
+  select(
+    $slug != "" => *[_type == 'page' && slug.current == $slug][0],
+    *[_type == 'page' && pageType == 'home'][0]
+  ){
     _id,
     _type,
     name,
+    slug,
     pageType,
+    heading,
+    subheading,
     "pageBuilder": pageBuilder[]{
       ...,
       _type == "homeHero" => {
         ...,
         primaryCta {
           ...,
-          link {
-            ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
-          }
+          ${linkFields}
         },
         secondaryCta {
           ...,
-          link {
-            ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
-          }
+          ${linkFields}
+        }
+      },
+      _type == "pageHero" => {
+        ...,
+        eyebrow,
+        headingType,
+        heading,
+        headingMultipart {
+          faded,
+          regular,
+          bold,
+          trailing
+        },
+        subheading,
+        stats[]{
+          number,
+          suffix,
+          label
+        }
+      },
+      _type == "contactHero" => {
+        ...,
+        eyebrow,
+        heading,
+        description,
+        steps[]{
+          title,
+          description
+        },
+        formConfig {
+          services,
+          budgetRanges,
+          timelines,
+          hearAboutUs
         }
       },
       _type == "callToAction" => {
         ...,
         button {
           ...,
-          link {
-            ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
-          }
+          ${linkFields}
         }
       },
       _type == "infoSection" => {
@@ -117,10 +139,7 @@ export const homePageQuery = defineQuery(`
           ...,
           markDefs[]{
             ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
+            ${linkReference}
           }
         }
       },
@@ -186,149 +205,26 @@ export const homePageQuery = defineQuery(`
         body,
         cta {
           ...,
-          link {
-            ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
-          }
+          ${linkFields}
         },
         subtext
       },
       _type == "engineeringServices" => {
         ...,
-        services[]->{
-          ...
+        services[]{
+          ...,
           service->{
             ...
           }
         }
       },
-    },
-  }
-`)
-
-export const getPageQuery = defineQuery(`
-  *[_type == 'page' && slug.current == $slug][0]{
-    _id,
-    _type,
-    name,
-    slug,
-    heading,
-    subheading,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "pageHero" => {
-        ...,
-        eyebrow,
-        headingType,
-        heading,
-        headingMultipart {
-          faded,
-          regular,
-          bold,
-          trailing
-        },
-        subheading,
-        stats[]{
-          number,
-          suffix,
-          label
-        }
-      },
-      _type == "contactHero" => {
-        ...,
-        eyebrow,
-        heading,
-        description,
-        steps[]{
-          title,
-          description
-        },
-        formConfig {
-          services,
-          budgetRanges,
-          timelines,
-          hearAboutUs
-        }
-      },
-      _type == "callToAction" => {
-        ...,
-        button {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
-      _type == "team" => {
-        ...,
-        members[]->{
-          ...,
-          portrait {
-            ...,
-            asset->
-          }
-        }
-      },
-      _type == "story" => {
-        ...,
-        milestones[]{
-          year,
-          body
-        }
-      },
-      _type == "portfolio" => {
-        ...,
-        eyebrow,
-        heading,
-        projects[]->{
-          _id,
-          client,
-          year,
-          slug,
-          category,
-          title,
-          tagline,
-          description,
-          image,
-          link
-        }
-      },
-      _type == "cta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          link {
-            ...,
-            _type == "link" => {
-              "page": page->slug.current,
-              "post": post->slug.current
-            }
-          }
-        },
-        subtext
-      },
-      _type == "engineeringServices" => {
-        ...,
-        services[]->{
-          ...
-        }
-      },
       _type == "ai" => {
         ...,
-        services[]->{
-          ...
+        services[]{
+          ...,
+          service->{
+            ...
+          }
         }
       },
       _type == "industry" => {
@@ -336,7 +232,13 @@ export const getPageQuery = defineQuery(`
         industries[]->{
           ...
         }
-      }
+      },
+      _type == "faq" => {
+        ...,
+        items[]{
+          ...
+        }
+      },
     },
   }
 `)

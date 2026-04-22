@@ -1,10 +1,11 @@
 import BlockRenderer from '@/components/BlockRenderer'
-import {homePageQuery} from '@/sanity/lib/queries'
+import {pageQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 
 export default async function Page() {
   const {data: homePage} = await sanityFetch({
-    query: homePageQuery,
+    query: pageQuery,
+    params: {slug: ''},
   })
 
   if (!homePage) {

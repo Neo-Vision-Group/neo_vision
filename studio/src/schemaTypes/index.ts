@@ -30,6 +30,7 @@ import {pageHero} from './objects/pageHero'
 import {contactHero} from './objects/contactHero'
 import {contactForm} from './objects/contactForm'
 import {engineeringServices} from './objects/service/engineering'
+import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
@@ -69,5 +70,7 @@ export const schemaTypes = [
   why,
   faq,
   engineeringServices,
-  industries
+  aiServices,
+  industries,
+  faq
 ]

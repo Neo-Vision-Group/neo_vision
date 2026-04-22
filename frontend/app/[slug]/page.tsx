@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import PageBuilderPage from '@/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
-import {getPageQuery, pagesSlugs} from '@/sanity/lib/queries'
+import {pageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {GetPageQueryResult} from '@/sanity.types'
 
 type Props = {
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
   const {data: page} = await sanityFetch({
-    query: getPageQuery,
+    query: pageQuery,
     params,
     // Metadata should never contain stega
     stega: false,
@@ -45,7 +45,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const params = await props.params
-  const [{data: page}] = await Promise.all([sanityFetch({query: getPageQuery, params})])
+  const [{data: page}] = await Promise.all([sanityFetch({query: pageQuery, params})])
 
   return (
     <div className="">

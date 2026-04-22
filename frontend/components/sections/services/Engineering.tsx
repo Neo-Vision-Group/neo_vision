@@ -1,9 +1,5 @@
-"use client";
-
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
-import { cn } from "@/lib/utils";
 
 export type EngineeringServicesData = {
   eyebrow?: string;
@@ -13,10 +9,9 @@ export type EngineeringServicesData = {
       name: string;
       description: string;
       tag: string;
+      price: string;
+      duration: string;
     };
-    price?: string;
-    duration?: string;
-    description: string;
     ctaLabel?: string;
     ctaHref?: string;
   }>;
@@ -25,10 +20,15 @@ export type EngineeringServicesData = {
 export function EngineeringServices({ data }: { data?: EngineeringServicesData }) {
   const cleanData = data ? cleanStega(data) : data;
 
+  console.log('EngineeringServices received data:', data);
+  console.log('EngineeringServices cleanData:', cleanData);
+
   const engineering = {
     eyebrow: cleanData?.eyebrow ?? "ENGINEERING SERVICES",
     services: cleanData?.services ?? [],
   };
+
+  console.log('Engineering services array:', engineering.services);
 
   if (!engineering.services || engineering.services.length === 0) {
     return null;

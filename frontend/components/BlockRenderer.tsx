@@ -16,6 +16,7 @@ import {OurWork, PortfolioData} from '@/components/sections/home/Work'
 import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
 import { Industries, IndustryData } from './sections/services/Industries'
+import { FAQ, FaqData } from './sections/FAQ'
 
 type BlockProps = {
   index: number
@@ -73,6 +74,9 @@ const Blocks = {
   },
   industries: ({block}: BlockProps) => {
     return <Industries data={block as any as IndustryData} />
+  },
+  faq: ({block}: BlockProps) => {
+    return <FAQ data={block as any as FaqData} />
   }
 } as BlocksType
 
