@@ -200,6 +200,9 @@ export const homePageQuery = defineQuery(`
         ...,
         services[]->{
           ...
+          service->{
+            ...
+          }
         }
       }
     },

@@ -9,9 +9,12 @@ export type EngineeringServicesData = {
   eyebrow?: string;
   services?: Array<{
     _key?: string;
-    title: string;
-    badge?: string;
-    priceFrom?: string;
+    service?: {
+      name: string;
+      description: string;
+      tag: string;
+    };
+    price?: string;
     duration?: string;
     description: string;
     ctaLabel?: string;
@@ -36,53 +39,53 @@ export function EngineeringServices({ data }: { data?: EngineeringServicesData }
       <div className="flex flex-col gap-6">
         {engineering.services.map((service, idx) => (
           <article
-            key={service._key || `service-${idx}`}
+            key={`service-${idx}`}
             className="flex flex-col gap-12 border border-white/10 bg-[#0f0f0f] p-12"
           >
             <div className="flex flex-col gap-6">
               {/* Title and Badge Row */}
               <div className="flex items-center justify-between">
                 <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground">
-                  {service.title}
+                  {service?.service?.name}
                 </h3>
-                {service.badge && (
+                {service?.service?.tag && (
                   <div className="bg-brand/30 px-[10px] py-[10px] h-[27px] flex items-center justify-center">
                     <p className="text-[18px] leading-normal text-foreground whitespace-nowrap">
-                      {service.badge}
+                      {service?.service?.tag}
                     </p>
                   </div>
                 )}
               </div>
 
               {/* Price and Duration */}
-              {(service.priceFrom || service.duration) && (
+              {(service?.service.price || service?.service.duration) && (
                 <div className="flex gap-3 text-[18px] leading-normal">
-                  {service.priceFrom && (
-                    <p className="text-brand">{service.priceFrom}</p>
+                  {service?.service.price && (
+                    <p className="text-brand">{service?.service?.price}</p>
                   )}
-                  {service.duration && (
-                    <p className="text-foreground/70">{service.duration}</p>
+                  {service?.service.duration && (
+                    <p className="text-foreground/70">{service?.service?.duration}</p>
                   )}
                 </div>
               )}
 
               {/* Description */}
               <p className="text-[18px] leading-normal text-foreground/70">
-                {service.description}
+                {service?.service?.description}
               </p>
             </div>
 
             {/* CTA Button */}
-            {service.ctaLabel && service.ctaHref && (
+            {service?.ctaLabel && service?.ctaHref && (
               <div className="relative inline-flex items-center gap-3 self-start overflow-hidden p-[10px]">
                 {/* Icon/Image placeholder - would need the actual icon */}
                 <div className="h-6 w-[38.4px] shrink-0" />
                 
                 <a
-                  href={service.ctaHref}
+                  href={service?.ctaHref}
                   className="font-funnel text-[24px] font-bold leading-[1.2] text-foreground hover:text-brand transition-colors"
                 >
-                  {service.ctaLabel}
+                  {service?.ctaLabel}
                 </a>
 
                 {/* Decorative lines matching Figma */}

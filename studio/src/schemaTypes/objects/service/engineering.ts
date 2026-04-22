@@ -16,8 +16,22 @@ export const engineeringServices = defineType({
       type: "array",
       of: [
         {
-          type: 'reference',
-          to: [{ type: 'service' }]
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'service',
+              type: 'reference',
+              to: [{ type: 'service' }]
+            }),
+            defineField({
+              name: 'ctaLabel',
+              type: 'string'
+            }),
+            defineField({
+              name: 'ctaHref',
+              type: 'string'
+            })
+          ]
         }
       ]
     })

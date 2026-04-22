@@ -14,12 +14,6 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol
 
-type ArrayOf<T> = Array<
-  T & {
-    _key: string
-  }
->
-
 // Source: ../sanity.schema.json
 export type HeadingMultipart = {
   faded?: string
@@ -62,7 +56,7 @@ export type SanityImageAssetReference = {
 
 export type Logo = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  media?: unknown // Unable to locate the referenced type "media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -74,6 +68,23 @@ export type Texture = {
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
+}
+
+export type ServiceReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'service'
+}
+
+export type EngineeringServices = {
+  _type: 'engineeringServices'
+  eyebrow?: string
+  services?: Array<
+    {
+      _key: string
+    } & ServiceReference
+  >
 }
 
 export type Faq = {
@@ -110,13 +121,6 @@ export type Why = {
   }>
 }
 
-export type ServiceReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'service'
-}
-
 export type WhatWeDo = {
   _type: 'whatWeDo'
   eyebrow?: string
@@ -125,7 +129,7 @@ export type WhatWeDo = {
     label?: string
     title: string
     body: string
-    services: Array<
+    services?: Array<
       {
         _key: string
       } & ServiceReference
@@ -506,20 +510,6 @@ export type TermsAndConditions = {
   title?: string
 }
 
-export type TermsAndConditionsReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'termsAndConditions'
-}
-
-export type PrivacyPolicyReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'privacyPolicy'
-}
-
 export type SiteSettings = {
   _id: string
   _type: 'siteSettings'
@@ -597,7 +587,6 @@ export type SiteSettings = {
     }>
     _key: string
   }>
-  legalLinks?: ArrayOf<TermsAndConditionsReference | PrivacyPolicyReference>
 }
 
 export type Service = {
@@ -607,127 +596,66 @@ export type Service = {
   _updatedAt: string
   _rev: string
   name: string
+  price: string
+  category: 'engineering' | 'ai'
+  tag: string
   slug: Slug
-  category?: 'engineering' | 'ai' | 'design' | 'strategy'
-  headline?: string
-  description?: string
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
-      _key: string
-    }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
-    _key: string
-  }>
-  priceFrom?: string
-  featured?: boolean
-  order?: number
-  detailHero?: {
-    eyebrow?: string
-    heading?: {
-      faded?: string
-      bold?: string
-    }
-    subheading?: string
-    navTabs?: Array<string>
-  }
-  isThisForYou?: {
-    eyebrow?: string
-    heading?: string
-    checklist?: Array<string>
-    badgeValue?: string
-    badgeLabel?: string
-  }
-  soundFamiliar?: {
-    eyebrow?: string
-    heading?: string
-    painPoints?: Array<{
-      title?: string
-      body?: string
-      _key: string
-    }>
-  }
-  whatYouGet?: {
-    eyebrow?: string
-    heading?: string
-    features?: Array<{
-      title?: string
-      body?: string
-      eyebrow?: string
-      _key: string
-    }>
-  }
-  howWeBuild?: {
-    eyebrow?: string
-    heading?: string
-    phases?: Array<{
-      number?: string
-      title?: string
-      duration?: string
-      body?: string
-      image?: {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-      }
-      _key: string
-    }>
-  }
-  pricing?: {
-    eyebrow?: string
-    heading?: string
-    subheading?: string
-    tiers?: Array<{
-      title?: string
-      price?: string
-      duration?: string
-      includes?: Array<string>
-      ctaLabel?: string
-      ctaHref?: string
-      featured?: boolean
-      _key: string
-    }>
-    footnote?: string
-  }
-  workShowcase?: {
-    eyebrow?: string
-    heading?: string
-    items?: Array<
-      {
+  description: string
+  keywords: Array<string>
+  duration: string
+  pageBuilder?: Array<
+    | ({
         _key: string
-      } & ProjectReference
-    >
-  }
-  faq?: {
-    eyebrow?: string
-    heading?: string
-    items?: Array<
-      {
+      } & PageHero)
+    | ({
         _key: string
-      } & Faq
-    >
-  }
-  closingCta?: {
-    heading?: {
-      regular?: string
-      bold?: string
-    }
-    body?: string
-    microcopy?: string
-    cta?: Button
-  }
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & List)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+  >
 }
 
 export type PersonReference = {
@@ -837,6 +765,9 @@ export type Page = {
     | ({
         _key: string
       } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
   >
 }
 
@@ -1092,9 +1023,10 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | Logo
   | Texture
+  | ServiceReference
+  | EngineeringServices
   | Faq
   | Why
-  | ServiceReference
   | WhatWeDo
   | TestimonialReference
   | Testimonials
@@ -1127,8 +1059,6 @@ export type AllSanitySchemaTypes =
   | TeamMember
   | PrivacyPolicy
   | TermsAndConditions
-  | TermsAndConditionsReference
-  | PrivacyPolicyReference
   | SiteSettings
   | Service
   | PersonReference
