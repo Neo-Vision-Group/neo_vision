@@ -29,5 +29,11 @@ export const cta = defineType({
             title: "Subtext",
             type: "string",
         }),
-    ],    
+    ],
+    preview: {
+        select: {
+            title: 'heading',
+            subtitle: 'body'
+        }
+    }
 })

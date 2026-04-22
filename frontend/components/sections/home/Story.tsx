@@ -10,31 +10,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "@/components/partials/motion/gsap-setup";
 import { cleanStega } from "@/sanity/lib/utils";
 
-/**
- * Our Story — frame 141:10919.
- *
- * Horizontal timeline with three interactive polish layers:
- *
- * 1. **No-scrollbar** — CSS class hides the native scroller chrome
- *    (scroll still works via trackpad/touch/drag).
- * 2. **Custom drag cursor** — SVG data-URL cursor that shows a
- *    brand-orange circle with ↔ arrows, swapping to a "grabbing"
- *    variant on :active. Falls back to `grab`/`grabbing` where
- *    custom cursors aren't supported.
- * 3. **Scroll-linked lightening** — each milestone starts at
- *    opacity 0.2; as the user scrolls horizontally and the milestone
- *    crosses the center of the scroller, it animates to opacity 1.
- *    Uses GSAP ScrollTrigger with `horizontal: true` and the
- *    scroller itself as the trigger container.
- * 4. **Pointer drag-to-scroll with pointer capture** — click+drag
- *    updates `scrollLeft`, covering desktop pointers without a
- *    scrollbar handle. Pointer capture guarantees release events
- *    even outside the viewport (no stuck-drag state), and
- *    `preventDefault()` on pointerdown suppresses text selection.
- *
- * Reduce-motion: skips the opacity animation; all items show at full
- * opacity.
- */
 export type StoryData = {
   eyebrow?: string;
   heading?: string;
@@ -46,9 +21,9 @@ export function Story({ data }: { data?: StoryData }) {
 
   const story = {
     eyebrow: cleanData?.eyebrow ?? storyFallback.eyebrow,
-    heading: cleanData?.heading
-      ? cleanData.heading
-      : `${storyFallback.heading.faded} ${storyFallback.heading.bold}\n${storyFallback.heading.trailing}`,
+    heading: typeof cleanData?.heading === 'string' 
+      ? { faded: cleanData.heading, bold: '', trailing: '' }
+      : storyFallback.heading,
     milestones:
       cleanData?.milestones && cleanData.milestones.length > 0
         ? cleanData.milestones
@@ -155,19 +130,29 @@ export function Story({ data }: { data?: StoryData }) {
   return (
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
       <div className="flex flex-col gap-12">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
-          {story.heading.split("\n").map((line, idx) => (
-            <span key={idx}>
-              {line}
-              {idx < story.heading.split("\n").length - 1 && <br />}
-            </span>
-          ))}
+        <h2 className="text-[32px] leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-[900px]">
+          <span className="text-foreground/70">{story.heading.faded} </span>
+          <span className="font-bold">{story.heading.bold}</span>
+          <br />
+          <span className="text-foreground/70">{story.heading.trailing}</span>
         </h2>
 
         <div className="relative -mx-6">
+          <div className="absolute top-[48px] left-0 w-full h-px bg-white/20 -z-10" />
+          <div className="absolute top-[48px] left-6 -translate-y-1/2 z-10">
+            <div className="flex items-center justify-center p-1.5 bg-brand/20 backdrop-blur-[2.5px]">
+              <div className="size-4.5">
+                <img
+                  alt=""
+                  className="block size-full object-contain"
+                  src="https://www.figma.com/api/mcp/asset/81781363-6cb2-4cd1-94a0-6735eb78cd8a"
+                />
+              </div>
+            </div>
+          </div>
           <ol
             ref={scrollerRef}
-            className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:py-4"
+            className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-[48px] md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
           >
             {story.milestones.map((m, idx) => (
               <li
@@ -177,19 +162,21 @@ export function Story({ data }: { data?: StoryData }) {
                   "relative flex w-full shrink-0 flex-col gap-2 md:w-[340px] lg:w-[400px] xl:w-[480px] 2xl:w-[550px]"
                 )}
               >
-                <span
-                  className={cn(
-                    "font-display capitalize text-brand-hover",
-                    idx === 0
-                      ? "text-[64px] tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
-                      : "text-[48px] tracking-[-2.88px] md:text-[64px] md:leading-none md:tracking-[-3.84px]"
-                  )}
-                >
-                  {m.year}
-                </span>
-                <p className="py-4 text-[24px] leading-[30px] tracking-[-0.15px] text-foreground md:py-12 md:text-[28px] md:leading-[36px] 2xl:text-[32px] 2xl:leading-[38px]">
-                  {m.body}
-                </p>
+                <div className="flex flex-col gap-[2px]">
+                  <span
+                    className={cn(
+                      "font-betatron capitalize text-brand",
+                      idx === 0
+                        ? "text-[64px] tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
+                        : "text-[48px] tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
+                    )}
+                  >
+                    {m.year}
+                  </span>
+                  <p className="py-4 text-[24px] leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-[32px] 2xl:text-[32px]">
+                    {m.body}
+                  </p>
+                </div>
               </li>
             ))}
           </ol>

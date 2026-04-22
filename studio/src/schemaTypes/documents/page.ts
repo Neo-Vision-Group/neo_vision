@@ -80,6 +80,7 @@ export const page = defineType({
         {type: 'testimonials'},
         {type: 'whatWeDo'},
         {type: 'why'},
+        {type: 'engineeringServices'},
       ],
       options: {
         insertMenu: {

@@ -23,7 +23,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   
   const bodyLines = Array.isArray(card.body) ? card.body : [card.body];
   
-  const displayItems = card.items || (card.services?.map(s => ({ name: s.title || "", price: "" })) || []);
+  const displayItems = card.items || [];
 
   return (
     <article

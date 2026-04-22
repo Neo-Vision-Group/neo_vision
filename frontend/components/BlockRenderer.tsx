@@ -12,6 +12,8 @@ import {Methodology, MethodologyData} from '@/components/sections/home/Methodolo
 import {TrustedBy, TrustedByData} from '@/components/sections/home/TrustedBy'
 import {PageHero, PageHeroData} from '@/components/sections/PageHero'
 import {ContactHero, ContactHeroData} from '@/components/sections/ContactHero'
+import {OurWork, PortfolioData} from '@/components/sections/home/Work'
+import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 
 type BlockProps = {
   index: number
@@ -57,6 +59,15 @@ const Blocks = {
   },
   testimonials: ({block}: BlockProps) => {
     return <TrustedBy data={block as any as TrustedByData} />
+  },
+  portfolio: ({block}: BlockProps) => {
+    return <OurWork data={block as any as PortfolioData} />
+  },
+  cta: ({block}: BlockProps) => {
+    return <ClosingCta data={block as any as CtaData} />
+  },
+  engineeringServices: ({block}: BlockProps) => {
+    return <EngineeringServices data={block as any as EngineeringServicesData} />
   },
 } as BlocksType
 

@@ -1,5 +1,30 @@
 import {defineQuery} from 'next-sanity'
 
+const linkReference = /* groq */ `
+  _type == "link" => {
+    "page": page->slug.current,
+    "post": post->slug.current
+  }
+`
+
+const linkFields = /* groq */ `
+  link {
+      ...,
+      ${linkReference}
+      }
+`
+
+const postFields = /* groq */ `
+  _id,
+  "status": select(_originalId in path("drafts.**") => "draft", "published"),
+  "title": coalesce(title, "Untitled"),
+  "slug": slug.current,
+  excerpt,
+  coverImage,
+  "date": coalesce(date, _updatedAt),
+  "author": author->{firstName, lastName, picture},
+`
+
 export const settingsQuery = defineQuery(`
   *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{
     ...,
@@ -112,34 +137,68 @@ export const homePageQuery = defineQuery(`
           profilePicture
         }
       },
+      _type == "whatWeDo" => {
+        ...,
+        cards[]{
+          ...,
+          services[]->{
+            title
+          }
+        }
+      },
+      _type == "team" => {
+        ...,
+        members[]->{
+          ...,
+          portrait {
+            ...,
+            asset->
+          }
+        }
+      },
+      _type == "story" => {
+        ...,
+        milestones[]{
+          year,
+          body
+        }
+      },
+      _type == "portfolio" => {
+        ...,
+        eyebrow,
+        heading,
+        projects[]->{
+          _id,
+          client,
+          year,
+          slug,
+          category,
+          title,
+          tagline,
+          description,
+          image,
+          link
+        }
+      },
+      _type == "cta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          link {
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        },
+        subtext
+      },
     },
   }
 `)
-
-const postFields = /* groq */ `
-  _id,
-  "status": select(_originalId in path("drafts.**") => "draft", "published"),
-  "title": coalesce(title, "Untitled"),
-  "slug": slug.current,
-  excerpt,
-  coverImage,
-  "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
-`
-
-const linkReference = /* groq */ `
-  _type == "link" => {
-    "page": page->slug.current,
-    "post": post->slug.current
-  }
-`
-
-const linkFields = /* groq */ `
-  link {
-      ...,
-      ${linkReference}
-      }
-`
 
 export const getPageQuery = defineQuery(`
   *[_type == 'page' && slug.current == $slug][0]{
@@ -200,6 +259,56 @@ export const getPageQuery = defineQuery(`
             ${linkReference}
           }
         }
+      },
+      _type == "team" => {
+        ...,
+        members[]->{
+          ...,
+          portrait {
+            ...,
+            asset->
+          }
+        }
+      },
+      _type == "story" => {
+        ...,
+        milestones[]{
+          year,
+          body
+        }
+      },
+      _type == "portfolio" => {
+        ...,
+        eyebrow,
+        heading,
+        projects[]->{
+          _id,
+          client,
+          year,
+          slug,
+          category,
+          title,
+          tagline,
+          description,
+          image,
+          link
+        }
+      },
+      _type == "cta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          link {
+            ...,
+            _type == "link" => {
+              "page": page->slug.current,
+              "post": post->slug.current
+            }
+          }
+        },
+        subtext
       },
     },
   }

@@ -31,7 +31,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
       label: card.label,
       title: card.title,
       body: card.body,
-      services: card.services,
+      items: card.services?.map(service => ({ name: service.title || '', price: '' })) ?? [],
       cta: {
         label: card.cta?.buttonText ?? "Learn more",
         href: card.cta?.link?.href ?? card.cta?.link?.page ?? card.cta?.link?.post ?? "#",
@@ -41,9 +41,11 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
     })) ?? servicesFallback.cards.map((card, idx) => ({
       _key: `fallback-${card.kind}-${idx}`,
       ...card,
+      services: card.services ? [...card.services] : undefined,
+      items: card.services ? card.services.map(service => ({ name: service.title, price: '' })) : [],
     })),
   };
-  
+
   return (
     <SectionsWrapper id="what-we-do" eyebrow={whatWeDo.eyebrow}>
       <RevealOnScroll
@@ -54,7 +56,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
         duration={0.9}
         className="flex flex-col gap-6 px-6 md:px-6 lg:px-8 xl:flex-row xl:px-12 2xl:gap-6 2xl:px-16"
       >
-        {whatWeDo.cards.map((card, idx) => (
+        {whatWeDo.cards && whatWeDo.cards.length > 0 && whatWeDo.cards.map((card, idx) => (
           <ServicesPreviewCard key={card._key || `card-${idx}`} card={card} />
         ))}
       </RevealOnScroll>

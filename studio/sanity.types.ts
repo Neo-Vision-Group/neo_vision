@@ -446,7 +446,27 @@ export type Project = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  client: string
+  year: string
+  slug: Slug
+  category: 'engineering' | 'ai'
+  title: string
+  tagline: string
+  description: string
+  image: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  link: string
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type TeamMember = {
@@ -708,12 +728,6 @@ export type Service = {
     microcopy?: string
     cta?: Button
   }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type PersonReference = {
@@ -1109,6 +1123,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Project
+  | Slug
   | TeamMember
   | PrivacyPolicy
   | TermsAndConditions
@@ -1116,7 +1131,6 @@ export type AllSanitySchemaTypes =
   | PrivacyPolicyReference
   | SiteSettings
   | Service
-  | Slug
   | PersonReference
   | Post
   | Person

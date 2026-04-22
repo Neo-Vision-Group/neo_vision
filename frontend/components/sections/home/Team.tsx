@@ -1,22 +1,26 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
-import ArrowRight from "@/components/icons/ArrowRight";
 import { team as teamFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import "@/components/partials/motion/gsap-setup";
 
 /**
  * The Team — frame 141:10964.
  *
- * Member carousel (prev/next cycles through `members[]`) with a
- * supporting portrait image on the right. Closing statement below
- * renders a mixed array of strings + `{ bold }` parts, separated by
- * \n for line breaks.
+ * Horizontal member scroller with three interactive polish layers:
  *
- * Sanity-aware: pass `data` to drive the section from a Sanity doc
- * (used on About). Without `data` it falls back to home.ts content.
+ * 1. **No-scrollbar** — CSS class hides the native scroller chrome.
+ * 2. **Custom drag cursor** — SVG data-URL cursor reflecting drag intent.
+ * 3. **Scroll-linked lightening** — members fade in as they enter the view.
+ * 4. **Pointer drag-to-scroll** — desktop pointer drag support.
+ *
+ * Sanity-aware: pass `data` driving the section from a Sanity doc.
  */
 
 export type TeamMember = {
@@ -41,9 +45,7 @@ export function Team({ data }: { data?: TeamData }) {
 
   const team = {
     eyebrow: cleanData?.eyebrow ?? teamFallback.eyebrow,
-    heading: cleanData?.heading
-      ? cleanData.heading
-      : `${teamFallback.heading.faded}\n${teamFallback.heading.bold}`,
+    heading: cleanData?.heading ?? `${teamFallback.heading.faded} ${teamFallback.heading.bold}`,
     members:
       cleanData?.members && cleanData.members.length > 0
         ? [...cleanData.members].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
@@ -53,132 +55,264 @@ export function Team({ data }: { data?: TeamData }) {
       : teamFallback.closingStatement,
   };
 
-  const [idx, setIdx] = useState(0);
-  const member = team.members[idx] ?? team.members[0];
+  const scrollerRef = useRef<HTMLDivElement>(null);
+
+  // ----- Pointer drag-to-scroll with pointer capture -------------------
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    let activePointerId: number | null = null;
+    let startX = 0;
+    let startScroll = 0;
+
+    function onDown(e: PointerEvent) {
+      if (e.pointerType === "touch") return;
+      activePointerId = e.pointerId;
+      startX = e.pageX - el!.offsetLeft;
+      startScroll = el!.scrollLeft;
+      el!.dataset.grabbing = "true";
+      el!.setPointerCapture(e.pointerId);
+      e.preventDefault();
+      window.getSelection()?.removeAllRanges();
+    }
+    function onMove(e: PointerEvent) {
+      if (activePointerId !== e.pointerId) return;
+      const x = e.pageX - el!.offsetLeft;
+      el!.scrollLeft = startScroll - (x - startX);
+    }
+    function onRelease(e: PointerEvent) {
+      if (activePointerId !== e.pointerId) return;
+      activePointerId = null;
+      delete el!.dataset.grabbing;
+      if (el!.hasPointerCapture(e.pointerId)) {
+        el!.releasePointerCapture(e.pointerId);
+      }
+    }
+
+    el.addEventListener("pointerdown", onDown);
+    el.addEventListener("pointermove", onMove);
+    el.addEventListener("pointerup", onRelease);
+    el.addEventListener("pointercancel", onRelease);
+
+    return () => {
+      el.removeEventListener("pointerdown", onDown);
+      el.removeEventListener("pointermove", onMove);
+      el.removeEventListener("pointerup", onRelease);
+      el.removeEventListener("pointercancel", onRelease);
+    };
+  }, []);
+
+  // ----- Scroll-linked opacity fade ------------------------------------
+  useGSAP(
+    () => {
+      const scroller = scrollerRef.current;
+      if (!scroller) return;
+
+      const mm = gsap.matchMedia();
+      mm.add(
+        {
+          reduced: "(prefers-reduced-motion: reduce)",
+          motion: "(prefers-reduced-motion: no-preference)",
+        },
+        (ctx) => {
+          const items = Array.from(
+            scroller.querySelectorAll<HTMLDivElement>("[data-member]")
+          );
+          if (ctx.conditions?.reduced) {
+            gsap.set(items, { opacity: 1 });
+            return;
+          }
+
+          items.forEach((item, idx) => {
+            gsap.set(item, { opacity: idx === 0 ? 1 : 0.2 });
+          });
+
+          const triggers: ScrollTrigger[] = [];
+          items.forEach((item, idx) => {
+            if (idx === 0) return;
+            const st = ScrollTrigger.create({
+              trigger: item,
+              scroller,
+              horizontal: true,
+              start: "left 70%",
+              end: "left 40%",
+              scrub: 0.5,
+              animation: gsap.to(item, { opacity: 1, ease: "none" }),
+            });
+            triggers.push(st);
+          });
+
+          return () => {
+            triggers.forEach((t) => t.kill());
+          };
+        }
+      );
+    },
+    { dependencies: [team.members] }
+  );
+
   const hasMultiple = team.members.length > 1;
 
-  const portraitUrl = member.portrait
-    ? urlForImage(member.portrait)?.width(858).height(1046).fit("crop").url()
-    : member.portrait;
+  const scroll = (dir: "prev" | "next") => {
+    if (!scrollerRef.current) return;
+    const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
+    if (items.length === 0) return;
+
+    // Find current centered item or closest to center
+    const scrollerRect = scrollerRef.current.getBoundingClientRect();
+    const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
+
+    let currentIndex = 0;
+    let minDistance = Infinity;
+
+    items.forEach((item, i) => {
+      const rect = item.getBoundingClientRect();
+      const itemCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(scrollerCenter - itemCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        currentIndex = i;
+      }
+    });
+
+    const nextIndex =
+      dir === "next"
+        ? Math.min(currentIndex + 1, items.length - 1)
+        : Math.max(currentIndex - 1, 0);
+
+    const targetItem = items[nextIndex] as HTMLElement;
+    const targetRect = targetItem.getBoundingClientRect();
+    const scrollLeft =
+      scrollerRef.current.scrollLeft +
+      (targetRect.left - scrollerRect.left) -
+      (scrollerRect.width / 2 - targetRect.width / 2);
+
+    scrollerRef.current.scrollTo({
+      left: scrollLeft,
+      behavior: "smooth",
+    });
+  };
 
   return (
-    <SectionsWrapper eyebrow={team.eyebrow}>
-            <div className="flex flex-1 flex-col gap-12 pb-16 pt-24">
-        {/* Top border */}
-        <div className="h-px w-full bg-white/20" />
+    <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
+      <div className="flex flex-col gap-12">
+        <h2 className="px-6 font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground/70 md:px-12 md:text-[48px]">
+          {team.heading.split(/\*\*(.*?)\*\*/).map((part, i) =>
+            i % 2 === 1 ? (
+              <span key={i} className="font-bold text-foreground">
+                {part}
+              </span>
+            ) : (
+              part
+            )
+          )}
+        </h2>
 
-        {/* Heading */}
-        <div className="px-12">
-          <h2 className="font-funnel text-[48px] leading-[1.2] tracking-[-1px] text-foreground/70">
-            {team.heading.split("\n").map((line, idx) => {
-              const parts = line.split(/\*\*(.*?)\*\*/);
+        <div className="relative">
+          {hasMultiple && (
+            <div className="absolute right-6 top-0 z-20 hidden items-center gap-3 md:flex md:right-12">
+              <button
+                type="button"
+                aria-label="Previous team member"
+                onClick={() => scroll("prev")}
+                className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
+              >
+                <img
+                  src="https://www.figma.com/api/mcp/asset/9b1e78f6-55b8-44e3-a874-335631fe1571"
+                  alt=""
+                  className="size-6 rotate-180 brightness-0 invert"
+                />
+              </button>
+              <button
+                type="button"
+                aria-label="Next team member"
+                onClick={() => scroll("next")}
+                className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
+              >
+                <img
+                  src="https://www.figma.com/api/mcp/asset/6a8d91ff-0ab1-4028-a8b1-76fb309269c9"
+                  alt=""
+                  className="size-6 brightness-0 invert"
+                />
+              </button>
+            </div>
+          )}
+
+          <div
+            ref={scrollerRef}
+            className="no-scrollbar flex overflow-x-auto px-6 pb-12 md:px-12 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
+          >
+            {team.members.map((member, i) => {
+              const portraitUrl = member.portrait
+                ? urlForImage(member.portrait)?.width(858).height(1046).fit("crop").url()
+                : typeof member.portrait === 'string' ? member.portrait : null;
+
               return (
-                <span key={idx}>
-                  {parts.map((part, i) =>
-                    i % 2 === 1 ? (
-                      <span key={i} className="font-bold text-foreground">
-                        {part}
-                      </span>
-                    ) : (
-                      part
-                    )
-                  )}
-                  {idx < team.heading.split("\n").length - 1 && " "}
-                </span>
+                <div
+                  key={i}
+                  data-member
+                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:flex-row md:items-center md:pr-48"
+                >
+                  <div className="flex flex-1 flex-col items-end">
+                    <div className="flex w-full flex-col gap-12 md:max-w-[650px] md:gap-16 md:py-6">
+                      <div className="flex flex-col gap-12 md:px-6">
+                        <div className="flex flex-col gap-6">
+                          <div className="flex flex-col px-6">
+                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-[32px]">
+                              {member.name}
+                            </p>
+                            <p className="font-funnel text-[16px] leading-normal text-foreground/70 md:text-[18px]">
+                              {member.role}
+                            </p>
+                          </div>
+                          <div className="h-px w-full bg-white/20" />
+                        </div>
+                        <div className="px-6">
+                          <p className="font-funnel text-[16px] leading-normal text-foreground md:text-[18px]">
+                            {member.bio}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-[#0f0f0f] md:w-[429px]">
+                    <p
+                      className="absolute left-0 top-0 w-full bg-clip-text font-mono text-[36px] uppercase leading-[1.4] text-transparent"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(179.95deg, rgba(239, 239, 239, 0.4) 0.53%, rgba(239, 239, 239, 0.04) 56.56%)",
+                        WebkitBackgroundClip: "text",
+                      }}
+                    >
+                      10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010
+                    </p>
+                    {portraitUrl && (
+                      <img
+                        src={portraitUrl}
+                        alt={member.name}
+                        className="absolute inset-0 size-full object-cover"
+                      />
+                    )}
+                    <div className="absolute left-[21px] top-[21px] size-[63px]">
+                      <img
+                        src="https://www.figma.com/api/mcp/asset/f8b7ffd6-5d61-47ce-bb9e-b769150d55df"
+                        alt=""
+                        className="size-full object-contain"
+                      />
+                    </div>
+                  </div>
+                </div>
               );
             })}
-          </h2>
+          </div>
         </div>
 
-        {/* Team member card */}
-        <RevealOnScroll
-          as="div"
-          stagger={0.15}
-          from="bottom"
-          distance={24}
-          className="flex items-center px-6"
-        >
-          {/* Left column - info and navigation */}
-          <div className="flex flex-1 flex-col items-end">
-            <div className="flex max-w-[650px] flex-col gap-16 py-6">
-              {/* Navigation arrows */}
-              <div className="flex items-start gap-3 px-6">
-                <button
-                  type="button"
-                  aria-label="Previous team member"
-                  disabled={!hasMultiple}
-                  onClick={() =>
-                    setIdx((i) => (i - 1 + team.members.length) % team.members.length)
-                  }
-                  className="flex items-center justify-center text-foreground transition-opacity disabled:opacity-30"
-                >
-                  <ArrowRight color="currentColor" width={36} height={24} className="rotate-180" />
-                </button>
-                <button
-                  type="button"
-                  aria-label="Next team member"
-                  disabled={!hasMultiple}
-                  onClick={() => setIdx((i) => (i + 1) % team.members.length)}
-                  className="flex items-center justify-center text-foreground transition-opacity disabled:opacity-30"
-                >
-                  <ArrowRight color="currentColor" width={36} height={24} />
-                </button>
-              </div>
-
-              {/* Member info */}
-              <div className="flex flex-1 flex-col justify-center gap-12">
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col px-6">
-                    <p className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground">
-                      {member.name}
-                    </p>
-                    <p className="font-funnel text-[18px] leading-[1.5] text-foreground/70">
-                      {member.role}
-                    </p>
-                  </div>
-                  <div className="h-px w-full bg-white/20" />
-                </div>
-                <div className="px-6">
-                  <p className="font-funnel text-[18px] leading-normal text-foreground">
-                    {member.bio}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right column - photo */}
-          <div className="relative h-[523px] w-[429px] shrink-0 overflow-hidden bg-[#0f0f0f]">
-            {/* Binary pattern overlay */}
-            <p
-              className="absolute left-0 top-0 w-full font-mono text-[36px] uppercase leading-[1.4] text-transparent"
-              style={{
-                backgroundImage:
-                  "linear-gradient(179.945deg, rgba(239, 239, 239, 0.4) 0.532%, rgba(239, 239, 239, 0.04) 56.559%)",
-                backgroundClip: "text",
-                WebkitBackgroundClip: "text",
-              }}
-            >
-              10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010
-            </p>
-            {/* Portrait image */}
-            {portraitUrl ? (
-              <img
-                src={portraitUrl}
-                alt={member.name}
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : null}
-            {/* Logo overlay - placeholder for now */}
-            <div className="absolute left-[21px] top-[21px] h-[81px] w-[63px] bg-brand/20" />
-          </div>
-        </RevealOnScroll>
-
-        {/* Closing statement */}
-        <div className="flex justify-center px-6">
-          <p className="flex-1 font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground/70">
+        <div className="px-6 md:px-12">
+          <div className="font-funnel text-[24px] leading-[1.2] tracking-[-1px] text-foreground/70 md:text-[32px]">
             <ClosingStatement parts={team.closingStatement} />
-          </p>
+          </div>
         </div>
       </div>
     </SectionsWrapper>

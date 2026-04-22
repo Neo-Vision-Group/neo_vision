@@ -36,22 +36,36 @@ export function Hero({ data }: { data?: HeroData }) {
       id="hero"
       className="relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)",
-        }}
-      />
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Light mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-white dark:hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-brand mix-blend-screen" />
+      </div>
+
+      {/* Dark mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-[120px] 2xl:pt-24">
         {/* Brand block: label + 1210 logotype */}
@@ -73,7 +87,6 @@ export function Hero({ data }: { data?: HeroData }) {
             delay={0.35}
             className="w-full max-w-[260px] md:max-w-[340px] lg:max-w-[520px] xl:max-w-[620px] 2xl:max-w-[760px]"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/figma/1210-logotype.svg"
               alt="1210"
@@ -94,10 +107,10 @@ export function Hero({ data }: { data?: HeroData }) {
           className="flex w-full max-w-[661px] flex-col gap-5 md:gap-6"
         >
           <div className="flex flex-col gap-2 text-foreground">
-            <p className="text-[24px] font-medium leading-[32px] tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">
+            <p className="text-[32px] font-medium leading-[32px] tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">
               {hero.heading}
             </p>
-            <p className="text-body-2">{hero.body}</p>
+            <p className="text-[18px]">{hero.body}</p>
           </div>
           <div className="flex w-full">
             <Button
@@ -120,9 +133,7 @@ export function Hero({ data }: { data?: HeroData }) {
             distance={16}
             className="flex items-center px-6 py-6 md:p-5 lg:p-8 2xl:p-12"
           >
-            <p className="w-full text-center text-body text-foreground md:text-left md:text-body lg:text-center 2xl:text-body">
-              {hero.stats}
-            </p>
+            <p className="w-full text-foreground font-funnel">{hero.stats}</p>
           </RevealOnScroll>
 
           {/* Vertical / horizontal divider */}
@@ -139,7 +150,7 @@ export function Hero({ data }: { data?: HeroData }) {
               scrollTriggered
               className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_2px_12px_rgba(0,0,0,0.6)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
-              {hero.dimensionLine.replace(/\s+/g, ' ').replace(/^(.+?)\s+(.+)$/, '$1\n$2')}
+              {hero.dimensionLine}
             </SplitTextReveal>
             <RevealOnScroll
               as="div"
@@ -148,7 +159,7 @@ export function Hero({ data }: { data?: HeroData }) {
               delay={0.15}
               className="flex w-full shrink-0 flex-col items-start gap-4 md:w-auto md:items-end"
             >
-              <div className="text-body-2 text-foreground md:text-right 2xl:text-body">
+              <div className="text-body-2 text-foreground font-funnel md:text-right 2xl:text-body">
                 {hero.mergerNote.map((line) => (
                   <p key={line}>{line}</p>
                 ))}

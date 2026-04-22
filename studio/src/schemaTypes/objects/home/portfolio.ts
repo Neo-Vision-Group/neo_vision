@@ -31,5 +31,11 @@ export const portfolio = defineType({
             ],
             validation: (Rule) => Rule.required()
         })
-    ]
+    ],
+    preview: {
+        select: {
+            title: 'eyebrow',
+            subtitle: 'heading'
+        }
+    }
 })

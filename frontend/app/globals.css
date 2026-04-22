@@ -28,6 +28,14 @@
   font-family: var(--font-betatron);
 }
 
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @utility font-funnel {
   font-family: var(--font-funnel-display);
 }

@@ -12,7 +12,7 @@ import Image from 'next/image'
 import { Logo } from '../icons/Logo'
 import DarkThemeIcon from '../icons/DarkThemeIcon'
 import LightThemeIcon from '../icons/LightThemeIcon'
-import { BorderWrapper } from '../BorderWrapper'
+import { AnimatedBorder } from '../AnimatedBorder'
 
 type NavClientProps = {
   pages: NavPageType[]
@@ -33,28 +33,22 @@ type NavClientProps = {
 
 // Nav item with decorative corners
 function NavItem({ href, children }: { href: string; children: React.ReactNode }) {
-  const pathname = usePathname()
-  const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
     <Link
       href={href}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        "relative flex items-center justify-center font-family-funnel transition-colors",
-        isActive ? "text-brand" : "text-black dark:text-white"
+        'relative flex items-center justify-center font-family-funnel transition-colors',
+        isHovered ? 'text-brand' : 'text-black dark:text-white'
       )}
     >
-      {isActive ? (
-        <BorderWrapper bordered="all">
-          <span className="font-funnel text-lg leading-none py-1">
-            {children}
-          </span>
-        </BorderWrapper>
-      ) : (
-        <span className="font-funnel text-lg leading-none p-2.5">
-          {children}
-        </span>
-      )}
+      <AnimatedBorder isHovered={isHovered} />
+      <span className="font-funnel text-lg leading-none p-2.5">
+        {children}
+      </span>
     </Link>
   )
 }
@@ -63,6 +57,7 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
 function ThemeToggle() {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     setMounted(true)
@@ -77,21 +72,22 @@ function ThemeToggle() {
   }
 
   return (
-    <BorderWrapper bordered="all" className="w-fit">
-      <button
-        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        className="flex size-10 items-center justify-center"
-        aria-label="Toggle theme"
-      >
-        <div className="flex size-6 items-center justify-center">
-          {theme === 'dark' ? (
-            <LightThemeIcon color="#FF4100" />
-          ) : (
-            <DarkThemeIcon color="#FF4100" />
-          )}
-        </div>
-      </button>
-    </BorderWrapper>
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex size-10 items-center justify-center"
+      aria-label="Toggle theme"
+    >
+      <AnimatedBorder isHovered={isHovered} />
+      <div className="flex size-6 items-center justify-center">
+        {theme === 'dark' ? (
+          <LightThemeIcon color="#FF4100" />
+        ) : (
+          <DarkThemeIcon color="#FF4100" />
+        )}
+      </div>
+    </button>
   )
 }
 
@@ -135,7 +131,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-muted-dark/70 backdrop-blur-[13.5px]">
+    <nav className="sticky top-0 z-50 w-full bg-[#EFEFEF] dark:bg-black backdrop-blur-[13.5px]">
       <div className="flex items-center gap-12 px-12 py-3">
         {/* Logo */}
         <Link
@@ -148,7 +144,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           ) : (
             <Logo />
           )}
-          <span className="font-funnel text-2xl capitalize leading-none text-white">
+          <span className="font-funnel text-2xl capitalize leading-none dark:text-white text-black">
             {title}
           </span>
         </Link>

@@ -38,7 +38,6 @@ export const whatWeDo = defineType({
                       to: [{ type: "service" }],
                     },
                   ],
-                  validation: (Rule) => Rule.required().min(3).max(3),
                 },
                 {
                   name: "cta",
