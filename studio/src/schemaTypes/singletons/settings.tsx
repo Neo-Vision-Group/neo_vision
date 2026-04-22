@@ -10,7 +10,7 @@ import * as demo from '../../lib/initialValues'
  */
 
 export const settings = defineType({
-  name: 'settings',
+  name: 'siteSettings',
   title: 'Settings',
   type: 'document',
   icon: CogIcon,
@@ -132,15 +132,6 @@ export const settings = defineType({
           description: 'Important for accessibility and SEO.',
           title: 'Alternative text',
           type: 'string',
-          validation: (rule) => {
-            return rule.custom((alt, context) => {
-              const document = context.document as Settings
-              if (document?.ogImage?.asset?._ref && !alt) {
-                return 'Required'
-              }
-              return true
-            })
-          },
         }),
         defineField({
           name: 'metadataBase',

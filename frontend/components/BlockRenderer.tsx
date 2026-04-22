@@ -1,7 +1,17 @@
 import React from 'react'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
-import {Hero, HeroData} from '@/components/sections/Hero'
+import {Hero, HeroData} from '@/components/sections/home/Hero'
+import {Origin, OriginData} from '@/components/sections/home/Origin'
+import {WhatWeDo, WhatWeDoData} from '@/components/sections/home/WhatWeDo'
+import {Signature, SignatureData} from '@/components/sections/home/Signature'
+import {Why, WhyData} from '@/components/sections/home/Why'
+import {Story, StoryData} from '@/components/sections/home/Story'
+import {Team, TeamData} from '@/components/sections/home/Team'
+import {Methodology, MethodologyData} from '@/components/sections/home/Methodology'
+import {TrustedBy, TrustedByData} from '@/components/sections/home/TrustedBy'
+import {PageHero, PageHeroData} from '@/components/sections/PageHero'
+import {ContactHero, ContactHeroData} from '@/components/sections/ContactHero'
 
 type BlockProps = {
   index: number
@@ -15,8 +25,38 @@ type BlocksType = {
 }
 
 const Blocks = {
+  pageHero: ({block}: BlockProps) => {
+    return <PageHero data={block as any as PageHeroData} />
+  },
+  contactHero: ({block}: BlockProps) => {
+    return <ContactHero data={block as any as ContactHeroData} />
+  },
   homeHero: ({block}: BlockProps) => {
     return <Hero data={block as any as HeroData} />
+  },
+  origin: ({block}: BlockProps) => {
+    return <Origin data={block as any as OriginData} />
+  },
+  whatWeDo: ({block}: BlockProps) => {
+    return <WhatWeDo data={block as any as WhatWeDoData} />
+  },
+  signature: ({block}: BlockProps) => {
+    return <Signature data={block as any as SignatureData} />
+  },
+  why: ({block}: BlockProps) => {
+    return <Why data={block as any as WhyData} />
+  },
+  story: ({block}: BlockProps) => {
+    return <Story data={block as any as StoryData} />
+  },
+  team: ({block}: BlockProps) => {
+    return <Team data={block as any as TeamData} />
+  },
+  methodology: ({block}: BlockProps) => {
+    return <Methodology data={block as any as MethodologyData} />
+  },
+  testimonials: ({block}: BlockProps) => {
+    return <TrustedBy data={block as any as TrustedByData} />
   },
 } as BlocksType
 

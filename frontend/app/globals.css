@@ -15,13 +15,21 @@
 
 @layer base {
   h1, h2, h3, h4, h5, h6, p {
-    @apply text-black dark:text-white;
+    @apply text-black dark:text-white font-funnel;
   }
 }
 
 @utility container {
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+@utility font-betatron {
+  font-family: var(--font-betatron);
+}
+
+@utility font-funnel {
+  font-family: var(--font-funnel-display);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -48,4 +56,9 @@
   --color-gray-950: #13141b;
 
   --default-transition-duration: 250ms;
+
+  --font-family-sans: var(--font-inter);
+  --font-family-mono: var(--font-ibm-plex-mono);
+  --font-family-betatron: var(--font-betatron);
+  --font-family-funnel: var(--font-funnel-display);
 }

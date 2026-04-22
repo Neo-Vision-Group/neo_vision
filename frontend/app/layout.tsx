@@ -31,7 +31,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const title = settings?.title || demo.title
   const description = settings?.description || demo.description
 
-  const ogImage = resolveOpenGraphImage(settings?.ogImage)
+  // const ogImage = resolveOpenGraphImage(settings?.ogImage)
   let metadataBase: URL | undefined = undefined
   try {
     metadataBase = settings?.ogImage?.metadataBase
@@ -47,9 +47,9 @@ export async function generateMetadata(): Promise<Metadata> {
       default: title,
     },
     description: toPlainText(description),
-    openGraph: {
-      images: ogImage ? [ogImage] : [],
-    },
+    // openGraph: {
+    //   images: ogImage ? [ogImage] : [],
+    // },
   }
 }
 
@@ -73,7 +73,7 @@ const funnelDisplay = Funnel_Display({
 })
 
 const betatron = localFont({
-  src: '../public/fonts/betatron.woff2',
+  src: './fonts/betatron.woff2',
   variable: '--font-betatron',
   display: 'swap',
 })

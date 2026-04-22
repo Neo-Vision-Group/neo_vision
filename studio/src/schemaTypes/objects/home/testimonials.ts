@@ -14,6 +14,25 @@ export const testimonials = defineType({
             validation: (Rule) => Rule.required()
         }),
         defineField({
+            name: 'logos',
+            title: 'Client Logos',
+            type: 'array',
+            description: 'Client logos to display in the logo grid',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        { name: 'name', type: 'string', title: 'Company Name', validation: (Rule) => Rule.required() },
+                        { name: 'logo', type: 'image', title: 'Logo Image', validation: (Rule) => Rule.required() }
+                    ],
+                    preview: {
+                        select: { title: 'name', media: 'logo' }
+                    }
+                }
+            ],
+            validation: (Rule) => Rule.required().min(3)
+        }),
+        defineField({
             name: 'testimonials',
             title: 'Testimonials',
             type: 'array',
@@ -23,7 +42,7 @@ export const testimonials = defineType({
                     to: [{ type: 'testimonial' }]
                 }
             ],
-            validation: (Rule) => Rule.required()
+            validation: (Rule) => Rule.required().min(2)
         })
     ]
 })

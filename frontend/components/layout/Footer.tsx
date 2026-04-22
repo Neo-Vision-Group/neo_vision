@@ -7,12 +7,14 @@ export default async function Footer() {
     query: settingsQuery,
   })
 
+  const logoUrl = settings?.logoPicture?.asset?.url;
+
   return (
     <FooterClient
       columns={settings?.footerColumns || []}
       title={settings?.brandName || settings?.title || 'Neo xAi'}
       email={settings?.email}
-      logo={settings?.logoPicture?.asset?.url}
+      logo={logoUrl}
       location={settings?.location}
       copyright={settings?.legalName}
     />

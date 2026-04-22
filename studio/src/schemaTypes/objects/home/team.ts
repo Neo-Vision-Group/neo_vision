@@ -13,7 +13,7 @@ export const team = defineType({
           title: 'Members',
           type: "array",
           of: [{ type: "reference", to: [{ type: "teamMember" }] }],
-          validation: (Rule) => Rule.required().min(5),
+          validation: (Rule) => Rule.required().min(3),
         }),
         defineField({
           name: "closingStatement",

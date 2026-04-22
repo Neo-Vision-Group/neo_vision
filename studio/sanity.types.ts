@@ -14,7 +14,34 @@
 
 export declare const internalGroqTypeReferenceTo: unique symbol
 
+type ArrayOf<T> = Array<
+  T & {
+    _key: string
+  }
+>
+
 // Source: ../sanity.schema.json
+export type HeadingMultipart = {
+  faded?: string
+  regular?: string
+  bold?: string
+  trailing?: string
+}
+
+export type FormConfig = {
+  services?: Array<string>
+  budgetRanges?: Array<string>
+  timelines?: Array<string>
+  hearAboutUs?: Array<string>
+}
+
+export type ContactFormFormConfig = {
+  services?: Array<string>
+  budgetRanges?: Array<string>
+  timelines?: Array<string>
+  hearAboutUs?: Array<string>
+}
+
 export type Callout = {
   heading?: string
   body?: string
@@ -33,12 +60,43 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
+export type Logo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type Texture = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "texture.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
+}
+
+export type Faq = {
+  _type: 'faq'
+  question: string
+  answer: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
 }
 
 export type Why = {
@@ -88,6 +146,11 @@ export type TestimonialReference = {
 export type Testimonials = {
   _type: 'testimonials'
   eyebrow: string
+  logos: Array<{
+    name: string
+    logo: Logo
+    _key: string
+  }>
   testimonials: Array<
     {
       _key: string
@@ -216,6 +279,47 @@ export type HomeHero = {
   secondaryCta?: Button
 }
 
+export type ContactForm = {
+  _type: 'contactForm'
+  eyebrow?: string
+  heading: string
+  description: string
+  steps: Array<{
+    title: string
+    description: string
+    _key: string
+  }>
+  formConfig?: ContactFormFormConfig
+}
+
+export type ContactHero = {
+  _type: 'contactHero'
+  eyebrow?: string
+  heading: string
+  description: string
+  steps: Array<{
+    title: string
+    description: string
+    _key: string
+  }>
+  formConfig?: FormConfig
+}
+
+export type PageHero = {
+  _type: 'pageHero'
+  eyebrow?: string
+  headingType: 'simple' | 'multipart'
+  heading?: string
+  headingMultipart?: HeadingMultipart
+  subheading?: string
+  stats?: Array<{
+    number: number
+    suffix?: string
+    label: string
+    _key: string
+  }>
+}
+
 export type List = {
   _type: 'list'
   pageBuilder?: null
@@ -302,24 +406,38 @@ export type Button = {
   link?: Link
 }
 
-export type LegalLink = {
-  _id: string
-  _type: 'legalLink'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  label: string
-  href: string
-  order?: number
-}
-
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
+  name: string
+  attribution: string
+  quote: string
+  profilePicture?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Project = {
@@ -337,28 +455,54 @@ export type TeamMember = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
+  name: string
+  order: number
+  role: string
+  bio: string
+  portrait?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
 }
 
-export type Service = {
+export type PrivacyPolicy = {
   _id: string
-  _type: 'service'
+  _type: 'privacyPolicy'
   _createdAt: string
   _updatedAt: string
   _rev: string
   title?: string
 }
 
-export type LegalLinkReference = {
+export type TermsAndConditions = {
+  _id: string
+  _type: 'termsAndConditions'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+}
+
+export type TermsAndConditionsReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'legalLink'
+  [internalGroqTypeReferenceTo]?: 'termsAndConditions'
 }
 
-export type Settings = {
+export type PrivacyPolicyReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'privacyPolicy'
+}
+
+export type SiteSettings = {
   _id: string
-  _type: 'settings'
+  _type: 'siteSettings'
   _createdAt: string
   _updatedAt: string
   _rev: string
@@ -405,7 +549,15 @@ export type Settings = {
   }
   legalName?: string
   email?: string
+  phoneNumber?: string
   location?: string
+  instagram?: string
+  facebook?: string
+  linkedin?: string
+  github?: string
+  x?: string
+  tiktok?: string
+  cta?: Button
   navLinks?: Array<{
     label: string
     page?: PageReference
@@ -416,33 +568,152 @@ export type Settings = {
     title: string
     links?: Array<{
       label: string
-      href: string
+      linkType: 'page' | 'service' | 'href'
+      page?: PageReference
+      service?: ServiceReference
+      href?: string
       accent?: boolean
       _key: string
     }>
     _key: string
   }>
-  legalLinks?: Array<
-    {
+  legalLinks?: ArrayOf<TermsAndConditionsReference | PrivacyPolicyReference>
+}
+
+export type Service = {
+  _id: string
+  _type: 'service'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
+  category?: 'engineering' | 'ai' | 'design' | 'strategy'
+  headline?: string
+  description?: string
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
       _key: string
-    } & LegalLinkReference
-  >
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  priceFrom?: string
+  featured?: boolean
+  order?: number
+  detailHero?: {
+    eyebrow?: string
+    heading?: {
+      faded?: string
+      bold?: string
+    }
+    subheading?: string
+    navTabs?: Array<string>
+  }
+  isThisForYou?: {
+    eyebrow?: string
+    heading?: string
+    checklist?: Array<string>
+    badgeValue?: string
+    badgeLabel?: string
+  }
+  soundFamiliar?: {
+    eyebrow?: string
+    heading?: string
+    painPoints?: Array<{
+      title?: string
+      body?: string
+      _key: string
+    }>
+  }
+  whatYouGet?: {
+    eyebrow?: string
+    heading?: string
+    features?: Array<{
+      title?: string
+      body?: string
+      eyebrow?: string
+      _key: string
+    }>
+  }
+  howWeBuild?: {
+    eyebrow?: string
+    heading?: string
+    phases?: Array<{
+      number?: string
+      title?: string
+      duration?: string
+      body?: string
+      image?: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      _key: string
+    }>
+  }
+  pricing?: {
+    eyebrow?: string
+    heading?: string
+    subheading?: string
+    tiers?: Array<{
+      title?: string
+      price?: string
+      duration?: string
+      includes?: Array<string>
+      ctaLabel?: string
+      ctaHref?: string
+      featured?: boolean
+      _key: string
+    }>
+    footnote?: string
+  }
+  workShowcase?: {
+    eyebrow?: string
+    heading?: string
+    items?: Array<
+      {
+        _key: string
+      } & ProjectReference
+    >
+  }
+  faq?: {
+    eyebrow?: string
+    heading?: string
+    items?: Array<
+      {
+        _key: string
+      } & Faq
+    >
+  }
+  closingCta?: {
+    heading?: {
+      regular?: string
+      bold?: string
+    }
+    body?: string
+    microcopy?: string
+    cta?: Button
+  }
 }
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type PersonReference = {
@@ -492,12 +763,6 @@ export type Person = {
   }
 }
 
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type Page = {
   _id: string
   _type: 'page'
@@ -510,6 +775,15 @@ export type Page = {
   description: string
   keywords: Array<string>
   pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
     | ({
         _key: string
       } & HomeHero)
@@ -796,10 +1070,15 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | HeadingMultipart
+  | FormConfig
+  | ContactFormFormConfig
   | Callout
   | ValueCard
   | SanityImageAssetReference
+  | Logo
   | Texture
+  | Faq
   | Why
   | ServiceReference
   | WhatWeDo
@@ -816,6 +1095,9 @@ export type AllSanitySchemaTypes =
   | Methodology
   | Cta
   | HomeHero
+  | ContactForm
+  | ContactHero
+  | PageHero
   | List
   | PageReference
   | PostReference
@@ -823,19 +1105,21 @@ export type AllSanitySchemaTypes =
   | BlockContentTextOnly
   | BlockContent
   | Button
-  | LegalLink
   | Testimonial
-  | Project
-  | TeamMember
-  | Service
-  | LegalLinkReference
-  | Settings
   | SanityImageCrop
   | SanityImageHotspot
+  | Project
+  | TeamMember
+  | PrivacyPolicy
+  | TermsAndConditions
+  | TermsAndConditionsReference
+  | PrivacyPolicyReference
+  | SiteSettings
+  | Service
+  | Slug
   | PersonReference
   | Post
   | Person
-  | Slug
   | Page
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus

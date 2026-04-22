@@ -1,9 +1,18 @@
 import {defineQuery} from 'next-sanity'
 
 export const settingsQuery = defineQuery(`
-  *[_type == "settings"][0]{
+  *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{
     ...,
+    logoPicture {
+      ...,
+      asset->
+    },
+    ogImage {
+      ...,
+      asset->
+    },
     navLinks[]{
+      _key,
       "name": label,
       "slug": "/" + page->slug.current
     },
@@ -15,6 +24,20 @@ export const settingsQuery = defineQuery(`
         "page": page->slug.current,
         "post": post->slug.current,
         openInNewTab
+      }
+    },
+    footerColumns[]{
+      _key,
+      title,
+      links[]{
+        _key,
+        label,
+        accent,
+        "href": select(
+          linkType == "page" => "/" + page->slug.current,
+          linkType == "service" => "/services/" + service->slug.current,
+          linkType == "href" => href
+        )
       }
     }
   }
@@ -76,6 +99,19 @@ export const homePageQuery = defineQuery(`
           }
         }
       },
+      _type == "testimonials" => {
+        ...,
+        eyebrow,
+        logos[]{
+          name,
+          logo
+        },
+        testimonials[]->{
+          attribution,
+          quote,
+          profilePicture
+        }
+      },
     },
   }
 `)
@@ -115,6 +151,40 @@ export const getPageQuery = defineQuery(`
     subheading,
     "pageBuilder": pageBuilder[]{
       ...,
+      _type == "pageHero" => {
+        ...,
+        eyebrow,
+        headingType,
+        heading,
+        headingMultipart {
+          faded,
+          regular,
+          bold,
+          trailing
+        },
+        subheading,
+        stats[]{
+          number,
+          suffix,
+          label
+        }
+      },
+      _type == "contactHero" => {
+        ...,
+        eyebrow,
+        heading,
+        description,
+        steps[]{
+          title,
+          description
+        },
+        formConfig {
+          services,
+          budgetRanges,
+          timelines,
+          hearAboutUs
+        }
+      },
       _type == "callToAction" => {
         ...,
         button {

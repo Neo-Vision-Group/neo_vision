@@ -1,8 +1,8 @@
-import { Button } from "../partials/Button";
-import { hero as heroFallback } from "../../lib/content/home";
-import { RevealOnScroll } from "../partials/motion/RevealOnScroll";
-import { SplitTextReveal } from "../partials/motion/SplitTextReveal";
-import { cleanStega } from "@/sanity/lib/utils";
+import { Button } from "../../../components/partials/Button";
+import { hero as heroFallback } from "../../../lib/content/home";
+import { RevealOnScroll } from "../../../components/partials/motion/RevealOnScroll";
+import { SplitTextReveal } from "../../../components/partials/motion/SplitTextReveal";
+import { cleanStega } from "../../../sanity/lib/utils";
 
 export type HeroData = {
   label?: string;
@@ -111,7 +111,7 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      <div className="relative w-full shrink-0 border-t border-border">
+      <div className="relative w-full bg-[linear-gradient(to_bottom,transparent_0%,transparent_80%,rgba(0,0,0,0.5)_88%,rgba(0,0,0,0.8)_94%,rgb(0,0,0)_100%)] shrink-0 border-t border-border">
         <div className="flex flex-col md:grid md:grid-cols-[210px_1px_1fr] lg:grid-cols-[minmax(240px,360px)_1px_1fr] 2xl:grid-cols-[480px_1px_1fr]">
           {/* Stats */}
           <RevealOnScroll
@@ -137,9 +137,9 @@ export function Hero({ data }: { data?: HeroData }) {
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-display uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-nowrap xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_2px_12px_rgba(0,0,0,0.6)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
-              {hero.dimensionLine}
+              {hero.dimensionLine.replace(/\s+/g, ' ').replace(/^(.+?)\s+(.+)$/, '$1\n$2')}
             </SplitTextReveal>
             <RevealOnScroll
               as="div"

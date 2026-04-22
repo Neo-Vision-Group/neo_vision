@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { HamburgerIcon } from '../icons/HamburgerIcon'
@@ -32,23 +33,28 @@ type NavClientProps = {
 
 // Nav item with decorative corners
 function NavItem({ href, children }: { href: string; children: React.ReactNode }) {
+  const pathname = usePathname()
+  const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+
   return (
     <Link
       href={href}
-      className="relative flex items-center justify-center overflow-hidden p-2.5"
+      className={cn(
+        "relative flex items-center justify-center font-family-funnel transition-colors",
+        isActive ? "text-brand" : "text-black dark:text-white"
+      )}
     >
-      <span className="relative z-10 font-funnel text-lg leading-normal text-text">
-        {children}
-      </span>
-      {/* Decorative corners */}
-      <span className="absolute left-[135px] right-[-145px] top-[9px] h-px bg-brand" aria-hidden="true" />
-      <span className="absolute bottom-[9px] left-[-155px] right-[145px] h-px bg-brand" aria-hidden="true" />
-      <span className="absolute bottom-[55px] left-[5px] top-[-105px] w-px" aria-hidden="true">
-        <span className="block h-full w-full origin-center -rotate-90 bg-brand" />
-      </span>
-      <span className="absolute bottom-[-105px] right-[5px] top-[55px] w-px" aria-hidden="true">
-        <span className="block h-full w-full origin-center -rotate-90 bg-brand" />
-      </span>
+      {isActive ? (
+        <BorderWrapper bordered="all">
+          <span className="font-funnel text-lg leading-none py-1">
+            {children}
+          </span>
+        </BorderWrapper>
+      ) : (
+        <span className="font-funnel text-lg leading-none p-2.5">
+          {children}
+        </span>
+      )}
     </Link>
   )
 }
@@ -126,6 +132,8 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
     return () => window.removeEventListener('keydown', onKey)
   }, [open])
 
+  const pathname = usePathname()
+
   return (
     <nav className="sticky top-0 z-50 w-full bg-muted-dark/70 backdrop-blur-[13.5px]">
       <div className="flex items-center gap-12 px-12 py-3">
@@ -138,7 +146,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           {logo ? (
             <Image src={logo} alt={title} width={24} height={32} className="h-8 w-auto" />
           ) : (
-            <Logo className="h-8 w-auto" />
+            <Logo />
           )}
           <span className="font-funnel text-2xl capitalize leading-none text-white">
             {title}
@@ -147,8 +155,8 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
 
         {/* Desktop Navigation */}
         <div className="hidden flex-1 items-center justify-end gap-2 lg:flex">
-          {pages.map((page: NavPageType) => (
-            <NavItem key={page.name} href={page.slug}>
+          {pages.map((page: NavPageType, idx) => (
+            <NavItem key={page._key || `nav-${idx}`} href={page.slug}>
               {page.name}
             </NavItem>
           ))}
@@ -194,17 +202,24 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
       >
         <div className="flex h-full flex-col justify-between overflow-y-auto border-t border-border px-6 py-10">
           <ul className="flex flex-col gap-2">
-            {pages.map((page: NavPageType) => (
-              <li key={page.name}>
-                <Link
-                  href={page.slug}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 font-funnel text-3xl text-foreground transition-colors hover:text-brand"
-                >
-                  {page.name}
-                </Link>
-              </li>
-            ))}
+            {pages.map((page: NavPageType, idx) => {
+              const isActive = pathname === page.slug || (page.slug !== '/' && pathname.startsWith(page.slug))
+              
+              return (
+                <li key={page._key || `mobile-nav-${idx}`}>
+                  <Link
+                    href={page.slug}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "block py-3 font-funnel text-3xl transition-colors",
+                      isActive ? "text-brand" : "text-foreground hover:text-brand"
+                    )}
+                  >
+                    {page.name}
+                  </Link>
+                </li>
+              )
+            })}
           </ul>
           <div className="flex flex-col gap-4 pt-8">
             <Button

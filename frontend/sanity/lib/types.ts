@@ -17,6 +17,7 @@ export type DereferencedLink = {
 }
 
 export type NavPageType = {
+  _key?: string
   name: string
   slug: string
 }

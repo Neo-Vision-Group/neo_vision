@@ -94,12 +94,6 @@ export default {
           950: '#14211a',
         },
       },
-      fontFamily: {
-        sans: ['var(--font-inter)'],
-        mono: ['var(--font-ibm-plex-mono)'],
-        betatron: ['var(--font-betatron)'],
-        funnel: ['var(--font-funnel-display)'],
-      },
     },
   },
   future: {

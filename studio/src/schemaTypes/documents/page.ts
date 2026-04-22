@@ -64,6 +64,9 @@ export const page = defineType({
       title: 'Page builder',
       type: 'array',
       of: [
+        {type: 'pageHero'},
+        {type: 'contactHero'},
+        {type: 'contactForm'},
         {type: 'homeHero'},
         {type: 'list'},
         {type: 'cta'},

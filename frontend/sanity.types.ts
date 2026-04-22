@@ -21,6 +21,27 @@ type ArrayOf<T> = Array<
 >
 
 // Source: ../sanity.schema.json
+export type HeadingMultipart = {
+  faded?: string
+  regular?: string
+  bold?: string
+  trailing?: string
+}
+
+export type FormConfig = {
+  services?: Array<string>
+  budgetRanges?: Array<string>
+  timelines?: Array<string>
+  hearAboutUs?: Array<string>
+}
+
+export type ContactFormFormConfig = {
+  services?: Array<string>
+  budgetRanges?: Array<string>
+  timelines?: Array<string>
+  hearAboutUs?: Array<string>
+}
+
 export type Callout = {
   heading?: string
   body?: string
@@ -39,12 +60,43 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
+export type Logo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type Texture = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "texture.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
+}
+
+export type Faq = {
+  _type: 'faq'
+  question: string
+  answer: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
 }
 
 export type Why = {
@@ -94,6 +146,11 @@ export type TestimonialReference = {
 export type Testimonials = {
   _type: 'testimonials'
   eyebrow: string
+  logos: Array<{
+    name: string
+    logo: Logo
+    _key: string
+  }>
   testimonials: Array<
     {
       _key: string
@@ -222,6 +279,47 @@ export type HomeHero = {
   secondaryCta?: Button
 }
 
+export type ContactForm = {
+  _type: 'contactForm'
+  eyebrow?: string
+  heading: string
+  description: string
+  steps: Array<{
+    title: string
+    description: string
+    _key: string
+  }>
+  formConfig?: ContactFormFormConfig
+}
+
+export type ContactHero = {
+  _type: 'contactHero'
+  eyebrow?: string
+  heading: string
+  description: string
+  steps: Array<{
+    title: string
+    description: string
+    _key: string
+  }>
+  formConfig?: FormConfig
+}
+
+export type PageHero = {
+  _type: 'pageHero'
+  eyebrow?: string
+  headingType: 'simple' | 'multipart'
+  heading?: string
+  headingMultipart?: HeadingMultipart
+  subheading?: string
+  stats?: Array<{
+    number: number
+    suffix?: string
+    label: string
+    _key: string
+  }>
+}
+
 export type List = {
   _type: 'list'
   pageBuilder?: null
@@ -314,7 +412,32 @@ export type Testimonial = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
+  name: string
+  attribution: string
+  quote: string
+  profilePicture?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Project = {
@@ -332,7 +455,17 @@ export type TeamMember = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name?: string
+  name: string
+  order: number
+  role: string
+  bio: string
+  portrait?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
 }
 
 export type PrivacyPolicy = {
@@ -367,9 +500,9 @@ export type PrivacyPolicyReference = {
   [internalGroqTypeReferenceTo]?: 'privacyPolicy'
 }
 
-export type Settings = {
+export type SiteSettings = {
   _id: string
-  _type: 'settings'
+  _type: 'siteSettings'
   _createdAt: string
   _updatedAt: string
   _rev: string
@@ -453,23 +586,134 @@ export type Service = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title?: string
+  name: string
+  slug: Slug
+  category?: 'engineering' | 'ai' | 'design' | 'strategy'
+  headline?: string
+  description?: string
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  priceFrom?: string
+  featured?: boolean
+  order?: number
+  detailHero?: {
+    eyebrow?: string
+    heading?: {
+      faded?: string
+      bold?: string
+    }
+    subheading?: string
+    navTabs?: Array<string>
+  }
+  isThisForYou?: {
+    eyebrow?: string
+    heading?: string
+    checklist?: Array<string>
+    badgeValue?: string
+    badgeLabel?: string
+  }
+  soundFamiliar?: {
+    eyebrow?: string
+    heading?: string
+    painPoints?: Array<{
+      title?: string
+      body?: string
+      _key: string
+    }>
+  }
+  whatYouGet?: {
+    eyebrow?: string
+    heading?: string
+    features?: Array<{
+      title?: string
+      body?: string
+      eyebrow?: string
+      _key: string
+    }>
+  }
+  howWeBuild?: {
+    eyebrow?: string
+    heading?: string
+    phases?: Array<{
+      number?: string
+      title?: string
+      duration?: string
+      body?: string
+      image?: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      _key: string
+    }>
+  }
+  pricing?: {
+    eyebrow?: string
+    heading?: string
+    subheading?: string
+    tiers?: Array<{
+      title?: string
+      price?: string
+      duration?: string
+      includes?: Array<string>
+      ctaLabel?: string
+      ctaHref?: string
+      featured?: boolean
+      _key: string
+    }>
+    footnote?: string
+  }
+  workShowcase?: {
+    eyebrow?: string
+    heading?: string
+    items?: Array<
+      {
+        _key: string
+      } & ProjectReference
+    >
+  }
+  faq?: {
+    eyebrow?: string
+    heading?: string
+    items?: Array<
+      {
+        _key: string
+      } & Faq
+    >
+  }
+  closingCta?: {
+    heading?: {
+      regular?: string
+      bold?: string
+    }
+    body?: string
+    microcopy?: string
+    cta?: Button
+  }
 }
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type PersonReference = {
@@ -519,12 +763,6 @@ export type Person = {
   }
 }
 
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type Page = {
   _id: string
   _type: 'page'
@@ -537,6 +775,15 @@ export type Page = {
   description: string
   keywords: Array<string>
   pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
     | ({
         _key: string
       } & HomeHero)
@@ -823,10 +1070,15 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
+  | HeadingMultipart
+  | FormConfig
+  | ContactFormFormConfig
   | Callout
   | ValueCard
   | SanityImageAssetReference
+  | Logo
   | Texture
+  | Faq
   | Why
   | ServiceReference
   | WhatWeDo
@@ -843,6 +1095,9 @@ export type AllSanitySchemaTypes =
   | Methodology
   | Cta
   | HomeHero
+  | ContactForm
+  | ContactHero
+  | PageHero
   | List
   | PageReference
   | PostReference
@@ -851,20 +1106,20 @@ export type AllSanitySchemaTypes =
   | BlockContent
   | Button
   | Testimonial
+  | SanityImageCrop
+  | SanityImageHotspot
   | Project
   | TeamMember
   | PrivacyPolicy
   | TermsAndConditions
   | TermsAndConditionsReference
   | PrivacyPolicyReference
-  | Settings
+  | SiteSettings
   | Service
-  | SanityImageCrop
-  | SanityImageHotspot
+  | Slug
   | PersonReference
   | Post
   | Person
-  | Slug
   | Page
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
@@ -891,10 +1146,10 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    ...,    navLinks[]{      "name": label,      "slug": "/" + page->slug.current    },    cta {      buttonText,      link {        linkType,        href,        "page": page->slug.current,        "post": post->slug.current,        openInNewTab      }    }  }
+// Query: *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{    ...,    logoPicture {      ...,      asset->    },    ogImage {      ...,      asset->    },    navLinks[]{      _key,      "name": label,      "slug": "/" + page->slug.current    },    cta {      buttonText,      link {        linkType,        href,        "page": page->slug.current,        "post": post->slug.current,        openInNewTab      }    },    footerColumns[]{      _key,      title,      links[]{        _key,        label,        accent,        "href": select(          linkType == "page" => "/" + page->slug.current,          linkType == "service" => "/services/" + service->slug.current,          linkType == "href" => href        )      }    }  }
 export type SettingsQueryResult = {
   _id: string
-  _type: 'settings'
+  _type: 'siteSettings'
   _createdAt: string
   _updatedAt: string
   _rev: string
@@ -921,24 +1176,66 @@ export type SettingsQueryResult = {
     _type: 'block'
     _key: string
   }>
-  ogImage?: {
-    asset?: SanityImageAssetReference
+  ogImage: {
+    asset: {
+      _id: string
+      _type: 'sanity.imageAsset'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash: string
+      extension: string
+      mimeType: string
+      size: number
+      assetId: string
+      uploadId?: string
+      path: string
+      url: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     alt?: string
     metadataBase?: string
     _type: 'image'
-  }
+  } | null
   brandName: string
-  logoPicture?: {
-    asset?: SanityImageAssetReference
+  logoPicture: {
+    asset: {
+      _id: string
+      _type: 'sanity.imageAsset'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash: string
+      extension: string
+      mimeType: string
+      size: number
+      assetId: string
+      uploadId?: string
+      path: string
+      url: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     alt?: string
     _type: 'image'
-  }
+  } | null
   legalName?: string
   email?: string
   phoneNumber?: string
@@ -960,34 +1257,58 @@ export type SettingsQueryResult = {
     } | null
   } | null
   navLinks: Array<{
+    _key: string
     name: string
     slug: string | null
   }> | null
-  footerColumns?: Array<{
-    title: string
-    links?: Array<{
-      label: string
-      linkType: 'href' | 'page' | 'service'
-      page?: PageReference
-      service?: ServiceReference
-      href?: string
-      accent?: boolean
-      _key: string
-    }>
+  footerColumns: Array<{
     _key: string
-  }>
+    title: string
+    links: Array<{
+      _key: string
+      label: string
+      accent: boolean | null
+      href: string | null
+    }> | null
+  }> | null
   legalLinks?: ArrayOf<PrivacyPolicyReference | TermsAndConditionsReference>
 } | null
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == 'page' && pageType == 'home'][0]{    _id,    _type,    name,    pageType,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        },        secondaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "callToAction" => {        ...,        button {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },    },  }
+// Query: *[_type == 'page' && pageType == 'home'][0]{    _id,    _type,    name,    pageType,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        },        secondaryCta {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "callToAction" => {        ...,        button {          ...,          link {            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,            _type == "link" => {              "page": page->slug.current,              "post": post->slug.current            }          }        }      },      _type == "testimonials" => {        ...,        eyebrow,        logos[]{          name,          logo        },        testimonials[]->{          attribution,          quote,          profilePicture        }      },    },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'page'
   name: string
   pageType: 'home'
   pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'contactForm'
+        eyebrow?: string
+        heading: string
+        description: string
+        steps: Array<{
+          title: string
+          description: string
+          _key: string
+        }>
+        formConfig?: ContactFormFormConfig
+      }
+    | {
+        _key: string
+        _type: 'contactHero'
+        eyebrow?: string
+        heading: string
+        description: string
+        steps: Array<{
+          title: string
+          description: string
+          _key: string
+        }>
+        formConfig?: FormConfig
+      }
     | {
         _key: string
         _type: 'cta'
@@ -1056,6 +1377,21 @@ export type HomePageQueryResult = {
       }
     | {
         _key: string
+        _type: 'pageHero'
+        eyebrow?: string
+        headingType: 'multipart' | 'simple'
+        heading?: string
+        headingMultipart?: HeadingMultipart
+        subheading?: string
+        stats?: Array<{
+          number: number
+          suffix?: string
+          label: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
         _type: 'portfolio'
         eyebrow: string
         heading: string
@@ -1126,11 +1462,21 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'testimonials'
         eyebrow: string
-        testimonials: Array<
-          {
-            _key: string
-          } & TestimonialReference
-        >
+        logos: Array<{
+          name: string
+          logo: Logo
+        }>
+        testimonials: Array<{
+          attribution: string
+          quote: string
+          profilePicture: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }>
       }
     | {
         _key: string
@@ -1167,7 +1513,7 @@ export type HomePageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: getPageQuery
-// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
+// Query: *[_type == 'page' && slug.current == $slug][0]{    _id,    _type,    name,    slug,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "pageHero" => {        ...,        eyebrow,        headingType,        heading,        headingMultipart {          faded,          regular,          bold,          trailing        },        subheading,        stats[]{          number,          suffix,          label        }      },      _type == "contactHero" => {        ...,        eyebrow,        heading,        description,        steps[]{          title,          description        },        formConfig {          services,          budgetRanges,          timelines,          hearAboutUs        }      },      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },    },  }
 export type GetPageQueryResult = {
   _id: string
   _type: 'page'
@@ -1176,6 +1522,36 @@ export type GetPageQueryResult = {
   heading: null
   subheading: null
   pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'contactForm'
+        eyebrow?: string
+        heading: string
+        description: string
+        steps: Array<{
+          title: string
+          description: string
+          _key: string
+        }>
+        formConfig?: ContactFormFormConfig
+      }
+    | {
+        _key: string
+        _type: 'contactHero'
+        eyebrow: string | null
+        heading: string
+        description: string
+        steps: Array<{
+          title: string
+          description: string
+        }>
+        formConfig: {
+          services: Array<string> | null
+          budgetRanges: Array<string> | null
+          timelines: Array<string> | null
+          hearAboutUs: Array<string> | null
+        } | null
+      }
     | {
         _key: string
         _type: 'cta'
@@ -1222,6 +1598,25 @@ export type GetPageQueryResult = {
       }
     | {
         _key: string
+        _type: 'pageHero'
+        eyebrow: string | null
+        headingType: 'multipart' | 'simple'
+        heading: string | null
+        headingMultipart: {
+          faded: string | null
+          regular: string | null
+          bold: string | null
+          trailing: string | null
+        } | null
+        subheading: string | null
+        stats: Array<{
+          number: number
+          suffix: string | null
+          label: string
+        }> | null
+      }
+    | {
+        _key: string
         _type: 'portfolio'
         eyebrow: string
         heading: string
@@ -1292,6 +1687,11 @@ export type GetPageQueryResult = {
         _key: string
         _type: 'testimonials'
         eyebrow: string
+        logos: Array<{
+          name: string
+          logo: Logo
+          _key: string
+        }>
         testimonials: Array<
           {
             _key: string
@@ -1494,9 +1894,9 @@ export type PagesSlugsResult = Array<{
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[_type == "settings"][0]{\n    ...,\n    navLinks[]{\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        openInNewTab\n      }\n    }\n  }\n': SettingsQueryResult
-    '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    pageType,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        },\n        secondaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n    },\n  }\n': HomePageQueryResult
-    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
+    '\n  *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{\n    ...,\n    logoPicture {\n      ...,\n      asset->\n    },\n    ogImage {\n      ...,\n      asset->\n    },\n    navLinks[]{\n      _key,\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        openInNewTab\n      }\n    },\n    footerColumns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        accent,\n        "href": select(\n          linkType == "page" => "/" + page->slug.current,\n          linkType == "service" => "/services/" + service->slug.current,\n          linkType == "href" => href\n        )\n      }\n    }\n  }\n': SettingsQueryResult
+    '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    pageType,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        },\n        secondaryCta {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          link {\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            _type == "link" => {\n              "page": page->slug.current,\n              "post": post->slug.current\n            }\n          }\n        }\n      },\n      _type == "testimonials" => {\n        ...,\n        eyebrow,\n        logos[]{\n          name,\n          logo\n        },\n        testimonials[]->{\n          attribution,\n          quote,\n          profilePicture\n        }\n      },\n    },\n  }\n': HomePageQueryResult
+    '\n  *[_type == \'page\' && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "pageHero" => {\n        ...,\n        eyebrow,\n        headingType,\n        heading,\n        headingMultipart {\n          faded,\n          regular,\n          bold,\n          trailing\n        },\n        subheading,\n        stats[]{\n          number,\n          suffix,\n          label\n        }\n      },\n      _type == "contactHero" => {\n        ...,\n        eyebrow,\n        heading,\n        description,\n        steps[]{\n          title,\n          description\n        },\n        formConfig {\n          services,\n          budgetRanges,\n          timelines,\n          hearAboutUs\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n    },\n  }\n': GetPageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult
