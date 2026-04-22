@@ -29,6 +29,7 @@ import {faq} from './objects/faq'
 import {pageHero} from './objects/pageHero'
 import {contactHero} from './objects/contactHero'
 import {contactForm} from './objects/contactForm'
+import {booking} from './objects/contact/booking'
 import {engineeringServices} from './objects/service/engineering'
 import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
@@ -74,6 +75,7 @@ export const schemaTypes = [
   pageHero,
   contactHero,
   contactForm,
+  booking,
   homeHero,
   cta,
   methodology,

@@ -35,6 +35,7 @@ import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/in
 import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
 import { InsightsResources, InsightsResourcesData } from '@/components/sections/insights/InsightsResources'
 import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
+import { Booking, BookingData } from '@/components/sections/contact/Booking'
 
 type BlockProps = {
   index: number
@@ -149,6 +150,9 @@ const Blocks = {
   },
   insightsCta: ({block}: BlockProps) => {
     return <InsightsCta data={block as any as InsightsCtaData} />
+  },
+  booking: ({block}: BlockProps) => {
+    return <Booking data={block as any as BookingData} />
   }
 } as BlocksType
 

@@ -127,6 +127,15 @@ export const pageQuery = defineQuery(`
           hearAboutUs
         }
       },
+      _type == "booking" => {
+        ...,
+        heading,
+        description,
+        services,
+        budgetRanges,
+        timelines,
+        hearAboutUs
+      },
       _type == "callToAction" => {
         ...,
         button {

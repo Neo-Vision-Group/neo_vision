@@ -67,6 +67,7 @@ export const page = defineType({
         {type: 'pageHero'},
         {type: 'contactHero'},
         {type: 'contactForm'},
+        {type: 'booking'},
         {type: 'homeHero'},
         {type: 'list'},
         {type: 'cta'},

@@ -38,7 +38,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   // Category filter component to display in eyebrow
   const categoryFilterEyebrow = (
     <div className="flex flex-col gap-5">
-      <p className="font-betatron text-[32px] leading-[1.2] text-foreground">Category</p>
+      <p className="font-betatron text-[32px] leading-[1.2] text-[var(--text,#efefef)] dark:text-[var(--text,#efefef)]">Category</p>
       <div className="flex flex-col gap-5">
         {categoryOptions.map((option) => (
           <button
@@ -46,17 +46,17 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
             onClick={() => setCategoryFilter(option.value)}
             className={`relative p-2.5 text-left text-[18px] leading-[1.5] transition-colors ${
               categoryFilter === option.value
-                ? "text-foreground"
-                : "text-foreground/60 hover:text-foreground"
+                ? "bg-[rgba(255,65,0,0.3)] text-[var(--text,#efefef)]"
+                : "bg-[var(--bg-card,#0f0f0f)] text-[var(--text,#efefef)]/60 hover:text-[var(--text,#efefef)]"
             }`}
           >
             {option.label}
             {categoryFilter === option.value && (
               <>
-                <div className="absolute -left-1.5 top-0 h-px w-[calc(100%+12px)] bg-brand" />
-                <div className="absolute -bottom-1.5 left-0 h-px w-[calc(100%+12px)] bg-brand" />
-                <div className="absolute -left-1.5 top-0 h-[calc(100%+6px)] w-px bg-brand" />
-                <div className="absolute -right-1.5 bottom-0 h-[calc(100%+6px)] w-px bg-brand" />
+                <div className="absolute -left-1.5 top-0 h-px w-[calc(100%+12px)] bg-[var(--brand,#ff4100)]" />
+                <div className="absolute -bottom-1.5 left-0 h-px w-[calc(100%+12px)] bg-[var(--brand,#ff4100)]" />
+                <div className="absolute -left-1.5 top-0 h-[calc(100%+6px)] w-px bg-[var(--brand,#ff4100)]" />
+                <div className="absolute -right-1.5 bottom-0 h-[calc(100%+6px)] w-px bg-[var(--brand,#ff4100)]" />
               </>
             )}
           </button>

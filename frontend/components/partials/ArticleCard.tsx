@@ -52,14 +52,14 @@ export function ArticleCard({
     <Link
       href={href}
       className={cn(
-        "group flex flex-col overflow-hidden border border-white/20 bg-[var(--bg-card,#0f0f0f)] transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5",
+        "group flex flex-col overflow-hidden border border-[var(--deco,rgba(255,255,255,0.2))] bg-[var(--bg-card,#0f0f0f)] transition-all duration-300 ease-out hover:border-[var(--brand,#ff4100)]/40 hover:-translate-y-0.5",
         featured ? "md:flex-row" : "",
         className
       )}
     >
       <div
         className={cn(
-          "relative bg-[var(--dark,#040404)]",
+          "relative bg-[var(--white,white)] dark:bg-[var(--dark,#040404)]",
           featured
             ? "aspect-[16/9] md:aspect-[3/2] md:w-1/2"
             : "aspect-[16/10]"
@@ -81,7 +81,7 @@ export function ArticleCard({
         
         {/* Author + read time badge */}
         <div className="absolute left-2 top-2 bg-[rgba(255,65,0,0.3)] p-2">
-          <p className="font-funnel-display text-[14px] leading-[1.2] tracking-[-0.5px] text-foreground">
+          <p className="font-funnel-display text-[14px] leading-[1.2] tracking-[-0.5px] text-[var(--text,#efefef)]">
             {article.author?.name ? `${article.author.name} · ` : ''}
             {article.readTime ? `${article.readTime} min` : ''}
           </p>
@@ -99,7 +99,7 @@ export function ArticleCard({
             {/* Category badge */}
             {category ? (
               <div className="bg-[rgba(255,65,0,0.3)] p-2.5 self-start">
-                <p className="font-funnel-display text-[18px] leading-[1.5] text-foreground">
+                <p className="font-funnel-display text-[18px] leading-[1.5] text-[var(--text,#efefef)]">
                   {category}
                 </p>
               </div>
@@ -107,7 +107,7 @@ export function ArticleCard({
             
             <h3
               className={cn(
-                "font-funnel-display-bold tracking-[-0.2px] text-foreground",
+                "font-funnel-display-bold tracking-[-0.2px] text-[var(--text,#efefef)]",
                 featured
                   ? "text-[24px] leading-[32px] md:text-[32px] md:leading-[40px]"
                   : "text-[24px] leading-[1.2]"
@@ -118,14 +118,14 @@ export function ArticleCard({
           </div>
           
           {article.excerpt ? (
-            <p className="font-funnel-display text-[18px] leading-[1.5] text-foreground/70">
+            <p className="font-funnel-display text-[18px] leading-[1.5] text-[var(--text-muted,rgba(239,239,239,0.7))]">
               {article.excerpt}
             </p>
           ) : null}
         </div>
         
         <div className="mt-auto flex items-center gap-3 pt-4">
-          <span className="font-funnel-display-bold text-[24px] leading-[1.2] text-foreground transition-transform duration-200 group-hover:translate-x-0.5">
+          <span className="font-funnel-display-bold text-[24px] leading-[1.2] text-[var(--text,#efefef)] transition-transform duration-200 group-hover:translate-x-0.5">
             Read
           </span>
           <ArrowRight width={38.4} height={24} />
