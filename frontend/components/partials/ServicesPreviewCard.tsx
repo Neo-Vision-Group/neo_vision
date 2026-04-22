@@ -8,8 +8,7 @@ type ServiceCard = {
   label: string;
   title: string | { regular?: string; bold?: string };
   body: string | readonly string[];
-  items?: readonly { name?: string; price?: string }[];
-  services?: Array<{ title?: string }>;
+  services?: Array<{ name?: string; price?: string }>;
   cta: { label: string; href: string; variant: "primary" | "secondary" };
   texture?: string;
 };
@@ -20,10 +19,12 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   const titleText = typeof card.title === "string" 
     ? { regular: card.title, bold: "" }
     : card.title;
+
+  console.log(card)
   
   const bodyLines = Array.isArray(card.body) ? card.body : [card.body];
   
-  const displayItems = card.items || [];
+  const displayItems = card.services || [];
 
   return (
     <article

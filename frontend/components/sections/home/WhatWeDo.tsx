@@ -14,7 +14,7 @@ export type WhatWeDoData = {
     label: string;
     title: string;
     body: string;
-    services?: Array<{ title?: string }>;
+    services?: Array<{ name?: string, price?: string }>;
     cta: { buttonText?: string; link?: any };
     texture?: string;
   }>;
@@ -31,7 +31,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
       label: card.label,
       title: card.title,
       body: card.body,
-      items: card.services?.map(service => ({ name: service.title || '', price: '' })) ?? [],
+      services: card.services?.map(service => ({ name: service.name, price: service.price })) ?? [],
       cta: {
         label: card.cta?.buttonText ?? "Learn more",
         href: card.cta?.link?.href ?? card.cta?.link?.page ?? card.cta?.link?.post ?? "#",
@@ -41,8 +41,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
     })) ?? servicesFallback.cards.map((card, idx) => ({
       _key: `fallback-${card.kind}-${idx}`,
       ...card,
-      services: card.services ? [...card.services] : undefined,
-      items: card.services ? card.services.map(service => ({ name: service.title, price: '' })) : [],
+      services: card.services ? card.services.map(service => ({ name: service.name, price: service.price })) : [],
     })),
   };
 

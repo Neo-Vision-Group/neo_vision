@@ -14,6 +14,7 @@ import {PageHero, PageHeroData} from '@/components/sections/PageHero'
 import {ContactHero, ContactHeroData} from '@/components/sections/ContactHero'
 import {OurWork, PortfolioData} from '@/components/sections/home/Work'
 import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
+import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
 
 type BlockProps = {
   index: number

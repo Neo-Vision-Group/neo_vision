@@ -142,7 +142,7 @@ export const homePageQuery = defineQuery(`
         cards[]{
           ...,
           services[]->{
-            title
+            ...
           }
         }
       },
@@ -196,6 +196,12 @@ export const homePageQuery = defineQuery(`
         },
         subtext
       },
+      _type == "engineeringServices" => {
+        ...,
+        services[]->{
+          ...
+        }
+      }
     },
   }
 `)
@@ -310,6 +316,12 @@ export const getPageQuery = defineQuery(`
         },
         subtext
       },
+      _type == "engineeringServices" => {
+        ...,
+        services[]->{
+          ...
+        }
+      }
     },
   }
 `)
