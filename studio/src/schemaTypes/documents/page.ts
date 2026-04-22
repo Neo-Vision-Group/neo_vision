@@ -81,6 +81,7 @@ export const page = defineType({
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'industries'}
       ],
       options: {
         insertMenu: {

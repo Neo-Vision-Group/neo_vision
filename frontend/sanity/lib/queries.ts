@@ -204,7 +204,7 @@ export const homePageQuery = defineQuery(`
             ...
           }
         }
-      }
+      },
     },
   }
 `)
@@ -322,6 +322,18 @@ export const getPageQuery = defineQuery(`
       _type == "engineeringServices" => {
         ...,
         services[]->{
+          ...
+        }
+      },
+      _type == "ai" => {
+        ...,
+        services[]->{
+          ...
+        }
+      },
+      _type == "industry" => {
+        ...
+        industries[]->{
           ...
         }
       }
