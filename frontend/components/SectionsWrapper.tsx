@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 interface SectionsWrapperProps {
-  eyebrow: string;
+  eyebrow: string | ReactNode;
   children: ReactNode;
   id?: string;
   hideTopBorder?: boolean;
@@ -18,9 +18,13 @@ export function SectionsWrapper({
       <aside className="hidden md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start md:pt-24">
         <div className="h-px w-full bg-black/20 dark:bg-white/20" />
         <div className="relative w-full px-12 py-6">
-          <p className="font-betatron text-[32px] leading-[1.2] text-black dark:text-[#efefef]">
-            {eyebrow}
-          </p>
+          {typeof eyebrow === 'string' ? (
+            <p className="font-betatron text-[32px] leading-[1.2] text-black dark:text-[#efefef]">
+              {eyebrow}
+            </p>
+          ) : (
+            eyebrow
+          )}
         </div>
         <div className="h-px w-full bg-black/20 dark:bg-white/20" />
       </aside>

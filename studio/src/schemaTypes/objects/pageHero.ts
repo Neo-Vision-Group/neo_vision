@@ -126,6 +126,13 @@ export const pageHero = defineType({
         },
       ],
     }),
+    defineField({
+      name: 'featured',
+      title: 'Featured Case Study',
+      type: 'reference',
+      to: [{ type: 'project' }],
+      description: 'Optional featured case study to display as a card in the hero',
+    }),
   ],
   preview: {
     select: {

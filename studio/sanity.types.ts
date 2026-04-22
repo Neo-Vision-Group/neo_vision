@@ -70,6 +70,23 @@ export type Texture = {
   _type: 'image'
 }
 
+export type Industries = {
+  _type: 'industries'
+  eyebrow?: string
+  heading?: string
+  industries?: Array<{
+    industry?: string
+    description?: string
+    _key: string
+  }>
+  metrics?: Array<{
+    label?: string
+    value?: string
+    prefix?: string
+    _key: string
+  }>
+}
+
 export type ServiceReference = {
   _ref: string
   _type: 'reference'
@@ -77,35 +94,57 @@ export type ServiceReference = {
   [internalGroqTypeReferenceTo]?: 'service'
 }
 
+export type AiServices = {
+  _type: 'aiServices'
+  eyebrow?: string
+  services?: Array<{
+    service?: ServiceReference
+    cta: Button
+    _key: string
+  }>
+}
+
+export type Button = {
+  _type: 'button'
+  buttonText?: string
+  link?: Link
+}
+
 export type EngineeringServices = {
   _type: 'engineeringServices'
   eyebrow?: string
-  services?: Array<
-    {
-      _key: string
-    } & ServiceReference
-  >
+  services?: Array<{
+    service?: ServiceReference
+    ctaLabel?: string
+    ctaHref?: string
+    _key: string
+  }>
 }
 
 export type Faq = {
   _type: 'faq'
-  question: string
-  answer: Array<{
-    children?: Array<{
-      marks?: Array<string>
-      text?: string
-      _type: 'span'
+  eyebrow?: string
+  heading?: string
+  items: Array<{
+    question: string
+    answer: Array<{
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<{
+        href?: string
+        _type: 'link'
+        _key: string
+      }>
+      level?: number
+      _type: 'block'
       _key: string
     }>
-    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
-    listItem?: 'bullet' | 'number'
-    markDefs?: Array<{
-      href?: string
-      _type: 'link'
-      _key: string
-    }>
-    level?: number
-    _type: 'block'
     _key: string
   }>
 }
@@ -404,10 +443,20 @@ export type BlockContent = Array<
     }
 >
 
-export type Button = {
-  _type: 'button'
-  buttonText?: string
-  link?: Link
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Testimonial = {
@@ -426,22 +475,6 @@ export type Testimonial = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type Project = {
@@ -473,21 +506,20 @@ export type Slug = {
   source?: string
 }
 
-export type TeamMember = {
+export type Person = {
   _id: string
-  _type: 'teamMember'
+  _type: 'person'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  order: number
-  role: string
-  bio: string
-  portrait?: {
+  firstName: string
+  lastName: string
+  picture: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
+    alt?: string
     _type: 'image'
   }
 }
@@ -589,82 +621,6 @@ export type SiteSettings = {
   }>
 }
 
-export type Service = {
-  _id: string
-  _type: 'service'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name: string
-  price: string
-  category: 'engineering' | 'ai'
-  tag: string
-  slug: Slug
-  description: string
-  keywords: Array<string>
-  duration: string
-  pageBuilder?: Array<
-    | ({
-        _key: string
-      } & PageHero)
-    | ({
-        _key: string
-      } & ContactHero)
-    | ({
-        _key: string
-      } & ContactForm)
-    | ({
-        _key: string
-      } & HomeHero)
-    | ({
-        _key: string
-      } & List)
-    | ({
-        _key: string
-      } & Cta)
-    | ({
-        _key: string
-      } & Methodology)
-    | ({
-        _key: string
-      } & Origin)
-    | ({
-        _key: string
-      } & Portfolio)
-    | ({
-        _key: string
-      } & Pricing)
-    | ({
-        _key: string
-      } & Signature)
-    | ({
-        _key: string
-      } & Story)
-    | ({
-        _key: string
-      } & Team)
-    | ({
-        _key: string
-      } & Testimonials)
-    | ({
-        _key: string
-      } & WhatWeDo)
-    | ({
-        _key: string
-      } & Why)
-    | ({
-        _key: string
-      } & EngineeringServices)
-  >
-}
-
-export type PersonReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'person'
-}
-
 export type Post = {
   _id: string
   _type: 'post'
@@ -673,34 +629,96 @@ export type Post = {
   _rev: string
   title: string
   slug: Slug
-  content?: BlockContent
+  publishedAt?: string
   excerpt?: string
-  coverImage?: {
+  cover?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
-    alt?: string
     _type: 'image'
   }
-  date?: string
-  author?: PersonReference
+  author?: TeamMemberReference
+  category?:
+    | 'ai-transformation'
+    | 'engineering'
+    | 'design-research'
+    | 'systems-playbooks'
+    | 'operators-notes'
+  readTime?: number
+  featured?: boolean
+  body?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>
+          text?: string
+          _type: 'span'
+          _key: string
+        }>
+        style?: 'normal' | 'h2' | 'h3' | 'blockquote'
+        listItem?: 'bullet' | 'number'
+        markDefs?: Array<{
+          href?: string
+          _type: 'link'
+          _key: string
+        }>
+        level?: number
+        _type: 'block'
+        _key: string
+      }
+    | {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+        _key: string
+      }
+    | {
+        quote?: string
+        attribution?: string
+        _type: 'pullquote'
+        _key: string
+      }
+    | {
+        label?: string
+        body?: string
+        _type: 'keyPoint'
+        _key: string
+      }
+    | {
+        headers?: Array<string>
+        rows?: Array<{
+          cells?: Array<string>
+          _key: string
+        }>
+        _type: 'comparisonTable'
+        _key: string
+      }
+  >
+  relatedInsights?: Array<
+    {
+      _key: string
+    } & PostReference
+  >
+  order?: number
 }
 
-export type Person = {
+export type TeamMember = {
   _id: string
-  _type: 'person'
+  _type: 'teamMember'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  firstName: string
-  lastName: string
-  picture: {
+  name: string
+  order: number
+  role: string
+  bio: string
+  portrait?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
-    alt?: string
     _type: 'image'
   }
 }
@@ -768,6 +786,84 @@ export type Page = {
     | ({
         _key: string
       } & EngineeringServices)
+    | ({
+        _key: string
+      } & Industries)
+    | ({
+        _key: string
+      } & Faq)
+  >
+}
+
+export type Service = {
+  _id: string
+  _type: 'service'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  price: string
+  category: 'engineering' | 'ai'
+  tag: string
+  slug: Slug
+  description: string
+  keywords: Array<string>
+  duration: string
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & List)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+    | ({
+        _key: string
+      } & Faq)
   >
 }
 
@@ -1023,7 +1119,10 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | Logo
   | Texture
+  | Industries
   | ServiceReference
+  | AiServices
+  | Button
   | EngineeringServices
   | Faq
   | Why
@@ -1050,21 +1149,19 @@ export type AllSanitySchemaTypes =
   | Link
   | BlockContentTextOnly
   | BlockContent
-  | Button
-  | Testimonial
   | SanityImageCrop
   | SanityImageHotspot
+  | Testimonial
   | Project
   | Slug
-  | TeamMember
+  | Person
   | PrivacyPolicy
   | TermsAndConditions
   | SiteSettings
-  | Service
-  | PersonReference
   | Post
-  | Person
+  | TeamMember
   | Page
+  | Service
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

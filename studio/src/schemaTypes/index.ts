@@ -32,6 +32,24 @@ import {contactForm} from './objects/contactForm'
 import {engineeringServices} from './objects/service/engineering'
 import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
+import {portfolioFeatured} from './objects/portfolio/portfolioFeatured'
+import {portfolioGrid} from './objects/portfolio/portfolioGrid'
+import {portfolioCta} from './objects/portfolio/portfolioCta'
+import {portfolioMetrics} from './objects/portfolio/portfolioMetrics'
+import {insightsFeatured} from './objects/insights/insightsFeatured'
+import {insightsGrid} from './objects/insights/insightsGrid'
+import {insightsResources} from './objects/insights/insightsResources'
+import {insightsCta} from './objects/insights/insightsCta'
+import {studyHeroImage} from './objects/study/studyHeroImage'
+import {studyChallenge} from './objects/study/studyChallenge'
+import {studyApproach} from './objects/study/studyApproach'
+import {studyKeyWins} from './objects/study/studyKeyWins'
+import {studyWhatWeBuilt} from './objects/study/studyWhatWeBuilt'
+import {studyNumbers} from './objects/study/studyNumbers'
+import {studyTestimonial} from './objects/study/studyTestimonial'
+import {studyTechStack} from './objects/study/studyTechStack'
+import {studyMoreLikeThis} from './objects/study/studyMoreLikeThis'
+import {studyClosingCta} from './objects/study/studyClosingCta'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
@@ -72,5 +90,22 @@ export const schemaTypes = [
   engineeringServices,
   aiServices,
   industries,
-  faq
+  portfolioFeatured,
+  portfolioGrid,
+  portfolioCta,
+  portfolioMetrics,
+  insightsFeatured,
+  insightsGrid,
+  insightsResources,
+  insightsCta,
+  studyHeroImage,
+  studyChallenge,
+  studyApproach,
+  studyKeyWins,
+  studyWhatWeBuilt,
+  studyNumbers,
+  studyTestimonial,
+  studyTechStack,
+  studyMoreLikeThis,
+  studyClosingCta,
 ]

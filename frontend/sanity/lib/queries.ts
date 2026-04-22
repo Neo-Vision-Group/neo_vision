@@ -239,6 +239,51 @@ export const pageQuery = defineQuery(`
           ...
         }
       },
+      _type == "insightsFeatured" => {
+        ...,
+        insight->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          category,
+          "cover": cover.asset->url,
+          publishedAt,
+          readTime,
+          featured,
+          author->{name, role, portrait}
+        }
+      },
+      _type == "insightsGrid" => {
+        ...,
+        items[]->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          category,
+          "cover": cover.asset->url,
+          publishedAt,
+          readTime,
+          featured,
+          author->{name, role, portrait}
+        }
+      },
+      _type == "insightsResources" => {
+        ...,
+        items[]{
+          ...,
+          downloadUrl,
+          externalUrl
+        }
+      },
+      _type == "insightsCta" => {
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
     },
   }
 `)
@@ -284,4 +329,50 @@ export const postPagesSlugs = defineQuery(`
 export const pagesSlugs = defineQuery(`
   *[_type == "page" && defined(slug.current)]
   {"slug": slug.current}
+`)
+
+export const ALL_INSIGHTS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {
+    _id,
+    title,
+    slug,
+    excerpt,
+    category,
+    "cover": cover,
+    publishedAt,
+    readTime,
+    featured,
+    author->{name, role, portrait},
+  }
+`)
+
+export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
+  *[_type == "post" && slug.current == $slug][0]{
+    _id,
+    title,
+    slug,
+    excerpt,
+    category,
+    "cover": cover,
+    publishedAt,
+    readTime,
+    featured,
+    body,
+    author->{name, role, bio, portrait},
+    relatedInsights[]->{
+      _id,
+      title,
+      slug,
+      excerpt,
+      category,
+      "cover": cover,
+      publishedAt,
+    }
+  }
+`)
+
+export const ALL_INSIGHT_SLUGS_QUERY = defineQuery(`
+  *[_type == "post" && defined(slug.current)]{
+    "slug": slug.current
+  }
 `)

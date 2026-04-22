@@ -17,6 +17,24 @@ import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
 import { Industries, IndustryData } from './sections/services/Industries'
 import { FAQ, FaqData } from './sections/FAQ'
+import { PortfolioFeatured, PortfolioFeaturedData } from '@/components/sections/portfolio/PortfolioFeatured'
+import { PortfolioGrid, PortfolioGridData } from '@/components/sections/portfolio/PortfolioGrid'
+import { PortfolioCta, PortfolioCtaData } from '@/components/sections/portfolio/PortfolioCta'
+import { PortfolioMetrics, PortfolioMetricsData } from '@/components/sections/portfolio/Metrics'
+import { StudyHeroImage, StudyHeroImageData } from '@/components/sections/study/HeroImage'
+import { StudyChallenge, StudyChallengeData } from '@/components/sections/study/Challenge'
+import { StudyApproach, StudyApproachData } from '@/components/sections/study/Approach'
+import { StudyKeyWins, StudyKeyWinsData } from '@/components/sections/study/KeyWins'
+import { StudyWhatWeBuilt, StudyWhatWeBuiltData } from '@/components/sections/study/WhatWeBuilt'
+import { StudyNumbers, StudyNumbersData } from '@/components/sections/study/Numbers'
+import { StudyTestimonial, StudyTestimonialData } from '@/components/sections/study/Testimonial'
+import { StudyTechStack, StudyTechStackData } from '@/components/sections/study/TechStack'
+import { StudyMoreLikeThis, StudyMoreLikeThisData } from '@/components/sections/study/MoreLikeThis'
+import { StudyClosingCta, StudyClosingCtaData } from '@/components/sections/study/ClosingCta'
+import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/insights/InsightsFeatured'
+import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
+import { InsightsResources, InsightsResourcesData } from '@/components/sections/insights/InsightsResources'
+import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
 
 type BlockProps = {
   index: number
@@ -77,6 +95,60 @@ const Blocks = {
   },
   faq: ({block}: BlockProps) => {
     return <FAQ data={block as any as FaqData} />
+  },
+  portfolioFeatured: ({block}: BlockProps) => {
+    return <PortfolioFeatured data={block as any as PortfolioFeaturedData} />
+  },
+  portfolioGrid: ({block}: BlockProps) => {
+    return <PortfolioGrid data={block as any as PortfolioGridData} />
+  },
+  portfolioCta: ({block}: BlockProps) => {
+    return <PortfolioCta data={block as any as PortfolioCtaData} />
+  },
+  portfolioMetrics: ({block}: BlockProps) => {
+    return <PortfolioMetrics data={block as any as PortfolioMetricsData} />
+  },
+  studyHeroImage: ({block}: BlockProps) => {
+    return <StudyHeroImage data={block as any as StudyHeroImageData} />
+  },
+  studyChallenge: ({block}: BlockProps) => {
+    return <StudyChallenge data={block as any as StudyChallengeData} />
+  },
+  studyApproach: ({block}: BlockProps) => {
+    return <StudyApproach data={block as any as StudyApproachData} />
+  },
+  studyKeyWins: ({block}: BlockProps) => {
+    return <StudyKeyWins data={block as any as StudyKeyWinsData} />
+  },
+  studyWhatWeBuilt: ({block}: BlockProps) => {
+    return <StudyWhatWeBuilt data={block as any as StudyWhatWeBuiltData} />
+  },
+  studyNumbers: ({block}: BlockProps) => {
+    return <StudyNumbers data={block as any as StudyNumbersData} />
+  },
+  studyTestimonial: ({block}: BlockProps) => {
+    return <StudyTestimonial data={block as any as StudyTestimonialData} />
+  },
+  studyTechStack: ({block}: BlockProps) => {
+    return <StudyTechStack data={block as any as StudyTechStackData} />
+  },
+  studyMoreLikeThis: ({block}: BlockProps) => {
+    return <StudyMoreLikeThis data={block as any as StudyMoreLikeThisData} />
+  },
+  studyClosingCta: ({block}: BlockProps) => {
+    return <StudyClosingCta data={block as any as StudyClosingCtaData} />
+  },
+  insightsFeatured: ({block}: BlockProps) => {
+    return <InsightsFeatured data={block as any as InsightsFeaturedData} />
+  },
+  insightsGrid: ({block}: BlockProps) => {
+    return <InsightsGrid data={block as any as InsightsGridData} />
+  },
+  insightsResources: ({block}: BlockProps) => {
+    return <InsightsResources data={block as any as InsightsResourcesData} />
+  },
+  insightsCta: ({block}: BlockProps) => {
+    return <InsightsCta data={block as any as InsightsCtaData} />
   }
 } as BlocksType
 
