@@ -89,7 +89,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {subheading ? (
           <RevealOnScroll
             as="p"
-            className="max-w-[683px] font-funnel text-[18px] leading-[1.5] text-foreground"
+            className="max-w-[683px] font-funnel text-[18px] leading-normal text-foreground"
             delay={0.15}
           >
             {subheading}

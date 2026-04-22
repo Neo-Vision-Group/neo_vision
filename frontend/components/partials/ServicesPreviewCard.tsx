@@ -84,7 +84,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
               idx !== 0 && "border-t border-white/10"
             )}
           >
-            <span className="flex-1 text-foreground/95">{item.name}</span>
+            <span className="flex-1 dark:text-white text-black font-funnel">{item.name}</span>
             <span
               className={cn(
                 "shrink-0 text-right",
