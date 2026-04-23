@@ -34,6 +34,7 @@ import {booking} from './objects/contact/booking'
 import {engineeringServices} from './objects/service/engineering'
 import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
+import {reality} from './objects/service/reality'
 import {portfolioFeatured} from './objects/portfolio/portfolioFeatured'
 import {portfolioGrid} from './objects/portfolio/portfolioGrid'
 import {portfolioCta} from './objects/portfolio/portfolioCta'
@@ -43,6 +44,7 @@ import {insightsGrid} from './objects/insights/insightsGrid'
 import {insightsCta} from './objects/insights/insightsCta'
 import {insightBlock} from './objects/insights/insightBlock'
 import {studyHeroImage} from './objects/study/studyHeroImage'
+import {studyHero} from './objects/study/studyHero'
 import {studyChallenge} from './objects/study/studyChallenge'
 import {studyApproach} from './objects/study/studyApproach'
 import {studyKeyWins} from './objects/study/studyKeyWins'
@@ -52,6 +54,8 @@ import {studyTestimonial} from './objects/study/studyTestimonial'
 import {studyTechStack} from './objects/study/studyTechStack'
 import {studyMoreLikeThis} from './objects/study/studyMoreLikeThis'
 import {studyClosingCta} from './objects/study/studyClosingCta'
+import {isThisForYou} from './objects/service/isThisForYou'
+import {soundFamiliar} from './objects/service/soundFamiliar'
 import {place} from './objects/about/place'
 import {freeResources} from './objects/resources/freeResources'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
@@ -96,6 +100,7 @@ export const schemaTypes = [
   engineeringServices,
   aiServices,
   industries,
+  reality,
   portfolioFeatured,
   portfolioGrid,
   portfolioCta,
@@ -105,6 +110,7 @@ export const schemaTypes = [
   insightsCta,
   insightBlock,
   studyHeroImage,
+  studyHero,
   studyChallenge,
   studyApproach,
   studyKeyWins,
@@ -116,4 +122,6 @@ export const schemaTypes = [
   place,
   studyClosingCta,
   freeResources,
+  isThisForYou,
+  soundFamiliar,
 ]

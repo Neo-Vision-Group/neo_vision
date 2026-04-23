@@ -61,7 +61,7 @@ Sanity Document (page / service / project)
 | `studio/src/schemaTypes/index.ts` | Registers all Sanity schema types (documents + objects) |
 | `studio/src/schemaTypes/documents/page.ts` | `page` document — **its `pageBuilder.of` array must list every block type available to main pages** |
 | `studio/src/schemaTypes/documents/service.ts` | `service` document — has its own `pageBuilder.of` array for service detail pages |
-| `studio/src/schemaTypes/documents/project.ts` | `project` document — case study data (fields, NOT pageBuilder — sections are inlined as nested objects) |
+| `studio/src/schemaTypes/documents/project.ts` | `project` document — case study data with optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.) |
 
 ---
 
@@ -101,7 +101,7 @@ These are detail pages for specific content types:
 
 **Service pages** (`service` document) have their own `pageBuilder` field and should use the PageBuilder pattern directly.
 
-**Case study pages** (`project` document) do NOT have a `pageBuilder` field — they store section data as nested fields (challenge, approach, keyWins, etc.). The route currently constructs a synthetic `pageBuilder` array from these fields and passes it to `PageBuilder`. This is the intended pattern for projects until the schema is migrated.
+**Case study pages** (`project` document) now have an optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.). The route uses pageBuilder if available, otherwise falls back to constructing a synthetic pageBuilder from the nested fields.
 
 **Insight pages** (`post` document) use a hardcoded template, not PageBuilder. This is acceptable for now.
 
@@ -162,6 +162,7 @@ These are detail pages for specific content types:
 
 | Sanity `_type` | Component | Notes |
 |----------------|-----------|-------|
+| `studyHero` | `StudyHero` | Used by portfolio/[slug] — hero text and image combined |
 | `studyHeroImage` | `StudyHeroImage` | Used by portfolio/[slug] |
 | `studyChallenge` | `StudyChallenge` | Used by portfolio/[slug] |
 | `studyApproach` | `StudyApproach` | Used by portfolio/[slug] |

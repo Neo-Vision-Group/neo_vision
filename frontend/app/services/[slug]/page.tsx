@@ -183,6 +183,14 @@ export const serviceQuery = defineQuery(`
           }
         }
       },
+      _type == "soundFamiliar" => {
+        ...,
+        painPoints[]{
+          ...,
+          title,
+          body
+        }
+      },
       _type == "ai" => {
         ...,
         services[]{
@@ -203,6 +211,12 @@ export const serviceQuery = defineQuery(`
         ...,
         items[]{
           ...
+        }
+      },
+      _type == "isThisForYou" => {
+        ...,
+        items[]{
+          text
         }
       },
       _type == "insightsFeatured" => {

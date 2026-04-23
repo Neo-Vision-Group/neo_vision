@@ -60,6 +60,23 @@ export const project = defineType({
             type: 'image',
             options: { hotspot: true }
         }),
+        defineField({
+            name: 'pageBuilder',
+            title: 'Page Builder',
+            type: 'array',
+            of: [
+                { type: 'studyHero' },
+                { type: 'studyChallenge' },
+                { type: 'studyApproach' },
+                { type: 'studyKeyWins' },
+                { type: 'studyWhatWeBuilt' },
+                { type: 'studyNumbers' },
+                { type: 'studyTestimonial' },
+                { type: 'studyTechStack' },
+                { type: 'studyMoreLikeThis' },
+                { type: 'studyClosingCta' }
+            ]
+        }),
         // Challenge section
         defineField({
             name: 'challenge',

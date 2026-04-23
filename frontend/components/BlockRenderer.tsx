@@ -16,12 +16,14 @@ import {OurWork, PortfolioData} from '@/components/sections/home/Work'
 import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
 import { Industries, IndustryData } from './sections/services/Industries'
+import { Reality, RealityData } from './sections/services/Reality'
 import { FAQ, FaqData } from './sections/FAQ'
 import { PortfolioFeatured, PortfolioFeaturedData } from '@/components/sections/portfolio/PortfolioFeatured'
 import { PortfolioGrid, PortfolioGridData } from '@/components/sections/portfolio/PortfolioGrid'
 import { PortfolioCta, PortfolioCtaData } from '@/components/sections/portfolio/PortfolioCta'
 import { PortfolioMetrics, PortfolioMetricsData } from '@/components/sections/portfolio/Metrics'
 import { StudyHeroImage, StudyHeroImageData } from '@/components/sections/study/HeroImage'
+import { StudyHero, StudyHeroData } from '@/components/sections/study/Hero'
 import { StudyChallenge, StudyChallengeData } from '@/components/sections/study/Challenge'
 import { StudyApproach, StudyApproachData } from '@/components/sections/study/Approach'
 import { StudyKeyWins, StudyKeyWinsData } from '@/components/sections/study/KeyWins'
@@ -36,8 +38,10 @@ import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/I
 import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
 import { InsightBlock, InsightBlockData } from '@/components/sections/insights/InsightBlock'
 import { Booking, BookingData } from '@/components/sections/contact/Booking'
+import { SoundFamiliar, SoundFamiliarData } from '@/components/sections/services/SoundFamiliar'
 import { Place, PlaceData } from '@/components/sections/about/Place'
 import { FreeResources, FreeResourcesData } from '@/components/sections/resources/FreeResources'
+import { IsThisForYou, IsThisForYouData } from '@/components/sections/services/IsThisForYou'
 
 type BlockProps = {
   index: number
@@ -96,6 +100,9 @@ const Blocks = {
   industries: ({block}: BlockProps) => {
     return <Industries data={block as any as IndustryData} />
   },
+  reality: ({block}: BlockProps) => {
+    return <Reality data={block as any as RealityData} />
+  },
   faq: ({block}: BlockProps) => {
     return <FAQ data={block as any as FaqData} />
   },
@@ -113,6 +120,9 @@ const Blocks = {
   },
   studyHeroImage: ({block}: BlockProps) => {
     return <StudyHeroImage data={block as any as StudyHeroImageData} />
+  },
+  studyHero: ({block}: BlockProps) => {
+    return <StudyHero data={block as any as StudyHeroData} />
   },
   studyChallenge: ({block}: BlockProps) => {
     return <StudyChallenge data={block as any as StudyChallengeData} />
@@ -156,11 +166,17 @@ const Blocks = {
   booking: ({block}: BlockProps) => {
     return <Booking data={block as any as BookingData} />
   },
+  soundFamiliar: ({block}: BlockProps) => {
+    return <SoundFamiliar data={block as any as SoundFamiliarData} />
+  },
   place: ({block}: BlockProps) => {
     return <Place data={block as any as PlaceData} />
   },
   freeResources: ({block}: BlockProps) => {
     return <FreeResources data={block as any as FreeResourcesData} />
+  },
+  isThisForYou: ({block}: BlockProps) => {
+    return <IsThisForYou data={block as any as IsThisForYouData} />
   }
 } as BlocksType
 

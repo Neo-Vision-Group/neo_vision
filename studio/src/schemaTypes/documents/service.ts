@@ -91,7 +91,9 @@ export const service = defineType({
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'soundFamiliar'},
         {type: 'faq'},
+        {type: 'isThisForYou'},
       ],
       options: {
         insertMenu: {

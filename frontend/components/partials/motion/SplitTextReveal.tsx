@@ -125,7 +125,7 @@ export function SplitTextReveal({
         }
       );
     },
-    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd] }
+    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd, theme] }
   );
 
   const Tag = Component as ElementType;

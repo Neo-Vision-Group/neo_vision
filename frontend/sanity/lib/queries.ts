@@ -247,6 +247,21 @@ export const pageQuery = defineQuery(`
           icon
         }
       },
+      _type == "reality" => {
+        ...,
+        heading {
+          faded,
+          bold
+        },
+        points[]{
+          title,
+          body
+        },
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
       _type == "faq" => {
         ...,
         items[]{
@@ -541,6 +556,21 @@ export const homePageQuery = defineQuery(`
           icon
         }
       },
+      _type == "reality" => {
+        ...,
+        heading {
+          faded,
+          bold
+        },
+        points[]{
+          title,
+          body
+        },
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
       _type == "faq" => {
         ...,
         items[]{
@@ -758,5 +788,55 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
 export const ALL_INSIGHT_SLUGS_QUERY = defineQuery(`
   *[_type == "post" && defined(slug.current)]{
     "slug": slug.current
+  }
+`)
+
+export const allProjectsQuery = defineQuery(`
+  *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {
+    _id,
+    client,
+    year,
+    slug,
+    category,
+    industry,
+    tagline,
+    metric,
+    metricLabel,
+    thumb
+  }
+`)
+
+export const projectBySlugQuery = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0]{
+    _id,
+    client,
+    year,
+    slug,
+    category,
+    industry,
+    tagline,
+    metric,
+    metricLabel,
+    thumb,
+    "pageBuilder": pageBuilder[]{
+      ...,
+      _type == "studyHero" => {
+        ...,
+        heroImage {
+          ...,
+          asset->
+        }
+      }
+    },
+    challenge,
+    approach,
+    keyWins,
+    whatWeBuilt,
+    numbers,
+    testimonial,
+    detailTestimonial,
+    techStack,
+    closingCta,
+    publishedAt
   }
 `)

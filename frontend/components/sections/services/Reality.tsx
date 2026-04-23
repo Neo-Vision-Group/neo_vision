@@ -1,7 +1,18 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper"
 import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll"
+import Link from "next/link"
+
+function getHref(link: any): string {
+  if (!link) return "#";
+  if (link.linkType === "href") return link.href || "#";
+  if (link.linkType === "page") return "/" + link.page;
+  if (link.linkType === "post") return "/insights/" + link.post;
+  return "#";
+}
 
 export function Reality({ data }: { data: any }) {
+    const ctaHref = data.cta?.link ? getHref(data.cta.link) : null;
+    
     return (
       <SectionsWrapper eyebrow={data.eyebrow}>
         <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
@@ -24,11 +35,23 @@ export function Reality({ data }: { data: any }) {
                 key={(p.title ?? "pt") + idx}
                 className="flex flex-col gap-3 border border-white/10 bg-surface p-6"
               >
-                <h3 className="text-h4 font-medium text-foreground">{p.title}</h3>
+                <h3 className="font-betatron text-[22px] font-medium text-brand">{p.title}</h3>
                 <p className="text-body-2 text-foreground/70">{p.body}</p>
               </article>
             ))}
           </RevealOnScroll>
+          {data.cta && data.cta.buttonText && ctaHref ? (
+            <div className="flex justify-center pt-4">
+              <Link 
+                href={ctaHref}
+                target={data.cta.link?.openInNewTab ? "_blank" : undefined}
+                rel={data.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+                className="inline-flex items-center justify-center whitespace-nowrap font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-brand text-white pl-6 pr-4 py-3 text-body gap-3 hover:bg-brand-hover hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.5)] focus-visible:ring-brand"
+              >
+                <span>{data.cta.buttonText}</span>
+              </Link>
+            </div>
+          ) : null}
         </div>
       </SectionsWrapper>
     )
