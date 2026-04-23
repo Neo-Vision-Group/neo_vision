@@ -41,25 +41,57 @@ export function ClosingCta({ data }: { data?: CtaData }) {
   return (
     <section
       id="closing-cta"
-      className="relative isolate flex min-h-[400px] w-full items-center justify-center overflow-hidden bg-black px-6 py-24 md:py-32 lg:py-40"
+      className="relative isolate flex min-h-[400px] w-full items-center justify-center overflow-hidden bg-background px-6 py-24 md:py-32 lg:py-40"
     >
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-black" />
+      {/* Light mode background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+        <div className="absolute inset-0 bg-white" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/images/cta-graphic.jpg"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
           style={{
-            filter: "brightness(0.6) sepia(1) saturate(4.5) hue-rotate(-25deg) contrast(1.1)",
+            filter: "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
+            opacity: 0.4,
           }}
         />
-        {/* Top and bottom gradient fades - only middle 30% visible */}
+        <div className="absolute inset-0 bg-brand mix-blend-screen opacity-25" />
+        {/* Gradient mask */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage:
-              "linear-gradient(180deg, rgb(4,4,4) 0%, rgba(4,4,4,0) 35%, rgba(4,4,4,0) 65%, rgb(4,4,4) 100%)",
+            backgroundImage: `
+              linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.95) 80%, #ffffff 100%),
+              linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.95) 85%, #ffffff 100%)
+            `,
+          }}
+        />
+      </div>
+
+      {/* Dark mode background */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden dark:block">
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+        />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/cta-graphic.jpg"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+          style={{
+            filter: "brightness(0.7) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.1)",
+          }}
+        />
+        {/* Gradient mask */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(180deg, #0b0b0b 0%, rgba(11,11,11,0.9) 25%, rgba(11,11,11,0) 40%, rgba(11,11,11,0) 60%, rgba(11,11,11,0.9) 75%, #0b0b0b 100%),
+              linear-gradient(90deg, #0b0b0b 0%, rgba(11,11,11,0.9) 15%, rgba(11,11,11,0) 30%, rgba(11,11,11,0) 70%, rgba(11,11,11,0.9) 85%, #0b0b0b 100%)
+            `,
           }}
         />
       </div>

@@ -19,22 +19,17 @@ export function CalloutCard({
   return (
     <aside
       className={cn(
-        "flex flex-col gap-3 border p-6",
+        "flex flex-col gap-12 border border-white/20 bg-surface p-8 dark:border-white/30",
         variant === "accent"
           ? "border-brand bg-brand/10"
-          : "border-brand/40 bg-surface",
+          : "border-white/20 bg-surface dark:border-white/30",
         className
       )}
     >
-      <span
-        className={cn(
-          "inline-flex items-center self-start px-3 py-1 font-mono text-[10px] uppercase tracking-wider",
-          "bg-brand text-background"
-        )}
-      >
+      <p className="capitalize text-[48px] leading-[1.2] tracking-[-2.88px] text-brand font-display">
         {label}
-      </span>
-      <div className="text-body text-foreground md:text-[18px] md:leading-[28px]">
+      </p>
+      <div className="text-[18px] leading-[1.5] text-foreground">
         {children}
       </div>
     </aside>

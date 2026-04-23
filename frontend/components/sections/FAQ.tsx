@@ -1,27 +1,33 @@
 "use client";
 
-import { useRef, useState, useId } from "react";
+import { useState, useId } from "react";
 import { PortableText, type PortableTextBlock } from "@portabletext/react";
 import { cn } from "@/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import { cleanStega } from "@/sanity/lib/utils";
+
+export type FaqItem = {
+  question: string;
+  /** Either Portable Text blocks from Sanity, or plain string. */
+  answer?: PortableTextBlock[] | string;
+  /** Alias used by content fallback files that keep answers as plain text. */
+  answerPlain?: string;
+};
 
 export type FaqData = {
   eyebrow?: string;
   heading?: string;
-  items: Array<{
-    question: string;
-    /** Either Portable Text blocks from Sanity, or plain string. */
-    answer?: PortableTextBlock[] | string;
-    /** Alias used by content fallback files that keep answers as plain text. */
-    answerPlain?: string;
-  }>;
+  items?: FaqItem[];
 };
 
 export function FAQ({ data }: { data?: FaqData }) {
+  const cleanData = data ? cleanStega(data) : data;
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const groupId = useId();
 
-  const items = data?.items ?? [];
+  const items = cleanData?.items ?? [];
+  const eyebrow = cleanData?.eyebrow ?? "FREQUENTLY ASKED";
+  const heading = cleanData?.heading ?? "Common questions.";
 
   function handleKey(e: React.KeyboardEvent<HTMLButtonElement>, idx: number) {
     if (e.key === "ArrowDown") {
@@ -36,70 +42,52 @@ export function FAQ({ data }: { data?: FaqData }) {
   }
 
   return (
-    <SectionsWrapper eyebrow={data?.eyebrow ?? "FAQ"}>
-      <div className="flex flex-col gap-12 lg:flex-row lg:gap-0">
-        {/* Sidebar */}
-        <div className="flex shrink-0 flex-col gap-6 lg:w-[372px] lg:pt-24">
-          <div className="h-px w-full bg-white/20" />
-          <div className="px-12 py-6">
-            <p className="font-betatron text-[32px] leading-[1.2] text-foreground">
-              {data?.eyebrow ?? "FREQUENTLY ASKED"}
-            </p>
-          </div>
-          <div className="h-px w-full bg-white/20" />
-        </div>
+    <SectionsWrapper id="faq" eyebrow={eyebrow}>
+      <div className="flex flex-col gap-12">
+        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-black dark:text-[#efefef] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
+          <span className="text-black/70 dark:text-[#efefef]/70">{heading}</span>
+        </h2>
 
-        {/* Divider */}
-        <div className="hidden h-px w-full bg-white/20 lg:block lg:w-px lg:flex-none" />
-
-        {/* Main content */}
-        <div className="flex flex-1 flex-col gap-12 pt-24 lg:gap-12">
-          <div className="h-px w-full bg-white/20" />
-          <div className="px-12">
-            <h2 className="font-funnel text-[48px] leading-[1.2] tracking-[-1px] text-foreground lg:text-[48px]">
-              {data?.heading ?? "Common questions."}
-            </h2>
-          </div>
-
-          <div className="flex flex-col gap-6 px-6 lg:px-12">
-            {items.map((item, idx) => {
-              const open = openIdx === idx;
-              const headingId = `${groupId}-${idx}`;
-              const panelId = `${groupId}-${idx}-panel`;
-              return (
-                <li key={item.question} className="list-none">
-                  <button
-                    id={headingId}
-                    type="button"
-                    aria-expanded={open}
-                    aria-controls={panelId}
-                    onClick={() => setOpenIdx(open ? null : idx)}
-                    onKeyDown={(e) => handleKey(e, idx)}
+        <ul className="flex w-full flex-col gap-4">
+          {items.map((item, idx) => {
+            const open = openIdx === idx;
+            const headingId = `${groupId}-${idx}`;
+            const panelId = `${groupId}-${idx}-panel`;
+            return (
+              <li
+                key={item.question}
+                className="border p-12 border-black/10 dark:border-white/10 bg-gray-100 dark:bg-[#1a1a1a] overflow-hidden"
+              >
+                <button
+                  id={headingId}
+                  type="button"
+                  aria-expanded={open}
+                  aria-controls={panelId}
+                  onClick={() => setOpenIdx(open ? null : idx)}
+                  onKeyDown={(e) => handleKey(e, idx)}
+                  className={cn(
+                    "group flex w-full items-start gap-4 text-left font-funnel md:text-[20px] md:leading-[28px]",
+                    "transition-colors duration-200",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                  )}
+                >
+                  <span
                     className={cn(
-                      "group w-full border border-white/20 bg-[#0f0f0f] p-12 text-left transition-colors duration-200",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                      "flex-1 font-medium tracking-[-0.2px]",
+                      open ? "text-black dark:text-[#efefef]" : "text-black/90 font-funnel dark:text-[#efefef]/90"
                     )}
                   >
-                    <div className="flex items-start gap-12">
-                      <span
-                        className={cn(
-                          "flex-1 font-funnel text-[32px] leading-[1.2] tracking-[-1px]",
-                          open ? "text-foreground" : "text-foreground/90"
-                        )}
-                      >
-                        {item.question}
-                      </span>
-                      <ToggleIcon open={open} />
-                    </div>
-                    <Panel open={open} id={panelId} labelledBy={headingId}>
-                      <AnswerContent item={item} />
-                    </Panel>
-                  </button>
-                </li>
-              );
-            })}
-          </div>
-        </div>
+                    {item.question}
+                  </span>
+                  <ToggleIcon open={open} />
+                </button>
+                <Panel open={open} id={panelId} labelledBy={headingId}>
+                  <AnswerContent item={item} />
+                </Panel>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </SectionsWrapper>
   );
@@ -110,9 +98,9 @@ function ToggleIcon({ open }: { open: boolean }) {
     <span
       aria-hidden="true"
       className={cn(
-        "relative mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center",
+        "relative mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
         "transition-colors duration-200",
-        open ? "text-brand" : "text-foreground/60 group-hover:text-foreground"
+        open ? "text-orange-500" : "text-orange-500/80 group-hover:text-orange-500"
       )}
     >
       {/* Horizontal bar (always visible) */}
@@ -139,15 +127,13 @@ function Panel({
   labelledBy: string;
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
   return (
     <div
-      ref={ref}
       id={id}
       role="region"
       aria-labelledby={labelledBy}
       hidden={!open}
-      className="pb-6 pr-8 text-body text-foreground/80 md:text-[18px] md:leading-[28px]"
+      className="text-body text-black/80 dark:text-[#efefef]/80 md:text-[18px] md:leading-[28px]"
     >
       {children}
     </div>
@@ -158,10 +144,10 @@ function AnswerContent({ item }: { item: FaqItem }) {
   const answer = item.answer ?? item.answerPlain;
   if (!answer) return null;
   if (typeof answer === "string") {
-    return <p className="max-w-[72ch]">{answer}</p>;
+    return <p className="max-w-[72ch] text-black/80 dark:text-[#efefef]/80">{answer}</p>;
   }
   return (
-    <div className="prose-none max-w-[72ch] [&_p]:mb-3 [&_p:last-child]:mb-0">
+    <div className="prose-none max-w-[72ch] text-black/80 dark:text-[#efefef]/80 [&_p:last-child]:mb-0">
       <PortableText value={answer} />
     </div>
   );

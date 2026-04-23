@@ -53,27 +53,39 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-background"
+        "relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
       )}
     >
-      {/* Background gradient */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)",
-        }}
-      />
-      {/* Video background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+      {/* Light mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-white dark:hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-brand mix-blend-screen" />
+      </div>
+
+      {/* Dark mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       <div className="relative flex flex-col gap-10 px-6 py-16 md:gap-14 md:px-6 md:py-24 lg:px-8 lg:py-28 xl:px-12 xl:py-32 2xl:px-16 2xl:py-40">
         {eyebrow ? (

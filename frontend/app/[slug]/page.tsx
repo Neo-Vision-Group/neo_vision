@@ -1,10 +1,8 @@
 import type {Metadata} from 'next'
-import Head from 'next/head'
 
 import PageBuilderPage from '@/components/PageBuilder'
 import {sanityFetch} from '@/sanity/lib/live'
 import {pageQuery, pagesSlugs} from '@/sanity/lib/queries'
-import {GetPageQueryResult} from '@/sanity.types'
 
 type Props = {
   params: Promise<{slug: string}>
@@ -45,14 +43,18 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const params = await props.params
-  const [{data: page}] = await Promise.all([sanityFetch({query: pageQuery, params})])
+  const {data: page} = await sanityFetch({query: pageQuery, params})
 
-  return (
-    <div className="">
-      <Head>
-        <title>{page?.name}</title>
-      </Head>
-      <PageBuilderPage page={page as GetPageQueryResult} />
-    </div>
-  )
+  if (!page) {
+    return (
+      <div className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-2xl font-bold">Page not found</h1>
+        <p className="text-gray-600 mt-4">
+          No page exists for this URL.
+        </p>
+      </div>
+    )
+  }
+
+  return <PageBuilderPage page={page} />
 }

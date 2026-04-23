@@ -2,6 +2,47 @@
 
 @plugin "@tailwindcss/typography";
 
+/* =========================================================================
+ * CSS Variables for component theming (light/dark compatible)
+ * ========================================================================= */
+:root {
+  /* Semantic color tokens */
+  --text: #efefef;
+  --text-muted: rgba(239, 239, 239, 0.7);
+  --bg-card: #0f0f0f;
+  --bg-page: #040404;
+  --border: rgba(255, 255, 255, 0.2);
+  --brand: #ff4100;
+  --brand-hover: #ff5a1f;
+  --unavailable-bg: rgba(255, 65, 0, 0.2);
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  :root {
+    --text: #0b0b0b;
+    --text-muted: rgba(11, 11, 11, 0.7);
+    --bg-card: #ffffff;
+    --bg-page: #f6f6f8;
+    --border: rgba(0, 0, 0, 0.15);
+    --brand: #ff4100;
+    --brand-hover: #ff5a1f;
+    --unavailable-bg: rgba(255, 65, 0, 0.1);
+  }
+}
+
+/* Dark mode class override */
+.dark {
+  --text: #efefef;
+  --text-muted: rgba(239, 239, 239, 0.7);
+  --bg-card: #0f0f0f;
+  --bg-page: #040404;
+  --border: rgba(255, 255, 255, 0.2);
+  --brand: #ff4100;
+  --brand-hover: #ff5a1f;
+  --unavailable-bg: rgba(255, 65, 0, 0.2);
+}
+
 @layer base {
   h1,
   h2,

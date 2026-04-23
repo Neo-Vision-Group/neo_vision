@@ -130,7 +130,7 @@ export const pageHero = defineType({
       name: 'featured',
       title: 'Featured Case Study',
       type: 'reference',
-      to: [{ type: 'project' }],
+      to: [{ type: 'project' }, { type: 'post' }],
       description: 'Optional featured case study to display as a card in the hero',
     }),
   ],

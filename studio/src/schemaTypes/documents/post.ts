@@ -162,6 +162,12 @@ export const post = defineType({
       title: "Sort order",
       type: "number",
     }),
+    defineField({
+      name: "pageBuilder",
+      title: "Page Builder",
+      type: "array",
+      of: [{ type: "insightBlock" }],
+    }),
   ],
   preview: {
     select: { title: "title", subtitle: "publishedAt", media: "cover" },

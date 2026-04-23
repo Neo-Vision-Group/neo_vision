@@ -8,21 +8,7 @@ import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import ArrowIcon from "@/components/icons/ArrowIcon";
 import ChevronIcon from "@/components/icons/ChevronIcon";
-
-const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Valid email required"),
-  company: z.string().optional(),
-  service: z.string().optional(),
-  budget: z.string().optional(),
-  timeline: z.string().optional(),
-  message: z.string().min(10, "Please tell us more about your project"),
-  hearAbout: z.string().optional(),
-  website: z.string().optional(),
-  source: z.string().optional(),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+import { contactSchema, type ContactFormData } from "@/lib/contact-schema";
 
 import { ContactHeroData } from "./ContactHero";
 
@@ -41,11 +27,10 @@ export function ContactFormSection() {
       name: "",
       email: "",
       company: "",
-      service: "",
+      phone: "",
+      projectType: "",
       budget: "",
-      timeline: "",
       message: "",
-      hearAbout: "",
       website: "",
       source: "/contact",
     },
@@ -74,24 +59,20 @@ export function ContactFormSection() {
 
   const services: string[] = [];
   const budgetRanges: string[] = [];
-  const timelines: string[] = [];
-  const hearAboutUs: string[] = [];
 
   return (
-    <section className="flex w-full gap-12 border-b border-border bg-background px-12 py-16">
-      {/* Right column - Form */}
-      <div className="flex flex-1 flex-col gap-12 bg-[#040404] p-6">
-        {submitState === "ok" ? (
-          <div className="flex flex-col gap-4 border border-brand/40 bg-surface p-8">
-            <h3 className="font-funnel text-[28px] font-medium text-foreground">
-              Message sent!
-            </h3>
-            <p className="font-funnel text-[18px] text-foreground/70">
-              We'll get back to you within 24 hours.
-            </p>
-          </div>
-        ) : (
-          <form onSubmit={onSubmit} className="flex flex-col gap-[24px]" noValidate>
+    <div className="flex flex-1 flex-col gap-12">
+      {submitState === "ok" ? (
+        <div className="flex flex-col gap-4 border border-brand/40 bg-surface p-8">
+          <h3 className="font-funnel text-[28px] font-medium text-foreground">
+            Message sent!
+          </h3>
+          <p className="font-funnel text-[18px] text-foreground/70">
+            We'll get back to you within 24 hours.
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={onSubmit} className="flex flex-col gap-[24px]" noValidate>
             {/* Honeypot */}
             <div aria-hidden="true" className="hidden">
               <input type="text" tabIndex={-1} {...register("website")} />
@@ -132,9 +113,9 @@ export function ContactFormSection() {
               </FormField>
 
               {/* Service */}
-              <FormField label="Service" error={errors.service?.message}>
+              <FormField label="Service" error={errors.projectType?.message}>
                 <div className="relative">
-                  <select {...register("service")} className={cn(inputClasses(!!errors.service), "appearance-none pr-12")}>
+                  <select {...register("projectType")} className={cn(inputClasses(!!errors.projectType), "appearance-none pr-12")}>
                     <option value="">Select a service…</option>
                     {services.map((opt) => (
                       <option key={opt} value={opt}>{opt}</option>
@@ -146,7 +127,7 @@ export function ContactFormSection() {
                 </div>
               </FormField>
 
-              {/* Budget & Timeline */}
+              {/* Budget & Phone */}
               <div className="flex gap-[12px]">
                 <FormField label="Estimated budget range" error={errors.budget?.message}>
                   <div className="relative">
@@ -161,18 +142,14 @@ export function ContactFormSection() {
                     </div>
                   </div>
                 </FormField>
-                <FormField label="When do you want to start?" error={errors.timeline?.message}>
-                  <div className="relative">
-                    <select {...register("timeline")} className={cn(inputClasses(!!errors.timeline), "appearance-none pr-12")}>
-                      <option value="">Select timeline…</option>
-                      {timelines.map((opt) => (
-                        <option key={opt} value={opt}>{opt}</option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2">
-                      <ChevronIcon />
-                    </div>
-                  </div>
+                <FormField label="Phone number" error={errors.phone?.message}>
+                  <input
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="+1 (555) 123-4567 (optional)"
+                    {...register("phone")}
+                    className={inputClasses(!!errors.phone)}
+                  />
                 </FormField>
               </div>
 
@@ -184,21 +161,6 @@ export function ContactFormSection() {
                   {...register("message")}
                   className={cn(inputClasses(!!errors.message), "h-[100px] resize-none")}
                 />
-              </FormField>
-
-              {/* Hear about */}
-              <FormField label="How did you hear about us?" error={errors.hearAbout?.message}>
-                <div className="relative">
-                  <select {...register("hearAbout")} className={cn(inputClasses(!!errors.hearAbout), "appearance-none pr-12")}>
-                    <option value="">Select…</option>
-                    {hearAboutUs.map((opt) => (
-                      <option key={opt} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2">
-                    <ChevronIcon />
-                  </div>
-                </div>
               </FormField>
             </div>
 
@@ -220,8 +182,7 @@ export function ContactFormSection() {
             </button>
           </form>
         )}
-      </div>
-    </section>
+    </div>
   );
 }
 
@@ -236,7 +197,7 @@ function FormField({
 }) {
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-foreground">
+      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-foreground">
         {label}
       </label>
       {children}
@@ -249,7 +210,7 @@ function FormField({
 
 function inputClasses(hasError: boolean, isSpecial?: boolean) {
   return cn(
-    "w-full bg-[#0f0f0f] px-[24px] py-[12px] font-funnel text-[18px] leading-[1.5] text-[#efefef] placeholder:text-[#efefef]/40 focus:outline-none",
+    "w-full bg-white dark:bg-[#0f0f0f] px-[24px] py-[12px] font-funnel text-[18px] leading-[1.5] text-black dark:text-[#efefef] placeholder:text-black/40 dark:placeholder:text-[#efefef]/40 focus:outline-none",
     hasError && "border border-brand",
     isSpecial && "bg-brand/30"
   );

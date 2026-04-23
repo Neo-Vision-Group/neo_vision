@@ -33,9 +33,11 @@ import { StudyMoreLikeThis, StudyMoreLikeThisData } from '@/components/sections/
 import { StudyClosingCta, StudyClosingCtaData } from '@/components/sections/study/ClosingCta'
 import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/insights/InsightsFeatured'
 import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
-import { InsightsResources, InsightsResourcesData } from '@/components/sections/insights/InsightsResources'
 import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
+import { InsightBlock, InsightBlockData } from '@/components/sections/insights/InsightBlock'
 import { Booking, BookingData } from '@/components/sections/contact/Booking'
+import { Place, PlaceData } from '@/components/sections/about/Place'
+import { FreeResources, FreeResourcesData } from '@/components/sections/resources/FreeResources'
 
 type BlockProps = {
   index: number
@@ -145,14 +147,20 @@ const Blocks = {
   insightsGrid: ({block}: BlockProps) => {
     return <InsightsGrid data={block as any as InsightsGridData} />
   },
-  insightsResources: ({block}: BlockProps) => {
-    return <InsightsResources data={block as any as InsightsResourcesData} />
-  },
   insightsCta: ({block}: BlockProps) => {
     return <InsightsCta data={block as any as InsightsCtaData} />
   },
+  insightBlock: ({block}: BlockProps) => {
+    return <InsightBlock data={block as any as InsightBlockData} />
+  },
   booking: ({block}: BlockProps) => {
     return <Booking data={block as any as BookingData} />
+  },
+  place: ({block}: BlockProps) => {
+    return <Place data={block as any as PlaceData} />
+  },
+  freeResources: ({block}: BlockProps) => {
+    return <FreeResources data={block as any as FreeResourcesData} />
   }
 } as BlocksType
 
@@ -160,6 +168,9 @@ const Blocks = {
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
+  // Debug: Log block rendering
+  console.log(`[BlockRenderer] Rendering block: ${block._type}`, block._key)
+  
   // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {
     return (
@@ -182,6 +193,7 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     )
   }
   // Block doesn't exist yet
+  console.warn(`[BlockRenderer] Unknown block type: ${block._type}`)
   return React.createElement(
     () => (
       <div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded">

@@ -17,7 +17,7 @@ export function InsightsCta({ data }: { data?: InsightsCtaData }) {
       id="question-cta"
       eyebrow="STILL WONDERING?"
     >
-      <div className="flex flex-col gap-8 border border-brand/40 bg-surface px-6 py-12 md:px-6 md:py-16 lg:px-8 xl:px-12 2xl:px-16">
+      <div className="flex flex-col gap-8 border border-brand/40 bg-surface px-6 py-12 md:px-6 md:py-16 lg:px-8 xl:px-12 2xl:px-16 dark:border-brand/60">
         <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
           <Heading value={cleanData?.heading ?? {}} />
         </h2>

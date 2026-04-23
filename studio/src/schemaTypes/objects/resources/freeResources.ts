@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
-export const insightsResources = defineType({
-  name: 'insightsResources',
-  title: 'Insights Resources',
+export const freeResources = defineType({
+  name: 'freeResources',
+  title: 'Free Resources',
   type: 'object',
   fields: [
     defineField({
@@ -17,6 +17,8 @@ export const insightsResources = defineType({
       fields: [
         defineField({name: 'faded', type: 'string'}),
         defineField({name: 'bold', type: 'string'}),
+        defineField({name: 'regular', type: 'string'}),
+        defineField({name: 'trailing', type: 'string'}),
       ],
     }),
     defineField({
@@ -34,11 +36,19 @@ export const insightsResources = defineType({
           type: 'object',
           fields: [
             defineField({name: 'title', type: 'string', validation: (Rule) => Rule.required()}),
-            defineField({name: 'category', type: 'string'}),
             defineField({name: 'description', type: 'text'}),
-            defineField({name: 'iconLetter', type: 'string'}),
-            defineField({name: 'downloadUrl', type: 'url'}),
-            defineField({name: 'externalUrl', type: 'url'}),
+            defineField({
+              name: 'file',
+              title: 'File',
+              type: 'file',
+              description: 'Upload a file to download. Takes priority over external URL.',
+            }),
+            defineField({
+              name: 'externalUrl',
+              title: 'External URL',
+              type: 'url',
+              description: 'Use if the resource is hosted elsewhere.',
+            }),
           ],
         }),
       ],

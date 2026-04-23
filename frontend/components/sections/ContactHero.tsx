@@ -50,25 +50,37 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const steps = cleanData?.steps || [];
   
   return (
-    <section className="relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-background">
-      {/* Background gradient */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)",
-        }}
-      />
-      {/* Video background */}
-      <video
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-      >
-        <source src="/videos/hero.mp4" type="video/mp4" />
-      </video>
+    <section className="relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background">
+      {/* Light mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-white dark:hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-brand mix-blend-screen" />
+      </div>
+
+      {/* Dark mode video background */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
+        <div
+          className="absolute inset-0"
+          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+        />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       <div className="relative flex flex-col gap-[48px] px-6 pb-12 pt-32 lg:flex-row lg:items-start lg:px-[48px]">
         {/* Left column - Intro and steps */}
@@ -77,7 +89,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             {eyebrow}
           </p>
 
-          <div className="flex flex-col gap-6 font-funnel text-[#efefef]">
+          <div className="flex flex-col gap-6 font-funnel text-black dark:text-[#efefef]">
             <h2 className="text-[48px] leading-[1.2] tracking-[-1px]">
               {heading.split("\n").map((line, i) => (
                 <span key={i}>
@@ -99,7 +111,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                 <div className="flex flex-col items-center">
                   <div className="h-[12px] w-[12px] shrink-0 bg-brand" />
                   {idx < steps.length - 1 && (
-                    <div className="w-px flex-1 bg-white/20" />
+                    <div className="w-px flex-1 bg-black/20 dark:bg-white/20" />
                   )}
                 </div>
 
@@ -110,10 +122,10 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                       0{idx + 1}.
                     </p>
                     <div className="flex flex-1 flex-col gap-1">
-                      <p className="font-funnel text-[24px] font-bold leading-[1.2] text-[#efefef]">
+                      <p className="font-funnel text-[24px] font-bold leading-[1.2] text-black dark:text-[#efefef]">
                         {step.title}
                       </p>
-                      <p className="font-funnel text-[18px] leading-normal text-[#efefef]/70">
+                      <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
                         {step.description}
                       </p>
                     </div>
@@ -125,15 +137,15 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
         </div>
 
         {/* Right column - Form container */}
-        <div className="flex flex-1 flex-col gap-[48px] bg-[#040404] p-6 lg:p-[24px]">
+        <div className="flex flex-1 flex-col gap-[48px] bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-[24px]">
           {/* Tab buttons */}
           <div className="flex gap-[24px]">
             <button
               type="button"
               onClick={() => setActiveTab("message")}
               className={cn(
-                "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-[#efefef]",
-                activeTab === "message" ? "bg-brand/30" : "bg-[#0f0f0f]"
+                "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
+                activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
               )}
             >
               Send a message
@@ -150,8 +162,8 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
               type="button"
               onClick={() => setActiveTab("call")}
               className={cn(
-                "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-[#efefef]",
-                activeTab === "call" ? "bg-brand/30" : "bg-[#0f0f0f]"
+                "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
+                activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
               )}
             >
               Book a call
@@ -172,7 +184,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             </div>
           ) : (
             <div className="flex flex-col gap-4 p-8">
-              <p className="font-funnel text-[18px] text-[#efefef]/70">
+              <p className="font-funnel text-[18px] text-black/70 dark:text-[#efefef]/70">
                 Calendar booking integration coming soon.
               </p>
             </div>

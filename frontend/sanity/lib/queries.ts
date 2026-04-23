@@ -69,10 +69,10 @@ export const settingsQuery = defineQuery(`
 `)
 
 export const pageQuery = defineQuery(`
-  select(
-    $slug != "" => *[_type == 'page' && slug.current == $slug][0],
-    *[_type == 'page' && pageType == 'home'][0]
-  ){
+  *[_type == 'page' && (
+    ($slug == "" && pageType == 'home') ||
+    ($slug != "" && slug.current == $slug)
+  )][0]{
     _id,
     _type,
     name,
@@ -130,11 +130,15 @@ export const pageQuery = defineQuery(`
       _type == "booking" => {
         ...,
         heading,
-        description,
-        services,
-        budgetRanges,
-        timelines,
-        hearAboutUs
+        callTitle,
+        whatToExpectHeading,
+        expectations,
+        schedulerUrl,
+        teamMember->{
+          name,
+          role,
+          portrait
+        }
       },
       _type == "callToAction" => {
         ...,
@@ -236,10 +240,11 @@ export const pageQuery = defineQuery(`
           }
         }
       },
-      _type == "industry" => {
-        ...
-        industries[]->{
-          ...
+      _type == "industries" => {
+        ...,
+        industries[]{
+          ...,
+          icon
         }
       },
       _type == "faq" => {
@@ -278,12 +283,298 @@ export const pageQuery = defineQuery(`
           author->{name, role, portrait}
         }
       },
-      _type == "insightsResources" => {
+      _type == "insightsCta" => {
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "freeResources" => {
         ...,
         items[]{
           ...,
-          downloadUrl,
-          externalUrl
+          "fileUrl": file.asset->url
+        }
+      },
+      _type == "portfolioFeatured" => {
+        ...,
+        caseStudy->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          thumb
+        }
+      },
+      _type == "portfolioGrid" => {
+        ...,
+        items[]->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          thumb
+        },
+        categoryFilters[]{
+          label,
+          value
+        }
+      },
+      _type == "portfolioMetrics" => {
+        ...,
+        items[]{
+          value,
+          label
+        }
+      },
+      _type == "portfolioCta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "place" => {
+        ...,
+        eyebrow,
+        headingRegular,
+        headingBold,
+        body,
+        backgroundGraphic {
+          ...,
+          asset->
+        },
+        locations,
+        cta
+      },
+    },
+  }
+`)
+
+// Dedicated home page query - filters only by pageType
+export const homePageQuery = defineQuery(`
+  *[_type == 'page' && pageType == 'home'][0]{
+    _id,
+    _type,
+    name,
+    slug,
+    pageType,
+    heading,
+    subheading,
+    "pageBuilder": pageBuilder[]{
+      ...,
+      _type == "homeHero" => {
+        ...,
+        primaryCta {
+          ...,
+          ${linkFields}
+        },
+        secondaryCta {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "pageHero" => {
+        ...,
+        eyebrow,
+        headingType,
+        heading,
+        headingMultipart {
+          faded,
+          regular,
+          bold,
+          trailing
+        },
+        subheading,
+        stats[]{
+          number,
+          suffix,
+          label
+        }
+      },
+      _type == "contactHero" => {
+        ...,
+        eyebrow,
+        heading,
+        description,
+        steps[]{
+          title,
+          description
+        },
+        formConfig {
+          services,
+          budgetRanges,
+          timelines,
+          hearAboutUs
+        }
+      },
+      _type == "booking" => {
+        ...,
+        heading,
+        callTitle,
+        whatToExpectHeading,
+        expectations,
+        schedulerUrl,
+        teamMember->{
+          name,
+          role,
+          portrait
+        }
+      },
+      _type == "callToAction" => {
+        ...,
+        button {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "infoSection" => {
+        content[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      },
+      _type == "testimonials" => {
+        ...,
+        eyebrow,
+        logos[]{
+          name,
+          logo
+        },
+        testimonials[]->{
+          attribution,
+          quote,
+          profilePicture
+        }
+      },
+      _type == "whatWeDo" => {
+        ...,
+        cards[]{
+          ...,
+          services[]->{
+            ...
+          }
+        }
+      },
+      _type == "team" => {
+        ...,
+        members[]->{
+          ...,
+          portrait {
+            ...,
+            asset->
+          }
+        }
+      },
+      _type == "story" => {
+        ...,
+        milestones[]{
+          year,
+          body
+        }
+      },
+      _type == "portfolio" => {
+        ...,
+        eyebrow,
+        heading,
+        projects[]->{
+          _id,
+          client,
+          year,
+          slug,
+          category,
+          title,
+          tagline,
+          description,
+          image,
+          link
+        }
+      },
+      _type == "cta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          ${linkFields}
+        },
+        subtext
+      },
+      _type == "engineeringServices" => {
+        ...,
+        services[]{
+          ...,
+          service->{
+            ...
+          }
+        }
+      },
+      _type == "ai" => {
+        ...,
+        services[]{
+          ...,
+          service->{
+            ...
+          }
+        }
+      },
+      _type == "industries" => {
+        ...,
+        industries[]{
+          ...,
+          icon
+        }
+      },
+      _type == "faq" => {
+        ...,
+        items[]{
+          ...
+        }
+      },
+      _type == "insightsFeatured" => {
+        ...,
+        insight->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          category,
+          "cover": cover.asset->url,
+          publishedAt,
+          readTime,
+          featured,
+          author->{name, role, portrait}
+        }
+      },
+      _type == "insightsGrid" => {
+        ...,
+        items[]->{
+          _id,
+          title,
+          slug,
+          excerpt,
+          category,
+          "cover": cover.asset->url,
+          publishedAt,
+          readTime,
+          featured,
+          author->{name, role, portrait}
         }
       },
       _type == "insightsCta" => {
@@ -292,6 +583,76 @@ export const pageQuery = defineQuery(`
           ...,
           ${linkFields}
         }
+      },
+      _type == "freeResources" => {
+        ...,
+        items[]{
+          ...,
+          "fileUrl": file.asset->url
+        }
+      },
+      _type == "portfolioFeatured" => {
+        ...,
+        caseStudy->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          thumb
+        }
+      },
+      _type == "portfolioGrid" => {
+        ...,
+        items[]->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          thumb
+        },
+        categoryFilters[]{
+          label,
+          value
+        }
+      },
+      _type == "portfolioMetrics" => {
+        ...,
+        items[]{
+          value,
+          label
+        }
+      },
+      _type == "portfolioCta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "place" => {
+        ...,
+        eyebrow,
+        headingRegular,
+        headingBold,
+        body,
+        backgroundGraphic {
+          ...,
+          asset->
+        },
+        locations,
+        cta
       },
     },
   }
@@ -347,7 +708,7 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
     slug,
     excerpt,
     category,
-    "cover": cover,
+    "cover": cover.asset->url,
     publishedAt,
     readTime,
     featured,
@@ -358,15 +719,29 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
 export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
   *[_type == "post" && slug.current == $slug][0]{
     _id,
+    _type,
     title,
     slug,
     excerpt,
     category,
-    "cover": cover,
+    "cover": cover.asset->url,
     publishedAt,
     readTime,
     featured,
     body,
+    "pageBuilder": pageBuilder[]{
+      ...,
+      _type == "insightBlock" => {
+        ...,
+        text[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      }
+    },
     author->{name, role, bio, portrait},
     relatedInsights[]->{
       _id,
@@ -374,7 +749,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       slug,
       excerpt,
       category,
-      "cover": cover,
+      "cover": cover.asset->url,
       publishedAt,
     }
   }

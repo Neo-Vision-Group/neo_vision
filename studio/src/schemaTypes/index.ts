@@ -5,6 +5,7 @@ import {service} from './documents/service'
 import {teamMember} from './documents/teamMember'
 import {project} from './documents/project'
 import {testimonial} from './documents/testimonial'
+import {contactSubmission} from './documents/contactSubmission'
 import {settings} from './singletons/settings'
 import {termsAndConditions} from './singletons/termsAndConditions'
 import {privacyPolicy} from './singletons/privacyPolicy'
@@ -39,8 +40,8 @@ import {portfolioCta} from './objects/portfolio/portfolioCta'
 import {portfolioMetrics} from './objects/portfolio/portfolioMetrics'
 import {insightsFeatured} from './objects/insights/insightsFeatured'
 import {insightsGrid} from './objects/insights/insightsGrid'
-import {insightsResources} from './objects/insights/insightsResources'
 import {insightsCta} from './objects/insights/insightsCta'
+import {insightBlock} from './objects/insights/insightBlock'
 import {studyHeroImage} from './objects/study/studyHeroImage'
 import {studyChallenge} from './objects/study/studyChallenge'
 import {studyApproach} from './objects/study/studyApproach'
@@ -51,6 +52,8 @@ import {studyTestimonial} from './objects/study/studyTestimonial'
 import {studyTechStack} from './objects/study/studyTechStack'
 import {studyMoreLikeThis} from './objects/study/studyMoreLikeThis'
 import {studyClosingCta} from './objects/study/studyClosingCta'
+import {place} from './objects/about/place'
+import {freeResources} from './objects/resources/freeResources'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
@@ -66,6 +69,7 @@ export const schemaTypes = [
   teamMember,
   project,
   testimonial,
+  contactSubmission,
   // Objects
   button,
   blockContent,
@@ -98,8 +102,8 @@ export const schemaTypes = [
   portfolioMetrics,
   insightsFeatured,
   insightsGrid,
-  insightsResources,
   insightsCta,
+  insightBlock,
   studyHeroImage,
   studyChallenge,
   studyApproach,
@@ -109,5 +113,7 @@ export const schemaTypes = [
   studyTestimonial,
   studyTechStack,
   studyMoreLikeThis,
+  place,
   studyClosingCta,
+  freeResources,
 ]

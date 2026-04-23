@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { signatureModel as signatureFallback } from "@/lib/content/home";
 import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { cleanStega } from "@/sanity/lib/utils";
+import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
 
 export type SignatureData = {
   eyebrow?: string;
@@ -59,11 +60,27 @@ export function Signature({ data }: { data?: SignatureData }) {
             {headingLines.map((line, idx) => (
               <span key={idx}>
                 {idx === 0 ? (
-                  <span className="font-normal text-foreground/70">{line}</span>
+                  <SplitTextReveal
+                    as="span"
+                    type="words"
+                    stagger={0.04}
+                    colorReveal
+                    className="font-normal text-foreground/70"
+                  >
+                    {line}
+                  </SplitTextReveal>
                 ) : (
                   <>
                     <br />
-                    <span className="font-bold">{line}</span>
+                    <SplitTextReveal
+                      as="span"
+                      type="words"
+                      stagger={0.04}
+                      colorReveal
+                      className="font-bold"
+                    >
+                      {line}
+                    </SplitTextReveal>
                   </>
                 )}
               </span>

@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import "./gsap-setup";
+import { cn } from "../../../lib/utils";
 
 export function SplitTextReveal({
   children,
@@ -16,6 +17,11 @@ export function SplitTextReveal({
   duration = 0.9,
   distance = 24,
   scrollTriggered = false,
+  colorReveal = false,
+  colorFrom = "rgba(239,239,239,0.25)",
+  colorTo = "rgba(239,239,239,1)",
+  scrubStart = "top 75%",
+  scrubEnd = "top 25%",
 }: {
   children: ReactNode;
   as?: ElementType;
@@ -28,6 +34,16 @@ export function SplitTextReveal({
   distance?: number;
   /** If true, play when element enters viewport. Else plays on mount. */
   scrollTriggered?: boolean;
+  /** If true, uses scrub-based color reveal (text appears as you scroll). */
+  colorReveal?: boolean;
+  /** Starting color for text reveal. */
+  colorFrom?: string;
+  /** Ending color for text reveal. */
+  colorTo?: string;
+  /** ScrollTrigger start for color scrub. */
+  scrubStart?: string;
+  /** ScrollTrigger end for color scrub. */
+  scrubEnd?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
 
@@ -44,23 +60,44 @@ export function SplitTextReveal({
         },
         (ctx) => {
           if (ctx.conditions?.reduced) {
-            // Accessibility: show text immediately, no split, no motion.
-            gsap.set(el, { opacity: 1 });
+            if (colorReveal) {
+              gsap.set(el, { color: colorTo });
+            } else {
+              gsap.set(el, { opacity: 1 });
+            }
             return;
           }
 
-          // Parent wrapper is set to opacity:0 inline to prevent FOUC
-          // before JS runs. Now that the split is ready, unhide the
-          // container — the split children carry their own animations.
+          if (colorReveal) {
+            gsap.set(el, { opacity: 1 });
+            const split = SplitText.create(el, { type: "words" });
+            gsap.set(split.words, { color: colorFrom });
+            const tween = gsap.to(split.words, {
+              color: colorTo,
+              stagger,
+              ease: "none",
+              scrollTrigger: {
+                trigger: el,
+                start: scrubStart,
+                end: scrubEnd,
+                scrub: 1,
+              },
+            });
+            return () => {
+              tween.kill();
+              split.revert();
+            };
+          }
+
           gsap.set(el, { opacity: 1 });
 
           const split = SplitText.create(el, {
             type,
-            mask: type, // clip each target to its own box — creates the "wipe" feel
+            mask: type,
           });
           const targets = type === "chars" ? split.chars : type === "words" ? split.words : split.lines;
 
-          gsap.fromTo(
+          const tween = gsap.fromTo(
             targets,
             { opacity: 0, yPercent: distance ? 100 : 0, y: distance ? 0 : distance },
             {
@@ -78,12 +115,13 @@ export function SplitTextReveal({
           );
 
           return () => {
+            tween.kill();
             split.revert();
           };
         }
       );
     },
-    { scope: ref, dependencies: [] }
+    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd] }
   );
 
   const Tag = Component as ElementType;

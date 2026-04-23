@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { sanityWriteClient } from "@/sanity/client";
+import { sanityWriteClient } from "@/sanity/lib/write-client";
 import { contactSchema } from "@/lib/contact-schema";
 import { ContactNotification } from "@/components/emails/ContactNotification";
 

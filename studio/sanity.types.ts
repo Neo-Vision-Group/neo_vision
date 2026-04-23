@@ -36,6 +36,11 @@ export type ContactFormFormConfig = {
   hearAboutUs?: Array<string>
 }
 
+export type Heading = {
+  regular?: string
+  bold?: string
+}
+
 export type Callout = {
   heading?: string
   body?: string
@@ -45,6 +50,31 @@ export type Callout = {
 export type ValueCard = {
   value?: string
   body?: string
+}
+
+export type InsightsResourcesHeading = {
+  faded?: string
+  bold?: string
+}
+
+export type InsightsCtaHeading = {
+  regular?: string
+  bold?: string
+}
+
+export type InsightsCtaCta = {
+  label?: string
+  href?: string
+}
+
+export type PortfolioCtaHeading = {
+  regular: string
+  bold: string
+}
+
+export type PlaceCta = {
+  label?: string
+  href?: string
 }
 
 export type SanityImageAssetReference = {
@@ -68,6 +98,273 @@ export type Texture = {
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
+}
+
+export type StudyClosingCta = {
+  _type: 'studyClosingCta'
+  heading?: {
+    regular: string
+    bold: string
+  }
+  body?: string
+  cta?: Button
+}
+
+export type Button = {
+  _type: 'button'
+  buttonText?: string
+  link?: Link
+}
+
+export type Place = {
+  _type: 'place'
+  eyebrow?: string
+  headingRegular?: string
+  headingBold?: string
+  body?: string
+  backgroundGraphic?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  locations?: Array<{
+    city: string
+    address?: string
+    note?: string
+    _key: string
+  }>
+  cta?: PlaceCta
+}
+
+export type ProjectReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'project'
+}
+
+export type StudyMoreLikeThis = {
+  _type: 'studyMoreLikeThis'
+  heading?: {
+    regular?: string
+    bold?: string
+  }
+  items: Array<
+    {
+      _key: string
+    } & ProjectReference
+  >
+}
+
+export type StudyTechStack = {
+  _type: 'studyTechStack'
+  eyebrow?: string
+  tools: Array<string>
+}
+
+export type StudyTestimonial = {
+  _type: 'studyTestimonial'
+  eyebrow?: string
+  quote?: {
+    quote: string
+    attribution: string
+    source?: string
+    accent?: boolean
+  }
+}
+
+export type StudyNumbers = {
+  _type: 'studyNumbers'
+  eyebrow?: string
+  heading?: string
+  footnote?: string
+  stats: Array<{
+    value: string
+    label: string
+    _key: string
+  }>
+}
+
+export type StudyWhatWeBuilt = {
+  _type: 'studyWhatWeBuilt'
+  eyebrow?: string
+  heading?: string
+  features: Array<{
+    number: string
+    title: string
+    body: string
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    _key: string
+  }>
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
+
+export type StudyKeyWins = {
+  _type: 'studyKeyWins'
+  eyebrow?: string
+  heading?: string
+  comparison?: {
+    beforeLabel?: string
+    afterLabel?: string
+    rows: Array<{
+      label: string
+      before: string
+      after: string
+      _key: string
+    }>
+  }
+}
+
+export type StudyApproach = {
+  _type: 'studyApproach'
+  eyebrow?: string
+  heading?: {
+    faded?: string
+    bold: string
+  }
+  body?: string
+  callout?: {
+    label?: string
+    body?: string
+  }
+}
+
+export type StudyChallenge = {
+  _type: 'studyChallenge'
+  eyebrow?: string
+  heading: string
+  body?: string
+  issues?: Array<{
+    tag: string
+    body: string
+    _key: string
+  }>
+}
+
+export type StudyHeroImage = {
+  _type: 'studyHeroImage'
+  image: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  alt?: string
+}
+
+export type InsightsCta = {
+  _type: 'insightsCta'
+  heading?: InsightsCtaHeading
+  body?: string
+  cta?: InsightsCtaCta
+}
+
+export type InsightsResources = {
+  _type: 'insightsResources'
+  eyebrow?: string
+  heading?: InsightsResourcesHeading
+  body?: string
+  items?: Array<{
+    title: string
+    category?: string
+    description?: string
+    iconLetter?: string
+    downloadUrl?: string
+    externalUrl?: string
+    _type: 'resource'
+    _key: string
+  }>
+}
+
+export type PostReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'post'
+}
+
+export type InsightsGrid = {
+  _type: 'insightsGrid'
+  items: Array<
+    {
+      _key: string
+    } & PostReference
+  >
+  categoryFilters?: Array<{
+    label: string
+    value: string
+    _type: 'filter'
+    _key: string
+  }>
+}
+
+export type InsightsFeatured = {
+  _type: 'insightsFeatured'
+  insight: PostReference
+}
+
+export type PortfolioMetrics = {
+  _type: 'portfolioMetrics'
+  items: Array<{
+    value: string
+    label: string
+    _key: string
+  }>
+}
+
+export type PortfolioCta = {
+  _type: 'portfolioCta'
+  heading?: PortfolioCtaHeading
+  body: string
+  cta?: Button
+}
+
+export type PortfolioGrid = {
+  _type: 'portfolioGrid'
+  items: Array<
+    {
+      _key: string
+    } & ProjectReference
+  >
+  serviceFilters?: Array<{
+    label: string
+    value: string
+    _key: string
+  }>
+  industryFilters?: Array<{
+    label: string
+    value: string
+    _key: string
+  }>
+}
+
+export type PortfolioFeatured = {
+  _type: 'portfolioFeatured'
+  caseStudy: ProjectReference
 }
 
 export type Industries = {
@@ -102,12 +399,6 @@ export type AiServices = {
     cta: Button
     _key: string
   }>
-}
-
-export type Button = {
-  _type: 'button'
-  buttonText?: string
-  link?: Link
 }
 
 export type EngineeringServices = {
@@ -265,13 +556,6 @@ export type Pricing = {
   callout?: Callout
 }
 
-export type ProjectReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'project'
-}
-
 export type Portfolio = {
   _type: 'portfolio'
   eyebrow: string
@@ -322,6 +606,17 @@ export type HomeHero = {
   secondaryCta?: Button
 }
 
+export type Booking = {
+  _type: 'booking'
+  eyebrow?: string
+  heading?: Heading
+  callTitle: string
+  teamMember: TeamMemberReference
+  whatToExpectHeading?: string
+  expectations: Array<string>
+  schedulerUrl?: string
+}
+
 export type ContactForm = {
   _type: 'contactForm'
   eyebrow?: string
@@ -361,6 +656,7 @@ export type PageHero = {
     label: string
     _key: string
   }>
+  featured?: ProjectReference
 }
 
 export type List = {
@@ -373,13 +669,6 @@ export type PageReference = {
   _type: 'reference'
   _weak?: boolean
   [internalGroqTypeReferenceTo]?: 'page'
-}
-
-export type PostReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'post'
 }
 
 export type Link = {
@@ -443,22 +732,6 @@ export type BlockContent = Array<
     }
 >
 
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
-}
-
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
@@ -486,18 +759,108 @@ export type Project = {
   client: string
   year: string
   slug: Slug
-  category: 'engineering' | 'ai'
-  title: string
+  category: string
+  industry: string
   tagline: string
-  description: string
-  image: {
+  metric?: string
+  metricLabel?: string
+  thumb?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
     _type: 'image'
   }
-  link: string
+  challenge?: {
+    eyebrow?: string
+    heading?: string
+    body?: string
+    issues?: Array<{
+      tag?: string
+      body?: string
+      _key: string
+    }>
+  }
+  approach?: {
+    eyebrow?: string
+    heading?: {
+      faded?: string
+      bold?: string
+    }
+    body?: string
+    callout?: {
+      label?: string
+      body?: string
+    }
+  }
+  keyWins?: {
+    eyebrow?: string
+    heading?: string
+    comparison?: {
+      beforeLabel?: string
+      afterLabel?: string
+      rows?: Array<{
+        label?: string
+        before?: string
+        after?: string
+        _key: string
+      }>
+    }
+  }
+  whatWeBuilt?: {
+    eyebrow?: string
+    heading?: string
+    features?: Array<{
+      number?: string
+      title?: string
+      body?: string
+      image?: {
+        asset?: SanityImageAssetReference
+        media?: unknown
+        hotspot?: SanityImageHotspot
+        crop?: SanityImageCrop
+        _type: 'image'
+      }
+      _key: string
+    }>
+  }
+  numbers?: {
+    eyebrow?: string
+    heading?: string
+    footnote?: string
+    stats?: Array<{
+      value?: string
+      label?: string
+      _key: string
+    }>
+  }
+  testimonial?: {
+    quote?: string
+    attribution?: string
+    source?: string
+  }
+  detailTestimonial?: {
+    eyebrow?: string
+    quote?: {
+      quote?: string
+      attribution?: string
+      source?: string
+      accent?: boolean
+    }
+  }
+  techStack?: {
+    eyebrow?: string
+    tools?: Array<string>
+  }
+  closingCta?: {
+    heading?: {
+      regular?: string
+      bold?: string
+    }
+    body?: string
+    cta?: Button
+  }
+  publishedAt?: string
 }
 
 export type Slug = {
@@ -746,6 +1109,9 @@ export type Page = {
       } & ContactForm)
     | ({
         _key: string
+      } & Booking)
+    | ({
+        _key: string
       } & HomeHero)
     | ({
         _key: string
@@ -792,6 +1158,33 @@ export type Page = {
     | ({
         _key: string
       } & Faq)
+    | ({
+        _key: string
+      } & InsightsFeatured)
+    | ({
+        _key: string
+      } & InsightsGrid)
+    | ({
+        _key: string
+      } & InsightsResources)
+    | ({
+        _key: string
+      } & InsightsCta)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
+    | ({
+        _key: string
+      } & Place)
   >
 }
 
@@ -1114,15 +1507,44 @@ export type AllSanitySchemaTypes =
   | HeadingMultipart
   | FormConfig
   | ContactFormFormConfig
+  | Heading
   | Callout
   | ValueCard
+  | InsightsResourcesHeading
+  | InsightsCtaHeading
+  | InsightsCtaCta
+  | PortfolioCtaHeading
+  | PlaceCta
   | SanityImageAssetReference
   | Logo
   | Texture
+  | StudyClosingCta
+  | Button
+  | Place
+  | ProjectReference
+  | StudyMoreLikeThis
+  | StudyTechStack
+  | StudyTestimonial
+  | StudyNumbers
+  | StudyWhatWeBuilt
+  | SanityImageCrop
+  | SanityImageHotspot
+  | StudyKeyWins
+  | StudyApproach
+  | StudyChallenge
+  | StudyHeroImage
+  | InsightsCta
+  | InsightsResources
+  | PostReference
+  | InsightsGrid
+  | InsightsFeatured
+  | PortfolioMetrics
+  | PortfolioCta
+  | PortfolioGrid
+  | PortfolioFeatured
   | Industries
   | ServiceReference
   | AiServices
-  | Button
   | EngineeringServices
   | Faq
   | Why
@@ -1134,23 +1556,20 @@ export type AllSanitySchemaTypes =
   | Story
   | Signature
   | Pricing
-  | ProjectReference
   | Portfolio
   | Origin
   | Methodology
   | Cta
   | HomeHero
+  | Booking
   | ContactForm
   | ContactHero
   | PageHero
   | List
   | PageReference
-  | PostReference
   | Link
   | BlockContentTextOnly
   | BlockContent
-  | SanityImageCrop
-  | SanityImageHotspot
   | Testimonial
   | Project
   | Slug

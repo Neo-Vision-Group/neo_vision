@@ -86,8 +86,13 @@ export const page = defineType({
         {type: 'faq'},
         {type: 'insightsFeatured'},
         {type: 'insightsGrid'},
-        {type: 'insightsResources'},
-        {type: 'insightsCta'}
+        {type: 'insightsCta'},
+        {type: 'portfolioFeatured'},
+        {type: 'portfolioGrid'},
+        {type: 'portfolioCta'},
+        {type: 'portfolioMetrics'},
+        {type: 'place'},
+        {type: 'freeResources'},
       ],
       options: {
         insertMenu: {
