@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import "./gsap-setup";
-import { cn } from "../../../lib/utils";
+import { useTheme } from 'next-themes'
 
 export function SplitTextReveal({
   children,
@@ -47,6 +47,10 @@ export function SplitTextReveal({
 }) {
   const ref = useRef<HTMLElement>(null);
 
+  const { theme, setTheme } = useTheme()
+
+  const toColor = theme === "dark" ? "rgba(239,239,239,1)" : "rgba(0,0,0,1)"
+
   useGSAP(
     () => {
       const el = ref.current;
@@ -61,7 +65,7 @@ export function SplitTextReveal({
         (ctx) => {
           if (ctx.conditions?.reduced) {
             if (colorReveal) {
-              gsap.set(el, { color: colorTo });
+              gsap.set(el, { color: toColor });
             } else {
               gsap.set(el, { opacity: 1 });
             }
@@ -73,7 +77,7 @@ export function SplitTextReveal({
             const split = SplitText.create(el, { type: "words" });
             gsap.set(split.words, { color: colorFrom });
             const tween = gsap.to(split.words, {
-              color: colorTo,
+              color: toColor,
               stagger,
               ease: "none",
               scrollTrigger: {

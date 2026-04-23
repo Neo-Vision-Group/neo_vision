@@ -45,11 +45,11 @@ export function Why({ data }: { data?: WhyData }) {
           {why.points.map((point) => (
             <article
               key={point.title}
-              className="group/why dark:bg-[#0F0F0F] bg-[#f7f7f7] relative isolate flex flex-col gap-8 overflow-hidden border border-white/10 bg-surface p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 lg:p-8 2xl:gap-12 2xl:p-12"
+              className="group/why dark:bg-[#0F0F0F] bg-[#f7f7f7] relative isolate flex flex-col gap-8 overflow-hidden border border-white/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 lg:p-8 2xl:gap-12 2xl:p-12"
             >
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out group-hover/why:opacity-100"
+                className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover/why:opacity-100"
               >
                 <img
                   src="/figma/signature-texture.png"

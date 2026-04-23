@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PageBuilderPage from "@/components/PageBuilder";
 import { sanityFetch } from "@/sanity/lib/live";
+import { client } from "@/sanity/lib/client";
 import { PageQueryResult } from "@/sanity.types";
 
 const projectQuery = `*[_type == "project" && slug.current == $slug][0]{
@@ -45,8 +46,8 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const projects = await sanityFetch({ query: allProjectsQuery })
-  const slugs = projects.data?.map((p: any) => ({ slug: p.slug.current })) ?? []
+  const projects = await client.fetch(allProjectsQuery)
+  const slugs = projects?.map((p: any) => ({ slug: p.slug.current })) ?? []
   return slugs
 }
 

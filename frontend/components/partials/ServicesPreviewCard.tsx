@@ -41,14 +41,6 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
             alt=""
             className="absolute inset-0 h-full w-full object-cover opacity-50"
           />
-          <div className="absolute inset-0 mix-blend-color" style={{ background: "#ff4404" }} />
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                "linear-gradient(to bottom, rgba(0,0,0,0) 0%, #0f0f0f 68%)",
-            }}
-          />
         </div>
       ) : null}
 
@@ -87,7 +79,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
             <span className="flex-1 dark:text-white text-black font-funnel">{item.name}</span>
             <span
               className={cn(
-                "shrink-0 text-right",
+                "shrink-0 text-right dark:text-[#EFEFEFB3] text-black",
                 card.kind === "ai" ? "text-white/50" : "text-muted"
               )}
             >

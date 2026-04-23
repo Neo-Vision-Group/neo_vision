@@ -124,7 +124,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           <Button href={ctaHref} variant="primary">
             {ctaLabel}
           </Button>
-          <p className="text-caption text-foreground/70">{microcopy}</p>
+          <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">{microcopy}</p>
         </RevealOnScroll>
       </div>
     </section>

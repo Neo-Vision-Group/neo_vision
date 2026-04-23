@@ -138,7 +138,7 @@ function StatCard({
   stat: { number: number; suffix?: string; label: string };
 }) {
   return (
-    <div className="flex flex-1 flex-col items-start justify-center border border-white/20 bg-[#0f0f0f] p-6">
+    <div className="flex flex-1 flex-col items-start dark:bg-black bg-[#EFEFEFB3] justify-center border border-white/20 p-6">
       <div className="flex flex-col gap-3">
         <p className="font-betatron text-[48px] leading-[1.2] tracking-[-2.88px] text-brand">
           <CountingNumber

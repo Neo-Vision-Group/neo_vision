@@ -68,7 +68,6 @@ export function Hero({ data }: { data?: HeroData }) {
       </div>
 
       <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-[120px] 2xl:pt-24">
-        {/* Brand block: label + 1210 logotype */}
         <div className="flex w-full flex-col gap-3 md:gap-4">
           <SplitTextReveal
             as="span"
@@ -96,7 +95,6 @@ export function Hero({ data }: { data?: HeroData }) {
           </RevealOnScroll>
         </div>
 
-        {/* Copy + CTA block — stagger reveal */}
         <RevealOnScroll
           as="div"
           from="bottom"
@@ -124,7 +122,15 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      <div className="relative w-full bg-[linear-gradient(to_bottom,transparent_0%,transparent_80%,rgba(0,0,0,0.5)_88%,rgba(0,0,0,0.8)_94%,rgb(0,0,0)_100%)] shrink-0 border-t border-border">
+      <div className="relative w-full shrink-0 border-t border-border">
+        <div
+          className="absolute inset-0 dark:hidden"
+          style={{ background: "linear-gradient(to top, white 0%, white 70%, transparent 100%)" }}
+        />
+        <div
+          className="absolute inset-0 hidden dark:block"
+          style={{ background: "linear-gradient(to top, black 0%, black 70%, transparent 100%)" }}
+        />
         <div className="flex flex-col md:grid md:grid-cols-[210px_1px_1fr] lg:grid-cols-[minmax(240px,360px)_1px_1fr] 2xl:grid-cols-[480px_1px_1fr]">
           {/* Stats */}
           <RevealOnScroll
@@ -148,7 +154,7 @@ export function Hero({ data }: { data?: HeroData }) {
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_2px_12px_rgba(0,0,0,0.6)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_2px_12px_rgba(255,65,0,0.5)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

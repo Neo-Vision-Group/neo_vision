@@ -92,7 +92,9 @@ function MethodologyCard({
           <h3 className="text-[24px] font-medium leading-[32px] tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
             {step.title}
           </h3>
-          <p className="text-body text-foreground/70">{step.body}</p>
+          <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">
+            {step.body}
+          </p>
         </div>
       </div>
     </div>

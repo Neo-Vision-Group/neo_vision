@@ -104,7 +104,7 @@ export function Signature({ data }: { data?: SignatureData }) {
             stagger={0.12}
             from="bottom"
             distance={24}
-            className="grid grid-cols-1 md:grid-cols-2"
+            className="grid grid-cols-1 lg:grid-cols-2"
           >
             {signature.steps.map((step, idx) => (
               <StepCard
@@ -117,7 +117,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           </RevealOnScroll>
           <div className="h-px w-full bg-white/20" />
 
-          <div className="grid gap-6 py-8 md:grid-cols-2 md:gap-6">
+          <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-6">
             <Button
               href={signature.cta.href}
               variant="primary"
@@ -147,14 +147,14 @@ function StepCard({
       className={cn(
         "relative p-4 lg:p-6",
         showBottomBorder && "md:border-b border-white/20",
-        showRightBorder && "md:border-r border-white/20",
+      showRightBorder && "md:border-r border-white/20",
         !showBottomBorder && "border-t border-white/20 md:border-t-0"
       )}
     >
-      <div className="group/step relative isolate flex flex-col dark:bg-[#0F0F0F] bg-[#f7f7f7] gap-8 overflow-hidden border border-white/10 bg-surface p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 lg:p-8">
+      <div className="group/step relative isolate flex flex-col dark:bg-[#0F0F0F] bg-[#f7f7f7] gap-8 overflow-hidden border border-white/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 lg:p-8">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out group-hover/step:opacity-100"
+          className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover/step:opacity-100"
         >
           <img
             src="/figma/signature-texture.png"
@@ -190,20 +190,12 @@ function StepCard({
 
 function ValueCard({ valueCard }: { valueCard: { value: string; body: string[] } }) {
   return (
-    <div className="relative isolate flex flex-col gap-6 border border-white/15 p-6">
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+    <div className="relative bg-[#EFEFEFB3] dark:bg-black isolate flex flex-col gap-6 border border-white/15 p-6">
+      <div aria-hidden="true" className="absolute bg-[#EFEFEFB3] dark:bg-black inset-0 -z-10 overflow-hidden">
         <img
-          src="/figma/signature-texture.png"
+          src="/figma/signature-texture.png"  
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: "#4a0e00" }}
-        />
-        <div
-          className="absolute inset-0 mix-blend-multiply"
-          style={{ background: "#7a1a00" }}
         />
       </div>
       <p className="text-center text-[32px] leading-[1.2] text-foreground md:text-[40px]">

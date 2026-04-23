@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cn } from "../../lib/utils";
 import ArrowRight from "../icons/ArrowRight";
+import ArrowRightPixel from "../icons/ArrowRightPixel";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "md" | "sm";
@@ -34,11 +35,11 @@ const sizeStyles: Record<ButtonSize, string> = {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-brand text-white hover:bg-brand-hover focus-visible:ring-brand",
+    "bg-brand text-white hover:bg-brand-hover hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.5)] focus-visible:ring-brand",
   secondary:
-    "bg-foreground text-background hover:bg-white focus-visible:ring-foreground",
+    "bg-white text-background hover:bg-white hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.5)] focus-visible:ring-foreground",
   ghost:
-    "border border-border text-foreground hover:bg-surface hover:border-foreground/30 focus-visible:ring-foreground",
+    "border border-border text-foreground hover:bg-surface hover:border-foreground/30 hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.5)] focus-visible:ring-foreground",
 };
 
 const baseStyles =
@@ -60,16 +61,28 @@ export function Button(props: ButtonProps) {
     className
   );
 
+  const iconSize = size === "sm" ? 26 : 38;
+  const iconHeight = size === "sm" ? 16 : 24;
+  const iconColor = variant === "secondary" ? "currentColor" : "white";
+
   const content = (
     <>
       <span>{children}</span>
       {icon ? (
-        <ArrowRight
-          className="shrink-0 transition-transform duration-200 ease-out group-hover:translate-x-1 group-focus-visible:translate-x-1"
-          width={size === "sm" ? 26 : 38}
-          height={size === "sm" ? 16 : 24}
-          color="white"
-        />
+        <span className="relative shrink-0 block" style={{ width: iconSize, height: iconHeight }}>
+          <ArrowRight
+            className="absolute inset-0 transition-all duration-200 ease-out group-hover:opacity-0 group-hover:translate-x-1 group-focus-visible:translate-x-1"
+            width={iconSize}
+            height={iconHeight}
+            color={iconColor}
+          />
+          <ArrowRightPixel
+            className="absolute inset-0 opacity-0 transition-all duration-200 ease-out group-hover:opacity-100 group-hover:translate-x-1 group-focus-visible:opacity-100 group-focus-visible:translate-x-1"
+            width={iconSize}
+            height={iconHeight}
+            color={iconColor}
+          />
+        </span>
       ) : null}
     </>
   );

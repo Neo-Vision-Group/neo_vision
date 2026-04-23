@@ -9,6 +9,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "@/components/partials/motion/gsap-setup";
 import { cleanStega } from "@/sanity/lib/utils";
+import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
 
 export type StoryData = {
   eyebrow?: string;
@@ -130,12 +131,17 @@ export function Story({ data }: { data?: StoryData }) {
   return (
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
       <div className="flex flex-col gap-12">
-        <h2 className="text-[32px] leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-[900px]">
-          <span className="text-foreground/70">{story.heading.faded} </span>
-          <span className="font-bold">{story.heading.bold}</span>
-          <br />
-          <span className="text-foreground/70">{story.heading.trailing}</span>
-        </h2>
+        <SplitTextReveal
+          stagger={0.05}
+          duration={0.6}
+        >
+          <h2 className="text-[32px] leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-[900px]">
+            <span className="text-foreground/70">{story.heading.faded} </span>
+            <span className="font-bold">{story.heading.bold}</span>
+            <br />
+            <span className="text-foreground/70">{story.heading.trailing}</span>
+          </h2>
+        </SplitTextReveal>
 
         <div className="relative -mx-6">
           <div className="absolute top-[48px] left-0 w-full h-px bg-white/20 -z-10" />

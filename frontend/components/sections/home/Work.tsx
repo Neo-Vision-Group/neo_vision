@@ -102,7 +102,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
     <div className="group relative isolate flex justify-center overflow-hidden px-6 py-6 transition-all duration-300 ease-out lg:px-6">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -123,7 +123,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="text-caption tracking-[-0.16px]">
               {item.client}
             </span>
-            <span className="font-display text-[32px] leading-[38px] tracking-[-0.2px] text-foreground">
+            <span className="font-betatron text-[32px] leading-[38px] tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>
@@ -131,7 +131,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             href={item.thumbHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/10 p-2 text-body text-foreground transition-colors hover:bg-white/15"
+            className="bg-white/10 p-2 text-body dark:text-white text-black transition-colors hover:bg-white/15"
           >
             See website
           </Link>
@@ -168,23 +168,19 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
 
         <div className="flex w-full flex-col justify-between gap-6 p-4 md:p-6">
+          <Link href={item.ctaHref}>
+            <Button variant="primary">{item.ctaLabel}</Button>
+          </Link>
+
           <div className="flex flex-col">
-            <span className="text-caption tracking-[-0.16px] text-brand">
+            <span className="text-caption capitalize tracking-[-0.16px] text-brand">
               {item.category}
             </span>
-            <span className="font-display text-[32px] leading-[38px] tracking-[-0.2px] text-foreground">
+            <span className="font-funnel dark:text-white text-black text-[32px] leading-[38px] tracking-[-0.2px]">
               {item.name}
             </span>
-            <p className="text-body text-foreground/70">{item.tagline}</p>
+            <p className="text-funnel text-[#EFEFEFB3] text-[18px]">{item.tagline}</p>
           </div>
-
-          <Link
-            href={item.ctaHref}
-            className="inline-flex w-fit items-center justify-center gap-3 bg-brand px-6 py-3 text-white transition-colors hover:bg-brand-hover"
-          >
-            <span className="text-body">{item.ctaLabel}</span>
-            <ArrowRight color="white" width={38} height={24} />
-          </Link>
         </div>
       </div>
     </div>

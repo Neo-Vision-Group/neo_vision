@@ -9,19 +9,8 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "@/components/partials/motion/gsap-setup";
-
-/**
- * The Team — frame 141:10964.
- *
- * Horizontal member scroller with three interactive polish layers:
- *
- * 1. **No-scrollbar** — CSS class hides the native scroller chrome.
- * 2. **Custom drag cursor** — SVG data-URL cursor reflecting drag intent.
- * 3. **Scroll-linked lightening** — members fade in as they enter the view.
- * 4. **Pointer drag-to-scroll** — desktop pointer drag support.
- *
- * Sanity-aware: pass `data` driving the section from a Sanity doc.
- */
+import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
+import TeamArrowRight from '@/components/icons/TeamArrowRight'
 
 export type TeamMember = {
   name: string;
@@ -218,11 +207,7 @@ export function Team({ data }: { data?: TeamData }) {
                 onClick={() => scroll("prev")}
                 className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
               >
-                <img
-                  src="https://www.figma.com/api/mcp/asset/9b1e78f6-55b8-44e3-a874-335631fe1571"
-                  alt=""
-                  className="size-6 rotate-180 brightness-0 invert"
-                />
+                <TeamArrowLeft />
               </button>
               <button
                 type="button"
@@ -230,11 +215,7 @@ export function Team({ data }: { data?: TeamData }) {
                 onClick={() => scroll("next")}
                 className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
               >
-                <img
-                  src="https://www.figma.com/api/mcp/asset/6a8d91ff-0ab1-4028-a8b1-76fb309269c9"
-                  alt=""
-                  className="size-6 brightness-0 invert"
-                />
+                <TeamArrowRight />
               </button>
             </div>
           )}
@@ -252,7 +233,7 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:flex-row md:items-center md:pr-48"
+                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] lg:flex-row md:items-center md:pr-48"
                 >
                   <div className="flex flex-1 flex-col items-end">
                     <div className="flex w-full flex-col gap-12 md:max-w-[650px] md:gap-16 md:py-6">
@@ -262,7 +243,7 @@ export function Team({ data }: { data?: TeamData }) {
                             <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-[32px]">
                               {member.name}
                             </p>
-                            <p className="font-funnel text-[16px] leading-normal text-foreground/70 md:text-[18px]">
+                            <p className="font-funnel text-[16px] leading-normal text-[#EFEFEFB3] md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
