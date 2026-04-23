@@ -582,9 +582,7 @@ export type Booking = {
   eyebrow?: string
   heading?: Heading
   callTitle: string
-  callWithName: string
-  callWithRole?: string
-  callWithMeta?: string
+  teamMember: TeamMemberReference
   whatToExpectHeading?: string
   expectations: Array<string>
   schedulerUrl?: string
@@ -1706,9 +1704,7 @@ export type PageQueryResult = {
         eyebrow?: string
         heading: Heading | null
         callTitle: string
-        callWithName: string
-        callWithRole?: string
-        callWithMeta?: string
+        teamMember: TeamMemberReference
         whatToExpectHeading?: string
         expectations: Array<string>
         schedulerUrl?: string

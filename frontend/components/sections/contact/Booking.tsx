@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import Image from "@/components/SanityImage";
 import { cleanStega } from "@/sanity/lib/utils";
 
 export type BookingData = {
@@ -134,10 +135,13 @@ export function Booking({ data }: { data?: BookingData }) {
             <div className="flex items-center gap-4">
               <div className="relative h-[50px] w-[50px]">
                 {cleanData?.teamMember?.portrait?.asset?._ref ? (
-                  <img
-                    src={`https://cdn.sanity.io/images/${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}/${process.env.NEXT_PUBLIC_SANITY_DATASET}/${cleanData.teamMember.portrait.asset._ref.replace('image-', '').replace('-webp', '.webp').replace('-jpg', '.jpg').replace('-png', '.png')}`}
+                  <Image
+                    id={cleanData.teamMember.portrait.asset._ref}
                     alt={cleanData.teamMember.name || 'Team member'}
                     className="h-full w-full object-cover"
+                    height={50}
+                    width={50}
+                    mode="cover"
                   />
                 ) : (
                   <div className="absolute inset-0 bg-[#0f0f0f]" />
