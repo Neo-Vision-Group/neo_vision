@@ -52,9 +52,9 @@ export type ValueCard = {
   body?: string
 }
 
-export type InsightsResourcesHeading = {
+export type RealityHeading = {
   faded?: string
-  bold?: string
+  bold: string
 }
 
 export type InsightsCtaHeading = {
@@ -75,6 +75,31 @@ export type PortfolioCtaHeading = {
 export type PlaceCta = {
   label?: string
   href?: string
+}
+
+export type FreeResourcesHeading = {
+  faded?: string
+  bold?: string
+  regular?: string
+  trailing?: string
+}
+
+export type Quote = {
+  quote?: string
+  attribution?: string
+}
+
+export type Table = {
+  headers?: Array<string>
+  rows?: Array<{
+    cells?: Array<string>
+    _key: string
+  }>
+}
+
+export type Card = {
+  label?: string
+  body?: string
 }
 
 export type SanityImageAssetReference = {
@@ -100,20 +125,106 @@ export type Texture = {
   _type: 'image'
 }
 
-export type StudyClosingCta = {
-  _type: 'studyClosingCta'
-  heading?: {
-    regular: string
-    bold: string
-  }
-  body?: string
-  cta?: Button
+export type StudyApproachHeading = {
+  faded?: string
+  bold: string
 }
 
-export type Button = {
-  _type: 'button'
-  buttonText?: string
-  link?: Link
+export type StudyApproachCallout = {
+  label?: string
+  body?: string
+}
+
+export type Comparison = {
+  beforeLabel?: string
+  afterLabel?: string
+  rows: Array<{
+    label: string
+    before: string
+    after: string
+    _key: string
+  }>
+}
+
+export type StudyTestimonialQuote = {
+  quote: string
+  attribution: string
+  source?: string
+  accent?: boolean
+}
+
+export type StudyMoreLikeThisHeading = {
+  regular?: string
+  bold?: string
+}
+
+export type StudyClosingCtaHeading = {
+  regular: string
+  bold: string
+}
+
+export type ObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type SanityFileAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
+}
+
+export type ResourceFile = {
+  asset?: SanityFileAssetReference
+  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  _type: 'file'
+}
+
+export type SoundFamiliar = {
+  _type: 'soundFamiliar'
+  eyebrow?: string
+  heading?: string
+  painPoints?: Array<{
+    title: string
+    body?: string
+    _key: string
+  }>
+}
+
+export type IsThisForYou = {
+  _type: 'isThisForYou'
+  eyebrow?: string
+  heading: string
+  items: Array<{
+    text: string
+    _key: string
+  }>
+}
+
+export type FreeResources = {
+  _type: 'freeResources'
+  eyebrow?: string
+  heading?: FreeResourcesHeading
+  body?: string
+  items?: Array<{
+    title: string
+    description?: string
+    file?: ResourceFile
+    externalUrl?: string
+    _type: 'resource'
+    _key: string
+  }>
+}
+
+export type StudyClosingCta = {
+  _type: 'studyClosingCta'
+  heading?: StudyClosingCtaHeading
+  body?: string
+  cta?: Button
 }
 
 export type Place = {
@@ -147,10 +258,7 @@ export type ProjectReference = {
 
 export type StudyMoreLikeThis = {
   _type: 'studyMoreLikeThis'
-  heading?: {
-    regular?: string
-    bold?: string
-  }
+  heading?: StudyMoreLikeThisHeading
   items: Array<
     {
       _key: string
@@ -167,12 +275,7 @@ export type StudyTechStack = {
 export type StudyTestimonial = {
   _type: 'studyTestimonial'
   eyebrow?: string
-  quote?: {
-    quote: string
-    attribution: string
-    source?: string
-    accent?: boolean
-  }
+  quote?: StudyTestimonialQuote
 }
 
 export type StudyNumbers = {
@@ -195,15 +298,63 @@ export type StudyWhatWeBuilt = {
     number: string
     title: string
     body: string
-    image?: {
-      asset?: SanityImageAssetReference
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
+    image?: ObjectImage
     _key: string
   }>
+}
+
+export type StudyKeyWins = {
+  _type: 'studyKeyWins'
+  eyebrow?: string
+  heading?: string
+  comparison?: Comparison
+}
+
+export type StudyApproach = {
+  _type: 'studyApproach'
+  eyebrow?: string
+  heading?: StudyApproachHeading
+  body?: string
+  callout?: StudyApproachCallout
+}
+
+export type StudyChallenge = {
+  _type: 'studyChallenge'
+  eyebrow?: string
+  heading: string
+  body?: string
+  issues?: Array<{
+    tag: string
+    body: string
+    _key: string
+  }>
+}
+
+export type StudyHero = {
+  _type: 'studyHero'
+  eyebrow?: string
+  heading: string
+  subheading?: string
+  chapters?: Array<string>
+  heroImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type StudyHeroImage = {
+  _type: 'studyHeroImage'
+  image: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  alt?: string
 }
 
 export type SanityImageCrop = {
@@ -222,58 +373,31 @@ export type SanityImageHotspot = {
   width: number
 }
 
-export type StudyKeyWins = {
-  _type: 'studyKeyWins'
-  eyebrow?: string
-  heading?: string
-  comparison?: {
-    beforeLabel?: string
-    afterLabel?: string
-    rows: Array<{
-      label: string
-      before: string
-      after: string
+export type InsightBlock = {
+  _type: 'insightBlock'
+  title: string
+  text?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
       _key: string
     }>
-  }
-}
-
-export type StudyApproach = {
-  _type: 'studyApproach'
-  eyebrow?: string
-  heading?: {
-    faded?: string
-    bold: string
-  }
-  body?: string
-  callout?: {
-    label?: string
-    body?: string
-  }
-}
-
-export type StudyChallenge = {
-  _type: 'studyChallenge'
-  eyebrow?: string
-  heading: string
-  body?: string
-  issues?: Array<{
-    tag: string
-    body: string
+    style?: 'normal' | 'h3'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
     _key: string
   }>
-}
-
-export type StudyHeroImage = {
-  _type: 'studyHeroImage'
-  image: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  alt?: string
+  sectionType?: 'none' | 'quote' | 'table' | 'card'
+  quote?: Quote
+  table?: Table
+  card?: Card
 }
 
 export type InsightsCta = {
@@ -281,23 +405,6 @@ export type InsightsCta = {
   heading?: InsightsCtaHeading
   body?: string
   cta?: InsightsCtaCta
-}
-
-export type InsightsResources = {
-  _type: 'insightsResources'
-  eyebrow?: string
-  heading?: InsightsResourcesHeading
-  body?: string
-  items?: Array<{
-    title: string
-    category?: string
-    description?: string
-    iconLetter?: string
-    downloadUrl?: string
-    externalUrl?: string
-    _type: 'resource'
-    _key: string
-  }>
 }
 
 export type PostReference = {
@@ -367,6 +474,19 @@ export type PortfolioFeatured = {
   caseStudy: ProjectReference
 }
 
+export type Reality = {
+  _type: 'reality'
+  eyebrow?: string
+  heading?: RealityHeading
+  body?: string
+  points?: Array<{
+    title: string
+    body?: string
+    _key: string
+  }>
+  cta?: Button
+}
+
 export type Industries = {
   _type: 'industries'
   eyebrow?: string
@@ -399,6 +519,12 @@ export type AiServices = {
     cta: Button
     _key: string
   }>
+}
+
+export type Button = {
+  _type: 'button'
+  buttonText?: string
+  link?: Link
 }
 
 export type EngineeringServices = {
@@ -656,7 +782,7 @@ export type PageHero = {
     label: string
     _key: string
   }>
-  featured?: ProjectReference
+  featured?: ProjectReference | PostReference
 }
 
 export type List = {
@@ -732,6 +858,25 @@ export type BlockContent = Array<
     }
 >
 
+export type ContactSubmission = {
+  _id: string
+  _type: 'contactSubmission'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  email: string
+  company?: string
+  phone?: string
+  projectType?: string
+  budget?: string
+  message: string
+  source?: string
+  receivedAt: string
+  status?: 'new' | 'reviewed' | 'responded' | 'archived'
+  notes?: string
+}
+
 export type Testimonial = {
   _id: string
   _type: 'testimonial'
@@ -771,6 +916,38 @@ export type Project = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
+  >
   challenge?: {
     eyebrow?: string
     heading?: string
@@ -1065,6 +1242,11 @@ export type Post = {
     } & PostReference
   >
   order?: number
+  pageBuilder?: Array<
+    {
+      _key: string
+    } & InsightBlock
+  >
 }
 
 export type TeamMember = {
@@ -1157,6 +1339,9 @@ export type Page = {
       } & Industries)
     | ({
         _key: string
+      } & Reality)
+    | ({
+        _key: string
       } & Faq)
     | ({
         _key: string
@@ -1164,9 +1349,6 @@ export type Page = {
     | ({
         _key: string
       } & InsightsGrid)
-    | ({
-        _key: string
-      } & InsightsResources)
     | ({
         _key: string
       } & InsightsCta)
@@ -1185,6 +1367,9 @@ export type Page = {
     | ({
         _key: string
       } & Place)
+    | ({
+        _key: string
+      } & FreeResources)
   >
 }
 
@@ -1256,7 +1441,13 @@ export type Service = {
       } & EngineeringServices)
     | ({
         _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
       } & Faq)
+    | ({
+        _key: string
+      } & IsThisForYou)
   >
 }
 
@@ -1510,16 +1701,31 @@ export type AllSanitySchemaTypes =
   | Heading
   | Callout
   | ValueCard
-  | InsightsResourcesHeading
+  | RealityHeading
   | InsightsCtaHeading
   | InsightsCtaCta
   | PortfolioCtaHeading
   | PlaceCta
+  | FreeResourcesHeading
+  | Quote
+  | Table
+  | Card
   | SanityImageAssetReference
   | Logo
   | Texture
+  | StudyApproachHeading
+  | StudyApproachCallout
+  | Comparison
+  | StudyTestimonialQuote
+  | StudyMoreLikeThisHeading
+  | StudyClosingCtaHeading
+  | ObjectImage
+  | SanityFileAssetReference
+  | ResourceFile
+  | SoundFamiliar
+  | IsThisForYou
+  | FreeResources
   | StudyClosingCta
-  | Button
   | Place
   | ProjectReference
   | StudyMoreLikeThis
@@ -1527,14 +1733,15 @@ export type AllSanitySchemaTypes =
   | StudyTestimonial
   | StudyNumbers
   | StudyWhatWeBuilt
-  | SanityImageCrop
-  | SanityImageHotspot
   | StudyKeyWins
   | StudyApproach
   | StudyChallenge
+  | StudyHero
   | StudyHeroImage
+  | SanityImageCrop
+  | SanityImageHotspot
+  | InsightBlock
   | InsightsCta
-  | InsightsResources
   | PostReference
   | InsightsGrid
   | InsightsFeatured
@@ -1542,9 +1749,11 @@ export type AllSanitySchemaTypes =
   | PortfolioCta
   | PortfolioGrid
   | PortfolioFeatured
+  | Reality
   | Industries
   | ServiceReference
   | AiServices
+  | Button
   | EngineeringServices
   | Faq
   | Why
@@ -1570,6 +1779,7 @@ export type AllSanitySchemaTypes =
   | Link
   | BlockContentTextOnly
   | BlockContent
+  | ContactSubmission
   | Testimonial
   | Project
   | Slug

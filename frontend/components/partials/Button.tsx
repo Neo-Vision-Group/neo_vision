@@ -46,12 +46,14 @@ const baseStyles =
   "group inline-flex items-center justify-center whitespace-nowrap font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none";
 
 export function Button(props: ButtonProps) {
+  const isLink = "href" in props && typeof props.href === "string";
   const {
     variant = "primary",
     size = "md",
     icon = variant !== "ghost",
     className,
     children,
+    ...rest
   } = props;
 
   const classes = cn(
@@ -87,12 +89,14 @@ export function Button(props: ButtonProps) {
     </>
   );
 
-  if ("href" in props && props.href) {
+  if (isLink) {
+    const linkProps = rest as Omit<AsLink, keyof BaseProps>;
+
     return (
       <Link
-        href={props.href}
-        target={props.target}
-        rel={props.rel}
+        href={linkProps.href}
+        target={linkProps.target}
+        rel={linkProps.rel}
         className={classes}
       >
         {content}
@@ -100,11 +104,8 @@ export function Button(props: ButtonProps) {
     );
   }
 
-  const { variant: _v, size: _s, icon: _i, className: _c, children: _ch, ...rest } = props as AsButton;
-  void _v; void _s; void _i; void _c; void _ch;
-
   return (
-    <button className={classes} {...rest}>
+    <button className={classes} {...(rest as Omit<AsButton, keyof BaseProps>)}>
       {content}
     </button>
   );

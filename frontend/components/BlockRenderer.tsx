@@ -36,7 +36,7 @@ import { StudyClosingCta, StudyClosingCtaData } from '@/components/sections/stud
 import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/insights/InsightsFeatured'
 import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
 import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
-import { InsightBlock, InsightBlockData } from '@/components/sections/insights/InsightBlock'
+import { InsightBlock, InsightBlockData, InsightBlockQueryResponse } from '@/components/sections/insights/InsightBlock'
 import { Booking, BookingData } from '@/components/sections/contact/Booking'
 import { SoundFamiliar, SoundFamiliarData } from '@/components/sections/services/SoundFamiliar'
 import { Place, PlaceData } from '@/components/sections/about/Place'
@@ -56,127 +56,127 @@ type BlocksType = {
 
 const Blocks = {
   pageHero: ({block}: BlockProps) => {
-    return <PageHero data={block as any as PageHeroData} />
+    return <PageHero data={block as PageHeroData} />
   },
   contactHero: ({block}: BlockProps) => {
-    return <ContactHero data={block as any as ContactHeroData} />
+    return <ContactHero data={block  as ContactHeroData} />
   },
   homeHero: ({block}: BlockProps) => {
-    return <Hero data={block as any as HeroData} />
+    return <Hero data={block as HeroData} />
   },
   origin: ({block}: BlockProps) => {
-    return <Origin data={block as any as OriginData} />
+    return <Origin data={block  as OriginData} />
   },
   whatWeDo: ({block}: BlockProps) => {
-    return <WhatWeDo data={block as any as WhatWeDoData} />
+    return <WhatWeDo data={block  as WhatWeDoData} />
   },
   signature: ({block}: BlockProps) => {
-    return <Signature data={block as any as SignatureData} />
+    return <Signature data={block  as SignatureData} />
   },
   why: ({block}: BlockProps) => {
-    return <Why data={block as any as WhyData} />
+    return <Why data={block  as WhyData} />
   },
   story: ({block}: BlockProps) => {
-    return <Story data={block as any as StoryData} />
+    return <Story data={block  as StoryData} />
   },
   team: ({block}: BlockProps) => {
-    return <Team data={block as any as TeamData} />
+    return <Team data={block  as TeamData} />
   },
   methodology: ({block}: BlockProps) => {
-    return <Methodology data={block as any as MethodologyData} />
+    return <Methodology data={block  as MethodologyData} />
   },
   testimonials: ({block}: BlockProps) => {
-    return <TrustedBy data={block as any as TrustedByData} />
+    return <TrustedBy data={block  as TrustedByData} />
   },
   portfolio: ({block}: BlockProps) => {
-    return <OurWork data={block as any as PortfolioData} />
+    return <OurWork data={block  as PortfolioData} />
   },
   cta: ({block}: BlockProps) => {
-    return <ClosingCta data={block as any as CtaData} />
+    return <ClosingCta data={block  as CtaData} />
   },
   engineeringServices: ({block}: BlockProps) => {
-    return <EngineeringServices data={block as any as EngineeringServicesData} />
+    return <EngineeringServices data={block  as EngineeringServicesData} />
   },
   industries: ({block}: BlockProps) => {
-    return <Industries data={block as any as IndustryData} />
+    return <Industries data={block  as IndustryData} />
   },
   reality: ({block}: BlockProps) => {
-    return <Reality data={block as any as RealityData} />
+    return <Reality data={block  as RealityData} />
   },
   faq: ({block}: BlockProps) => {
-    return <FAQ data={block as any as FaqData} />
+    return <FAQ data={block  as FaqData} />
   },
   portfolioFeatured: ({block}: BlockProps) => {
-    return <PortfolioFeatured data={block as any as PortfolioFeaturedData} />
+    return <PortfolioFeatured data={block  as PortfolioFeaturedData} />
   },
   portfolioGrid: ({block}: BlockProps) => {
-    return <PortfolioGrid data={block as any as PortfolioGridData} />
+    return <PortfolioGrid data={block  as PortfolioGridData} />
   },
   portfolioCta: ({block}: BlockProps) => {
-    return <PortfolioCta data={block as any as PortfolioCtaData} />
+    return <PortfolioCta data={block  as PortfolioCtaData} />
   },
   portfolioMetrics: ({block}: BlockProps) => {
-    return <PortfolioMetrics data={block as any as PortfolioMetricsData} />
+    return <PortfolioMetrics data={block  as PortfolioMetricsData} />
   },
   studyHeroImage: ({block}: BlockProps) => {
-    return <StudyHeroImage data={block as any as StudyHeroImageData} />
+    return <StudyHeroImage data={block  as StudyHeroImageData} />
   },
   studyHero: ({block}: BlockProps) => {
-    return <StudyHero data={block as any as StudyHeroData} />
+    return <StudyHero data={block  as StudyHeroData} />
   },
   studyChallenge: ({block}: BlockProps) => {
-    return <StudyChallenge data={block as any as StudyChallengeData} />
+    return <StudyChallenge data={block  as StudyChallengeData} />
   },
   studyApproach: ({block}: BlockProps) => {
-    return <StudyApproach data={block as any as StudyApproachData} />
+    return <StudyApproach data={block  as StudyApproachData} />
   },
   studyKeyWins: ({block}: BlockProps) => {
-    return <StudyKeyWins data={block as any as StudyKeyWinsData} />
+    return <StudyKeyWins data={block  as StudyKeyWinsData} />
   },
   studyWhatWeBuilt: ({block}: BlockProps) => {
-    return <StudyWhatWeBuilt data={block as any as StudyWhatWeBuiltData} />
+    return <StudyWhatWeBuilt data={block  as StudyWhatWeBuiltData} />
   },
   studyNumbers: ({block}: BlockProps) => {
-    return <StudyNumbers data={block as any as StudyNumbersData} />
+    return <StudyNumbers data={block  as StudyNumbersData} />
   },
   studyTestimonial: ({block}: BlockProps) => {
-    return <StudyTestimonial data={block as any as StudyTestimonialData} />
+    return <StudyTestimonial data={block  as StudyTestimonialData} />
   },
   studyTechStack: ({block}: BlockProps) => {
-    return <StudyTechStack data={block as any as StudyTechStackData} />
+    return <StudyTechStack data={block  as StudyTechStackData} />
   },
   studyMoreLikeThis: ({block}: BlockProps) => {
-    return <StudyMoreLikeThis data={block as any as StudyMoreLikeThisData} />
+    return <StudyMoreLikeThis data={block  as StudyMoreLikeThisData} />
   },
   studyClosingCta: ({block}: BlockProps) => {
-    return <StudyClosingCta data={block as any as StudyClosingCtaData} />
+    return <StudyClosingCta data={block  as StudyClosingCtaData} />
   },
   insightsFeatured: ({block}: BlockProps) => {
-    return <InsightsFeatured data={block as any as InsightsFeaturedData} />
+    return <InsightsFeatured data={block  as InsightsFeaturedData} />
   },
   insightsGrid: ({block}: BlockProps) => {
-    return <InsightsGrid data={block as any as InsightsGridData} />
+    return <InsightsGrid data={block  as InsightsGridData} />
   },
   insightsCta: ({block}: BlockProps) => {
-    return <InsightsCta data={block as any as InsightsCtaData} />
+    return <InsightsCta data={block  as InsightsCtaData} />
   },
   insightBlock: ({block}: BlockProps) => {
-    return <InsightBlock data={block as any as InsightBlockData} />
+    return <InsightBlock data={block as InsightBlockQueryResponse} />
   },
   booking: ({block}: BlockProps) => {
-    return <Booking data={block as any as BookingData} />
+    return <Booking data={block  as BookingData} />
   },
   soundFamiliar: ({block}: BlockProps) => {
-    return <SoundFamiliar data={block as any as SoundFamiliarData} />
+    return <SoundFamiliar data={block  as SoundFamiliarData} />
   },
   place: ({block}: BlockProps) => {
-    return <Place data={block as any as PlaceData} />
+    return <Place data={block  as PlaceData} />
   },
   freeResources: ({block}: BlockProps) => {
-    return <FreeResources data={block as any as FreeResourcesData} />
+    return <FreeResources data={block  as FreeResourcesData} />
   },
   isThisForYou: ({block}: BlockProps) => {
-    return <IsThisForYou data={block as any as IsThisForYouData} />
+    return <IsThisForYou data={block  as IsThisForYouData} />
   }
 } as BlocksType
 

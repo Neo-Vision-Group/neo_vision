@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -8,8 +9,9 @@ export type InsightsFeaturedData = {
 
 export function InsightsFeatured({ data }: { data?: InsightsFeaturedData }) {
   const cleanData = data ? cleanStega(data) : data;
+  const featuredInsight = useMemo(() => cleanData?.insight, [cleanData]);
 
-  if (!cleanData?.insight) {
+  if (!featuredInsight) {
     return null;
   }
 
@@ -19,7 +21,7 @@ export function InsightsFeatured({ data }: { data?: InsightsFeaturedData }) {
       eyebrow="FEATURED"
     >
       <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <ArticleCard article={cleanData.insight} featured />
+        <ArticleCard article={featuredInsight} featured />
       </div>
     </SectionsWrapper>
   );

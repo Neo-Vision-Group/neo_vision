@@ -3,19 +3,93 @@ import Link from 'next/link'
 import { ComparisonTable } from '@/components/partials/ComparisonTable'
 import { CalloutCard } from '@/components/partials/CalloutCard'
 
-const portableTextComponents: any = {
+// Type for the GROQ query response (includes _key from Sanity)
+export type InsightBlockQueryResponse = {
+  _key: string
+  _type: 'insightBlock'
+  title?: string
+  text?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h3'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  sectionType?: 'none' | 'quote' | 'table' | 'card'
+  quote?: {
+    quote?: string
+    attribution?: string
+  }
+  table?: {
+    headers?: string[]
+    rows?: Array<{ cells?: string[]; _key: string }>
+  }
+  card?: {
+    label?: string
+    body?: string
+  }
+}
+
+// Type for component props (cleaner, no _key)
+export interface InsightBlockData {
+  title?: string
+  text?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal' | 'h3'
+    listItem?: 'bullet' | 'number'
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  sectionType?: 'none' | 'quote' | 'table' | 'card'
+  quote?: {
+    quote?: string
+    attribution?: string
+  }
+  table?: {
+    headers?: string[]
+    rows?: Array<{ cells?: string[]; _key: string }>
+  }
+  card?: {
+    label?: string
+    body?: string
+  }
+}
+
+const portableTextComponents = {
   block: {
-    normal: ({ children }: any) => (
+    normal: ({ children }: { children?: React.ReactNode }) => (
       <p className="my-5 text-[18px] text-foreground/80 leading-normal">{children}</p>
     ),
-    h3: ({ children }: any) => (
+    h3: ({ children }: { children?: React.ReactNode }) => (
       <h3 className="mt-10 mb-3 text-[32px] font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
     ),
   },
   marks: {
-    strong: ({ children }: any) => <strong className="font-bold text-foreground">{children}</strong>,
-    em: ({ children }: any) => <em>{children}</em>,
-    link: (props: any) => {
+    strong: ({ children }: { children?: React.ReactNode }) => <strong className="font-bold text-foreground">{children}</strong>,
+    em: ({ children }: { children?: React.ReactNode }) => <em>{children}</em>,
+    link: (props: { value?: { href?: string }; children?: React.ReactNode }) => {
       const { value, children } = props
       const href = value?.href ? String(value.href) : '#'
       const external = /^https?:/i.test(href)
@@ -38,25 +112,6 @@ const portableTextComponents: any = {
       )
     },
   },
-}
-
-export interface InsightBlockData {
-  _type: 'insightBlock'
-  title: string
-  text: any[]
-  sectionType: 'none' | 'quote' | 'table' | 'card'
-  quote?: {
-    quote: string
-    attribution?: string
-  }
-  table?: {
-    headers: string[]
-    rows: { cells: string[] }[]
-  }
-  card?: {
-    label: string
-    body: string
-  }
 }
 
 interface InsightBlockProps {
@@ -107,9 +162,9 @@ export function InsightBlock({ data }: InsightBlockProps) {
               beforeLabel={table.headers[1] || 'Before'}
               afterLabel={table.headers[2] || 'After'}
               rows={table.rows.map((row) => ({
-                label: row.cells[0] || '',
-                before: row.cells[1] || '',
-                after: row.cells[2] || '',
+                label: row.cells?.[0] || '',
+                before: row.cells?.[1] || '',
+                after: row.cells?.[2] || '',
               }))}
             />
           </div>

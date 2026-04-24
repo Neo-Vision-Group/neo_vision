@@ -2,6 +2,35 @@ import { SectionsWrapper } from "@/components/SectionsWrapper"
 import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll"
 import Link from "next/link"
 
+type RealityPoint = {
+  title: string
+  body?: string
+}
+
+type RealityHeading = {
+  faded?: string
+  bold: string
+}
+
+type RealityCta = {
+  buttonText?: string
+  link?: {
+    linkType?: 'href' | 'page' | 'post'
+    href?: string
+    page?: string
+    post?: string
+    openInNewTab?: boolean
+  }
+}
+
+export type RealityData = {
+  eyebrow?: string
+  heading?: RealityHeading
+  body?: string
+  points?: RealityPoint[]
+  cta?: RealityCta
+}
+
 function getHref(link: any): string {
   if (!link) return "#";
   if (link.linkType === "href") return link.href || "#";
@@ -10,7 +39,7 @@ function getHref(link: any): string {
   return "#";
 }
 
-export function Reality({ data }: { data: any }) {
+export function Reality({ data }: { data: RealityData }) {
     const ctaHref = data.cta?.link ? getHref(data.cta.link) : null;
     
     return (
@@ -25,12 +54,13 @@ export function Reality({ data }: { data: any }) {
               {data.body}
             </p>
           ) : null}
-          <RevealOnScroll
-            as="div"
-            stagger={0.08}
-            className="grid grid-cols-1 gap-4 md:grid-cols-3"
-          >
-            {data.points.map((p: any, idx: number) => (
+          {data.points && data.points.length > 0 ? (
+            <RevealOnScroll
+              as="div"
+              stagger={0.08}
+              className="grid grid-cols-1 gap-4 md:grid-cols-3"
+            >
+              {data.points.map((p, idx) => (
               <article
                 key={(p.title ?? "pt") + idx}
                 className="flex flex-col gap-3 border border-white/10 bg-surface p-6"
@@ -40,6 +70,7 @@ export function Reality({ data }: { data: any }) {
               </article>
             ))}
           </RevealOnScroll>
+          ) : null}
           {data.cta && data.cta.buttonText && ctaHref ? (
             <div className="flex justify-center pt-4">
               <Link 

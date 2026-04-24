@@ -94,6 +94,7 @@ export const page = defineType({
         {type: 'portfolioMetrics'},
         {type: 'place'},
         {type: 'freeResources'},
+        {type: 'insightBlock'},
       ],
       options: {
         insertMenu: {

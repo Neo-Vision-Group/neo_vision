@@ -67,32 +67,17 @@ export function Hero({ data }: { data?: HeroData }) {
         </video>
       </div>
 
-      <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-[120px] 2xl:pt-24">
+      <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-30 2xl:pt-24">
         <div className="flex w-full flex-col gap-3 md:gap-4">
           <SplitTextReveal
             as="span"
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light font-betatron dark:text-white text-black text-[28px] leading-none tracking-tight md:text-[36px] lg:text-[40px] 2xl:text-[48px]"
+            className="inline-block font-light uppercase text-[28px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[36px] lg:text-[40px] 2xl:text-[200px]"
           >
             {hero.label}
           </SplitTextReveal>
-          <RevealOnScroll
-            as="div"
-            from="bottom"
-            distance={40}
-            duration={1.1}
-            delay={0.35}
-            className="w-full max-w-[260px] md:max-w-[340px] lg:max-w-[520px] xl:max-w-[620px] 2xl:max-w-[760px]"
-          >
-            <img
-              src="/figma/1210-logotype.svg"
-              alt="1210"
-              className="block h-auto w-full select-none"
-              draggable={false}
-            />
-          </RevealOnScroll>
         </div>
 
         <RevealOnScroll
@@ -102,7 +87,7 @@ export function Hero({ data }: { data?: HeroData }) {
           duration={0.8}
           delay={0.7}
           stagger={0.15}
-          className="flex w-full max-w-[661px] flex-col gap-5 md:gap-6"
+          className="flex w-full max-w-165.25 flex-col gap-5 md:gap-6"
         >
           <div className="flex flex-col gap-2 text-foreground">
             <p className="text-[32px] font-medium leading-[32px] tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">

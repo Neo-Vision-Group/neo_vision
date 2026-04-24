@@ -2706,6 +2706,14 @@
             }
           },
           "optional": true
+        },
+        "cta": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "button"
+          },
+          "optional": true
         }
       }
     }

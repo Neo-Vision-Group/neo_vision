@@ -5,7 +5,6 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
 import "./gsap-setup";
-import { useTheme } from 'next-themes'
 
 export function SplitTextReveal({
   children,
@@ -19,7 +18,7 @@ export function SplitTextReveal({
   scrollTriggered = false,
   colorReveal = false,
   colorFrom = "rgba(239,239,239,0.25)",
-  colorTo = "rgba(239,239,239,1)",
+  colorTo,
   scrubStart = "top 75%",
   scrubEnd = "top 25%",
 }: {
@@ -47,14 +46,11 @@ export function SplitTextReveal({
 }) {
   const ref = useRef<HTMLElement>(null);
 
-  const { theme, setTheme } = useTheme()
-
-  const toColor = theme === "dark" ? "rgba(239,239,239,1)" : "rgba(0,0,0,1)"
-
   useGSAP(
     () => {
       const el = ref.current;
       if (!el) return;
+      const resolvedColor = colorTo ?? window.getComputedStyle(el).color;
 
       const mm = gsap.matchMedia();
       mm.add(
@@ -65,7 +61,7 @@ export function SplitTextReveal({
         (ctx) => {
           if (ctx.conditions?.reduced) {
             if (colorReveal) {
-              gsap.set(el, { color: toColor });
+              gsap.set(el, { color: resolvedColor });
             } else {
               gsap.set(el, { opacity: 1 });
             }
@@ -77,7 +73,7 @@ export function SplitTextReveal({
             const split = SplitText.create(el, { type: "words" });
             gsap.set(split.words, { color: colorFrom });
             const tween = gsap.to(split.words, {
-              color: toColor,
+              color: resolvedColor,
               stagger,
               ease: "none",
               scrollTrigger: {
@@ -125,7 +121,7 @@ export function SplitTextReveal({
         }
       );
     },
-    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd, theme] }
+    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd] }
   );
 
   const Tag = Component as ElementType;

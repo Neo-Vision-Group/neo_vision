@@ -73,11 +73,14 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
     });
   }, [items, serviceFilter, industryFilter]);
 
-  // Convert slug objects to strings
-  const normalizedItems = filtered.map((item) => ({
-    ...item,
-    slug: typeof item.slug === 'string' ? item.slug : item.slug?.current ?? ''
-  }));
+  const normalizedItems = useMemo(
+    () =>
+      filtered.map((item) => ({
+        ...item,
+        slug: typeof item.slug === "string" ? item.slug : item.slug?.current ?? "",
+      })),
+    [filtered]
+  );
 
   if (items.length === 0) {
     return null;
@@ -195,7 +198,10 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
             className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
           >
             {normalizedItems.map((item, idx) => (
-              <CaseStudyCard key={item._id ?? (item.client || '') + idx} item={item as CaseStudyCardData} />
+              <CaseStudyCard
+                key={item._id ?? (item.client || "") + idx}
+                item={item as CaseStudyCardData}
+              />
             ))}
           </RevealOnScroll>
         )}
