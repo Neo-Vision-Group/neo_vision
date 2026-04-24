@@ -1,13 +1,9 @@
 import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
+import type { InsightAuthorData } from "@/lib/types/insight";
 
 interface InsightAuthorProps {
-  author?: {
-    name?: string;
-    role?: string;
-    bio?: string;
-    portrait?: any;
-  };
+  author?: InsightAuthorData | null;
 }
 
 export function InsightAuthor({ author }: InsightAuthorProps) {

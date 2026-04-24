@@ -44,6 +44,9 @@ Sanity Document (page / service / project)
        │
        ▼
   BlockRenderer (components/BlockRenderer.tsx)
+       │
+       ▼
+  BlockErrorBoundary (components/BlockErrorBoundary.tsx)
        │  — looks up block._type in the Blocks map
        ▼
   Section Component (components/sections/<category>/<Component>.tsx)
@@ -58,6 +61,7 @@ Sanity Document (page / service / project)
 | `frontend/sanity.types.ts` | **Auto-generated** by `sanity typegen generate` — never edit manually |
 | `frontend/components/PageBuilder.tsx` | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer` |
 | `frontend/components/BlockRenderer.tsx` | Maps `block._type` string → React component. **Every new page block must be registered here.** |
+| `frontend/components/BlockErrorBoundary.tsx` | Isolates individual page block render failures so one broken section does not crash the whole page |
 | `studio/src/schemaTypes/index.ts` | Registers all Sanity schema types (documents + objects) |
 | `studio/src/schemaTypes/documents/page.ts` | `page` document — **its `pageBuilder.of` array must list every block type available to main pages** |
 | `studio/src/schemaTypes/documents/service.ts` | `service` document — has its own `pageBuilder.of` array for service detail pages |

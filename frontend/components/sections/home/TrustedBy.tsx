@@ -1,16 +1,17 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { trustedBy as trustedByFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
 
-/**
- * Trusted By — frame 141:10693 (Desktop - 40).
- *
- *   ─── 3×2 logo-card grid (placeholder thumbnails + label) ───
- *   2×2 testimonial cards (quote mark + attribution + quote)
- */
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type Testimonial = {
   attribution: string;

@@ -816,7 +816,10 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     slug,
     excerpt,
     category,
-    "cover": cover.asset->url,
+    cover {
+      ...,
+      asset->
+    },
     publishedAt,
     readTime,
     featured,

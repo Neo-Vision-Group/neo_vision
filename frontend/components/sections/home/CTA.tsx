@@ -1,10 +1,25 @@
 "use client";
 
 import { Button } from "@/components/partials/Button";
-import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { closingCta as closingCtaFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type CtaData = {
   heading?: string;

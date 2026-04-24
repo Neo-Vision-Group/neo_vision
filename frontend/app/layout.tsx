@@ -57,6 +57,7 @@ const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
+  preload: true,
 })
 
 const ibmPlexMono = IBM_Plex_Mono({
@@ -64,18 +65,21 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ['400'],
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 })
 
 const funnelDisplay = Funnel_Display({
   variable: '--font-funnel-display',
   subsets: ['latin'],
   display: 'swap',
+  preload: false,
 })
 
 const betatron = localFont({
   src: './fonts/betatron.woff2',
   variable: '--font-betatron',
   display: 'swap',
+  preload: true,
 })
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {

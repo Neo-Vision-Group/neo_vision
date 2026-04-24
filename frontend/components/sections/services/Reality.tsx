@@ -1,6 +1,14 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper"
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll"
 import Link from "next/link"
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 type RealityPoint = {
   title: string

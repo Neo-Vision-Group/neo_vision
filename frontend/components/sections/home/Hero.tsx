@@ -1,70 +1,133 @@
 import { Button } from "../../../components/partials/Button";
-import { hero as heroFallback } from "../../../lib/content/home";
-import { RevealOnScroll } from "../../../components/partials/motion/RevealOnScroll";
-import { SplitTextReveal } from "../../../components/partials/motion/SplitTextReveal";
+import { resolveHeroContent } from "../../../lib/content/home";
+import type { DereferencedLink } from "../../../sanity/lib/types";
 import { cleanStega } from "../../../sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
+const HERO_VIDEO_POSTER =
+  "data:image/svg+xml;charset=UTF-8," +
+  encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+      <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#f4efe9" />
+          <stop offset="100%" stop-color="#ece3db" />
+        </linearGradient>
+        <radialGradient id="glowA" cx="78%" cy="24%" r="28%">
+          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.08" />
+          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="glowB" cx="24%" cy="82%" r="32%">
+          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.16" />
+          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <rect width="1600" height="900" fill="url(#bg)" />
+      <rect width="1600" height="900" fill="url(#glowA)" />
+      <rect width="1600" height="900" fill="url(#glowB)" />
+    </svg>
+  `);
 
 export type HeroData = {
   label?: string;
   heading?: string;
   body?: string;
-  primaryCta?: { buttonText?: string; link?: any } | null;
+  primaryCta?: { buttonText?: string; link?: DereferencedLink | null } | null;
   stats?: string;
   dimensionLine?: string;
   ctaText?: string;
-  secondaryCta?: { buttonText?: string; link?: any } | null;
+  secondaryCta?: { buttonText?: string; link?: DereferencedLink | null } | null;
 };
 
 export function Hero({ data }: { data?: HeroData }) {
   const cleanData = data ? cleanStega(data) : data;
-  
-  const hero = {
-    label: cleanData?.label ?? heroFallback.label,
-    heading: cleanData?.heading ?? heroFallback.heading,
-    body: cleanData?.body ?? heroFallback.body,
-    primaryCtaLabel: cleanData?.primaryCta?.buttonText ?? heroFallback.primaryCtaLabel,
-    primaryCtaHref: cleanData?.primaryCta?.link?.href ?? cleanData?.primaryCta?.link?.page ?? cleanData?.primaryCta?.link?.post ?? heroFallback.primaryCtaHref,
-    stats: cleanData?.stats ?? heroFallback.stats,
-    dimensionLine: cleanData?.dimensionLine ?? heroFallback.dimensionLine,
-    mergerNote: cleanData?.ctaText ? cleanData.ctaText.split('\n').filter(Boolean) : [...heroFallback.mergerNote],
-    secondaryCtaLabel: cleanData?.secondaryCta?.buttonText ?? heroFallback.secondaryCtaLabel,
-    secondaryCtaHref: cleanData?.secondaryCta?.link?.href ?? cleanData?.secondaryCta?.link?.page ?? cleanData?.secondaryCta?.link?.post ?? heroFallback.secondaryCtaHref,
-  };
+  const hero = resolveHeroContent(cleanData);
 
   return (
     <section
       id="hero"
       className="relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
     >
-      {/* Light mode video background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-white dark:hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-brand mix-blend-screen" />
-      </div>
-
-      {/* Dark mode video background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
+      {/* Light mode keeps the video inversion, but dials down how much orange the bright dots receive. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 dark:hidden">
+        <div className="absolute inset-0 bg-[#f4efe9]" />
         <div
           className="absolute inset-0"
-          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+          style={{
+            background: `
+              linear-gradient(180deg, rgba(244,239,233,0.98) 0%, rgba(244,239,233,0.92) 32%, rgba(244,239,233,0.84) 62%, rgba(244,239,233,0.94) 100%),
+              radial-gradient(circle at 24% 78%, rgba(157,43,3,0.12) 0%, rgba(157,43,3,0.03) 32%, rgba(157,43,3,0) 58%),
+              radial-gradient(circle at 82% 22%, rgba(157,43,3,0.05) 0%, rgba(157,43,3,0) 34%)
+            `,
+          }}
         />
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+          preload="metadata"
+          poster={HERO_VIDEO_POSTER}
+          className="absolute inset-0 h-full w-full object-cover mix-blend-difference opacity-[0.92]"
+          style={{ filter: "brightness(0.82) contrast(0.92) grayscale(1)" }}
         >
           <source src="/videos/hero.mp4" type="video/mp4" />
         </video>
+        <div className="absolute inset-0 bg-brand mix-blend-screen opacity-[0.14]" />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(244,239,233,0.16) 0%, rgba(244,239,233,0.08) 38%, rgba(244,239,233,0.06) 62%, rgba(244,239,233,0.18) 100%)",
+          }}
+        />
+      </div>
+
+      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
+        <div className="absolute inset-0 bg-[#040404]" />
+
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={HERO_VIDEO_POSTER}
+          className="absolute inset-0 h-full w-full object-cover opacity-55"
+          style={{
+            filter:
+              "brightness(0.42) contrast(1.18) saturate(0.72) sepia(0.28) hue-rotate(-14deg)",
+          }}
+        >
+          <source src="/videos/hero.mp4" type="video/mp4" />
+        </video>
+
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `
+              linear-gradient(180deg, rgba(4,4,4,0.78) 0%, rgba(4,4,4,0.42) 26%, rgba(4,4,4,0.18) 48%, rgba(4,4,4,0.54) 72%, rgba(4,4,4,0.82) 100%),
+              radial-gradient(circle at 82% 26%, rgba(157,43,3,0.18) 0%, rgba(157,43,3,0.02) 28%, rgba(157,43,3,0) 50%),
+              radial-gradient(circle at 24% 78%, rgba(157,43,3,0.34) 0%, rgba(157,43,3,0.12) 26%, rgba(157,43,3,0) 56%)
+            `,
+          }}
+        />
       </div>
 
       <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-30 2xl:pt-24">
@@ -139,7 +202,7 @@ export function Hero({ data }: { data?: HeroData }) {
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_2px_12px_rgba(255,65,0,0.5)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

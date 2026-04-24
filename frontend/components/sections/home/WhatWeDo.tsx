@@ -1,10 +1,18 @@
 "use client";
 
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ServicesPreviewCard from "@/components/partials/ServicesPreviewCard";
 import { services as servicesFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type WhatWeDoData = {
   eyebrow?: string;

@@ -1,23 +1,17 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { methodology as methodologyFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
 
-/**
- * Our Methodology — frame 141:10843.
- *
- * "NeoFlow" 6-step process presented as a 3×2 grid of cards. Each card
- * has a massive Betatron-style number in brand orange (96px, -5.76px
- * tracking), then step name + one-liner description.
- *
- * Card styling: bg-surface, white/10 border, p-8 (32px in Figma).
- *
- * Sanity-aware: pass `data` to override content (e.g. reused on About
- * with different copy). Falls back to home.ts if `data` is omitted or
- * null.
- */
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type MethodologyData = {
   eyebrow?: string;

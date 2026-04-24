@@ -7,9 +7,6 @@ export default async function Nav() {
     query: settingsQuery,
   })
 
-  console.log('Nav settings:', JSON.stringify(settings, null, 2))
-  console.log('Nav links:', settings?.navLinks)
-
   const logoUrl = settings?.logoPicture?.asset?.url;
 
   return (

@@ -53,6 +53,60 @@ export const hero = {
   secondaryCtaHref: "/about",
 } as const;
 
+type HeroLinkValue = {
+  href?: string | null;
+  page?: string | null;
+  post?: string | null;
+} | null;
+
+type HeroCtaValue = {
+  buttonText?: string | null;
+  link?: HeroLinkValue;
+} | null;
+
+export type ResolvedHeroContent = {
+  label: string;
+  heading: string;
+  body: string;
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+  stats: string;
+  dimensionLine: string;
+  mergerNote: string[];
+  secondaryCtaLabel: string;
+  secondaryCtaHref: string;
+};
+
+function resolveHeroLinkHref(cta: HeroCtaValue | undefined, fallbackHref: string) {
+  return cta?.link?.href ?? cta?.link?.page ?? cta?.link?.post ?? fallbackHref;
+}
+
+export function resolveHeroContent(data?: {
+  label?: string;
+  heading?: string;
+  body?: string;
+  primaryCta?: HeroCtaValue;
+  stats?: string;
+  dimensionLine?: string;
+  ctaText?: string;
+  secondaryCta?: HeroCtaValue;
+}): ResolvedHeroContent {
+  return {
+    label: data?.label ?? hero.label,
+    heading: data?.heading ?? hero.heading,
+    body: data?.body ?? hero.body,
+    primaryCtaLabel: data?.primaryCta?.buttonText ?? hero.primaryCtaLabel,
+    primaryCtaHref: resolveHeroLinkHref(data?.primaryCta, hero.primaryCtaHref),
+    stats: data?.stats ?? hero.stats,
+    dimensionLine: data?.dimensionLine ?? hero.dimensionLine,
+    mergerNote: data?.ctaText
+      ? data.ctaText.split("\n").filter(Boolean)
+      : [...hero.mergerNote],
+    secondaryCtaLabel: data?.secondaryCta?.buttonText ?? hero.secondaryCtaLabel,
+    secondaryCtaHref: resolveHeroLinkHref(data?.secondaryCta, hero.secondaryCtaHref),
+  };
+}
+
 export const origin = {
   eyebrow: "THE ORIGIN",
   heading: {

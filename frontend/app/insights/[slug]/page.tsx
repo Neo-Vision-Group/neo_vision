@@ -9,7 +9,9 @@ import { InsightRelated } from "@/components/sections/insight-detail/InsightRela
 import { InsightNewsletter } from "@/components/sections/insight-detail/InsightNewsletter";
 import PageBuilder from "@/components/PageBuilder";
 import type { ArticleCardData } from "@/components/partials/ArticleCard";
+import type { InsightDoc } from "@/lib/types/insight";
 import { sanityFetch } from "@/sanity/lib/live";
+import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import {
   INSIGHT_BY_SLUG_QUERY,
   ALL_INSIGHT_SLUGS_QUERY,
@@ -17,28 +19,6 @@ import {
 } from "@/sanity/lib/queries";
 
 export const revalidate = 60;
-
-type InsightDoc = {
-  _id?: string;
-  _type?: string;
-  title?: string;
-  slug?: string;
-  excerpt?: string;
-  category?: string;
-  cover?: any;
-  publishedAt?: string;
-  readTime?: number;
-  featured?: boolean;
-  body?: any[];
-  pageBuilder?: any[];
-  author?: {
-    name?: string;
-    role?: string;
-    bio?: string;
-    portrait?: any;
-  };
-  relatedInsights?: InsightDoc[];
-};
 
 export async function generateStaticParams() {
   const {data} = await sanityFetch({
@@ -57,15 +37,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await loadInsight(slug);
   if (!post) return { title: "Insight — TwelveTen" };
+  const openGraphImage = resolveOpenGraphImage(post.cover);
+
   return {
-    title: `${post.title} — TwelveTen`,
+    title: `${post.title ?? "Insight"} — TwelveTen`,
     description: post.excerpt ?? undefined,
     openGraph: {
-      title: `${post.title} — TwelveTen`,
+      title: `${post.title ?? "Insight"} — TwelveTen`,
       description: post.excerpt ?? undefined,
       url: `/insights/${slug}`,
       type: "article",
-      images: post.cover ? [post.cover] : undefined,
+      images: openGraphImage ? [openGraphImage] : undefined,
     },
   };
 }
@@ -82,6 +64,12 @@ async function loadInsight(slug: string): Promise<InsightDoc | null> {
     console.error("[insight] Sanity fetch failed", err)
     return null
   }
+}
+
+function resolveArticleSlug(slug: ArticleCardData["slug"]) {
+  if (!slug) return "";
+  if (typeof slug === "string") return slug;
+  return slug.current ?? "";
 }
 
 export default async function InsightDetailPage({
@@ -101,7 +89,7 @@ export default async function InsightDetailPage({
         stega: false,
       })
       related = (allPosts as ArticleCardData[])
-        .filter((p) => p.slug !== slug)
+        .filter((p) => resolveArticleSlug(p.slug) !== slug)
         .slice(0, 3)
     } catch {
       related = []

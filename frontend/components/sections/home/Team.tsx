@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { team as teamFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
@@ -11,6 +10,15 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "@/components/partials/motion/gsap-setup";
 import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
 import TeamArrowRight from '@/components/icons/TeamArrowRight'
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type TeamMember = {
   name: string;

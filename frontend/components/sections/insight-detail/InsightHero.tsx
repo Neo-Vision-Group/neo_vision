@@ -1,26 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
-
-export type InsightDoc = {
-  _id?: string;
-  title?: string;
-  slug?: string;
-  excerpt?: string;
-  category?: string;
-  cover?: any;
-  publishedAt?: string;
-  readTime?: number;
-  featured?: boolean;
-  body?: any;
-  author?: {
-    name?: string;
-    role?: string;
-    bio?: string;
-    portrait?: any;
-  };
-  relatedInsights?: InsightDoc[];
-};
+import type { InsightDoc } from "@/lib/types/insight";
 
 function formatDate(iso?: string | null) {
   if (!iso) return null;
@@ -43,11 +24,7 @@ function formatCategory(value?: string | null) {
     .join(" ");
 }
 
-interface InsightHeroProps {
-  post: InsightDoc;
-}
-
-export function InsightHero({ post }: InsightHeroProps) {
+export function InsightHero({ post }: { post: InsightDoc }) {
   const publishedDate = formatDate(post.publishedAt);
   const categoryLabel = formatCategory(post.category);
 

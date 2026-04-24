@@ -1,6 +1,7 @@
 import React from 'react'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
+import {BlockErrorBoundary} from '@/components/BlockErrorBoundary'
 import {Hero, HeroData} from '@/components/sections/home/Hero'
 import {Origin, OriginData} from '@/components/sections/home/Origin'
 import {WhatWeDo, WhatWeDoData} from '@/components/sections/home/WhatWeDo'
@@ -184,8 +185,6 @@ const Blocks = {
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
-  // Debug: Log block rendering
-  console.log(`[BlockRenderer] Rendering block: ${block._type}`, block._key)
   
   // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {
@@ -198,13 +197,15 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
           path: `pageBuilder[_key=="${block._key}"]`,
         }).toString()}
       >
-        {React.createElement(Blocks[block._type], {
-          key: block._key,
-          block: block,
-          index: index,
-          pageId: pageId,
-          pageType: pageType,
-        })}
+        <BlockErrorBoundary blockKey={block._key} blockType={block._type}>
+          {React.createElement(Blocks[block._type], {
+            key: block._key,
+            block: block,
+            index: index,
+            pageId: pageId,
+            pageType: pageType,
+          })}
+        </BlockErrorBoundary>
       </div>
     )
   }

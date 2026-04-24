@@ -140,7 +140,15 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           className="flex shrink-0 items-center gap-2"
         >
           {logo ? (
-            <Image src={logo} alt={title} width={24} height={32} className="h-8 w-auto" />
+            <Image
+              src={logo}
+              alt={title}
+              width={24}
+              height={32}
+              priority
+              sizes="24px"
+              className="h-8 w-auto"
+            />
           ) : (
             <Logo />
           )}

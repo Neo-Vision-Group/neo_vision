@@ -19,8 +19,6 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   const titleText = typeof card.title === "string" 
     ? { regular: card.title, bold: "" }
     : card.title;
-
-  console.log(card)
   
   const bodyLines = Array.isArray(card.body) ? card.body : [card.body];
   

@@ -2,10 +2,18 @@
 
 import { cn } from "@/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { cleanStega } from "@/sanity/lib/utils";
 import ArrowDownIcon from "@/components/icons/ArrowDownIcon";
 import { HeadingShape } from "@/components/sections/PageHero";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type FreeResourcesData = {
   eyebrow?: string;

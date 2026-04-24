@@ -5,9 +5,17 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
 import ArrowRight from "@/components/icons/ArrowRight";
 import { ourWork as ourWorkFallback } from "@/lib/content/home";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type PortfolioData = {
   eyebrow?: string;

@@ -9,7 +9,15 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "@/components/partials/motion/gsap-setup";
 import { cleanStega } from "@/sanity/lib/utils";
-import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type StoryData = {
   eyebrow?: string;

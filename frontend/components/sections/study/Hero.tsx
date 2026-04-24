@@ -1,7 +1,22 @@
 import { cn } from "@/lib/utils";
-import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type StudyHeroData = {
   eyebrow?: string;

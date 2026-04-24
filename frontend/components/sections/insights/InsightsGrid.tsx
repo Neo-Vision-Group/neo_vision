@@ -3,13 +3,29 @@
 import { useMemo, useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type InsightsGridData = {
   items?: Array<ArticleCardData & { category?: string | null }>;
   categoryFilters?: Array<{ label?: string; value?: string }>;
 };
+
+function getArticleKey(article: ArticleCardData) {
+  if (article._id) return article._id;
+  const slug = typeof article.slug === "string" ? article.slug : article.slug?.current;
+  if (slug) return slug;
+  if (article.publishedAt) return `${article.title}-${article.publishedAt}`;
+  return article.title;
+}
 
 export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   const cleanData = data ? cleanStega(data) : data;
@@ -82,8 +98,8 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
           stagger={0.06}
           className="grid grid-cols-1 gap-4 md:grid-cols-2"
         >
-          {filtered.map((article, idx) => (
-            <ArticleCard key={article._id ?? article.title + idx} article={article} />
+          {filtered.map((article) => (
+            <ArticleCard key={getArticleKey(article)} article={article} />
           ))}
         </RevealOnScroll>
       )}

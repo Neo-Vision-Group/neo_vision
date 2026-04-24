@@ -1,6 +1,14 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
-import { RevealOnScroll } from "@/components/partials/motion/RevealOnScroll";
+import dynamic from "next/dynamic";
+
+const RevealOnScroll = dynamic(
+  () =>
+    import("@/components/partials/motion/RevealOnScroll").then(
+      (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
 
 export type SoundFamiliarData = {
   eyebrow?: string;
