@@ -32,20 +32,23 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
       id="approach"
       eyebrow={eyebrow}
     >
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-8 text-[#efefef]">
         {heading ? (
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
-            <span className="text-foreground/70">{heading.faded} </span>
-            <span className="font-bold">{heading.bold}</span>
+          <h2 className="text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
+            <span className="text-[#efefef]/70">{heading.faded} </span>
+            <span className="font-bold text-[#efefef]">{heading.bold}</span>
           </h2>
         ) : null}
         {body ? (
-          <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-[28px]">
+          <p className="max-w-[70ch] text-[18px] leading-[1.5] text-[#efefef]/70 md:text-[20px] md:leading-[28px]">
             {body}
           </p>
         ) : null}
         {callout?.body ? (
-          <CalloutCard label={callout.label ?? "Approach"}>
+          <CalloutCard
+            label={callout.label ?? "Approach"}
+            className="border-white/15 bg-[#0f0f0f] text-[#efefef]"
+          >
             {callout.body}
           </CalloutCard>
         ) : null}

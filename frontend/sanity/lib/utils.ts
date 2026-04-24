@@ -1,9 +1,17 @@
-import {Link} from '@/sanity.types'
 import {dataset, projectId, studioUrl} from '@/sanity/lib/api'
 import {createDataAttribute, CreateDataAttributeProps} from 'next-sanity'
 import {createImageUrlBuilder, type SanityImageSource} from '@sanity/image-url'
 import {DereferencedLink} from '@/sanity/lib/types'
 import {stegaClean} from '@sanity/client/stega'
+
+type LinkValue = {
+  linkType?: 'href' | 'page' | 'post' | 'service' | 'project'
+  href?: string | null
+  page?: string | null
+  post?: string | null
+  service?: string | null
+  project?: string | null
+}
 
 // Clean stega-encoded strings to prevent decode errors
 export function cleanStega<T>(value: T): T {
@@ -44,7 +52,7 @@ export function resolveOpenGraphImage(
 }
 
 // Depending on the type of link, we need to fetch the corresponding page, post, or URL.  Otherwise return null.
-export function linkResolver(link: Link | DereferencedLink | undefined) {
+export function linkResolver(link: LinkValue | DereferencedLink | undefined) {
   if (!link) return null
 
   // If linkType is not set but href is, lets set linkType to "href".  This comes into play when pasting links into the portable text editor because a link type is not assumed.
@@ -59,10 +67,22 @@ export function linkResolver(link: Link | DereferencedLink | undefined) {
       if (link?.page && typeof link.page === 'string') {
         return `/${link.page}`
       }
+      return null
     case 'post':
       if (link?.post && typeof link.post === 'string') {
-        return `/posts/${link.post}`
+        return `/insights/${link.post}`
       }
+      return null
+    case 'service':
+      if (link?.service && typeof link.service === 'string') {
+        return `/services/${link.service}`
+      }
+      return null
+    case 'project':
+      if (link?.project && typeof link.project === 'string') {
+        return `/portfolio/${link.project}`
+      }
+      return null
     default:
       return null
   }

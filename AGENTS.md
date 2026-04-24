@@ -62,6 +62,8 @@ Sanity Document (page / service / project)
 | `frontend/components/PageBuilder.tsx` | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer` |
 | `frontend/components/BlockRenderer.tsx` | Maps `block._type` string → React component. **Every new page block must be registered here.** |
 | `frontend/components/BlockErrorBoundary.tsx` | Isolates individual page block render failures so one broken section does not crash the whole page |
+| `frontend/components/RouteLoading.tsx` | Shared loading UI used by route-level `loading.tsx` files in the App Router |
+| `frontend/components/partials/FirstLoadIntro.tsx` | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator |
 | `studio/src/schemaTypes/index.ts` | Registers all Sanity schema types (documents + objects) |
 | `studio/src/schemaTypes/documents/page.ts` | `page` document — **its `pageBuilder.of` array must list every block type available to main pages** |
 | `studio/src/schemaTypes/documents/service.ts` | `service` document — has its own `pageBuilder.of` array for service detail pages |
@@ -83,9 +85,26 @@ These are CMS-driven pages built from the `page` document type. Each page has a 
 | `/contact` | (general) | Contact page |
 | `/insights` | `insights` | Insights listing page |
 | `/portfolio` | `caseStudies` | Portfolio listing page |
+| `not-found` fallback | — | Root-level `frontend/app/not-found.tsx` uses the shared layout shell and a custom theme-aware hero |
 
 **Route file:** `frontend/app/[slug]/page.tsx`
+**Loading UI:** `frontend/app/[slug]/loading.tsx`
 **Home route:** `frontend/app/page.tsx` — uses the dedicated `homePageQuery` to fetch the home page.
+**Not found route:** `frontend/app/not-found.tsx` — custom 404 hero rendered inside the existing root layout (`Nav` + `Footer` remain shared).
+**Global loading UI:** `frontend/app/loading.tsx`
+
+### First-Visit Loading Experience
+
+The site uses a dedicated first-visit loading experience for the initial page entry only. It is rendered in two places:
+
+- Route-level `loading.tsx` files delegate to `frontend/components/InitialRouteLoading.tsx`, which renders the branded intro before the first requested page stream resolves and falls back to `RouteLoading` after the intro cookie is set.
+
+The intro component is responsible for:
+
+- Reusing the same visual background treatment as the hero sections
+- Hardcoding the website name for fast boot rendering
+- Animating a brand-colored loading bar with a Betatron percentage readout without depending on client hydration, so the motion starts during the streamed loading fallback
+- Persisting completion in session storage and a cookie via the root layout marker after the first page boot completes so the intro does not replay during in-site navigation or subsequent visits
 
 The `homePageQuery` in `queries.ts` filters only by `pageType == 'home'` and includes all the same pageBuilder block projections as `pageQuery`.
 
@@ -99,15 +118,17 @@ These are detail pages for specific content types:
 
 | Route Pattern | Document Type | Route File |
 |--------------|---------------|------------|
-| `/services/[slug]` | `service` | `frontend/app/services/[slug]/page.tsx` — **DOES NOT EXIST YET** |
+| `/services/[slug]` | `service` | `frontend/app/services/[slug]/page.tsx` |
 | `/portfolio/[slug]` | `project` | `frontend/app/portfolio/[slug]/page.tsx` |
 | `/insights/[slug]` | `post` | `frontend/app/insights/[slug]/page.tsx` |
 
+Each detail route should expose a colocated `loading.tsx` so the App Router can show a branded fallback during data fetching.
+
 **Service pages** (`service` document) have their own `pageBuilder` field and should use the PageBuilder pattern directly.
 
-**Case study pages** (`project` document) now have an optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.). The route uses pageBuilder if available, otherwise falls back to constructing a synthetic pageBuilder from the nested fields.
+**Case study pages** (`project` document) use the `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.). The frontend route should render stored project blocks directly and only use project-level metadata as lightweight per-block fallback data where needed.
 
-**Insight pages** (`post` document) use a hardcoded template, not PageBuilder. This is acceptable for now.
+**Insight pages** (`post` document) should use `pageBuilder` as the source of truth for renderable article sections. Document-level metadata such as title, author, category, excerpt, and related insights can remain on the `post` document. The old post-level cover image field has been removed, so the individual insight hero should not depend on a standalone cover asset. Within `insightBlock`, the main text, quote body, and card body should all be modeled as portable text so editorial formatting stays consistent across sections.
 
 ---
 
@@ -117,11 +138,39 @@ These are detail pages for specific content types:
 
 1. **Sanity Schema** — Create the object type in `studio/src/schemaTypes/objects/<category>/`
 2. **Register Schema** — Import and add to `studio/src/schemaTypes/index.ts`
-3. **Add to Document** — Add `{type: 'yourBlockName'}` to the `pageBuilder.of` array in the relevant document(s) (`page.ts`, `service.ts`)
-4. **GROQ Projection** — Add a `_type == "yourBlockName" => { ... }` projection in `queries.ts` → `pageQuery` (and any other queries that read pageBuilder)
+3. **Add to Document** — Add `{type: 'yourBlockName'}` to the `pageBuilder.of` array in every document type where the block should be insertable. In this repo that may include `page.ts`, `service.ts`, `project.ts`, and `post.ts`.
+4. **GROQ Projection** — Add a `_type == "yourBlockName" => { ... }` projection in `queries.ts` → the shared page-builder projection and any route-specific queries that read `pageBuilder` separately (`projectBySlugQuery`, `INSIGHT_BY_SLUG_QUERY`, etc.)
 5. **Frontend Component** — Create the React component in `frontend/components/sections/<category>/`
 6. **Register in BlockRenderer** — Import and add to the `Blocks` map in `frontend/components/BlockRenderer.tsx`
 7. **Regenerate Types** — Run `sanity typegen generate` to update `sanity.types.ts`
+
+### Figma-Led Block Work
+
+For blocks requested with "take code from demo and compare with Figma", use this order of precedence:
+
+1. **Demo component exists** — Port the structure from `demo/`, then use Figma to validate spacing, hierarchy, and missing details.
+2. **Demo has content but no section component** — Reuse the content shape if it is still relevant, but derive the component structure from Figma.
+3. **Demo has only placeholders or no implementation** — Treat the linked Figma node as the source of truth and design the Sanity field model from the Figma layout.
+
+When working from Figma:
+
+- Inspect the node with the Figma MCP before deciding the schema shape.
+- Mirror the actual information architecture from the design instead of forcing everything into generic `title/body/items`.
+- Prefer existing shared field types (`button`, `link`, `blockContentTextOnly`, etc.) over inventing near-duplicates.
+- If the design implies grouped/repeatable structures, model them explicitly in Sanity.
+- If a block should be usable in multiple page-builder documents, make both the schema registration and the frontend query support truly multi-document.
+
+### Cross-Document Availability Rule
+
+Adding a block to a document's `pageBuilder.of` array is **not enough**.
+
+If a block is registered for:
+
+- `page` or `service`: ensure it is covered by the shared page-builder projection.
+- `project`: ensure `projectBySlugQuery` projects the block shape.
+- `post`: ensure `INSIGHT_BY_SLUG_QUERY` projects the block shape.
+
+Otherwise the block may appear in Studio but fail to render on the frontend.
 
 ### Current Block Types
 
@@ -133,6 +182,7 @@ These are detail pages for specific content types:
 | `origin` | `Origin` | home |
 | `whatWeDo` | `WhatWeDo` | home |
 | `signature` | `Signature` | home |
+| `signature2` | `Signature2` | home |
 | `why` | `Why` | home |
 | `story` | `Story` | home |
 | `team` | `Team` | home |
@@ -146,8 +196,14 @@ These are detail pages for specific content types:
 | `contactForm` | `ContactFormSection` | shared |
 | `booking` | `Booking` | contact |
 | `engineeringServices` | `EngineeringServices` | services |
+| `serviceNavigator` | `ServiceNavigator` | services |
 | `industries` | `Industries` | services |
+| `whyRomania` | `WhyRomania` | shared/services |
+| `techStack` | `TechStacks` | about/shared |
+| `awards` | `Awards` | about/shared |
+| `press` | `Press` | about |
 | `faq` | `FAQ` | shared |
+| `compare` | `Compare` | shared |
 | `insightsFeatured` | `InsightsFeatured` | insights |
 | `insightsGrid` | `InsightsGrid` | insights |
 | `insightsResources` | `InsightsResources` | insights |
@@ -171,12 +227,25 @@ These are detail pages for specific content types:
 | `studyChallenge` | `StudyChallenge` | Used by portfolio/[slug] |
 | `studyApproach` | `StudyApproach` | Used by portfolio/[slug] |
 | `studyKeyWins` | `StudyKeyWins` | Used by portfolio/[slug] |
-| `studyWhatWeBuilt` | `StudyWhatWeBuilt` | Used by portfolio/[slug] |
 | `studyNumbers` | `StudyNumbers` | Used by portfolio/[slug] |
 | `studyTestimonial` | `StudyTestimonial` | Used by portfolio/[slug] |
 | `studyTechStack` | `StudyTechStack` | Used by portfolio/[slug] |
-| `studyMoreLikeThis` | `StudyMoreLikeThis` | Used by portfolio/[slug] |
-| `studyClosingCta` | `StudyClosingCta` | Used by portfolio/[slug] |
+| `steps` | `Steps` | Preferred replacement for the retired study what-we-built section on portfolio/[slug] |
+| `portfolioGrid` | `PortfolioGrid` | Preferred replacement for the retired study more-like-this section on portfolio/[slug] |
+| `cta` | `ClosingCta` | Preferred replacement for the retired study closing CTA section on portfolio/[slug] |
+
+#### Service Detail Page Blocks (available in `service` document)
+
+| Sanity `_type` | Component | Notes |
+|----------------|-----------|-------|
+| `engineeringServices` | `EngineeringServices` | Services listing / capability cards |
+| `isThisForYou` | `IsThisForYou` | Service detail qualifier checklist |
+| `soundFamiliar` | `SoundFamiliar` | Service detail pain-point cards |
+| `compare` | `Compare` | Service detail comparison matrix against alternatives; also available in `page`, `project`, and `post` page builders |
+| `reality` | `Reality` | Compound-value / supporting proof section |
+| `whyRomania` | `WhyRomania` | Romania talent, timezone, and efficiency proof grid; now also available in `page`, `project`, and `post` page builders |
+| `techStack` | `TechStacks` | Grouped tools/partners matrix; available in `page`, `service`, `project`, and `post` page builders |
+| `awards` | `Awards` | Recognition card stack with featured badge; available in `page`, `service`, `project`, and `post` page builders |
 
 #### Blocks in Demo but NOT yet implemented
 
@@ -201,15 +270,15 @@ Reference `demo/src/components/sections/` and `demo/src/app/(site)/` for:
 
 ### MEDIUM — Architecture gaps
 
-5. **Missing `/services/[slug]` route**: The `service` document has a `pageBuilder` field but no Next.js route renders it.
+5. ✅ **`/services/[slug]` route exists**: Service detail pages now render the `service` document `pageBuilder` via `frontend/app/services/[slug]/page.tsx`.
 
-6. **Empty component files**: `Pricing.tsx`, `Testimonials.tsx`, `Compare.tsx`, `Steps.tsx`, `Awards.tsx`, `Press.tsx`, `TechStacks.tsx` are 0 bytes.
+6. **Empty component files**: `Pricing.tsx`, `Testimonials.tsx`, `Steps.tsx` are 0 bytes.
 
 ### LOW — Technical debt
 
-8. **Portfolio `[slug]` manually constructs pageBuilder**: This works but is fragile. Consider migrating `project` document to use a `pageBuilder` field directly.
+8. **Project detail content is block-only**: The `project` document should keep shared metadata fields (client, category, industry, hero image sources, etc.) and model all renderable sections through `pageBuilder` blocks only.
 
-9. **Insight `[slug]` doesn't use PageBuilder**: Hardcoded template. Could be migrated to PageBuilder pattern later.
+9. **Insight detail routes still keep metadata outside blocks**: Hero, author, category, excerpt, and related-insight metadata stay on the `post` document, but the article body sections should be modeled through `pageBuilder` only.
 
 ---
 

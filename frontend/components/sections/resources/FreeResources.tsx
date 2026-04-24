@@ -1,145 +1,164 @@
-"use client";
+'use client'
 
-import { cn } from "@/lib/utils";
-import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { cleanStega } from "@/sanity/lib/utils";
-import ArrowDownIcon from "@/components/icons/ArrowDownIcon";
-import { HeadingShape } from "@/components/sections/PageHero";
-import dynamic from "next/dynamic";
+import {SectionsWrapper} from '@/components/SectionsWrapper'
+import ArrowDownIcon from '@/components/icons/ArrowDownIcon'
+import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
+import {HeadingShape} from '@/components/sections/PageHero'
+import {cleanStega} from '@/sanity/lib/utils'
+import dynamic from 'next/dynamic'
 
 const RevealOnScroll = dynamic(
-  () =>
-    import("@/components/partials/motion/RevealOnScroll").then(
-      (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
-);
+  () => import('@/components/partials/motion/RevealOnScroll').then((mod) => mod.RevealOnScroll),
+  {ssr: false},
+)
 
 export type FreeResourcesData = {
-  eyebrow?: string;
-  heading?: HeadingShape;
-  body?: string;
+  eyebrow?: string
+  heading?: HeadingShape
+  body?: string
+  footnote?: string
   items?: Array<{
-    title?: string;
-    description?: string;
+    title?: string
+    badge?: string
+    description?: string
     file?: {
       asset?: {
-        url?: string;
-      };
-    };
-    externalUrl?: string;
-  }>;
-};
+        url?: string
+      }
+    }
+    fileUrl?: string
+    externalUrl?: string
+  }>
+}
 
-function Heading({ value }: { value: HeadingShape }) {
-  if (typeof value === "string") {
-    return <span>{value}</span>;
+function Heading({value}: {value: HeadingShape}) {
+  if (typeof value === 'string') {
+    return <span>{value}</span>
   }
 
-  const { faded, bold, trailing, regular } = value;
+  const {faded, bold, trailing, regular} = value
   return (
     <span>
-      {faded ? <span className="text-foreground/70">{faded} </span> : null}
+      {faded ? <span className="text-black/70 dark:text-[#efefef]/70">{faded} </span> : null}
       {regular ? <span>{regular} </span> : null}
       {bold ? <span className="font-bold">{bold}</span> : null}
       {trailing ? (
         <>
           <br />
-          <span className="text-foreground/70">{trailing}</span>
+          <span className="text-black/70 dark:text-[#efefef]/70">{trailing}</span>
         </>
       ) : null}
     </span>
-  );
+  )
 }
 
-export function FreeResources({ data }: { data?: FreeResourcesData }) {
-  const cleanData = data ? cleanStega(data) : data;
-
-  const items = cleanData?.items ?? [];
+export function FreeResources({data}: {data?: FreeResourcesData}) {
+  const cleanData = data ? cleanStega(data) : data
+  const items = cleanData?.items ?? []
 
   if (items.length === 0) {
-    return null;
+    return null
   }
 
   return (
-    <SectionsWrapper
-      id="resources"
-      eyebrow={cleanData?.eyebrow ?? "FREE RESOURCES"}
-    >
-      <div className="flex flex-col gap-12">
-        <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
+    <SectionsWrapper id="resources" eyebrow={cleanData?.eyebrow ?? 'FREE RESOURCES'}>
+      <div className="-mx-6 flex flex-col md:-mx-6">
+        <div className="px-6 pb-12 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
+          <h2 className="max-w-[13ch] text-[38px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[48px] md:leading-[1.2] md:tracking-[-1px]">
             <Heading value={cleanData?.heading ?? {}} />
           </h2>
           {cleanData?.body ? (
-            <p className="mt-4 max-w-[60ch] text-body text-foreground/70">
+            <p className="mt-3 max-w-[60ch] text-[16px] leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-[1.5]">
               {cleanData.body}
             </p>
           ) : null}
         </div>
+
         <RevealOnScroll
           as="div"
           stagger={0.06}
-          className="grid grid-cols-1 gap-4 px-6 md:grid-cols-2 md:px-6 lg:px-8 xl:grid-cols-4 xl:px-12 2xl:px-16"
+          className="grid grid-cols-1 border-y border-black/15 dark:border-white/20 md:grid-cols-2"
         >
           {items.map((item, idx) => (
-            <ResourceCard key={idx} item={item} />
+            <div
+              key={idx}
+              className="border-black/15 last:border-b-0 dark:border-white/20 [&:not(:last-child)]:border-b md:last:border-b md:[&:nth-child(odd)]:border-r md:[&:nth-last-child(-n+2)]:border-b-0"
+            >
+              <ResourceCard item={item} />
+            </div>
           ))}
         </RevealOnScroll>
-      </div>
-    </SectionsWrapper>
-  );
-}
 
-function ResourceCard({
-  item,
-}: {
-  item: NonNullable<FreeResourcesData["items"]> [number];
-}) {
-  const downloadUrl = item?.file?.asset?.url ?? item?.externalUrl ?? "#";
-  const isExternal = !!item?.externalUrl && !item?.file?.asset?.url;
-
-  return (
-    <article
-      className={cn(
-        "group flex h-full flex-col border border-border bg-surface",
-        "transition-all duration-300 ease-out",
-        "hover:border-brand/50"
-      )}
-    >
-      {/* Icon header */}
-      <div className="flex h-14 w-14 items-center justify-center bg-brand">
-        <ArrowDownIcon className="h-5 w-5 text-background" />
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-1 flex-col gap-3 p-6 pt-5">
-        <h3 className="text-h4 font-medium tracking-[-0.2px] text-foreground">
-          {item?.title}
-        </h3>
-        {item?.description ? (
-          <p className="text-body-2 text-foreground/70">{item.description}</p>
+        {cleanData?.footnote ? (
+          <div className="border-b border-black/15 px-6 py-10 dark:border-white/20 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-12">
+            <p className="max-w-[30ch] text-[28px] leading-[1.1] tracking-[-0.8px] text-black/70 dark:text-[#efefef]/70 md:text-[32px] md:leading-[1.2] md:tracking-[-1px]">
+              {cleanData.footnote}
+            </p>
+          </div>
         ) : null}
       </div>
+    </SectionsWrapper>
+  )
+}
 
-      {/* Download button - full width at bottom */}
-      <div className="mt-auto p-6 pt-0">
-        <a
-          href={downloadUrl}
-          target={isExternal ? "_blank" : "_self"}
-          rel={isExternal ? "noopener noreferrer" : undefined}
-          className={cn(
-            "flex w-full items-center justify-center gap-2",
-            "border border-foreground/20 px-4 py-3",
-            "text-body-2 font-medium text-foreground",
-            "transition-colors duration-200",
-            "hover:border-brand hover:bg-brand hover:text-background"
+function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[number]}) {
+  const downloadUrl = item?.fileUrl ?? item?.file?.asset?.url ?? item?.externalUrl ?? ''
+  const isExternal = !!item?.externalUrl && !item?.fileUrl && !item?.file?.asset?.url
+  const hasUrl = Boolean(downloadUrl)
+
+  return (
+    <article className="p-4 md:p-6">
+      <div className="group flex h-full min-h-[280px] flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
+        <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
+          <ArrowDownIcon className="h-5 w-5 text-black" />
+        </div>
+
+        <div className="flex flex-1 flex-col justify-between gap-8">
+          <div className="flex flex-col gap-4">
+            {item?.badge ? (
+              <span className="self-start bg-[rgba(255,65,0,0.3)] px-2 py-1 font-funnel text-[14px] leading-[1.2] tracking-[-0.2px] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-[1.5]">
+                {item.badge}
+              </span>
+            ) : null}
+
+            <div className="flex flex-col gap-1">
+              {item?.title ? (
+                <h3 className="max-w-[12ch] text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[32px] md:leading-[1.2] md:tracking-[-1px]">
+                  {item.title}
+                </h3>
+              ) : null}
+
+              {item?.description ? (
+                <p className="text-[16px] leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-[1.5]">
+                  {item.description}
+                </p>
+              ) : null}
+            </div>
+          </div>
+
+          {hasUrl ? (
+            <a
+              href={downloadUrl}
+              target={isExternal ? '_blank' : '_self'}
+              rel={isExternal ? 'noopener noreferrer' : undefined}
+              className="inline-flex items-center gap-3 self-start text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef]"
+              download={!isExternal}
+            >
+              <ArrowRightPixel color="currentColor" width={39} height={24} className="shrink-0" />
+              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-[24px]">
+                Download
+              </span>
+            </a>
+          ) : (
+            <span className="inline-flex items-center gap-3 self-start text-black/40 dark:text-[#efefef]/40">
+              <ArrowRightPixel color="currentColor" width={39} height={24} className="shrink-0" />
+              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-[24px]">
+                Download
+              </span>
+            </span>
           )}
-          download={!isExternal}
-        >
-          Download
-        </a>
+        </div>
       </div>
     </article>
-  );
+  )
 }

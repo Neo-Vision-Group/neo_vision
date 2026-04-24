@@ -71,7 +71,7 @@ export function Signature({ data }: { data?: SignatureData }) {
     <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow}>
       <div className="flex flex-col gap-12 md:gap-16">
         <div className="flex flex-col gap-6">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
+          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
             {headingLines.map((line, idx) => (
               <span key={idx}>
                 {idx === 0 ? (
@@ -203,7 +203,7 @@ function StepCard({
   );
 }
 
-function ValueCard({ valueCard }: { valueCard: { value: string; body: string[] } }) {
+function ValueCard({ valueCard }: { valueCard: { value: string; body: readonly string[] } }) {
   return (
     <div className="relative bg-[#EFEFEFB3] dark:bg-black isolate flex flex-col gap-6 border border-white/15 p-6">
       <div aria-hidden="true" className="absolute bg-[#EFEFEFB3] dark:bg-black inset-0 -z-10 overflow-hidden">

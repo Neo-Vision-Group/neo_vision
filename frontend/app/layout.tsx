@@ -8,15 +8,16 @@ import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
+import {handleError} from '@/app/client-utils'
 import Footer from '@/components/layout/Footer'
+import {IntroVisitMarker} from '@/components/IntroVisitMarker'
 import DraftModeToast from '@/components/partials/DraftModeToast'
 import Nav from '@/components/layout/Nav'
 import * as demo from '@/sanity/lib/demo'
+import {ThemeProvider} from '@/components/partials/theme/theme-provider'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
-import {handleError} from '@/app/client-utils'
-import { ThemeProvider } from '@/components/partials/theme/theme-provider'
 
 /**
  * Generate metadata for the page.
@@ -79,7 +80,14 @@ const betatron = localFont({
   src: './fonts/betatron.woff2',
   variable: '--font-betatron',
   display: 'swap',
-  preload: true,
+  preload: false,
+  declarations: [
+    {
+      prop: 'unicode-range',
+      value:
+        'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+    },
+  ],
 })
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
@@ -94,7 +102,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           enableSystem
           disableTransitionOnChange
         >
-            <section className="min-h-screen bg-white dark:bg-black">
+          <section className="min-h-screen bg-white dark:bg-black">
             {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
             <Toaster />
             {isDraftMode && (
@@ -107,7 +115,10 @@ export default async function RootLayout({children}: {children: React.ReactNode}
             {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
             <SanityLive onError={handleError} />
             <Nav />
-            <main className="">{children}</main>
+            <main className="">
+              {children}
+              <IntroVisitMarker />
+            </main>
             <Footer />
           </section>
         </ThemeProvider>

@@ -1,14 +1,17 @@
 "use client";
 
-import { useRef } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { origin as originFallback } from "@/lib/content/home";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { SplitText } from "gsap/SplitText";
-import "@/components/partials/motion/gsap-setup";
 import { cleanStega } from "@/sanity/lib/utils";
-import { useTheme } from 'next-themes'
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type OriginData = {
   eyebrow?: string;
@@ -26,64 +29,22 @@ export function Origin({ data }: { data?: OriginData }) {
     body: cleanData?.body ?? `${originFallback.body.prefix}${originFallback.body.bold}${originFallback.body.suffix}`,
     subtext: cleanData?.subtext ?? null,
   };
-  const headingRef = useRef<HTMLParagraphElement>(null);
-
-  const { theme, setTheme } = useTheme()
-
-  const toColor = theme === "dark" ? "rgba(239,239,239,1)" : "rgba(0,0,0,1)"
-
-  useGSAP(
-    () => {
-      const el = headingRef.current;
-      if (!el) return;
-
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          motion: "(prefers-reduced-motion: no-preference)",
-        },
-        (ctx) => {
-          if (ctx.conditions?.reduced) {
-            gsap.set(el, { color: "rgba(239,239,239,1)" });
-            return;
-          }
-
-          const split = SplitText.create(el, { type: "words" });
-          gsap.set(split.words, { color: "rgba(239,239,239,0.25)" });
-          gsap.to(split.words, {
-            color: toColor,
-            stagger: 0.04,
-            ease: "none",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 75%",
-              end: "top 25%",
-              scrub: 1,
-            },
-          });
-
-          return () => {
-            split.revert();
-          };
-        }
-      );
-    },
-    { dependencies: [] }
-  );
 
   return (
     <SectionsWrapper id="origin" eyebrow={origin.eyebrow}>
-      <div className="flex max-w-[1280px] flex-col gap-6">
-        <p
-          ref={headingRef}
-          className="text-[58px]P font-normal font-funnel leading-[68px] tracking-[-0.3px] md:text-[58px] md:leading-[68px] lg:text-[40px] lg:leading-[52px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]"
+      <div className="flex max-w-7xl flex-col gap-6">
+        <SplitTextReveal
+          as="p"
+          type="words"
+          stagger={0.04}
+          colorReveal
+          className="text-[58px]P font-normal font-funnel leading-17 tracking-[-0.3px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
           {origin.heading} {origin.body}
-        </p>
+        </SplitTextReveal>
         <div className="flex flex-col gap-4">
           {origin.subtext && (
-            <p className="text-[24px] text-[#EFEFEFB3] font-funnel leading-[32px]">
+            <p className="text-[24px] text-[#EFEFEFB3] font-funnel leading-8">
               {origin.subtext}
             </p>
           )}

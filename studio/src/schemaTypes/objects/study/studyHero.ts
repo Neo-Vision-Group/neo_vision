@@ -3,7 +3,7 @@ import { defineType, defineField } from 'sanity'
 export const studyHero = defineType({
   name: 'studyHero',
   title: 'Study Hero',
-  description: 'Hero section for case study detail page with text and image',
+  description: 'Hero section for case study detail page with text, image, and metadata cards',
   type: 'object',
   fields: [
     defineField({
@@ -29,6 +29,37 @@ export const studyHero = defineType({
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Optional chapter navigation items'
+    }),
+    defineField({
+      name: 'details',
+      title: 'Metadata Cards',
+      type: 'array',
+      description: 'Cards shown below the hero image, such as client, industry, services, timeline, and year.',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: 'value',
+              title: 'Value',
+              type: 'string',
+              validation: (Rule) => Rule.required()
+            })
+          ],
+          preview: {
+            select: {
+              title: 'label',
+              subtitle: 'value'
+            }
+          }
+        }
+      ]
     }),
     defineField({
       name: 'heroImage',

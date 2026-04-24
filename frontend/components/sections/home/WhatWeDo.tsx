@@ -49,7 +49,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
     })) ?? servicesFallback.cards.map((card, idx) => ({
       _key: `fallback-${card.kind}-${idx}`,
       ...card,
-      services: card.services ? card.services.map(service => ({ name: service.name, price: service.price })) : [],
+      services: card.services ? card.services.map(service => ({ name: service.title, price: undefined })) : [],
     })),
   };
 

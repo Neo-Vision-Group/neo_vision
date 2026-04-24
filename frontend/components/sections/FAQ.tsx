@@ -44,7 +44,7 @@ export function FAQ({ data }: { data?: FaqData }) {
   return (
     <SectionsWrapper id="faq" eyebrow={eyebrow}>
       <div className="flex flex-col gap-12">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-black dark:text-[#efefef] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
+        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-black dark:text-[#efefef] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
           <span className="text-black/70 dark:text-[#efefef]/70">{heading}</span>
         </h2>
 

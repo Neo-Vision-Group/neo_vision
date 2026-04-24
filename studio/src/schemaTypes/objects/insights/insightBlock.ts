@@ -64,8 +64,7 @@ export const insightBlock = defineType({
         defineField({
           name: 'quote',
           title: 'Quote Text',
-          type: 'text',
-          rows: 3,
+          type: 'blockContentTextOnly',
         }),
         defineField({
           name: 'attribution',
@@ -75,8 +74,11 @@ export const insightBlock = defineType({
       ],
       preview: {
         select: {
-          title: 'quote',
+          title: 'attribution',
         },
+        prepare: ({ title }) => ({
+          title: title || 'Quote',
+        }),
       },
     }),
     defineField({
@@ -129,15 +131,16 @@ export const insightBlock = defineType({
         defineField({
           name: 'body',
           title: 'Card Body',
-          type: 'text',
-          rows: 3,
+          type: 'blockContentTextOnly',
         }),
       ],
       preview: {
         select: {
           title: 'label',
-          subtitle: 'body',
         },
+        prepare: ({ title }) => ({
+          title: title || 'Card',
+        }),
       },
     }),
   ],

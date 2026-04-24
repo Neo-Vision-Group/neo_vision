@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import type { PortableTextBlock } from "@portabletext/react";
 import { notFound } from "next/navigation";
 import { InsightHero } from "@/components/sections/insight-detail/InsightHero";
-import { InsightBody } from "@/components/sections/insight-detail/InsightBody";
 import { InsightAuthor } from "@/components/sections/insight-detail/InsightAuthor";
-import { InsightClosingCta } from "@/components/sections/insight-detail/InsightClosingCta";
 import { InsightRelated } from "@/components/sections/insight-detail/InsightRelated";
-import { InsightNewsletter } from "@/components/sections/insight-detail/InsightNewsletter";
 import PageBuilder from "@/components/PageBuilder";
 import type { ArticleCardData } from "@/components/partials/ArticleCard";
 import type { InsightDoc } from "@/lib/types/insight";
 import { sanityFetch } from "@/sanity/lib/live";
-import { resolveOpenGraphImage } from "@/sanity/lib/utils";
 import {
   INSIGHT_BY_SLUG_QUERY,
   ALL_INSIGHT_SLUGS_QUERY,
@@ -37,7 +32,6 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await loadInsight(slug);
   if (!post) return { title: "Insight — TwelveTen" };
-  const openGraphImage = resolveOpenGraphImage(post.cover);
 
   return {
     title: `${post.title ?? "Insight"} — TwelveTen`,
@@ -47,7 +41,6 @@ export async function generateMetadata({
       description: post.excerpt ?? undefined,
       url: `/insights/${slug}`,
       type: "article",
-      images: openGraphImage ? [openGraphImage] : undefined,
     },
   };
 }
@@ -101,13 +94,9 @@ export default async function InsightDetailPage({
       <InsightHero post={post} />
       {post.pageBuilder && post.pageBuilder.length > 0 ? (
         <PageBuilder page={post as any} />
-      ) : (
-        <InsightBody body={post.body} />
-      )}
+      ) : null}
       <InsightAuthor author={post.author} />
-      <InsightClosingCta />
       <InsightRelated related={related} />
-      <InsightNewsletter slug={slug} />
     </>
   );
 }

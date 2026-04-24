@@ -19,14 +19,14 @@ export function CalloutCard({
   return (
     <aside
       className={cn(
-        "flex flex-col gap-12 border border-white/20 bg-surface p-8 dark:border-white/30",
+        "flex flex-col bg-[#f0eded] dark:bg-black gap-12 border border-white/20 p-8 dark:border-white/30",
         variant === "accent"
           ? "border-brand bg-brand/10"
           : "border-white/20 bg-surface dark:border-white/30",
         className
       )}
     >
-      <p className="capitalize text-[48px] leading-[1.2] tracking-[-2.88px] text-brand font-display">
+      <p className="capitalize font-betatron text-[48px] leading-[1.2] tracking-[-2.88px] text-brand font-display">
         {label}
       </p>
       <div className="text-[18px] leading-[1.5] text-foreground">

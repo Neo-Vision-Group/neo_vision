@@ -10,14 +10,17 @@
     "lint:fix": "eslint . --fix",
     "sanity:typegen": "cd ../studio && sanity schema extract --enforce-required-fields --path ../sanity.schema.json && cd ../frontend && sanity typegen generate",
     "start": "next start",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "ngrok": "ngrok http 3000"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.2.2",
+    "@react-email/components": "^1.0.12",
     "@react-email/container": "^0.0.16",
     "@react-email/heading": "^0.0.16",
     "@react-email/html": "^0.0.12",
+    "@react-email/render": "^2.0.7",
     "@react-email/section": "^0.0.17",
     "@react-email/text": "^0.1.6",
     "@sanity/client": "^7.20.0",

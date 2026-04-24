@@ -1,5 +1,4 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { MetricStrip, type MetricItem } from "@/components/partials/MetricStrip";
 import { cleanStega } from "@/sanity/lib/utils";
 
 export type StudyNumbersData = {
@@ -21,25 +20,38 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
     return null;
   }
 
-  const metrics: MetricItem[] = stats.map((s) => ({
-    value: s.value ?? "",
-    label: s.label ?? "",
-  }));
-
   return (
     <SectionsWrapper
       id="numbers"
       eyebrow={eyebrow}
     >
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-12 text-black dark:text-[#efefef]">
         {heading ? (
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
+          <h2 className="max-w-[14ch] font-funnel text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
             {heading}
           </h2>
         ) : null}
-        <MetricStrip items={metrics} variant="brand" />
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 md:grid-cols-2 xl:grid-cols-4">
+          {stats.map((stat, index) => {
+            return (
+              <div
+                key={`${stat.value}-${index}`}
+                className="flex w-full max-w-full flex-col items-start gap-6 xl:max-w-[185px]"
+              >
+                <p className="font-betatron text-[44px] leading-[1.2] tracking-[-1px] text-brand md:text-[56px]">
+                  {stat.value}
+                </p>
+                <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef] md:text-[32px] whitespace-pre-line">
+                  {stat.label}
+                </p>
+              </div>
+            );
+          })}
+        </div>
         {footnote ? (
-          <p className="font-betatron text-caption text-muted">{footnote}</p>
+          <p className="max-w-[48rem] font-funnel text-[20px] leading-[1.4] tracking-[-0.4px] text-black/65 dark:text-[#efefef]/70 md:text-[24px]">
+            {footnote}
+          </p>
         ) : null}
       </div>
     </SectionsWrapper>

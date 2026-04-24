@@ -27,6 +27,13 @@ export const freeResources = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'footnote',
+      title: 'Footnote',
+      type: 'text',
+      description: 'Optional closing note shown below the resource grid.',
+      rows: 3,
+    }),
+    defineField({
       name: 'items',
       title: 'Resources',
       type: 'array',
@@ -36,6 +43,12 @@ export const freeResources = defineType({
           type: 'object',
           fields: [
             defineField({name: 'title', type: 'string', validation: (Rule) => Rule.required()}),
+            defineField({
+              name: 'badge',
+              title: 'Badge',
+              type: 'string',
+              description: 'Optional short label like "Email required".',
+            }),
             defineField({name: 'description', type: 'text'}),
             defineField({
               name: 'file',

@@ -1,10 +1,13 @@
 import {defineField, defineType} from 'sanity'
 import {LinkIcon} from '@sanity/icons'
-import type {Link} from '../../../sanity.types'
+
+type LinkParent = {
+  linkType?: 'href' | 'page' | 'post' | 'service' | 'project'
+}
 
 /**
  * Link schema object. This link object lets the user first select the type of link and then
- * then enter the URL, page reference, or post reference - depending on the type selected.
+ * then enter the URL or a document reference - depending on the type selected.
  * Learn more: https://www.sanity.io/docs/studio/object-type
  */
 
@@ -24,6 +27,8 @@ export const link = defineType({
           {title: 'URL', value: 'href'},
           {title: 'Page', value: 'page'},
           {title: 'Post', value: 'post'},
+          {title: 'Service', value: 'service'},
+          {title: 'Project', value: 'project'},
         ],
         layout: 'radio',
       },
@@ -36,7 +41,7 @@ export const link = defineType({
       validation: (Rule) =>
         // Custom validation to ensure URL is provided if the link type is 'href'
         Rule.custom((value, context) => {
-          const parent = context.parent as Link
+          const parent = context.parent as LinkParent
           if (parent?.linkType === 'href' && !value) {
             return 'URL is required when Link Type is URL'
           }
@@ -52,7 +57,7 @@ export const link = defineType({
       validation: (Rule) =>
         // Custom validation to ensure page reference is provided if the link type is 'page'
         Rule.custom((value, context) => {
-          const parent = context.parent as Link
+          const parent = context.parent as LinkParent
           if (parent?.linkType === 'page' && !value) {
             return 'Page reference is required when Link Type is Page'
           }
@@ -68,9 +73,39 @@ export const link = defineType({
       validation: (Rule) =>
         // Custom validation to ensure post reference is provided if the link type is 'post'
         Rule.custom((value, context) => {
-          const parent = context.parent as Link
+          const parent = context.parent as LinkParent
           if (parent?.linkType === 'post' && !value) {
             return 'Post reference is required when Link Type is Post'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'service',
+      title: 'Service',
+      type: 'reference',
+      to: [{type: 'service'}],
+      hidden: ({parent}) => parent?.linkType !== 'service',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as LinkParent
+          if (parent?.linkType === 'service' && !value) {
+            return 'Service reference is required when Link Type is Service'
+          }
+          return true
+        }),
+    }),
+    defineField({
+      name: 'project',
+      title: 'Project',
+      type: 'reference',
+      to: [{type: 'project'}],
+      hidden: ({parent}) => parent?.linkType !== 'project',
+      validation: (Rule) =>
+        Rule.custom((value, context) => {
+          const parent = context.parent as LinkParent
+          if (parent?.linkType === 'project' && !value) {
+            return 'Project reference is required when Link Type is Project'
           }
           return true
         }),

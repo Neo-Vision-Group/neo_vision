@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
+import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -18,6 +19,40 @@ export type InsightsGridData = {
   items?: Array<ArticleCardData & { category?: string | null }>;
   categoryFilters?: Array<{ label?: string; value?: string }>;
 };
+
+function InsightsFilterButton({
+  label,
+  active,
+  onClick,
+}: {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cn(
+        "relative inline-flex bg-[#f0f0f0] dark:bg-[#1a1a1a] min-h-[47px] items-center justify-center self-start px-[10px] py-[10px] font-funnel text-[18px] leading-[1.5] text-[var(--text)] transition-colors duration-200",
+        active
+          ? "bg-[rgba(255,65,0,0.3)]"
+          : " hover:bg-black/5 dark:hover:bg-white/5"
+      )}
+    >
+      <span className="text-black dark:text-white">{label}</span>
+
+      {active ? (
+        <>
+          <span className="absolute -left-[5px] -right-[5px] top-[-1px] h-px bg-brand" />
+          <span className="absolute -left-[5px] -right-[5px] bottom-[-1px] h-px bg-brand" />
+          <span className="absolute -bottom-[5px] -top-[5px] left-[-1px] w-px bg-brand" />
+          <span className="absolute -bottom-[5px] -top-[5px] right-[-1px] w-px bg-brand" />
+        </>
+      ) : null}
+    </button>
+  );
+}
 
 function getArticleKey(article: ArticleCardData) {
   if (article._id) return article._id;
@@ -39,49 +74,32 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
     ]
   ).map((f) => ({ label: f.label ?? "All", value: f.value ?? "all" }));
 
-  const items: Array<ArticleCardData & { category?: string | null }> =
-    cleanData?.items ?? [];
+  const items = cleanData?.items;
 
   const [categoryFilter, setCategoryFilter] = useState(categoryOptions[0]?.value ?? "all");
 
-  const filtered = useMemo(() => {
-    return items.filter((item) => {
-      return (
-        categoryFilter === "all" ||
-        item.category?.toLowerCase().includes(categoryFilter.toLowerCase())
-      );
-    });
-  }, [items, categoryFilter]);
+  const filtered = (items ?? []).filter((item) => {
+    return (
+      categoryFilter === "all" ||
+      item.category?.toLowerCase().includes(categoryFilter.toLowerCase())
+    );
+  });
 
   const eyebrow = (
-    <div className="flex flex-col gap-12">
-      <p className="font-betatron text-[32px] leading-[1.2] text-black dark:text-[#efefef]">
-        BY CATEGORY
+    <div className="flex flex-col items-start gap-[18px]">
+      <p className="font-betatron dark:text-white text-black text-[32px] leading-[1.2] text-[var(--text)]">
+        Category
       </p>
 
-      {/* Category Filters */}
-      <div className="flex flex-col gap-5">
-        <div className="flex flex-col gap-5">
-          {categoryOptions.map((option) => (
-            <button
-              key={option.value}
-              onClick={() => setCategoryFilter(option.value)}
-              className={`relative text-left text-[18px] leading-[1.5] transition-colors ${
-                categoryFilter === option.value
-                  ? "bg-brand text-white"
-                  : "text-black/60 dark:text-white/60 hover:text-black dark:hover:text-white"
-              }`}
-            >
-              <span className="relative z-10 px-2 py-2 inline-block">{option.label}</span>
-              {categoryFilter === option.value && (
-                <>
-                  <div className="absolute -left-1 -top-0 h-[calc(100%+4px)] w-px bg-brand" />
-                  <div className="absolute -right-1 bottom-0 h-[calc(100%+4px)] w-px bg-brand" />
-                </>
-              )}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-col items-start gap-5">
+        {categoryOptions.map((option) => (
+          <InsightsFilterButton
+            key={option.value}
+            label={option.label}
+            active={categoryFilter === option.value}
+            onClick={() => setCategoryFilter(option.value)}
+          />
+        ))}
       </div>
     </div>
   );

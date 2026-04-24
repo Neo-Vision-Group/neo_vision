@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+﻿import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
 
 /**
@@ -91,9 +91,14 @@ export const service = defineType({
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'whyRomania'},
         {type: 'soundFamiliar'},
+        {type: 'compare'},
+        {type: 'steps'},
         {type: 'faq'},
         {type: 'isThisForYou'},
+        {type: 'awards'},
+        {type: 'techStack'},
       ],
       options: {
         insertMenu: {
@@ -110,3 +115,4 @@ export const service = defineType({
     }),
   ],
 })
+

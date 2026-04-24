@@ -20,10 +20,10 @@ interface AsButton
   href?: undefined;
 }
 
-interface AsLink extends BaseProps {
+interface AsLink
+  extends BaseProps,
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof BaseProps> {
   href: string;
-  target?: string;
-  rel?: string;
 }
 
 type ButtonProps = AsButton | AsLink;
@@ -97,6 +97,7 @@ export function Button(props: ButtonProps) {
         href={linkProps.href}
         target={linkProps.target}
         rel={linkProps.rel}
+        download={linkProps.download}
         className={classes}
       >
         {content}

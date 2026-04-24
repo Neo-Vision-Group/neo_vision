@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import ArrowRight from "@/components/icons/ArrowRight";
+import ArrowRight from "../icons/ArrowRightPixel";
 
 /**
  * Case study listing card — used on /portfolio and
@@ -20,6 +20,9 @@ export type CaseStudyCardData = {
   thumb?: string | null;
   thumbHref?: string | null;
 };
+
+const FALLBACK_PATTERN =
+  "radial-gradient(circle at 18% 22%, rgba(255,255,255,0.09) 0, rgba(255,255,255,0.09) 1px, transparent 1px), radial-gradient(circle at 72% 14%, rgba(255,255,255,0.07) 0, rgba(255,255,255,0.07) 1px, transparent 1px), radial-gradient(circle at 52% 40%, rgba(255,255,255,0.06) 0, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(180deg, rgba(15,15,15,0.2) 0%, rgba(4,4,4,0.9) 100%)";
 
 function resolveSlug(slug: CaseStudyCardData["slug"]): string {
   if (!slug) return "";
@@ -43,15 +46,15 @@ export function CaseStudyCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col overflow-hidden border border-white/10 bg-surface transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5",
-        featured ? "md:flex-row" : "",
+        "group relative flex flex-col gap-6 bg-[#f0f0f0] dark:bg-[#040404] overflow-hidden border border-black/15 bg-surface p-4 transition-all duration-300 ease-out hover:border-black/25 dark:border-white/10 dark:hover:border-white/20 md:gap-6 md:p-6",
+        featured ? "md:flex-row md:items-stretch" : "md:flex-row md:items-stretch",
         className
       )}
     >
       <div
         className={cn(
-          "relative bg-black/40",
-          featured ? "aspect-[16/9] md:aspect-auto md:w-3/5" : "aspect-[4/3]"
+          "relative isolate flex aspect-square overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
+          featured ? "w-full md:w-[367px] md:min-w-[367px]" : "w-full md:w-[367px] md:min-w-[367px]"
         )}
       >
         {item.thumb ? (
@@ -59,34 +62,31 @@ export function CaseStudyCard({
           <img
             src={item.thumb}
             alt={item.client}
-            className="absolute inset-0 h-full w-full object-cover opacity-70 transition-opacity duration-300 group-hover:opacity-85"
+            className="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity duration-300 group-hover:opacity-60"
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-surface via-black/40 to-brand/20" />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundColor: "#040404",
+              backgroundImage: FALLBACK_PATTERN,
+              backgroundSize: "18px 18px, 24px 24px, 30px 30px, auto",
+              backgroundPosition: "0 0, 0 0, 0 0, 0 0",
+            }}
+          />
         )}
-        <div className="relative flex h-full flex-col justify-between p-4 md:p-6">
-          <div className="flex flex-wrap gap-2">
-            {item.category ? (
-              <span className="bg-background/80 px-2 py-1 font-betatron text-[10px] uppercase tracking-wider text-foreground">
-                {item.category}
-              </span>
-            ) : null}
-            {item.industry ? (
-              <span className="bg-background/80 px-2 py-1 font-betatron text-[10px] uppercase tracking-wider text-foreground/80">
-                {item.industry}
-              </span>
-            ) : null}
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] via-transparent to-black/30" />
+        <div className="relative flex h-full flex-col justify-end p-2">
           {item.metric ? (
-            <div className="self-start bg-brand px-3 py-2 text-background">
-              <p className="font-betatron text-[24px] leading-none tracking-tight md:text-[32px]">
-                {item.metric}
-              </p>
+            <div className="self-start bg-brand px-2 py-1.5 text-white">
               {item.metricLabel ? (
-                <p className="mt-1 text-[10px] font-betatron uppercase tracking-wider">
+                <p className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-white">
                   {item.metricLabel}
                 </p>
               ) : null}
+              <p className="font-betatron text-[28px] leading-[1.2] tracking-[-1px] md:text-[32px]">
+                {item.metric}
+              </p>
             </div>
           ) : null}
         </div>
@@ -94,26 +94,41 @@ export function CaseStudyCard({
 
       <div
         className={cn(
-          "flex flex-1 flex-col gap-3 p-6 md:p-8",
-          featured ? "md:w-2/5 md:justify-center" : ""
+          "flex min-w-0 flex-1 flex-col justify-between py-1 md:py-6",
+          featured ? "md:min-h-[367px]" : "md:min-h-[367px]"
         )}
       >
-        <div className="flex items-center gap-3">
-          <p className="text-h4 font-medium tracking-[-0.2px] text-foreground">
-            {item.client}
-          </p>
-          {item.year ? (
-            <span className="font-betatron text-caption uppercase tracking-wider text-muted">
-              {item.year}
+        <div className="flex flex-col gap-3">
+          {item.category ? (
+            <span className="self-start bg-brand/30 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef]">
+              {item.category}
             </span>
           ) : null}
+          <div className="flex flex-col gap-2">
+            <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-[32px] md:tracking-[-1px]">
+              {item.client}
+            </p>
+            {item.tagline ? (
+              <p className="max-w-[28ch] text-[16px] leading-[1.5] text-black/70 dark:text-[#efefef]/70 md:text-body-2">
+                {item.tagline}
+              </p>
+            ) : null}
+            {item.industry && !item.category ? (
+              <p className="font-betatron text-[12px] uppercase tracking-wider text-black/55 dark:text-[#efefef]/55">
+                {item.industry}
+              </p>
+            ) : null}
+          </div>
         </div>
-        {item.tagline ? (
-          <p className="text-body-2 text-foreground/70">{item.tagline}</p>
-        ) : null}
-        <span className="mt-auto inline-flex items-center gap-2 pt-2 text-body-2 text-foreground transition-transform duration-200 group-hover:translate-x-0.5">
+
+        <span className="mt-8 inline-flex items-center gap-3 font-funnel text-[20px] font-bold leading-[1.2] text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef] md:mt-10 md:text-[24px]">
+          <ArrowRight
+            color="currentColor"
+            width={38}
+            height={24}
+            className="text-black dark:text-[#efefef]"
+          />
           Read case study
-          <ArrowRight color="white" width={20} height={14} />
         </span>
       </div>
     </Link>

@@ -30,9 +30,7 @@ export function Story({ data }: { data?: StoryData }) {
 
   const story = {
     eyebrow: cleanData?.eyebrow ?? storyFallback.eyebrow,
-    heading: typeof cleanData?.heading === 'string' 
-      ? { faded: cleanData.heading, bold: '', trailing: '' }
-      : storyFallback.heading,
+    heading: cleanData?.heading ?? storyFallback.heading,
     milestones:
       cleanData?.milestones && cleanData.milestones.length > 0
         ? cleanData.milestones
@@ -140,14 +138,14 @@ export function Story({ data }: { data?: StoryData }) {
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          stagger={0.05}
           duration={0.6}
+          as="h2"
+          type="words"
+          stagger={0.04}
+          colorReveal
         >
           <h2 className="text-[32px] leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-[900px]">
-            <span className="text-foreground/70">{story.heading.faded} </span>
-            <span className="font-bold">{story.heading.bold}</span>
-            <br />
-            <span className="text-foreground/70">{story.heading.trailing}</span>
+            {story.heading}
           </h2>
         </SplitTextReveal>
 

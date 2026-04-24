@@ -1,9 +1,11 @@
-import {defineQuery} from 'next-sanity'
+﻿import {defineQuery} from 'next-sanity'
 
 const linkReference = /* groq */ `
   _type == "link" => {
     "page": page->slug.current,
-    "post": post->slug.current
+    "post": post->slug.current,
+    "service": service->slug.current,
+    "project": project->slug.current
   }
 `
 
@@ -25,9 +27,495 @@ const postFields = /* groq */ `
   "author": author->{firstName, lastName, picture},
 `
 
+const sharedPageBuilderProjection = /* groq */ `
+  "pageBuilder": pageBuilder[]{
+    ...,
+    _type == "homeHero" => {
+      ...,
+      primaryCta {
+        ...,
+        ${linkFields}
+      },
+      secondaryCta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "pageHero" => {
+      ...,
+      eyebrow,
+      headingType,
+      heading,
+      headingMultipart {
+        faded,
+        regular,
+        bold,
+        trailing
+      },
+      subheading,
+      stats[]{
+        number,
+        suffix,
+        label
+      },
+      featured->{
+        _type,
+        _id,
+        slug,
+        _type == "post" => {
+          title,
+          excerpt,
+          category,
+          publishedAt,
+          readTime,
+          author->{name}
+        },
+        _type == "project" => {
+          client,
+          year,
+          category,
+          industry,
+          tagline,
+          "cover": thumb.asset->url
+        }
+      }
+    },
+    _type == "contactHero" => {
+      ...,
+      eyebrow,
+      heading,
+      description,
+      steps[]{
+        title,
+        description
+      },
+      formConfig {
+        services,
+        budgetRanges,
+        timelines,
+        hearAboutUs
+      }
+    },
+    _type == "booking" => {
+      ...,
+      heading,
+      callTitle,
+      whatToExpectHeading,
+      expectations,
+      schedulerUrl,
+      teamMember->{
+        name,
+        role,
+        portrait
+      }
+    },
+    _type == "callToAction" => {
+      ...,
+      button {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "infoSection" => {
+      content[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      }
+    },
+    _type == "testimonials" => {
+      ...,
+      eyebrow,
+      logos[]{
+        name,
+        logo
+      },
+      testimonials[]->{
+        attribution,
+        quote,
+        profilePicture
+      }
+    },
+    _type == "whatWeDo" => {
+      ...,
+      cards[]{
+        ...,
+        services[]->{
+          ...
+        }
+      }
+    },
+    _type == "signature2" => {
+      ...,
+      steps[]{
+        ...,
+        title,
+        highlighted
+      },
+      cta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "team" => {
+      ...,
+      members[]->{
+        ...,
+        portrait {
+          ...,
+          asset->
+        }
+      }
+    },
+    _type == "story" => {
+      ...,
+      milestones[]{
+        year,
+        body
+      }
+    },
+    _type == "portfolio" => {
+      ...,
+      eyebrow,
+      heading,
+      projects[]->{
+        _id,
+        client,
+        year,
+        slug,
+        category,
+        title,
+        tagline,
+        description,
+        image,
+        link
+      }
+    },
+    _type == "pricing" => {
+      ...,
+      tiers[]{
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      }
+    },
+    _type == "cta" => {
+      ...,
+      heading,
+      body,
+      cta {
+        ...,
+        ${linkFields}
+      },
+      subtext
+    },
+    _type == "engineeringServices" => {
+      ...,
+      services[]{
+        ...,
+        service->{
+          ...
+        }
+      }
+    },
+    _type == "serviceNavigator" => {
+      ...,
+      cards[]{
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      closingCta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "soundFamiliar" => {
+      ...,
+      painPoints[]{
+        ...,
+        title,
+        body
+      }
+    },
+    _type == "ai" => {
+      ...,
+      services[]{
+        ...,
+        service->{
+          ...
+        }
+      }
+    },
+    _type == "industries" => {
+      ...,
+      industries[]{
+        ...,
+        icon
+      }
+    },
+    _type == "reality" => {
+      ...,
+      heading {
+        faded,
+        bold
+      },
+      points[]{
+        title,
+        body
+      },
+      cta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "compare" => {
+      ...,
+      heading {
+        highlighted,
+        regular
+      },
+      rows[]{
+        label
+      },
+      columns[]{
+        name,
+        highlightColumn,
+        values[]{
+          available
+        }
+      },
+      closing {
+        lead,
+        highlight,
+        followup
+      }
+    },
+    _type == "whyRomania" => {
+      ...,
+      title,
+      body[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      },
+      highlights[]{
+        stat,
+        description
+      }
+    },
+    _type == "faq" => {
+      ...,
+      items[]{
+        ...
+      }
+    },
+    _type == "isThisForYou" => {
+      ...,
+      items[]{
+        text
+      }
+    },
+    _type == "steps" => {
+      ...,
+      items[]{
+        ...,
+        title,
+        duration,
+        body
+      },
+      visual {
+        ...,
+        asset->
+      }
+    },
+    _type == "insightsFeatured" => {
+      ...,
+      insight->{
+        _id,
+        title,
+        slug,
+        excerpt,
+        category,
+        publishedAt,
+        readTime,
+        featured,
+        author->{name, role, portrait}
+      }
+    },
+    _type == "insightsGrid" => {
+      ...,
+      items[]->{
+        _id,
+        title,
+        slug,
+        excerpt,
+        category,
+        publishedAt,
+        readTime,
+        featured,
+        author->{name, role, portrait}
+      }
+    },
+    _type == "insightsCta" => {
+      ...,
+      cta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "freeResources" => {
+      ...,
+      heading {
+        faded,
+        bold,
+        regular,
+        trailing
+      },
+      items[]{
+        ...,
+        title,
+        description,
+        file,
+        externalUrl,
+        "fileUrl": file.asset->url
+      }
+    },
+    _type == "portfolioFeatured" => {
+      ...,
+      caseStudy->{
+        _id,
+        client,
+        slug,
+        year,
+        category,
+        industry,
+        tagline,
+        metric,
+        metricLabel,
+        thumb
+      }
+    },
+    _type == "portfolioGrid" => {
+      ...,
+      items[]->{
+        _id,
+        client,
+        slug,
+        year,
+        category,
+        industry,
+        tagline,
+        metric,
+        metricLabel,
+        thumb
+      },
+      serviceFilters[]{
+        label,
+        value
+      },
+      industryFilters[]{
+        label,
+        value
+      }
+    },
+    _type == "portfolioMetrics" => {
+      ...,
+      items[]{
+        value,
+        label
+      }
+    },
+    _type == "portfolioCta" => {
+      ...,
+      heading,
+      body,
+      cta {
+        ...,
+        ${linkFields}
+      }
+    },
+    _type == "place" => {
+      ...,
+      eyebrow,
+      headingRegular,
+      headingBold,
+      body,
+      backgroundGraphic {
+        ...,
+        asset->
+      },
+      locations[]{
+        city,
+        address,
+        note
+      },
+      cta {
+        label,
+        href
+      }
+    },
+    _type == "awards" => {
+      ...,
+      eyebrow,
+      items[]{
+        title,
+        recognitions,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      featuredTitle,
+      featuredBadge {
+        ...,
+        asset->
+      }
+    },
+    _type == "press" => {
+      ...,
+      eyebrow,
+      heading,
+      cardTitle,
+      cardBody,
+      ctaLabel,
+      file {
+        ...,
+        asset->
+      }
+    },
+    _type == "techStack" => {
+      ...,
+      eyebrow,
+      headingRegular,
+      headingBold,
+      groups[]{
+        title,
+        items[]{
+          name,
+          logo {
+            ...,
+            asset->
+          }
+        }
+      },
+      closingNote
+    },
+  }
+`
+
 export const settingsQuery = defineQuery(`
   *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{
     ...,
+    phoneNumber,
     logoPicture {
       ...,
       asset->
@@ -48,6 +536,8 @@ export const settingsQuery = defineQuery(`
         href,
         "page": page->slug.current,
         "post": post->slug.current,
+        "service": service->slug.current,
+        "project": project->slug.current,
         openInNewTab
       }
     },
@@ -80,333 +570,7 @@ export const pageQuery = defineQuery(`
     pageType,
     heading,
     subheading,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "homeHero" => {
-        ...,
-        primaryCta {
-          ...,
-          ${linkFields}
-        },
-        secondaryCta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "pageHero" => {
-        ...,
-        eyebrow,
-        headingType,
-        heading,
-        headingMultipart {
-          faded,
-          regular,
-          bold,
-          trailing
-        },
-        subheading,
-        stats[]{
-          number,
-          suffix,
-          label
-        }
-      },
-      _type == "contactHero" => {
-        ...,
-        eyebrow,
-        heading,
-        description,
-        steps[]{
-          title,
-          description
-        },
-        formConfig {
-          services,
-          budgetRanges,
-          timelines,
-          hearAboutUs
-        }
-      },
-      _type == "booking" => {
-        ...,
-        heading,
-        callTitle,
-        whatToExpectHeading,
-        expectations,
-        schedulerUrl,
-        teamMember->{
-          name,
-          role,
-          portrait
-        }
-      },
-      _type == "callToAction" => {
-        ...,
-        button {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
-      _type == "testimonials" => {
-        ...,
-        eyebrow,
-        logos[]{
-          name,
-          logo
-        },
-        testimonials[]->{
-          attribution,
-          quote,
-          profilePicture
-        }
-      },
-      _type == "whatWeDo" => {
-        ...,
-        cards[]{
-          ...,
-          services[]->{
-            ...
-          }
-        }
-      },
-      _type == "team" => {
-        ...,
-        members[]->{
-          ...,
-          portrait {
-            ...,
-            asset->
-          }
-        }
-      },
-      _type == "story" => {
-        ...,
-        milestones[]{
-          year,
-          body
-        }
-      },
-      _type == "portfolio" => {
-        ...,
-        eyebrow,
-        heading,
-        projects[]->{
-          _id,
-          client,
-          year,
-          slug,
-          category,
-          title,
-          tagline,
-          description,
-          image,
-          link
-        }
-      },
-      _type == "cta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        },
-        subtext
-      },
-      _type == "engineeringServices" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "soundFamiliar" => {
-        ...,
-        painPoints[]{
-          ...,
-          title,
-          body
-        }
-      },
-      _type == "ai" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "industries" => {
-        ...,
-        industries[]{
-          ...,
-          icon
-        }
-      },
-      _type == "reality" => {
-        ...,
-        heading {
-          faded,
-          bold
-        },
-        points[]{
-          title,
-          body
-        },
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "faq" => {
-        ...,
-        items[]{
-          ...
-        }
-      },
-      _type == "isThisForYou" => {
-        ...,
-        items[]{
-          text
-        }
-      },
-      _type == "insightsFeatured" => {
-        ...,
-        insight->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsGrid" => {
-        ...,
-        items[]->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsCta" => {
-        ...,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "freeResources" => {
-        ...,
-        heading {
-          faded,
-          bold,
-          regular,
-          trailing
-        },
-        items[]{
-          ...,
-          title,
-          description,
-          file,
-          externalUrl,
-          "fileUrl": file.asset->url
-        }
-      },
-      _type == "portfolioFeatured" => {
-        ...,
-        caseStudy->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        }
-      },
-      _type == "portfolioGrid" => {
-        ...,
-        items[]->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        },
-        categoryFilters[]{
-          label,
-          value
-        }
-      },
-      _type == "portfolioMetrics" => {
-        ...,
-        items[]{
-          value,
-          label
-        }
-      },
-      _type == "portfolioCta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "place" => {
-        ...,
-        eyebrow,
-        headingRegular,
-        headingBold,
-        body,
-        backgroundGraphic {
-          ...,
-          asset->
-        },
-        locations[]{
-          city,
-          address,
-          note
-        },
-        cta {
-          label,
-          href
-        }
-      },
-    },
+    ${sharedPageBuilderProjection},
   }
 `)
 
@@ -420,333 +584,7 @@ export const homePageQuery = defineQuery(`
     pageType,
     heading,
     subheading,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "homeHero" => {
-        ...,
-        primaryCta {
-          ...,
-          ${linkFields}
-        },
-        secondaryCta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "pageHero" => {
-        ...,
-        eyebrow,
-        headingType,
-        heading,
-        headingMultipart {
-          faded,
-          regular,
-          bold,
-          trailing
-        },
-        subheading,
-        stats[]{
-          number,
-          suffix,
-          label
-        }
-      },
-      _type == "contactHero" => {
-        ...,
-        eyebrow,
-        heading,
-        description,
-        steps[]{
-          title,
-          description
-        },
-        formConfig {
-          services,
-          budgetRanges,
-          timelines,
-          hearAboutUs
-        }
-      },
-      _type == "booking" => {
-        ...,
-        heading,
-        callTitle,
-        whatToExpectHeading,
-        expectations,
-        schedulerUrl,
-        teamMember->{
-          name,
-          role,
-          portrait
-        }
-      },
-      _type == "callToAction" => {
-        ...,
-        button {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
-      _type == "testimonials" => {
-        ...,
-        eyebrow,
-        logos[]{
-          name,
-          logo
-        },
-        testimonials[]->{
-          attribution,
-          quote,
-          profilePicture
-        }
-      },
-      _type == "whatWeDo" => {
-        ...,
-        cards[]{
-          ...,
-          services[]->{
-            ...
-          }
-        }
-      },
-      _type == "team" => {
-        ...,
-        members[]->{
-          ...,
-          portrait {
-            ...,
-            asset->
-          }
-        }
-      },
-      _type == "story" => {
-        ...,
-        milestones[]{
-          year,
-          body
-        }
-      },
-      _type == "portfolio" => {
-        ...,
-        eyebrow,
-        heading,
-        projects[]->{
-          _id,
-          client,
-          year,
-          slug,
-          category,
-          title,
-          tagline,
-          description,
-          image,
-          link
-        }
-      },
-      _type == "cta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        },
-        subtext
-      },
-      _type == "engineeringServices" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "soundFamiliar" => {
-        ...,
-        painPoints[]{
-          ...,
-          title,
-          body
-        }
-      },
-      _type == "ai" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "industries" => {
-        ...,
-        industries[]{
-          ...,
-          icon
-        }
-      },
-      _type == "reality" => {
-        ...,
-        heading {
-          faded,
-          bold
-        },
-        points[]{
-          title,
-          body
-        },
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "faq" => {
-        ...,
-        items[]{
-          ...
-        }
-      },
-      _type == "isThisForYou" => {
-        ...,
-        items[]{
-          text
-        }
-      },
-      _type == "insightsFeatured" => {
-        ...,
-        insight->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsGrid" => {
-        ...,
-        items[]->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsCta" => {
-        ...,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "freeResources" => {
-        ...,
-        heading {
-          faded,
-          bold,
-          regular,
-          trailing
-        },
-        items[]{
-          ...,
-          title,
-          description,
-          file,
-          externalUrl,
-          "fileUrl": file.asset->url
-        }
-      },
-      _type == "portfolioFeatured" => {
-        ...,
-        caseStudy->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        }
-      },
-      _type == "portfolioGrid" => {
-        ...,
-        items[]->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        },
-        categoryFilters[]{
-          label,
-          value
-        }
-      },
-      _type == "portfolioMetrics" => {
-        ...,
-        items[]{
-          value,
-          label
-        }
-      },
-      _type == "portfolioCta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "place" => {
-        ...,
-        eyebrow,
-        headingRegular,
-        headingBold,
-        body,
-        backgroundGraphic {
-          ...,
-          asset->
-        },
-        locations[]{
-          city,
-          address,
-          note
-        },
-        cta {
-          label,
-          href
-        }
-      },
-    },
+    ${sharedPageBuilderProjection},
   }
 `)
 
@@ -800,7 +638,6 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
     slug,
     excerpt,
     category,
-    "cover": cover.asset->url,
     publishedAt,
     readTime,
     featured,
@@ -816,14 +653,9 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     slug,
     excerpt,
     category,
-    cover {
-      ...,
-      asset->
-    },
     publishedAt,
     readTime,
     featured,
-    body,
     "pageBuilder": pageBuilder[]{
       ...,
       _type == "insightBlock" => {
@@ -833,6 +665,120 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
           markDefs[]{
             ...,
             ${linkReference}
+          }
+        },
+        quote {
+          attribution,
+          quote[]{
+            ...,
+            markDefs[]{
+              ...,
+              ${linkReference}
+            }
+          }
+        },
+        card {
+          label,
+          body[]{
+            ...,
+            markDefs[]{
+              ...,
+              ${linkReference}
+            }
+          }
+        }
+      },
+      _type == "whyRomania" => {
+        ...,
+        title,
+        body[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        },
+        highlights[]{
+          stat,
+          description
+        }
+      },
+      _type == "steps" => {
+        ...,
+        items[]{
+          ...,
+          title,
+          duration,
+          body
+        },
+        visual {
+          ...,
+          asset->
+        }
+      },
+      _type == "compare" => {
+        ...,
+        heading {
+          highlighted,
+          regular
+        },
+        rows[]{
+          label
+        },
+        columns[]{
+          name,
+          highlightColumn,
+          values[]{
+            available
+          }
+        },
+        closing {
+          lead,
+          highlight,
+          followup
+        }
+      },
+      _type == "awards" => {
+        ...,
+        eyebrow,
+        items[]{
+          title,
+          recognitions,
+          cta {
+            ...,
+            ${linkFields}
+          }
+        },
+        featuredTitle,
+        featuredBadge {
+          ...,
+          asset->
+        }
+      },
+      _type == "techStack" => {
+        ...,
+        eyebrow,
+        headingRegular,
+        headingBold,
+        groups[]{
+          title,
+          items[]{
+            name,
+            logo {
+              ...,
+              asset->
+            }
+          }
+        },
+        closingNote
+      },
+      _type == "pricing" => {
+        ...,
+        tiers[]{
+          ...,
+          cta {
+            ...,
+            ${linkFields}
           }
         }
       }
@@ -844,7 +790,6 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       slug,
       excerpt,
       category,
-      "cover": cover.asset->url,
       publishedAt,
     }
   }
@@ -874,6 +819,7 @@ export const allProjectsQuery = defineQuery(`
 export const projectBySlugQuery = defineQuery(`
   *[_type == "project" && slug.current == $slug][0]{
     _id,
+    _type,
     client,
     year,
     slug,
@@ -887,21 +833,241 @@ export const projectBySlugQuery = defineQuery(`
       ...,
       _type == "studyHero" => {
         ...,
+        details[]{
+          _key,
+          label,
+          value
+        },
         heroImage {
           ...,
           asset->
         }
+      },
+      _type == "studyChallenge" => {
+        ...,
+        issues[]{
+          _key,
+          tag,
+          body
+        }
+      },
+      _type == "studyApproach" => {
+        ...,
+        heading {
+          faded,
+          bold
+        },
+        callout {
+          label,
+          body
+        }
+      },
+      _type == "studyKeyWins" => {
+        ...,
+        comparison {
+          beforeLabel,
+          afterLabel,
+          rows[]{
+            _key,
+            label,
+            before,
+            after
+          }
+        }
+      },
+      _type == "studyWhatWeBuilt" => {
+        ...,
+        features[]{
+          _key,
+          number,
+          title,
+          body,
+          image {
+            ...,
+            asset->
+          }
+        }
+      },
+      _type == "studyNumbers" => {
+        ...,
+        stats[]{
+          _key,
+          value,
+          label
+        }
+      },
+      _type == "studyTestimonial" => {
+        ...,
+        quote {
+          quote,
+          attribution,
+          source,
+          accent
+        }
+      },
+      _type == "studyTechStack" => {
+        ...,
+        tools[]
+      },
+      _type == "portfolioGrid" => {
+        ...,
+        items[]->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          "thumb": thumb.asset->url
+        },
+        serviceFilters[]{
+          label,
+          value
+        },
+        industryFilters[]{
+          label,
+          value
+        }
+      },
+      _type == "cta" => {
+        ...,
+        heading,
+        body,
+        cta {
+          ...,
+          ${linkFields}
+        },
+        subtext
+      },
+      _type == "studyMoreLikeThis" => {
+        ...,
+        heading {
+          regular,
+          bold
+        },
+        items[]->{
+          _id,
+          client,
+          slug,
+          year,
+          category,
+          industry,
+          tagline,
+          metric,
+          metricLabel,
+          "thumb": thumb.asset->url
+        }
+      },
+      _type == "studyClosingCta" => {
+        ...,
+        heading {
+          regular,
+          bold
+        },
+        body,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
+      _type == "whyRomania" => {
+        ...,
+        title,
+        body[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        },
+        highlights[]{
+          stat,
+          description
+        }
+      },
+      _type == "steps" => {
+        ...,
+        items[]{
+          ...,
+          title,
+          duration,
+          body
+        },
+        visual {
+          ...,
+          asset->
+        }
+      },
+      _type == "compare" => {
+        ...,
+        heading {
+          highlighted,
+          regular
+        },
+        rows[]{
+          label
+        },
+        columns[]{
+          name,
+          highlightColumn,
+          values[]{
+            available
+          }
+        },
+        closing {
+          lead,
+          highlight,
+          followup
+        }
+      },
+      _type == "awards" => {
+        ...,
+        eyebrow,
+        items[]{
+          title,
+          recognitions,
+          cta {
+            ...,
+            ${linkFields}
+          }
+        },
+        featuredTitle,
+        featuredBadge {
+          ...,
+          asset->
+        }
+      },
+      _type == "techStack" => {
+        ...,
+        eyebrow,
+        headingRegular,
+        headingBold,
+        groups[]{
+          title,
+          items[]{
+            name,
+            logo {
+              ...,
+              asset->
+            }
+          }
+        },
+        closingNote
+      },
+      _type == "pricing" => {
+        ...,
+        tiers[]{
+          ...,
+          cta {
+            ...,
+            ${linkFields}
+          }
+        }
       }
     },
-    challenge,
-    approach,
-    keyWins,
-    whatWeBuilt,
-    numbers,
-    testimonial,
-    detailTestimonial,
-    techStack,
-    closingCta,
     publishedAt
   }
 `)
@@ -918,318 +1084,7 @@ export const serviceQuery = defineQuery(`
     category,
     tag,
     duration,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "homeHero" => {
-        ...,
-        primaryCta {
-          ...,
-          ${linkFields}
-        },
-        secondaryCta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "pageHero" => {
-        ...,
-        eyebrow,
-        headingType,
-        heading,
-        headingMultipart {
-          faded,
-          regular,
-          bold,
-          trailing
-        },
-        subheading,
-        stats[]{
-          number,
-          suffix,
-          label
-        }
-      },
-      _type == "contactHero" => {
-        ...,
-        eyebrow,
-        heading,
-        description,
-        steps[]{
-          title,
-          description
-        },
-        formConfig {
-          services,
-          budgetRanges,
-          timelines,
-          hearAboutUs
-        }
-      },
-      _type == "booking" => {
-        ...,
-        heading,
-        callTitle,
-        whatToExpectHeading,
-        expectations,
-        schedulerUrl,
-        teamMember->{
-          name,
-          role,
-          portrait
-        }
-      },
-      _type == "callToAction" => {
-        ...,
-        button {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "infoSection" => {
-        content[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        }
-      },
-      _type == "testimonials" => {
-        ...,
-        eyebrow,
-        logos[]{
-          name,
-          logo
-        },
-        testimonials[]->{
-          attribution,
-          quote,
-          profilePicture
-        }
-      },
-      _type == "whatWeDo" => {
-        ...,
-        cards[]{
-          ...,
-          services[]->{
-            ...
-          }
-        }
-      },
-      _type == "team" => {
-        ...,
-        members[]->{
-          ...,
-          portrait {
-            ...,
-            asset->
-          }
-        }
-      },
-      _type == "story" => {
-        ...,
-        milestones[]{
-          year,
-          body
-        }
-      },
-      _type == "portfolio" => {
-        ...,
-        eyebrow,
-        heading,
-        projects[]->{
-          _id,
-          client,
-          year,
-          slug,
-          category,
-          title,
-          tagline,
-          description,
-          image,
-          link
-        }
-      },
-      _type == "cta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        },
-        subtext
-      },
-      _type == "engineeringServices" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "soundFamiliar" => {
-        ...,
-        painPoints[]{
-          ...,
-          title,
-          body
-        }
-      },
-      _type == "ai" => {
-        ...,
-        services[]{
-          ...,
-          service->{
-            ...
-          }
-        }
-      },
-      _type == "industries" => {
-        ...,
-        industries[]{
-          ...,
-          icon
-        }
-      },
-      _type == "faq" => {
-        ...,
-        items[]{
-          ...
-        }
-      },
-      _type == "isThisForYou" => {
-        ...,
-        items[]{
-          text
-        }
-      },
-      _type == "insightsFeatured" => {
-        ...,
-        insight->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsGrid" => {
-        ...,
-        items[]->{
-          _id,
-          title,
-          slug,
-          excerpt,
-          category,
-          "cover": cover.asset->url,
-          publishedAt,
-          readTime,
-          featured,
-          author->{name, role, portrait}
-        }
-      },
-      _type == "insightsCta" => {
-        ...,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "freeResources" => {
-        ...,
-        heading {
-          faded,
-          bold,
-          regular,
-          trailing
-        },
-        items[]{
-          ...,
-          title,
-          description,
-          file,
-          externalUrl,
-          "fileUrl": file.asset->url
-        }
-      },
-      _type == "portfolioFeatured" => {
-        ...,
-        caseStudy->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        }
-      },
-      _type == "portfolioGrid" => {
-        ...,
-        items[]->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          thumb
-        },
-        categoryFilters[]{
-          label,
-          value
-        }
-      },
-      _type == "portfolioMetrics" => {
-        ...,
-        items[]{
-          value,
-          label
-        }
-      },
-      _type == "portfolioCta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "place" => {
-        ...,
-        eyebrow,
-        headingRegular,
-        headingBold,
-        body,
-        backgroundGraphic {
-          ...,
-          asset->
-        },
-        locations[]{
-          city,
-          address,
-          note
-        },
-        cta {
-          label,
-          href
-        }
-      },
-    },
+    ${sharedPageBuilderProjection},
   }
 `);
 
@@ -1239,3 +1094,5 @@ export const allServicesQuery = defineQuery(`
     slug,
   }
 `);
+
+

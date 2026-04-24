@@ -1,5 +1,5 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { ComparisonTable } from "@/components/partials/ComparisonTable";
+import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cleanStega } from "@/sanity/lib/utils";
 
 export type StudyKeyWinsData = {
@@ -28,21 +28,52 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
       id="key-wins"
       eyebrow={eyebrow}
     >
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
+          <h2 className="text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
             {heading}
           </h2>
         ) : null}
-        <ComparisonTable
-          beforeLabel={comparison.beforeLabel}
-          afterLabel={comparison.afterLabel}
-          rows={(comparison.rows ?? []).map((r) => ({
-            label: r.label ?? "",
-            before: r.before ?? "",
-            after: r.after ?? "",
-          }))}
-        />
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+          <article className="border border-white/15 bg-[#0f0f0f] p-8 md:p-12">
+            <h3 className="max-w-[14ch] text-[32px] leading-[1.2] tracking-[-1px] text-[#efefef]">
+              {comparison.beforeLabel}
+            </h3>
+            <div className="mt-12 flex flex-col">
+              {comparison.rows?.map((row, index) => (
+                <div
+                  key={`${row.label}-${index}`}
+                  className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6 border-b border-white/15 py-3 text-[18px] leading-[1.5]"
+                >
+                  <p className="text-[#efefef]">{row.label}</p>
+                  <p className="text-right text-[#efefef]/70">{row.before}</p>
+                </div>
+              ))}
+            </div>
+          </article>
+
+          <article className="relative overflow-hidden border border-white/15 bg-[#0f0f0f] p-8 md:p-12">
+            <div className="absolute inset-0 opacity-35">
+              <HeroBrandDotsBackground />
+            </div>
+            <div className="relative">
+              <h3 className="max-w-[14ch] text-[32px] leading-[1.2] tracking-[-1px] text-brand">
+                {comparison.afterLabel}
+              </h3>
+              <div className="mt-12 flex flex-col">
+                {comparison.rows?.map((row, index) => (
+                  <div
+                    key={`${row.label}-after-${index}`}
+                    className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] gap-6 border-b border-white/15 py-3 text-[18px] leading-[1.5]"
+                  >
+                    <p className="text-[#efefef]">{row.label}</p>
+                    <p className="text-right text-[#efefef]/70">{row.after}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </SectionsWrapper>
   );

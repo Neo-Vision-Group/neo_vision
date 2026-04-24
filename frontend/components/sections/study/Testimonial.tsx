@@ -32,6 +32,7 @@ export function StudyTestimonial({ data }: { data?: StudyTestimonialData }) {
         attribution={quote.attribution ?? ""}
         source={quote.source ?? undefined}
         accent={quote.accent ?? false}
+        variant="study"
       />
     </SectionsWrapper>
   );

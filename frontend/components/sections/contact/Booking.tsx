@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import type { CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useTheme } from "next-themes";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import Image from "@/components/SanityImage";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -24,29 +26,62 @@ export type BookingData = {
   schedulerUrl?: string;
 };
 
+declare global {
+  interface Window {
+    Calendly?: {
+      initInlineWidget: (options: {
+        url: string;
+        parentElement: HTMLElement;
+      }) => void;
+    };
+  }
+}
+
+const CALENDLY_SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
+
+function loadCalendlyScript() {
+  return new Promise<void>((resolve, reject) => {
+    const existingScript = document.querySelector(
+      `script[src="${CALENDLY_SCRIPT_SRC}"]`
+    ) as HTMLScriptElement | null;
+
+    if (existingScript) {
+      if (window.Calendly) {
+        resolve();
+        return;
+      }
+
+      existingScript.addEventListener("load", () => resolve(), { once: true });
+      existingScript.addEventListener(
+        "error",
+        () => reject(new Error("Failed to load Calendly")),
+        { once: true }
+      );
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = CALENDLY_SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => resolve();
+    script.onerror = () => reject(new Error("Failed to load Calendly"));
+    document.body.appendChild(script);
+  });
+}
+
 export function Booking({ data }: { data?: BookingData }) {
   const cleanData = data ? cleanStega(data) : data;
-  const [isDark, setIsDark] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  const calendlyContainerRef = useRef<HTMLDivElement>(null);
+  const isDark = mounted && resolvedTheme === "dark";
+  const calendlyThemeStyles = {
+    "--calendly-bg": isDark ? "#0f0f0f" : "#ffffff",
+    colorScheme: "light",
+  } as CSSProperties;
 
-  // Simple theme detection
   useEffect(() => {
-    const checkTheme = () => {
-      const htmlDark = document.documentElement.classList.contains('dark');
-      const mediaDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDark(htmlDark || mediaDark);
-    };
-    checkTheme();
-
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    mediaQuery.addEventListener('change', checkTheme);
-
-    return () => {
-      observer.disconnect();
-      mediaQuery.removeEventListener('change', checkTheme);
-    };
+    setMounted(true);
   }, []);
 
   const baseUrl = cleanData?.schedulerUrl || process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendly.com/neovision/neo-vision-strategy-call";
@@ -55,25 +90,39 @@ export function Booking({ data }: { data?: BookingData }) {
     : `${baseUrl}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=ff4100`;
 
   useEffect(() => {
-    const existingScript = document.querySelector('script[src="https://assets.calendly.com/assets/external/widget.js"]') as HTMLScriptElement;
-    if (!existingScript) {
-      const script = document.createElement("script");
-      script.src = "https://assets.calendly.com/assets/external/widget.js";
-      script.async = true;
-      script.onload = () => {
-        const win = window as any;
-        if (win.Calendly) {
-          win.Calendly.initInlineWidgets();
-        }
-      };
-      document.body.appendChild(script);
-    } else {
-      const win = window as any;
-      if (win.Calendly) {
-        win.Calendly.initInlineWidgets();
-      }
+    if (!mounted || !calendlyContainerRef.current) {
+      return;
     }
-  }, [calendlyUrl]);
+
+    let isCancelled = false;
+
+    const renderCalendly = async () => {
+      try {
+        await loadCalendlyScript();
+
+        if (isCancelled || !calendlyContainerRef.current || !window.Calendly) {
+          return;
+        }
+
+        calendlyContainerRef.current.replaceChildren();
+        window.Calendly.initInlineWidget({
+          url: calendlyUrl,
+          parentElement: calendlyContainerRef.current,
+        });
+      } catch {
+        if (!isCancelled) {
+          calendlyContainerRef.current?.replaceChildren();
+        }
+      }
+    };
+
+    renderCalendly();
+
+    return () => {
+      isCancelled = true;
+      calendlyContainerRef.current?.replaceChildren();
+    };
+  }, [calendlyUrl, mounted]);
 
   const eyebrow = (
     <div className="flex flex-col gap-5">
@@ -100,11 +149,13 @@ export function Booking({ data }: { data?: BookingData }) {
         {/* Calendly Widget + Details */}
         <div className="flex flex-col gap-12 md:flex-row md:gap-16 bg-white dark:bg-[#0f0f0f]">
           {/* Calendly Inline Widget */}
-          <div className="flex-1 bg-white dark:bg-[#0f0f0f]">
+          <div
+            className="calendly-theme-shell flex-1 bg-white dark:bg-[#0f0f0f]"
+            style={calendlyThemeStyles}
+          >
             <div
-              key={calendlyUrl}
-              className="calendly-inline-widget w-full h-auto bg-white dark:bg-[#0f0f0f]"
-              data-url={calendlyUrl}
+              ref={calendlyContainerRef}
+              className="w-full bg-white dark:bg-[#0f0f0f]"
               style={{ minWidth: "320px", minHeight: "2000px", height: "2000px" }}
             />
           </div>

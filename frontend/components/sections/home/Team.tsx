@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { team as teamFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
@@ -11,11 +11,20 @@ import "@/components/partials/motion/gsap-setup";
 import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
 import TeamArrowRight from '@/components/icons/TeamArrowRight'
 import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
 
 const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
+    ),
+  { ssr: false }
+);
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
     ),
   { ssr: false }
 );
@@ -53,6 +62,17 @@ export function Team({ data }: { data?: TeamData }) {
   };
 
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const isDarkTheme = !mounted || resolvedTheme === "dark";
+  const arrowColor = isDarkTheme ? "#EFEFEF" : "#0F0F0F";
+  const arrowButtonClassName = isDarkTheme
+    ? "border-white/10 hover:bg-white/5"
+    : "border-black/10 hover:bg-black/5";
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // ----- Pointer drag-to-scroll with pointer capture -------------------
   useEffect(() => {
@@ -194,17 +214,15 @@ export function Team({ data }: { data?: TeamData }) {
   return (
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
       <div className="flex flex-col gap-12">
-        <h2 className="px-6 font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground/70 md:px-12 md:text-[48px]">
-          {team.heading.split(/\*\*(.*?)\*\*/).map((part, i) =>
-            i % 2 === 1 ? (
-              <span key={i} className="font-bold text-foreground">
-                {part}
-              </span>
-            ) : (
-              part
-            )
-          )}
-        </h2>
+        <SplitTextReveal
+          className="text-[28px] leading-[36px] tracking-[-0.3px] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          type="words"
+          as="h2"
+          stagger={0.04}
+          colorReveal
+        >
+          {team.heading}
+        </SplitTextReveal>
 
         <div className="relative">
           {hasMultiple && (
@@ -213,17 +231,17 @@ export function Team({ data }: { data?: TeamData }) {
                 type="button"
                 aria-label="Previous team member"
                 onClick={() => scroll("prev")}
-                className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
+                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
               >
-                <TeamArrowLeft />
+                <TeamArrowLeft color={arrowColor} />
               </button>
               <button
                 type="button"
                 aria-label="Next team member"
                 onClick={() => scroll("next")}
-                className="group flex size-12 items-center justify-center rounded-full border border-white/10 transition-colors hover:bg-white/5"
+                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
               >
-                <TeamArrowRight />
+                <TeamArrowRight color={arrowColor} />
               </button>
             </div>
           )}

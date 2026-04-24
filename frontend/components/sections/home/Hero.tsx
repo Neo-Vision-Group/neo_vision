@@ -1,4 +1,5 @@
 import { Button } from "../../../components/partials/Button";
+import { HeroBrandDotsBackground } from "../../../components/partials/HeroBrandDotsBackground";
 import { resolveHeroContent } from "../../../lib/content/home";
 import type { DereferencedLink } from "../../../sanity/lib/types";
 import { cleanStega } from "../../../sanity/lib/utils";
@@ -20,30 +21,6 @@ const SplitTextReveal = dynamic(
   { ssr: false }
 );
 
-const HERO_VIDEO_POSTER =
-  "data:image/svg+xml;charset=UTF-8," +
-  encodeURIComponent(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f4efe9" />
-          <stop offset="100%" stop-color="#ece3db" />
-        </linearGradient>
-        <radialGradient id="glowA" cx="78%" cy="24%" r="28%">
-          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.08" />
-          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="glowB" cx="24%" cy="82%" r="32%">
-          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.16" />
-          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="900" fill="url(#bg)" />
-      <rect width="1600" height="900" fill="url(#glowA)" />
-      <rect width="1600" height="900" fill="url(#glowB)" />
-    </svg>
-  `);
-
 export type HeroData = {
   label?: string;
   heading?: string;
@@ -64,71 +41,7 @@ export function Hero({ data }: { data?: HeroData }) {
       id="hero"
       className="relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
     >
-      {/* Light mode keeps the video inversion, but dials down how much orange the bright dots receive. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 dark:hidden">
-        <div className="absolute inset-0 bg-[#f4efe9]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              linear-gradient(180deg, rgba(244,239,233,0.98) 0%, rgba(244,239,233,0.92) 32%, rgba(244,239,233,0.84) 62%, rgba(244,239,233,0.94) 100%),
-              radial-gradient(circle at 24% 78%, rgba(157,43,3,0.12) 0%, rgba(157,43,3,0.03) 32%, rgba(157,43,3,0) 58%),
-              radial-gradient(circle at 82% 22%, rgba(157,43,3,0.05) 0%, rgba(157,43,3,0) 34%)
-            `,
-          }}
-        />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_POSTER}
-          className="absolute inset-0 h-full w-full object-cover mix-blend-difference opacity-[0.92]"
-          style={{ filter: "brightness(0.82) contrast(0.92) grayscale(1)" }}
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-brand mix-blend-screen opacity-[0.14]" />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(244,239,233,0.16) 0%, rgba(244,239,233,0.08) 38%, rgba(244,239,233,0.06) 62%, rgba(244,239,233,0.18) 100%)",
-          }}
-        />
-      </div>
-
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
-        <div className="absolute inset-0 bg-[#040404]" />
-
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_POSTER}
-          className="absolute inset-0 h-full w-full object-cover opacity-55"
-          style={{
-            filter:
-              "brightness(0.42) contrast(1.18) saturate(0.72) sepia(0.28) hue-rotate(-14deg)",
-          }}
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              linear-gradient(180deg, rgba(4,4,4,0.78) 0%, rgba(4,4,4,0.42) 26%, rgba(4,4,4,0.18) 48%, rgba(4,4,4,0.54) 72%, rgba(4,4,4,0.82) 100%),
-              radial-gradient(circle at 82% 26%, rgba(157,43,3,0.18) 0%, rgba(157,43,3,0.02) 28%, rgba(157,43,3,0) 50%),
-              radial-gradient(circle at 24% 78%, rgba(157,43,3,0.34) 0%, rgba(157,43,3,0.12) 26%, rgba(157,43,3,0) 56%)
-            `,
-          }}
-        />
-      </div>
+      <HeroBrandDotsBackground />
 
       <div className="relative flex flex-1 flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-30 2xl:pt-24">
         <div className="flex w-full flex-col gap-3 md:gap-4">
@@ -153,7 +66,7 @@ export function Hero({ data }: { data?: HeroData }) {
           className="flex w-full max-w-165.25 flex-col gap-5 md:gap-6"
         >
           <div className="flex flex-col gap-2 text-foreground">
-            <p className="text-[32px] font-medium leading-[32px] tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">
+            <p className="text-[32px] font-medium leading-8 tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">
               {hero.heading}
             </p>
             <p className="text-[18px]">{hero.body}</p>

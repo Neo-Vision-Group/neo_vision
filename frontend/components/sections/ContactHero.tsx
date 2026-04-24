@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
+import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cleanStega } from "@/sanity/lib/utils";
 
 export type ContactHeroData = {
@@ -51,36 +52,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   
   return (
     <section className="relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background">
-      {/* Light mode video background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-white dark:hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-brand mix-blend-screen" />
-      </div>
-
-      {/* Dark mode video background */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 hidden dark:block">
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
-        />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
-      </div>
+      <HeroBrandDotsBackground />
 
       <div className="relative flex flex-col gap-[48px] px-6 pb-12 pt-32 lg:flex-row lg:items-start lg:px-[48px]">
         {/* Left column - Intro and steps */}
@@ -194,4 +166,3 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
     </section>
   );
 }
-

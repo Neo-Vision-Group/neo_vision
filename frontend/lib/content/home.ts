@@ -207,6 +207,34 @@ export const signatureModel = {
   },
 } as const;
 
+export const signatureModel2 = {
+  eyebrow: "OUR SIGNATURE MODEL",
+  heading: {
+    faded: "Forward Deployed Engineers:",
+    bold: "We embed. We build. We prove.",
+  },
+  body: "A senior technical operator who goes inside your organisation for 3-6 months. Maps your processes, calculates your ROI, builds AI solutions, and stays until the numbers prove it works. Not a consultant. An operator.",
+  steps: [
+    {
+      title: "Embed & Map",
+      highlighted: false,
+    },
+    {
+      title: "Quantify & Propose",
+      highlighted: true,
+    },
+    {
+      title: "Build & Deploy",
+      highlighted: false,
+    },
+    {
+      title: "Validate & Expand",
+      highlighted: false,
+    },
+  ],
+  cta: {label: "Deploy an FDE", href: "mailto:hello@1210.ai"},
+} as const;
+
 export const whyTwelveTen = {
   eyebrow: "WHY TWELVETEN",
   heading: "How we're different.",
@@ -361,19 +389,9 @@ export const methodology = {
   ],
 } as const;
 
-/**
- * Our Story — frame 141:10919. Horizontal timeline with prominent year
- * markers. Figma has placeholders with duplicated "2015." entries — real
- * years inferred from the Origin section copy (2015 / 2023 / 2026) plus
- * a forward-looking slot.
- */
 export const story = {
   eyebrow: "OUR STORY",
-  heading: {
-    faded: "Two studios.",
-    bold: "One vision.",
-    trailing: "A decade in the making.",
-  },
+  heading: "Two studios. One vision. A decade in the making.",
   milestones: [
     {
       year: "2015.",

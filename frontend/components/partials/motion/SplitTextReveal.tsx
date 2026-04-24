@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef, type ElementType, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { SplitText } from "gsap/SplitText";
+import { useTheme } from "next-themes";
 import "./gsap-setup";
 
 export function SplitTextReveal({
@@ -45,12 +46,20 @@ export function SplitTextReveal({
   scrubEnd?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const resolvedColor =
+    colorTo ?? (mounted ? (resolvedTheme === "dark" ? "rgba(239,239,239,1)" : "rgba(15,15,15,1)") : undefined);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useGSAP(
     () => {
       const el = ref.current;
       if (!el) return;
-      const resolvedColor = colorTo ?? window.getComputedStyle(el).color;
+      const finalColor = resolvedColor ?? window.getComputedStyle(el).color;
 
       const mm = gsap.matchMedia();
       mm.add(
@@ -61,7 +70,7 @@ export function SplitTextReveal({
         (ctx) => {
           if (ctx.conditions?.reduced) {
             if (colorReveal) {
-              gsap.set(el, { color: resolvedColor });
+              gsap.set(el, { color: finalColor });
             } else {
               gsap.set(el, { opacity: 1 });
             }
@@ -73,7 +82,7 @@ export function SplitTextReveal({
             const split = SplitText.create(el, { type: "words" });
             gsap.set(split.words, { color: colorFrom });
             const tween = gsap.to(split.words, {
-              color: resolvedColor,
+              color: finalColor,
               stagger,
               ease: "none",
               scrollTrigger: {
@@ -120,8 +129,12 @@ export function SplitTextReveal({
           };
         }
       );
+
+      return () => {
+        mm.revert();
+      };
     },
-    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, colorTo, scrubStart, scrubEnd] }
+    { scope: ref, dependencies: [type, delay, stagger, duration, distance, scrollTriggered, colorReveal, colorFrom, resolvedColor, scrubStart, scrubEnd] }
   );
 
   const Tag = Component as ElementType;

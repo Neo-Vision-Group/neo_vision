@@ -52,7 +52,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
           >
             {card.label}
           </p>
-          <h3 className="text-[24px] leading-[32px] tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
+          <h3 className="text-[24px] leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
             <span className="font-normal">{titleText.regular}</span>{" "}
             {titleText.bold && <span className="font-bold">{titleText.bold}</span>}
           </h3>

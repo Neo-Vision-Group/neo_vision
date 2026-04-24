@@ -53,7 +53,7 @@ export function Reality({ data }: { data: RealityData }) {
     return (
       <SectionsWrapper eyebrow={data.eyebrow}>
         <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
+          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
             <span className="text-foreground/70">{data.heading?.faded} </span>
             <span className="font-bold">{data.heading?.bold}</span>
           </h2>

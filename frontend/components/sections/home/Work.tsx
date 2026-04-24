@@ -17,6 +17,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type PortfolioData = {
   eyebrow?: string;
   heading?: string;
@@ -48,13 +56,6 @@ type ProjectItem = {
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const heading = cleanData?.heading
-    ? {
-        faded: cleanData.heading.split("**")[0] || "",
-        bold: cleanData.heading.split("**")[1]?.replace(/\*\*/g, "") || "",
-      }
-    : ourWorkFallback.heading;
-
   const items: ProjectItem[] =
     cleanData?.projects?.map((project) => ({
       client: project.client || "",
@@ -77,10 +78,15 @@ export function OurWork({ data }: { data?: PortfolioData }) {
     >
       <div className="flex flex-col gap-12">
         <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
-            <span className="text-foreground/70">{heading.faded}</span>{" "}
-            <span className="font-bold">{heading.bold}</span>
-          </h2>
+          <SplitTextReveal
+            as="h2"
+            type="words"
+            stagger={0.04}
+            colorReveal
+            className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          >
+            {cleanData?.heading}
+          </SplitTextReveal>
         </div>
 
         <RevealOnScroll

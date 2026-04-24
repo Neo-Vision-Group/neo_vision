@@ -11,6 +11,7 @@ export type TestimonialQuoteProps = {
   source?: string | null;
   accent?: boolean;
   className?: string;
+  variant?: "default" | "study";
 };
 
 export function TestimonialQuote({
@@ -19,7 +20,36 @@ export function TestimonialQuote({
   source,
   accent = false,
   className,
+  variant = "default",
 }: TestimonialQuoteProps) {
+  if (variant === "study") {
+    return (
+      <figure
+        className={cn(
+          "relative flex h-full flex-col gap-12 bg-[#0f0f0f] p-8 text-[#efefef] md:p-12",
+          className
+        )}
+      >
+        <span
+          aria-hidden="true"
+          className="font-betatron text-[48px] leading-none text-brand"
+        >
+          &ldquo;
+        </span>
+
+        <div className="flex flex-col gap-6">
+          <cite className="not-italic text-[18px] leading-[1.5] text-brand">
+            - {attribution}
+            {source ? `, ${source}` : ""}
+          </cite>
+          <blockquote className="text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-[32px]">
+            {quote}
+          </blockquote>
+        </div>
+      </figure>
+    );
+  }
+
   return (
     <figure
       className={cn(

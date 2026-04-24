@@ -410,20 +410,19 @@ export const settings = defineType({
         }),
       ],
     }),
-    // defineField({
-    //   name: 'legalLinks',
-    //   title: 'Legal Links',
-    //   type: 'array',
-    //   of: [
-    //     defineArrayMember({
-    //       type: 'reference',
-    //       to: [
-    //         {type: 'termsAndConditions'},
-    //         {type: 'privacyPolicy'},
-    //       ],
-    //     }),
-    //   ],
-    // }),
+    defineField({
+      name: 'legalLinks',
+      title: 'Legal Links',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'reference',
+          to: [
+            {type: 'page'},
+          ],
+        }),
+      ],
+    }),
   ],
   preview: {
     prepare() {

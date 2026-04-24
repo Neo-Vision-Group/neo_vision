@@ -4,20 +4,6 @@ import { sanityWriteClient } from "@/sanity/lib/write-client";
 import { contactSchema } from "@/lib/contact-schema";
 import { ContactNotification } from "@/components/emails/ContactNotification";
 
-/**
- * POST /api/contact — validates the submission with the shared Zod
- * schema, writes a `contactSubmission` document to Sanity, and (if
- * `RESEND_API_KEY` is configured) sends a notification email to the
- * team via Resend.
- *
- * Honeypot: if the `website` field is populated, we silently return
- * ok without writing or emailing — bots don't know they failed.
- *
- * Env:
- *   RESEND_API_KEY       — from resend.com (optional; skipped if missing)
- *   RESEND_FROM          — sender email (defaults to onboarding@resend.dev)
- *   CONTACT_TO           — recipient (defaults to hello@1210.ai)
- */
 export async function POST(req: Request) {
   let body: unknown;
   try {
@@ -83,7 +69,7 @@ export async function POST(req: Request) {
     try {
       const resend = new Resend(resendKey);
       const from = process.env.RESEND_FROM || "onboarding@resend.dev";
-      const to = process.env.CONTACT_TO || "hello@1210.ai";
+      const to = process.env.CONTACT_TO || "nvt.dev@neovision.dev";
       await resend.emails.send({
         from,
         to,
@@ -101,8 +87,26 @@ export async function POST(req: Request) {
           receivedAt,
         }),
       });
+
+      await resend.emails.send({
+        from,
+        to: data.email,
+        subject: `Thanks for reaching out to 1210!`,
+        react: ContactNotification({
+          name: data.name,
+          email: data.email,
+          company: data.company,
+          phone: data.phone,
+          projectType: data.projectType,
+          budget: data.budget,
+          message: data.message,
+          source: data.source,
+          receivedAt,
+          forClient: true,
+        }),
+      });
+
     } catch (err) {
-      // Email failure is non-fatal — submission is already durable in Sanity.
       console.error("[api/contact] Resend email failed (submission saved)", err);
     }
   } else {

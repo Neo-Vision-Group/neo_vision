@@ -11,6 +11,7 @@ import ChevronIcon from "@/components/icons/ChevronIcon";
 import { contactSchema, type ContactFormData } from "@/lib/contact-schema";
 
 import { ContactHeroData } from "./ContactHero";
+import { Button } from "../partials/Button";
 
 export function ContactFormSection() {
   const [submitState, setSubmitState] = useState<"idle" | "ok" | "error">("idle");
@@ -80,7 +81,7 @@ export function ContactFormSection() {
 
             <div className="flex flex-col gap-[24px]">
               {/* Name & Email */}
-              <div className="flex gap-[12px]">
+              <div className="flex md:flex-row flex-col gap-[12px]">
                 <FormField label="Your name *" error={errors.name?.message}>
                   <input
                     type="text"
@@ -128,7 +129,7 @@ export function ContactFormSection() {
               </FormField>
 
               {/* Budget & Phone */}
-              <div className="flex gap-[12px]">
+              <div className="flex md:flex-row flex-col gap-[12px]">
                 <FormField label="Estimated budget range" error={errors.budget?.message}>
                   <div className="relative">
                     <select {...register("budget")} className={cn(inputClasses(!!errors.budget), "appearance-none pr-12")}>
@@ -168,7 +169,7 @@ export function ContactFormSection() {
               <p className="text-brand">{errorMessage}</p>
             )}
 
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
               className="flex w-full items-center justify-center gap-[12px] bg-brand py-[12px] pl-[24px] pr-[16px] text-white transition-opacity hover:opacity-90 disabled:opacity-50"
@@ -176,10 +177,7 @@ export function ContactFormSection() {
               <span className="font-funnel text-[18px] leading-normal">
                 {isSubmitting ? "Sending…" : "Send message"}
               </span>
-              <div className="h-6 w-[38px]">
-                <ArrowIcon />
-              </div>
-            </button>
+            </Button>
           </form>
         )}
     </div>
@@ -197,7 +195,7 @@ function FormField({
 }) {
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-foreground">
+      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-white dark:text-foreground">
         {label}
       </label>
       {children}

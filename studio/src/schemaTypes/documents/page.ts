@@ -1,4 +1,4 @@
-import {defineField, defineType} from 'sanity'
+﻿import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
 
 /**
@@ -76,14 +76,19 @@ export const page = defineType({
         {type: 'portfolio'},
         {type: 'pricing'},
         {type: 'signature'},
+        {type: 'signature2'},
         {type: 'story'},
         {type: 'team'},
         {type: 'testimonials'},
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'serviceNavigator'},
         {type: 'industries'},
         {type: 'reality'},
+        {type: 'compare'},
+        {type: 'steps'},
+        {type: 'whyRomania'},
         {type: 'faq'},
         {type: 'insightsFeatured'},
         {type: 'insightsGrid'},
@@ -92,7 +97,10 @@ export const page = defineType({
         {type: 'portfolioGrid'},
         {type: 'portfolioCta'},
         {type: 'portfolioMetrics'},
+        {type: 'awards'},
         {type: 'place'},
+        {type: 'press'},
+        {type: 'techStack'},
         {type: 'freeResources'},
         {type: 'insightBlock'},
       ],
@@ -111,3 +119,4 @@ export const page = defineType({
     }),
   ],
 })
+

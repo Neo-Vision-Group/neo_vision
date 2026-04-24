@@ -60,6 +60,41 @@
   }
 }
 
+.first-load-progress-bar {
+  transition: width 180ms ease-out;
+}
+
+.first-load-progress-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 35%,
+    rgba(255, 255, 255, 0.36) 50%,
+    rgba(255, 255, 255, 0.12) 65%,
+    transparent 100%
+  );
+  animation: first-load-progress-sheen 1.4s linear infinite;
+}
+
+@keyframes first-load-progress-sheen {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(130%);
+  }
+}
+
+.calendly-theme-shell,
+.calendly-theme-shell div,
+.calendly-theme-shell iframe {
+  background-color: var(--calendly-bg, #ffffff) !important;
+  color-scheme: light !important;
+}
+
 @utility container {
   margin: 0 auto;
   padding: 0 2rem;

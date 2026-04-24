@@ -21,14 +21,25 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
       id="tech-stack"
       eyebrow={eyebrow}
     >
-      <div className="flex flex-wrap gap-3">
+      <div className="grid grid-cols-2 gap-0 border-y border-white/15 md:grid-cols-4">
         {tools.map((t) => (
-          <span
+          <article
             key={t}
-            className="border border-white/10 bg-surface px-3 py-2 font-betatron text-caption uppercase tracking-wider text-foreground/80"
+            className="flex flex-col gap-3 border border-white/15 bg-[#0f0f0f] p-6"
           >
-            {t}
-          </span>
+            <div
+              aria-hidden="true"
+              className="aspect-[102.5/57.65] w-full bg-black"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 50% 18%, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(180deg, rgba(193,201,197,0.12) 0%, rgba(255,65,0,0.24) 100%)",
+                backgroundSize: "8px 8px, auto",
+              }}
+            />
+            <p className="text-center text-[18px] leading-[1.5] text-[#efefef]">
+              {t}
+            </p>
+          </article>
         ))}
       </div>
     </SectionsWrapper>

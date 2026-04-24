@@ -13,14 +13,25 @@ export type PortfolioCtaData = {
   };
 };
 
+function normalizeCopy(value?: string) {
+  return (value ?? "")
+    .toLowerCase()
+    .replace(/[\u2019']/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
 export function PortfolioCta({ data }: { data?: PortfolioCtaData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const heading = cleanData?.heading;
   const body = cleanData?.body;
   const cta = cleanData?.cta;
+  const isLegacyIndustryCta =
+    normalizeCopy(heading?.regular) === "dont see your industry" &&
+    normalizeCopy(heading?.bold) === "weve probably built in it";
 
-  if (!heading) {
+  if (!heading || isLegacyIndustryCta) {
     return null;
   }
 

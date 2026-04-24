@@ -26,6 +26,8 @@ type NavClientProps = {
       href?: string
       page?: string
       post?: string
+      service?: string
+      project?: string
       openInNewTab?: boolean
     }
   } | null
@@ -95,10 +97,12 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   // Build CTA href from link object
   const getCtaHref = () => {
     if (!cta?.link) return '#'
-    const { linkType, href, page, post } = cta.link
+    const { linkType, href, page, post, service, project } = cta.link
     if (linkType === 'href' && href) return href
     if (linkType === 'page' && page) return `/${page}`
     if (linkType === 'post' && post) return `/posts/${post}`
+    if (linkType === 'service' && service) return `/services/${service}`
+    if (linkType === 'project' && project) return `/portfolio/${project}`
     return '#'
   }
   
@@ -131,12 +135,13 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-[#EFEFEF] dark:bg-black backdrop-blur-[13.5px]">
-      <div className="flex items-center gap-12 px-12 py-3">
+    <nav className="sticky top-0 z-50 w-full border-b border-border bg-white/80 backdrop-blur dark:bg-black/80 lg:border-transparent lg:bg-[#EFEFEF] lg:backdrop-blur-[13.5px] dark:lg:bg-black">
+      <div className="flex h-16 items-center justify-between gap-4 px-6 md:gap-8 md:px-12 lg:h-auto lg:gap-12 lg:px-12 lg:py-3">
         {/* Logo */}
         <Link
           href="/"
           aria-label={title}
+          onClick={() => setOpen(false)}
           className="flex shrink-0 items-center gap-2"
         >
           {logo ? (
@@ -152,7 +157,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           ) : (
             <Logo />
           )}
-          <span className="font-funnel text-2xl leading-none dark:text-white text-black">
+          <span className="text-2xl font-medium leading-none tracking-tight text-black dark:text-white lg:font-funnel lg:font-normal lg:tracking-normal">
             {title}
           </span>
         </Link>
@@ -179,29 +184,42 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           <ThemeToggle />
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          type="button"
-          className="ml-auto flex h-10 w-10 items-center justify-center text-white lg:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="mobile-nav-panel"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <HamburgerIcon open={open} />
-        </button>
+        <div className="ml-auto flex items-center gap-3 lg:hidden">
+          <div className="hidden sm:block">
+            <Button
+              href={ctaHref}
+              size="sm"
+              variant="primary"
+              {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
+            >
+              {ctaText}
+            </Button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            className="flex h-10 w-10 items-center justify-center text-black dark:text-white"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="mobile-nav-panel"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <HamburgerIcon open={open} />
+          </button>
+        </div>
       </div>
 
       {/* Mobile overlay panel */}
       <div
         id="mobile-nav-panel"
         className={cn(
-          'fixed inset-x-0 top-[68px] z-40 origin-top bg-background transition-[opacity,transform] duration-200 lg:hidden',
+          'fixed inset-x-0 top-16 z-40 origin-top bg-white transition-[opacity,transform] duration-200 dark:bg-black lg:hidden',
           open
             ? 'pointer-events-auto scale-y-100 opacity-100'
             : 'pointer-events-none scale-y-95 opacity-0'
         )}
-        style={{ height: open ? 'calc(100svh - 68px)' : '0' }}
+        style={{ height: open ? 'calc(100svh - 4rem)' : '0' }}
         aria-hidden={!open}
       >
         <div className="flex h-full flex-col justify-between overflow-y-auto border-t border-border px-6 py-10">
@@ -215,8 +233,8 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
                     href={page.slug}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      "block py-3 font-funnel text-3xl transition-colors",
-                      isActive ? "text-brand" : "text-foreground hover:text-brand"
+                      "block py-3 text-3xl font-medium tracking-tight transition-colors",
+                      isActive ? "text-brand" : "text-black hover:text-brand dark:text-white"
                     )}
                   >
                     {page.name}
@@ -234,8 +252,12 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
             >
               {ctaText}
             </Button>
-            <div className="flex items-center justify-between">
-              {email && <p className="text-caption text-muted">{email}</p>}
+            <div className="flex items-center justify-between gap-4">
+              {email ? (
+                <p className="text-caption text-black/70 dark:text-white/70">{email}</p>
+              ) : (
+                <span />
+              )}
               <ThemeToggle />
             </div>
           </div>

@@ -1,0 +1,157 @@
+import {SectionsWrapper} from '@/components/SectionsWrapper'
+import {Button} from '@/components/partials/Button'
+import {cn} from '@/lib/utils'
+import {signatureModel2 as signature2Fallback} from '@/lib/content/home'
+import {cleanStega} from '@/sanity/lib/utils'
+
+type Signature2Step = {
+  _key?: string
+  title?: string
+  highlighted?: boolean
+}
+
+export type Signature2Data = {
+  eyebrow?: string
+  headingFaded?: string
+  headingBold?: string
+  body?: string
+  steps?: Signature2Step[]
+  cta?: {
+    buttonText?: string
+    link?: {
+      href?: string | null
+      page?: string | null
+      post?: string | null
+    } | null
+  }
+}
+
+export function Signature2({data}: {data?: Signature2Data}) {
+  const cleanData = data ? cleanStega(data) : data
+  const steps: Array<{_key?: string; title: string; highlighted: boolean}> =
+    cleanData?.steps?.filter((step) => step.title?.trim()).map((step, index) => ({
+      _key: step._key,
+      title: step.title?.trim() ?? '',
+      highlighted:
+        typeof step.highlighted === 'boolean'
+          ? step.highlighted
+          : signature2Fallback.steps[index]?.highlighted ?? false,
+    })) ??
+    signature2Fallback.steps.map((step) => ({
+      title: step.title,
+      highlighted: step.highlighted,
+    }))
+
+  const eyebrow = cleanData?.eyebrow ?? signature2Fallback.eyebrow
+  const headingFaded = cleanData?.headingFaded ?? signature2Fallback.heading.faded
+  const headingBold = cleanData?.headingBold ?? signature2Fallback.heading.bold
+  const body = cleanData?.body ?? signature2Fallback.body
+  const ctaLabel = cleanData?.cta?.buttonText ?? signature2Fallback.cta.label
+  const ctaHref =
+    cleanData?.cta?.link?.href ??
+    cleanData?.cta?.link?.page ??
+    cleanData?.cta?.link?.post ??
+    signature2Fallback.cta.href
+
+  if (!headingFaded && !headingBold && !body && steps.length === 0 && !ctaLabel) {
+    return null
+  }
+
+  return (
+    <SectionsWrapper eyebrow={eyebrow}>
+      <div className="flex flex-col gap-12 md:gap-14 lg:gap-16">
+        <div className="max-w-[860px] space-y-4 md:space-y-5">
+          <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-[38px] lg:text-[48px] lg:tracking-[-1px]">
+            {headingFaded ? (
+              <span className="font-normal text-foreground/70">{headingFaded}</span>
+            ) : null}
+            {headingBold ? (
+              <>
+                {headingFaded ? <br /> : null}
+                <span className="font-bold text-foreground">{headingBold}</span>
+              </>
+            ) : null}
+          </h2>
+
+          {body ? (
+            <p className="max-w-[820px] text-body text-foreground/70 md:text-[18px] md:leading-[27px]">
+              {body}
+            </p>
+          ) : null}
+        </div>
+
+        {steps.length > 0 ? (
+          <div className="flex flex-col gap-8 md:gap-10">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)_24px_minmax(0,1fr)_24px_minmax(0,1fr)] xl:gap-0">
+              {steps.map((step, index) => (
+                <StepRailItem
+                  key={step._key ?? `signature2-step-${index}`}
+                  index={index}
+                  step={step}
+                  showConnector={index < steps.length - 1}
+                />
+              ))}
+            </div>
+
+            {ctaLabel && ctaHref ? (
+              <div>
+                <Button href={ctaHref} variant="primary" className="min-h-[48px]">
+                  {ctaLabel}
+                </Button>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    </SectionsWrapper>
+  )
+}
+
+function StepRailItem({
+  index,
+  step,
+  showConnector,
+}: {
+  index: number
+  step: {title: string; highlighted: boolean}
+  showConnector: boolean
+}) {
+  return (
+    <>
+      <article
+        className={cn(
+          'relative isolate min-h-[180px] overflow-hidden border bg-surface p-8 md:min-h-[214px]',
+          step.highlighted ? 'border-brand' : 'border-black/20 dark:border-white/20',
+        )}
+      >
+        {step.highlighted ? (
+          <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
+            <div className="absolute inset-0 bg-[#1A0A05]" />
+            <img
+              src="/figma/signature-texture.png"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover opacity-45"
+            />
+            <div className="absolute inset-0 bg-brand/55 mix-blend-color" />
+          </div>
+        ) : null}
+
+        <div className="flex h-full flex-col justify-between gap-10">
+          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[48px] md:tracking-[-2.88px]">
+            {String(index + 1).padStart(2, '0')}.
+          </p>
+          <h3 className="max-w-[10ch] text-[24px] font-bold leading-[1.2] text-foreground">
+            {step.title}
+          </h3>
+        </div>
+      </article>
+
+      {showConnector ? (
+        <div
+          aria-hidden="true"
+          className="hidden h-px w-6 self-center bg-brand xl:block"
+        />
+      ) : null}
+    </>
+  )
+}

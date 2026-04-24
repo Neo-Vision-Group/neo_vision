@@ -13,6 +13,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type WhyData = {
   eyebrow?: string;
   heading?: string;
@@ -39,9 +47,15 @@ export function Why({ data }: { data?: WhyData }) {
   return (
     <SectionsWrapper id="why" eyebrow={why.eyebrow}>
       <div className="flex flex-col gap-12">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
+        <SplitTextReveal
+          as="h2"
+          type="words"
+          stagger={0.04}
+          colorReveal
+          className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+        >
           {why.heading}
-        </h2>
+        </SplitTextReveal>
 
         <RevealOnScroll
           as="div"
@@ -73,7 +87,7 @@ export function Why({ data }: { data?: WhyData }) {
                   style={{ background: "#7a1a00" }}
                 />
               </div>
-              <h3 className="text-[22px] leading-[28px] tracking-[-0.2px] text-foreground md:text-[24px] md:leading-[32px] lg:text-[28px] lg:leading-[36px] xl:text-[32px] xl:leading-[38px]">
+              <h3 className="text-[22px] leading-[28px] tracking-[-0.2px] text-foreground md:text-[24px] md:leading-8 lg:text-[28px] lg:leading-[36px] xl:text-[32px] xl:leading-[38px]">
                 {point.title}
               </h3>
               <div className="text-body text-foreground/70">

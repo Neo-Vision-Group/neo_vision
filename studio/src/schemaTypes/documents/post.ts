@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+﻿import { defineField, defineType } from "sanity";
 
 export const post = defineType({
   name: "post",
@@ -29,12 +29,6 @@ export const post = defineType({
       title: "Excerpt",
       type: "text",
       rows: 3,
-    }),
-    defineField({
-      name: "cover",
-      title: "Cover image",
-      type: "image",
-      options: { hotspot: true },
     }),
     defineField({
       name: "author",
@@ -69,87 +63,6 @@ export const post = defineType({
       initialValue: false,
     }),
     defineField({
-      name: "body",
-      title: "Body",
-      type: "array",
-      of: [
-        {
-          type: "block",
-          styles: [
-            { title: "Normal", value: "normal" },
-            { title: "H2", value: "h2" },
-            { title: "H3", value: "h3" },
-            { title: "Quote", value: "blockquote" },
-          ],
-          marks: {
-            decorators: [
-              { title: "Strong", value: "strong" },
-              { title: "Emphasis", value: "em" },
-              { title: "Code", value: "code" },
-            ],
-            annotations: [
-              {
-                name: "link",
-                type: "object",
-                title: "Link",
-                fields: [{ name: "href", title: "URL", type: "url" }],
-              },
-            ],
-          },
-        },
-        { type: "image", options: { hotspot: true } },
-        {
-          type: "object",
-          name: "pullquote",
-          title: "Pullquote",
-          fields: [
-            { name: "quote", type: "text", rows: 3 },
-            { name: "attribution", type: "string" },
-          ],
-          preview: { select: { title: "quote" } },
-        },
-        {
-          type: "object",
-          name: "keyPoint",
-          title: "Key point callout",
-          fields: [
-            { name: "label", type: "string", initialValue: "Key Point" },
-            { name: "body", type: "text", rows: 3 },
-          ],
-          preview: { select: { title: "label", subtitle: "body" } },
-        },
-        {
-          type: "object",
-          name: "comparisonTable",
-          title: "Comparison table",
-          fields: [
-            {
-              name: "headers",
-              type: "array",
-              of: [{ type: "string" }],
-            },
-            {
-              name: "rows",
-              type: "array",
-              of: [
-                {
-                  type: "object",
-                  fields: [
-                    {
-                      name: "cells",
-                      type: "array",
-                      of: [{ type: "string" }],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-          preview: { prepare: () => ({ title: "Comparison table" }) },
-        },
-      ],
-    }),
-    defineField({
       name: "relatedInsights",
       title: "Related insights (manual)",
       type: "array",
@@ -166,10 +79,20 @@ export const post = defineType({
       name: "pageBuilder",
       title: "Page Builder",
       type: "array",
-      of: [{ type: "insightBlock" }],
+      description: "Source of truth for renderable insight detail sections.",
+      of: [
+        { type: "insightBlock" },
+        { type: "steps" },
+        { type: "whyRomania" },
+        { type: "compare" },
+        { type: "techStack" },
+        { type: "awards" },
+        { type: "pricing" },
+      ],
     }),
   ],
   preview: {
-    select: { title: "title", subtitle: "publishedAt", media: "cover" },
+    select: { title: "title", subtitle: "publishedAt" },
   },
 });
+

@@ -1,5 +1,6 @@
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
+import {NavPageType} from '@/sanity/lib/types'
 import NavClient from './NavClient'
 
 export default async function Nav() {
@@ -7,15 +8,45 @@ export default async function Nav() {
     query: settingsQuery,
   })
 
-  const logoUrl = settings?.logoPicture?.asset?.url;
+  const logoUrl = settings?.logoPicture?.asset?.url
+  type RawNavPage = NonNullable<NonNullable<typeof settings>['navLinks']>[number]
+  type RawCtaLink = NonNullable<NonNullable<NonNullable<typeof settings>['cta']>['link']>
+  const pages = (settings?.navLinks ?? [])
+    .filter(
+      (page: RawNavPage | null | undefined): page is RawNavPage => Boolean(page?.name && page?.slug)
+    )
+    .map(
+      (page: RawNavPage, index: number): NavPageType => ({
+        _key: page._key ?? `nav-link-${index}`,
+        name: page.name,
+        slug: page.slug as string,
+      })
+    )
+  const cta =
+    settings?.cta?.buttonText || settings?.cta?.link
+      ? {
+          buttonText: settings.cta?.buttonText ?? undefined,
+          link: settings.cta?.link
+            ? {
+                linkType: settings.cta.link.linkType ?? undefined,
+                href: settings.cta.link.href ?? undefined,
+                page: settings.cta.link.page ?? undefined,
+                post: settings.cta.link.post ?? undefined,
+                service: (settings.cta.link as RawCtaLink).service ?? undefined,
+                project: (settings.cta.link as RawCtaLink).project ?? undefined,
+                openInNewTab: settings.cta.link.openInNewTab ?? undefined,
+              }
+            : undefined,
+        }
+      : undefined
 
   return (
     <NavClient
-      pages={settings?.navLinks || []}
+      pages={pages}
       title={settings?.brandName || settings?.title || 'Neo xAi'}
       email={settings?.email}
       logo={logoUrl}
-      cta={settings?.cta}
+      cta={cta}
     />
   )
 }

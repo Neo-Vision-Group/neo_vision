@@ -1,4 +1,4 @@
-import {person} from './documents/person'
+﻿import {person} from './documents/person'
 import {page} from './documents/page' 
 import {post} from './documents/post'
 import {service} from './documents/service'
@@ -7,8 +7,6 @@ import {project} from './documents/project'
 import {testimonial} from './documents/testimonial'
 import {contactSubmission} from './documents/contactSubmission'
 import {settings} from './singletons/settings'
-import {termsAndConditions} from './singletons/termsAndConditions'
-import {privacyPolicy} from './singletons/privacyPolicy'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import button from './objects/button'
@@ -21,6 +19,7 @@ import {origin} from './objects/home/origin'
 import {portfolio} from './objects/home/portfolio'
 import {pricing} from './objects/home/pricing'
 import {signature} from './objects/home/signature'
+import {signature2} from './objects/home/signature2'
 import {story} from './objects/home/story'
 import {team} from './objects/home/team'
 import {testimonials} from './objects/home/testimonials'
@@ -35,6 +34,8 @@ import {engineeringServices} from './objects/service/engineering'
 import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
 import {reality} from './objects/service/reality'
+import {compare} from './objects/service/compare'
+import {whyRomania} from './objects/service/whyRomania'
 import {portfolioFeatured} from './objects/portfolio/portfolioFeatured'
 import {portfolioGrid} from './objects/portfolio/portfolioGrid'
 import {portfolioCta} from './objects/portfolio/portfolioCta'
@@ -56,15 +57,18 @@ import {studyMoreLikeThis} from './objects/study/studyMoreLikeThis'
 import {studyClosingCta} from './objects/study/studyClosingCta'
 import {isThisForYou} from './objects/service/isThisForYou'
 import {soundFamiliar} from './objects/service/soundFamiliar'
+import {serviceNavigator} from './objects/service/serviceNavigator'
+import {steps} from './objects/service/steps'
+import {awards} from './objects/about/awards'
 import {place} from './objects/about/place'
+import {press} from './objects/about/press'
+import {techStack} from './objects/about/techStack'
 import {freeResources} from './objects/resources/freeResources'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
   // Singletons
   settings,
-  termsAndConditions,
-  privacyPolicy,
   // Documents
   page,
   post,
@@ -91,6 +95,7 @@ export const schemaTypes = [
   portfolio,
   pricing,
   signature,
+  signature2,
   story,
   team,
   testimonials,
@@ -101,6 +106,8 @@ export const schemaTypes = [
   aiServices,
   industries,
   reality,
+  compare,
+  whyRomania,
   portfolioFeatured,
   portfolioGrid,
   portfolioCta,
@@ -119,9 +126,16 @@ export const schemaTypes = [
   studyTestimonial,
   studyTechStack,
   studyMoreLikeThis,
+  awards,
   place,
+  press,
+  techStack,
   studyClosingCta,
   freeResources,
   isThisForYou,
   soundFamiliar,
+  serviceNavigator,
+  steps,
 ]
+
+

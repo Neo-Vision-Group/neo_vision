@@ -31,7 +31,6 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
     <SectionsWrapper
       id="sound-familiar"
       eyebrow={cleanData?.eyebrow ?? "SOUND FAMILIAR?"}
-      contentClassName="px-0 md:px-0"
     >
       <div className="flex flex-col gap-12">
         {cleanData?.heading && (

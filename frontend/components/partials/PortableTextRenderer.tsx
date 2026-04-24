@@ -86,7 +86,7 @@ const components: PortableTextComponents = {
   types: {
     pullquote: ({ value }: { value: PullquoteBlock }) => (
       <figure className="my-10 border-y border-brand/40 py-8">
-        <blockquote className="text-[24px] font-medium leading-[32px] tracking-[-0.2px] text-foreground md:text-[32px] md:leading-[42px]">
+        <blockquote className="text-[24px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[32px] md:leading-[42px]">
           &ldquo;{value.quote}&rdquo;
         </blockquote>
         {value.attribution ? (
@@ -102,17 +102,9 @@ const components: PortableTextComponents = {
       </div>
     ),
     comparisonTable: ({ value }: { value: ComparisonTableBlock }) => {
-      const rows = (value.rows ?? []).map((r) => {
-        const cells = r.cells ?? [];
-        return { label: cells[0] ?? "", before: cells[1] ?? "", after: cells[2] ?? "" };
-      });
       return (
         <div className="my-8">
-          <ComparisonTable
-            beforeLabel={value.headers?.[1]}
-            afterLabel={value.headers?.[2]}
-            rows={rows}
-          />
+          <ComparisonTable headers={value.headers} rows={value.rows ?? []} />
         </div>
       );
     },

@@ -41,12 +41,6 @@ export type Heading = {
   bold?: string
 }
 
-export type Callout = {
-  heading?: string
-  body?: string
-  cta?: Button
-}
-
 export type ValueCard = {
   value?: string
   body?: string
@@ -55,6 +49,17 @@ export type ValueCard = {
 export type RealityHeading = {
   faded?: string
   bold: string
+}
+
+export type CompareHeading = {
+  highlighted: string
+  regular: string
+}
+
+export type Closing = {
+  lead: string
+  highlight: string
+  followup: string
 }
 
 export type InsightsCtaHeading = {
@@ -111,7 +116,15 @@ export type SanityImageAssetReference = {
 
 export type Logo = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "media" in schema
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ObjectLogo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "object.logo.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -130,7 +143,7 @@ export type StudyApproachHeading = {
   bold: string
 }
 
-export type StudyApproachCallout = {
+export type Callout = {
   label?: string
   body?: string
 }
@@ -153,24 +166,6 @@ export type StudyTestimonialQuote = {
   accent?: boolean
 }
 
-export type StudyMoreLikeThisHeading = {
-  regular?: string
-  bold?: string
-}
-
-export type StudyClosingCtaHeading = {
-  regular: string
-  bold: string
-}
-
-export type ObjectImage = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "image.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
 export type SanityFileAssetReference = {
   _ref: string
   _type: 'reference'
@@ -180,8 +175,44 @@ export type SanityFileAssetReference = {
 
 export type ResourceFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  media?: unknown // Unable to locate the referenced type "resource.file.media" in schema
   _type: 'file'
+}
+
+export type Steps = {
+  _type: 'steps'
+  eyebrow?: string
+  intro: string
+  highlight: string
+  items: Array<{
+    title: string
+    duration: string
+    body: string
+    _key: string
+  }>
+  visual?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  visualAlt?: string
+}
+
+export type ServiceNavigator = {
+  _type: 'serviceNavigator'
+  eyebrow?: string
+  headingRegular: string
+  headingBold: string
+  cards: Array<{
+    prompt: string
+    details?: string
+    cta: Button
+    _key: string
+  }>
+  closingText?: string
+  closingCta: Button
 }
 
 export type SoundFamiliar = {
@@ -210,8 +241,10 @@ export type FreeResources = {
   eyebrow?: string
   heading?: FreeResourcesHeading
   body?: string
+  footnote?: string
   items?: Array<{
     title: string
+    badge?: string
     description?: string
     file?: ResourceFile
     externalUrl?: string
@@ -222,9 +255,51 @@ export type FreeResources = {
 
 export type StudyClosingCta = {
   _type: 'studyClosingCta'
-  heading?: StudyClosingCtaHeading
+  heading?: {
+    regular: string
+    bold: string
+  }
   body?: string
   cta?: Button
+}
+
+export type Button = {
+  _type: 'button'
+  buttonText?: string
+  link?: Link
+}
+
+export type TechStack = {
+  _type: 'techStack'
+  eyebrow?: string
+  headingRegular?: string
+  headingBold: string
+  groups?: Array<{
+    title: string
+    items?: Array<{
+      name: string
+      logo?: Logo
+      _type: 'item'
+      _key: string
+    }>
+    _type: 'group'
+    _key: string
+  }>
+  closingNote?: string
+}
+
+export type Press = {
+  _type: 'press'
+  eyebrow?: string
+  heading: string
+  cardTitle: string
+  cardBody: string
+  ctaLabel: string
+  file: {
+    asset?: SanityFileAssetReference
+    media?: unknown
+    _type: 'file'
+  }
 }
 
 export type Place = {
@@ -249,6 +324,26 @@ export type Place = {
   cta?: PlaceCta
 }
 
+export type Awards = {
+  _type: 'awards'
+  eyebrow?: string
+  items?: Array<{
+    title: string
+    recognitions?: Array<string>
+    cta?: Button
+    _type: 'item'
+    _key: string
+  }>
+  featuredTitle?: string
+  featuredBadge?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
 export type ProjectReference = {
   _ref: string
   _type: 'reference'
@@ -258,7 +353,10 @@ export type ProjectReference = {
 
 export type StudyMoreLikeThis = {
   _type: 'studyMoreLikeThis'
-  heading?: StudyMoreLikeThisHeading
+  heading?: {
+    regular?: string
+    bold?: string
+  }
   items: Array<
     {
       _key: string
@@ -298,9 +396,31 @@ export type StudyWhatWeBuilt = {
     number: string
     title: string
     body: string
-    image?: ObjectImage
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
     _key: string
   }>
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type StudyKeyWins = {
@@ -315,7 +435,7 @@ export type StudyApproach = {
   eyebrow?: string
   heading?: StudyApproachHeading
   body?: string
-  callout?: StudyApproachCallout
+  callout?: Callout
 }
 
 export type StudyChallenge = {
@@ -336,6 +456,11 @@ export type StudyHero = {
   heading: string
   subheading?: string
   chapters?: Array<string>
+  details?: Array<{
+    label: string
+    value: string
+    _key: string
+  }>
   heroImage?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -355,22 +480,6 @@ export type StudyHeroImage = {
     _type: 'image'
   }
   alt?: string
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type InsightBlock = {
@@ -474,6 +583,39 @@ export type PortfolioFeatured = {
   caseStudy: ProjectReference
 }
 
+export type WhyRomania = {
+  _type: 'whyRomania'
+  eyebrow?: string
+  title: string
+  body: BlockContentTextOnly
+  highlights?: Array<{
+    stat: string
+    description: string
+    _type: 'highlight'
+    _key: string
+  }>
+}
+
+export type Compare = {
+  _type: 'compare'
+  eyebrow?: string
+  heading: CompareHeading
+  rows: Array<{
+    label: string
+    _key: string
+  }>
+  columns: Array<{
+    name: string
+    highlightColumn?: boolean
+    values: Array<{
+      available?: boolean
+      _key: string
+    }>
+    _key: string
+  }>
+  closing: Closing
+}
+
 export type Reality = {
   _type: 'reality'
   eyebrow?: string
@@ -519,12 +661,6 @@ export type AiServices = {
     cta: Button
     _key: string
   }>
-}
-
-export type Button = {
-  _type: 'button'
-  buttonText?: string
-  link?: Link
 }
 
 export type EngineeringServices = {
@@ -608,7 +744,7 @@ export type Testimonials = {
   eyebrow: string
   logos: Array<{
     name: string
-    logo: Logo
+    logo: ObjectLogo
     _key: string
   }>
   testimonials: Array<
@@ -648,6 +784,21 @@ export type Story = {
   }>
 }
 
+export type Signature2 = {
+  _type: 'signature2'
+  eyebrow?: string
+  headingFaded?: string
+  headingBold?: string
+  body?: string
+  steps?: Array<{
+    title?: string
+    highlighted?: boolean
+    _type: 'step'
+    _key: string
+  }>
+  cta?: Button
+}
+
 export type Signature = {
   _type: 'signature'
   eyebrow?: string
@@ -668,18 +819,21 @@ export type Signature = {
 export type Pricing = {
   _type: 'pricing'
   eyebrow?: string
-  heading?: string
-  cards?: Array<{
-    kind?: 'engineering' | 'ai'
-    title?: string
-    items?: Array<
-      {
-        _key: string
-      } & ServiceReference
-    >
+  headingPrimary: string
+  headingSecondary?: string
+  tiers: Array<{
+    width: 'half' | 'full'
+    priceLayout: 'stacked' | 'split' | 'inline'
+    badge?: string
+    title: string
+    price: string
+    meta?: string
+    description?: string
+    ctaStyle: 'textLink' | 'button'
+    cta?: Button
+    _type: 'tier'
     _key: string
   }>
-  callout?: Callout
 }
 
 export type Portfolio = {
@@ -799,10 +953,12 @@ export type PageReference = {
 
 export type Link = {
   _type: 'link'
-  linkType?: 'href' | 'page' | 'post'
+  linkType?: 'href' | 'page' | 'post' | 'service' | 'project'
   href?: string
   page?: PageReference
   post?: PostReference
+  service?: ServiceReference
+  project?: ProjectReference
   openInNewTab?: boolean
 }
 
@@ -931,9 +1087,6 @@ export type Project = {
       } & StudyKeyWins)
     | ({
         _key: string
-      } & StudyWhatWeBuilt)
-    | ({
-        _key: string
       } & StudyNumbers)
     | ({
         _key: string
@@ -943,100 +1096,29 @@ export type Project = {
       } & StudyTechStack)
     | ({
         _key: string
-      } & StudyMoreLikeThis)
+      } & Steps)
     | ({
         _key: string
-      } & StudyClosingCta)
-  >
-  challenge?: {
-    eyebrow?: string
-    heading?: string
-    body?: string
-    issues?: Array<{
-      tag?: string
-      body?: string
-      _key: string
-    }>
-  }
-  approach?: {
-    eyebrow?: string
-    heading?: {
-      faded?: string
-      bold?: string
-    }
-    body?: string
-    callout?: {
-      label?: string
-      body?: string
-    }
-  }
-  keyWins?: {
-    eyebrow?: string
-    heading?: string
-    comparison?: {
-      beforeLabel?: string
-      afterLabel?: string
-      rows?: Array<{
-        label?: string
-        before?: string
-        after?: string
+      } & WhyRomania)
+    | ({
         _key: string
-      }>
-    }
-  }
-  whatWeBuilt?: {
-    eyebrow?: string
-    heading?: string
-    features?: Array<{
-      number?: string
-      title?: string
-      body?: string
-      image?: {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-      }
-      _key: string
-    }>
-  }
-  numbers?: {
-    eyebrow?: string
-    heading?: string
-    footnote?: string
-    stats?: Array<{
-      value?: string
-      label?: string
-      _key: string
-    }>
-  }
-  testimonial?: {
-    quote?: string
-    attribution?: string
-    source?: string
-  }
-  detailTestimonial?: {
-    eyebrow?: string
-    quote?: {
-      quote?: string
-      attribution?: string
-      source?: string
-      accent?: boolean
-    }
-  }
-  techStack?: {
-    eyebrow?: string
-    tools?: Array<string>
-  }
-  closingCta?: {
-    heading?: {
-      regular?: string
-      bold?: string
-    }
-    body?: string
-    cta?: Button
-  }
+      } & Compare)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & Cta)
+  >
   publishedAt?: string
 }
 
@@ -1062,24 +1144,6 @@ export type Person = {
     alt?: string
     _type: 'image'
   }
-}
-
-export type PrivacyPolicy = {
-  _id: string
-  _type: 'privacyPolicy'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
-}
-
-export type TermsAndConditions = {
-  _id: string
-  _type: 'termsAndConditions'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  title?: string
 }
 
 export type SiteSettings = {
@@ -1159,6 +1223,11 @@ export type SiteSettings = {
     }>
     _key: string
   }>
+  legalLinks?: Array<
+    {
+      _key: string
+    } & PageReference
+  >
 }
 
 export type Post = {
@@ -1243,9 +1312,27 @@ export type Post = {
   >
   order?: number
   pageBuilder?: Array<
-    {
-      _key: string
-    } & InsightBlock
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & Pricing)
   >
 }
 
@@ -1318,6 +1405,9 @@ export type Page = {
       } & Signature)
     | ({
         _key: string
+      } & Signature2)
+    | ({
+        _key: string
       } & Story)
     | ({
         _key: string
@@ -1336,10 +1426,22 @@ export type Page = {
       } & EngineeringServices)
     | ({
         _key: string
+      } & ServiceNavigator)
+    | ({
+        _key: string
       } & Industries)
     | ({
         _key: string
       } & Reality)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
     | ({
         _key: string
       } & Faq)
@@ -1366,10 +1468,22 @@ export type Page = {
       } & PortfolioMetrics)
     | ({
         _key: string
+      } & Awards)
+    | ({
+        _key: string
       } & Place)
     | ({
         _key: string
+      } & Press)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
       } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
   >
 }
 
@@ -1441,13 +1555,28 @@ export type Service = {
       } & EngineeringServices)
     | ({
         _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
       } & SoundFamiliar)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Steps)
     | ({
         _key: string
       } & Faq)
     | ({
         _key: string
       } & IsThisForYou)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & TechStack)
   >
 }
 
@@ -1699,9 +1828,10 @@ export type AllSanitySchemaTypes =
   | FormConfig
   | ContactFormFormConfig
   | Heading
-  | Callout
   | ValueCard
   | RealityHeading
+  | CompareHeading
+  | Closing
   | InsightsCtaHeading
   | InsightsCtaCta
   | PortfolioCtaHeading
@@ -1712,34 +1842,38 @@ export type AllSanitySchemaTypes =
   | Card
   | SanityImageAssetReference
   | Logo
+  | ObjectLogo
   | Texture
   | StudyApproachHeading
-  | StudyApproachCallout
+  | Callout
   | Comparison
   | StudyTestimonialQuote
-  | StudyMoreLikeThisHeading
-  | StudyClosingCtaHeading
-  | ObjectImage
   | SanityFileAssetReference
   | ResourceFile
+  | Steps
+  | ServiceNavigator
   | SoundFamiliar
   | IsThisForYou
   | FreeResources
   | StudyClosingCta
+  | Button
+  | TechStack
+  | Press
   | Place
+  | Awards
   | ProjectReference
   | StudyMoreLikeThis
   | StudyTechStack
   | StudyTestimonial
   | StudyNumbers
   | StudyWhatWeBuilt
+  | SanityImageCrop
+  | SanityImageHotspot
   | StudyKeyWins
   | StudyApproach
   | StudyChallenge
   | StudyHero
   | StudyHeroImage
-  | SanityImageCrop
-  | SanityImageHotspot
   | InsightBlock
   | InsightsCta
   | PostReference
@@ -1749,11 +1883,12 @@ export type AllSanitySchemaTypes =
   | PortfolioCta
   | PortfolioGrid
   | PortfolioFeatured
+  | WhyRomania
+  | Compare
   | Reality
   | Industries
   | ServiceReference
   | AiServices
-  | Button
   | EngineeringServices
   | Faq
   | Why
@@ -1763,6 +1898,7 @@ export type AllSanitySchemaTypes =
   | TeamMemberReference
   | Team
   | Story
+  | Signature2
   | Signature
   | Pricing
   | Portfolio
@@ -1784,8 +1920,6 @@ export type AllSanitySchemaTypes =
   | Project
   | Slug
   | Person
-  | PrivacyPolicy
-  | TermsAndConditions
   | SiteSettings
   | Post
   | TeamMember
@@ -1816,7 +1950,7 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{    ...,    logoPicture {      ...,      asset->    },    ogImage {      ...,      asset->    },    navLinks[]{      _key,      "name": label,      "slug": "/" + page->slug.current    },    cta {      buttonText,      link {        linkType,        href,        "page": page->slug.current,        "post": post->slug.current,        openInNewTab      }    },    footerColumns[]{      _key,      title,      links[]{        _key,        label,        accent,        "href": select(          linkType == "page" => "/" + page->slug.current,          linkType == "service" => "/services/" + service->slug.current,          linkType == "href" => href        )      }    }  }
+// Query: *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{    ...,    phoneNumber,    logoPicture {      ...,      asset->    },    ogImage {      ...,      asset->    },    navLinks[]{      _key,      "name": label,      "slug": "/" + page->slug.current    },    cta {      buttonText,      link {        linkType,        href,        "page": page->slug.current,        "post": post->slug.current,        "service": service->slug.current,        "project": project->slug.current,        openInNewTab      }    },    footerColumns[]{      _key,      title,      links[]{        _key,        label,        accent,        "href": select(          linkType == "page" => "/" + page->slug.current,          linkType == "service" => "/services/" + service->slug.current,          linkType == "href" => href        )      }    }  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'siteSettings'
@@ -1908,7 +2042,7 @@ export type SettingsQueryResult = {
   } | null
   legalName?: string
   email?: string
-  phoneNumber?: string
+  phoneNumber: string | null
   location?: string
   instagram?: string
   facebook?: string
@@ -1919,10 +2053,12 @@ export type SettingsQueryResult = {
   cta: {
     buttonText: string | null
     link: {
-      linkType: 'href' | 'page' | 'post' | null
+      linkType: 'href' | 'page' | 'post' | 'project' | 'service' | null
       href: string | null
       page: string | null
       post: string | null
+      service: string | null
+      project: string | null
       openInNewTab: boolean | null
     } | null
   } | null
@@ -1941,11 +2077,16 @@ export type SettingsQueryResult = {
       href: string | null
     }> | null
   }> | null
+  legalLinks?: Array<
+    {
+      _key: string
+    } & PageReference
+  >
 } | null
 
 // Source: sanity/lib/queries.ts
 // Variable: pageQuery
-// Query: *[_type == 'page' && (    ($slug == "" && pageType == 'home') ||    ($slug != "" && slug.current == $slug)  )][0]{    _id,    _type,    name,    slug,    pageType,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        secondaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "pageHero" => {        ...,        eyebrow,        headingType,        heading,        headingMultipart {          faded,          regular,          bold,          trailing        },        subheading,        stats[]{          number,          suffix,          label        }      },      _type == "contactHero" => {        ...,        eyebrow,        heading,        description,        steps[]{          title,          description        },        formConfig {          services,          budgetRanges,          timelines,          hearAboutUs        }      },      _type == "booking" => {        ...,        heading,        callTitle,        whatToExpectHeading,        expectations,        schedulerUrl,        teamMember->{          name,          role,          portrait        }      },      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },      _type == "testimonials" => {        ...,        eyebrow,        logos[]{          name,          logo        },        testimonials[]->{          attribution,          quote,          profilePicture        }      },      _type == "whatWeDo" => {        ...,        cards[]{          ...,          services[]->{            ...          }        }      },      _type == "team" => {        ...,        members[]->{          ...,          portrait {            ...,            asset->          }        }      },      _type == "story" => {        ...,        milestones[]{          year,          body        }      },      _type == "portfolio" => {        ...,        eyebrow,        heading,        projects[]->{          _id,          client,          year,          slug,          category,          title,          tagline,          description,          image,          link        }      },      _type == "cta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        subtext      },      _type == "engineeringServices" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "soundFamiliar" => {        ...,        painPoints[]{          ...,          title,          body        }      },      _type == "ai" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "industries" => {        ...,        industries[]{          ...,          icon        }      },      _type == "reality" => {        ...,        heading {          faded,          bold        },        points[]{          title,          body        },        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "faq" => {        ...,        items[]{          ...        }      },      _type == "isThisForYou" => {        ...,        items[]{          text        }      },      _type == "insightsFeatured" => {        ...,        insight->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsGrid" => {        ...,        items[]->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsCta" => {        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "freeResources" => {        ...,        heading {          faded,          bold,          regular,          trailing        },        items[]{          ...,          title,          description,          file,          externalUrl,          "fileUrl": file.asset->url        }      },      _type == "portfolioFeatured" => {        ...,        caseStudy->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        }      },      _type == "portfolioGrid" => {        ...,        items[]->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        },        categoryFilters[]{          label,          value        }      },      _type == "portfolioMetrics" => {        ...,        items[]{          value,          label        }      },      _type == "portfolioCta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "place" => {        ...,        eyebrow,        headingRegular,        headingBold,        body,        backgroundGraphic {          ...,          asset->        },        locations[]{          city,          address,          note        },        cta {          label,          href        }      },    },  }
+// Query: *[_type == 'page' && (    ($slug == "" && pageType == 'home') ||    ($slug != "" && slug.current == $slug)  )][0]{    _id,    _type,    name,    slug,    pageType,    heading,    subheading,      "pageBuilder": pageBuilder[]{    ...,    _type == "homeHero" => {      ...,      primaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      secondaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "pageHero" => {      ...,      eyebrow,      headingType,      heading,      headingMultipart {        faded,        regular,        bold,        trailing      },      subheading,      stats[]{        number,        suffix,        label      },      featured->{        _type,        _id,        slug,        _type == "post" => {          title,          excerpt,          category,          publishedAt,          readTime,          author->{name}        },        _type == "project" => {          client,          year,          category,          industry,          tagline,          "cover": thumb.asset->url        }      }    },    _type == "contactHero" => {      ...,      eyebrow,      heading,      description,      steps[]{        title,        description      },      formConfig {        services,        budgetRanges,        timelines,        hearAboutUs      }    },    _type == "booking" => {      ...,      heading,      callTitle,      whatToExpectHeading,      expectations,      schedulerUrl,      teamMember->{        name,        role,        portrait      }    },    _type == "callToAction" => {      ...,      button {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      }    },    _type == "testimonials" => {      ...,      eyebrow,      logos[]{        name,        logo      },      testimonials[]->{        attribution,        quote,        profilePicture      }    },    _type == "whatWeDo" => {      ...,      cards[]{        ...,        services[]->{          ...        }      }    },    _type == "signature2" => {      ...,      steps[]{        ...,        title,        highlighted      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "team" => {      ...,      members[]->{        ...,        portrait {          ...,          asset->        }      }    },    _type == "story" => {      ...,      milestones[]{        year,        body      }    },    _type == "portfolio" => {      ...,      eyebrow,      heading,      projects[]->{        _id,        client,        year,        slug,        category,        title,        tagline,        description,        image,        link      }    },    _type == "pricing" => {      ...,      tiers[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      }    },    _type == "cta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      subtext    },    _type == "engineeringServices" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "serviceNavigator" => {      ...,      cards[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      closingCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "soundFamiliar" => {      ...,      painPoints[]{        ...,        title,        body      }    },    _type == "ai" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "industries" => {      ...,      industries[]{        ...,        icon      }    },    _type == "reality" => {      ...,      heading {        faded,        bold      },      points[]{        title,        body      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "compare" => {      ...,      heading {        highlighted,        regular      },      rows[]{        label      },      columns[]{        name,        highlightColumn,        values[]{          available        }      },      closing {        lead,        highlight,        followup      }    },    _type == "whyRomania" => {      ...,      title,      body[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      },      highlights[]{        stat,        description      }    },    _type == "faq" => {      ...,      items[]{        ...      }    },    _type == "isThisForYou" => {      ...,      items[]{        text      }    },    _type == "steps" => {      ...,      items[]{        ...,        title,        duration,        body      },      visual {        ...,        asset->      }    },    _type == "insightsFeatured" => {      ...,      insight->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsGrid" => {      ...,      items[]->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsCta" => {      ...,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "freeResources" => {      ...,      heading {        faded,        bold,        regular,        trailing      },      items[]{        ...,        title,        description,        file,        externalUrl,        "fileUrl": file.asset->url      }    },    _type == "portfolioFeatured" => {      ...,      caseStudy->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      }    },    _type == "portfolioGrid" => {      ...,      items[]->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      },      serviceFilters[]{        label,        value      },      industryFilters[]{        label,        value      }    },    _type == "portfolioMetrics" => {      ...,      items[]{        value,        label      }    },    _type == "portfolioCta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "place" => {      ...,      eyebrow,      headingRegular,      headingBold,      body,      backgroundGraphic {        ...,        asset->      },      locations[]{        city,        address,        note      },      cta {        label,        href      }    },    _type == "awards" => {      ...,      eyebrow,      items[]{        title,        recognitions,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      featuredTitle,      featuredBadge {        ...,        asset->      }    },    _type == "press" => {      ...,      eyebrow,      heading,      cardTitle,      cardBody,      ctaLabel,      file {        ...,        asset->      }    },    _type == "techStack" => {      ...,      eyebrow,      headingRegular,      headingBold,      groups[]{        title,        items[]{          name,          logo {            ...,            asset->          }        }      },      closingNote    },  },  }
 export type PageQueryResult = {
   _id: string
   _type: 'page'
@@ -1957,6 +2098,58 @@ export type PageQueryResult = {
   pageBuilder: Array<
     | {
         _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
@@ -1975,6 +2168,30 @@ export type PageQueryResult = {
         whatToExpectHeading: string | null
         expectations: Array<string>
         schedulerUrl: string | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
       }
     | {
         _key: string
@@ -2016,10 +2233,12 @@ export type PageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         }
@@ -2045,6 +2264,12 @@ export type PageQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -2092,10 +2317,16 @@ export type PageQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -2105,6 +2336,9 @@ export type PageQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           } | null
           ctaLabel?: string
@@ -2151,8 +2385,10 @@ export type PageQueryResult = {
           trailing: string | null
         } | null
         body?: string
+        footnote?: string
         items: Array<{
           title: string
+          badge?: string
           description: string | null
           file: ResourceFile | null
           externalUrl: string | null
@@ -2172,10 +2408,12 @@ export type PageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -2187,10 +2425,12 @@ export type PageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -2212,6 +2452,33 @@ export type PageQueryResult = {
           prefix?: string
           _key: string
         }>
+      }
+    | {
+        _key: string
+        _type: 'insightBlock'
+        title: string
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'h3' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        sectionType?: 'card' | 'none' | 'quote' | 'table'
+        quote?: Quote
+        table?: Table
+        card?: Card
       }
     | {
         _key: string
@@ -2239,7 +2506,6 @@ export type PageQueryResult = {
             | 'operators-notes'
             | 'systems-playbooks'
             | null
-          cover: string | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
@@ -2271,7 +2537,6 @@ export type PageQueryResult = {
             | 'operators-notes'
             | 'systems-playbooks'
             | null
-          cover: string | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
@@ -2336,7 +2601,38 @@ export type PageQueryResult = {
           suffix: string | null
           label: string
         }> | null
-        featured?: PostReference | ProjectReference
+        featured:
+          | {
+              _type: 'post'
+              _id: string
+              slug: Slug
+              title: string
+              excerpt: string | null
+              category:
+                | 'ai-transformation'
+                | 'design-research'
+                | 'engineering'
+                | 'operators-notes'
+                | 'systems-playbooks'
+                | null
+              publishedAt: string | null
+              readTime: number | null
+              author: {
+                name: string
+              } | null
+            }
+          | {
+              _type: 'project'
+              _id: string
+              slug: Slug
+              client: string
+              year: string
+              category: string
+              industry: string
+              tagline: string
+              cover: string | null
+            }
+          | null
       }
     | {
         _key: string
@@ -2411,10 +2707,12 @@ export type PageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -2462,17 +2760,14 @@ export type PageQueryResult = {
             _type: 'image'
           } | null
         }>
-        serviceFilters?: Array<{
+        serviceFilters: Array<{
           label: string
           value: string
-          _key: string
-        }>
-        industryFilters?: Array<{
+        }> | null
+        industryFilters: Array<{
           label: string
           value: string
-          _key: string
-        }>
-        categoryFilters: null
+        }> | null
       }
     | {
         _key: string
@@ -2484,20 +2779,70 @@ export type PageQueryResult = {
       }
     | {
         _key: string
+        _type: 'press'
+        eyebrow: string | null
+        heading: string
+        cardTitle: string
+        cardBody: string
+        ctaLabel: string
+        file: {
+          asset: {
+            _id: string
+            _type: 'sanity.fileAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          _type: 'file'
+        }
+      }
+    | {
+        _key: string
         _type: 'pricing'
         eyebrow?: string
-        heading?: string
-        cards?: Array<{
-          kind?: 'ai' | 'engineering'
-          title?: string
-          items?: Array<
-            {
-              _key: string
-            } & ServiceReference
-          >
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
           _key: string
         }>
-        callout?: Callout
       }
     | {
         _key: string
@@ -2517,13 +2862,56 @@ export type PageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
+      }
+    | {
+        _key: string
+        _type: 'serviceNavigator'
+        eyebrow?: string
+        headingRegular: string
+        headingBold: string
+        cards: Array<{
+          prompt: string
+          details?: string
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          }
+          _key: string
+        }>
+        closingText?: string
+        closingCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        }
       }
     | {
         _key: string
@@ -2541,6 +2929,76 @@ export type PageQueryResult = {
         }>
         cta?: Button
         valueCard?: ValueCard
+      }
+    | {
+        _key: string
+        _type: 'signature2'
+        eyebrow?: string
+        headingFaded?: string
+        headingBold?: string
+        body?: string
+        steps: Array<{
+          title: string | null
+          highlighted: boolean | null
+          _type: 'step'
+          _key: string
+        }> | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string
+          body: string
+          _key: string
+        }>
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
       }
     | {
         _key: string
@@ -2600,11 +3058,53 @@ export type PageQueryResult = {
       }
     | {
         _key: string
+        _type: 'techStack'
+        eyebrow: string | null
+        headingRegular: string | null
+        headingBold: string
+        groups: Array<{
+          title: string
+          items: Array<{
+            name: string
+            logo: {
+              asset: {
+                _id: string
+                _type: 'sanity.imageAsset'
+                _createdAt: string
+                _updatedAt: string
+                _rev: string
+                originalFilename?: string
+                label?: string
+                title?: string
+                description?: string
+                altText?: string
+                sha1hash: string
+                extension: string
+                mimeType: string
+                size: number
+                assetId: string
+                uploadId?: string
+                path: string
+                url: string
+                metadata?: SanityImageMetadata
+                source?: SanityAssetSourceData
+              } | null
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          }> | null
+        }> | null
+        closingNote: string | null
+      }
+    | {
+        _key: string
         _type: 'testimonials'
         eyebrow: string
         logos: Array<{
           name: string
-          logo: Logo
+          logo: ObjectLogo
         }>
         testimonials: Array<{
           attribution: string
@@ -2642,6 +3142,12 @@ export type PageQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -2689,10 +3195,16 @@ export type PageQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -2702,6 +3214,9 @@ export type PageQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           }> | null
           cta: Button
@@ -2720,12 +3235,44 @@ export type PageQueryResult = {
           _key: string
         }>
       }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: string
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
+      }
   > | null
 } | null
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == 'page' && pageType == 'home'][0]{    _id,    _type,    name,    slug,    pageType,    heading,    subheading,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        secondaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "pageHero" => {        ...,        eyebrow,        headingType,        heading,        headingMultipart {          faded,          regular,          bold,          trailing        },        subheading,        stats[]{          number,          suffix,          label        }      },      _type == "contactHero" => {        ...,        eyebrow,        heading,        description,        steps[]{          title,          description        },        formConfig {          services,          budgetRanges,          timelines,          hearAboutUs        }      },      _type == "booking" => {        ...,        heading,        callTitle,        whatToExpectHeading,        expectations,        schedulerUrl,        teamMember->{          name,          role,          portrait        }      },      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },      _type == "testimonials" => {        ...,        eyebrow,        logos[]{          name,          logo        },        testimonials[]->{          attribution,          quote,          profilePicture        }      },      _type == "whatWeDo" => {        ...,        cards[]{          ...,          services[]->{            ...          }        }      },      _type == "team" => {        ...,        members[]->{          ...,          portrait {            ...,            asset->          }        }      },      _type == "story" => {        ...,        milestones[]{          year,          body        }      },      _type == "portfolio" => {        ...,        eyebrow,        heading,        projects[]->{          _id,          client,          year,          slug,          category,          title,          tagline,          description,          image,          link        }      },      _type == "cta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        subtext      },      _type == "engineeringServices" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "soundFamiliar" => {        ...,        painPoints[]{          ...,          title,          body        }      },      _type == "ai" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "industries" => {        ...,        industries[]{          ...,          icon        }      },      _type == "reality" => {        ...,        heading {          faded,          bold        },        points[]{          title,          body        },        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "faq" => {        ...,        items[]{          ...        }      },      _type == "isThisForYou" => {        ...,        items[]{          text        }      },      _type == "insightsFeatured" => {        ...,        insight->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsGrid" => {        ...,        items[]->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsCta" => {        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "freeResources" => {        ...,        heading {          faded,          bold,          regular,          trailing        },        items[]{          ...,          title,          description,          file,          externalUrl,          "fileUrl": file.asset->url        }      },      _type == "portfolioFeatured" => {        ...,        caseStudy->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        }      },      _type == "portfolioGrid" => {        ...,        items[]->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        },        categoryFilters[]{          label,          value        }      },      _type == "portfolioMetrics" => {        ...,        items[]{          value,          label        }      },      _type == "portfolioCta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "place" => {        ...,        eyebrow,        headingRegular,        headingBold,        body,        backgroundGraphic {          ...,          asset->        },        locations[]{          city,          address,          note        },        cta {          label,          href        }      },    },  }
+// Query: *[_type == 'page' && pageType == 'home'][0]{    _id,    _type,    name,    slug,    pageType,    heading,    subheading,      "pageBuilder": pageBuilder[]{    ...,    _type == "homeHero" => {      ...,      primaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      secondaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "pageHero" => {      ...,      eyebrow,      headingType,      heading,      headingMultipart {        faded,        regular,        bold,        trailing      },      subheading,      stats[]{        number,        suffix,        label      },      featured->{        _type,        _id,        slug,        _type == "post" => {          title,          excerpt,          category,          publishedAt,          readTime,          author->{name}        },        _type == "project" => {          client,          year,          category,          industry,          tagline,          "cover": thumb.asset->url        }      }    },    _type == "contactHero" => {      ...,      eyebrow,      heading,      description,      steps[]{        title,        description      },      formConfig {        services,        budgetRanges,        timelines,        hearAboutUs      }    },    _type == "booking" => {      ...,      heading,      callTitle,      whatToExpectHeading,      expectations,      schedulerUrl,      teamMember->{        name,        role,        portrait      }    },    _type == "callToAction" => {      ...,      button {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      }    },    _type == "testimonials" => {      ...,      eyebrow,      logos[]{        name,        logo      },      testimonials[]->{        attribution,        quote,        profilePicture      }    },    _type == "whatWeDo" => {      ...,      cards[]{        ...,        services[]->{          ...        }      }    },    _type == "signature2" => {      ...,      steps[]{        ...,        title,        highlighted      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "team" => {      ...,      members[]->{        ...,        portrait {          ...,          asset->        }      }    },    _type == "story" => {      ...,      milestones[]{        year,        body      }    },    _type == "portfolio" => {      ...,      eyebrow,      heading,      projects[]->{        _id,        client,        year,        slug,        category,        title,        tagline,        description,        image,        link      }    },    _type == "pricing" => {      ...,      tiers[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      }    },    _type == "cta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      subtext    },    _type == "engineeringServices" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "serviceNavigator" => {      ...,      cards[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      closingCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "soundFamiliar" => {      ...,      painPoints[]{        ...,        title,        body      }    },    _type == "ai" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "industries" => {      ...,      industries[]{        ...,        icon      }    },    _type == "reality" => {      ...,      heading {        faded,        bold      },      points[]{        title,        body      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "compare" => {      ...,      heading {        highlighted,        regular      },      rows[]{        label      },      columns[]{        name,        highlightColumn,        values[]{          available        }      },      closing {        lead,        highlight,        followup      }    },    _type == "whyRomania" => {      ...,      title,      body[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      },      highlights[]{        stat,        description      }    },    _type == "faq" => {      ...,      items[]{        ...      }    },    _type == "isThisForYou" => {      ...,      items[]{        text      }    },    _type == "steps" => {      ...,      items[]{        ...,        title,        duration,        body      },      visual {        ...,        asset->      }    },    _type == "insightsFeatured" => {      ...,      insight->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsGrid" => {      ...,      items[]->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsCta" => {      ...,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "freeResources" => {      ...,      heading {        faded,        bold,        regular,        trailing      },      items[]{        ...,        title,        description,        file,        externalUrl,        "fileUrl": file.asset->url      }    },    _type == "portfolioFeatured" => {      ...,      caseStudy->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      }    },    _type == "portfolioGrid" => {      ...,      items[]->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      },      serviceFilters[]{        label,        value      },      industryFilters[]{        label,        value      }    },    _type == "portfolioMetrics" => {      ...,      items[]{        value,        label      }    },    _type == "portfolioCta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "place" => {      ...,      eyebrow,      headingRegular,      headingBold,      body,      backgroundGraphic {        ...,        asset->      },      locations[]{        city,        address,        note      },      cta {        label,        href      }    },    _type == "awards" => {      ...,      eyebrow,      items[]{        title,        recognitions,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      featuredTitle,      featuredBadge {        ...,        asset->      }    },    _type == "press" => {      ...,      eyebrow,      heading,      cardTitle,      cardBody,      ctaLabel,      file {        ...,        asset->      }    },    _type == "techStack" => {      ...,      eyebrow,      headingRegular,      headingBold,      groups[]{        title,        items[]{          name,          logo {            ...,            asset->          }        }      },      closingNote    },  },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'page'
@@ -2737,6 +3284,58 @@ export type HomePageQueryResult = {
   pageBuilder: Array<
     | {
         _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
@@ -2755,6 +3354,30 @@ export type HomePageQueryResult = {
         whatToExpectHeading: string | null
         expectations: Array<string>
         schedulerUrl: string | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
       }
     | {
         _key: string
@@ -2796,10 +3419,12 @@ export type HomePageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         }
@@ -2825,6 +3450,12 @@ export type HomePageQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -2872,10 +3503,16 @@ export type HomePageQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -2885,6 +3522,9 @@ export type HomePageQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           } | null
           ctaLabel?: string
@@ -2931,8 +3571,10 @@ export type HomePageQueryResult = {
           trailing: string | null
         } | null
         body?: string
+        footnote?: string
         items: Array<{
           title: string
+          badge?: string
           description: string | null
           file: ResourceFile | null
           externalUrl: string | null
@@ -2952,10 +3594,12 @@ export type HomePageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -2967,10 +3611,12 @@ export type HomePageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -2992,6 +3638,33 @@ export type HomePageQueryResult = {
           prefix?: string
           _key: string
         }>
+      }
+    | {
+        _key: string
+        _type: 'insightBlock'
+        title: string
+        text?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'h3' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs?: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+          }>
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        sectionType?: 'card' | 'none' | 'quote' | 'table'
+        quote?: Quote
+        table?: Table
+        card?: Card
       }
     | {
         _key: string
@@ -3019,7 +3692,6 @@ export type HomePageQueryResult = {
             | 'operators-notes'
             | 'systems-playbooks'
             | null
-          cover: string | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
@@ -3051,7 +3723,6 @@ export type HomePageQueryResult = {
             | 'operators-notes'
             | 'systems-playbooks'
             | null
-          cover: string | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
@@ -3116,7 +3787,38 @@ export type HomePageQueryResult = {
           suffix: string | null
           label: string
         }> | null
-        featured?: PostReference | ProjectReference
+        featured:
+          | {
+              _type: 'post'
+              _id: string
+              slug: Slug
+              title: string
+              excerpt: string | null
+              category:
+                | 'ai-transformation'
+                | 'design-research'
+                | 'engineering'
+                | 'operators-notes'
+                | 'systems-playbooks'
+                | null
+              publishedAt: string | null
+              readTime: number | null
+              author: {
+                name: string
+              } | null
+            }
+          | {
+              _type: 'project'
+              _id: string
+              slug: Slug
+              client: string
+              year: string
+              category: string
+              industry: string
+              tagline: string
+              cover: string | null
+            }
+          | null
       }
     | {
         _key: string
@@ -3191,10 +3893,12 @@ export type HomePageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -3242,17 +3946,14 @@ export type HomePageQueryResult = {
             _type: 'image'
           } | null
         }>
-        serviceFilters?: Array<{
+        serviceFilters: Array<{
           label: string
           value: string
-          _key: string
-        }>
-        industryFilters?: Array<{
+        }> | null
+        industryFilters: Array<{
           label: string
           value: string
-          _key: string
-        }>
-        categoryFilters: null
+        }> | null
       }
     | {
         _key: string
@@ -3264,20 +3965,70 @@ export type HomePageQueryResult = {
       }
     | {
         _key: string
+        _type: 'press'
+        eyebrow: string | null
+        heading: string
+        cardTitle: string
+        cardBody: string
+        ctaLabel: string
+        file: {
+          asset: {
+            _id: string
+            _type: 'sanity.fileAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          _type: 'file'
+        }
+      }
+    | {
+        _key: string
         _type: 'pricing'
         eyebrow?: string
-        heading?: string
-        cards?: Array<{
-          kind?: 'ai' | 'engineering'
-          title?: string
-          items?: Array<
-            {
-              _key: string
-            } & ServiceReference
-          >
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
           _key: string
         }>
-        callout?: Callout
       }
     | {
         _key: string
@@ -3297,13 +4048,56 @@ export type HomePageQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
+      }
+    | {
+        _key: string
+        _type: 'serviceNavigator'
+        eyebrow?: string
+        headingRegular: string
+        headingBold: string
+        cards: Array<{
+          prompt: string
+          details?: string
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          }
+          _key: string
+        }>
+        closingText?: string
+        closingCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        }
       }
     | {
         _key: string
@@ -3321,6 +4115,76 @@ export type HomePageQueryResult = {
         }>
         cta?: Button
         valueCard?: ValueCard
+      }
+    | {
+        _key: string
+        _type: 'signature2'
+        eyebrow?: string
+        headingFaded?: string
+        headingBold?: string
+        body?: string
+        steps: Array<{
+          title: string | null
+          highlighted: boolean | null
+          _type: 'step'
+          _key: string
+        }> | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string
+          body: string
+          _key: string
+        }>
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
       }
     | {
         _key: string
@@ -3380,11 +4244,53 @@ export type HomePageQueryResult = {
       }
     | {
         _key: string
+        _type: 'techStack'
+        eyebrow: string | null
+        headingRegular: string | null
+        headingBold: string
+        groups: Array<{
+          title: string
+          items: Array<{
+            name: string
+            logo: {
+              asset: {
+                _id: string
+                _type: 'sanity.imageAsset'
+                _createdAt: string
+                _updatedAt: string
+                _rev: string
+                originalFilename?: string
+                label?: string
+                title?: string
+                description?: string
+                altText?: string
+                sha1hash: string
+                extension: string
+                mimeType: string
+                size: number
+                assetId: string
+                uploadId?: string
+                path: string
+                url: string
+                metadata?: SanityImageMetadata
+                source?: SanityAssetSourceData
+              } | null
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          }> | null
+        }> | null
+        closingNote: string | null
+      }
+    | {
+        _key: string
         _type: 'testimonials'
         eyebrow: string
         logos: Array<{
           name: string
-          logo: Logo
+          logo: ObjectLogo
         }>
         testimonials: Array<{
           attribution: string
@@ -3422,6 +4328,12 @@ export type HomePageQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -3469,10 +4381,16 @@ export type HomePageQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -3482,6 +4400,9 @@ export type HomePageQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           }> | null
           cta: Button
@@ -3499,6 +4420,38 @@ export type HomePageQueryResult = {
           body?: string
           _key: string
         }>
+      }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: string
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
       }
   > | null
 } | null
@@ -3557,7 +4510,7 @@ export type MorePostsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: postQuery
-// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
+// Query: *[_type == "post" && slug.current == $slug] [0] {    content[]{    ...,    markDefs[]{      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }    }  },      _id,  "status": select(_originalId in path("drafts.**") => "draft", "published"),  "title": coalesce(title, "Untitled"),  "slug": slug.current,  excerpt,  coverImage,  "date": coalesce(date, _updatedAt),  "author": author->{firstName, lastName, picture},  }
 export type PostQueryResult = {
   content: null
   _id: string
@@ -3590,7 +4543,7 @@ export type PagesSlugsResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: ALL_INSIGHTS_QUERY
-// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {    _id,    title,    slug,    excerpt,    category,    "cover": cover.asset->url,    publishedAt,    readTime,    featured,    author->{name, role, portrait},  }
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {    _id,    title,    slug,    excerpt,    category,    publishedAt,    readTime,    featured,    author->{name, role, portrait},  }
 export type ALL_INSIGHTS_QUERY_RESULT = Array<{
   _id: string
   title: string
@@ -3603,7 +4556,6 @@ export type ALL_INSIGHTS_QUERY_RESULT = Array<{
     | 'operators-notes'
     | 'systems-playbooks'
     | null
-  cover: string | null
   publishedAt: string | null
   readTime: number | null
   featured: boolean | null
@@ -3622,7 +4574,7 @@ export type ALL_INSIGHTS_QUERY_RESULT = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: INSIGHT_BY_SLUG_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    _type,    title,    slug,    excerpt,    category,    "cover": cover.asset->url,    publishedAt,    readTime,    featured,    body,    "pageBuilder": pageBuilder[]{      ...,      _type == "insightBlock" => {        ...,        text[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      }    },    author->{name, role, bio, portrait},    relatedInsights[]->{      _id,      title,      slug,      excerpt,      category,      "cover": cover.asset->url,      publishedAt,    }  }
+// Query: *[_type == "post" && slug.current == $slug][0]{    _id,    _type,    title,    slug,    excerpt,    category,    publishedAt,    readTime,    featured,    "pageBuilder": pageBuilder[]{      ...,      _type == "insightBlock" => {        ...,        text[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }          }        },        quote {          attribution,          quote[]{            ...,            markDefs[]{              ...,                _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }            }          }        },        card {          label,          body[]{            ...,            markDefs[]{              ...,                _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }            }          }        }      },      _type == "whyRomania" => {        ...,        title,        body[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }          }        },        highlights[]{          stat,          description        }      },      _type == "steps" => {        ...,        items[]{          ...,          title,          duration,          body        },        visual {          ...,          asset->        }      },      _type == "compare" => {        ...,        heading {          highlighted,          regular        },        rows[]{          label        },        columns[]{          name,          highlightColumn,          values[]{            available          }        },        closing {          lead,          highlight,          followup        }      },      _type == "awards" => {        ...,        eyebrow,        items[]{          title,          recognitions,          cta {            ...,              link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }          }        },        featuredTitle,        featuredBadge {          ...,          asset->        }      },      _type == "techStack" => {        ...,        eyebrow,        headingRegular,        headingBold,        groups[]{          title,          items[]{            name,            logo {              ...,              asset->            }          }        },        closingNote      },      _type == "pricing" => {        ...,        tiers[]{          ...,          cta {            ...,              link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }          }        }      }    },    author->{name, role, bio, portrait},    relatedInsights[]->{      _id,      title,      slug,      excerpt,      category,      publishedAt,    }  }
 export type INSIGHT_BY_SLUG_QUERY_RESULT = {
   _id: string
   _type: 'post'
@@ -3636,88 +4588,273 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | 'operators-notes'
     | 'systems-playbooks'
     | null
-  cover: string | null
   publishedAt: string | null
   readTime: number | null
   featured: boolean | null
-  body: Array<
+  pageBuilder: Array<
     | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
+        _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
+      }
+    | {
+        _key: string
+        _type: 'insightBlock'
+        title: string
+        text: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'h3' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }> | null
+        sectionType?: 'card' | 'none' | 'quote' | 'table'
+        quote: {
+          attribution: string | null
+          quote: null
+        } | null
+        table?: Table
+        card: {
+          label: string | null
+          body: null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'pricing'
+        eyebrow?: string
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
           _key: string
         }>
-        style?: 'blockquote' | 'h2' | 'h3' | 'normal'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string
+          body: string
           _key: string
         }>
-        level?: number
-        _type: 'block'
-        _key: string
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
       }
     | {
-        headers?: Array<string>
-        rows?: Array<{
-          cells?: Array<string>
+        _key: string
+        _type: 'techStack'
+        eyebrow: string | null
+        headingRegular: string | null
+        headingBold: string
+        groups: Array<{
+          title: string
+          items: Array<{
+            name: string
+            logo: {
+              asset: {
+                _id: string
+                _type: 'sanity.imageAsset'
+                _createdAt: string
+                _updatedAt: string
+                _rev: string
+                originalFilename?: string
+                label?: string
+                title?: string
+                description?: string
+                altText?: string
+                sha1hash: string
+                extension: string
+                mimeType: string
+                size: number
+                assetId: string
+                uploadId?: string
+                path: string
+                url: string
+                metadata?: SanityImageMetadata
+                source?: SanityAssetSourceData
+              } | null
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          }> | null
+        }> | null
+        closingNote: string | null
+      }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: string
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
           _key: string
         }>
-        _type: 'comparisonTable'
-        _key: string
-      }
-    | {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-    | {
-        label?: string
-        body?: string
-        _type: 'keyPoint'
-        _key: string
-      }
-    | {
-        quote?: string
-        attribution?: string
-        _type: 'pullquote'
-        _key: string
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
       }
   > | null
-  pageBuilder: Array<{
-    _key: string
-    _type: 'insightBlock'
-    title: string
-    text: Array<{
-      children?: Array<{
-        marks?: Array<string>
-        text?: string
-        _type: 'span'
-        _key: string
-      }>
-      style?: 'h3' | 'normal'
-      listItem?: 'bullet' | 'number'
-      markDefs: Array<{
-        href?: string
-        _type: 'link'
-        _key: string
-        page: null
-        post: null
-      }> | null
-      level?: number
-      _type: 'block'
-      _key: string
-    }> | null
-    sectionType?: 'card' | 'none' | 'quote' | 'table'
-    quote?: Quote
-    table?: Table
-    card?: Card
-  }> | null
   author: {
     name: string
     role: string
@@ -3742,7 +4879,6 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
       | 'operators-notes'
       | 'systems-playbooks'
       | null
-    cover: string | null
     publishedAt: string | null
   }> | null
 } | null
@@ -3778,9 +4914,10 @@ export type AllProjectsQueryResult = Array<{
 
 // Source: sanity/lib/queries.ts
 // Variable: projectBySlugQuery
-// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    client,    year,    slug,    category,    industry,    tagline,    metric,    metricLabel,    thumb,    "pageBuilder": pageBuilder[]{      ...,      _type == "studyHero" => {        ...,        heroImage {          ...,          asset->        }      }    },    challenge,    approach,    keyWins,    whatWeBuilt,    numbers,    testimonial,    detailTestimonial,    techStack,    closingCta,    publishedAt  }
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    _type,    client,    year,    slug,    category,    industry,    tagline,    metric,    metricLabel,    thumb,    "pageBuilder": pageBuilder[]{      ...,      _type == "studyHero" => {        ...,        details[]{          _key,          label,          value        },        heroImage {          ...,          asset->        }      },      _type == "studyChallenge" => {        ...,        issues[]{          _key,          tag,          body        }      },      _type == "studyApproach" => {        ...,        heading {          faded,          bold        },        callout {          label,          body        }      },      _type == "studyKeyWins" => {        ...,        comparison {          beforeLabel,          afterLabel,          rows[]{            _key,            label,            before,            after          }        }      },      _type == "studyWhatWeBuilt" => {        ...,        features[]{          _key,          number,          title,          body,          image {            ...,            asset->          }        }      },      _type == "studyNumbers" => {        ...,        stats[]{          _key,          value,          label        }      },      _type == "studyTestimonial" => {        ...,        quote {          quote,          attribution,          source,          accent        }      },      _type == "studyTechStack" => {        ...,        tools[]      },      _type == "portfolioGrid" => {        ...,        items[]->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          "thumb": thumb.asset->url        },        serviceFilters[]{          label,          value        },        industryFilters[]{          label,          value        }      },      _type == "cta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        },        subtext      },      _type == "studyMoreLikeThis" => {        ...,        heading {          regular,          bold        },        items[]->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          "thumb": thumb.asset->url        }      },      _type == "studyClosingCta" => {        ...,        heading {          regular,          bold        },        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      _type == "whyRomania" => {        ...,        title,        body[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }          }        },        highlights[]{          stat,          description        }      },      _type == "steps" => {        ...,        items[]{          ...,          title,          duration,          body        },        visual {          ...,          asset->        }      },      _type == "compare" => {        ...,        heading {          highlighted,          regular        },        rows[]{          label        },        columns[]{          name,          highlightColumn,          values[]{            available          }        },        closing {          lead,          highlight,          followup        }      },      _type == "awards" => {        ...,        eyebrow,        items[]{          title,          recognitions,          cta {            ...,              link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }          }        },        featuredTitle,        featuredBadge {          ...,          asset->        }      },      _type == "techStack" => {        ...,        eyebrow,        headingRegular,        headingBold,        groups[]{          title,          items[]{            name,            logo {              ...,              asset->            }          }        },        closingNote      },      _type == "pricing" => {        ...,        tiers[]{          ...,          cta {            ...,              link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }          }        }      }    },    publishedAt  }
 export type ProjectBySlugQueryResult = {
   _id: string
+  _type: 'project'
   client: string
   year: string
   slug: Slug
@@ -3799,11 +4936,213 @@ export type ProjectBySlugQueryResult = {
   pageBuilder: Array<
     | {
         _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
+      }
+    | {
+        _key: string
+        _type: 'cta'
+        heading: string
+        body: string
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        }
+        subtext: string | null
+      }
+    | {
+        _key: string
+        _type: 'portfolioGrid'
+        items: Array<{
+          _id: string
+          client: string
+          slug: Slug
+          year: string
+          category: string
+          industry: string
+          tagline: string
+          metric: string | null
+          metricLabel: string | null
+          thumb: string | null
+        }>
+        serviceFilters: Array<{
+          label: string
+          value: string
+        }> | null
+        industryFilters: Array<{
+          label: string
+          value: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'pricing'
+        eyebrow?: string
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string
+          body: string
+          _key: string
+        }>
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
+      }
+    | {
+        _key: string
         _type: 'studyApproach'
         eyebrow?: string
-        heading?: StudyApproachHeading
+        heading: {
+          faded: string | null
+          bold: string
+        } | null
         body?: string
-        callout?: StudyApproachCallout
+        callout: {
+          label: string | null
+          body: string | null
+        } | null
       }
     | {
         _key: string
@@ -3811,18 +5150,11 @@ export type ProjectBySlugQueryResult = {
         eyebrow?: string
         heading: string
         body?: string
-        issues?: Array<{
+        issues: Array<{
+          _key: string
           tag: string
           body: string
-          _key: string
-        }>
-      }
-    | {
-        _key: string
-        _type: 'studyClosingCta'
-        heading?: StudyClosingCtaHeading
-        body?: string
-        cta?: Button
+        }> | null
       }
     | {
         _key: string
@@ -3831,6 +5163,11 @@ export type ProjectBySlugQueryResult = {
         heading: string
         subheading?: string
         chapters?: Array<string>
+        details: Array<{
+          _key: string
+          label: string
+          value: string
+        }> | null
         heroImage: {
           asset: {
             _id: string
@@ -3865,17 +5202,16 @@ export type ProjectBySlugQueryResult = {
         _type: 'studyKeyWins'
         eyebrow?: string
         heading?: string
-        comparison?: Comparison
-      }
-    | {
-        _key: string
-        _type: 'studyMoreLikeThis'
-        heading?: StudyMoreLikeThisHeading
-        items: Array<
-          {
+        comparison: {
+          beforeLabel: string | null
+          afterLabel: string | null
+          rows: Array<{
             _key: string
-          } & ProjectReference
-        >
+            label: string
+            before: string
+            after: string
+          }>
+        } | null
       }
     | {
         _key: string
@@ -3884,9 +5220,9 @@ export type ProjectBySlugQueryResult = {
         heading?: string
         footnote?: string
         stats: Array<{
+          _key: string
           value: string
           label: string
-          _key: string
         }>
       }
     | {
@@ -3899,117 +5235,94 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
-        quote?: StudyTestimonialQuote
+        quote: {
+          quote: string
+          attribution: string
+          source: string | null
+          accent: boolean | null
+        } | null
       }
     | {
         _key: string
-        _type: 'studyWhatWeBuilt'
-        eyebrow?: string
-        heading?: string
-        features: Array<{
-          number: string
+        _type: 'techStack'
+        eyebrow: string | null
+        headingRegular: string | null
+        headingBold: string
+        groups: Array<{
           title: string
-          body: string
-          image?: ObjectImage
+          items: Array<{
+            name: string
+            logo: {
+              asset: {
+                _id: string
+                _type: 'sanity.imageAsset'
+                _createdAt: string
+                _updatedAt: string
+                _rev: string
+                originalFilename?: string
+                label?: string
+                title?: string
+                description?: string
+                altText?: string
+                sha1hash: string
+                extension: string
+                mimeType: string
+                size: number
+                assetId: string
+                uploadId?: string
+                path: string
+                url: string
+                metadata?: SanityImageMetadata
+                source?: SanityAssetSourceData
+              } | null
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          }> | null
+        }> | null
+        closingNote: string | null
+      }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: string
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
           _key: string
         }>
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
       }
   > | null
-  challenge: {
-    eyebrow?: string
-    heading?: string
-    body?: string
-    issues?: Array<{
-      tag?: string
-      body?: string
-      _key: string
-    }>
-  } | null
-  approach: {
-    eyebrow?: string
-    heading?: {
-      faded?: string
-      bold?: string
-    }
-    body?: string
-    callout?: {
-      label?: string
-      body?: string
-    }
-  } | null
-  keyWins: {
-    eyebrow?: string
-    heading?: string
-    comparison?: {
-      beforeLabel?: string
-      afterLabel?: string
-      rows?: Array<{
-        label?: string
-        before?: string
-        after?: string
-        _key: string
-      }>
-    }
-  } | null
-  whatWeBuilt: {
-    eyebrow?: string
-    heading?: string
-    features?: Array<{
-      number?: string
-      title?: string
-      body?: string
-      image?: {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-      }
-      _key: string
-    }>
-  } | null
-  numbers: {
-    eyebrow?: string
-    heading?: string
-    footnote?: string
-    stats?: Array<{
-      value?: string
-      label?: string
-      _key: string
-    }>
-  } | null
-  testimonial: {
-    quote?: string
-    attribution?: string
-    source?: string
-  } | null
-  detailTestimonial: {
-    eyebrow?: string
-    quote?: {
-      quote?: string
-      attribution?: string
-      source?: string
-      accent?: boolean
-    }
-  } | null
-  techStack: {
-    eyebrow?: string
-    tools?: Array<string>
-  } | null
-  closingCta: {
-    heading?: {
-      regular?: string
-      bold?: string
-    }
-    body?: string
-    cta?: Button
-  } | null
   publishedAt: string | null
 } | null
 
 // Source: sanity/lib/queries.ts
 // Variable: serviceQuery
-// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    _type,    name,    slug,    description,    keywords,    price,    category,    tag,    duration,    "pageBuilder": pageBuilder[]{      ...,      _type == "homeHero" => {        ...,        primaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        secondaryCta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "pageHero" => {        ...,        eyebrow,        headingType,        heading,        headingMultipart {          faded,          regular,          bold,          trailing        },        subheading,        stats[]{          number,          suffix,          label        }      },      _type == "contactHero" => {        ...,        eyebrow,        heading,        description,        steps[]{          title,          description        },        formConfig {          services,          budgetRanges,          timelines,          hearAboutUs        }      },      _type == "booking" => {        ...,        heading,        callTitle,        whatToExpectHeading,        expectations,        schedulerUrl,        teamMember->{          name,          role,          portrait        }      },      _type == "callToAction" => {        ...,        button {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "infoSection" => {        content[]{          ...,          markDefs[]{            ...,              _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }          }        }      },      _type == "testimonials" => {        ...,        eyebrow,        logos[]{          name,          logo        },        testimonials[]->{          attribution,          quote,          profilePicture        }      },      _type == "whatWeDo" => {        ...,        cards[]{          ...,          services[]->{            ...          }        }      },      _type == "team" => {        ...,        members[]->{          ...,          portrait {            ...,            asset->          }        }      },      _type == "story" => {        ...,        milestones[]{          year,          body        }      },      _type == "portfolio" => {        ...,        eyebrow,        heading,        projects[]->{          _id,          client,          year,          slug,          category,          title,          tagline,          description,          image,          link        }      },      _type == "cta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        },        subtext      },      _type == "engineeringServices" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "soundFamiliar" => {        ...,        painPoints[]{          ...,          title,          body        }      },      _type == "ai" => {        ...,        services[]{          ...,          service->{            ...          }        }      },      _type == "industries" => {        ...,        industries[]{          ...,          icon        }      },      _type == "faq" => {        ...,        items[]{          ...        }      },      _type == "isThisForYou" => {        ...,        items[]{          text        }      },      _type == "insightsFeatured" => {        ...,        insight->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsGrid" => {        ...,        items[]->{          _id,          title,          slug,          excerpt,          category,          "cover": cover.asset->url,          publishedAt,          readTime,          featured,          author->{name, role, portrait}        }      },      _type == "insightsCta" => {        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "freeResources" => {        ...,        heading {          faded,          bold,          regular,          trailing        },        items[]{          ...,          title,          description,          file,          externalUrl,          "fileUrl": file.asset->url        }      },      _type == "portfolioFeatured" => {        ...,        caseStudy->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        }      },      _type == "portfolioGrid" => {        ...,        items[]->{          _id,          client,          slug,          year,          category,          industry,          tagline,          metric,          metricLabel,          thumb        },        categoryFilters[]{          label,          value        }      },      _type == "portfolioMetrics" => {        ...,        items[]{          value,          label        }      },      _type == "portfolioCta" => {        ...,        heading,        body,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current  }      }        }      },      _type == "place" => {        ...,        eyebrow,        headingRegular,        headingBold,        body,        backgroundGraphic {          ...,          asset->        },        locations[]{          city,          address,          note        },        cta {          label,          href        }      },    },  }
+// Query: *[_type == "service" && slug.current == $slug][0]{    _id,    _type,    name,    slug,    description,    keywords,    price,    category,    tag,    duration,      "pageBuilder": pageBuilder[]{    ...,    _type == "homeHero" => {      ...,      primaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      secondaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "pageHero" => {      ...,      eyebrow,      headingType,      heading,      headingMultipart {        faded,        regular,        bold,        trailing      },      subheading,      stats[]{        number,        suffix,        label      },      featured->{        _type,        _id,        slug,        _type == "post" => {          title,          excerpt,          category,          publishedAt,          readTime,          author->{name}        },        _type == "project" => {          client,          year,          category,          industry,          tagline,          "cover": thumb.asset->url        }      }    },    _type == "contactHero" => {      ...,      eyebrow,      heading,      description,      steps[]{        title,        description      },      formConfig {        services,        budgetRanges,        timelines,        hearAboutUs      }    },    _type == "booking" => {      ...,      heading,      callTitle,      whatToExpectHeading,      expectations,      schedulerUrl,      teamMember->{        name,        role,        portrait      }    },    _type == "callToAction" => {      ...,      button {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      }    },    _type == "testimonials" => {      ...,      eyebrow,      logos[]{        name,        logo      },      testimonials[]->{        attribution,        quote,        profilePicture      }    },    _type == "whatWeDo" => {      ...,      cards[]{        ...,        services[]->{          ...        }      }    },    _type == "signature2" => {      ...,      steps[]{        ...,        title,        highlighted      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "team" => {      ...,      members[]->{        ...,        portrait {          ...,          asset->        }      }    },    _type == "story" => {      ...,      milestones[]{        year,        body      }    },    _type == "portfolio" => {      ...,      eyebrow,      heading,      projects[]->{        _id,        client,        year,        slug,        category,        title,        tagline,        description,        image,        link      }    },    _type == "pricing" => {      ...,      tiers[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      }    },    _type == "cta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      subtext    },    _type == "engineeringServices" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "serviceNavigator" => {      ...,      cards[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      closingCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "soundFamiliar" => {      ...,      painPoints[]{        ...,        title,        body      }    },    _type == "ai" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "industries" => {      ...,      industries[]{        ...,        icon      }    },    _type == "reality" => {      ...,      heading {        faded,        bold      },      points[]{        title,        body      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "compare" => {      ...,      heading {        highlighted,        regular      },      rows[]{        label      },      columns[]{        name,        highlightColumn,        values[]{          available        }      },      closing {        lead,        highlight,        followup      }    },    _type == "whyRomania" => {      ...,      title,      body[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      },      highlights[]{        stat,        description      }    },    _type == "faq" => {      ...,      items[]{        ...      }    },    _type == "isThisForYou" => {      ...,      items[]{        text      }    },    _type == "steps" => {      ...,      items[]{        ...,        title,        duration,        body      },      visual {        ...,        asset->      }    },    _type == "insightsFeatured" => {      ...,      insight->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsGrid" => {      ...,      items[]->{        _id,        title,        slug,        excerpt,        category,        publishedAt,        readTime,        featured,        author->{name, role, portrait}      }    },    _type == "insightsCta" => {      ...,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "freeResources" => {      ...,      heading {        faded,        bold,        regular,        trailing      },      items[]{        ...,        title,        description,        file,        externalUrl,        "fileUrl": file.asset->url      }    },    _type == "portfolioFeatured" => {      ...,      caseStudy->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      }    },    _type == "portfolioGrid" => {      ...,      items[]->{        _id,        client,        slug,        year,        category,        industry,        tagline,        metric,        metricLabel,        thumb      },      serviceFilters[]{        label,        value      },      industryFilters[]{        label,        value      }    },    _type == "portfolioMetrics" => {      ...,      items[]{        value,        label      }    },    _type == "portfolioCta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "place" => {      ...,      eyebrow,      headingRegular,      headingBold,      body,      backgroundGraphic {        ...,        asset->      },      locations[]{        city,        address,        note      },      cta {        label,        href      }    },    _type == "awards" => {      ...,      eyebrow,      items[]{        title,        recognitions,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      featuredTitle,      featuredBadge {        ...,        asset->      }    },    _type == "press" => {      ...,      eyebrow,      heading,      cardTitle,      cardBody,      ctaLabel,      file {        ...,        asset->      }    },    _type == "techStack" => {      ...,      eyebrow,      headingRegular,      headingBold,      groups[]{        title,        items[]{          name,          logo {            ...,            asset->          }        }      },      closingNote    },  },  }
 export type ServiceQueryResult = {
   _id: string
   _type: 'service'
@@ -4022,6 +5335,82 @@ export type ServiceQueryResult = {
   tag: string
   duration: string
   pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
+      }
     | {
         _key: string
         _type: 'contactForm'
@@ -4062,10 +5451,12 @@ export type ServiceQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         }
@@ -4091,6 +5482,12 @@ export type ServiceQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -4138,10 +5535,16 @@ export type ServiceQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -4151,6 +5554,9 @@ export type ServiceQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           } | null
           ctaLabel?: string
@@ -4197,10 +5603,12 @@ export type ServiceQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -4212,10 +5620,12 @@ export type ServiceQueryResult = {
           buttonText?: string
           link: {
             _type: 'link'
-            linkType?: 'href' | 'page' | 'post'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
             href?: string
             page: string | null
             post: string | null
+            service: string | null
+            project: string | null
             openInNewTab?: boolean
           } | null
         } | null
@@ -4271,7 +5681,38 @@ export type ServiceQueryResult = {
           suffix: string | null
           label: string
         }> | null
-        featured?: PostReference | ProjectReference
+        featured:
+          | {
+              _type: 'post'
+              _id: string
+              slug: Slug
+              title: string
+              excerpt: string | null
+              category:
+                | 'ai-transformation'
+                | 'design-research'
+                | 'engineering'
+                | 'operators-notes'
+                | 'systems-playbooks'
+                | null
+              publishedAt: string | null
+              readTime: number | null
+              author: {
+                name: string
+              } | null
+            }
+          | {
+              _type: 'project'
+              _id: string
+              slug: Slug
+              client: string
+              year: string
+              category: string
+              industry: string
+              tagline: string
+              cover: string | null
+            }
+          | null
       }
     | {
         _key: string
@@ -4295,18 +5736,34 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        heading?: string
-        cards?: Array<{
-          kind?: 'ai' | 'engineering'
-          title?: string
-          items?: Array<
-            {
-              _key: string
-            } & ServiceReference
-          >
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
           _key: string
         }>
-        callout?: Callout
       }
     | {
         _key: string
@@ -4335,6 +5792,48 @@ export type ServiceQueryResult = {
           body: string | null
           _key: string
         }> | null
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string
+          body: string
+          _key: string
+        }>
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
       }
     | {
         _key: string
@@ -4394,11 +5893,53 @@ export type ServiceQueryResult = {
       }
     | {
         _key: string
+        _type: 'techStack'
+        eyebrow: string | null
+        headingRegular: string | null
+        headingBold: string
+        groups: Array<{
+          title: string
+          items: Array<{
+            name: string
+            logo: {
+              asset: {
+                _id: string
+                _type: 'sanity.imageAsset'
+                _createdAt: string
+                _updatedAt: string
+                _rev: string
+                originalFilename?: string
+                label?: string
+                title?: string
+                description?: string
+                altText?: string
+                sha1hash: string
+                extension: string
+                mimeType: string
+                size: number
+                assetId: string
+                uploadId?: string
+                path: string
+                url: string
+                metadata?: SanityImageMetadata
+                source?: SanityAssetSourceData
+              } | null
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          }> | null
+        }> | null
+        closingNote: string | null
+      }
+    | {
+        _key: string
         _type: 'testimonials'
         eyebrow: string
         logos: Array<{
           name: string
-          logo: Logo
+          logo: ObjectLogo
         }>
         testimonials: Array<{
           attribution: string
@@ -4436,6 +5977,12 @@ export type ServiceQueryResult = {
             keywords: Array<string>
             duration: string
             pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Compare)
               | ({
                   _key: string
                 } & ContactForm)
@@ -4483,10 +6030,16 @@ export type ServiceQueryResult = {
                 } & SoundFamiliar)
               | ({
                   _key: string
+                } & Steps)
+              | ({
+                  _key: string
                 } & Story)
               | ({
                   _key: string
                 } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
               | ({
                   _key: string
                 } & Testimonials)
@@ -4496,6 +6049,9 @@ export type ServiceQueryResult = {
               | ({
                   _key: string
                 } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
             >
           }> | null
           cta: Button
@@ -4514,6 +6070,38 @@ export type ServiceQueryResult = {
           _key: string
         }>
       }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: string
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
+      }
   > | null
 } | null
 
@@ -4529,21 +6117,21 @@ export type AllServicesQueryResult = Array<{
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
-    '\n  *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{\n    ...,\n    logoPicture {\n      ...,\n      asset->\n    },\n    ogImage {\n      ...,\n      asset->\n    },\n    navLinks[]{\n      _key,\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        openInNewTab\n      }\n    },\n    footerColumns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        accent,\n        "href": select(\n          linkType == "page" => "/" + page->slug.current,\n          linkType == "service" => "/services/" + service->slug.current,\n          linkType == "href" => href\n        )\n      }\n    }\n  }\n': SettingsQueryResult
-    '\n  *[_type == \'page\' && (\n    ($slug == "" && pageType == \'home\') ||\n    ($slug != "" && slug.current == $slug)\n  )][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    pageType,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        secondaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "pageHero" => {\n        ...,\n        eyebrow,\n        headingType,\n        heading,\n        headingMultipart {\n          faded,\n          regular,\n          bold,\n          trailing\n        },\n        subheading,\n        stats[]{\n          number,\n          suffix,\n          label\n        }\n      },\n      _type == "contactHero" => {\n        ...,\n        eyebrow,\n        heading,\n        description,\n        steps[]{\n          title,\n          description\n        },\n        formConfig {\n          services,\n          budgetRanges,\n          timelines,\n          hearAboutUs\n        }\n      },\n      _type == "booking" => {\n        ...,\n        heading,\n        callTitle,\n        whatToExpectHeading,\n        expectations,\n        schedulerUrl,\n        teamMember->{\n          name,\n          role,\n          portrait\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n      _type == "testimonials" => {\n        ...,\n        eyebrow,\n        logos[]{\n          name,\n          logo\n        },\n        testimonials[]->{\n          attribution,\n          quote,\n          profilePicture\n        }\n      },\n      _type == "whatWeDo" => {\n        ...,\n        cards[]{\n          ...,\n          services[]->{\n            ...\n          }\n        }\n      },\n      _type == "team" => {\n        ...,\n        members[]->{\n          ...,\n          portrait {\n            ...,\n            asset->\n          }\n        }\n      },\n      _type == "story" => {\n        ...,\n        milestones[]{\n          year,\n          body\n        }\n      },\n      _type == "portfolio" => {\n        ...,\n        eyebrow,\n        heading,\n        projects[]->{\n          _id,\n          client,\n          year,\n          slug,\n          category,\n          title,\n          tagline,\n          description,\n          image,\n          link\n        }\n      },\n      _type == "cta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        subtext\n      },\n      _type == "engineeringServices" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "soundFamiliar" => {\n        ...,\n        painPoints[]{\n          ...,\n          title,\n          body\n        }\n      },\n      _type == "ai" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "industries" => {\n        ...,\n        industries[]{\n          ...,\n          icon\n        }\n      },\n      _type == "reality" => {\n        ...,\n        heading {\n          faded,\n          bold\n        },\n        points[]{\n          title,\n          body\n        },\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "faq" => {\n        ...,\n        items[]{\n          ...\n        }\n      },\n      _type == "isThisForYou" => {\n        ...,\n        items[]{\n          text\n        }\n      },\n      _type == "insightsFeatured" => {\n        ...,\n        insight->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsGrid" => {\n        ...,\n        items[]->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsCta" => {\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "freeResources" => {\n        ...,\n        heading {\n          faded,\n          bold,\n          regular,\n          trailing\n        },\n        items[]{\n          ...,\n          title,\n          description,\n          file,\n          externalUrl,\n          "fileUrl": file.asset->url\n        }\n      },\n      _type == "portfolioFeatured" => {\n        ...,\n        caseStudy->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        }\n      },\n      _type == "portfolioGrid" => {\n        ...,\n        items[]->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        },\n        categoryFilters[]{\n          label,\n          value\n        }\n      },\n      _type == "portfolioMetrics" => {\n        ...,\n        items[]{\n          value,\n          label\n        }\n      },\n      _type == "portfolioCta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "place" => {\n        ...,\n        eyebrow,\n        headingRegular,\n        headingBold,\n        body,\n        backgroundGraphic {\n          ...,\n          asset->\n        },\n        locations[]{\n          city,\n          address,\n          note\n        },\n        cta {\n          label,\n          href\n        }\n      },\n    },\n  }\n': PageQueryResult
-    '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    pageType,\n    heading,\n    subheading,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        secondaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "pageHero" => {\n        ...,\n        eyebrow,\n        headingType,\n        heading,\n        headingMultipart {\n          faded,\n          regular,\n          bold,\n          trailing\n        },\n        subheading,\n        stats[]{\n          number,\n          suffix,\n          label\n        }\n      },\n      _type == "contactHero" => {\n        ...,\n        eyebrow,\n        heading,\n        description,\n        steps[]{\n          title,\n          description\n        },\n        formConfig {\n          services,\n          budgetRanges,\n          timelines,\n          hearAboutUs\n        }\n      },\n      _type == "booking" => {\n        ...,\n        heading,\n        callTitle,\n        whatToExpectHeading,\n        expectations,\n        schedulerUrl,\n        teamMember->{\n          name,\n          role,\n          portrait\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n      _type == "testimonials" => {\n        ...,\n        eyebrow,\n        logos[]{\n          name,\n          logo\n        },\n        testimonials[]->{\n          attribution,\n          quote,\n          profilePicture\n        }\n      },\n      _type == "whatWeDo" => {\n        ...,\n        cards[]{\n          ...,\n          services[]->{\n            ...\n          }\n        }\n      },\n      _type == "team" => {\n        ...,\n        members[]->{\n          ...,\n          portrait {\n            ...,\n            asset->\n          }\n        }\n      },\n      _type == "story" => {\n        ...,\n        milestones[]{\n          year,\n          body\n        }\n      },\n      _type == "portfolio" => {\n        ...,\n        eyebrow,\n        heading,\n        projects[]->{\n          _id,\n          client,\n          year,\n          slug,\n          category,\n          title,\n          tagline,\n          description,\n          image,\n          link\n        }\n      },\n      _type == "cta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        subtext\n      },\n      _type == "engineeringServices" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "soundFamiliar" => {\n        ...,\n        painPoints[]{\n          ...,\n          title,\n          body\n        }\n      },\n      _type == "ai" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "industries" => {\n        ...,\n        industries[]{\n          ...,\n          icon\n        }\n      },\n      _type == "reality" => {\n        ...,\n        heading {\n          faded,\n          bold\n        },\n        points[]{\n          title,\n          body\n        },\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "faq" => {\n        ...,\n        items[]{\n          ...\n        }\n      },\n      _type == "isThisForYou" => {\n        ...,\n        items[]{\n          text\n        }\n      },\n      _type == "insightsFeatured" => {\n        ...,\n        insight->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsGrid" => {\n        ...,\n        items[]->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsCta" => {\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "freeResources" => {\n        ...,\n        heading {\n          faded,\n          bold,\n          regular,\n          trailing\n        },\n        items[]{\n          ...,\n          title,\n          description,\n          file,\n          externalUrl,\n          "fileUrl": file.asset->url\n        }\n      },\n      _type == "portfolioFeatured" => {\n        ...,\n        caseStudy->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        }\n      },\n      _type == "portfolioGrid" => {\n        ...,\n        items[]->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        },\n        categoryFilters[]{\n          label,\n          value\n        }\n      },\n      _type == "portfolioMetrics" => {\n        ...,\n        items[]{\n          value,\n          label\n        }\n      },\n      _type == "portfolioCta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "place" => {\n        ...,\n        eyebrow,\n        headingRegular,\n        headingBold,\n        body,\n        backgroundGraphic {\n          ...,\n          asset->\n        },\n        locations[]{\n          city,\n          address,\n          note\n        },\n        cta {\n          label,\n          href\n        }\n      },\n    },\n  }\n': HomePageQueryResult
+    '\n  *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{\n    ...,\n    phoneNumber,\n    logoPicture {\n      ...,\n      asset->\n    },\n    ogImage {\n      ...,\n      asset->\n    },\n    navLinks[]{\n      _key,\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        "service": service->slug.current,\n        "project": project->slug.current,\n        openInNewTab\n      }\n    },\n    footerColumns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        accent,\n        "href": select(\n          linkType == "page" => "/" + page->slug.current,\n          linkType == "service" => "/services/" + service->slug.current,\n          linkType == "href" => href\n        )\n      }\n    }\n  }\n': SettingsQueryResult
+    '\n  *[_type == \'page\' && (\n    ($slug == "" && pageType == \'home\') ||\n    ($slug != "" && slug.current == $slug)\n  )][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    pageType,\n    heading,\n    subheading,\n    \n  "pageBuilder": pageBuilder[]{\n    ...,\n    _type == "homeHero" => {\n      ...,\n      primaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      secondaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "pageHero" => {\n      ...,\n      eyebrow,\n      headingType,\n      heading,\n      headingMultipart {\n        faded,\n        regular,\n        bold,\n        trailing\n      },\n      subheading,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      featured->{\n        _type,\n        _id,\n        slug,\n        _type == "post" => {\n          title,\n          excerpt,\n          category,\n          publishedAt,\n          readTime,\n          author->{name}\n        },\n        _type == "project" => {\n          client,\n          year,\n          category,\n          industry,\n          tagline,\n          "cover": thumb.asset->url\n        }\n      }\n    },\n    _type == "contactHero" => {\n      ...,\n      eyebrow,\n      heading,\n      description,\n      steps[]{\n        title,\n        description\n      },\n      formConfig {\n        services,\n        budgetRanges,\n        timelines,\n        hearAboutUs\n      }\n    },\n    _type == "booking" => {\n      ...,\n      heading,\n      callTitle,\n      whatToExpectHeading,\n      expectations,\n      schedulerUrl,\n      teamMember->{\n        name,\n        role,\n        portrait\n      }\n    },\n    _type == "callToAction" => {\n      ...,\n      button {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "infoSection" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      }\n    },\n    _type == "testimonials" => {\n      ...,\n      eyebrow,\n      logos[]{\n        name,\n        logo\n      },\n      testimonials[]->{\n        attribution,\n        quote,\n        profilePicture\n      }\n    },\n    _type == "whatWeDo" => {\n      ...,\n      cards[]{\n        ...,\n        services[]->{\n          ...\n        }\n      }\n    },\n    _type == "signature2" => {\n      ...,\n      steps[]{\n        ...,\n        title,\n        highlighted\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "team" => {\n      ...,\n      members[]->{\n        ...,\n        portrait {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "story" => {\n      ...,\n      milestones[]{\n        year,\n        body\n      }\n    },\n    _type == "portfolio" => {\n      ...,\n      eyebrow,\n      heading,\n      projects[]->{\n        _id,\n        client,\n        year,\n        slug,\n        category,\n        title,\n        tagline,\n        description,\n        image,\n        link\n      }\n    },\n    _type == "pricing" => {\n      ...,\n      tiers[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "cta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      subtext\n    },\n    _type == "engineeringServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "serviceNavigator" => {\n      ...,\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      closingCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "soundFamiliar" => {\n      ...,\n      painPoints[]{\n        ...,\n        title,\n        body\n      }\n    },\n    _type == "ai" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "industries" => {\n      ...,\n      industries[]{\n        ...,\n        icon\n      }\n    },\n    _type == "reality" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      points[]{\n        title,\n        body\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "compare" => {\n      ...,\n      heading {\n        highlighted,\n        regular\n      },\n      rows[]{\n        label\n      },\n      columns[]{\n        name,\n        highlightColumn,\n        values[]{\n          available\n        }\n      },\n      closing {\n        lead,\n        highlight,\n        followup\n      }\n    },\n    _type == "whyRomania" => {\n      ...,\n      title,\n      body[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      highlights[]{\n        stat,\n        description\n      }\n    },\n    _type == "faq" => {\n      ...,\n      items[]{\n        ...\n      }\n    },\n    _type == "isThisForYou" => {\n      ...,\n      items[]{\n        text\n      }\n    },\n    _type == "steps" => {\n      ...,\n      items[]{\n        ...,\n        title,\n        duration,\n        body\n      },\n      visual {\n        ...,\n        asset->\n      }\n    },\n    _type == "insightsFeatured" => {\n      ...,\n      insight->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsGrid" => {\n      ...,\n      items[]->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsCta" => {\n      ...,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "freeResources" => {\n      ...,\n      heading {\n        faded,\n        bold,\n        regular,\n        trailing\n      },\n      items[]{\n        ...,\n        title,\n        description,\n        file,\n        externalUrl,\n        "fileUrl": file.asset->url\n      }\n    },\n    _type == "portfolioFeatured" => {\n      ...,\n      caseStudy->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioGrid" => {\n      ...,\n      items[]->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      },\n      serviceFilters[]{\n        label,\n        value\n      },\n      industryFilters[]{\n        label,\n        value\n      }\n    },\n    _type == "portfolioMetrics" => {\n      ...,\n      items[]{\n        value,\n        label\n      }\n    },\n    _type == "portfolioCta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "place" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      body,\n      backgroundGraphic {\n        ...,\n        asset->\n      },\n      locations[]{\n        city,\n        address,\n        note\n      },\n      cta {\n        label,\n        href\n      }\n    },\n    _type == "awards" => {\n      ...,\n      eyebrow,\n      items[]{\n        title,\n        recognitions,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      featuredTitle,\n      featuredBadge {\n        ...,\n        asset->\n      }\n    },\n    _type == "press" => {\n      ...,\n      eyebrow,\n      heading,\n      cardTitle,\n      cardBody,\n      ctaLabel,\n      file {\n        ...,\n        asset->\n      }\n    },\n    _type == "techStack" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      groups[]{\n        title,\n        items[]{\n          name,\n          logo {\n            ...,\n            asset->\n          }\n        }\n      },\n      closingNote\n    },\n  }\n,\n  }\n': PageQueryResult
+    '\n  *[_type == \'page\' && pageType == \'home\'][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    pageType,\n    heading,\n    subheading,\n    \n  "pageBuilder": pageBuilder[]{\n    ...,\n    _type == "homeHero" => {\n      ...,\n      primaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      secondaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "pageHero" => {\n      ...,\n      eyebrow,\n      headingType,\n      heading,\n      headingMultipart {\n        faded,\n        regular,\n        bold,\n        trailing\n      },\n      subheading,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      featured->{\n        _type,\n        _id,\n        slug,\n        _type == "post" => {\n          title,\n          excerpt,\n          category,\n          publishedAt,\n          readTime,\n          author->{name}\n        },\n        _type == "project" => {\n          client,\n          year,\n          category,\n          industry,\n          tagline,\n          "cover": thumb.asset->url\n        }\n      }\n    },\n    _type == "contactHero" => {\n      ...,\n      eyebrow,\n      heading,\n      description,\n      steps[]{\n        title,\n        description\n      },\n      formConfig {\n        services,\n        budgetRanges,\n        timelines,\n        hearAboutUs\n      }\n    },\n    _type == "booking" => {\n      ...,\n      heading,\n      callTitle,\n      whatToExpectHeading,\n      expectations,\n      schedulerUrl,\n      teamMember->{\n        name,\n        role,\n        portrait\n      }\n    },\n    _type == "callToAction" => {\n      ...,\n      button {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "infoSection" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      }\n    },\n    _type == "testimonials" => {\n      ...,\n      eyebrow,\n      logos[]{\n        name,\n        logo\n      },\n      testimonials[]->{\n        attribution,\n        quote,\n        profilePicture\n      }\n    },\n    _type == "whatWeDo" => {\n      ...,\n      cards[]{\n        ...,\n        services[]->{\n          ...\n        }\n      }\n    },\n    _type == "signature2" => {\n      ...,\n      steps[]{\n        ...,\n        title,\n        highlighted\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "team" => {\n      ...,\n      members[]->{\n        ...,\n        portrait {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "story" => {\n      ...,\n      milestones[]{\n        year,\n        body\n      }\n    },\n    _type == "portfolio" => {\n      ...,\n      eyebrow,\n      heading,\n      projects[]->{\n        _id,\n        client,\n        year,\n        slug,\n        category,\n        title,\n        tagline,\n        description,\n        image,\n        link\n      }\n    },\n    _type == "pricing" => {\n      ...,\n      tiers[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "cta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      subtext\n    },\n    _type == "engineeringServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "serviceNavigator" => {\n      ...,\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      closingCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "soundFamiliar" => {\n      ...,\n      painPoints[]{\n        ...,\n        title,\n        body\n      }\n    },\n    _type == "ai" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "industries" => {\n      ...,\n      industries[]{\n        ...,\n        icon\n      }\n    },\n    _type == "reality" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      points[]{\n        title,\n        body\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "compare" => {\n      ...,\n      heading {\n        highlighted,\n        regular\n      },\n      rows[]{\n        label\n      },\n      columns[]{\n        name,\n        highlightColumn,\n        values[]{\n          available\n        }\n      },\n      closing {\n        lead,\n        highlight,\n        followup\n      }\n    },\n    _type == "whyRomania" => {\n      ...,\n      title,\n      body[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      highlights[]{\n        stat,\n        description\n      }\n    },\n    _type == "faq" => {\n      ...,\n      items[]{\n        ...\n      }\n    },\n    _type == "isThisForYou" => {\n      ...,\n      items[]{\n        text\n      }\n    },\n    _type == "steps" => {\n      ...,\n      items[]{\n        ...,\n        title,\n        duration,\n        body\n      },\n      visual {\n        ...,\n        asset->\n      }\n    },\n    _type == "insightsFeatured" => {\n      ...,\n      insight->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsGrid" => {\n      ...,\n      items[]->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsCta" => {\n      ...,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "freeResources" => {\n      ...,\n      heading {\n        faded,\n        bold,\n        regular,\n        trailing\n      },\n      items[]{\n        ...,\n        title,\n        description,\n        file,\n        externalUrl,\n        "fileUrl": file.asset->url\n      }\n    },\n    _type == "portfolioFeatured" => {\n      ...,\n      caseStudy->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioGrid" => {\n      ...,\n      items[]->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      },\n      serviceFilters[]{\n        label,\n        value\n      },\n      industryFilters[]{\n        label,\n        value\n      }\n    },\n    _type == "portfolioMetrics" => {\n      ...,\n      items[]{\n        value,\n        label\n      }\n    },\n    _type == "portfolioCta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "place" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      body,\n      backgroundGraphic {\n        ...,\n        asset->\n      },\n      locations[]{\n        city,\n        address,\n        note\n      },\n      cta {\n        label,\n        href\n      }\n    },\n    _type == "awards" => {\n      ...,\n      eyebrow,\n      items[]{\n        title,\n        recognitions,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      featuredTitle,\n      featuredBadge {\n        ...,\n        asset->\n      }\n    },\n    _type == "press" => {\n      ...,\n      eyebrow,\n      heading,\n      cardTitle,\n      cardBody,\n      ctaLabel,\n      file {\n        ...,\n        asset->\n      }\n    },\n    _type == "techStack" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      groups[]{\n        title,\n        items[]{\n          name,\n          logo {\n            ...,\n            asset->\n          }\n        }\n      },\n      closingNote\n    },\n  }\n,\n  }\n': HomePageQueryResult
     '\n  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {\n    "slug": slug.current,\n    _type,\n    _updatedAt,\n  }\n': SitemapDataResult
     '\n  *[_type == "post" && defined(slug.current)] | order(date desc, _updatedAt desc) {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': AllPostsQueryResult
     '\n  *[_type == "post" && _id != $skip && defined(slug.current)] | order(date desc, _updatedAt desc) [0...$limit] {\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': MorePostsQueryResult
-    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': PostQueryResult
+    '\n  *[_type == "post" && slug.current == $slug] [0] {\n    content[]{\n    ...,\n    markDefs[]{\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n    }\n  },\n    \n  _id,\n  "status": select(_originalId in path("drafts.**") => "draft", "published"),\n  "title": coalesce(title, "Untitled"),\n  "slug": slug.current,\n  excerpt,\n  coverImage,\n  "date": coalesce(date, _updatedAt),\n  "author": author->{firstName, lastName, picture},\n\n  }\n': PostQueryResult
     '\n  *[_type == "post" && defined(slug.current)]\n  {"slug": slug.current}\n': PostPagesSlugsResult
     '\n  *[_type == "page" && defined(slug.current)]\n  {"slug": slug.current}\n': PagesSlugsResult
-    '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {\n    _id,\n    title,\n    slug,\n    excerpt,\n    category,\n    "cover": cover.asset->url,\n    publishedAt,\n    readTime,\n    featured,\n    author->{name, role, portrait},\n  }\n': ALL_INSIGHTS_QUERY_RESULT
-    '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    excerpt,\n    category,\n    "cover": cover.asset->url,\n    publishedAt,\n    readTime,\n    featured,\n    body,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "insightBlock" => {\n        ...,\n        text[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      }\n    },\n    author->{name, role, bio, portrait},\n    relatedInsights[]->{\n      _id,\n      title,\n      slug,\n      excerpt,\n      category,\n      "cover": cover.asset->url,\n      publishedAt,\n    }\n  }\n': INSIGHT_BY_SLUG_QUERY_RESULT
+    '\n  *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {\n    _id,\n    title,\n    slug,\n    excerpt,\n    category,\n    publishedAt,\n    readTime,\n    featured,\n    author->{name, role, portrait},\n  }\n': ALL_INSIGHTS_QUERY_RESULT
+    '\n  *[_type == "post" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    slug,\n    excerpt,\n    category,\n    publishedAt,\n    readTime,\n    featured,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "insightBlock" => {\n        ...,\n        text[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n          }\n        },\n        quote {\n          attribution,\n          quote[]{\n            ...,\n            markDefs[]{\n              ...,\n              \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n            }\n          }\n        },\n        card {\n          label,\n          body[]{\n            ...,\n            markDefs[]{\n              ...,\n              \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n            }\n          }\n        }\n      },\n      _type == "whyRomania" => {\n        ...,\n        title,\n        body[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n          }\n        },\n        highlights[]{\n          stat,\n          description\n        }\n      },\n      _type == "steps" => {\n        ...,\n        items[]{\n          ...,\n          title,\n          duration,\n          body\n        },\n        visual {\n          ...,\n          asset->\n        }\n      },\n      _type == "compare" => {\n        ...,\n        heading {\n          highlighted,\n          regular\n        },\n        rows[]{\n          label\n        },\n        columns[]{\n          name,\n          highlightColumn,\n          values[]{\n            available\n          }\n        },\n        closing {\n          lead,\n          highlight,\n          followup\n        }\n      },\n      _type == "awards" => {\n        ...,\n        eyebrow,\n        items[]{\n          title,\n          recognitions,\n          cta {\n            ...,\n            \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n          }\n        },\n        featuredTitle,\n        featuredBadge {\n          ...,\n          asset->\n        }\n      },\n      _type == "techStack" => {\n        ...,\n        eyebrow,\n        headingRegular,\n        headingBold,\n        groups[]{\n          title,\n          items[]{\n            name,\n            logo {\n              ...,\n              asset->\n            }\n          }\n        },\n        closingNote\n      },\n      _type == "pricing" => {\n        ...,\n        tiers[]{\n          ...,\n          cta {\n            ...,\n            \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n          }\n        }\n      }\n    },\n    author->{name, role, bio, portrait},\n    relatedInsights[]->{\n      _id,\n      title,\n      slug,\n      excerpt,\n      category,\n      publishedAt,\n    }\n  }\n': INSIGHT_BY_SLUG_QUERY_RESULT
     '\n  *[_type == "post" && defined(slug.current)]{\n    "slug": slug.current\n  }\n': ALL_INSIGHT_SLUGS_QUERY_RESULT
     '\n  *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {\n    _id,\n    client,\n    year,\n    slug,\n    category,\n    industry,\n    tagline,\n    metric,\n    metricLabel,\n    thumb\n  }\n': AllProjectsQueryResult
-    '\n  *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    client,\n    year,\n    slug,\n    category,\n    industry,\n    tagline,\n    metric,\n    metricLabel,\n    thumb,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "studyHero" => {\n        ...,\n        heroImage {\n          ...,\n          asset->\n        }\n      }\n    },\n    challenge,\n    approach,\n    keyWins,\n    whatWeBuilt,\n    numbers,\n    testimonial,\n    detailTestimonial,\n    techStack,\n    closingCta,\n    publishedAt\n  }\n': ProjectBySlugQueryResult
-    '\n  *[_type == "service" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    description,\n    keywords,\n    price,\n    category,\n    tag,\n    duration,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "homeHero" => {\n        ...,\n        primaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        secondaryCta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "pageHero" => {\n        ...,\n        eyebrow,\n        headingType,\n        heading,\n        headingMultipart {\n          faded,\n          regular,\n          bold,\n          trailing\n        },\n        subheading,\n        stats[]{\n          number,\n          suffix,\n          label\n        }\n      },\n      _type == "contactHero" => {\n        ...,\n        eyebrow,\n        heading,\n        description,\n        steps[]{\n          title,\n          description\n        },\n        formConfig {\n          services,\n          budgetRanges,\n          timelines,\n          hearAboutUs\n        }\n      },\n      _type == "booking" => {\n        ...,\n        heading,\n        callTitle,\n        whatToExpectHeading,\n        expectations,\n        schedulerUrl,\n        teamMember->{\n          name,\n          role,\n          portrait\n        }\n      },\n      _type == "callToAction" => {\n        ...,\n        button {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "infoSection" => {\n        content[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n          }\n        }\n      },\n      _type == "testimonials" => {\n        ...,\n        eyebrow,\n        logos[]{\n          name,\n          logo\n        },\n        testimonials[]->{\n          attribution,\n          quote,\n          profilePicture\n        }\n      },\n      _type == "whatWeDo" => {\n        ...,\n        cards[]{\n          ...,\n          services[]->{\n            ...\n          }\n        }\n      },\n      _type == "team" => {\n        ...,\n        members[]->{\n          ...,\n          portrait {\n            ...,\n            asset->\n          }\n        }\n      },\n      _type == "story" => {\n        ...,\n        milestones[]{\n          year,\n          body\n        }\n      },\n      _type == "portfolio" => {\n        ...,\n        eyebrow,\n        heading,\n        projects[]->{\n          _id,\n          client,\n          year,\n          slug,\n          category,\n          title,\n          tagline,\n          description,\n          image,\n          link\n        }\n      },\n      _type == "cta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        },\n        subtext\n      },\n      _type == "engineeringServices" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "soundFamiliar" => {\n        ...,\n        painPoints[]{\n          ...,\n          title,\n          body\n        }\n      },\n      _type == "ai" => {\n        ...,\n        services[]{\n          ...,\n          service->{\n            ...\n          }\n        }\n      },\n      _type == "industries" => {\n        ...,\n        industries[]{\n          ...,\n          icon\n        }\n      },\n      _type == "faq" => {\n        ...,\n        items[]{\n          ...\n        }\n      },\n      _type == "isThisForYou" => {\n        ...,\n        items[]{\n          text\n        }\n      },\n      _type == "insightsFeatured" => {\n        ...,\n        insight->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsGrid" => {\n        ...,\n        items[]->{\n          _id,\n          title,\n          slug,\n          excerpt,\n          category,\n          "cover": cover.asset->url,\n          publishedAt,\n          readTime,\n          featured,\n          author->{name, role, portrait}\n        }\n      },\n      _type == "insightsCta" => {\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "freeResources" => {\n        ...,\n        heading {\n          faded,\n          bold,\n          regular,\n          trailing\n        },\n        items[]{\n          ...,\n          title,\n          description,\n          file,\n          externalUrl,\n          "fileUrl": file.asset->url\n        }\n      },\n      _type == "portfolioFeatured" => {\n        ...,\n        caseStudy->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        }\n      },\n      _type == "portfolioGrid" => {\n        ...,\n        items[]->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          thumb\n        },\n        categoryFilters[]{\n          label,\n          value\n        }\n      },\n      _type == "portfolioMetrics" => {\n        ...,\n        items[]{\n          value,\n          label\n        }\n      },\n      _type == "portfolioCta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "place" => {\n        ...,\n        eyebrow,\n        headingRegular,\n        headingBold,\n        body,\n        backgroundGraphic {\n          ...,\n          asset->\n        },\n        locations[]{\n          city,\n          address,\n          note\n        },\n        cta {\n          label,\n          href\n        }\n      },\n    },\n  }\n': ServiceQueryResult
+    '\n  *[_type == "project" && slug.current == $slug][0]{\n    _id,\n    _type,\n    client,\n    year,\n    slug,\n    category,\n    industry,\n    tagline,\n    metric,\n    metricLabel,\n    thumb,\n    "pageBuilder": pageBuilder[]{\n      ...,\n      _type == "studyHero" => {\n        ...,\n        details[]{\n          _key,\n          label,\n          value\n        },\n        heroImage {\n          ...,\n          asset->\n        }\n      },\n      _type == "studyChallenge" => {\n        ...,\n        issues[]{\n          _key,\n          tag,\n          body\n        }\n      },\n      _type == "studyApproach" => {\n        ...,\n        heading {\n          faded,\n          bold\n        },\n        callout {\n          label,\n          body\n        }\n      },\n      _type == "studyKeyWins" => {\n        ...,\n        comparison {\n          beforeLabel,\n          afterLabel,\n          rows[]{\n            _key,\n            label,\n            before,\n            after\n          }\n        }\n      },\n      _type == "studyWhatWeBuilt" => {\n        ...,\n        features[]{\n          _key,\n          number,\n          title,\n          body,\n          image {\n            ...,\n            asset->\n          }\n        }\n      },\n      _type == "studyNumbers" => {\n        ...,\n        stats[]{\n          _key,\n          value,\n          label\n        }\n      },\n      _type == "studyTestimonial" => {\n        ...,\n        quote {\n          quote,\n          attribution,\n          source,\n          accent\n        }\n      },\n      _type == "studyTechStack" => {\n        ...,\n        tools[]\n      },\n      _type == "portfolioGrid" => {\n        ...,\n        items[]->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          "thumb": thumb.asset->url\n        },\n        serviceFilters[]{\n          label,\n          value\n        },\n        industryFilters[]{\n          label,\n          value\n        }\n      },\n      _type == "cta" => {\n        ...,\n        heading,\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        },\n        subtext\n      },\n      _type == "studyMoreLikeThis" => {\n        ...,\n        heading {\n          regular,\n          bold\n        },\n        items[]->{\n          _id,\n          client,\n          slug,\n          year,\n          category,\n          industry,\n          tagline,\n          metric,\n          metricLabel,\n          "thumb": thumb.asset->url\n        }\n      },\n      _type == "studyClosingCta" => {\n        ...,\n        heading {\n          regular,\n          bold\n        },\n        body,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      _type == "whyRomania" => {\n        ...,\n        title,\n        body[]{\n          ...,\n          markDefs[]{\n            ...,\n            \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n          }\n        },\n        highlights[]{\n          stat,\n          description\n        }\n      },\n      _type == "steps" => {\n        ...,\n        items[]{\n          ...,\n          title,\n          duration,\n          body\n        },\n        visual {\n          ...,\n          asset->\n        }\n      },\n      _type == "compare" => {\n        ...,\n        heading {\n          highlighted,\n          regular\n        },\n        rows[]{\n          label\n        },\n        columns[]{\n          name,\n          highlightColumn,\n          values[]{\n            available\n          }\n        },\n        closing {\n          lead,\n          highlight,\n          followup\n        }\n      },\n      _type == "awards" => {\n        ...,\n        eyebrow,\n        items[]{\n          title,\n          recognitions,\n          cta {\n            ...,\n            \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n          }\n        },\n        featuredTitle,\n        featuredBadge {\n          ...,\n          asset->\n        }\n      },\n      _type == "techStack" => {\n        ...,\n        eyebrow,\n        headingRegular,\n        headingBold,\n        groups[]{\n          title,\n          items[]{\n            name,\n            logo {\n              ...,\n              asset->\n            }\n          }\n        },\n        closingNote\n      },\n      _type == "pricing" => {\n        ...,\n        tiers[]{\n          ...,\n          cta {\n            ...,\n            \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n          }\n        }\n      }\n    },\n    publishedAt\n  }\n': ProjectBySlugQueryResult
+    '\n  *[_type == "service" && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    description,\n    keywords,\n    price,\n    category,\n    tag,\n    duration,\n    \n  "pageBuilder": pageBuilder[]{\n    ...,\n    _type == "homeHero" => {\n      ...,\n      primaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      secondaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "pageHero" => {\n      ...,\n      eyebrow,\n      headingType,\n      heading,\n      headingMultipart {\n        faded,\n        regular,\n        bold,\n        trailing\n      },\n      subheading,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      featured->{\n        _type,\n        _id,\n        slug,\n        _type == "post" => {\n          title,\n          excerpt,\n          category,\n          publishedAt,\n          readTime,\n          author->{name}\n        },\n        _type == "project" => {\n          client,\n          year,\n          category,\n          industry,\n          tagline,\n          "cover": thumb.asset->url\n        }\n      }\n    },\n    _type == "contactHero" => {\n      ...,\n      eyebrow,\n      heading,\n      description,\n      steps[]{\n        title,\n        description\n      },\n      formConfig {\n        services,\n        budgetRanges,\n        timelines,\n        hearAboutUs\n      }\n    },\n    _type == "booking" => {\n      ...,\n      heading,\n      callTitle,\n      whatToExpectHeading,\n      expectations,\n      schedulerUrl,\n      teamMember->{\n        name,\n        role,\n        portrait\n      }\n    },\n    _type == "callToAction" => {\n      ...,\n      button {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "infoSection" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      }\n    },\n    _type == "testimonials" => {\n      ...,\n      eyebrow,\n      logos[]{\n        name,\n        logo\n      },\n      testimonials[]->{\n        attribution,\n        quote,\n        profilePicture\n      }\n    },\n    _type == "whatWeDo" => {\n      ...,\n      cards[]{\n        ...,\n        services[]->{\n          ...\n        }\n      }\n    },\n    _type == "signature2" => {\n      ...,\n      steps[]{\n        ...,\n        title,\n        highlighted\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "team" => {\n      ...,\n      members[]->{\n        ...,\n        portrait {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "story" => {\n      ...,\n      milestones[]{\n        year,\n        body\n      }\n    },\n    _type == "portfolio" => {\n      ...,\n      eyebrow,\n      heading,\n      projects[]->{\n        _id,\n        client,\n        year,\n        slug,\n        category,\n        title,\n        tagline,\n        description,\n        image,\n        link\n      }\n    },\n    _type == "pricing" => {\n      ...,\n      tiers[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "cta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      subtext\n    },\n    _type == "engineeringServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "serviceNavigator" => {\n      ...,\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      closingCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "soundFamiliar" => {\n      ...,\n      painPoints[]{\n        ...,\n        title,\n        body\n      }\n    },\n    _type == "ai" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "industries" => {\n      ...,\n      industries[]{\n        ...,\n        icon\n      }\n    },\n    _type == "reality" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      points[]{\n        title,\n        body\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "compare" => {\n      ...,\n      heading {\n        highlighted,\n        regular\n      },\n      rows[]{\n        label\n      },\n      columns[]{\n        name,\n        highlightColumn,\n        values[]{\n          available\n        }\n      },\n      closing {\n        lead,\n        highlight,\n        followup\n      }\n    },\n    _type == "whyRomania" => {\n      ...,\n      title,\n      body[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      highlights[]{\n        stat,\n        description\n      }\n    },\n    _type == "faq" => {\n      ...,\n      items[]{\n        ...\n      }\n    },\n    _type == "isThisForYou" => {\n      ...,\n      items[]{\n        text\n      }\n    },\n    _type == "steps" => {\n      ...,\n      items[]{\n        ...,\n        title,\n        duration,\n        body\n      },\n      visual {\n        ...,\n        asset->\n      }\n    },\n    _type == "insightsFeatured" => {\n      ...,\n      insight->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsGrid" => {\n      ...,\n      items[]->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        category,\n        publishedAt,\n        readTime,\n        featured,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "insightsCta" => {\n      ...,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "freeResources" => {\n      ...,\n      heading {\n        faded,\n        bold,\n        regular,\n        trailing\n      },\n      items[]{\n        ...,\n        title,\n        description,\n        file,\n        externalUrl,\n        "fileUrl": file.asset->url\n      }\n    },\n    _type == "portfolioFeatured" => {\n      ...,\n      caseStudy->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioGrid" => {\n      ...,\n      items[]->{\n        _id,\n        client,\n        slug,\n        year,\n        category,\n        industry,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      },\n      serviceFilters[]{\n        label,\n        value\n      },\n      industryFilters[]{\n        label,\n        value\n      }\n    },\n    _type == "portfolioMetrics" => {\n      ...,\n      items[]{\n        value,\n        label\n      }\n    },\n    _type == "portfolioCta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "place" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      body,\n      backgroundGraphic {\n        ...,\n        asset->\n      },\n      locations[]{\n        city,\n        address,\n        note\n      },\n      cta {\n        label,\n        href\n      }\n    },\n    _type == "awards" => {\n      ...,\n      eyebrow,\n      items[]{\n        title,\n        recognitions,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      featuredTitle,\n      featuredBadge {\n        ...,\n        asset->\n      }\n    },\n    _type == "press" => {\n      ...,\n      eyebrow,\n      heading,\n      cardTitle,\n      cardBody,\n      ctaLabel,\n      file {\n        ...,\n        asset->\n      }\n    },\n    _type == "techStack" => {\n      ...,\n      eyebrow,\n      headingRegular,\n      headingBold,\n      groups[]{\n        title,\n        items[]{\n          name,\n          logo {\n            ...,\n            asset->\n          }\n        }\n      },\n      closingNote\n    },\n  }\n,\n  }\n': ServiceQueryResult
     '\n  *[_type == "service" && defined(slug.current)]{\n    _id,\n    slug,\n  }\n': AllServicesQueryResult
   }
 }

@@ -1,0 +1,311 @@
+import {Section} from '@/components/layout/Section'
+import {Button} from '@/components/partials/Button'
+import ResolvedLink from '@/components/ResolvedLink'
+import ArrowRight from '@/components/icons/ArrowRight'
+import {DereferencedLink} from '@/sanity/lib/types'
+import {cleanStega, linkResolver} from '@/sanity/lib/utils'
+import {cn} from '@/lib/utils'
+
+type PricingLink = {
+  _type?: 'link'
+  linkType?: 'href' | 'page' | 'post'
+  href?: string | null
+  page?: string | null
+  post?: string | null
+  openInNewTab?: boolean | null
+}
+
+type PricingCta = {
+  buttonText?: string | null
+  link?: PricingLink | null
+} | null
+
+export type PricingTier = {
+  _key?: string
+  _type?: 'tier'
+  width?: 'half' | 'full' | null
+  priceLayout?: 'stacked' | 'split' | 'inline' | null
+  badge?: string | null
+  title?: string | null
+  price?: string | null
+  meta?: string | null
+  description?: string | null
+  ctaStyle?: 'textLink' | 'button' | null
+  cta?: PricingCta
+} | null
+
+export type PricingData = {
+  _key?: string
+  _type?: 'pricing'
+  eyebrow?: string | null
+  headingPrimary?: string | null
+  headingSecondary?: string | null
+  tiers?: PricingTier[] | null
+}
+
+const fallbackData = {
+  eyebrow: 'PRICING',
+  headingPrimary: 'Transparent pricing.',
+  headingSecondary: 'No surprises.',
+  tiers: [
+    {
+      _key: 'landing-page',
+      width: 'half',
+      priceLayout: 'stacked',
+      title: 'Landing Page',
+      price: 'EUR3K - EUR8K',
+      description:
+        'Single page, custom design, responsive, CMS integration, 2 revision rounds. Perfect for product launches, campaigns, or MVPs.',
+      ctaStyle: 'textLink',
+      cta: {
+        buttonText: 'Learn More',
+        link: {linkType: 'href', href: '/contact'},
+      },
+    },
+    {
+      _key: 'multi-page',
+      width: 'half',
+      priceLayout: 'stacked',
+      badge: 'Most popular',
+      title: 'Multi-Page Website',
+      price: 'EUR12K - EUR30K',
+      description:
+        '5-15 pages, full design system, GSAP animations, headless CMS, SEO setup. The standard for most businesses.',
+      ctaStyle: 'button',
+      cta: {
+        buttonText: 'Start Project',
+        link: {linkType: 'href', href: '/contact'},
+      },
+    },
+    {
+      _key: 'automation',
+      width: 'full',
+      priceLayout: 'split',
+      badge: 'Avg 120 hrs/mo saved',
+      title: 'AI Automation',
+      price: 'EUR3K - EUR8K',
+      description:
+        'The 10 hours your team wastes every week? Automated. Lead qualification, email triage, report generation, data enrichment.',
+      ctaStyle: 'textLink',
+      cta: {
+        buttonText: 'Learn More',
+        link: {linkType: 'href', href: '/services/ai-transformation'},
+      },
+    },
+    {
+      _key: 'rag',
+      width: 'full',
+      priceLayout: 'inline',
+      badge: '5+ enterprise deployments',
+      title: 'Knowledge Hub (RAG)',
+      price: 'From EUR10K + EUR1K/mo',
+      meta: '4-8 weeks',
+      description:
+        'AI strategy that starts with your P&L.\nVendor-agnostic advice, implementation roadmap, access-controlled.',
+      ctaStyle: 'textLink',
+      cta: {
+        buttonText: 'Learn More',
+        link: {linkType: 'href', href: '/services/ai-transformation'},
+      },
+    },
+  ],
+} satisfies PricingData
+
+function getHref(link?: PricingLink | null) {
+  const resolved = link ? linkResolver(link) : null
+  return typeof resolved === 'string' ? resolved : null
+}
+
+function toResolvedLink(link?: PricingLink | null): DereferencedLink | null {
+  if (!link) {
+    return null
+  }
+
+  return {
+    _type: 'link',
+    linkType: link.linkType,
+    href: link.href ?? undefined,
+    page: link.page ?? undefined,
+    post: link.post ?? undefined,
+    openInNewTab: link.openInNewTab ?? undefined,
+  }
+}
+
+function TextLink({
+  label,
+  link,
+}: {
+  label?: string | null
+  link?: PricingLink | null
+}) {
+  const content = (
+    <>
+      <ArrowRight
+        color="currentColor"
+        width={38}
+        height={24}
+        className="h-6 w-[38px] shrink-0"
+      />
+      <span className="font-funnel text-[24px] font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+        {label || 'Learn more'}
+      </span>
+    </>
+  )
+
+  const className = 'group inline-flex items-center gap-3 self-start'
+  const resolvedLink = toResolvedLink(link)
+
+  if (resolvedLink) {
+    return (
+      <ResolvedLink link={resolvedLink} className={className}>
+        {content}
+      </ResolvedLink>
+    )
+  }
+
+  return <div className={className}>{content}</div>
+}
+
+function CardCta({tier}: {tier: PricingTier}) {
+  if (!tier?.cta?.buttonText && !tier?.cta?.link) {
+    return null
+  }
+
+  if (tier.ctaStyle === 'button') {
+    const href = getHref(tier.cta?.link as PricingLink | null | undefined)
+
+    if (href) {
+      return (
+        <Button
+          href={href}
+          target={tier.cta?.link?.openInNewTab ? '_blank' : undefined}
+          rel={tier.cta?.link?.openInNewTab ? 'noopener noreferrer' : undefined}
+          className="self-start"
+        >
+          {tier.cta?.buttonText || 'Start Project'}
+        </Button>
+      )
+    }
+
+    return (
+      <Button className="self-start">
+        {tier.cta?.buttonText || 'Start Project'}
+      </Button>
+    )
+  }
+
+  return (
+    <TextLink
+      label={tier.cta?.buttonText}
+      link={tier.cta?.link as PricingLink | null | undefined}
+    />
+  )
+}
+
+function PricingCard({tier}: {tier: PricingTier}) {
+  const isFullWidth = tier?.width === 'full'
+  const priceLayout = tier?.priceLayout ?? 'stacked'
+  const hasBadge = Boolean(tier?.badge?.trim())
+
+  return (
+    <article
+      className={cn(
+        'flex h-full flex-col gap-10 border border-black/15 bg-black/[0.04] p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12',
+        isFullWidth && 'md:col-span-2',
+      )}
+    >
+      <div className="flex flex-1 flex-col gap-6">
+        {hasBadge ? (
+          <span className="inline-flex w-fit items-center bg-[#7a3419] px-3 py-1 font-funnel text-[14px] leading-none text-white md:text-[18px] md:leading-[1.5]">
+            {tier?.badge}
+          </span>
+        ) : null}
+
+        {priceLayout === 'split' ? (
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+              {tier?.title}
+            </h3>
+            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-[48px]">
+              {tier?.price}
+            </p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+              {tier?.title}
+            </h3>
+
+            {priceLayout === 'inline' ? (
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <p className="font-funnel text-[18px] leading-[1.5] text-brand">
+                  {tier?.price}
+                </p>
+                {tier?.meta ? (
+                  <p className="font-funnel text-[18px] leading-[1.5] text-black/60 dark:text-[#efefef]/60">
+                    {tier.meta}
+                  </p>
+                ) : null}
+              </div>
+            ) : (
+              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-[48px]">
+                {tier?.price}
+              </p>
+            )}
+          </div>
+        )}
+
+        {tier?.description ? (
+          <p className="max-w-[62ch] whitespace-pre-line font-funnel text-[18px] leading-[1.55] text-black/65 dark:text-[#efefef]/70">
+            {tier.description}
+          </p>
+        ) : null}
+      </div>
+
+      <CardCta tier={tier} />
+    </article>
+  )
+}
+
+export function Pricing({data}: {data?: PricingData}) {
+  const cleanData = data ? cleanStega(data) : data
+  const tiersSource = cleanData?.tiers ?? fallbackData.tiers
+  const tiers = tiersSource.filter(
+    (tier): tier is NonNullable<PricingTier> =>
+      Boolean(tier?.title?.trim() && tier?.price?.trim()),
+  )
+
+  if (tiers.length === 0) {
+    return null
+  }
+
+  return (
+    <Section
+      id="pricing"
+      eyebrow={cleanData?.eyebrow ?? fallbackData.eyebrow}
+      contentClassName="px-0 md:px-0"
+    >
+      <div className="flex flex-col gap-12">
+        <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+          <h2 className="max-w-[900px] font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-[48px]">
+            <span>{cleanData?.headingPrimary ?? fallbackData.headingPrimary}</span>{' '}
+            {(cleanData?.headingSecondary ?? fallbackData.headingSecondary) ? (
+              <span className="font-normal text-black/55 dark:text-[#efefef]/55">
+                {cleanData?.headingSecondary ?? fallbackData.headingSecondary}
+              </span>
+            ) : null}
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+          {tiers.map((tier, index) => (
+            <PricingCard
+              key={tier?._key ?? `${tier?.title ?? 'pricing'}-${index}`}
+              tier={tier}
+            />
+          ))}
+        </div>
+      </div>
+    </Section>
+  )
+}

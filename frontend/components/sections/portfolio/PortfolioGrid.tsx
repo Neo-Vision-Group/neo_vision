@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { CaseStudyCard, type CaseStudyCardData } from "@/components/partials/CaseStudyCard";
+import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -30,6 +31,11 @@ export type PortfolioGridData = {
   industryFilters?: Array<{ label?: string; value?: string }>;
 };
 
+const EMPTY_ITEMS: NonNullable<PortfolioGridData["items"]> = [];
+const EMPTY_FILTERS: Array<{ label?: string; value?: string }> = [];
+const INITIAL_VISIBLE_ITEMS = 3;
+const LOAD_MORE_COUNT = 3;
+
 function FilterButton({
   label,
   isActive,
@@ -41,18 +47,21 @@ function FilterButton({
 }) {
   return (
     <button
+      type="button"
       onClick={onClick}
-      className={`relative px-5 py-3 text-body-2 transition-colors ${
-        isActive ? "bg-brand/30 text-foreground" : "bg-surface text-foreground/70 hover:text-foreground"
+      className={`relative inline-flex items-center justify-center border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-[1.5] ${
+        isActive
+          ? "bg-brand/30 text-black dark:text-[#efefef]"
+          : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
       }`}
     >
       <span className="relative z-10">{label}</span>
       {isActive && (
         <>
-          <div className="absolute -left-1 -top-1 h-[calc(100%+8px)] w-px bg-brand" />
-          <div className="absolute -right-1 -top-1 h-[calc(100%+8px)] w-px bg-brand" />
-          <div className="absolute -left-1 -bottom-1 h-[calc(100%+8px)] w-px bg-brand" />
-          <div className="absolute -right-1 -bottom-1 h-[calc(100%+8px)] w-px bg-brand" />
+          <div className="absolute -left-px bottom-[-5px] top-[-5px] w-px bg-brand" />
+          <div className="absolute -right-px bottom-[-5px] top-[-5px] w-px bg-brand" />
+          <div className="absolute left-[-5px] right-[-5px] top-[-1px] h-px bg-brand" />
+          <div className="absolute bottom-[-1px] left-[-5px] right-[-5px] h-px bg-brand" />
         </>
       )}
     </button>
@@ -62,12 +71,19 @@ function FilterButton({
 export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const items = cleanData?.items ?? [];
-  const serviceFilters = cleanData?.serviceFilters ?? [];
-  const industryFilters = cleanData?.industryFilters ?? [];
+  const items = useMemo(() => cleanData?.items ?? EMPTY_ITEMS, [cleanData]);
+  const serviceFilters = useMemo(
+    () => cleanData?.serviceFilters ?? EMPTY_FILTERS,
+    [cleanData]
+  );
+  const industryFilters = useMemo(
+    () => cleanData?.industryFilters ?? EMPTY_FILTERS,
+    [cleanData]
+  );
 
   const [serviceFilter, setServiceFilter] = useState(serviceFilters[0]?.value ?? "all");
   const [industryFilter, setIndustryFilter] = useState(industryFilters[0]?.value ?? "all");
+  const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_ITEMS);
 
   const filtered = useMemo(() => {
     return items.filter((item) => {
@@ -90,129 +106,102 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
     [filtered]
   );
 
+  const visibleItems = normalizedItems.slice(0, visibleCount);
+  const hasMore = normalizedItems.length > visibleCount;
+
   if (items.length === 0) {
     return null;
   }
 
   return (
-    <div className="flex gap-8">
-      {/* Sticky Sidebar with Filters */}
-      <aside className="hidden lg:block w-[372px] shrink-0">
-        <div className="sticky top-0 pt-24">
-          <div className="border-t border-white/20" />
-          <div className="flex flex-col gap-12 px-12 py-6">
-            {/* Service Filters */}
+    <div className="flex flex-col border-y border-black/15 dark:border-white/10 lg:flex-row">
+      <div className="lg:flex lg:w-full">
+        <aside className="border-b border-black/15 dark:border-white/10 lg:sticky lg:top-24 lg:w-[372px] lg:flex-none lg:self-start lg:border-b-0">
+          <div className="flex flex-col gap-10 px-6 py-8 md:px-10 lg:px-12 lg:py-6">
             {serviceFilters.length > 0 && (
-              <div className="flex flex-col gap-5">
-                <p className="font-display text-[32px] leading-[1.2] text-foreground">
+              <div className="flex flex-col gap-4.5">
+                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-[32px]">
                   Service:
                 </p>
-                <div className="flex flex-wrap gap-5">
+                <div className="flex flex-wrap gap-3 md:gap-5">
                   {serviceFilters.map((filter) => (
                     <FilterButton
-                      key={filter.value}
+                      key={filter.value ?? filter.label}
                       label={filter.label ?? "All"}
                       isActive={serviceFilter === filter.value}
-                      onClick={() => setServiceFilter(filter.value)}
+                      onClick={() => {
+                        setServiceFilter(filter.value ?? "all");
+                        setVisibleCount(INITIAL_VISIBLE_ITEMS);
+                      }}
                     />
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Industry Filters */}
             {industryFilters.length > 0 && (
-              <div className="flex flex-col gap-5">
-                <p className="font-display text-[32px] leading-[1.2] text-foreground">
+              <div className="flex flex-col gap-4.5">
+                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-[32px]">
                   Industry:
                 </p>
-                <div className="flex flex-wrap gap-5">
+                <div className="flex flex-wrap gap-3 md:gap-5">
                   {industryFilters.map((filter) => (
                     <FilterButton
-                      key={filter.value}
+                      key={filter.value ?? filter.label}
                       label={filter.label ?? "All"}
                       isActive={industryFilter === filter.value}
-                      onClick={() => setIndustryFilter(filter.value)}
+                      onClick={() => {
+                        setIndustryFilter(filter.value ?? "all");
+                        setVisibleCount(INITIAL_VISIBLE_ITEMS);
+                      }}
                     />
                   ))}
                 </div>
               </div>
             )}
           </div>
-        </div>
-      </aside>
+        </aside>
 
-      {/* Main Content Area */}
-      <div className="flex-1">
-        {/* Mobile Filters */}
-        <div className="flex flex-col gap-4 lg:hidden mb-8">
-          {serviceFilters.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              {serviceFilters.map((filter) => (
-                <button
-                  key={filter.value}
-                  onClick={() => setServiceFilter(filter.value)}
-                  className={`relative text-body-2 transition-colors ${
-                    serviceFilter === filter.value
-                      ? "bg-brand text-white"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
-                  <span className="relative z-10 px-4 py-2 inline-block">{filter.label}</span>
-                  {serviceFilter === filter.value && (
-                    <>
-                      <div className="absolute -left-1 -top-0 h-[calc(100%+4px)] w-px bg-brand" />
-                      <div className="absolute -right-1 bottom-0 h-[calc(100%+4px)] w-px bg-brand" />
-                    </>
-                  )}
-                </button>
-              ))}
+        <div className="hidden w-px shrink-0 bg-black/15 dark:bg-white/10 lg:block" />
+
+        <div className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-0 lg:py-0">
+          {filtered.length === 0 ? (
+            <div className="px-2 py-10 lg:px-6 lg:py-12">
+              <p className="text-body text-black/60 dark:text-[#efefef]/60">
+                No case studies match this filter. Try a different combination.
+              </p>
             </div>
-          )}
-          {industryFilters.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2">
-              {industryFilters.map((filter) => (
-                <button
-                  key={filter.value}
-                  onClick={() => setIndustryFilter(filter.value)}
-                  className={`relative text-body-2 transition-colors ${
-                    industryFilter === filter.value
-                      ? "bg-brand text-white"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                >
-                  <span className="relative z-10 px-4 py-2 inline-block">{filter.label}</span>
-                  {industryFilter === filter.value && (
-                    <>
-                      <div className="absolute -left-1 -top-0 h-[calc(100%+4px)] w-px bg-brand" />
-                      <div className="absolute -right-1 bottom-0 h-[calc(100%+4px)] w-px bg-brand" />
-                    </>
-                  )}
-                </button>
-              ))}
+          ) : (
+            <div className="flex flex-col p-24 gap-6 lg:gap-8">
+              <RevealOnScroll
+                as="div"
+                stagger={0.06}
+                className="flex flex-col gap-4"
+              >
+                {visibleItems.map((item, idx) => (
+                  <CaseStudyCard
+                    key={item._id ?? (item.client || "") + idx}
+                    item={item as CaseStudyCardData}
+                  />
+                ))}
+              </RevealOnScroll>
+
+              {hasMore ? (
+                <div className="flex justify-center pt-2">
+                  <Button
+                    type="button"
+                    variant="primary"
+                    size="md"
+                    onClick={() => setVisibleCount((count) => count + LOAD_MORE_COUNT)}
+                    className="min-w-38"
+                  >
+                    Load more projects
+                  </Button>
+                </div>
+              ) : null}
             </div>
           )}
         </div>
-
-        {/* Grid */}
-        {filtered.length === 0 ? (
-          <p className="text-body text-foreground/60">
-            No case studies match this filter. Try a different combination.
-          </p>
-        ) : (
-          <RevealOnScroll
-            as="div"
-            stagger={0.06}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3"
-          >
-            {normalizedItems.map((item, idx) => (
-              <CaseStudyCard
-                key={item._id ?? (item.client || "") + idx}
-                item={item as CaseStudyCardData}
-              />
-            ))}
-          </RevealOnScroll>
-        )}
       </div>
     </div>
   );

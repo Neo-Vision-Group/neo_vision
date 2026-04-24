@@ -13,6 +13,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type MethodologyData = {
   eyebrow?: string;
   heading?: string;
@@ -40,14 +48,15 @@ export function Methodology({ data }: { data?: MethodologyData }) {
   return (
     <SectionsWrapper id="methodology" eyebrow={methodology.eyebrow}>
       <div className="flex flex-col gap-16">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[58px] 2xl:tracking-[-0.4px]">
-          {methodology.heading.split("\n").map((line, idx) => (
-            <span key={idx}>
-              {line}
-              {idx < methodology.heading.split("\n").length - 1 && <br />}
-            </span>
-          ))}
-        </h2>
+        <SplitTextReveal
+          as="h2"
+          type="words"
+          stagger={0.04}
+          colorReveal
+          className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+        >
+          {methodology.heading}
+        </SplitTextReveal>
 
         <RevealOnScroll
           as="div"
@@ -83,7 +92,7 @@ function MethodologyCard({
           {step.number}
         </span>
         <div className="flex flex-col">
-          <h3 className="text-[24px] font-medium leading-[32px] tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
+          <h3 className="text-[24px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
             {step.title}
           </h3>
           <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">

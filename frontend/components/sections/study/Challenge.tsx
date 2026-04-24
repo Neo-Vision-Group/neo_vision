@@ -34,32 +34,44 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
       id="challenge"
       eyebrow={eyebrow}
     >
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
-            {heading}
-          </h2>
+          <div className="flex flex-col gap-3">
+            <h2 className="text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
+              {heading}
+            </h2>
+          </div>
         ) : null}
-        {body ? (
-          <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-[28px]">
-            {body}
-          </p>
-        ) : null}
+        {body
+          ? body
+              .split("\n")
+              .filter((paragraph) => paragraph.trim())
+              .map((paragraph, index) => (
+                <p
+                  key={`${paragraph.slice(0, 24)}-${index}`}
+                  className="max-w-[72ch] text-[18px] leading-[1.5] text-[#efefef]/70"
+                >
+                  {paragraph}
+                </p>
+              ))
+          : null}
         {issues.length > 0 ? (
           <RevealOnScroll
             as="div"
             stagger={0.06}
-            className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4"
+            className="grid grid-cols-1 gap-6 border-y border-white/15 py-6 md:grid-cols-2"
           >
             {issues.map((iss, idx) => (
               <article
                 key={(iss.tag ?? "iss") + idx}
-                className="flex flex-col gap-2 border border-brand/30 bg-surface p-4"
+                className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-[#0f0f0f] p-8"
               >
-                <span className="font-betatron text-caption uppercase tracking-wider text-brand">
+                <span className="font-betatron text-[48px] leading-[1.2] tracking-[-2.88px] text-brand">
                   {iss.tag}
                 </span>
-                <p className="text-body-2 text-foreground/80">{iss.body}</p>
+                <p className="text-[24px] font-bold leading-[1.2] text-[#efefef]">
+                  {iss.body}
+                </p>
               </article>
             ))}
           </RevealOnScroll>

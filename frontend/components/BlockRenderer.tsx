@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
 import {BlockErrorBoundary} from '@/components/BlockErrorBoundary'
@@ -6,11 +6,13 @@ import {Hero, HeroData} from '@/components/sections/home/Hero'
 import {Origin, OriginData} from '@/components/sections/home/Origin'
 import {WhatWeDo, WhatWeDoData} from '@/components/sections/home/WhatWeDo'
 import {Signature, SignatureData} from '@/components/sections/home/Signature'
+import {Signature2, Signature2Data} from '@/components/sections/home/Signature2'
 import {Why, WhyData} from '@/components/sections/home/Why'
 import {Story, StoryData} from '@/components/sections/home/Story'
 import {Team, TeamData} from '@/components/sections/home/Team'
 import {Methodology, MethodologyData} from '@/components/sections/home/Methodology'
 import {TrustedBy, TrustedByData} from '@/components/sections/home/TrustedBy'
+import {Pricing, PricingData} from '@/components/sections/home/Pricing'
 import {PageHero, PageHeroData} from '@/components/sections/PageHero'
 import {ContactHero, ContactHeroData} from '@/components/sections/ContactHero'
 import {OurWork, PortfolioData} from '@/components/sections/home/Work'
@@ -18,6 +20,7 @@ import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
 import { Industries, IndustryData } from './sections/services/Industries'
 import { Reality, RealityData } from './sections/services/Reality'
+import { Compare, CompareData } from './sections/services/Compare'
 import { FAQ, FaqData } from './sections/FAQ'
 import { PortfolioFeatured, PortfolioFeaturedData } from '@/components/sections/portfolio/PortfolioFeatured'
 import { PortfolioGrid, PortfolioGridData } from '@/components/sections/portfolio/PortfolioGrid'
@@ -40,9 +43,15 @@ import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/Ins
 import { InsightBlock, InsightBlockData, InsightBlockQueryResponse } from '@/components/sections/insights/InsightBlock'
 import { Booking, BookingData } from '@/components/sections/contact/Booking'
 import { SoundFamiliar, SoundFamiliarData } from '@/components/sections/services/SoundFamiliar'
+import { WhyRomania, WhyRomaniaData } from '@/components/sections/services/WhyRomania'
+import { Awards, AwardsData } from '@/components/sections/about/Awards'
 import { Place, PlaceData } from '@/components/sections/about/Place'
+import { Press, PressData } from '@/components/sections/about/Press'
+import { TechStacks, TechStacksData } from '@/components/sections/about/TechStacks'
 import { FreeResources, FreeResourcesData } from '@/components/sections/resources/FreeResources'
 import { IsThisForYou, IsThisForYouData } from '@/components/sections/services/IsThisForYou'
+import { ServiceNavigator, ServiceNavigatorData } from '@/components/sections/services/ServiceNavigator'
+import { Steps, StepsData } from '@/components/sections/services/Steps'
 
 type BlockProps = {
   index: number
@@ -74,6 +83,9 @@ const Blocks = {
   signature: ({block}: BlockProps) => {
     return <Signature data={block  as SignatureData} />
   },
+  signature2: ({block}: BlockProps) => {
+    return <Signature2 data={block as Signature2Data} />
+  },
   why: ({block}: BlockProps) => {
     return <Why data={block  as WhyData} />
   },
@@ -89,6 +101,9 @@ const Blocks = {
   testimonials: ({block}: BlockProps) => {
     return <TrustedBy data={block  as TrustedByData} />
   },
+  pricing: ({block}: BlockProps) => {
+    return <Pricing data={block as PricingData} />
+  },
   portfolio: ({block}: BlockProps) => {
     return <OurWork data={block  as PortfolioData} />
   },
@@ -98,11 +113,17 @@ const Blocks = {
   engineeringServices: ({block}: BlockProps) => {
     return <EngineeringServices data={block  as EngineeringServicesData} />
   },
+  serviceNavigator: ({block}: BlockProps) => {
+    return <ServiceNavigator data={block as ServiceNavigatorData} />
+  },
   industries: ({block}: BlockProps) => {
     return <Industries data={block  as IndustryData} />
   },
   reality: ({block}: BlockProps) => {
     return <Reality data={block  as RealityData} />
+  },
+  compare: ({block}: BlockProps) => {
+    return <Compare data={block as CompareData} />
   },
   faq: ({block}: BlockProps) => {
     return <FAQ data={block  as FaqData} />
@@ -170,14 +191,29 @@ const Blocks = {
   soundFamiliar: ({block}: BlockProps) => {
     return <SoundFamiliar data={block  as SoundFamiliarData} />
   },
+  whyRomania: ({block}: BlockProps) => {
+    return <WhyRomania data={block  as WhyRomaniaData} />
+  },
+  awards: ({block}: BlockProps) => {
+    return <Awards data={block  as AwardsData} />
+  },
   place: ({block}: BlockProps) => {
     return <Place data={block  as PlaceData} />
+  },
+  press: ({block}: BlockProps) => {
+    return <Press data={block  as PressData} />
+  },
+  techStack: ({block}: BlockProps) => {
+    return <TechStacks data={block  as TechStacksData} />
   },
   freeResources: ({block}: BlockProps) => {
     return <FreeResources data={block  as FreeResourcesData} />
   },
   isThisForYou: ({block}: BlockProps) => {
     return <IsThisForYou data={block  as IsThisForYouData} />
+  },
+  steps: ({block}: BlockProps) => {
+    return <Steps data={block as StepsData} />
   }
 } as BlocksType
 
@@ -220,3 +256,5 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     {key: block._key},
   )
 }
+
+
