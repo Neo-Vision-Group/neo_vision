@@ -2,7 +2,7 @@
   "name": "frontend",
   "private": true,
   "scripts": {
-    "prebuild": "npm run sanity:typegen",
+    "prebuild": "node ./scripts/prebuild.mjs",
     "build": "next build",
     "predev": "npm run sanity:typegen",
     "dev": "next dev",

@@ -382,3 +382,4 @@ npm run dev          # Runs both concurrently (check package.json)
 8. **Test with Sanity data**: After schema changes, verify that Studio can add the block and the frontend renders it.
 9. **Respect the transition escape hatch**: Internal links can opt out of the route wipe with `data-transition-ignore` when a browser-native navigation is required.
 10. **Keep the schema snapshot fresh**: Frontend/Vercel builds read the committed root `sanity.schema.json`, so after schema edits run `npm run sanity:typegen --workspace=studio` and commit the updated snapshot before deploying.
+11. **Vercel uses committed Sanity artifacts**: `frontend` skips Sanity type generation during Vercel `prebuild` and relies on committed `sanity.schema.json` plus `frontend/sanity.types.ts`; local development should still regenerate them after schema/query changes.
