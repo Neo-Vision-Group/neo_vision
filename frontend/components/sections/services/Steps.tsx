@@ -2,6 +2,7 @@
 import {cleanStega} from '@/sanity/lib/utils'
 import {cn} from '@/lib/utils'
 import dynamic from 'next/dynamic'
+import Image from 'next/image'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -120,8 +121,7 @@ export function Steps({data}: {data?: StepsData}) {
               className="relative hidden lg:block lg:pt-1"
             >
               <div className="sticky top-32 overflow-hidden rounded-[10px] border border-white/10 bg-surface">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={visualUrl}
                   alt={cleanData?.visualAlt ?? ''}
                   className="h-full w-full object-cover"

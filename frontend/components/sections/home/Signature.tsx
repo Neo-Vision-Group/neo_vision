@@ -4,7 +4,8 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
 import { cn } from "@/lib/utils";
 import { signatureModel as signatureFallback } from "@/lib/content/home";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 
 const RevealOnScroll = dynamic(
@@ -33,11 +34,13 @@ export type SignatureData = {
     duration: string;
     body: string;
     textured?: boolean;
+    graphic?: SanityImageSource;
   }>;
   cta?: { buttonText?: string; link?: any };
   valueCard?: {
     value: string;
     body: string;
+    graphic?: SanityImageSource;
   };
 };
 
@@ -54,6 +57,8 @@ export function Signature({ data }: { data?: SignatureData }) {
       title: step.title,
       duration: step.duration,
       body: step.body,
+      textured: step.textured,
+      graphic: step.graphic,
     })) ?? signatureFallback.steps,
     cta: {
       label: cleanData?.cta?.buttonText ?? signatureFallback.cta.label,
@@ -62,6 +67,7 @@ export function Signature({ data }: { data?: SignatureData }) {
     valueCard: {
       value: cleanData?.valueCard?.value ?? signatureFallback.valueCard.value,
       body: cleanData?.valueCard?.body ? cleanData.valueCard.body.split('\n').filter(Boolean) : signatureFallback.valueCard.body,
+      graphic: cleanData?.valueCard?.graphic,
     },
   };
 
@@ -153,10 +159,22 @@ function StepCard({
   showBottomBorder,
   showRightBorder,
 }: {
-  step: { number: string; title: string; duration: string; body: string };
+  step: {
+    number: string;
+    title: string;
+    duration: string;
+    body: string;
+    textured?: boolean;
+    graphic?: SanityImageSource;
+  };
   showBottomBorder: boolean;
   showRightBorder: boolean;
 }) {
+  const graphicUrl = step.graphic
+    ? urlForImage(step.graphic).width(1600).fit("max").url()
+    : "/figma/signature-texture.png";
+  const isTextured = Boolean(step.textured);
+
   return (
     <div
       className={cn(
@@ -167,24 +185,26 @@ function StepCard({
       )}
     >
       <div className="group/step relative isolate flex flex-col dark:bg-[#0F0F0F] bg-[#f7f7f7] gap-8 overflow-hidden border border-white/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 lg:p-8">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover/step:opacity-100"
-        >
-          <img
-            src="/figma/signature-texture.png"
-            alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
-          />
+        {isTextured ? (
           <div
-            className="absolute inset-0"
-            style={{ background: "#4a0e00" }}
-          />
-          <div
-            className="absolute inset-0 mix-blend-multiply"
-            style={{ background: "#7a1a00" }}
-          />
-        </div>
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black"
+          >
+            <img
+              src={graphicUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+            />
+            <div
+              className="absolute inset-0 mix-blend-screen dark:hidden"
+              style={{ background: "#ff4404" }}
+            />
+            <div
+              className="absolute inset-0 hidden mix-blend-multiply dark:block"
+              style={{ background: "#ff4404" }}
+            />
+          </div>
+        ) : null}
 
         <div className="flex items-start gap-6">
           <span className="font-betatron text-[48px] leading-none tracking-[-2.88px] text-brand">
@@ -203,14 +223,30 @@ function StepCard({
   );
 }
 
-function ValueCard({ valueCard }: { valueCard: { value: string; body: readonly string[] } }) {
+function ValueCard({
+  valueCard,
+}: {
+  valueCard: { value: string; body: readonly string[]; graphic?: SanityImageSource };
+}) {
+  const graphicUrl = valueCard.graphic
+    ? urlForImage(valueCard.graphic).width(1600).fit("max").url()
+    : "/figma/signature-texture.png";
+
   return (
-    <div className="relative bg-[#EFEFEFB3] dark:bg-black isolate flex flex-col gap-6 border border-white/15 p-6">
-      <div aria-hidden="true" className="absolute bg-[#EFEFEFB3] dark:bg-black inset-0 -z-10 overflow-hidden">
+    <div className="relative isolate flex flex-col gap-6 border border-white/15 bg-[#EFEFEFB3] p-6 dark:bg-black">
+      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">
         <img
-          src="/figma/signature-texture.png"  
+          src={graphicUrl}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
+          className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+        />
+        <div
+          className="absolute inset-0 mix-blend-screen dark:hidden"
+          style={{ background: "#ff4404" }}
+        />
+        <div
+          className="absolute inset-0 hidden mix-blend-multiply dark:block"
+          style={{ background: "#ff4404" }}
         />
       </div>
       <p className="text-center text-[32px] leading-[1.2] text-foreground md:text-[40px]">

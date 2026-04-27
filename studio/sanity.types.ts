@@ -90,7 +90,7 @@ export type FreeResourcesHeading = {
 }
 
 export type Quote = {
-  quote?: string
+  quote?: BlockContentTextOnly
   attribution?: string
 }
 
@@ -104,7 +104,7 @@ export type Table = {
 
 export type Card = {
   label?: string
-  body?: string
+  body?: BlockContentTextOnly
 }
 
 export type SanityImageAssetReference = {
@@ -241,8 +241,10 @@ export type FreeResources = {
   eyebrow?: string
   heading?: FreeResourcesHeading
   body?: string
+  footnote?: string
   items?: Array<{
     title: string
+    badge?: string
     description?: string
     file?: ResourceFile
     externalUrl?: string
@@ -1238,13 +1240,6 @@ export type Post = {
   slug: Slug
   publishedAt?: string
   excerpt?: string
-  cover?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
   author?: TeamMemberReference
   category?:
     | 'ai-transformation'
@@ -1254,55 +1249,6 @@ export type Post = {
     | 'operators-notes'
   readTime?: number
   featured?: boolean
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>
-          text?: string
-          _type: 'span'
-          _key: string
-        }>
-        style?: 'normal' | 'h2' | 'h3' | 'blockquote'
-        listItem?: 'bullet' | 'number'
-        markDefs?: Array<{
-          href?: string
-          _type: 'link'
-          _key: string
-        }>
-        level?: number
-        _type: 'block'
-        _key: string
-      }
-    | {
-        asset?: SanityImageAssetReference
-        media?: unknown
-        hotspot?: SanityImageHotspot
-        crop?: SanityImageCrop
-        _type: 'image'
-        _key: string
-      }
-    | {
-        quote?: string
-        attribution?: string
-        _type: 'pullquote'
-        _key: string
-      }
-    | {
-        label?: string
-        body?: string
-        _type: 'keyPoint'
-        _key: string
-      }
-    | {
-        headers?: Array<string>
-        rows?: Array<{
-          cells?: Array<string>
-          _key: string
-        }>
-        _type: 'comparisonTable'
-        _key: string
-      }
-  >
   relatedInsights?: Array<
     {
       _key: string

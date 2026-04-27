@@ -143,25 +143,13 @@ export function Story({ data }: { data?: StoryData }) {
           type="words"
           stagger={0.04}
           colorReveal
+          className="text-deco-h4 leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-225"
         >
-          <h2 className="text-[32px] leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-[900px]">
             {story.heading}
-          </h2>
         </SplitTextReveal>
 
         <div className="relative -mx-6">
-          <div className="absolute top-[48px] left-0 w-full h-px bg-white/20 -z-10" />
-          <div className="absolute top-[48px] left-6 -translate-y-1/2 z-10">
-            <div className="flex items-center justify-center p-1.5 bg-brand/20 backdrop-blur-[2.5px]">
-              <div className="size-4.5">
-                <img
-                  alt=""
-                  className="block size-full object-contain"
-                  src="https://www.figma.com/api/mcp/asset/81781363-6cb2-4cd1-94a0-6735eb78cd8a"
-                />
-              </div>
-            </div>
-          </div>
+          <div className="absolute top-12 left-0 w-full h-px bg-white/20 -z-10" />
           <ol
             ref={scrollerRef}
             className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-[48px] md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"

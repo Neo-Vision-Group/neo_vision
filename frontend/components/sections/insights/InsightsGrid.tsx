@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
 import { cn } from "@/lib/utils";
@@ -29,10 +30,16 @@ function InsightsFilterButton({
   active: boolean;
   onClick: () => void;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <button
       type="button"
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
       className={cn(
         "relative inline-flex bg-[#f0f0f0] dark:bg-[#1a1a1a] min-h-[47px] items-center justify-center self-start px-[10px] py-[10px] font-funnel text-[18px] leading-[1.5] text-[var(--text)] transition-colors duration-200",
         active
@@ -40,16 +47,8 @@ function InsightsFilterButton({
           : " hover:bg-black/5 dark:hover:bg-white/5"
       )}
     >
+      <AnimatedBorder isHovered={active || isHovered} />
       <span className="text-black dark:text-white">{label}</span>
-
-      {active ? (
-        <>
-          <span className="absolute -left-[5px] -right-[5px] top-[-1px] h-px bg-brand" />
-          <span className="absolute -left-[5px] -right-[5px] bottom-[-1px] h-px bg-brand" />
-          <span className="absolute -bottom-[5px] -top-[5px] left-[-1px] w-px bg-brand" />
-          <span className="absolute -bottom-[5px] -top-[5px] right-[-1px] w-px bg-brand" />
-        </>
-      ) : null}
     </button>
   );
 }
@@ -114,7 +113,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
         <RevealOnScroll
           as="div"
           stagger={0.06}
-          className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          className="grid grid-cols-1 gap-4 lg:grid-cols-2"
         >
           {filtered.map((article) => (
             <ArticleCard key={getArticleKey(article)} article={article} />

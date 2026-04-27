@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { CaseStudyCard, type CaseStudyCardData } from "@/components/partials/CaseStudyCard";
 import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -45,25 +46,24 @@ function FilterButton({
   isActive: boolean;
   onClick: () => void;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <button
       type="button"
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
       className={`relative inline-flex items-center justify-center border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-[1.5] ${
         isActive
           ? "bg-brand/30 text-black dark:text-[#efefef]"
           : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
       }`}
     >
+      <AnimatedBorder isHovered={isActive || isHovered} />
       <span className="relative z-10">{label}</span>
-      {isActive && (
-        <>
-          <div className="absolute -left-px bottom-[-5px] top-[-5px] w-px bg-brand" />
-          <div className="absolute -right-px bottom-[-5px] top-[-5px] w-px bg-brand" />
-          <div className="absolute left-[-5px] right-[-5px] top-[-1px] h-px bg-brand" />
-          <div className="absolute bottom-[-1px] left-[-5px] right-[-5px] h-px bg-brand" />
-        </>
-      )}
     </button>
   );
 }
@@ -172,7 +172,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
               </p>
             </div>
           ) : (
-            <div className="flex flex-col p-24 gap-6 lg:gap-8">
+            <div className="flex flex-col gap-6 p-0 md:p-6 lg:gap-8 lg:p-12">
               <RevealOnScroll
                 as="div"
                 stagger={0.06}

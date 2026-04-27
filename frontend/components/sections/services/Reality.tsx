@@ -1,32 +1,36 @@
-import { SectionsWrapper } from "@/components/SectionsWrapper"
-import Link from "next/link"
-import dynamic from "next/dynamic";
+import {SectionsWrapper} from "@/components/SectionsWrapper"
+import {Button} from "@/components/partials/Button"
+import {cleanStega} from "@/sanity/lib/utils"
+import dynamic from "next/dynamic"
 
 const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
     ),
-  { ssr: false }
-);
+  {ssr: false},
+)
 
 type RealityPoint = {
-  title: string
+  _key?: string
+  title?: string
   body?: string
 }
 
 type RealityHeading = {
   faded?: string
-  bold: string
+  bold?: string
 }
 
 type RealityCta = {
   buttonText?: string
   link?: {
-    linkType?: 'href' | 'page' | 'post'
+    linkType?: 'href' | 'page' | 'post' | 'service' | 'project'
     href?: string
     page?: string
     post?: string
+    service?: string
+    project?: string
     openInNewTab?: boolean
   }
 }
@@ -39,59 +43,92 @@ export type RealityData = {
   cta?: RealityCta
 }
 
-function getHref(link: any): string {
-  if (!link) return "#";
-  if (link.linkType === "href") return link.href || "#";
-  if (link.linkType === "page") return "/" + link.page;
-  if (link.linkType === "post") return "/insights/" + link.post;
-  return "#";
+function getHref(link?: RealityCta["link"]): string {
+  if (!link) return "#"
+  if (link.linkType === "href") return link.href || "#"
+  if (link.linkType === "page") return "/" + link.page
+  if (link.linkType === "post") return "/insights/" + link.post
+  if (link.linkType === "service") return "/services/" + link.service
+  if (link.linkType === "project") return "/portfolio/" + link.project
+  return "#"
 }
 
-export function Reality({ data }: { data: RealityData }) {
-    const ctaHref = data.cta?.link ? getHref(data.cta.link) : null;
-    
-    return (
-      <SectionsWrapper eyebrow={data.eyebrow}>
-        <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
-            <span className="text-foreground/70">{data.heading?.faded} </span>
-            <span className="font-bold">{data.heading?.bold}</span>
+export function Reality({data}: {data?: RealityData}) {
+  const cleanData = data ? cleanStega(data) : data
+  const eyebrow = cleanData?.eyebrow ?? "THE REALITY"
+  const points =
+    cleanData?.points?.filter((point) => point.title?.trim() || point.body?.trim()) ?? []
+  const ctaHref = cleanData?.cta?.link ? getHref(cleanData.cta.link) : null
+
+  if (!cleanData?.heading?.faded && !cleanData?.heading?.bold && points.length === 0 && !cleanData?.body) {
+    return null
+  }
+
+  return (
+    <SectionsWrapper eyebrow={eyebrow}>
+      <div className="flex flex-col gap-12 lg:gap-16">
+        <div className="px-0 lg:px-12">
+          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-[48px] lg:leading-[1.2] lg:tracking-[-1px]">
+            {cleanData?.heading?.faded ? (
+              <span className="text-foreground/70">{cleanData.heading.faded} </span>
+            ) : null}
+            {cleanData?.heading?.bold ? (
+              <span className="font-bold text-foreground">{cleanData.heading.bold}</span>
+            ) : null}
           </h2>
-          {data.body ? (
-            <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-[28px]">
-              {data.body}
-            </p>
-          ) : null}
-          {data.points && data.points.length > 0 ? (
-            <RevealOnScroll
-              as="div"
-              stagger={0.08}
-              className="grid grid-cols-1 gap-4 md:grid-cols-3"
-            >
-              {data.points.map((p, idx) => (
-              <article
-                key={(p.title ?? "pt") + idx}
-                className="flex flex-col gap-3 border border-white/10 bg-surface p-6"
-              >
-                <h3 className="font-betatron text-[22px] font-medium text-brand">{p.title}</h3>
-                <p className="text-body-2 text-foreground/70">{p.body}</p>
-              </article>
-            ))}
-          </RevealOnScroll>
-          ) : null}
-          {data.cta && data.cta.buttonText && ctaHref ? (
-            <div className="flex justify-center pt-4">
-              <Link 
-                href={ctaHref}
-                target={data.cta.link?.openInNewTab ? "_blank" : undefined}
-                rel={data.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
-                className="inline-flex items-center justify-center whitespace-nowrap font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background bg-brand text-white pl-6 pr-4 py-3 text-body gap-3 hover:bg-brand-hover hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.5)] focus-visible:ring-brand"
-              >
-                <span>{data.cta.buttonText}</span>
-              </Link>
-            </div>
-          ) : null}
         </div>
-      </SectionsWrapper>
-    )
+
+        {cleanData?.body ? (
+          <div className="px-0 lg:px-12">
+            <p className="max-w-[70ch] text-[18px] leading-[1.5] text-foreground/70">
+              {cleanData.body}
+            </p>
+          </div>
+        ) : null}
+
+        {points.length > 0 ? (
+          <RevealOnScroll
+            as="div"
+            stagger={0.08}
+            className="border-y border-black/20 dark:border-white/20"
+          >
+            <div className="grid grid-cols-1 divide-y divide-black/20 md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-3 dark:divide-white/20">
+              {points.map((point, index) => (
+                <div key={point._key ?? `${point.title ?? "point"}-${index}`} className="p-6">
+                  <article className="flex h-full min-h-[280px] flex-col gap-12 border border-black/10 bg-surface p-6 dark:border-white/20 dark:bg-[#111111] md:p-8">
+                    {point.title ? (
+                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-[32px]">
+                        {point.title}
+                      </h3>
+                    ) : null}
+
+                    {point.body ? (
+                      <p className="max-w-[18ch] font-funnel text-[18px] leading-[1.5] text-foreground dark:text-[#efefef]">
+                        {point.body}
+                      </p>
+                    ) : null}
+                  </article>
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        ) : null}
+
+        {cleanData?.cta?.buttonText && ctaHref ? (
+          <div className="px-0 lg:px-12">
+            <Button
+              href={ctaHref}
+              variant="primary"
+              size="md"
+              target={cleanData.cta.link?.openInNewTab ? "_blank" : undefined}
+              rel={cleanData.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+              className="flex w-full max-w-full whitespace-normal break-normal text-left md:w-auto md:min-w-[612px]"
+            >
+              {cleanData.cta.buttonText}
+            </Button>
+          </div>
+        ) : null}
+      </div>
+    </SectionsWrapper>
+  )
 }

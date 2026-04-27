@@ -4,12 +4,16 @@ import {SanityDocument} from 'next-sanity'
 import {useOptimistic} from 'next-sanity/hooks'
 
 import BlockRenderer from '@/components/BlockRenderer'
+import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
 import {PageQueryResult} from '@/sanity.types'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
+import { cn } from '@/lib/utils'
+import {pageHasHeroPattern} from '@/lib/page-transition'
 
 type PageBuilderPageProps = {
   page: PageQueryResult
+  deferRouteReadySignal?: boolean
 }
 
 type PageData = {
@@ -32,23 +36,33 @@ function RenderSections({
   if (!page) {
     return null
   }
+
+  const isInsightDetailPage = (page as {_type?: string} | null)?._type === 'post'
+
   return (
     <div
+      className={cn(isInsightDetailPage && 'mx-auto max-w-[1320px] md:px-12')}
       data-sanity={dataAttr({
         id: page._id,
         type: page._type,
         path: `pageBuilder`,
       }).toString()}
     >
-      {pageBuilderSections.map((block: PageBuilderSection, index: number) => (
-        <BlockRenderer
-          key={block._key}
-          index={index}
-          block={block}
-          pageId={page._id}
-          pageType={page._type}
-        />
-      ))}
+      <div className={cn(isInsightDetailPage && 'md:border-x md:border-b md:border-black/10 md:dark:border-white/20')}>
+        {pageBuilderSections.map((block: PageBuilderSection, index: number) => (
+          <div
+            key={block._key}
+            className={cn(isInsightDetailPage && 'md:border-t md:border-black/10 md:dark:border-white/20')}
+          >
+            <BlockRenderer
+              index={index}
+              block={block}
+              pageId={page._id}
+              pageType={page._type}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -75,7 +89,10 @@ function RenderEmptyState({page}: {page: PageQueryResult}) {
   )
 }
 
-export default function PageBuilder({page}: PageBuilderPageProps) {
+export default function PageBuilder({
+  page,
+  deferRouteReadySignal = false,
+}: PageBuilderPageProps) {
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>
@@ -100,9 +117,18 @@ export default function PageBuilder({page}: PageBuilderPageProps) {
     return currentSections
   })
 
-  return pageBuilderSections && pageBuilderSections.length > 0 ? (
-    <RenderSections pageBuilderSections={pageBuilderSections} page={page} />
-  ) : (
-    <RenderEmptyState page={page} />
+  const hasHeroPattern = pageHasHeroPattern(
+    (pageBuilderSections ?? []).map((section) => section._type),
+  )
+
+  return (
+    <>
+      {pageBuilderSections && pageBuilderSections.length > 0 ? (
+        <RenderSections pageBuilderSections={pageBuilderSections} page={page} />
+      ) : (
+        <RenderEmptyState page={page} />
+      )}
+      {!deferRouteReadySignal ? <PageTransitionMarker hasHeroPattern={hasHeroPattern} /> : null}
+    </>
   )
 }

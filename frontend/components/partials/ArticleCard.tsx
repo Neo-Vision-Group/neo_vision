@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import ArrowRight from "@/components/icons/ArrowRightPixel";
 import { useTheme } from "next-themes";
+import ArrowRight from "@/components/icons/ArrowRightPixel";
+import Image from "next/image";
 
 export type ArticleCardData = {
   _id?: string;
@@ -72,10 +73,11 @@ export function ArticleCard({
       >
         {article.cover ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={article.cover}
               alt={article.title}
+              fill
+              sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
               className="absolute inset-0 h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#c1c9c5]/20 from-[35%] to-[#ff4100]/30" />

@@ -1,4 +1,5 @@
 import {HeroBrandDotsBackground} from '@/components/partials/HeroBrandDotsBackground'
+import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
 
 export default function NotFound() {
   return (
@@ -30,6 +31,8 @@ export default function NotFound() {
           </div>
         </div>
       </div>
+
+      <PageTransitionMarker />
     </section>
   )
 }

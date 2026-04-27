@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/partials/Button";
 import { services } from "@/lib/content/home";
+import Image from "next/image";
 
 type ServiceCard = {
   _key?: string;
@@ -32,12 +33,23 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
       )}
     >
       {isTextured ? (
-        <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-surface">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+        <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">
+          {card.texture &&           
+          <Image
             src={card.texture}
             alt=""
-            className="absolute inset-0 h-full w-full object-cover opacity-50"
+            className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+            fill
+          />}
+          <div
+            className="absolute inset-0 mix-blend-screen dark:hidden"
+            style={{ background: "#ff4404" }}
+          />
+          <div
+            className="absolute inset-0 hidden mix-blend-multiply dark:block"
+            style={{
+              background: "#ff4404",
+            }}
           />
         </div>
       ) : null}

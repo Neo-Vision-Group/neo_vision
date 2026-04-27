@@ -13,7 +13,7 @@ export function InsightRelated({ related }: InsightRelatedProps) {
         <h2 className="mb-8 text-[36px] font-normal leading-[1.2] tracking-[-1px] text-foreground md:text-[44px]">
           <span className="font-bold">Keep reading.</span>
         </h2>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
           {related.slice(0, 3).map((r, idx) => (
             <ArticleCard key={r._id ?? r.title + idx} article={r} />
           ))}

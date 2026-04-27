@@ -292,7 +292,7 @@ export const ourWork = {
       tagline: "Enterprise LLM platform, 10K+ docs",
       thumbHref: "https://confidas.example",
       ctaLabel: "View",
-      ctaHref: "/work/confidas",
+      ctaHref: "/portfolio/confidas",
     },
     {
       client: "Platform",
@@ -302,7 +302,7 @@ export const ourWork = {
       tagline: "Healthcare scheduling SaaS, 40+ clinics",
       thumbHref: "https://lumalane.example",
       ctaLabel: "View",
-      ctaHref: "/work/lumalane",
+      ctaHref: "/portfolio/lumalane",
     },
   ],
   cta: { label: "Start with 2", href: "/portfolio" },

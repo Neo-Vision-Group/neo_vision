@@ -1,9 +1,9 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { CountingNumber } from "@/components/partials/motion/CountingNumber";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
+import { HeroStats, type HeroStat } from "@/components/sections/contact/HeroStats";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -45,11 +45,7 @@ export type PageHeroData = {
     regular?: string | null;
   };
   subheading?: string;
-  stats?: Array<{
-    number: number;
-    suffix?: string;
-    label: string;
-  }>;
+  stats?: HeroStat[];
   featured?: {
     _type?: "post" | "project";
     _id?: string;
@@ -94,12 +90,12 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
+        "has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
       )}
     >
       <HeroBrandDotsBackground />
 
-      <div className="relative flex flex-col gap-10 px-6 py-16 md:gap-14 md:px-6 md:py-24 lg:px-8 lg:py-28 xl:px-12 xl:py-32 2xl:px-16 2xl:py-40">
+      <div className="relative flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 lg:py-28 xl:px-12 xl:py-16 2xl:px-16 2xl:py-20">
         {eyebrow ? (
           <p className="font-betatron text-[32px] leading-[1.2] uppercase text-brand">
             {eyebrow}
@@ -120,25 +116,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           </RevealOnScroll>
         ) : null}
 
-        {stats && stats.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            className="flex flex-col gap-3 md:flex-row md:items-stretch"
-            stagger={0.1}
-            delay={0.25}
-          >
-            {stats.map((stat, idx) => (
-              <>
-                <StatCard key={idx} stat={stat} />
-                {idx < stats.length - 1 && (
-                  <div className="hidden md:flex md:flex-row md:items-center md:self-stretch">
-                    <div className="h-full w-px bg-white/20" />
-                  </div>
-                )}
-              </>
-            ))}
-          </RevealOnScroll>
-        ) : null}
+        <HeroStats stats={stats} delay={0.25} />
 
         {featured ? (
           <RevealOnScroll
@@ -154,32 +132,9 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   );
 }
 
-function StatCard({
-  stat,
-}: {
-  stat: { number: number; suffix?: string; label: string };
-}) {
-  return (
-    <div className="flex flex-1 flex-col items-start dark:bg-black bg-[#EFEFEFB3] justify-center border border-white/20 p-6">
-      <div className="flex flex-col gap-3">
-        <p className="font-betatron text-[48px] leading-[1.2] tracking-[-2.88px] text-brand">
-          <CountingNumber
-            value={stat.number}
-            suffix={stat.suffix}
-            duration={2000}
-          />
-        </p>
-        <p className="w-full font-funnel text-[24px] font-bold leading-[1.2] text-foreground">
-          {stat.label}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 function Heading({ value }: { value: HeadingShape }) {
   const base =
-    "font-funnel text-[96px] capitalize leading-[1.2] tracking-[-1px] text-foreground";
+    "font-funnel text-[52px] capitalize leading-[1.08] tracking-[-0.6px] text-foreground sm:text-[60px] md:text-[72px] md:tracking-[-0.8px] lg:text-[96px] lg:leading-[1.2] lg:tracking-[-1px]";
 
   if (typeof value === "string") {
     return <span className={base}>{value}</span>;
@@ -349,5 +304,3 @@ function formatReadTime(value?: number | null) {
 
   return `${value} min read`;
 }
-
-

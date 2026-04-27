@@ -74,7 +74,7 @@ export function ComparisonTable({
   return (
     <div
       className={cn(
-        "w-full overflow-x-auto rounded-[28px] border border-black/8 bg-[#fbf8f4] shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)] dark:border-white/10 dark:bg-[#0d0d0d]",
+        "w-full overflow-x-auto border border-black/8 bg-[#fbf8f4] shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)] dark:border-white/10 dark:bg-[#0d0d0d]",
         className,
       )}
     >

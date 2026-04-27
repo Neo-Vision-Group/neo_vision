@@ -1,5 +1,6 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
+import Image from "next/image";
 
 export type StudyHeroImageData = {
   image?: string;
@@ -20,8 +21,7 @@ export function StudyHeroImage({ data }: { data?: StudyHeroImageData }) {
       hideTopBorder
     >
       <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={cleanData.image}
           alt={cleanData.alt ?? "Hero image"}
           className="h-full w-full object-cover"

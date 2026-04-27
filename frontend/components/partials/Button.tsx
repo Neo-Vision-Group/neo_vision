@@ -43,7 +43,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const baseStyles =
-  "group inline-flex items-center justify-center whitespace-nowrap font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex max-w-full items-center justify-center font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none";
 
 export function Button(props: ButtonProps) {
   const isLink = "href" in props && typeof props.href === "string";
@@ -69,7 +69,9 @@ export function Button(props: ButtonProps) {
 
   const content = (
     <>
-      <span>{children}</span>
+      <span className="min-w-0 break-words whitespace-normal text-center leading-[1.2]">
+        {children}
+      </span>
       {icon ? (
         <span className="relative shrink-0 block" style={{ width: iconSize, height: iconHeight }}>
           <ArrowRight

@@ -140,7 +140,7 @@ export function InsightBlock({ data }: InsightBlockProps) {
 
   return (
     <section className="px-4 py-16 md:px-6 md:py-20 xl:px-8">
-      <article className="mx-auto max-w-[1320px]">
+      <article className="mx-auto max-w-[1320px] px-6 md:px-12">
         <h2 className="mb-8 max-w-[14ch] text-[36px] font-medium leading-[42px] tracking-[-0.4px] text-foreground md:text-[56px] md:leading-[64px] xl:text-[72px] xl:leading-[80px]">
           {title}
         </h2>

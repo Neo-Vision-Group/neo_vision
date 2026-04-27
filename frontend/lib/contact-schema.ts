@@ -7,6 +7,7 @@ export const contactSchema = z.object({
   phone: z.string().optional(),
   projectType: z.string().optional(),
   budget: z.string().optional(),
+  hearAboutUs: z.string().optional(),
   message: z.string().min(10, "Please tell us more about your project"),
   source: z.string().optional(),
   website: z.string().optional(), // Honeypot field

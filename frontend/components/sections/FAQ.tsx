@@ -1,10 +1,19 @@
 "use client";
 
-import { useState, useId } from "react";
+import { useId, useState } from "react";
 import { PortableText, type PortableTextBlock } from "@portabletext/react";
-import { cn } from "@/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type FaqItem = {
   question: string;
@@ -22,10 +31,9 @@ export type FaqData = {
 
 export function FAQ({ data }: { data?: FaqData }) {
   const cleanData = data ? cleanStega(data) : data;
-  const [openIdx, setOpenIdx] = useState<number | null>(null);
-  const groupId = useId();
-
   const items = cleanData?.items ?? [];
+  const [openIdx, setOpenIdx] = useState<number | null>(items.length > 0 ? 0 : null);
+  const groupId = useId();
   const eyebrow = cleanData?.eyebrow ?? "FREQUENTLY ASKED";
   const heading = cleanData?.heading ?? "Common questions.";
 
@@ -43,20 +51,30 @@ export function FAQ({ data }: { data?: FaqData }) {
 
   return (
     <SectionsWrapper id="faq" eyebrow={eyebrow}>
-      <div className="flex flex-col gap-12">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-black dark:text-[#efefef] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
-          <span className="text-black/70 dark:text-[#efefef]/70">{heading}</span>
-        </h2>
+      <div className="flex flex-col gap-8 md:gap-12">
+        <div className="w-full md:max-w-[907px] md:px-6">
+          <SplitTextReveal
+            colorReveal
+            as="h2"
+            className="font-funnel text-[36px] leading-[1.15] tracking-[-1px] text-foreground md:text-[48px] md:leading-[1.2]"
+          >
+            {heading}
+          </SplitTextReveal>
+        </div>
 
-        <ul className="flex w-full flex-col gap-4">
+        <ul className="flex w-full max-w-[907px] flex-col gap-4 md:gap-6">
           {items.map((item, idx) => {
             const open = openIdx === idx;
             const headingId = `${groupId}-${idx}`;
             const panelId = `${groupId}-${idx}-panel`;
+
             return (
               <li
                 key={item.question}
-                className="border p-12 border-black/10 dark:border-white/10 bg-gray-100 dark:bg-[#1a1a1a] overflow-hidden"
+                className={cn(
+                  "overflow-hidden border border-border bg-white dark:bg-black transition-colors duration-200",
+                  open && "border-brand/30"
+                )}
               >
                 <button
                   id={headingId}
@@ -66,21 +84,16 @@ export function FAQ({ data }: { data?: FaqData }) {
                   onClick={() => setOpenIdx(open ? null : idx)}
                   onKeyDown={(e) => handleKey(e, idx)}
                   className={cn(
-                    "group flex w-full items-start gap-4 text-left font-funnel md:text-[20px] md:leading-[28px]",
-                    "transition-colors duration-200",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    "group flex w-full items-start gap-6 p-6 text-left transition-colors duration-200 md:gap-12 md:p-12",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   )}
                 >
-                  <span
-                    className={cn(
-                      "flex-1 font-medium tracking-[-0.2px]",
-                      open ? "text-black dark:text-[#efefef]" : "text-black/90 font-funnel dark:text-[#efefef]/90"
-                    )}
-                  >
+                  <span className="flex-1 font-funnel text-[24px] text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-deco-h4 md:tracking-[-1px]">
                     {item.question}
                   </span>
                   <ToggleIcon open={open} />
                 </button>
+
                 <Panel open={open} id={panelId} labelledBy={headingId}>
                   <AnswerContent item={item} />
                 </Panel>
@@ -97,18 +110,12 @@ function ToggleIcon({ open }: { open: boolean }) {
   return (
     <span
       aria-hidden="true"
-      className={cn(
-        "relative mt-1 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full",
-        "transition-colors duration-200",
-        open ? "text-orange-500" : "text-orange-500/80 group-hover:text-orange-500"
-      )}
+      className="relative mt-1 inline-flex h-9 w-9 shrink-0 items-center justify-center text-brand md:h-12 md:w-12"
     >
-      {/* Horizontal bar (always visible) */}
-      <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-current" />
-      {/* Vertical bar (hidden when open — makes a minus) */}
+      <span className="absolute left-1/2 top-1/2 h-[3px] w-5 -translate-x-1/2 -translate-y-1/2 bg-current md:h-1 md:w-7" />
       <span
         className={cn(
-          "absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 bg-current transition-transform duration-200",
+          "absolute left-1/2 top-1/2 h-5 w-[3px] -translate-x-1/2 -translate-y-1/2 bg-current transition-transform duration-200 md:h-7 md:w-1",
           open ? "scale-y-0" : "scale-y-100"
         )}
       />
@@ -132,10 +139,17 @@ function Panel({
       id={id}
       role="region"
       aria-labelledby={labelledBy}
-      hidden={!open}
-      className="text-body text-black/80 dark:text-[#efefef]/80 md:text-[18px] md:leading-[28px]"
+      aria-hidden={!open}
+      className={cn(
+        "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+      )}
     >
-      {children}
+      <div className="overflow-hidden">
+        <div className="px-6 pb-6 text-[16px] leading-[1.55] text-foreground/70 md:px-12 md:pb-12 md:text-[18px] md:leading-[1.5]">
+          {children}
+        </div>
+      </div>
     </div>
   );
 }
@@ -143,11 +157,13 @@ function Panel({
 function AnswerContent({ item }: { item: FaqItem }) {
   const answer = item.answer ?? item.answerPlain;
   if (!answer) return null;
+
   if (typeof answer === "string") {
-    return <p className="max-w-[72ch] text-black/80 dark:text-[#efefef]/80">{answer}</p>;
+    return <p className="max-w-[72ch]">{answer}</p>;
   }
+
   return (
-    <div className="prose-none max-w-[72ch] text-black/80 dark:text-[#efefef]/80 [&_p:last-child]:mb-0">
+    <div className="prose-none max-w-[72ch] [&_p]:mb-3 [&_p:last-child]:mb-0">
       <PortableText value={answer} />
     </div>
   );

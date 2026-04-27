@@ -417,11 +417,14 @@ export const settings = defineType({
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [
-            {type: 'page'},
-          ],
+          to: [{type: 'page'}],
         }),
       ],
+    }),
+    defineField({
+      name: 'cookieSettings',
+      title: 'Cookie Settings',
+      type: 'cookieSettings',
     }),
   ],
   preview: {

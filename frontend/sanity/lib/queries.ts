@@ -23,6 +23,7 @@ const postFields = /* groq */ `
   "slug": slug.current,
   excerpt,
   coverImage,
+  "cover": coverImage.asset->url,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
 `
@@ -40,6 +41,33 @@ const sharedPageBuilderProjection = /* groq */ `
         ...,
         ${linkFields}
       }
+    },
+    _type == "serviceHero" => {
+      ...,
+      breadcrumb {
+        rootLabel,
+        categoryLabel,
+        currentLabel
+      },
+      headlineLines,
+      description,
+      cta {
+        ...,
+        ${linkFields}
+      },
+      leadingHighlights[]{
+        value,
+        label
+      },
+      trailingHighlights[]{
+        value,
+        label
+      },
+      "serviceName": ^.name,
+      "serviceCategory": ^.category,
+      "serviceDescription": ^.description,
+      "servicePrice": ^.price,
+      "serviceDuration": ^.duration
     },
     _type == "pageHero" => {
       ...,
@@ -68,6 +96,7 @@ const sharedPageBuilderProjection = /* groq */ `
           category,
           publishedAt,
           readTime,
+          "cover": coverImage.asset->url,
           author->{name}
         },
         _type == "project" => {
@@ -85,6 +114,11 @@ const sharedPageBuilderProjection = /* groq */ `
       eyebrow,
       heading,
       description,
+      stats[]{
+        number,
+        suffix,
+        label
+      },
       steps[]{
         title,
         description
@@ -152,7 +186,8 @@ const sharedPageBuilderProjection = /* groq */ `
       steps[]{
         ...,
         title,
-        highlighted
+        highlighted,
+        graphic
       },
       cta {
         ...,
@@ -180,17 +215,26 @@ const sharedPageBuilderProjection = /* groq */ `
       ...,
       eyebrow,
       heading,
-      projects[]->{
-        _id,
-        client,
-        year,
-        slug,
-        category,
-        title,
-        tagline,
-        description,
-        image,
-        link
+      cta {
+        ...,
+        ${linkFields}
+      },
+      cards[]{
+        ...,
+        graphic,
+        project->{
+          _id,
+          client,
+          year,
+          slug,
+          category,
+          title,
+          tagline,
+          description,
+          image,
+          link,
+          thumb
+        }
       }
     },
     _type == "pricing" => {
@@ -244,12 +288,16 @@ const sharedPageBuilderProjection = /* groq */ `
         body
       }
     },
-    _type == "ai" => {
+    _type == "aiServices" => {
       ...,
       services[]{
         ...,
         service->{
           ...
+        },
+        cta {
+          ...,
+          ${linkFields}
         }
       }
     },
@@ -348,6 +396,7 @@ const sharedPageBuilderProjection = /* groq */ `
         publishedAt,
         readTime,
         featured,
+        "cover": coverImage.asset->url,
         author->{name, role, portrait}
       }
     },
@@ -362,6 +411,7 @@ const sharedPageBuilderProjection = /* groq */ `
         publishedAt,
         readTime,
         featured,
+        "cover": coverImage.asset->url,
         author->{name, role, portrait}
       }
     },
@@ -445,22 +495,10 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "place" => {
       ...,
-      eyebrow,
-      headingRegular,
-      headingBold,
-      body,
+      message,
       backgroundGraphic {
         ...,
         asset->
-      },
-      locations[]{
-        city,
-        address,
-        note
-      },
-      cta {
-        label,
-        href
       }
     },
     _type == "awards" => {
@@ -554,6 +592,34 @@ export const settingsQuery = defineQuery(`
           linkType == "href" => href
         )
       }
+    },
+    cookieSettings{
+      enabled,
+      bannerTitle,
+      bannerDescription[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      },
+      preferencesTitle,
+      preferencesDescription,
+      acceptAllLabel,
+      initialSaveLabel,
+      customizeLabel,
+      rejectAllLabel,
+      savePreferencesLabel,
+      backLabel,
+      footerButtonLabel,
+      categories[]{
+        _key,
+        title,
+        description,
+        required,
+        defaultEnabled,
+        lockedLabel
+      }
     }
   }
 `)
@@ -641,6 +707,7 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
     publishedAt,
     readTime,
     featured,
+    "cover": coverImage.asset->url,
     author->{name, role, portrait},
   }
 `)
@@ -652,6 +719,11 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     title,
     slug,
     excerpt,
+    coverImage {
+      ...,
+      asset->
+    },
+    "cover": coverImage.asset->url,
     category,
     publishedAt,
     readTime,
@@ -791,6 +863,9 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       excerpt,
       category,
       publishedAt,
+      readTime,
+      "cover": coverImage.asset->url,
+      author->{name, role, portrait},
     }
   }
 `)
@@ -1086,13 +1161,11 @@ export const serviceQuery = defineQuery(`
     duration,
     ${sharedPageBuilderProjection},
   }
-`);
+`)
 
 export const allServicesQuery = defineQuery(`
   *[_type == "service" && defined(slug.current)]{
     _id,
     slug,
   }
-`);
-
-
+`)

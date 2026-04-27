@@ -39,7 +39,7 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
+      className="has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
     >
       <HeroBrandDotsBackground />
 
@@ -84,14 +84,6 @@ export function Hero({ data }: { data?: HeroData }) {
       </div>
 
       <div className="relative w-full shrink-0 border-t border-border">
-        <div
-          className="absolute inset-0 dark:hidden"
-          style={{ background: "linear-gradient(to top, white 0%, white 70%, transparent 100%)" }}
-        />
-        <div
-          className="absolute inset-0 hidden dark:block"
-          style={{ background: "linear-gradient(to top, black 0%, black 70%, transparent 100%)" }}
-        />
         <div className="flex flex-col md:grid md:grid-cols-[210px_1px_1fr] lg:grid-cols-[minmax(240px,360px)_1px_1fr] 2xl:grid-cols-[480px_1px_1fr]">
           {/* Stats */}
           <RevealOnScroll

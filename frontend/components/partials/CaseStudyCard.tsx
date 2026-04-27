@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import ArrowRight from "../icons/ArrowRightPixel";
+import Image from "next/image";
+import type { SanityImageSource } from "@sanity/image-url";
+import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 
 /**
  * Case study listing card — used on /portfolio and
@@ -17,7 +20,7 @@ export type CaseStudyCardData = {
   tagline?: string | null;
   metric?: string | null;
   metricLabel?: string | null;
-  thumb?: string | null;
+  thumb?: SanityImageSource | string | null;
   thumbHref?: string | null;
 };
 
@@ -28,6 +31,17 @@ function resolveSlug(slug: CaseStudyCardData["slug"]): string {
   if (!slug) return "";
   if (typeof slug === "string") return slug;
   return slug.current ?? "";
+}
+
+function resolveThumbSrc(thumb: CaseStudyCardData["thumb"]): string | null {
+  if (!thumb) return null;
+
+  if (typeof thumb === "string") {
+    const cleanThumb = cleanStega(thumb).trim();
+    return cleanThumb.length > 0 ? cleanThumb : null;
+  }
+
+  return urlForImage(thumb)?.width(900).height(900).fit("crop").url() ?? null;
 }
 
 export function CaseStudyCard({
@@ -41,6 +55,7 @@ export function CaseStudyCard({
 }) {
   const slug = resolveSlug(item.slug);
   const href = slug ? `/portfolio/${slug}` : item.thumbHref ?? "/portfolio";
+  const thumbSrc = resolveThumbSrc(item.thumb);
 
   return (
     <Link
@@ -57,11 +72,12 @@ export function CaseStudyCard({
           featured ? "w-full md:w-[367px] md:min-w-[367px]" : "w-full md:w-[367px] md:min-w-[367px]"
         )}
       >
-        {item.thumb ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.thumb}
+        {thumbSrc ? (
+          <Image
+            src={thumbSrc}
             alt={item.client}
+            fill
+            sizes="(min-width: 768px) 367px, 100vw"
             className="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity duration-300 group-hover:opacity-60"
           />
         ) : (

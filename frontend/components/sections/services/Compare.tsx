@@ -121,7 +121,7 @@ export function Compare({data}: {data?: CompareData}) {
                           className={`px-3 py-5 text-center text-[14px] font-normal leading-[1.2] tracking-[-0.5px] ${
                             highlighted
                               ? 'bg-brand text-white'
-                              : 'text-foreground'
+                              : 'text-black dark:text-white'
                           }`}
                         >
                           {column.name}
@@ -137,7 +137,7 @@ export function Compare({data}: {data?: CompareData}) {
                       key={row._key ?? `${row.label}-${rowIndex}`}
                       className="border-b border-black/10 dark:border-white/20"
                     >
-                      <th className="px-2 py-5 text-left text-[14px] font-normal leading-[1.2] tracking-[-0.5px] text-foreground">
+                      <th className="px-2 py-5 text-left text-[14px] font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
                         {row.label}
                       </th>
 
@@ -151,7 +151,7 @@ export function Compare({data}: {data?: CompareData}) {
                             className={`px-3 py-5 text-center text-[20px] font-bold leading-none ${
                               highlighted
                                 ? 'bg-brand/20'
-                                : ''
+                                : 'text-black dark:text-white'
                             }`}
                           >
                             <StatusMark available={available} highlighted={highlighted} />

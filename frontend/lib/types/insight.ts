@@ -15,6 +15,8 @@ export type InsightDoc = {
   title?: string;
   slug?: { current?: string } | string | null;
   excerpt?: string | null;
+  coverImage?: SanityImageSource | null;
+  cover?: string | null;
   category?: string | null;
   publishedAt?: string | null;
   readTime?: number | null;

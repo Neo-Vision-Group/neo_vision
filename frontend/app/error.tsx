@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { PageTransitionMarker } from "@/components/transition/PageTransitionMarker";
 
 export default function Error({
   error,
@@ -27,6 +28,7 @@ export default function Error({
       >
         Try again
       </button>
+      <PageTransitionMarker />
     </main>
   );
 }

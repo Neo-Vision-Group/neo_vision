@@ -1,7 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
-import { urlForImage } from "@/sanity/lib/utils";
+import Link from "next/link";
+import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import type { InsightDoc } from "@/lib/types/insight";
+import { urlForImage } from "@/sanity/lib/utils";
 
 function formatDate(iso?: string | null) {
   if (!iso) return null;
@@ -20,7 +21,7 @@ function formatCategory(value?: string | null) {
   if (!value) return null;
   return value
     .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
 
@@ -34,14 +35,14 @@ export function InsightHero({ post }: { post: InsightDoc }) {
   const publishedDate = formatDate(post.publishedAt);
   const categoryLabel = formatCategory(post.category);
   const slug = resolveSlug(post.slug);
+  const coverImageUrl = post.coverImage
+    ? urlForImage(post.coverImage)?.width(1600).height(900).fit("crop").url()
+    : post.cover || null;
 
   return (
-    <section className="relative overflow-hidden border-b border-black/10 bg-[#f7efe9] text-[#111111] dark:border-white/10 dark:bg-[#120d0b] dark:text-[#efefef]">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_18%,rgba(255,65,0,0.16),transparent_30%),radial-gradient(circle_at_78%_28%,rgba(255,65,0,0.12),transparent_26%),radial-gradient(circle_at_60%_78%,rgba(255,65,0,0.1),transparent_24%)] dark:bg-[radial-gradient(circle_at_20%_18%,rgba(255,65,0,0.14),transparent_30%),radial-gradient(circle_at_78%_28%,rgba(255,65,0,0.12),transparent_26%),radial-gradient(circle_at_60%_78%,rgba(255,65,0,0.1),transparent_24%)]" />
-        <div className="absolute inset-0 opacity-45 [background-image:radial-gradient(circle,rgba(255,65,0,0.14)_1.2px,transparent_1.2px)] [background-position:0_0] [background-size:14px_14px] dark:opacity-20" />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.76),rgba(255,255,255,0.2),rgba(255,255,255,0.7))] dark:bg-[linear-gradient(135deg,rgba(18,13,11,0.35),rgba(18,13,11,0.72),rgba(18,13,11,0.4))]" />
-      </div>
+    <section className="has-hero-pattern relative isolate overflow-hidden border-b border-border bg-white text-[#111111] dark:bg-background dark:text-[#efefef]">
+      <HeroBrandDotsBackground />
+      <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
 
       <div className="relative px-4 pt-12 pb-14 md:px-6 md:pt-16 md:pb-20 xl:px-8 xl:pt-20 xl:pb-24">
         <div className="mx-auto flex max-w-[1320px] flex-col gap-10">
@@ -108,7 +109,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                   <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-[15px]">
                     {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
                       .filter(Boolean)
-                      .join(" · ")}
+                      .join(" | ")}
                   </p>
                 </div>
               </div>
@@ -152,6 +153,18 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               </div>
             ) : null}
           </div>
+
+          {coverImageUrl ? (
+            <div className="relative aspect-[16/9] w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5">
+              <Image
+                src={coverImageUrl}
+                alt={post.title ?? "Insight cover image"}
+                fill
+                sizes="(min-width: 1280px) 1320px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
+                className="object-cover"
+              />
+            </div>
+          ) : null}
         </div>
       </div>
     </section>

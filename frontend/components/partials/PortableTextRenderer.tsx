@@ -2,6 +2,7 @@ import { PortableText, type PortableTextComponents, type PortableTextBlock } fro
 import Link from "next/link";
 import { CalloutCard } from "@/components/partials/CalloutCard";
 import { ComparisonTable } from "@/components/partials/ComparisonTable";
+import Image from "next/image";
 
 /**
  * PortableTextRenderer — renders Sanity Portable Text with TwelveTen's
@@ -113,8 +114,7 @@ const components: PortableTextComponents = {
       if (!url) return null;
       return (
         <figure className="my-10">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src={url}
             alt={value.alt ?? ""}
             className="w-full border border-white/10"

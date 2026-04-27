@@ -28,6 +28,51 @@ export const contactHero = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'stats',
+      title: 'Stat Cards',
+      type: 'array',
+      description: 'Optional statistics to display with counting animation',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'number',
+              title: 'Number',
+              type: 'number',
+              description: 'The target number for the counting animation',
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: 'suffix',
+              title: 'Suffix',
+              type: 'string',
+              description: 'Optional suffix (e.g., "+", "%", "K", "M")',
+            }),
+            defineField({
+              name: 'label',
+              title: 'Label',
+              type: 'string',
+              description: 'Description text below the number',
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: {
+              number: 'number',
+              suffix: 'suffix',
+              label: 'label',
+            },
+            prepare({ number, suffix, label }) {
+              return {
+                title: `${number}${suffix || ''} - ${label}`,
+              }
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: 'steps',
       title: 'Process Steps',
       type: 'array',

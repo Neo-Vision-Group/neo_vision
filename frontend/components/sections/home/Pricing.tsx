@@ -1,4 +1,4 @@
-import {Section} from '@/components/layout/Section'
+import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {Button} from '@/components/partials/Button'
 import ResolvedLink from '@/components/ResolvedLink'
 import ArrowRight from '@/components/icons/ArrowRight'
@@ -280,13 +280,12 @@ export function Pricing({data}: {data?: PricingData}) {
   }
 
   return (
-    <Section
+    <SectionsWrapper
       id="pricing"
       eyebrow={cleanData?.eyebrow ?? fallbackData.eyebrow}
-      contentClassName="px-0 md:px-0"
     >
-      <div className="flex flex-col gap-12">
-        <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+      <div className="flex flex-col gap-12 md:gap-16">
+        <div>
           <h2 className="max-w-[900px] font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-[48px]">
             <span>{cleanData?.headingPrimary ?? fallbackData.headingPrimary}</span>{' '}
             {(cleanData?.headingSecondary ?? fallbackData.headingSecondary) ? (
@@ -297,7 +296,7 @@ export function Pricing({data}: {data?: PricingData}) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 px-6 md:grid-cols-2 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {tiers.map((tier, index) => (
             <PricingCard
               key={tier?._key ?? `${tier?.title ?? 'pricing'}-${index}`}
@@ -306,6 +305,6 @@ export function Pricing({data}: {data?: PricingData}) {
           ))}
         </div>
       </div>
-    </Section>
+    </SectionsWrapper>
   )
 }

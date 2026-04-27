@@ -1,6 +1,7 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -65,16 +66,15 @@ export function StudyWhatWeBuilt({ data }: { data?: StudyWhatWeBuiltData }) {
                   <p className="text-body text-foreground/70">{f.body}</p>
                 </div>
                 {imageUrl ? (
-                  <div className="aspect-[4/3] w-full overflow-hidden border border-white/10 bg-black">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                  <div className="aspect-4/3 w-full overflow-hidden border border-white/10 bg-black">
+                    <Image
                       src={imageUrl}
                       alt={f.title ?? ""}
                       className="h-full w-full object-cover"
                     />
                   </div>
                 ) : (
-                  <div className="hidden aspect-[4/3] w-full border border-white/10 bg-surface md:block" />
+                  <div className="hidden aspect-4/3 w-full border border-white/10 bg-surface md:block" />
                 )}
               </article>
             );

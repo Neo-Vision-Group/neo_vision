@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -55,7 +56,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden bg-[#040404] text-[#efefef] dark:bg-background dark:text-foreground"
+        "has-hero-pattern relative isolate overflow-hidden bg-[#040404] text-[#efefef] dark:bg-background dark:text-foreground"
       )}
     >
       <HeroBrandDotsBackground />
@@ -94,8 +95,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
         <div className="relative mt-2 overflow-hidden border border-brand/70 bg-[#0f0f0f]">
           <div className="aspect-[16/9] w-full">
             {imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={imageUrl}
                 alt={heading ?? "Hero image"}
                 className="h-full w-full object-cover"

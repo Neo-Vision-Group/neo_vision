@@ -31,6 +31,7 @@ export function ContactNotification({
   phone,
   projectType,
   budget,
+  hearAboutUs,
   message,
   source,
   receivedAt,
@@ -42,6 +43,7 @@ export function ContactNotification({
   phone?: string;
   projectType?: string;
   budget?: string;
+  hearAboutUs?: string;
   message: string;
   source?: string;
   receivedAt: string;
@@ -54,6 +56,7 @@ export function ContactNotification({
     ["Phone", formatEmpty(phone)],
     ["Project type", formatEmpty(projectType)],
     ["Budget", formatEmpty(budget)],
+    ["How they heard about us", formatEmpty(hearAboutUs)],
     ["Source", formatEmpty(source || "/contact")],
     ["Received", receivedAt],
   ];

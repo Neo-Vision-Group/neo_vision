@@ -2,11 +2,11 @@ export function FooterGraphic({ className }: { className?: string }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="811"
-            height="99"
-            viewBox="0 0 811 99"
+            viewBox="0 0 811 127"
             fill="none"
             className={className}
+            preserveAspectRatio="xMaxYMax meet"
+            style={{ overflow: "hidden" }}
         >
         <path d="M0 19.3572C0 18.0908 0.542725 16.8245 1.44727 15.739L15.5581 1.80908C16.6436 0.723634 18.2717 0 19.8999 0C21.5281 0 23.1562 0.723634 24.2417 1.80908L79.2378 56.6243L67.8406 67.8406L16.4626 16.4626V126.636H0V19.3572ZM85.2078 126.636V0H101.67V126.636H85.2078Z" fill="url(#pattern0_501_6591)"/>
         <path d="M0 19.3572C0 18.0908 0.542725 16.8245 1.44727 15.739L15.5581 1.80908C16.6436 0.723634 18.2717 0 19.8999 0C21.5281 0 23.1562 0.723634 24.2417 1.80908L79.2378 56.6243L67.8406 67.8406L16.4626 16.4626V126.636H0V19.3572ZM85.2078 126.636V0H101.67V126.636H85.2078Z" fill="#FF4100" style={{ mixBlendMode: "color" }}/>

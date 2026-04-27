@@ -6,28 +6,13 @@ export const place = defineType({
   type: "object",
   fields: [
     defineField({
-      name: "eyebrow",
-      title: "Eyebrow",
-      type: "string",
-      initialValue: "WHERE WE ARE",
-    }),
-    defineField({
-      name: "headingRegular",
-      title: "Heading (Regular)",
-      type: "string",
-      initialValue: "Want to meet the team?",
-    }),
-    defineField({
-      name: "headingBold",
-      title: "Heading (Bold)",
-      type: "string",
-      initialValue: "Come say hi.",
-    }),
-    defineField({
-      name: "body",
-      title: "Body Text",
+      name: "message",
+      title: "Bottom Text",
       type: "text",
-      initialValue: "We're based in Bucharest with remote teammates across Europe. Offices open to clients and collaborators by appointment.",
+      rows: 3,
+      initialValue:
+        "Serving clients in Romania, UK, US, and Western Europe · Remote-first with on-site FDE deployment",
+      description: "Single text block shown over the graphic at the bottom of the section.",
     }),
     defineField({
       name: "backgroundGraphic",
@@ -36,63 +21,16 @@ export const place = defineType({
       options: {
         hotspot: true,
       },
-      description: "Background graphic/image for the section",
-    }),
-    defineField({
-      name: "locations",
-      title: "Locations",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({
-              name: "city",
-              title: "City",
-              type: "string",
-              validation: (r) => r.required(),
-            }),
-            defineField({
-              name: "address",
-              title: "Address",
-              type: "string",
-            }),
-            defineField({
-              name: "note",
-              title: "Note (e.g., HQ, Remote)",
-              type: "string",
-            }),
-          ],
-          preview: {
-            select: { title: "city", subtitle: "note" },
-          },
-        },
-      ],
-    }),
-    defineField({
-      name: "cta",
-      title: "CTA Button",
-      type: "object",
-      fields: [
-        defineField({
-          name: "label",
-          title: "Label",
-          type: "string",
-          initialValue: "Book a call",
-        }),
-        defineField({
-          name: "href",
-          title: "Link URL",
-          type: "string",
-          initialValue: "/contact",
-        }),
-      ],
+      description: "Background graphic/image for the section.",
     }),
   ],
   preview: {
     select: {
-      title: "eyebrow",
-      subtitle: "headingRegular",
+      title: "message",
     },
+    prepare: ({title}) => ({
+      title: "Place",
+      subtitle: title || "Bottom-aligned message over background graphic",
+    }),
   },
 });

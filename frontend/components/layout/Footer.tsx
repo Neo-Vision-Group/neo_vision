@@ -26,7 +26,9 @@ export default async function Footer() {
   const columns = rawColumns
     .map((column: FooterColumn, columnIndex: number) => {
       const links = (column?.links ?? [])
-        .filter((link: FooterLink | null | undefined): link is NormalizedFooterLink => Boolean(link?.label && link?.href))
+        .filter((link: FooterLink | null | undefined): link is NormalizedFooterLink =>
+          Boolean(link?.label && link?.href),
+        )
         .map((link: NormalizedFooterLink, linkIndex: number) => ({
           _key: link._key ?? `${column?._key ?? columnIndex}-link-${linkIndex}`,
           label: link.label,
@@ -44,11 +46,16 @@ export default async function Footer() {
         links,
       }
     })
-    .filter((column: NormalizedFooterColumn | null): column is NormalizedFooterColumn => column !== null)
+    .filter(
+      (column: NormalizedFooterColumn | null): column is NormalizedFooterColumn => column !== null,
+    )
 
   return (
     <FooterClient
       columns={columns}
+      cookiePreferencesLabel={
+        settings?.cookieSettings?.enabled ? settings.cookieSettings.footerButtonLabel : null
+      }
       title={settings?.brandName || settings?.title || 'Neo xAi'}
       email={settings?.email}
       logo={logoUrl}

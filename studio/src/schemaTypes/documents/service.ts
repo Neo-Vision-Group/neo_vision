@@ -75,6 +75,7 @@ export const service = defineType({
       type: 'array',
       of: [
         {type: 'pageHero'},
+        {type: 'serviceHero'},
         {type: 'contactHero'},
         {type: 'contactForm'},
         {type: 'homeHero'},
@@ -91,6 +92,7 @@ export const service = defineType({
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'aiServices'},
         {type: 'whyRomania'},
         {type: 'soundFamiliar'},
         {type: 'compare'},

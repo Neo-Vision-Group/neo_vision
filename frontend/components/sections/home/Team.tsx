@@ -12,6 +12,7 @@ import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
 import TeamArrowRight from '@/components/icons/TeamArrowRight'
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
+import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -296,10 +297,11 @@ export function Team({ data }: { data?: TeamData }) {
                       10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010
                     </p>
                     {portraitUrl && (
-                      <img
+                      <Image
                         src={portraitUrl}
                         alt={member.name}
                         className="absolute inset-0 size-full object-cover"
+                        fill
                       />
                     )}
                     <div className="absolute left-[21px] top-[21px] size-[63px]">

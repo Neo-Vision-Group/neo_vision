@@ -14,10 +14,11 @@ import {Methodology, MethodologyData} from '@/components/sections/home/Methodolo
 import {TrustedBy, TrustedByData} from '@/components/sections/home/TrustedBy'
 import {Pricing, PricingData} from '@/components/sections/home/Pricing'
 import {PageHero, PageHeroData} from '@/components/sections/PageHero'
-import {ContactHero, ContactHeroData} from '@/components/sections/ContactHero'
+import {ContactHero, ContactHeroData} from '@/components/sections/contact/ContactHero'
 import {OurWork, PortfolioData} from '@/components/sections/home/Work'
 import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
 import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
+import {ServiceHero, ServiceHeroData } from '@/components/sections/services/ServiceHero'
 import { Industries, IndustryData } from './sections/services/Industries'
 import { Reality, RealityData } from './sections/services/Reality'
 import { Compare, CompareData } from './sections/services/Compare'
@@ -40,7 +41,7 @@ import { StudyClosingCta, StudyClosingCtaData } from '@/components/sections/stud
 import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/insights/InsightsFeatured'
 import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
 import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
-import { InsightBlock, InsightBlockData, InsightBlockQueryResponse } from '@/components/sections/insights/InsightBlock'
+import { InsightBlock, InsightBlockQueryResponse } from '@/components/sections/insights/InsightBlock'
 import { Booking, BookingData } from '@/components/sections/contact/Booking'
 import { SoundFamiliar, SoundFamiliarData } from '@/components/sections/services/SoundFamiliar'
 import { WhyRomania, WhyRomaniaData } from '@/components/sections/services/WhyRomania'
@@ -48,10 +49,11 @@ import { Awards, AwardsData } from '@/components/sections/about/Awards'
 import { Place, PlaceData } from '@/components/sections/about/Place'
 import { Press, PressData } from '@/components/sections/about/Press'
 import { TechStacks, TechStacksData } from '@/components/sections/about/TechStacks'
-import { FreeResources, FreeResourcesData } from '@/components/sections/resources/FreeResources'
+import { FreeResources, FreeResourcesData } from '@/components/sections/insights/FreeResources'
 import { IsThisForYou, IsThisForYouData } from '@/components/sections/services/IsThisForYou'
 import { ServiceNavigator, ServiceNavigatorData } from '@/components/sections/services/ServiceNavigator'
 import { Steps, StepsData } from '@/components/sections/services/Steps'
+import { AIServices, AIServicesData } from '@/components/sections/services/AIServices'
 
 type BlockProps = {
   index: number
@@ -112,6 +114,12 @@ const Blocks = {
   },
   engineeringServices: ({block}: BlockProps) => {
     return <EngineeringServices data={block  as EngineeringServicesData} />
+  },
+  serviceHero: ({block}: BlockProps) => {
+    return <ServiceHero data={block as ServiceHeroData} />
+  },
+  aiServices: ({block}: BlockProps) => {
+    return <AIServices data={block as AIServicesData} />
   },
   serviceNavigator: ({block}: BlockProps) => {
     return <ServiceNavigator data={block as ServiceNavigatorData} />
@@ -256,5 +264,3 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     {key: block._key},
   )
 }
-
-

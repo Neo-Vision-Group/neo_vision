@@ -83,6 +83,7 @@ export const page = defineType({
         {type: 'whatWeDo'},
         {type: 'why'},
         {type: 'engineeringServices'},
+        {type: 'aiServices'},
         {type: 'serviceNavigator'},
         {type: 'industries'},
         {type: 'reality'},

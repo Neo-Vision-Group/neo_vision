@@ -31,6 +31,14 @@ export const post = defineType({
       rows: 3,
     }),
     defineField({
+      name: "coverImage",
+      title: "Cover image",
+      type: "image",
+      options: { hotspot: true },
+      description:
+        "Used by the insight hero, insight cards, and featured insight references.",
+    }),
+    defineField({
       name: "author",
       title: "Author",
       type: "reference",

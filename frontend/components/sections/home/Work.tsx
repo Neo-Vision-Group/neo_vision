@@ -5,7 +5,7 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
 import ArrowRight from "@/components/icons/ArrowRight";
 import { ourWork as ourWorkFallback } from "@/lib/content/home";
-import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 
@@ -28,16 +28,32 @@ const SplitTextReveal = dynamic(
 export type PortfolioData = {
   eyebrow?: string;
   heading?: string;
-  projects?: Array<{
-    _id?: string;
-    client?: string;
-    year?: string;
-    slug?: { current?: string };
-    category?: string;
-    title?: string;
-    tagline?: string;
-    image?: SanityImageSource;
-    link?: string;
+  cta?: {
+    buttonText?: string | null;
+    link?: {
+      linkType?: "href" | "page" | "post" | "service" | "project";
+      href?: string | null;
+      page?: string | null;
+      post?: string | null;
+      service?: string | null;
+      project?: string | null;
+    } | null;
+  } | null;
+  cards?: Array<{
+    _key?: string;
+    graphic?: SanityImageSource;
+    project?: {
+      _id?: string;
+      client?: string;
+      year?: string;
+      slug?: { current?: string };
+      category?: string;
+      title?: string;
+      tagline?: string;
+      image?: SanityImageSource;
+      thumb?: SanityImageSource;
+      link?: string;
+    };
   }>;
 };
 
@@ -51,25 +67,40 @@ type ProjectItem = {
   ctaLabel: string;
   ctaHref: string;
   imageUrl?: string;
+  graphicUrl?: string;
 };
 
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
+  const ctaHref =
+    linkResolver(cleanData?.cta?.link ?? undefined) ?? ourWorkFallback.cta.href;
+  const ctaLabel = cleanData?.cta?.buttonText ?? ourWorkFallback.cta.label;
 
-  const items: ProjectItem[] =
-    cleanData?.projects?.map((project) => ({
-      client: project.client || "",
-      year: project.year || "",
-      category: project.category || "",
-      name: project.title || "",
-      tagline: project.tagline || "",
-      thumbHref: project.link || "#",
-      ctaLabel: "View",
-      ctaHref: project.slug?.current ? `/work/${project.slug.current}` : "#",
-      imageUrl: project.image
-        ? urlForImage(project.image).width(1920).height(1080).url()
-        : undefined,
-    })) || [...ourWorkFallback.items];
+  const itemsFromCards: ProjectItem[] =
+    cleanData?.cards?.map((card) => {
+      const projectVisual = card.project?.image ?? card.project?.thumb;
+
+      return {
+        client: card.project?.client || "",
+        year: card.project?.year || "",
+        category: card.project?.category || "",
+        name: card.project?.title || "",
+        tagline: card.project?.tagline || "",
+        thumbHref: card.project?.link || "#",
+        ctaLabel: "View",
+        ctaHref: card.project?.slug?.current
+          ? `/portfolio/${card.project.slug.current}`
+          : "#",
+        imageUrl: projectVisual
+          ? urlForImage(projectVisual).width(1920).height(1080).url()
+          : undefined,
+        graphicUrl: card.graphic
+          ? urlForImage(card.graphic).width(1600).fit("max").url()
+          : undefined,
+      };
+    }) ?? [];
+
+  const items = itemsFromCards.length > 0 ? itemsFromCards : [...ourWorkFallback.items];
 
   return (
     <SectionsWrapper
@@ -102,8 +133,8 @@ export function OurWork({ data }: { data?: PortfolioData }) {
         </RevealOnScroll>
 
         <div className="flex justify-center px-6 pb-4">
-          <Button href={ourWorkFallback.cta.href} variant="primary">
-            {ourWorkFallback.cta.label}
+          <Button href={ctaHref} variant="primary">
+            {ctaLabel}
           </Button>
         </div>
       </div>
@@ -112,24 +143,63 @@ export function OurWork({ data }: { data?: PortfolioData }) {
 }
 
 function CaseRow({ item }: { item: ProjectItem }) {
+  const hasGraphic = Boolean(item.graphicUrl);
+
   return (
     <div className="group relative isolate flex justify-center overflow-hidden px-6 py-6 transition-all duration-300 ease-out lg:px-6">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/figma/work-card-bg.png"
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-        <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
-        <div
-          className="absolute inset-0 mix-blend-multiply"
-          style={{ background: "#7a1a00" }}
-        />
-      </div>
+      {hasGraphic ? (
+        <>
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+            <div className="absolute inset-0 bg-white" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={item.graphicUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+              style={{
+                filter:
+                  "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
+                opacity: 0.55,
+              }}
+            />
+            <div className="absolute inset-0 bg-brand mix-blend-screen opacity-18" />
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 14%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.45) 86%, rgba(255,255,255,0.9) 100%),
+                  linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 76%, rgba(255,255,255,0.45) 88%, rgba(255,255,255,0.9) 100%)
+                `,
+              }}
+            />
+          </div>
+
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden dark:block">
+            <div
+              className="absolute inset-0"
+              style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={item.graphicUrl}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+              style={{
+                filter: "brightness(0.78) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.05)",
+              }}
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(180deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 16%, rgba(11,11,11,0) 32%, rgba(11,11,11,0) 68%, rgba(11,11,11,0.42) 84%, rgba(11,11,11,0.88) 100%),
+                  linear-gradient(90deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 12%, rgba(11,11,11,0) 24%, rgba(11,11,11,0) 76%, rgba(11,11,11,0.42) 88%, rgba(11,11,11,0.88) 100%)
+                `,
+              }}
+            />
+          </div>
+        </>
+      ) : null}
 
       <div className="flex w-full max-w-[1080px] flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
         <div className="flex w-full flex-col p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">

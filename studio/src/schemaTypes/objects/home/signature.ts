@@ -21,6 +21,14 @@ export const signature = defineType({
                 { name: "duration", type: "string" },
                 { name: "body", type: "text", rows: 3 },
                 { name: "textured", type: "boolean", initialValue: false },
+                {
+                  name: "graphic",
+                  title: "Graphic",
+                  type: "image",
+                  hidden: ({ parent }) => !parent?.textured,
+                  description:
+                    "Optional black-and-white line graphic for textured cards. White lines will render with the red overlay treatment on the frontend.",
+                },
               ],
             },
           ],
@@ -32,6 +40,13 @@ export const signature = defineType({
           fields: [
             { name: "value", type: "string" },
             { name: "body", type: "text", rows: 3 },
+            {
+              name: "graphic",
+              title: "Graphic",
+              type: "image",
+              description:
+                "Optional black-and-white line graphic for the value card. White lines will render with the red overlay treatment on the frontend.",
+            },
           ],
         }),
       ],

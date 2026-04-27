@@ -6,6 +6,15 @@ import { useTheme } from "next-themes";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import Image from "@/components/SanityImage";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type BookingData = {
   eyebrow?: string;
@@ -15,6 +24,18 @@ export type BookingData = {
     name?: string;
     role?: string;
     portrait?: {
+      hotspot?: {
+        x?: number;
+        y?: number;
+        height?: number;
+        width?: number;
+      };
+      crop?: {
+        top?: number;
+        bottom?: number;
+        left?: number;
+        right?: number;
+      };
       asset?: {
         _ref?: string;
         _type?: string;
@@ -38,6 +59,7 @@ declare global {
 }
 
 const CALENDLY_SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
+type PortraitData = NonNullable<NonNullable<BookingData["teamMember"]>["portrait"]>;
 
 function loadCalendlyScript() {
   return new Promise<void>((resolve, reject) => {
@@ -69,6 +91,40 @@ function loadCalendlyScript() {
   });
 }
 
+function toValidHotspot(hotspot?: PortraitData["hotspot"]) {
+  if (
+    hotspot &&
+    typeof hotspot.x === "number" &&
+    typeof hotspot.y === "number"
+  ) {
+    return {
+      x: hotspot.x,
+      y: hotspot.y,
+    };
+  }
+
+  return undefined;
+}
+
+function toValidCrop(crop?: PortraitData["crop"]) {
+  if (
+    crop &&
+    typeof crop.top === "number" &&
+    typeof crop.bottom === "number" &&
+    typeof crop.left === "number" &&
+    typeof crop.right === "number"
+  ) {
+    return {
+      top: crop.top,
+      bottom: crop.bottom,
+      left: crop.left,
+      right: crop.right,
+    };
+  }
+
+  return undefined;
+}
+
 export function Booking({ data }: { data?: BookingData }) {
   const cleanData = data ? cleanStega(data) : data;
   const { resolvedTheme } = useTheme();
@@ -88,6 +144,8 @@ export function Booking({ data }: { data?: BookingData }) {
   const calendlyUrl = isDark
     ? `${baseUrl}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0f0f0f&text_color=efefef&primary_color=ff4100`
     : `${baseUrl}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=ff4100`;
+  const portraitHotspot = toValidHotspot(cleanData?.teamMember?.portrait?.hotspot);
+  const portraitCrop = toValidCrop(cleanData?.teamMember?.portrait?.crop);
 
   useEffect(() => {
     if (!mounted || !calendlyContainerRef.current) {
@@ -140,14 +198,19 @@ export function Booking({ data }: { data?: BookingData }) {
         {/* Heading */}
         <div className="px-6">
           {cleanData?.heading && (
-            <h2 className="font-funnel text-[48px] leading-[1.2] tracking-[-1px] text-black dark:text-white">
+            <SplitTextReveal
+              colorReveal
+              type="words"
+              as='h2'
+              className="font-funnel text-[48px] leading-[1.2] tracking-[-1px] text-black dark:text-white"
+            >
               {cleanData.heading.regular} <span className="font-bold">{cleanData.heading.bold}</span>
-            </h2>
+            </SplitTextReveal>
           )}
         </div>
 
         {/* Calendly Widget + Details */}
-        <div className="flex flex-col gap-12 md:flex-row md:gap-16 bg-white dark:bg-[#0f0f0f]">
+        <div className="flex flex-col gap-12 lg:flex-row md:gap-16 bg-white dark:bg-[#0f0f0f]">
           {/* Calendly Inline Widget */}
           <div
             className="calendly-theme-shell flex-1 bg-white dark:bg-[#0f0f0f]"
@@ -156,7 +219,7 @@ export function Booking({ data }: { data?: BookingData }) {
             <div
               ref={calendlyContainerRef}
               className="w-full bg-white dark:bg-[#0f0f0f]"
-              style={{ minWidth: "320px", minHeight: "2000px", height: "2000px" }}
+              style={{ minWidth: "320px", minHeight: "1000px", height: "1500px" }}
             />
           </div>
 
@@ -173,23 +236,27 @@ export function Booking({ data }: { data?: BookingData }) {
 
             {/* Person Info */}
             {cleanData?.teamMember && (
-              <div className="flex items-center gap-4">
-                <div className="relative h-[50px] w-[50px]">
-                  {cleanData.teamMember.portrait?.asset?._ref ? (
-                    <Image
-                      id={cleanData.teamMember.portrait.asset._ref}
-                      alt={cleanData.teamMember.name || 'Team member'}
-                      className="h-full w-full object-cover"
-                      height={50}
-                      width={50}
-                      mode="cover"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 bg-(--bg-card)" />
-                  )}
-                  <div className="absolute -left-2 top-0 h-px w-[60px] bg-(--brand)" />
-                  <div className="absolute -left-2 bottom-0 h-px w-[60px] bg-(--brand)" />
-                  <div className="absolute -left-2 top-1/2 h-[60px] w-px -translate-y-1/2 bg-(--brand)" />
+              <div className="flex items-center gap-[18px]">
+                <div className="relative h-[50px] w-[50px] shrink-0">
+                  <div className="absolute inset-0 overflow-hidden bg-(--bg-card)">
+                    {cleanData.teamMember.portrait?.asset?._ref ? (
+                      <Image
+                        id={cleanData.teamMember.portrait.asset._ref}
+                        alt={cleanData.teamMember.name || 'Team member'}
+                        className="h-full w-full object-cover object-center"
+                        height={50}
+                        width={50}
+                        hotspot={portraitHotspot}
+                        crop={portraitCrop}
+                        mode="cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-(--bg-card)" />
+                    )}
+                  </div>
+                  <div className="absolute left-1/2 top-0 h-px w-[60px] -translate-x-1/2 bg-(--brand)" />
+                  <div className="absolute bottom-0 left-1/2 h-px w-[60px] -translate-x-1/2 bg-(--brand)" />
+                  <div className="absolute left-0 top-1/2 h-[60px] w-px -translate-y-1/2 bg-(--brand)" />
                   <div className="absolute right-0 top-1/2 h-[60px] w-px -translate-y-1/2 bg-(--brand)" />
                 </div>
                 <div className="flex flex-col">
@@ -197,7 +264,7 @@ export function Booking({ data }: { data?: BookingData }) {
                     {cleanData.teamMember.name}
                   </p>
                   {cleanData.teamMember.role && (
-                    <p className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
+                    <p className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black/70 dark:text-white/70">
                       {cleanData.teamMember.role}
                     </p>
                   )}

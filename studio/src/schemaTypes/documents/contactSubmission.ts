@@ -47,6 +47,11 @@ export const contactSubmission = defineType({
       type: "string",
     }),
     defineField({
+      name: "hearAboutUs",
+      title: "How they heard about us",
+      type: "string",
+    }),
+    defineField({
       name: "message",
       title: "Message",
       type: "text",

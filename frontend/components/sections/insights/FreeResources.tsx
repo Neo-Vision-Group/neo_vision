@@ -5,6 +5,7 @@ import ArrowDownIcon from '@/components/icons/ArrowDownIcon'
 import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
 import {HeadingShape} from '@/components/sections/PageHero'
 import {cleanStega} from '@/sanity/lib/utils'
+import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
 
 const RevealOnScroll = dynamic(
@@ -106,11 +107,17 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
   const isExternal = !!item?.externalUrl && !item?.fileUrl && !item?.file?.asset?.url
   const hasUrl = Boolean(downloadUrl)
 
+  const { resolvedTheme } = useTheme();
+  const isDarkTheme = resolvedTheme === "dark";
+    const buttonColor = isDarkTheme
+    ? "#EFEFEF"
+    : "#040404";
+
   return (
     <article className="p-4 md:p-6">
       <div className="group flex h-full min-h-[280px] flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
         <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
-          <ArrowDownIcon className="h-5 w-5 text-black" />
+          <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-45" />
         </div>
 
         <div className="flex flex-1 flex-col justify-between gap-8">
@@ -144,14 +151,14 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               className="inline-flex items-center gap-3 self-start text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef]"
               download={!isExternal}
             >
-              <ArrowRightPixel color="currentColor" width={39} height={24} className="shrink-0" />
+              <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
               <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-[24px]">
                 Download
               </span>
             </a>
           ) : (
             <span className="inline-flex items-center gap-3 self-start text-black/40 dark:text-[#efefef]/40">
-              <ArrowRightPixel color="currentColor" width={39} height={24} className="shrink-0" />
+              <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
               <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-[24px]">
                 Download
               </span>

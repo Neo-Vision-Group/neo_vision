@@ -71,7 +71,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
             {highlights.map((highlight, index) => (
               <article
                 key={highlight._key ?? `highlight-${index}`}
-                className="border border-white/10 bg-surface p-6 md:p-8"
+                className="border dark:border-white/10 border-black/10 bg-surface p-6 md:p-8"
               >
                 <div className="flex flex-col gap-12">
                   {highlight.stat ? (

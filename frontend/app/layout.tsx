@@ -11,13 +11,17 @@ import {Toaster} from 'sonner'
 import {handleError} from '@/app/client-utils'
 import Footer from '@/components/layout/Footer'
 import {IntroVisitMarker} from '@/components/IntroVisitMarker'
+import CookieBanner from '@/components/partials/CookieBanner'
 import DraftModeToast from '@/components/partials/DraftModeToast'
 import Nav from '@/components/layout/Nav'
+import {ScrollToTopOnNavigate} from '@/components/ScrollToTopOnNavigate'
+import {TransitionProvider} from '@/components/transition/TransitionProvider'
 import * as demo from '@/sanity/lib/demo'
 import {ThemeProvider} from '@/components/partials/theme/theme-provider'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
+import PlausibleProvider from 'next-plausible'
 
 /**
  * Generate metadata for the page.
@@ -92,35 +96,51 @@ const betatron = localFont({
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const {data: settings} = await sanityFetch({
+    query: settingsQuery,
+  })
 
   return (
-    <html lang="en" className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} bg-white text-black`}>
-      <body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} bg-white text-black`}
+    >
+      <head>
+        <PlausibleProvider
+          src={process.env.PLAUSIBLE_DOMAIN || 'localhost'}
+          enabled={process.env.NODE_ENV === 'production'}
+        />
+      </head>
+      <body className="overflow-x-hidden">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
         >
-          <section className="min-h-screen bg-white dark:bg-black">
-            {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-            <Toaster />
-            {isDraftMode && (
-              <>
-                <DraftModeToast />
-                {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-                <VisualEditing />
-              </>
-            )}
-            {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-            <SanityLive onError={handleError} />
-            <Nav />
-            <main className="">
-              {children}
-              <IntroVisitMarker />
-            </main>
-            <Footer />
-          </section>
+          <TransitionProvider>
+            <ScrollToTopOnNavigate />
+            <section className="min-h-screen overflow-x-hidden bg-white dark:bg-black">
+              {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
+              <Toaster />
+              {isDraftMode && (
+                <>
+                  <DraftModeToast />
+                  {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
+                  <VisualEditing />
+                </>
+              )}
+              {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
+              <SanityLive onError={handleError} />
+              <Nav />
+              <main className="">
+                {children}
+                <IntroVisitMarker />
+              </main>
+              <Footer />
+              <CookieBanner settings={settings?.cookieSettings} />
+            </section>
+          </TransitionProvider>
         </ThemeProvider>
         <SpeedInsights />
       </body>

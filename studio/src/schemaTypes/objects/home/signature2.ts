@@ -42,16 +42,26 @@ export const signature2 = defineType({
               type: 'boolean',
               initialValue: false,
             }),
+            defineField({
+              name: 'graphic',
+              title: 'Card Graphic',
+              type: 'image',
+              hidden: ({parent}) => !parent?.highlighted,
+              description:
+                'Optional black-and-white line graphic for the highlighted card. White lines render red on the frontend.',
+            }),
           ],
           preview: {
             select: {
               title: 'title',
               highlighted: 'highlighted',
+              graphic: 'graphic',
             },
-            prepare({title, highlighted}) {
+            prepare({title, highlighted, graphic}) {
               return {
                 title: title || 'Untitled step',
                 subtitle: highlighted ? 'Highlighted' : 'Standard',
+                media: graphic,
               }
             },
           },

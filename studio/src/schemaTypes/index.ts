@@ -1,5 +1,5 @@
 ﻿import {person} from './documents/person'
-import {page} from './documents/page' 
+import {page} from './documents/page'
 import {post} from './documents/post'
 import {service} from './documents/service'
 import {teamMember} from './documents/teamMember'
@@ -29,8 +29,10 @@ import {faq} from './objects/faq'
 import {pageHero} from './objects/pageHero'
 import {contactHero} from './objects/contactHero'
 import {contactForm} from './objects/contactForm'
+import {cookieSettings} from './objects/cookieSettings'
 import {booking} from './objects/contact/booking'
 import {engineeringServices} from './objects/service/engineering'
+import {serviceHero} from './objects/service/serviceHero'
 import {aiServices} from './objects/service/ai'
 import {industries} from './objects/service/industries'
 import {reality} from './objects/service/reality'
@@ -87,6 +89,7 @@ export const schemaTypes = [
   pageHero,
   contactHero,
   contactForm,
+  cookieSettings,
   booking,
   homeHero,
   cta,
@@ -103,6 +106,7 @@ export const schemaTypes = [
   why,
   faq,
   engineeringServices,
+  serviceHero,
   aiServices,
   industries,
   reality,
@@ -137,5 +141,3 @@ export const schemaTypes = [
   serviceNavigator,
   steps,
 ]
-
-

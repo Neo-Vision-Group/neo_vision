@@ -9,10 +9,10 @@
 
 A Next.js 15 (App Router) website powered by **Sanity CMS** (v3). The monorepo contains:
 
-| Folder       | Purpose |
-|-------------|---------|
-| `frontend/` | Next.js app — renders the public website |
-| `studio/`   | Sanity Studio — content authoring UI |
+| Folder      | Purpose                                              |
+| ----------- | ---------------------------------------------------- |
+| `frontend/` | Next.js app — renders the public website             |
+| `studio/`   | Sanity Studio — content authoring UI                 |
 | `demo/`     | Vibe-coded demo site — reference design to replicate |
 
 The demo folder is the **design reference**. Its components, sections, and page layouts are the target for the new site. The new site replaces hardcoded content with Sanity-driven page blocks.
@@ -54,20 +54,24 @@ Sanity Document (page / service / project)
 
 ### Key Files
 
-| File | Role |
-|------|------|
-| `frontend/sanity/lib/queries.ts` | All GROQ queries — **single source** for data fetching |
-| `frontend/sanity/lib/types.ts` | Shared TypeScript types (`PageBuilderSection`, etc.) |
-| `frontend/sanity.types.ts` | **Auto-generated** by `sanity typegen generate` — never edit manually |
-| `frontend/components/PageBuilder.tsx` | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer` |
-| `frontend/components/BlockRenderer.tsx` | Maps `block._type` string → React component. **Every new page block must be registered here.** |
-| `frontend/components/BlockErrorBoundary.tsx` | Isolates individual page block render failures so one broken section does not crash the whole page |
-| `frontend/components/RouteLoading.tsx` | Shared loading UI used by route-level `loading.tsx` files in the App Router |
-| `frontend/components/partials/FirstLoadIntro.tsx` | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator |
-| `studio/src/schemaTypes/index.ts` | Registers all Sanity schema types (documents + objects) |
-| `studio/src/schemaTypes/documents/page.ts` | `page` document — **its `pageBuilder.of` array must list every block type available to main pages** |
-| `studio/src/schemaTypes/documents/service.ts` | `service` document — has its own `pageBuilder.of` array for service detail pages |
-| `studio/src/schemaTypes/documents/project.ts` | `project` document — case study data with optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.) |
+| File                                                      | Role                                                                                                                                            |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `frontend/sanity/lib/queries.ts`                          | All GROQ queries — **single source** for data fetching                                                                                          |
+| `frontend/sanity/lib/types.ts`                            | Shared TypeScript types (`PageBuilderSection`, etc.)                                                                                            |
+| `frontend/sanity.types.ts`                                | **Auto-generated** by `sanity typegen generate` — never edit manually                                                                           |
+| `frontend/components/PageBuilder.tsx`                     | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer`                                                                 |
+| `frontend/components/BlockRenderer.tsx`                   | Maps `block._type` string → React component. **Every new page block must be registered here.**                                                  |
+| `frontend/components/BlockErrorBoundary.tsx`              | Isolates individual page block render failures so one broken section does not crash the whole page                                              |
+| `frontend/components/RouteLoading.tsx`                    | Shared loading UI used by route-level `loading.tsx` files in the App Router                                                                     |
+| `frontend/components/partials/FirstLoadIntro.tsx`         | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator                 |
+| `frontend/components/transition/TransitionProvider.tsx`   | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal |
+| `frontend/components/transition/PageTransitionMarker.tsx` | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern   |
+| `frontend/components/partials/CookieBanner.tsx`           | Global client-side cookie consent banner/preferences panel driven by `siteSettings.cookieSettings` and reopened from the footer                 |
+| `studio/src/schemaTypes/index.ts`                         | Registers all Sanity schema types (documents + objects)                                                                                         |
+| `studio/src/schemaTypes/documents/page.ts`                | `page` document — **its `pageBuilder.of` array must list every block type available to main pages**                                             |
+| `studio/src/schemaTypes/documents/service.ts`             | `service` document — has its own `pageBuilder.of` array for service detail pages                                                                |
+| `studio/src/schemaTypes/documents/project.ts`             | `project` document — case study data with optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.)                |
+| `studio/src/schemaTypes/singletons/settings.tsx`          | Global site singleton. Also contains the `cookieSettings` object used by the banner and footer reopen control                                   |
 
 ---
 
@@ -77,15 +81,15 @@ Sanity Document (page / service / project)
 
 These are CMS-driven pages built from the `page` document type. Each page has a `pageType` field (home, services, insights, caseStudies) and a `pageBuilder` array.
 
-| URL | Sanity `pageType` | Notes |
-|-----|-------------------|-------|
-| `/` (root) | `home` | The home page. Fetched via `pageType == 'home'` |
-| `/about` | (general) | Slug-based |
-| `/services` | `services` | Services listing page |
-| `/contact` | (general) | Contact page |
-| `/insights` | `insights` | Insights listing page |
-| `/portfolio` | `caseStudies` | Portfolio listing page |
-| `not-found` fallback | — | Root-level `frontend/app/not-found.tsx` uses the shared layout shell and a custom theme-aware hero |
+| URL                  | Sanity `pageType` | Notes                                                                                              |
+| -------------------- | ----------------- | -------------------------------------------------------------------------------------------------- |
+| `/` (root)           | `home`            | The home page. Fetched via `pageType == 'home'`                                                    |
+| `/about`             | (general)         | Slug-based                                                                                         |
+| `/services`          | `services`        | Services listing page                                                                              |
+| `/contact`           | (general)         | Contact page                                                                                       |
+| `/insights`          | `insights`        | Insights listing page                                                                              |
+| `/portfolio`         | `caseStudies`     | Portfolio listing page                                                                             |
+| `not-found` fallback | —                 | Root-level `frontend/app/not-found.tsx` uses the shared layout shell and a custom theme-aware hero |
 
 **Route file:** `frontend/app/[slug]/page.tsx`
 **Loading UI:** `frontend/app/[slug]/loading.tsx`
@@ -106,9 +110,47 @@ The intro component is responsible for:
 - Animating a brand-colored loading bar with a Betatron percentage readout without depending on client hydration, so the motion starts during the streamed loading fallback
 - Persisting completion in session storage and a cookie via the root layout marker after the first page boot completes so the intro does not replay during in-site navigation or subsequent visits
 
+### App-Shell Page Transitions
+
+The root layout now mounts a client-side `TransitionProvider` around the shared shell (`Nav`, routed `main`, `Footer`). It owns the full-viewport route wipe:
+
+- Delegated interception for same-origin internal anchor clicks
+- A fixed red sweep panel plus a shared halftone veil layer
+- A GSAP lifecycle (`leave -> waiting-for-route -> enter`) that keeps the old page covered until the next route emits a `PageTransitionMarker`
+
+`loading.tsx` fallbacks do **not** emit route-ready markers. The wipe should reveal only when final route content mounts.
+
+The shared halftone persistence rule is driven by two conventions:
+
+- Hero sections that visually own the brand dots must include `.has-hero-pattern`
+- Final page content must render `PageTransitionMarker` with the correct `hasHeroPattern` value
+
+The current hero sections that should carry `.has-hero-pattern` are:
+
+- `frontend/components/sections/home/Hero.tsx`
+- `frontend/components/sections/PageHero.tsx`
+- `frontend/components/sections/services/ServiceHero.tsx`
+- `frontend/components/sections/contact/ContactHero.tsx`
+- `frontend/components/sections/insight-detail/InsightHero.tsx`
+- `frontend/components/sections/study/Hero.tsx`
+
+Non-hero sections that reuse `HeroBrandDotsBackground` should **not** opt into `.has-hero-pattern`, otherwise the transition veil will persist on the wrong routes.
+
+### Global Cookie Banner
+
+Cookie consent is modeled as global data on the existing `siteSettings` singleton via the `cookieSettings` object. The root layout fetches this through `settingsQuery` and mounts `frontend/components/partials/CookieBanner.tsx` once for the entire app shell.
+
+Implementation rules:
+
+- Reuse `siteSettings.cookieSettings` instead of creating a second singleton document for consent UI
+- Keep policy copy, action labels, and category descriptions CMS-managed through `settingsQuery`
+- The footer button reopens the customize state by dispatching the shared `neo:open-cookie-preferences` browser event
+- The banner must remain responsive and theme-aware in both light and dark mode because it sits outside page-builder content
+
 The `homePageQuery` in `queries.ts` filters only by `pageType == 'home'` and includes all the same pageBuilder block projections as `pageQuery`.
 
 The `pageQuery` in `queries.ts` uses conditional logic to handle slug-based routing:
+
 - Empty slug (`""`) → returns the `home` page
 - Non-empty slug → returns the page matching that slug
 
@@ -116,11 +158,11 @@ The `pageQuery` in `queries.ts` uses conditional logic to handle slug-based rout
 
 These are detail pages for specific content types:
 
-| Route Pattern | Document Type | Route File |
-|--------------|---------------|------------|
-| `/services/[slug]` | `service` | `frontend/app/services/[slug]/page.tsx` |
-| `/portfolio/[slug]` | `project` | `frontend/app/portfolio/[slug]/page.tsx` |
-| `/insights/[slug]` | `post` | `frontend/app/insights/[slug]/page.tsx` |
+| Route Pattern       | Document Type | Route File                               |
+| ------------------- | ------------- | ---------------------------------------- |
+| `/services/[slug]`  | `service`     | `frontend/app/services/[slug]/page.tsx`  |
+| `/portfolio/[slug]` | `project`     | `frontend/app/portfolio/[slug]/page.tsx` |
+| `/insights/[slug]`  | `post`        | `frontend/app/insights/[slug]/page.tsx`  |
 
 Each detail route should expose a colocated `loading.tsx` so the App Router can show a branded fallback during data fetching.
 
@@ -128,7 +170,7 @@ Each detail route should expose a colocated `loading.tsx` so the App Router can 
 
 **Case study pages** (`project` document) use the `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.). The frontend route should render stored project blocks directly and only use project-level metadata as lightweight per-block fallback data where needed.
 
-**Insight pages** (`post` document) should use `pageBuilder` as the source of truth for renderable article sections. Document-level metadata such as title, author, category, excerpt, and related insights can remain on the `post` document. The old post-level cover image field has been removed, so the individual insight hero should not depend on a standalone cover asset. Within `insightBlock`, the main text, quote body, and card body should all be modeled as portable text so editorial formatting stays consistent across sections.
+**Insight pages** (`post` document) should use `pageBuilder` as the source of truth for renderable article sections. Document-level metadata such as title, author, category, excerpt, cover image, and related insights can remain on the `post` document. The post-level `coverImage` field is the shared source for the individual insight hero, insight cards, and featured insight references. Within `insightBlock`, the main text, quote body, and card body should all be modeled as portable text so editorial formatting stays consistent across sections.
 
 ---
 
@@ -176,80 +218,88 @@ Otherwise the block may appear in Studio but fail to render on the frontend.
 
 #### Main Page Blocks (available in `page` document)
 
-| Sanity `_type` | Component | Category |
-|----------------|-----------|----------|
-| `homeHero` | `Hero` | home |
-| `origin` | `Origin` | home |
-| `whatWeDo` | `WhatWeDo` | home |
-| `signature` | `Signature` | home |
-| `signature2` | `Signature2` | home |
-| `why` | `Why` | home |
-| `story` | `Story` | home |
-| `team` | `Team` | home |
-| `methodology` | `Methodology` | home |
-| `testimonials` | `TrustedBy` | home |
-| `portfolio` | `OurWork` | home |
-| `cta` | `ClosingCta` | home |
-| `pricing` | — | home (component empty) |
-| `pageHero` | `PageHero` | shared |
-| `contactHero` | `ContactHero` | shared |
-| `contactForm` | `ContactFormSection` | shared |
-| `booking` | `Booking` | contact |
-| `engineeringServices` | `EngineeringServices` | services |
-| `serviceNavigator` | `ServiceNavigator` | services |
-| `industries` | `Industries` | services |
-| `whyRomania` | `WhyRomania` | shared/services |
-| `techStack` | `TechStacks` | about/shared |
-| `awards` | `Awards` | about/shared |
-| `press` | `Press` | about |
-| `faq` | `FAQ` | shared |
-| `compare` | `Compare` | shared |
-| `insightsFeatured` | `InsightsFeatured` | insights |
-| `insightsGrid` | `InsightsGrid` | insights |
-| `insightsResources` | `InsightsResources` | insights |
-| `insightsCta` | `InsightsCta` | insights |
+| Sanity `_type`        | Component             | Category               |
+| --------------------- | --------------------- | ---------------------- |
+| `homeHero`            | `Hero`                | home                   |
+| `origin`              | `Origin`              | home                   |
+| `whatWeDo`            | `WhatWeDo`            | home                   |
+| `signature`           | `Signature`           | home                   |
+| `signature2`          | `Signature2`          | home                   |
+| `why`                 | `Why`                 | home                   |
+| `story`               | `Story`               | home                   |
+| `team`                | `Team`                | home                   |
+| `methodology`         | `Methodology`         | home                   |
+| `testimonials`        | `TrustedBy`           | home                   |
+| `portfolio`           | `OurWork`             | home                   |
+| `cta`                 | `ClosingCta`          | home                   |
+| `pricing`             | —                     | home (component empty) |
+| `pageHero`            | `PageHero`            | shared                 |
+| `contactHero`         | `ContactHero`         | shared                 |
+| `contactForm`         | `ContactFormSection`  | shared                 |
+| `booking`             | `Booking`             | contact                |
+| `engineeringServices` | `EngineeringServices` | services               |
+| `aiServices`          | `AIServices`          | services               |
+| `serviceNavigator`    | `ServiceNavigator`    | services               |
+| `industries`          | `Industries`          | services               |
+| `whyRomania`          | `WhyRomania`          | shared/services        |
+| `techStack`           | `TechStacks`          | about/shared           |
+| `awards`              | `Awards`              | about/shared           |
+| `press`               | `Press`               | about                  |
+| `faq`                 | `FAQ`                 | shared                 |
+| `compare`             | `Compare`             | shared                 |
+| `insightsFeatured`    | `InsightsFeatured`    | insights               |
+| `insightsGrid`        | `InsightsGrid`        | insights               |
+| `insightsResources`   | `InsightsResources`   | insights               |
+| `insightsCta`         | `InsightsCta`         | insights               |
+
+`signature` note: the nested `steps[]` objects support `textured` plus an optional Sanity `graphic` image field for red-tinted line-art hover states, and the nested `valueCard` object supports its own optional `graphic` image field for the panel beside the CTA.
+`signature2` note: highlighted `steps[]` items support an optional Sanity `graphic` image field for the same red-tinted line-art card treatment used in the Work block.
+`portfolio` note: the section-level bottom CTA now uses the shared Sanity `button` object, so editors can manage both its label and destination from CMS.
 
 #### Portfolio Page Blocks (registered in BlockRenderer but NOT in `page.ts` pageBuilder)
 
-| Sanity `_type` | Component | Notes |
-|----------------|-----------|-------|
+| Sanity `_type`      | Component           | Notes                                     |
+| ------------------- | ------------------- | ----------------------------------------- |
 | `portfolioFeatured` | `PortfolioFeatured` | **Missing from `page.ts` pageBuilder.of** |
-| `portfolioGrid` | `PortfolioGrid` | **Missing from `page.ts` pageBuilder.of** |
-| `portfolioCta` | `PortfolioCta` | **Missing from `page.ts` pageBuilder.of** |
-| `portfolioMetrics` | `PortfolioMetrics` | **Missing from `page.ts` pageBuilder.of** |
+| `portfolioGrid`     | `PortfolioGrid`     | **Missing from `page.ts` pageBuilder.of** |
+| `portfolioCta`      | `PortfolioCta`      | **Missing from `page.ts` pageBuilder.of** |
+| `portfolioMetrics`  | `PortfolioMetrics`  | **Missing from `page.ts` pageBuilder.of** |
 
 #### Case Study Page Blocks (registered in BlockRenderer but NOT in `page.ts` pageBuilder)
 
-| Sanity `_type` | Component | Notes |
-|----------------|-----------|-------|
-| `studyHero` | `StudyHero` | Used by portfolio/[slug] — hero text and image combined |
-| `studyHeroImage` | `StudyHeroImage` | Used by portfolio/[slug] |
-| `studyChallenge` | `StudyChallenge` | Used by portfolio/[slug] |
-| `studyApproach` | `StudyApproach` | Used by portfolio/[slug] |
-| `studyKeyWins` | `StudyKeyWins` | Used by portfolio/[slug] |
-| `studyNumbers` | `StudyNumbers` | Used by portfolio/[slug] |
-| `studyTestimonial` | `StudyTestimonial` | Used by portfolio/[slug] |
-| `studyTechStack` | `StudyTechStack` | Used by portfolio/[slug] |
-| `steps` | `Steps` | Preferred replacement for the retired study what-we-built section on portfolio/[slug] |
-| `portfolioGrid` | `PortfolioGrid` | Preferred replacement for the retired study more-like-this section on portfolio/[slug] |
-| `cta` | `ClosingCta` | Preferred replacement for the retired study closing CTA section on portfolio/[slug] |
+| Sanity `_type`     | Component          | Notes                                                                                  |
+| ------------------ | ------------------ | -------------------------------------------------------------------------------------- |
+| `studyHero`        | `StudyHero`        | Used by portfolio/[slug] — hero text and image combined                                |
+| `studyHeroImage`   | `StudyHeroImage`   | Used by portfolio/[slug]                                                               |
+| `studyChallenge`   | `StudyChallenge`   | Used by portfolio/[slug]                                                               |
+| `studyApproach`    | `StudyApproach`    | Used by portfolio/[slug]                                                               |
+| `studyKeyWins`     | `StudyKeyWins`     | Used by portfolio/[slug]                                                               |
+| `studyNumbers`     | `StudyNumbers`     | Used by portfolio/[slug]                                                               |
+| `studyTestimonial` | `StudyTestimonial` | Used by portfolio/[slug]                                                               |
+| `studyTechStack`   | `StudyTechStack`   | Used by portfolio/[slug]                                                               |
+| `steps`            | `Steps`            | Preferred replacement for the retired study what-we-built section on portfolio/[slug]  |
+| `portfolioGrid`    | `PortfolioGrid`    | Preferred replacement for the retired study more-like-this section on portfolio/[slug] |
+| `cta`              | `ClosingCta`       | Preferred replacement for the retired study closing CTA section on portfolio/[slug]    |
 
 #### Service Detail Page Blocks (available in `service` document)
 
-| Sanity `_type` | Component | Notes |
-|----------------|-----------|-------|
-| `engineeringServices` | `EngineeringServices` | Services listing / capability cards |
-| `isThisForYou` | `IsThisForYou` | Service detail qualifier checklist |
-| `soundFamiliar` | `SoundFamiliar` | Service detail pain-point cards |
-| `compare` | `Compare` | Service detail comparison matrix against alternatives; also available in `page`, `project`, and `post` page builders |
-| `reality` | `Reality` | Compound-value / supporting proof section |
-| `whyRomania` | `WhyRomania` | Romania talent, timezone, and efficiency proof grid; now also available in `page`, `project`, and `post` page builders |
-| `techStack` | `TechStacks` | Grouped tools/partners matrix; available in `page`, `service`, `project`, and `post` page builders |
-| `awards` | `Awards` | Recognition card stack with featured badge; available in `page`, `service`, `project`, and `post` page builders |
+| Sanity `_type`        | Component             | Notes                                                                                                                  |
+| --------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `engineeringServices` | `EngineeringServices` | Services listing / capability cards                                                                                    |
+| `serviceHero`         | `ServiceHero`         | Service detail hero with breadcrumb trail, multi-line headline, CTA rail, and service metadata fallbacks              |
+| `aiServices`          | `AIServices`          | AI transformation service card grid with service references and per-card CTAs                                          |
+| `isThisForYou`        | `IsThisForYou`        | Service detail qualifier checklist                                                                                     |
+| `soundFamiliar`       | `SoundFamiliar`       | Service detail pain-point cards                                                                                        |
+| `compare`             | `Compare`             | Service detail comparison matrix against alternatives; also available in `page`, `project`, and `post` page builders   |
+| `reality`             | `Reality`             | Compound-value / supporting proof section                                                                              |
+| `whyRomania`          | `WhyRomania`          | Romania talent, timezone, and efficiency proof grid; now also available in `page`, `project`, and `post` page builders |
+| `techStack`           | `TechStacks`          | Grouped tools/partners matrix; available in `page`, `service`, `project`, and `post` page builders                     |
+| `awards`              | `Awards`              | Recognition card stack with featured badge; available in `page`, `service`, `project`, and `post` page builders        |
 
 #### Blocks in Demo but NOT yet implemented
 
 Reference `demo/src/components/sections/` and `demo/src/app/(site)/` for:
+
 - About page sections (Awards, Press, TechStacks, AboutFaq, AboutValues, etc.)
 - Service detail sections (IsThisForYou, SoundFamiliar, WhatYouGet, HowWeBuild, etc.)
 - Various shared UI components
@@ -328,3 +378,4 @@ npm run dev          # Runs both concurrently (check package.json)
 6. **Reference `demo/`** for design — component layouts, spacing, typography, and color usage.
 7. **Keep page routes clean**: `/[slug]` for main pages, `/parent/[slug]` for individual content pages.
 8. **Test with Sanity data**: After schema changes, verify that Studio can add the block and the frontend renders it.
+9. **Respect the transition escape hatch**: Internal links can opt out of the route wipe with `data-transition-ignore` when a browser-native navigation is required.

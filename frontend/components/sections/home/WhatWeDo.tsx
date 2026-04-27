@@ -3,7 +3,8 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ServicesPreviewCard from "@/components/partials/ServicesPreviewCard";
 import { services as servicesFallback } from "@/lib/content/home";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 
 const RevealOnScroll = dynamic(
@@ -24,7 +25,7 @@ export type WhatWeDoData = {
     body: string;
     services?: Array<{ name?: string, price?: string }>;
     cta: { buttonText?: string; link?: any };
-    texture?: string;
+    texture?: SanityImageSource | string;
   }>;
 };
 
@@ -45,7 +46,12 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
         href: card.cta?.link?.href ?? card.cta?.link?.page ?? card.cta?.link?.post ?? "#",
         variant: (card.kind === "ai" ? "primary" : "secondary") as "primary" | "secondary",
       },
-      texture: card.texture,
+      texture:
+        typeof card.texture === "string"
+          ? card.texture
+          : card.texture
+            ? urlForImage(card.texture).width(1600).fit("max").url()
+            : undefined,
     })) ?? servicesFallback.cards.map((card, idx) => ({
       _key: `fallback-${card.kind}-${idx}`,
       ...card,
