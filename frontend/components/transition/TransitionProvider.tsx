@@ -3,6 +3,7 @@
 import {
   createContext,
   type MouseEvent as ReactMouseEvent,
+  Suspense,
   useCallback,
   useContext,
   useEffect,
@@ -76,7 +77,7 @@ function shouldIgnoreAnchor(anchor: HTMLAnchorElement) {
   return false
 }
 
-export function TransitionProvider({children}: {children: React.ReactNode}) {
+function TransitionProviderInner({children}: {children: React.ReactNode}) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -408,6 +409,14 @@ export function TransitionProvider({children}: {children: React.ReactNode}) {
         />
       </div>
     </PageTransitionContext.Provider>
+  )
+}
+
+export function TransitionProvider({children}: {children: React.ReactNode}) {
+  return (
+    <Suspense fallback={<>{children}</>}>
+      <TransitionProviderInner>{children}</TransitionProviderInner>
+    </Suspense>
   )
 }
 

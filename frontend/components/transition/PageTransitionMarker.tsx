@@ -1,6 +1,6 @@
 'use client'
 
-import {useEffect} from 'react'
+import {Suspense, useEffect} from 'react'
 import {usePathname, useSearchParams} from 'next/navigation'
 
 import {
@@ -12,7 +12,7 @@ type PageTransitionMarkerProps = {
   hasHeroPattern?: boolean
 }
 
-export function PageTransitionMarker({
+function PageTransitionMarkerInner({
   hasHeroPattern = false,
 }: PageTransitionMarkerProps) {
   const pathname = usePathname()
@@ -38,5 +38,13 @@ export function PageTransitionMarker({
       data-route-has-hero-pattern={hasHeroPattern ? 'true' : 'false'}
       data-route-ready-key={routeKey}
     />
+  )
+}
+
+export function PageTransitionMarker(props: PageTransitionMarkerProps) {
+  return (
+    <Suspense fallback={null}>
+      <PageTransitionMarkerInner {...props} />
+    </Suspense>
   )
 }
