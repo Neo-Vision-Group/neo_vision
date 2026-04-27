@@ -59,6 +59,7 @@ Sanity Document (page / service / project)
 | `frontend/sanity/lib/queries.ts`                          | All GROQ queries — **single source** for data fetching                                                                                          |
 | `frontend/sanity/lib/types.ts`                            | Shared TypeScript types (`PageBuilderSection`, etc.)                                                                                            |
 | `frontend/sanity.types.ts`                                | **Auto-generated** by `sanity typegen generate` — never edit manually                                                                           |
+| `sanity.schema.json`                                      | Committed schema snapshot generated from the Studio and consumed by frontend typegen/builds                                                     |
 | `frontend/components/PageBuilder.tsx`                     | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer`                                                                 |
 | `frontend/components/BlockRenderer.tsx`                   | Maps `block._type` string → React component. **Every new page block must be registered here.**                                                  |
 | `frontend/components/BlockErrorBoundary.tsx`              | Isolates individual page block render failures so one broken section does not crash the whole page                                              |
@@ -350,6 +351,7 @@ npx sanity typegen generate  # Regenerate sanity.types.ts after schema changes
 
 # Studio (from studio/)
 npm run dev          # Start Sanity Studio dev server
+npm run sanity:typegen  # Refresh ../sanity.schema.json and regenerate Studio type artifacts
 
 # Both (from root)
 npm run dev          # Runs both concurrently (check package.json)
@@ -379,3 +381,4 @@ npm run dev          # Runs both concurrently (check package.json)
 7. **Keep page routes clean**: `/[slug]` for main pages, `/parent/[slug]` for individual content pages.
 8. **Test with Sanity data**: After schema changes, verify that Studio can add the block and the frontend renders it.
 9. **Respect the transition escape hatch**: Internal links can opt out of the route wipe with `data-transition-ignore` when a browser-native navigation is required.
+10. **Keep the schema snapshot fresh**: Frontend/Vercel builds read the committed root `sanity.schema.json`, so after schema edits run `npm run sanity:typegen --workspace=studio` and commit the updated snapshot before deploying.
