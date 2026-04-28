@@ -63,7 +63,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                 {eyebrow}
               </p>
 
-              <h2 className="text-12 leading-[1.2] tracking-[-1px]">
+              <h2 className="text-5xl leading-[1.2] tracking-[-1px]">
                 {heading.split("\n").map((line, i) => (
                   <span key={i}>
                     {line}
@@ -95,7 +95,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                         0{idx + 1}.
                       </p>
                       <div className="flex flex-1 flex-col gap-1">
-                        <p className="font-funnel text-6 font-bold leading-[1.2] text-black dark:text-[#efefef]">
+                        <p className="font-funnel text-100 font-bold leading-[1.2] text-black dark:text-[#efefef]">
                           {step.title}
                         </p>
                         <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">

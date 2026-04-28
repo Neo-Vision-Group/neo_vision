@@ -260,7 +260,7 @@ function FeaturedReferenceCard({
             height={24}
             className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
           />
-          <span className="font-funnel text-6 font-bold dark:text-[#efefef] text-[#040404] leading-[1.2]">
+          <span className="font-funnel text-100 font-bold dark:text-[#efefef] text-[#040404] leading-[1.2]">
             {ctaLabel}
           </span>
         </div>

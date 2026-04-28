@@ -336,7 +336,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
         {mode === 'summary' ? (
           <div className="flex flex-col gap-4 p-3 md:p-4 lg:flex-row lg:items-start">
             <div className="min-w-0 flex-1 p-3">
-              <h2 className="text-6 leading-[1.2] font-bold text---text)]">
+              <h2 className="text-100 leading-[1.2] font-bold text---text)]">
                 {settings.bannerTitle || 'Cookies on Neovision'}
               </h2>
               {settings.bannerDescription?.length ? (
@@ -366,7 +366,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-6 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
                 onClick={() => setMode('customize')}
                 type="button"
               >
@@ -398,7 +398,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
 
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="px-4 pt-4 lg:p-6 lg:pb-4">
-                <h2 className="text-6 leading-[1.2] font-bold text---text)]">
+                <h2 className="text-100 leading-[1.2] font-bold text---text)]">
                   {settings.preferencesTitle || 'Your cookie preferences'}
                 </h2>
                 <p className="mt-2 max-w-lg text-[18px] leading-normal text---text)]">
@@ -472,7 +472,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-6 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
                 onClick={handleSavePreferences}
                 type="button"
               >

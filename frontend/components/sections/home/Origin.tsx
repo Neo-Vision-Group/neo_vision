@@ -38,13 +38,13 @@ export function Origin({ data }: { data?: OriginData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-[58px]P font-normal font-funnel leading-17 tracking-[-0.3px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-[58px]P font-normal font-funnel leading-17 tracking-[-0.3px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
           {origin.heading} {origin.body}
         </SplitTextReveal>
         <div className="flex flex-col gap-4">
           {origin.subtext && (
-            <p className="text-6 text-[#EFEFEFB3] font-funnel leading-8">
+            <p className="text-100 text-[#EFEFEFB3] font-funnel leading-8">
               {origin.subtext}
             </p>
           )}

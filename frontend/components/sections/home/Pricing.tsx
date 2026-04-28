@@ -146,7 +146,7 @@ function TextLink({
         height={24}
         className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {label || 'Learn more'}
       </span>
     </>
@@ -226,7 +226,7 @@ function PricingCard({tier}: {tier: PricingTier}) {
             <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
               {tier?.title}
             </h3>
-            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-12">
+            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
               {tier?.price}
             </p>
           </div>
@@ -248,7 +248,7 @@ function PricingCard({tier}: {tier: PricingTier}) {
                 ) : null}
               </div>
             ) : (
-              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-12">
+              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
                 {tier?.price}
               </p>
             )}
@@ -286,7 +286,7 @@ export function Pricing({data}: {data?: PricingData}) {
     >
       <div className="flex flex-col gap-12 md:gap-16">
         <div>
-          <h2 className="max-w-225 font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-12">
+          <h2 className="max-w-225 font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-5xl">
             <span>{cleanData?.headingPrimary ?? fallbackData.headingPrimary}</span>{' '}
             {(cleanData?.headingSecondary ?? fallbackData.headingSecondary) ? (
               <span className="font-normal text-black/55 dark:text-[#efefef]/55">

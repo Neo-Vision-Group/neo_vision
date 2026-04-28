@@ -64,7 +64,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
 
           <div className="flex max-w-190 flex-col gap-6 md:gap-8">
             {categoryLabel ? (
-              <div className="inline-flex self-start bg-brand/25 px-3 py-1.5 text-4 leading-[1.2] text-black dark:text-white md:text-[18px]">
+              <div className="inline-flex self-start bg-brand/25 px-3 py-1.5 text-64 leading-[1.2] text-black dark:text-white md:text-[18px]">
                 {categoryLabel}
               </div>
             ) : null}
@@ -74,7 +74,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 {post.title}
               </h1>
               {post.excerpt ? (
-                <p className="max-w-[34ch] text-[20px] leading-[1.45] text-black/80 dark:text-white/78 md:text-6">
+                <p className="max-w-[34ch] text-[20px] leading-[1.45] text-black/80 dark:text-white/78 md:text-100">
                   {post.excerpt}
                 </p>
               ) : null}
@@ -105,8 +105,8 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 </div>
 
                 <div className="flex flex-col">
-                  <p className="text-6 leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
-                  <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-4">
+                  <p className="text-100 leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
+                  <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-64">
                     {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
                       .filter(Boolean)
                       .join(" | ")}

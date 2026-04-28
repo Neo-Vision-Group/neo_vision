@@ -143,7 +143,7 @@ export function Story({ data }: { data?: StoryData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-deco-h4 leading-[1.2] tracking-[-1px] text-foreground md:text-12 max-w-225"
+          className="text-deco-h4 leading-[1.2] tracking-[-1px] text-foreground md:text-5xl max-w-225"
         >
             {story.heading}
         </SplitTextReveal>
@@ -167,13 +167,13 @@ export function Story({ data }: { data?: StoryData }) {
                     className={cn(
                       "font-betatron capitalize text-brand",
                       idx === 0
-                        ? "text-16 tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
-                        : "text-12 tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
+                        ? "text-64 tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
+                        : "text-5xl tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
                     )}
                   >
                     {m.year}
                   </span>
-                  <p className="py-4 text-6 leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-deco-h4 2xl:text-deco-h4">
+                  <p className="py-4 text-100 leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-deco-h4 2xl:text-deco-h4">
                     {m.body}
                   </p>
                 </div>

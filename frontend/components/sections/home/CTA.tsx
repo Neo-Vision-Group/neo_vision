@@ -118,7 +118,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           stagger={0.06}
           duration={0.9}
           scrollTriggered
-          className="text-deco-h4 leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-12 lg:tracking-[-0.6px]"
+          className="text-deco-h4 leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-5xl lg:tracking-[-0.6px]"
         >
           <span className="font-normal">{heading.regular} </span>
           <span className="font-bold">{heading.bold}</span>

@@ -100,7 +100,7 @@ function CardLink({
         height={24}
         className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {cta?.buttonText ?? "Learn more"}
       </span>
     </>
@@ -172,7 +172,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
     <SectionsWrapper id="service-navigator" eyebrow={navigator.eyebrow}>
       <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="max-w-180">
-          <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-12 md:tracking-[-1px]">
+          <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:tracking-[-1px]">
             <span className="text-black/70 dark:text-[#efefef]/70">
               {navigator.headingRegular}
             </span>

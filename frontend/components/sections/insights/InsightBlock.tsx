@@ -111,7 +111,7 @@ const quotePortableTextComponents = {
   ...portableTextComponents,
   block: {
     normal: ({ children }: { children?: ReactNode }) => (
-      <p className="text-6 leading-[1.3] tracking-[-0.03em] text-foreground md:text-[30px]">{children}</p>
+      <p className="text-100 leading-[1.3] tracking-[-0.03em] text-foreground md:text-[30px]">{children}</p>
     ),
     h3: ({ children }: { children?: ReactNode }) => (
       <h3 className="text-[28px] leading-[1.2] tracking-[-0.04em] text-foreground md:text-[36px]">{children}</h3>

@@ -27,7 +27,7 @@ export function TestimonialQuote({
       >
         <span
           aria-hidden="true"
-          className="font-betatron text-12 leading-none text-brand"
+          className="font-betatron text-5xl leading-none text-brand"
         >
           &ldquo;
         </span>
@@ -56,7 +56,7 @@ export function TestimonialQuote({
       {/* Opening mark */}
       <span
         aria-hidden="true"
-        className="font-betatron text-16 leading-none text-brand md:text-[96px]"
+        className="font-betatron text-64 leading-none text-brand md:text-[96px]"
       >
         &ldquo;
       </span>

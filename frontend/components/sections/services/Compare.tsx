@@ -100,14 +100,14 @@ export function Compare({data}: {data?: CompareData}) {
       <div className="flex flex-col gap-16">
         <RevealOnScroll as="div" className="flex flex-col gap-16" stagger={0.08}>
           <div className="max-w-4xl">
-            <h2 className="text-deco-h4 leading-[1.2] tracking-[-0.03em] text-foreground md:text-[40px] lg:text-12">
+            <h2 className="text-deco-h4 leading-[1.2] tracking-[-0.03em] text-foreground md:text-[40px] lg:text-5xl">
               <span className="font-bold text-foreground">{heading.highlighted} </span>
               <span className="text-foreground/70">{heading.regular}</span>
             </h2>
           </div>
 
           <div className="overflow-x-auto">
-            <div className="min-w-[860px]">
+            <div className="min-w-215">
               <table className="w-full table-fixed border-collapse">
                 <thead>
                   <tr className="border-b border-black/10 dark:border-white/20">

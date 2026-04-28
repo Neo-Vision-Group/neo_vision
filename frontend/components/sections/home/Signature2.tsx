@@ -71,8 +71,8 @@ export function Signature2({data}: {data?: Signature2Data}) {
   return (
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12 md:gap-14 lg:gap-16">
-        <div className="max-w-[860px] space-y-4 md:space-y-5">
-          <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-10 lg:text-12 lg:tracking-[-1px]">
+        <div className="max-w-215 space-y-4 md:space-y-5">
+          <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-640 lg:text-5xl lg:tracking-[-1px]">
             {headingFaded ? (
               <span className="font-normal text-foreground/70">{headingFaded}</span>
             ) : null}
@@ -85,7 +85,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
           </h2>
 
           {body ? (
-            <p className="max-w-[820px] text-body text-foreground/70 md:text-[18px] md:leading-[27px]">
+            <p className="max-w-205 text-body text-foreground/70 md:text-[18px] md:leading-205">
               {body}
             </p>
           ) : null}
@@ -133,7 +133,7 @@ function StepRailItem({
     <>
       <article
         className={cn(
-          'relative isolate min-h-[180px] overflow-hidden border bg-surface p-8 md:min-h-[214px]',
+          'relative isolate min-h-45 overflow-hidden border bg-surface p-8 md:min-h-45',
           step.highlighted ? 'border-brand' : 'border-black/20 dark:border-white/20',
         )}
       >
@@ -191,10 +191,10 @@ function StepRailItem({
         ) : null}
 
         <div className="flex h-full flex-col justify-between gap-10">
-          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-12 md:tracking-[-2.88px]">
+          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
           </p>
-          <h3 className="max-w-[10ch] text-6 font-bold leading-[1.2] text-foreground">
+          <h3 className="max-w-[10ch] text-100 font-bold leading-[1.2] text-foreground">
             {step.title}
           </h3>
         </div>

@@ -39,7 +39,7 @@ function ServiceCardLink({
         height={24}
         className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {label}
       </span>
     </>

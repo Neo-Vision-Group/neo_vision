@@ -48,7 +48,7 @@ export function Press({data}: {data?: PressData}) {
       <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-12 md:gap-16">
         {heading ? (
           <div className="px-0 md:px-6 lg:px-12">
-            <h2 className="max-w-[12ch] text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[40px] lg:text-12 lg:tracking-[-1px]">
+            <h2 className="max-w-[12ch] text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
               {heading}
             </h2>
           </div>

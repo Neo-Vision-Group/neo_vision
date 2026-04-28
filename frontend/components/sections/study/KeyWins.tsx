@@ -30,7 +30,7 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
     >
       <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
-          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
+          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
             {heading}
           </h2>
         ) : null}

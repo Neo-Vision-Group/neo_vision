@@ -33,7 +33,7 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
               ) : null}
 
               {author?.role ? (
-                <p className="mt-2 font-funnel text-4 text-foreground/65 md:text-4">
+                <p className="mt-2 font-funnel text-64 text-foreground/65 md:text-64">
                   {author.role}
                 </p>
               ) : null}
@@ -41,7 +41,7 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
               <div className="mt-6 h-px w-full bg-black/10 dark:bg-white/10" />
 
               {author?.bio ? (
-                <p className="mt-6 max-w-136 font-funnel text-4 leading-7 text-foreground/80 md:text-[17px] md:leading-8">
+                <p className="mt-6 max-w-136 font-funnel text-64 leading-7 text-foreground/80 md:text-[17px] md:leading-8">
                   {author.bio}
                 </p>
               ) : null}

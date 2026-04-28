@@ -13,7 +13,7 @@ export default function NotFound() {
           </div>
 
           <div className="mt-2 space-y-6">
-            <h1 className="font-funnel text-5xl leading-[1.08] tracking-[-1px] text-black md:text-6xl lg:text-[clamp(3.5rem,4vw,5rem)] dark:text-white">
+            <h1 className="font-funnel text-80xl leading-[1.08] tracking-[-1px] text-black md:text-100xl lg:text-[clamp(3.5rem,4vw,5rem)] dark:text-white">
               Page not found
             </h1>
             <p className="max-w-md font-funnel text-lg leading-normal text-black/80 dark:text-white/78">

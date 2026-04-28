@@ -202,7 +202,7 @@ export function Booking({ data }: { data?: BookingData }) {
               colorReveal
               type="words"
               as='h2'
-              className="font-funnel text-12 leading-[1.2] tracking-[-1px] text-black dark:text-white"
+              className="font-funnel text-5xl leading-[1.2] tracking-[-1px] text-black dark:text-white"
             >
               {cleanData.heading.regular} <span className="font-bold">{cleanData.heading.bold}</span>
             </SplitTextReveal>
@@ -274,7 +274,7 @@ export function Booking({ data }: { data?: BookingData }) {
 
             {/* What to Expect */}
             {cleanData?.whatToExpectHeading && (
-              <p className="font-funnel text-6 leading-[1.2] font-bold text-black dark:text-white">
+              <p className="font-funnel text-100 leading-[1.2] font-bold text-black dark:text-white">
                 {cleanData.whatToExpectHeading}
               </p>
             )}

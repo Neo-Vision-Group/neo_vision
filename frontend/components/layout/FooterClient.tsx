@@ -89,7 +89,7 @@ export function Footer({
               ) : (
                 <Logo className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20" />
               )}
-              <p className="min-w-0 font-betatron text-[22px] leading-8 tracking-[-0.2px] text-foreground md:text-6 md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-deco-h4 2xl:leading-9">
+              <p className="min-w-0 font-betatron text-[22px] leading-8 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-deco-h4 2xl:leading-9">
                 {title}
               </p>
             </div>
@@ -112,7 +112,7 @@ export function Footer({
         <div className="relative z-10 grid min-w-0 grid-cols-1 gap-10 border-t border-black/20 p-8 md:flex-1 md:border-l md:border-t-0 md:px-8 md:py-12 lg:grid-cols-4 dark:border-white/15 lg:px-16">
           {displayColumns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-medium text-6 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-deco-h4 2xl:leading-9">
+              <h3 className="font-medium text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-deco-h4 2xl:leading-9">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">

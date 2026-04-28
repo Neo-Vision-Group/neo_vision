@@ -34,7 +34,7 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
     >
       <div className="flex flex-col gap-8 text-[#efefef]">
         {heading ? (
-          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
+          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
             <span className="text-[#efefef]/70">{heading.faded} </span>
             <span className="font-bold text-[#efefef]">{heading.bold}</span>
           </h2>

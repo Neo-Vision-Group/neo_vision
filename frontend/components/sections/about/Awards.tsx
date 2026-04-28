@@ -90,7 +90,7 @@ export function Awards({data}: {data?: AwardsData}) {
                     {recognitions.map((recognition, recognitionIndex) => (
                       <p
                         key={`${item?._key ?? index}-recognition-${recognitionIndex}`}
-                        className="text-[20px] font-bold leading-[1.2] text-foreground md:text-6"
+                        className="text-[20px] font-bold leading-[1.2] text-foreground md:text-100"
                       >
                         {recognition}
                       </p>

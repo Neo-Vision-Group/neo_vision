@@ -49,7 +49,7 @@ export function MetricStrip({
           <dt
             className={cn(
               "font-betatron text-brand leading-none tracking-[-2px]",
-              "text-[36px] md:text-12 xl:text-[56px]",
+              "text-[36px] md:text-5xl xl:text-[56px]",
               variant === "brand" ? "text-background" : "text-brand-hover"
             )}
           >

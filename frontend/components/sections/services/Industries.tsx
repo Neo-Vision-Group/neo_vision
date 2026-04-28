@@ -31,7 +31,7 @@ export function Industries({ data }: { data: IndustryData }) {
         <SectionsWrapper eyebrow={data.eyebrow}>
             <div className="flex flex-col gap-12">
             <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-                <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]">
+                <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]">
                     <span className="text-foreground/70">{data.heading} </span>
                 </h2>
             </div>
@@ -45,7 +45,7 @@ export function Industries({ data }: { data: IndustryData }) {
                     key={(item.industry ?? "ind") + idx}
                     className="flex dark:bg-[#0F0F0F] bg-white flex-col gap-3 border dark:border-white/10 border-black/10 p-6"
                 >
-                    <h3 className="text-deco-h4 leading-[1.05] font-betatron text-brand font-medium sm:text-[40px] lg:text-12">{item.industry}</h3>
+                    <h3 className="text-deco-h4 leading-[1.05] font-betatron text-brand font-medium sm:text-[40px] lg:text-5xl">{item.industry}</h3>
                     <p className="text-body-2 text-foreground/70">{item.description}</p>
                 </article>
                 ))}
@@ -68,7 +68,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                     key={(item.label ?? "metric") + idx}
                                     className="flex flex-col gap-6"
                                 >
-                                    <dt className="whitespace-nowrap font-betatron text-16 leading-none tracking-[-3.84px] text-brand md:text-20 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+                                    <dt className="whitespace-nowrap font-betatron text-64 leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}
                                     </dt>
                                     <dd className="max-w-[8ch] whitespace-pre-line font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-deco-h4 md:tracking-[-1px]">

@@ -46,7 +46,7 @@ export function ResourceCard({
       <div className="flex items-start justify-between gap-4">
         <span
           aria-hidden="true"
-          className="flex h-12 w-12 items-center justify-center bg-brand font-display text-6 leading-none text-background"
+          className="flex h-12 w-12 items-center justify-center bg-brand font-display text-100 leading-none text-background"
         >
           {resource.iconLetter ?? "•"}
         </span>

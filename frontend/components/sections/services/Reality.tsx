@@ -68,7 +68,7 @@ export function Reality({data}: {data?: RealityData}) {
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12 lg:gap-16">
         <div className="px-0 lg:px-12">
-          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-12 lg:leading-[1.2] lg:tracking-[-1px]">
+          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-5xl lg:leading-[1.2] lg:tracking-[-1px]">
             {cleanData?.heading?.faded ? (
               <span className="text-foreground/70">{cleanData.heading.faded} </span>
             ) : null}

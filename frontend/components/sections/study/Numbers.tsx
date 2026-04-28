@@ -27,7 +27,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
     >
       <div className="flex flex-col gap-12 text-black dark:text-[#efefef]">
         {heading ? (
-          <h2 className="max-w-[14ch] font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
+          <h2 className="max-w-[14ch] font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
             {heading}
           </h2>
         ) : null}
@@ -49,7 +49,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
           })}
         </div>
         {footnote ? (
-          <p className="max-w-[48rem] font-funnel text-[20px] leading-[1.4] tracking-[-0.4px] text-black/65 dark:text-[#efefef]/70 md:text-6">
+          <p className="max-w-[48rem] font-funnel text-[20px] leading-[1.4] tracking-[-0.4px] text-black/65 dark:text-[#efefef]/70 md:text-100">
             {footnote}
           </p>
         ) : null}

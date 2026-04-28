@@ -132,7 +132,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
         {breadcrumbSegments.length > 0 ? (
           <RevealOnScroll
             as="div"
-            className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-4 leading-normal text-foreground/70 md:text-[18px]"
+            className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-64 leading-normal text-foreground/70 md:text-[18px]"
           >
             {breadcrumbSegments.map((segment, index) => {
               const isCurrent = index === breadcrumbSegments.length - 1;
@@ -232,7 +232,7 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-6">
+        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-100">
           {label}
         </p>
       ) : null}

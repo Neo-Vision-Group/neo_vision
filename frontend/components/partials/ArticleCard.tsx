@@ -116,8 +116,8 @@ export function ArticleCard({
               className={cn(
                 "font-funnel-display-bold tracking-[-0.2px] text-black dark:text-white",
                 featured
-                  ? "text-6 leading-8 md:text-deco-h4 md:leading-10"
-                  : "text-6 leading-[1.2]"
+                  ? "text-100 leading-8 md:text-deco-h4 md:leading-10"
+                  : "text-100 leading-[1.2]"
               )}
             >
               {article.title}
@@ -133,7 +133,7 @@ export function ArticleCard({
         
         <div className="mt-auto flex items-center gap-3 pt-4">
           <ArrowRight width={38.4} height={24} color={buttonColor} />
-          <span className="font-funnel-display-bold text-6 leading-[1.2] text-black dark:text-white transition-transform duration-200 group-hover:translate-x-0.5">
+          <span className="font-funnel-display-bold text-100 leading-[1.2] text-black dark:text-white transition-transform duration-200 group-hover:translate-x-0.5">
             Read
           </span>
         </div>

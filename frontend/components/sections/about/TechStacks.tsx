@@ -68,7 +68,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
           as="h2"
           type="lines"
           scrollTriggered
-          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
+          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
         >
           {`${headingRegular} ${headingBold}`.trim()}
         </SplitTextReveal>
@@ -85,7 +85,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
               <section key={group?._key ?? `group-${groupIndex}`} className="flex flex-col">
                 {group?.title ? (
                   <div className="py-6">
-                    <h3 className="text-6 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+                    <h3 className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
                       {group.title}
                     </h3>
                   </div>
@@ -137,7 +137,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
         </div>
 
         {closingNote ? (
-          <p className="text-6 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+          <p className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
             {closingNote}
           </p>
         ) : null}

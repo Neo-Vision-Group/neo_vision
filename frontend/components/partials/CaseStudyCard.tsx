@@ -125,7 +125,7 @@ export function CaseStudyCard({
               {item.client}
             </p>
             {item.tagline ? (
-              <p className="max-w-[28ch] text-4 leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
+              <p className="max-w-[28ch] text-64 leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
                 {item.tagline}
               </p>
             ) : null}
@@ -137,7 +137,7 @@ export function CaseStudyCard({
           </div>
         </div>
 
-        <span className="mt-8 inline-flex items-center gap-3 font-funnel text-[20px] font-bold leading-[1.2] text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef] md:mt-10 md:text-6">
+        <span className="mt-8 inline-flex items-center gap-3 font-funnel text-[20px] font-bold leading-[1.2] text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef] md:mt-10 md:text-100">
           <ArrowRight
             color="currentColor"
             width={38}

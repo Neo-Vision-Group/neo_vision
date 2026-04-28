@@ -65,11 +65,11 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
     <SectionsWrapper id="resources" eyebrow={cleanData?.eyebrow ?? 'FREE RESOURCES'}>
       <div className="-mx-6 flex flex-col md:-mx-6">
         <div className="px-6 pb-12 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
-          <h2 className="max-w-[13ch] text-10 leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-12 md:leading-[1.2] md:tracking-[-1px]">
+          <h2 className="max-w-[13ch] text-640 leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:leading-[1.2] md:tracking-[-1px]">
             <Heading value={cleanData?.heading ?? {}} />
           </h2>
           {cleanData?.body ? (
-            <p className="mt-3 max-w-[60ch] text-4 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
+            <p className="mt-3 max-w-[60ch] text-64 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
               {cleanData.body}
             </p>
           ) : null}
@@ -136,7 +136,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               ) : null}
 
               {item?.description ? (
-                <p className="text-4 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
+                <p className="text-64 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
                   {item.description}
                 </p>
               ) : null}
@@ -152,14 +152,14 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               download={!isExternal}
             >
               <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
-              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-6">
+              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
                 Download
               </span>
             </a>
           ) : (
             <span className="inline-flex items-center gap-3 self-start text-black/40 dark:text-[#efefef]/40">
               <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
-              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-6">
+              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
                 Download
               </span>
             </span>

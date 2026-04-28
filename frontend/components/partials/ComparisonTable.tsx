@@ -59,11 +59,11 @@ export function ComparisonTable({
     cn(
       "border-b border-r border-black/8 px-4 py-3 text-left align-middle dark:border-white/10",
       columnIndex === 0
-        ? "min-w-[180px] font-medium text-black dark:text-white"
+        ? "min-w-45 font-medium text-black dark:text-white"
         : "min-w-30 text-black/78 dark:text-white/76",
       isHeader
         ? "bg-[#f4efe9] font-mono text-[11px] uppercase tracking-[0.18em] text-black/55 dark:bg-white/[0.07] dark:text-white/55"
-        : "bg-white text-[14px] leading-[1.4] md:text-4 dark:bg-[#111111]",
+        : "bg-white text-[14px] leading-[1.4] md:text-64 dark:bg-[#111111]",
       columnIndex === resolvedHighlightColumn &&
         (isHeader
           ? "bg-brand text-white dark:bg-brand dark:text-white"

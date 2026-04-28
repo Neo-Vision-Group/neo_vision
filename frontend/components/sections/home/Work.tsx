@@ -114,7 +114,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
             type="words"
             stagger={0.04}
             colorReveal
-            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           >
             {cleanData?.heading}
           </SplitTextReveal>

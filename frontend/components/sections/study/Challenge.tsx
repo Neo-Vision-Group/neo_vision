@@ -37,7 +37,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
       <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
           <div className="flex flex-col gap-3">
-            <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
+            <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
               {heading}
             </h2>
           </div>
@@ -66,10 +66,10 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                 key={(iss.tag ?? "iss") + idx}
                 className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-[#0f0f0f] p-8"
               >
-                <span className="font-betatron text-12 leading-[1.2] tracking-[-2.88px] text-brand">
+                <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                   {iss.tag}
                 </span>
-                <p className="text-6 font-bold leading-[1.2] text-[#efefef]">
+                <p className="text-100 font-bold leading-[1.2] text-[#efefef]">
                   {iss.body}
                 </p>
               </article>

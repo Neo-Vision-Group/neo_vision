@@ -27,7 +27,7 @@ const components: PortableTextComponents = {
       </p>
     ),
     h2: ({ children }) => (
-      <h2 className="mt-12 mb-4 text-12 font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
+      <h2 className="mt-12 mb-4 text-5xl font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
         {children}
       </h2>
     ),
@@ -37,7 +37,7 @@ const components: PortableTextComponents = {
       </h3>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-8 border-l-2 border-brand pl-6 text-6 font-funnel italic leading-[1.2] text-foreground/85">
+      <blockquote className="my-8 border-l-2 border-brand pl-6 text-100 font-funnel italic leading-[1.2] text-foreground/85">
         {children}
       </blockquote>
     ),
@@ -87,7 +87,7 @@ const components: PortableTextComponents = {
   types: {
     pullquote: ({ value }: { value: PullquoteBlock }) => (
       <figure className="my-10 border-y border-brand/40 py-8">
-        <blockquote className="text-6 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-deco-h4 md:leading-10">
+        <blockquote className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-deco-h4 md:leading-10">
           &ldquo;{value.quote}&rdquo;
         </blockquote>
         {value.attribution ? (
