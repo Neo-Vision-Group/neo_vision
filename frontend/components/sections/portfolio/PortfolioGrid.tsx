@@ -56,7 +56,7 @@ function FilterButton({
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
-      className={`relative inline-flex items-center justify-center border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-[1.5] ${
+      className={`relative inline-flex items-center justify-center border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-normal ${
         isActive
           ? "bg-brand/30 text-black dark:text-[#efefef]"
           : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
@@ -116,11 +116,11 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   return (
     <div className="flex flex-col border-y border-black/15 dark:border-white/10 lg:flex-row">
       <div className="lg:flex lg:w-full">
-        <aside className="border-b border-black/15 dark:border-white/10 lg:sticky lg:top-24 lg:w-[372px] lg:flex-none lg:self-start lg:border-b-0">
+        <aside className="border-b border-black/15 dark:border-white/10 lg:sticky lg:top-24 lg:w-93 lg:flex-none lg:self-start lg:border-b-0">
           <div className="flex flex-col gap-10 px-6 py-8 md:px-10 lg:px-12 lg:py-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-[32px]">
+                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-deco-h4">
                   Service:
                 </p>
                 <div className="flex flex-wrap gap-3 md:gap-5">
@@ -141,7 +141,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
             {industryFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-[32px]">
+                <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-deco-h4">
                   Industry:
                 </p>
                 <div className="flex flex-wrap gap-3 md:gap-5">

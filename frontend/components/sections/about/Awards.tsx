@@ -78,7 +78,7 @@ export function Awards({data}: {data?: AwardsData}) {
             >
               <div className="flex flex-col gap-6">
                 {item?.title ? (
-                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[32px] md:tracking-[-1px]">
+                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
                     {item.title}
                   </h3>
                 ) : null}
@@ -90,7 +90,7 @@ export function Awards({data}: {data?: AwardsData}) {
                     {recognitions.map((recognition, recognitionIndex) => (
                       <p
                         key={`${item?._key ?? index}-recognition-${recognitionIndex}`}
-                        className="text-[20px] font-bold leading-[1.2] text-foreground md:text-[24px]"
+                        className="text-[20px] font-bold leading-[1.2] text-foreground md:text-6"
                       >
                         {recognition}
                       </p>
@@ -118,11 +118,11 @@ export function Awards({data}: {data?: AwardsData}) {
         {featuredTitle ? (
           <article className="border border-white/10 bg-surface p-8 md:p-12">
             <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-              <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[32px] md:tracking-[-1px]">
+              <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
                 {featuredTitle}
               </h3>
               {badgeUrl ? (
-                <div className="relative h-[120px] w-[120px] shrink-0 md:h-[150px] md:w-[150px]">
+                <div className="relative h-30 w-30 shrink-0 md:h-38 md:w-38">
                   <Image
                     src={badgeUrl}
                     alt={featuredTitle}

@@ -56,7 +56,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
   return (
     <section
       id="closing-cta"
-      className="relative isolate flex min-h-[400px] w-full items-center justify-center overflow-hidden bg-background px-6 py-24 md:py-32 lg:py-40"
+      className="relative isolate flex min-h-100 w-full items-center justify-center overflow-hidden bg-background px-6 py-24 md:py-32 lg:py-40"
     >
       {/* Light mode background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
@@ -111,14 +111,14 @@ export function ClosingCta({ data }: { data?: CtaData }) {
         />
       </div>
 
-      <div className="flex w-full max-w-[720px] flex-col items-center gap-6 text-center">
+      <div className="flex w-full max-w-180 flex-col items-center gap-6 text-center">
         <SplitTextReveal
           as="h2"
           type="words"
           stagger={0.06}
           duration={0.9}
           scrollTriggered
-          className="text-[32px] leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-[48px] lg:tracking-[-0.6px]"
+          className="text-deco-h4 leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-12 lg:tracking-[-0.6px]"
         >
           <span className="font-normal">{heading.regular} </span>
           <span className="font-bold">{heading.bold}</span>

@@ -76,7 +76,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
                           alt=""
                           className="absolute inset-0 h-full w-full object-cover opacity-20"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#c1c9c5] from-[35.039%] to-[#ff4100] mix-blend-multiply" />
+                        <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-[35.039%] to-[#ff4100] mix-blend-multiply" />
                         {/* Client logo */}
                         {logoUrl && (
                           /* eslint-disable-next-line @next/next/no-img-element */
@@ -122,9 +122,9 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
                         className="h-12 w-12 rounded-full object-cover"
                       />
                     )}
-                    <p className="text-[18px] leading-[1.5] text-brand">{t.attribution}</p>
+                    <p className="text-[18px] leading-normal text-brand">{t.attribution}</p>
                   </div>
-                  <p className="text-[30px] leading-[1.2] tracking-[-1px] text-foreground 2xl:text-[32px]">
+                  <p className="text-[30px] leading-[1.2] tracking-[-1px] text-foreground 2xl:text-deco-h4">
                     &ldquo;{t.quote}&rdquo;
                   </p>
                 </div>

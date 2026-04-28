@@ -9,7 +9,7 @@ export function InsightRelated({ related }: InsightRelatedProps) {
 
   return (
     <section id="related" className="px-4 py-16 md:px-6 xl:px-8">
-      <div className="mx-auto max-w-[1320px]">
+      <div className="mx-auto max-w-330">
         <h2 className="mb-8 text-[36px] font-normal leading-[1.2] tracking-[-1px] text-foreground md:text-[44px]">
           <span className="font-bold">Keep reading.</span>
         </h2>

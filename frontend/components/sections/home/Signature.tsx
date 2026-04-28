@@ -77,7 +77,7 @@ export function Signature({ data }: { data?: SignatureData }) {
     <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow}>
       <div className="flex flex-col gap-12 md:gap-16">
         <div className="flex flex-col gap-6">
-          <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]">
+          <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]">
             {headingLines.map((line, idx) => (
               <span key={idx}>
                 {idx === 0 ? (
@@ -114,7 +114,7 @@ export function Signature({ data }: { data?: SignatureData }) {
 
         <div className="flex flex-col">
           <div className="py-6">
-            <p className="text-[20px] font-bold leading-[1.3] text-foreground md:text-[24px]">
+            <p className="text-[20px] font-bold leading-[1.3] text-foreground md:text-6">
               {signature.secondaryLine}
             </p>
           </div>
@@ -142,7 +142,7 @@ export function Signature({ data }: { data?: SignatureData }) {
             <Button
               href={signature.cta.href}
               variant="primary"
-              className="h-full min-h-[120px] self-stretch px-8 md:min-h-[152px] md:px-10"
+              className="h-full min-h-30 self-stretch px-8 md:min-h-[152px] md:px-10"
             >
               {signature.cta.label}
             </Button>
@@ -207,11 +207,11 @@ function StepCard({
         ) : null}
 
         <div className="flex items-start gap-6">
-          <span className="font-betatron text-[48px] leading-none tracking-[-2.88px] text-brand">
+          <span className="font-betatron text-12 leading-none tracking-[-2.88px] text-brand">
             {step.number}
           </span>
           <div className="flex flex-1 flex-col">
-            <h3 className="text-[20px] font-medium leading-[1.3] tracking-[-0.15px] text-foreground md:text-[24px]">
+            <h3 className="text-[20px] font-medium leading-[1.3] tracking-[-0.15px] text-foreground md:text-6">
               {step.title}
             </h3>
             <p className="text-body text-foreground">{step.duration}</p>
@@ -249,7 +249,7 @@ function ValueCard({
           style={{ background: "#ff4404" }}
         />
       </div>
-      <p className="text-center text-[32px] leading-[1.2] text-foreground md:text-[40px]">
+      <p className="text-center text-deco-h4 leading-[1.2] text-foreground md:text-[40px]">
         {valueCard.value}
       </p>
       <div className="text-center text-body text-foreground">

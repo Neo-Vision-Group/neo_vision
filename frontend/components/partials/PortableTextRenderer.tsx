@@ -27,17 +27,17 @@ const components: PortableTextComponents = {
       </p>
     ),
     h2: ({ children }) => (
-      <h2 className="mt-12 mb-4 text-[48px] font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
+      <h2 className="mt-12 mb-4 text-12 font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mt-10 mb-3 text-[32px] font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
+      <h3 className="mt-10 mb-3 text-deco-h4 font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
         {children}
       </h3>
     ),
     blockquote: ({ children }) => (
-      <blockquote className="my-8 border-l-2 border-brand pl-6 text-[24px] font-funnel italic leading-[1.2] text-foreground/85">
+      <blockquote className="my-8 border-l-2 border-brand pl-6 text-6 font-funnel italic leading-[1.2] text-foreground/85">
         {children}
       </blockquote>
     ),
@@ -74,12 +74,12 @@ const components: PortableTextComponents = {
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="my-5 ml-6 list-disc space-y-2 text-body text-foreground/85 md:text-[18px] md:leading-[30px]">
+      <ul className="my-5 ml-6 list-disc space-y-2 text-body text-foreground/85 md:text-[18px] md:leading-8">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="my-5 ml-6 list-decimal space-y-2 text-body text-foreground/85 md:text-[18px] md:leading-[30px]">
+      <ol className="my-5 ml-6 list-decimal space-y-2 text-body text-foreground/85 md:text-[18px] md:leading-8">
         {children}
       </ol>
     ),
@@ -87,7 +87,7 @@ const components: PortableTextComponents = {
   types: {
     pullquote: ({ value }: { value: PullquoteBlock }) => (
       <figure className="my-10 border-y border-brand/40 py-8">
-        <blockquote className="text-[24px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[32px] md:leading-[42px]">
+        <blockquote className="text-6 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-deco-h4 md:leading-10">
           &ldquo;{value.quote}&rdquo;
         </blockquote>
         {value.attribution ? (

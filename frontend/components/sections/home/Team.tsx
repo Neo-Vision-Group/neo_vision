@@ -216,7 +216,7 @@ export function Team({ data }: { data?: TeamData }) {
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          className="text-[28px] leading-[36px] tracking-[-0.3px] md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-[28px] leading-9 tracking-[-0.3px] md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"
           as="h2"
           stagger={0.04}
@@ -267,17 +267,17 @@ export function Team({ data }: { data?: TeamData }) {
                       <div className="flex flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex flex-col px-6">
-                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-[32px]">
+                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-deco-h4">
                               {member.name}
                             </p>
-                            <p className="font-funnel text-[16px] leading-normal text-[#EFEFEFB3] md:text-[18px]">
+                            <p className="font-funnel text-4 leading-normal text-[#EFEFEFB3] md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
                           <div className="h-px w-full bg-white/20" />
                         </div>
                         <div className="px-6">
-                          <p className="font-funnel text-[16px] leading-normal text-foreground md:text-[18px]">
+                          <p className="font-funnel text-4 leading-normal text-foreground md:text-[18px]">
                             {member.bio}
                           </p>
                         </div>
@@ -319,7 +319,7 @@ export function Team({ data }: { data?: TeamData }) {
         </div>
 
         <div className="px-6 md:px-12">
-          <div className="font-funnel text-[24px] leading-[1.2] tracking-[-1px] text-foreground/70 md:text-[32px]">
+          <div className="font-funnel text-6 leading-[1.2] tracking-[-1px] text-foreground/70 md:text-deco-h4">
             <ClosingStatement parts={team.closingStatement} />
           </div>
         </div>

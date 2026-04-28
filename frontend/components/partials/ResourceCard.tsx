@@ -46,12 +46,12 @@ export function ResourceCard({
       <div className="flex items-start justify-between gap-4">
         <span
           aria-hidden="true"
-          className="flex h-12 w-12 items-center justify-center bg-brand font-display text-[24px] leading-none text-background"
+          className="flex h-12 w-12 items-center justify-center bg-brand font-display text-6 leading-none text-background"
         >
           {resource.iconLetter ?? "•"}
         </span>
         {category ? (
-          <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
+          <span className="font-mono text-2.5 uppercase tracking-wider text-muted">
             {category}
           </span>
         ) : null}

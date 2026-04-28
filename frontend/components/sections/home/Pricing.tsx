@@ -144,9 +144,9 @@ function TextLink({
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-[38px] shrink-0"
+        className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-[24px] font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {label || 'Learn more'}
       </span>
     </>
@@ -210,45 +210,45 @@ function PricingCard({tier}: {tier: PricingTier}) {
   return (
     <article
       className={cn(
-        'flex h-full flex-col gap-10 border border-black/15 bg-black/[0.04] p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12',
+        'flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12',
         isFullWidth && 'md:col-span-2',
       )}
     >
       <div className="flex flex-1 flex-col gap-6">
         {hasBadge ? (
-          <span className="inline-flex w-fit items-center bg-[#7a3419] px-3 py-1 font-funnel text-[14px] leading-none text-white md:text-[18px] md:leading-[1.5]">
+          <span className="inline-flex w-fit items-center bg-[#7a3419] px-3 py-1 font-funnel text-[14px] leading-none text-white md:text-[18px] md:leading-normal">
             {tier?.badge}
           </span>
         ) : null}
 
         {priceLayout === 'split' ? (
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+            <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
               {tier?.title}
             </h3>
-            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-[48px]">
+            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-12">
               {tier?.price}
             </p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+            <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
               {tier?.title}
             </h3>
 
             {priceLayout === 'inline' ? (
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <p className="font-funnel text-[18px] leading-[1.5] text-brand">
+                <p className="font-funnel text-[18px] leading-normal text-brand">
                   {tier?.price}
                 </p>
                 {tier?.meta ? (
-                  <p className="font-funnel text-[18px] leading-[1.5] text-black/60 dark:text-[#efefef]/60">
+                  <p className="font-funnel text-[18px] leading-normal text-black/60 dark:text-[#efefef]/60">
                     {tier.meta}
                   </p>
                 ) : null}
               </div>
             ) : (
-              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-[48px]">
+              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-12">
                 {tier?.price}
               </p>
             )}
@@ -286,7 +286,7 @@ export function Pricing({data}: {data?: PricingData}) {
     >
       <div className="flex flex-col gap-12 md:gap-16">
         <div>
-          <h2 className="max-w-[900px] font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-[48px]">
+          <h2 className="max-w-225 font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-12">
             <span>{cleanData?.headingPrimary ?? fallbackData.headingPrimary}</span>{' '}
             {(cleanData?.headingSecondary ?? fallbackData.headingSecondary) ? (
               <span className="font-normal text-black/55 dark:text-[#efefef]/55">

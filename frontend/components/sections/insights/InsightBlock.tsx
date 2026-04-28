@@ -67,7 +67,7 @@ const portableTextComponents = {
       <p className="my-5 text-[18px] leading-normal text-foreground/80">{children}</p>
     ),
     h3: ({ children }: { children?: ReactNode }) => (
-      <h3 className="mt-10 mb-3 text-[32px] font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
+      <h3 className="mt-10 mb-3 text-deco-h4 font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
     ),
   },
   list: {
@@ -111,7 +111,7 @@ const quotePortableTextComponents = {
   ...portableTextComponents,
   block: {
     normal: ({ children }: { children?: ReactNode }) => (
-      <p className="text-[24px] leading-[1.3] tracking-[-0.03em] text-foreground md:text-[30px]">{children}</p>
+      <p className="text-6 leading-[1.3] tracking-[-0.03em] text-foreground md:text-[30px]">{children}</p>
     ),
     h3: ({ children }: { children?: ReactNode }) => (
       <h3 className="text-[28px] leading-[1.2] tracking-[-0.04em] text-foreground md:text-[36px]">{children}</h3>
@@ -140,20 +140,20 @@ export function InsightBlock({ data }: InsightBlockProps) {
 
   return (
     <section className="px-4 py-16 md:px-6 md:py-20 xl:px-8">
-      <article className="mx-auto max-w-[1320px] px-6 md:px-12">
-        <h2 className="mb-8 max-w-[14ch] text-[36px] font-medium leading-[42px] tracking-[-0.4px] text-foreground md:text-[56px] md:leading-[64px] xl:text-[72px] xl:leading-[80px]">
+      <article className="mx-auto max-w-330 px-6 md:px-12">
+        <h2 className="mb-8 max-w-[14ch] text-[36px] font-medium leading-10 tracking-[-0.4px] text-foreground md:text-[56px] md:leading-16 xl:text-[72px] xl:leading-20">
           {title}
         </h2>
 
         {text && text.length > 0 && (
-          <div className="mb-12 max-w-[900px] text-body text-foreground/80">
+          <div className="mb-12 max-w-225 text-body text-foreground/80">
             <PortableText value={text} components={portableTextComponents} />
           </div>
         )}
 
         {sectionType === 'quote' && quote?.quote && quote.quote.length > 0 && (
-          <div className="mb-12 max-w-[980px]">
-            <div className="border border-black/8 bg-black/[0.04] px-6 py-8 dark:border-white/10 dark:bg-white/[0.04] md:px-8 md:py-10">
+          <div className="mb-12 max-w-245">
+            <div className="border border-black/8 bg-black/4 px-6 py-8 dark:border-white/10 dark:bg-white/4 md:px-8 md:py-10">
               <div className="flex items-start gap-4 md:gap-6">
                 <div aria-hidden className="mt-1 shrink-0 text-brand">
                   <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -168,7 +168,7 @@ export function InsightBlock({ data }: InsightBlockProps) {
                 </div>
               </div>
               {quote.attribution && (
-                <p className="mt-5 pl-[46px] text-[14px] uppercase tracking-[0.18em] text-foreground/55 md:pl-[54px]">
+                <p className="mt-5 pl-12 text-[14px] uppercase tracking-[0.18em] text-foreground/55 md:pl-14">
                   {quote.attribution}
                 </p>
               )}
@@ -177,7 +177,7 @@ export function InsightBlock({ data }: InsightBlockProps) {
         )}
 
         {sectionType === 'table' && table && table.headers && table.rows && (
-          <div className="mb-12 max-w-[1100px]">
+          <div className="mb-12 max-w-275">
             <ComparisonTable
               headers={table.headers}
               rows={table.rows}
@@ -186,7 +186,7 @@ export function InsightBlock({ data }: InsightBlockProps) {
         )}
 
         {sectionType === 'card' && card && (
-          <div className="mb-12 max-w-[900px]">
+          <div className="mb-12 max-w-225">
             <CalloutCard label={card.label}>
               {card.body && card.body.length > 0 ? (
                 <div className="[&_p:first-child]:mt-0 [&_p:last-child]:mb-0">

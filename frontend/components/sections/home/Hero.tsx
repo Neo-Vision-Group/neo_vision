@@ -39,7 +39,7 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] min-h-[580px] flex-col justify-between overflow-hidden bg-background"
+      className="has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] min-h-145 flex-col justify-between overflow-hidden bg-background"
     >
       <HeroBrandDotsBackground />
 
@@ -66,7 +66,7 @@ export function Hero({ data }: { data?: HeroData }) {
           className="flex w-full max-w-165.25 flex-col gap-5 md:gap-6"
         >
           <div className="flex flex-col gap-2 text-foreground">
-            <p className="text-[32px] font-medium leading-8 tracking-[-0.3px] md:text-[32px] md:leading-[42px] lg:text-[36px] lg:leading-[48px]">
+            <p className="text-deco-h4 font-medium leading-8 tracking-[-0.3px] md:text-deco-h4 md:leading-10 lg:text-[36px] lg:leading-12">
               {hero.heading}
             </p>
             <p className="text-[18px]">{hero.body}</p>
@@ -107,7 +107,7 @@ export function Hero({ data }: { data?: HeroData }) {
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-[32px] whitespace-pre-line [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-deco-h4 whitespace-pre-line [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

@@ -143,7 +143,7 @@ export function Story({ data }: { data?: StoryData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-deco-h4 leading-[1.2] tracking-[-1px] text-foreground md:text-[48px] max-w-225"
+          className="text-deco-h4 leading-[1.2] tracking-[-1px] text-foreground md:text-12 max-w-225"
         >
             {story.heading}
         </SplitTextReveal>
@@ -152,28 +152,28 @@ export function Story({ data }: { data?: StoryData }) {
           <div className="absolute top-12 left-0 w-full h-px bg-white/20 -z-10" />
           <ol
             ref={scrollerRef}
-            className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-[48px] md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
+            className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-12 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
           >
             {story.milestones.map((m, idx) => (
               <li
                 key={m.year + idx}
                 data-milestone
                 className={cn(
-                  "relative flex w-full shrink-0 flex-col gap-2 md:w-[340px] lg:w-[400px] xl:w-[480px] 2xl:w-[550px]"
+                  "relative flex w-full shrink-0 flex-col gap-2 md:w-85 lg:w-100 xl:w-120 2xl:w-138"
                 )}
               >
-                <div className="flex flex-col gap-[2px]">
+                <div className="flex flex-col gap-0.5">
                   <span
                     className={cn(
                       "font-betatron capitalize text-brand",
                       idx === 0
-                        ? "text-[64px] tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
-                        : "text-[48px] tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
+                        ? "text-16 tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
+                        : "text-12 tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
                     )}
                   >
                     {m.year}
                   </span>
-                  <p className="py-4 text-[24px] leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-[32px] 2xl:text-[32px]">
+                  <p className="py-4 text-6 leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-deco-h4 2xl:text-deco-h4">
                     {m.body}
                   </p>
                 </div>

@@ -40,8 +40,8 @@ export type TechStacksData = {
 function PlaceholderTile() {
   return (
     <div className="relative aspect-[102.5/57.656246185302734] w-full overflow-hidden bg-black">
-      <div className="absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_55%)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#c1c9c5]/15 via-transparent to-brand/30 mix-blend-screen" />
+      <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.12),transparent_55%)]" />
+      <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5]/15 via-transparent to-brand/30 mix-blend-screen" />
     </div>
   )
 }
@@ -68,7 +68,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
           as="h2"
           type="lines"
           scrollTriggered
-          className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
+          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
         >
           {`${headingRegular} ${headingBold}`.trim()}
         </SplitTextReveal>
@@ -85,7 +85,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
               <section key={group?._key ?? `group-${groupIndex}`} className="flex flex-col">
                 {group?.title ? (
                   <div className="py-6">
-                    <h3 className="text-[24px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[32px] md:tracking-[-1px]">
+                    <h3 className="text-6 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
                       {group.title}
                     </h3>
                   </div>
@@ -103,10 +103,10 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                       return (
                         <article
                           key={item?._key ?? `item-${itemIndex}`}
-                          className="flex min-h-[160px] flex-col justify-between border-b border-r border-white/10 p-6 odd:border-l md:min-h-[188px] lg:min-h-[212px]"
+                          className="flex min-h-40 flex-col justify-between border-b border-r border-white/10 p-6 odd:border-l md:min-h-47[188px] lg:min-h-53"
                         >
                           <div className="flex flex-1 items-center justify-center">
-                            <div className="w-full max-w-[253px]">
+                            <div className="w-full max-w-64">
                               {imageUrl ? (
                                 <div className="relative aspect-[102.5/57.656246185302734] w-full">
                                   <Image
@@ -122,7 +122,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                             </div>
                           </div>
                           {item?.name ? (
-                            <p className="pt-3 text-center text-[14px] leading-[1.5] text-foreground md:text-[18px]">
+                            <p className="pt-3 text-center text-[14px] leading-normal text-foreground md:text-[18px]">
                               {item.name}
                             </p>
                           ) : null}
@@ -137,7 +137,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
         </div>
 
         {closingNote ? (
-          <p className="text-[24px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[32px] md:tracking-[-1px]">
+          <p className="text-6 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
             {closingNote}
           </p>
         ) : null}

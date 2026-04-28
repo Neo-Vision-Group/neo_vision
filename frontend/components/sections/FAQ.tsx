@@ -56,7 +56,7 @@ export function FAQ({ data }: { data?: FaqData }) {
           <SplitTextReveal
             colorReveal
             as="h2"
-            className="font-funnel text-[36px] leading-[1.15] tracking-[-1px] text-foreground md:text-[48px] md:leading-[1.2]"
+            className="font-funnel text-[36px] leading-[1.15] tracking-[-1px] text-foreground md:text-12 md:leading-[1.2]"
           >
             {heading}
           </SplitTextReveal>
@@ -88,7 +88,7 @@ export function FAQ({ data }: { data?: FaqData }) {
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   )}
                 >
-                  <span className="flex-1 font-funnel text-[24px] text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-deco-h4 md:tracking-[-1px]">
+                  <span className="flex-1 font-funnel text-6 text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-deco-h4 md:tracking-[-1px]">
                     {item.question}
                   </span>
                   <ToggleIcon open={open} />
@@ -146,7 +146,7 @@ function Panel({
       )}
     >
       <div className="overflow-hidden">
-        <div className="px-6 pb-6 text-[16px] leading-[1.55] text-foreground/70 md:px-12 md:pb-12 md:text-[18px] md:leading-[1.5]">
+        <div className="px-6 pb-6 text-4 leading-[1.55] text-foreground/70 md:px-12 md:pb-12 md:text-[18px] md:leading-normal">
           {children}
         </div>
       </div>

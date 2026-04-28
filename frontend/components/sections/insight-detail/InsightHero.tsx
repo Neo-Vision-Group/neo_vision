@@ -45,7 +45,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
       <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
 
       <div className="relative px-4 pt-12 pb-14 md:px-6 md:pt-16 md:pb-20 xl:px-8 xl:pt-20 xl:pb-24">
-        <div className="mx-auto flex max-w-[1320px] flex-col gap-10">
+        <div className="mx-auto flex max-w-330 flex-col gap-10">
           <nav className="flex flex-wrap items-center gap-2 text-[14px] leading-[1.4] text-black/55 dark:text-white/55 md:text-[18px]">
             <Link href="/insights" className="transition-colors hover:text-black dark:hover:text-white">
               Insights
@@ -62,9 +62,9 @@ export function InsightHero({ post }: { post: InsightDoc }) {
             <span className="text-brand">{post.title}</span>
           </nav>
 
-          <div className="flex max-w-[760px] flex-col gap-6 md:gap-8">
+          <div className="flex max-w-190 flex-col gap-6 md:gap-8">
             {categoryLabel ? (
-              <div className="inline-flex self-start bg-brand/25 px-3 py-1.5 text-[16px] leading-[1.2] text-black dark:text-white md:text-[18px]">
+              <div className="inline-flex self-start bg-brand/25 px-3 py-1.5 text-4 leading-[1.2] text-black dark:text-white md:text-[18px]">
                 {categoryLabel}
               </div>
             ) : null}
@@ -74,7 +74,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 {post.title}
               </h1>
               {post.excerpt ? (
-                <p className="max-w-[34ch] text-[20px] leading-[1.45] text-black/80 dark:text-white/78 md:text-[24px]">
+                <p className="max-w-[34ch] text-[20px] leading-[1.45] text-black/80 dark:text-white/78 md:text-6">
                   {post.excerpt}
                 </p>
               ) : null}
@@ -98,15 +98,15 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                       {post.author.name.charAt(0)}
                     </div>
                   )}
-                  <span className="absolute inset-x-[-8px] top-0 h-px bg-brand" />
-                  <span className="absolute inset-x-[-8px] bottom-0 h-px bg-brand" />
-                  <span className="absolute inset-y-[-8px] left-0 w-px bg-brand" />
-                  <span className="absolute inset-y-[-8px] right-0 w-px bg-brand" />
+                  <span className="absolute -inset-x-2 top-0 h-px bg-brand" />
+                  <span className="absolute -inset-x-2 bottom-0 h-px bg-brand" />
+                  <span className="absolute -inset-y-2 left-0 w-px bg-brand" />
+                  <span className="absolute -inset-y-2 right-0 w-px bg-brand" />
                 </div>
 
                 <div className="flex flex-col">
-                  <p className="text-[24px] leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
-                  <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-[15px]">
+                  <p className="text-6 leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
+                  <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-4">
                     {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
                       .filter(Boolean)
                       .join(" | ")}
@@ -155,7 +155,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
           </div>
 
           {coverImageUrl ? (
-            <div className="relative aspect-[16/9] w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5">
+            <div className="relative aspect-video w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5">
               <Image
                 src={coverImageUrl}
                 alt={post.title ?? "Insight cover image"}

@@ -132,7 +132,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
         {breadcrumbSegments.length > 0 ? (
           <RevealOnScroll
             as="div"
-            className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-[16px] leading-[1.5] text-foreground/70 md:text-[18px]"
+            className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-4 leading-normal text-foreground/70 md:text-[18px]"
           >
             {breadcrumbSegments.map((segment, index) => {
               const isCurrent = index === breadcrumbSegments.length - 1;
@@ -156,7 +156,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
         <div className="flex flex-col gap-6 md:gap-8">
           <RevealOnScroll
             as="p"
-            className="font-betatron text-[28px] leading-[1.2] text-brand md:text-[32px]"
+            className="font-betatron text-[28px] leading-[1.2] text-brand md:text-deco-h4"
           >
             {eyebrow}
           </RevealOnScroll>
@@ -177,7 +177,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           {description ? (
             <RevealOnScroll
               as="p"
-              className="max-w-[683px] font-funnel text-[18px] leading-[1.5] text-foreground/80"
+              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground/80"
             >
               {description}
             </RevealOnScroll>
@@ -224,15 +224,15 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   }
 
   return (
-    <article className="flex min-h-[120px] flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/[0.04] p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
-        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-[32px]">
+        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-deco-h4">
           {value}
         </p>
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-[24px]">
+        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-6">
           {label}
         </p>
       ) : null}
@@ -249,20 +249,20 @@ function HeroCta({ cta }: { cta: ServiceHeroCta }) {
 
   const content = (
     <>
-      <span className="font-funnel text-[18px] leading-[1.5] text-white">
+      <span className="font-funnel text-[18px] leading-normal text-white">
         {label}
       </span>
       <ArrowRightPixel
         color="white"
         width={38}
         height={24}
-        className="h-6 w-[38px] shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+        className="h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
       />
     </>
   );
 
   const className =
-    "group flex min-h-[120px] items-center justify-between gap-6 bg-brand px-6 py-5 transition-colors duration-200 hover:bg-brand-hover md:min-h-0 md:min-w-[260px]";
+    "group flex min-h-30 items-center justify-between gap-6 bg-brand px-6 py-5 transition-colors duration-200 hover:bg-brand-hover md:min-h-0 md:min-w-65";
 
   if (cta.link) {
     return (

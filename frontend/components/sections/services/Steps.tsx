@@ -54,8 +54,8 @@ export function Steps({data}: {data?: StepsData}) {
   return (
     <SectionsWrapper eyebrow={eyebrow} id="steps">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="max-w-[900px]">
-          <h2 className="font-funnel text-[32px] leading-[1.15] tracking-[-0.8px] text-foreground md:text-[40px] lg:text-[48px] lg:tracking-[-1px]">
+        <div className="max-w-225">
+          <h2 className="font-funnel text-deco-h4 leading-[1.15] tracking-[-0.8px] text-foreground md:text-[40px] lg:text-12 lg:tracking-[-1px]">
             <span className="text-foreground/70">{intro} </span>
             <span className="font-bold text-foreground">{highlight}</span>
           </h2>
@@ -71,7 +71,7 @@ export function Steps({data}: {data?: StepsData}) {
             {items.map((item, index) => (
               <article
                 key={item._key ?? `${item.title ?? 'step'}-${index}`}
-                className="grid grid-cols-[12px_minmax(0,1fr)] gap-x-[15px]"
+                className="grid grid-cols-[12px_minmax(0,1fr)] gap-x-4"
               >
                 <div className="flex flex-col items-center">
                   <div className="h-3 w-3 shrink-0 bg-brand" />
@@ -91,12 +91,12 @@ export function Steps({data}: {data?: StepsData}) {
 
                       <div className="flex min-w-0 flex-col items-start gap-1.5 pt-1.5">
                         {item.title ? (
-                          <h3 className="font-funnel text-[24px] font-bold leading-[1.2] text-foreground">
+                          <h3 className="font-funnel text-6 font-bold leading-[1.2] text-foreground">
                             {item.title}
                           </h3>
                         ) : null}
                         {item.duration ? (
-                          <span className="inline-flex items-center bg-brand/20 px-2.5 py-1 text-[16px] leading-[1.2] text-foreground md:text-[18px] md:leading-[1.5]">
+                          <span className="inline-flex items-center bg-brand/20 px-2.5 py-1 text-4 leading-[1.2] text-foreground md:text-[18px] md:leading-normal">
                             {item.duration}
                           </span>
                         ) : null}
@@ -104,7 +104,7 @@ export function Steps({data}: {data?: StepsData}) {
                     </div>
 
                     {item.body ? (
-                      <p className="max-w-[40ch] text-[18px] leading-[1.5] text-foreground/70">
+                      <p className="max-w-[40ch] text-[18px] leading-normal text-foreground/70">
                         {item.body}
                       </p>
                     ) : null}
@@ -120,7 +120,7 @@ export function Steps({data}: {data?: StepsData}) {
               delay={0.15}
               className="relative hidden lg:block lg:pt-1"
             >
-              <div className="sticky top-32 overflow-hidden rounded-[10px] border border-white/10 bg-surface">
+              <div className="sticky top-32 overflow-hidden rounded-2.5 border border-white/10 bg-surface">
                 <Image
                   src={visualUrl}
                   alt={cleanData?.visualAlt ?? ''}

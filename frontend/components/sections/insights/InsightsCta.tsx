@@ -18,11 +18,11 @@ export function InsightsCta({ data }: { data?: InsightsCtaData }) {
       eyebrow="STILL WONDERING?"
     >
       <div className="flex flex-col gap-8 border border-brand/40 bg-surface px-6 py-12 md:px-6 md:py-16 lg:px-8 xl:px-12 2xl:px-16 dark:border-brand/60">
-        <h2 className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px]">
+        <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
           <Heading value={cleanData?.heading ?? {}} />
         </h2>
         {cleanData?.body ? (
-          <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-[28px]">
+          <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-7">
             {cleanData.body}
           </p>
         ) : null}

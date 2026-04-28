@@ -14,17 +14,22 @@ export function SectionsWrapper({
   hideTopBorder = false,
 }: SectionsWrapperProps) {
   return (
-    <section id={id} className="relative flex w-full items-start">
-      <aside className="hidden lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
+    <section id={id} className="relative flex flex-col md:flex-row w-full items-start">
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 left-3 w-px bg-black/20 dark:bg-white/20 md:hidden"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-y-0 right-3 w-px bg-black/20 dark:bg-white/20 md:hidden"
+      />
+
+      <aside className="lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
         <div className="h-px w-full bg-black/20 dark:bg-white/20" />
         <div className="relative w-full px-12 py-6">
-          {typeof eyebrow === 'string' ? (
-            <p className="font-betatron text-[32px] leading-[1.2] text-black dark:text-[#efefef]">
+            <p className="font-betatron text-3xl text-black dark:text-[#efefef]">
               {eyebrow}
             </p>
-          ) : (
-            eyebrow
-          )}
         </div>
         <div className="h-px w-full bg-black/20 dark:bg-white/20" />
       </aside>

@@ -72,7 +72,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12 md:gap-14 lg:gap-16">
         <div className="max-w-[860px] space-y-4 md:space-y-5">
-          <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-[38px] lg:text-[48px] lg:tracking-[-1px]">
+          <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-10 lg:text-12 lg:tracking-[-1px]">
             {headingFaded ? (
               <span className="font-normal text-foreground/70">{headingFaded}</span>
             ) : null}
@@ -106,7 +106,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
 
             {ctaLabel && ctaHref ? (
               <div>
-                <Button href={ctaHref} variant="primary" className="min-h-[48px]">
+                <Button href={ctaHref} variant="primary" className="min-h-12">
                   {ctaLabel}
                 </Button>
               </div>
@@ -191,10 +191,10 @@ function StepRailItem({
         ) : null}
 
         <div className="flex h-full flex-col justify-between gap-10">
-          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[48px] md:tracking-[-2.88px]">
+          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-12 md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
           </p>
-          <h3 className="max-w-[10ch] text-[24px] font-bold leading-[1.2] text-foreground">
+          <h3 className="max-w-[10ch] text-6 font-bold leading-[1.2] text-foreground">
             {step.title}
           </h3>
         </div>

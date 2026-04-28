@@ -67,8 +67,8 @@ function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="relative flex h-[52px] items-center justify-center overflow-hidden p-1.5">
-        <div className="flex size-[38px] items-center justify-center bg-background" />
+      <div className="relative flex h-13 items-center justify-center overflow-hidden p-1.5">
+        <div className="flex size-9.5 items-center justify-center bg-background" />
       </div>
     )
   }

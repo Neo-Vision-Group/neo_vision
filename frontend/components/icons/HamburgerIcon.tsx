@@ -19,7 +19,7 @@ export function HamburgerIcon({ open }: { open: boolean }) {
         y2="7"
         className={cn(
           "origin-center transition-transform duration-200",
-          open && "translate-y-[5px] rotate-45"
+          open && "translate-y-1.25 rotate-45"
         )}
       />
       <line
@@ -39,7 +39,7 @@ export function HamburgerIcon({ open }: { open: boolean }) {
         y2="17"
         className={cn(
           "origin-center transition-transform duration-200",
-          open && "-translate-y-[5px] -rotate-45"
+          open && "-translate-y-1.25 -rotate-45"
         )}
       />
     </svg>

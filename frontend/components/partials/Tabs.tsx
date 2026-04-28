@@ -58,7 +58,7 @@ export function Tabs({
             {opt.badge ? (
               <span
                 className={cn(
-                  "inline-flex items-center justify-center rounded-full px-2 py-0.5 text-[10px] font-betatron uppercase tracking-wider",
+                  "inline-flex items-center justify-center rounded-full px-2 py-0.5 text-2.5 font-betatron uppercase tracking-wider",
                   active ? "bg-white/20 text-white" : "bg-white/10 text-foreground/60"
                 )}
               >

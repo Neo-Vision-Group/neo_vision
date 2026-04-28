@@ -74,7 +74,7 @@ export function Footer({
       </div>
 
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
-        <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 p-8 md:w-[420px] md:flex-none md:p-10 lg:w-[480px] lg:p-12">
+        <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 p-8 md:w-105 md:flex-none md:p-10 lg:w-120 lg:p-12">
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-4 md:gap-5">
               {logo ? (
@@ -84,12 +84,12 @@ export function Footer({
                   aria-hidden="true"
                   width={80}
                   height={102}
-                  className="h-[50px] w-[39px] shrink-0 md:h-[64px] md:w-[50px] lg:h-[80px] lg:w-[62px] 2xl:h-[102px] 2xl:w-[80px]"
+                  className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20"
                 />
               ) : (
-                <Logo className="h-[50px] w-[39px] shrink-0 md:h-[64px] md:w-[50px] lg:h-[80px] lg:w-[62px] 2xl:h-[102px] 2xl:w-[80px]" />
+                <Logo className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20" />
               )}
-              <p className="min-w-0 break-words font-betatron text-[22px] leading-[30px] tracking-[-0.2px] text-foreground md:text-[24px] md:leading-8 lg:text-[28px] lg:leading-[36px] 2xl:text-[32px] 2xl:leading-[38px]">
+              <p className="min-w-0 font-betatron text-[22px] leading-8 tracking-[-0.2px] text-foreground md:text-6 md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-deco-h4 2xl:leading-9">
                 {title}
               </p>
             </div>
@@ -112,7 +112,7 @@ export function Footer({
         <div className="relative z-10 grid min-w-0 grid-cols-1 gap-10 border-t border-black/20 p-8 md:flex-1 md:border-l md:border-t-0 md:px-8 md:py-12 lg:grid-cols-4 dark:border-white/15 lg:px-16">
           {displayColumns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-medium text-[24px] leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] 2xl:text-[32px] 2xl:leading-[38px]">
+              <h3 className="font-medium text-6 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-deco-h4 2xl:leading-9">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">

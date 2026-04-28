@@ -62,7 +62,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
       <HeroBrandDotsBackground />
 
       <div className="relative mx-auto flex w-full max-w-[1280px] flex-col gap-6 px-6 pb-0 pt-24 md:gap-8 md:px-8 md:pt-28 xl:px-12 2xl:px-16">
-        <div className="font-funnel text-[18px] leading-[1.5] text-[#efefef]/70">
+        <div className="font-funnel text-[18px] leading-normal text-[#efefef]/70">
           <span>Work</span>
           <span className="px-2 text-brand">/</span>
           <span className="text-brand">{heading}</span>
@@ -70,7 +70,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
         <div className="flex flex-col items-center gap-6 py-2 text-center md:gap-8 md:py-4">
           {eyebrow ? (
-            <p className="font-betatron text-[32px] leading-[1.2] uppercase text-brand">
+            <p className="font-betatron text-deco-h4 leading-[1.2] uppercase text-brand">
               {eyebrow}
             </p>
           ) : null}
@@ -84,7 +84,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
           {subheading ? (
             <RevealOnScroll
               as="p"
-              className="max-w-[683px] font-funnel text-[18px] leading-[1.5] text-[#efefef]"
+              className="max-w-170 font-funnel text-[18px] leading-normal text-[#efefef]"
               delay={0.15}
             >
               {subheading}
@@ -113,7 +113,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
                     key={item._key ?? `${item.label}-${item.value}`}
                     className="flex min-h-[92px] flex-col justify-between border border-white/15 bg-[#0f0f0f] p-6"
                   >
-                    <p className="font-betatron text-[32px] leading-[1.2] text-brand">
+                    <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
                       {item.label}
                     </p>
                     <p className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-[#efefef]">

@@ -70,7 +70,7 @@ function StatCard({
     return (
       <div className="flex flex-1 flex-col items-start justify-center border border-white/20 dark:bg-[#0f0f0f] bg-white p-6 md:min-h-[88px]">
         <div className="flex w-full flex-col gap-3">
-          <p className="font-betatron text-[32px] leading-[1.2] text-brand">
+          <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
             <CountingNumber
               value={stat.number}
               suffix={stat.suffix}
@@ -88,14 +88,14 @@ function StatCard({
   return (
     <div className="flex flex-1 flex-col items-start justify-center border border-white/20 bg-[#EFEFEFB3] p-6 dark:bg-black">
       <div className="flex flex-col gap-3">
-        <p className="font-betatron text-[48px] leading-[1.2] tracking-[-2.88px] text-brand">
+        <p className="font-betatron text-12 leading-[1.2] tracking-[-2.88px] text-brand">
           <CountingNumber
             value={stat.number}
             suffix={stat.suffix}
             duration={2000}
           />
         </p>
-        <p className="w-full font-funnel text-[24px] font-bold leading-[1.2] text-foreground">
+        <p className="w-full font-funnel text-6 font-bold leading-[1.2] text-foreground">
           {stat.label}
         </p>
       </div>

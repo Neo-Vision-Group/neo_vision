@@ -1,10 +1,5 @@
 import { cn } from "@/lib/utils";
 
-/**
- * Testimonial quote card — pull-quote with attribution and optional
- * source badge (Trustpilot, LinkedIn, etc.). Reused on About, Services,
- * Portfolio [slug].
- */
 export type TestimonialQuoteProps = {
   quote: string;
   attribution: string;
@@ -32,17 +27,17 @@ export function TestimonialQuote({
       >
         <span
           aria-hidden="true"
-          className="font-betatron text-[48px] leading-none text-brand"
+          className="font-betatron text-12 leading-none text-brand"
         >
           &ldquo;
         </span>
 
         <div className="flex flex-col gap-6">
-          <cite className="not-italic text-[18px] leading-[1.5] text-brand">
+          <cite className="not-italic text-[18px] leading-normal text-brand">
             - {attribution}
             {source ? `, ${source}` : ""}
           </cite>
-          <blockquote className="text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-[32px]">
+          <blockquote className="text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-deco-h4">
             {quote}
           </blockquote>
         </div>
@@ -61,12 +56,12 @@ export function TestimonialQuote({
       {/* Opening mark */}
       <span
         aria-hidden="true"
-        className="font-betatron text-[64px] leading-none text-brand md:text-[96px]"
+        className="font-betatron text-16 leading-none text-brand md:text-[96px]"
       >
         &ldquo;
       </span>
 
-      <blockquote className="flex-1 text-[22px] font-medium leading-[30px] tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[38px] 2xl:text-[32px] 2xl:leading-[42px]">
+      <blockquote className="flex-1 text-[22px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-deco-h4 2xl:leading-10">
         {quote}
       </blockquote>
 

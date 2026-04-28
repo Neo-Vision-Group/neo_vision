@@ -83,13 +83,13 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
           </p>
         </div>
       ) : (
-        <form onSubmit={onSubmit} className="flex flex-col gap-[24px]" noValidate>
+        <form onSubmit={onSubmit} className="flex flex-col gap-6" noValidate>
           <div aria-hidden="true" className="hidden">
             <input type="text" tabIndex={-1} {...register("website")} />
           </div>
 
-          <div className="flex flex-col gap-[24px]">
-            <div className="flex flex-col gap-[12px] md:flex-row">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-3 md:flex-row">
               <FormField label="Your name *" error={errors.name?.message}>
                 <input
                   type="text"
@@ -132,7 +132,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
               />
             </FormField>
 
-            <div className="flex flex-col gap-[12px] md:flex-row">
+            <div className="flex flex-col gap-3 md:flex-row">
               <FormField label="Estimated budget range" error={errors.budget?.message}>
                 <DropdownField
                   placeholder="Select range..."
@@ -172,7 +172,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                 rows={4}
                 placeholder="What are you trying to achieve? Even rough ideas help..."
                 {...register("message")}
-                className={cn(inputClasses(!!errors.message), "h-[100px] resize-none")}
+                className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
               />
             </FormField>
           </div>
@@ -184,7 +184,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="flex w-full items-center justify-center gap-[12px] bg-brand py-[12px] pl-[24px] pr-[16px] text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+            className="flex w-full items-center justify-center gap-3 bg-brand py-3 pl-6 pr-4 text-white transition-opacity hover:opacity-90 disabled:opacity-50"
           >
             <span className="font-funnel text-[18px] leading-normal">
               {isSubmitting ? "Sending..." : "Send message"}
@@ -218,7 +218,7 @@ function FormField({
 
 function inputClasses(hasError: boolean, isSpecial?: boolean) {
   return cn(
-    "w-full border border-black/10 bg-white px-[24px] py-[12px] font-funnel text-[18px] leading-[1.5] text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
+    "w-full border border-black/10 bg-white px-6 py-3 font-funnel text-[18px] leading-normal text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
     hasError && "border-brand",
     isSpecial && "bg-brand/30"
   );
@@ -286,14 +286,14 @@ function DropdownField({
           }, 0);
         }}
         className={cn(
-          "flex min-h-[51px] w-full items-center justify-between border border-black/10 bg-white px-[24px] py-[12px] text-left dark:border-white/10 dark:bg-[#0f0f0f]",
+          "flex min-h-13 w-full items-center justify-between border border-black/10 bg-white px-6 py-3 text-left dark:border-white/10 dark:bg-[#0f0f0f]",
           hasError && "border-brand",
           open && "ring-1 ring-brand/40"
         )}
       >
         <span
           className={cn(
-            "font-funnel text-[18px] leading-[1.5]",
+            "font-funnel text-[18px] leading-normal",
             hasSelection
               ? "text-black dark:text-[#efefef]"
               : "text-black/40 dark:text-[#efefef]/70"
@@ -333,10 +333,10 @@ function DropdownField({
                   setOpen(false);
                 }}
                 className={cn(
-                  "block w-full border-b border-black/20 px-[24px] py-[12px] text-left font-funnel text-[18px] leading-[1.5] text-black transition-colors last:border-b-0 dark:border-white/20 dark:text-[#efefef]",
+                  "block w-full border-b border-black/20 px-6 py-3 text-left font-funnel text-[18px] leading-normal text-black transition-colors last:border-b-0 dark:border-white/20 dark:text-[#efefef]",
                   selected
                     ? "bg-brand/30"
-                    : "bg-white hover:bg-black/[0.03] dark:bg-[#0f0f0f] dark:hover:bg-white/[0.06]"
+                    : "bg-white hover:bg-black/3 dark:bg-[#0f0f0f] dark:hover:bg-white/6"
                 )}
               >
                 {option}
@@ -349,7 +349,7 @@ function DropdownField({
       {open && options.length === 0 && (
         <div className="absolute left-0 right-0 top-full z-20 border border-black/15 bg-white dark:border-white/15 dark:bg-[#0f0f0f]">
           <div className="h-px w-full bg-brand" />
-          <div className="px-[24px] py-[12px] font-funnel text-[18px] leading-[1.5] text-black/50 dark:text-[#efefef]/60">
+          <div className="px-6 py-3 font-funnel text-[18px] leading-normal text-black/50 dark:text-[#efefef]/60">
             No options available yet.
           </div>
         </div>

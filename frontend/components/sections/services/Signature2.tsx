@@ -10,7 +10,7 @@ export function Signature({ data }: { data: any }) {
                 {data.heading}
               </h3>
               {data.body ? (
-                <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-[28px]">
+                <p className="max-w-[70ch] text-body text-foreground/70 md:text-[20px] md:leading-7">
                   {data.body}
                 </p>
               ) : null}

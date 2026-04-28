@@ -114,7 +114,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
             type="words"
             stagger={0.04}
             colorReveal
-            className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           >
             {cleanData?.heading}
           </SplitTextReveal>
@@ -201,13 +201,13 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </>
       ) : null}
 
-      <div className="flex w-full max-w-[1080px] flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
+      <div className="flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
         <div className="flex w-full flex-col p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               {item.client}
             </span>
-            <span className="font-betatron text-[32px] leading-[38px] tracking-[-0.2px] text-foreground">
+            <span className="font-betatron text-deco-h4 leading-9 tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>
@@ -260,7 +260,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="text-caption capitalize tracking-[-0.16px] text-brand">
               {item.category}
             </span>
-            <span className="font-funnel dark:text-white text-black text-[32px] leading-[38px] tracking-[-0.2px]">
+            <span className="font-funnel dark:text-white text-black text-deco-h4 leading-9 tracking-[-0.2px]">
               {item.name}
             </span>
             <p className="text-funnel text-[#EFEFEFB3] text-[18px]">{item.tagline}</p>

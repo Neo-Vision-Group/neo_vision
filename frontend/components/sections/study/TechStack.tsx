@@ -36,7 +36,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
                 backgroundSize: "8px 8px, auto",
               }}
             />
-            <p className="text-center text-[18px] leading-[1.5] text-[#efefef]">
+            <p className="text-center text-[18px] leading-normal text-[#efefef]">
               {t}
             </p>
           </article>

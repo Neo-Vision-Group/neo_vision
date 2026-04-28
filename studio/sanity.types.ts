@@ -44,6 +44,7 @@ export type Heading = {
 export type ValueCard = {
   value?: string
   body?: string
+  graphic?: ValueCardGraphic
 }
 
 export type RealityHeading = {
@@ -75,11 +76,6 @@ export type InsightsCtaCta = {
 export type PortfolioCtaHeading = {
   regular: string
   bold: string
-}
-
-export type PlaceCta = {
-  label?: string
-  href?: string
 }
 
 export type FreeResourcesHeading = {
@@ -117,6 +113,36 @@ export type SanityImageAssetReference = {
 export type Logo = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type Breadcrumb = {
+  rootLabel?: string
+  categoryLabel?: string
+  currentLabel?: string
+}
+
+export type Graphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ObjectGraphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "object.graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ValueCardGraphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "valueCard.graphic.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -164,6 +190,14 @@ export type StudyTestimonialQuote = {
   attribution: string
   source?: string
   accent?: boolean
+}
+
+export type StepGraphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "step.graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
 }
 
 export type SanityFileAssetReference = {
@@ -304,10 +338,7 @@ export type Press = {
 
 export type Place = {
   _type: 'place'
-  eyebrow?: string
-  headingRegular?: string
-  headingBold?: string
-  body?: string
+  message?: string
   backgroundGraphic?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -315,13 +346,6 @@ export type Place = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  locations?: Array<{
-    city: string
-    address?: string
-    note?: string
-    _key: string
-  }>
-  cta?: PlaceCta
 }
 
 export type Awards = {
@@ -655,10 +679,30 @@ export type ServiceReference = {
 
 export type AiServices = {
   _type: 'aiServices'
-  eyebrow?: string
-  services?: Array<{
-    service?: ServiceReference
+  eyebrow: string
+  services: Array<{
+    service: ServiceReference
     cta: Button
+    _type: 'aiServiceCard'
+    _key: string
+  }>
+}
+
+export type ServiceHero = {
+  _type: 'serviceHero'
+  breadcrumb?: Breadcrumb
+  eyebrow?: string
+  headlineLines?: Array<string>
+  description?: string
+  cta?: Button
+  leadingHighlights?: Array<{
+    value: string
+    label: string
+    _key: string
+  }>
+  trailingHighlights?: Array<{
+    value: string
+    label: string
     _key: string
   }>
 }
@@ -793,6 +837,7 @@ export type Signature2 = {
   steps?: Array<{
     title?: string
     highlighted?: boolean
+    graphic?: StepGraphic
     _type: 'step'
     _key: string
   }>
@@ -810,6 +855,7 @@ export type Signature = {
     duration?: string
     body?: string
     textured?: boolean
+    graphic?: ObjectGraphic
     _key: string
   }>
   cta?: Button
@@ -840,11 +886,12 @@ export type Portfolio = {
   _type: 'portfolio'
   eyebrow: string
   heading: string
-  projects: Array<
-    {
-      _key: string
-    } & ProjectReference
-  >
+  cards: Array<{
+    project: ProjectReference
+    graphic?: Graphic
+    _key: string
+  }>
+  cta?: Button
 }
 
 export type Origin = {
@@ -897,6 +944,47 @@ export type Booking = {
   schedulerUrl?: string
 }
 
+export type CookieSettings = {
+  _type: 'cookieSettings'
+  enabled?: boolean
+  bannerTitle: string
+  bannerDescription?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<
+      {
+        _key: string
+      } & Link
+    >
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  preferencesTitle: string
+  preferencesDescription: string
+  acceptAllLabel: string
+  initialSaveLabel: string
+  customizeLabel: string
+  rejectAllLabel: string
+  savePreferencesLabel: string
+  backLabel: string
+  footerButtonLabel: string
+  categories?: Array<{
+    title: string
+    description: string
+    required?: boolean
+    defaultEnabled?: boolean
+    lockedLabel?: string
+    _key: string
+  }>
+}
+
 export type ContactForm = {
   _type: 'contactForm'
   eyebrow?: string
@@ -915,6 +1003,12 @@ export type ContactHero = {
   eyebrow?: string
   heading: string
   description: string
+  stats?: Array<{
+    number: number
+    suffix?: string
+    label: string
+    _key: string
+  }>
   steps: Array<{
     title: string
     description: string
@@ -1026,6 +1120,7 @@ export type ContactSubmission = {
   phone?: string
   projectType?: string
   budget?: string
+  hearAboutUs?: string
   message: string
   source?: string
   receivedAt: string
@@ -1049,83 +1144,6 @@ export type Testimonial = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-}
-
-export type Project = {
-  _id: string
-  _type: 'project'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  client: string
-  year: string
-  slug: Slug
-  category: string
-  industry: string
-  tagline: string
-  metric?: string
-  metricLabel?: string
-  thumb?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  pageBuilder?: Array<
-    | ({
-        _key: string
-      } & StudyHero)
-    | ({
-        _key: string
-      } & StudyChallenge)
-    | ({
-        _key: string
-      } & StudyApproach)
-    | ({
-        _key: string
-      } & StudyKeyWins)
-    | ({
-        _key: string
-      } & StudyNumbers)
-    | ({
-        _key: string
-      } & StudyTestimonial)
-    | ({
-        _key: string
-      } & StudyTechStack)
-    | ({
-        _key: string
-      } & Steps)
-    | ({
-        _key: string
-      } & WhyRomania)
-    | ({
-        _key: string
-      } & Compare)
-    | ({
-        _key: string
-      } & Awards)
-    | ({
-        _key: string
-      } & TechStack)
-    | ({
-        _key: string
-      } & Pricing)
-    | ({
-        _key: string
-      } & PortfolioGrid)
-    | ({
-        _key: string
-      } & Cta)
-  >
-  publishedAt?: string
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type Person = {
@@ -1228,6 +1246,7 @@ export type SiteSettings = {
       _key: string
     } & PageReference
   >
+  cookieSettings?: CookieSettings
 }
 
 export type Post = {
@@ -1240,6 +1259,13 @@ export type Post = {
   slug: Slug
   publishedAt?: string
   excerpt?: string
+  coverImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
   author?: TeamMemberReference
   category?:
     | 'ai-transformation'
@@ -1297,6 +1323,12 @@ export type TeamMember = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type Page = {
@@ -1368,6 +1400,9 @@ export type Page = {
     | ({
         _key: string
       } & EngineeringServices)
+    | ({
+        _key: string
+      } & AiServices)
     | ({
         _key: string
       } & ServiceNavigator)
@@ -1451,6 +1486,9 @@ export type Service = {
       } & PageHero)
     | ({
         _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
       } & ContactHero)
     | ({
         _key: string
@@ -1499,6 +1537,9 @@ export type Service = {
       } & EngineeringServices)
     | ({
         _key: string
+      } & AiServices)
+    | ({
+        _key: string
       } & WhyRomania)
     | ({
         _key: string
@@ -1522,6 +1563,77 @@ export type Service = {
         _key: string
       } & TechStack)
   >
+}
+
+export type Project = {
+  _id: string
+  _type: 'project'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  client: string
+  year: string
+  slug: Slug
+  category: string
+  industry: string
+  tagline: string
+  metric?: string
+  metricLabel?: string
+  thumb?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & Cta)
+  >
+  publishedAt?: string
 }
 
 export type SanityAssistInstructionTask = {
@@ -1779,19 +1891,23 @@ export type AllSanitySchemaTypes =
   | InsightsCtaHeading
   | InsightsCtaCta
   | PortfolioCtaHeading
-  | PlaceCta
   | FreeResourcesHeading
   | Quote
   | Table
   | Card
   | SanityImageAssetReference
   | Logo
+  | Breadcrumb
+  | Graphic
+  | ObjectGraphic
+  | ValueCardGraphic
   | ObjectLogo
   | Texture
   | StudyApproachHeading
   | Callout
   | Comparison
   | StudyTestimonialQuote
+  | StepGraphic
   | SanityFileAssetReference
   | ResourceFile
   | Steps
@@ -1833,6 +1949,7 @@ export type AllSanitySchemaTypes =
   | Industries
   | ServiceReference
   | AiServices
+  | ServiceHero
   | EngineeringServices
   | Faq
   | Why
@@ -1851,6 +1968,7 @@ export type AllSanitySchemaTypes =
   | Cta
   | HomeHero
   | Booking
+  | CookieSettings
   | ContactForm
   | ContactHero
   | PageHero
@@ -1861,14 +1979,14 @@ export type AllSanitySchemaTypes =
   | BlockContent
   | ContactSubmission
   | Testimonial
-  | Project
-  | Slug
   | Person
   | SiteSettings
   | Post
   | TeamMember
+  | Slug
   | Page
   | Service
+  | Project
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

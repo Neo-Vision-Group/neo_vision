@@ -6,9 +6,9 @@ export default function NotFound() {
     <section className="relative isolate overflow-hidden bg-white text-black dark:bg-background dark:text-white">
       <HeroBrandDotsBackground />
 
-      <div className="relative mx-auto flex min-h-[calc(100svh-68px)] w-full max-w-[1600px] flex-col justify-center gap-12 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:gap-16 lg:px-12 lg:py-24">
-        <div className="w-full max-w-[420px] shrink-0">
-          <div className="inline-flex items-center justify-center bg-[rgba(255,65,0,0.2)] px-2.5 py-1 font-funnel text-lg leading-[1.5] text-black dark:bg-[rgba(255,65,0,0.3)] dark:text-white">
+      <div className="relative mx-auto flex min-h-[calc(100svh-68px)] w-full max-w-400 flex-col justify-center gap-12 px-6 py-16 sm:px-10 lg:flex-row lg:items-center lg:gap-16 lg:px-12 lg:py-24">
+        <div className="w-full max-w-105 shrink-0">
+          <div className="inline-flex items-center justify-center bg-[rgba(255,65,0,0.2)] px-2.5 py-1 font-funnel text-lg leading-normal text-black dark:bg-[rgba(255,65,0,0.3)] dark:text-white">
             404 error
           </div>
 
@@ -16,7 +16,7 @@ export default function NotFound() {
             <h1 className="font-funnel text-5xl leading-[1.08] tracking-[-1px] text-black md:text-6xl lg:text-[clamp(3.5rem,4vw,5rem)] dark:text-white">
               Page not found
             </h1>
-            <p className="max-w-[28rem] font-funnel text-lg leading-[1.5] text-black/80 dark:text-white/78">
+            <p className="max-w-md font-funnel text-lg leading-normal text-black/80 dark:text-white/78">
               The page you are looking for doesn&apos;t exist or has been moved.
             </p>
           </div>

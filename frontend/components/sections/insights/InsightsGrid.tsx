@@ -41,7 +41,7 @@ function InsightsFilterButton({
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
       className={cn(
-        "relative inline-flex bg-[#f0f0f0] dark:bg-[#1a1a1a] min-h-[47px] items-center justify-center self-start px-[10px] py-[10px] font-funnel text-[18px] leading-[1.5] text-[var(--text)] transition-colors duration-200",
+        "relative inline-flex bg-[#f0f0f0] dark:bg-[#1a1a1a] min-h-7 items-center justify-center self-start px-2 py-2 font-funnel text-[18px] leading-normal transition-colors duration-200",
         active
           ? "bg-[rgba(255,65,0,0.3)]"
           : " hover:bg-black/5 dark:hover:bg-white/5"
@@ -85,8 +85,8 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   });
 
   const eyebrow = (
-    <div className="flex flex-col items-start gap-[18px]">
-      <p className="font-betatron dark:text-white text-black text-[32px] leading-[1.2] text-[var(--text)]">
+    <div className="flex flex-col items-start gap-5">
+      <p className="font-betatron dark:text-white text-black text-deco-h4 leading-[1.2]">
         Category
       </p>
 

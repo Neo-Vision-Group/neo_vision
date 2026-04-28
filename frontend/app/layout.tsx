@@ -111,7 +111,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           enabled={process.env.NODE_ENV === 'production'}
         />
       </head>
-      <body className="overflow-x-hidden">
+      <body className="overflow-x-clip">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -120,7 +120,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         >
           <TransitionProvider>
             <ScrollToTopOnNavigate />
-            <section className="min-h-screen overflow-x-hidden bg-white dark:bg-black">
+            <section className="min-h-screen overflow-x-clip bg-white dark:bg-black">
               {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
               <Toaster />
               {isDraftMode && (

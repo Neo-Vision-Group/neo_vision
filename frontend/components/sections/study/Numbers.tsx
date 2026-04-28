@@ -27,7 +27,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
     >
       <div className="flex flex-col gap-12 text-black dark:text-[#efefef]">
         {heading ? (
-          <h2 className="max-w-[14ch] font-funnel text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
+          <h2 className="max-w-[14ch] font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
             {heading}
           </h2>
         ) : null}
@@ -41,7 +41,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
                 <p className="font-betatron text-[44px] leading-[1.2] tracking-[-1px] text-brand md:text-[56px]">
                   {stat.value}
                 </p>
-                <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef] md:text-[32px] whitespace-pre-line">
+                <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef] md:text-deco-h4 whitespace-pre-line">
                   {stat.label}
                 </p>
               </div>
@@ -49,7 +49,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
           })}
         </div>
         {footnote ? (
-          <p className="max-w-[48rem] font-funnel text-[20px] leading-[1.4] tracking-[-0.4px] text-black/65 dark:text-[#efefef]/70 md:text-[24px]">
+          <p className="max-w-[48rem] font-funnel text-[20px] leading-[1.4] tracking-[-0.4px] text-black/65 dark:text-[#efefef]/70 md:text-6">
             {footnote}
           </p>
         ) : null}

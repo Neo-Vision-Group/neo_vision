@@ -98,9 +98,9 @@ function CardLink({
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-[38px] shrink-0"
+        className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-[24px] font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {cta?.buttonText ?? "Learn more"}
       </span>
     </>
@@ -129,10 +129,10 @@ function ClosingLink({
 }) {
   const content = (
     <>
-      <span className="font-funnel text-[18px] leading-[1.5] text-white">
+      <span className="font-funnel text-[18px] leading-normal text-white">
         {buttonText ?? "Book a call"}
       </span>
-      <ArrowRight color="#ffffff" width={38} height={24} className="h-6 w-[38px] shrink-0" />
+      <ArrowRight color="#ffffff" width={38} height={24} className="h-6 w-10 shrink-0" />
     </>
   );
 
@@ -171,8 +171,8 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
   return (
     <SectionsWrapper id="service-navigator" eyebrow={navigator.eyebrow}>
       <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="max-w-[720px]">
-          <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[48px] md:tracking-[-1px]">
+        <div className="max-w-180">
+          <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-12 md:tracking-[-1px]">
             <span className="text-black/70 dark:text-[#efefef]/70">
               {navigator.headingRegular}
             </span>
@@ -194,16 +194,16 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
           {navigator.cards.map((card, index) => (
             <article
               key={card._key ?? `${card.prompt}-${index}`}
-              className="flex min-h-[290px] flex-col justify-between gap-10 border border-black/15 bg-black/[0.04] p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12"
+              className="flex min-h-73 flex-col justify-between gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12"
             >
               <div className="flex flex-col gap-3">
                 {card.prompt ? (
-                  <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[32px] md:tracking-[-1px]">
+                  <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-deco-h4 md:tracking-[-1px]">
                     {card.prompt}
                   </h3>
                 ) : null}
                 {card.details ? (
-                  <p className="font-funnel text-[18px] leading-[1.5] text-black/70 dark:text-[#efefef]/70">
+                  <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
                     {card.details}
                   </p>
                 ) : null}
@@ -215,7 +215,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
         </RevealOnScroll>
 
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="max-w-[760px] font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[32px] md:tracking-[-1px]">
+          <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-deco-h4 md:tracking-[-1px]">
             {navigator.closingText}
           </p>
           <ClosingLink

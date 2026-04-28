@@ -37,9 +37,9 @@ function ServiceCardLink({
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-[38px] shrink-0"
+        className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-[24px] font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {label}
       </span>
     </>
@@ -92,15 +92,15 @@ export function EngineeringServices({
   return (
     <section id="engineering-services" className="relative flex w-full flex-col lg:flex-row">
       <div className="border-y border-black/15 px-6 py-6 dark:border-white/20 lg:hidden">
-        <p className="max-w-[12ch] font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-[32px]">
+        <p className="max-w-[12ch] font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-deco-h4">
           {eyebrow}
         </p>
       </div>
 
-      <aside className="hidden lg:sticky lg:top-0 lg:z-10 lg:flex lg:w-[372px] lg:shrink-0 lg:flex-col lg:pt-24">
+      <aside className="hidden lg:sticky lg:top-0 lg:z-10 lg:flex lg:w-93 lg:shrink-0 lg:flex-col lg:pt-24">
         <div className="h-px w-full bg-black/15 dark:bg-white/20" />
         <div className="w-full px-12 py-6">
-          <p className="max-w-[7ch] font-betatron text-[32px] leading-[1.2] text-black dark:text-[#efefef]">
+          <p className="max-w-[7ch] font-betatron text-deco-h4 leading-[1.2] text-black dark:text-[#efefef]">
             {eyebrow}
           </p>
         </div>
@@ -127,24 +127,24 @@ export function EngineeringServices({
             return (
               <article
                 key={item._key ?? `${service.name}-${index}`}
-                className="flex min-h-[240px] flex-col justify-between gap-10 border border-black/15 bg-black/[0.04] p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[252px] md:gap-12 md:p-12"
+                className="flex min-h-60 flex-col justify-between gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-60 md:gap-12 md:p-12"
               >
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                      <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                      <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                         {service.name}
                       </h3>
 
                       {service.tag ? (
-                        <span className="self-start whitespace-nowrap bg-brand/30 px-[10px] py-1 font-funnel text-[18px] leading-[1.5] text-black dark:text-[#efefef]">
+                        <span className="self-start whitespace-nowrap bg-brand/30 px-2.5 py-1 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]">
                           {service.tag}
                         </span>
                       ) : null}
                     </div>
 
                     {(service.price || service.duration) && (
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 font-funnel text-[18px] leading-[1.5]">
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 font-funnel text-[18px] leading-normal">
                         {service.price ? (
                           <p className="text-brand">{service.price}</p>
                         ) : null}
@@ -158,7 +158,7 @@ export function EngineeringServices({
                   </div>
 
                   {service.description ? (
-                    <p className="max-w-[58ch] font-funnel text-[18px] leading-[1.5] text-black/70 dark:text-[#efefef]/70">
+                    <p className="max-w-[58ch] font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
                       {service.description}
                     </p>
                   ) : null}

@@ -68,7 +68,7 @@ export function Reality({data}: {data?: RealityData}) {
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12 lg:gap-16">
         <div className="px-0 lg:px-12">
-          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-[48px] lg:leading-[1.2] lg:tracking-[-1px]">
+          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-12 lg:leading-[1.2] lg:tracking-[-1px]">
             {cleanData?.heading?.faded ? (
               <span className="text-foreground/70">{cleanData.heading.faded} </span>
             ) : null}
@@ -80,7 +80,7 @@ export function Reality({data}: {data?: RealityData}) {
 
         {cleanData?.body ? (
           <div className="px-0 lg:px-12">
-            <p className="max-w-[70ch] text-[18px] leading-[1.5] text-foreground/70">
+            <p className="max-w-[70ch] text-[18px] leading-normal text-foreground/70">
               {cleanData.body}
             </p>
           </div>
@@ -95,15 +95,15 @@ export function Reality({data}: {data?: RealityData}) {
             <div className="grid grid-cols-1 divide-y divide-black/20 md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-3 dark:divide-white/20">
               {points.map((point, index) => (
                 <div key={point._key ?? `${point.title ?? "point"}-${index}`} className="p-6">
-                  <article className="flex h-full min-h-[280px] flex-col gap-12 border border-black/10 bg-surface p-6 dark:border-white/20 dark:bg-[#111111] md:p-8">
+                  <article className="flex h-full min-h-70 flex-col gap-12 border border-black/10 bg-surface p-6 dark:border-white/20 dark:bg-[#111111] md:p-8">
                     {point.title ? (
-                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-[32px]">
+                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-deco-h4">
                         {point.title}
                       </h3>
                     ) : null}
 
                     {point.body ? (
-                      <p className="max-w-[18ch] font-funnel text-[18px] leading-[1.5] text-foreground dark:text-[#efefef]">
+                      <p className="max-w-[18ch] font-funnel text-[18px] leading-normal text-foreground dark:text-[#efefef]">
                         {point.body}
                       </p>
                     ) : null}
@@ -122,7 +122,7 @@ export function Reality({data}: {data?: RealityData}) {
               size="md"
               target={cleanData.cta.link?.openInNewTab ? "_blank" : undefined}
               rel={cleanData.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
-              className="flex w-full max-w-full whitespace-normal break-normal text-left md:w-auto md:min-w-[612px]"
+              className="flex w-full max-w-full whitespace-normal break-normal text-left md:w-auto md:min-w-153"
             >
               {cleanData.cta.buttonText}
             </Button>

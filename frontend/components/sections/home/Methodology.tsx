@@ -53,7 +53,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-[28px] leading-[36px] tracking-[-0.3px] text-foreground md:text-[36px] md:leading-[46px] lg:text-[44px] lg:leading-[54px] 2xl:text-[48px] 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-12 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
           {methodology.heading}
         </SplitTextReveal>
@@ -88,11 +88,11 @@ function MethodologyCard({
       } xl:border-r ${idx % 3 === 2 ? "xl:border-r-0" : ""}`}
     >
       <div className="group/card flex h-full flex-col gap-8 border border-white/10 dark:bg-[#0F0F0F] bg-[#f7f7f7] p-6 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5 md:p-8">
-        <span className="font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[80px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+        <span className="font-betatron text-16 leading-none tracking-[-3.84px] text-brand md:text-20 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
           {step.number}
         </span>
         <div className="flex flex-col">
-          <h3 className="text-[24px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
+          <h3 className="text-6 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-deco-h4 xl:leading-9">
             {step.title}
           </h3>
           <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">

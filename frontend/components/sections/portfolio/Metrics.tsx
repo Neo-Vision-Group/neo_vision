@@ -21,7 +21,7 @@ export function PortfolioMetrics({ data }: { data?: PortfolioMetricsData }) {
             <p className="font-betatron text-[44px] leading-[1.2] tracking-[-1px] text-brand md:text-[56px]">
               {item.value ?? ""}
             </p>
-            <p className="max-w-[10ch] font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-[32px]">
+            <p className="max-w-[10ch] font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-deco-h4">
               {item.label ?? ""}
             </p>
           </article>

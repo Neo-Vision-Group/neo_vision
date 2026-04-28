@@ -34,13 +34,13 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
     >
       <div className="flex flex-col gap-8 text-[#efefef]">
         {heading ? (
-          <h2 className="text-[32px] leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-[48px]">
+          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-12">
             <span className="text-[#efefef]/70">{heading.faded} </span>
             <span className="font-bold text-[#efefef]">{heading.bold}</span>
           </h2>
         ) : null}
         {body ? (
-          <p className="max-w-[70ch] text-[18px] leading-[1.5] text-[#efefef]/70 md:text-[20px] md:leading-[28px]">
+          <p className="max-w-[70ch] text-[18px] leading-normal text-[#efefef]/70 md:text-[20px] md:leading-7">
             {body}
           </p>
         ) : null}

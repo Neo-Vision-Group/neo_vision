@@ -58,7 +58,7 @@ export function ArticleCard({
     <Link
       href={href}
       className={cn(
-        "group flex flex-col overflow-hidden border border-black/10 dark:border-white/10 bg-[#f0f0f0] dark:bg-black transition-all duration-300 ease-out hover:border-[var(--brand,#ff4100)]/40 hover:-translate-y-0.5",
+        "group flex flex-col overflow-hidden border border-black/10 dark:border-white/10 bg-[#f0f0f0] dark:bg-black transition-all duration-300 ease-out hover:border-(--brand,#ff4100)/40 hover:-translate-y-0.5",
         featured ? "md:flex-row" : "",
         className
       )}
@@ -67,7 +67,7 @@ export function ArticleCard({
         className={cn(
           "relative bg-gray-100 dark:bg-black",
           featured
-            ? "aspect-video md:aspect-[3/2] md:w-1/2"
+            ? "aspect-video md:aspect-3/2 md:w-1/2"
             : "aspect-16/10"
         )}
       >
@@ -80,10 +80,10 @@ export function ArticleCard({
               sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
               className="absolute inset-0 h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#c1c9c5]/20 from-[35%] to-[#ff4100]/30" />
+            <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5]/20 from-35% to-[#ff4100]/30" />
           </>
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-100 to-brand/10" />
+          <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-brand/10" />
         )}
         
         {/* Author + read time badge */}
@@ -106,7 +106,7 @@ export function ArticleCard({
             {/* Category badge */}
             {category ? (
               <div className="bg-[rgba(255,65,0,0.3)] p-2.5 self-start">
-                <p className="font-funnel-display text-[18px] leading-[1.5] text-black dark:text-white">
+                <p className="font-funnel-display text-[18px] leading-normal text-black dark:text-white">
                   {category}
                 </p>
               </div>
@@ -116,8 +116,8 @@ export function ArticleCard({
               className={cn(
                 "font-funnel-display-bold tracking-[-0.2px] text-black dark:text-white",
                 featured
-                  ? "text-[24px] leading-8 md:text-[32px] md:leading-[40px]"
-                  : "text-[24px] leading-[1.2]"
+                  ? "text-6 leading-8 md:text-deco-h4 md:leading-10"
+                  : "text-6 leading-[1.2]"
               )}
             >
               {article.title}
@@ -125,7 +125,7 @@ export function ArticleCard({
           </div>
           
           {article.excerpt ? (
-            <p className="font-funnel-display text-[18px] leading-[1.5] text-black/70 dark:text-white/70">
+            <p className="font-funnel-display text-[18px] leading-normal text-black/70 dark:text-white/70">
               {article.excerpt}
             </p>
           ) : null}
@@ -133,7 +133,7 @@ export function ArticleCard({
         
         <div className="mt-auto flex items-center gap-3 pt-4">
           <ArrowRight width={38.4} height={24} color={buttonColor} />
-          <span className="font-funnel-display-bold text-[24px] leading-[1.2] text-black dark:text-white transition-transform duration-200 group-hover:translate-x-0.5">
+          <span className="font-funnel-display-bold text-6 leading-[1.2] text-black dark:text-white transition-transform duration-200 group-hover:translate-x-0.5">
             Read
           </span>
         </div>

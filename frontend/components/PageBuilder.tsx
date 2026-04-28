@@ -41,7 +41,7 @@ function RenderSections({
 
   return (
     <div
-      className={cn(isInsightDetailPage && 'mx-auto max-w-[1320px] md:px-12')}
+      className={cn(isInsightDetailPage && 'mx-auto max-w-330 md:px-12')}
       data-sanity={dataAttr({
         id: page._id,
         type: page._type,

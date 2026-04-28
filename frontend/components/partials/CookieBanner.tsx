@@ -163,8 +163,8 @@ function SummaryActionButton({
   return (
     <button
       className={cn(
-        'inline-flex min-h-12 items-center justify-center px-6 py-3 text-[18px] leading-[1.5] font-funnel transition-colors duration-200',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-card)]',
+        'inline-flex min-h-12 items-center justify-center px-6 py-3 text-[18px] leading-normal font-funnel transition-colors duration-200',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-card)',
         className,
       )}
       type="button"
@@ -189,10 +189,10 @@ function PreferenceToggle({
       aria-checked={checked}
       aria-disabled={disabled}
       className={cn(
-        'relative inline-flex h-[29px] w-[50px] shrink-0 border p-1 transition-colors duration-200',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-card)]',
+        'relative inline-flex h-8 w-12 shrink-0 border p-1 transition-colors duration-200',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-card)]',
         disabled ? 'cursor-default opacity-100' : 'cursor-pointer',
-        'border-[var(--border)] bg-[color:var(--bg-page)]',
+        'border-(--border)] bg-(--bg-page)',
       )}
       disabled={disabled}
       onClick={onToggle}
@@ -202,7 +202,7 @@ function PreferenceToggle({
       <span
         className={cn(
           'h-full w-5 transition-all duration-200',
-          checked ? 'ml-auto bg-brand' : 'bg-[color:var(--text-muted)]',
+          checked ? 'ml-auto bg-brand' : 'bg---text-muted)]',
         )}
       />
     </button>
@@ -299,14 +299,14 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   const richTextComponents = {
     block: {
       normal: ({children}: {children?: ReactNode}) => (
-        <p className="text-[18px] leading-[1.5] text-[color:var(--text)]">{children}</p>
+        <p className="text-[18px] leading-normal text---text)]">{children}</p>
       ),
     },
     marks: {
       link: ({value, children}: {value?: Record<string, unknown>; children?: ReactNode}) => {
         const href = resolveLinkHref(value)
         const className =
-          'font-bold text-[color:var(--text)] underline decoration-brand decoration-[7%] underline-offset-[0.15em] transition-colors hover:text-brand'
+          'font-bold text---text)] underline decoration-brand decoration-[7%] underline-offset-[0.15em] transition-colors hover:text-brand'
 
         if (/^https?:/i.test(href)) {
           return (
@@ -331,12 +331,12 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-[70] sm:inset-x-4 sm:bottom-4">
-      <div className="pointer-events-auto mx-auto w-full max-w-[1024px] border border-brand bg-[color:var(--bg-card)] text-[color:var(--text)] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.45)]">
+    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-70 sm:inset-x-4 sm:bottom-4">
+      <div className="pointer-events-auto mx-auto w-full max-w-5xl border border-brand bg---bg-card)] text---text)] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.45)]">
         {mode === 'summary' ? (
           <div className="flex flex-col gap-4 p-3 md:p-4 lg:flex-row lg:items-start">
             <div className="min-w-0 flex-1 p-3">
-              <h2 className="text-[24px] leading-[1.2] font-bold text-[color:var(--text)]">
+              <h2 className="text-6 leading-[1.2] font-bold text---text)]">
                 {settings.bannerTitle || 'Cookies on Neovision'}
               </h2>
               {settings.bannerDescription?.length ? (
@@ -349,10 +349,10 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               ) : null}
             </div>
 
-            <div className="flex w-full flex-col gap-3 px-3 pb-3 lg:w-[352px] lg:items-end lg:px-0 lg:pb-0">
+            <div className="flex w-full flex-col gap-3 px-3 pb-3 lg:w-88 lg:items-end lg:px-0 lg:pb-0">
               <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
                 <SummaryActionButton
-                  className="bg-brand text-white hover:bg-[color:var(--brand-hover)]"
+                  className="bg-brand text-white hover:bg---brand-hover)]"
                   onClick={handleAcceptAll}
                 >
                   {settings.acceptAllLabel || 'Accept All'}
@@ -366,7 +366,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-[24px] leading-[1.2] font-bold text-[color:var(--text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-6 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
                 onClick={() => setMode('customize')}
                 type="button"
               >
@@ -377,10 +377,10 @@ export default function CookieBanner({settings}: CookieBannerProps) {
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row">
-            <div className="flex lg:w-[92px] lg:shrink-0 lg:flex-col">
+            <div className="flex lg:w-23 lg:shrink-0 lg:flex-col">
               <button
                 aria-label={settings.backLabel || 'Back'}
-                className="flex h-[58px] w-[72px] items-center justify-center bg-brand text-white transition-colors hover:bg-[color:var(--brand-hover)] lg:h-[74px] lg:w-[80px]"
+                className="flex h-15 w-18 items-center justify-center bg-brand text-white transition-colors hover:bg---brand-hover)] lg:h-19 lg:w-20"
                 onClick={() => setMode('summary')}
                 type="button"
               >
@@ -391,17 +391,17 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                   height={20}
                 />
               </button>
-              <div className="hidden w-3 bg-[color:var(--bg-page)] py-2 lg:flex">
+              <div className="hidden w-3 bg---bg-page)] py-2 lg:flex">
                 <div className="w-full bg-brand" />
               </div>
             </div>
 
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="px-4 pt-4 lg:p-6 lg:pb-4">
-                <h2 className="text-[24px] leading-[1.2] font-bold text-[color:var(--text)]">
+                <h2 className="text-6 leading-[1.2] font-bold text---text)]">
                   {settings.preferencesTitle || 'Your cookie preferences'}
                 </h2>
-                <p className="mt-2 max-w-[32rem] text-[18px] leading-[1.5] text-[color:var(--text)]">
+                <p className="mt-2 max-w-lg text-[18px] leading-normal text---text)]">
                   {settings.preferencesDescription ||
                     'Choose which cookies we can use. You can change these any time from the footer.'}
                 </p>
@@ -419,11 +419,11 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-3">
-                            <h3 className="text-[20px] leading-[1.2] font-normal text-[color:var(--text)]">
+                            <h3 className="text-[20px] leading-[1.2] font-normal text---text)]">
                               {category.title}
                             </h3>
                             {category.required ? (
-                              <span className="bg-brand/30 px-3 py-1 text-[18px] leading-[1.5] text-[color:var(--text)]">
+                              <span className="bg-brand/30 px-3 py-1 text-[18px] leading-normal text---text)]">
                                 {category.lockedLabel || 'Always on'}
                               </span>
                             ) : null}
@@ -446,7 +446,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                         />
                       </div>
 
-                      <p className="mt-3 max-w-[42rem] text-[18px] leading-[1.5] text-[color:var(--text)]">
+                      <p className="mt-3 max-w-2xl text-[18px] leading-normal text---text)]">
                         {category.description}
                       </p>
                     </div>
@@ -455,10 +455,10 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
             </div>
 
-            <div className="flex w-full flex-col gap-3 px-4 pb-4 lg:w-[352px] lg:shrink-0 lg:items-end lg:px-4 lg:py-6">
+            <div className="flex w-full flex-col gap-3 px-4 pb-4 lg:w-88 lg:shrink-0 lg:items-end lg:px-4 lg:py-6">
               <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
                 <SummaryActionButton
-                  className="bg-brand text-white hover:bg-[color:var(--brand-hover)]"
+                  className="bg-brand text-white hover:bg---brand-hover)]"
                   onClick={handleAcceptAll}
                 >
                   {settings.acceptAllLabel || 'Accept All'}
@@ -472,7 +472,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-[24px] leading-[1.2] font-bold text-[color:var(--text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-6 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
                 onClick={handleSavePreferences}
                 type="button"
               >

@@ -39,7 +39,7 @@ export function MetricStrip({
           {item.prefix ? (
             <span
               className={cn(
-                "font-betatron text-brand text-[10px] uppercase tracking-wider",
+                "font-betatron text-brand text-2.5 uppercase tracking-wider",
                 variant === "brand" ? "text-background/70" : "text-muted"
               )}
             >
@@ -49,7 +49,7 @@ export function MetricStrip({
           <dt
             className={cn(
               "font-betatron text-brand leading-none tracking-[-2px]",
-              "text-[36px] md:text-[48px] xl:text-[56px]",
+              "text-[36px] md:text-12 xl:text-[56px]",
               variant === "brand" ? "text-background" : "text-brand-hover"
             )}
           >

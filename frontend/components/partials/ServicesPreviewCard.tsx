@@ -28,7 +28,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   return (
     <article
       className={cn(
-        "group relative isolate flex min-h-[480px] flex-1 dark:bg-[#0F0F0F] bg-[#f7f7f7] flex-col justify-between gap-8 border border-white/5 p-6 transition-all duration-300 ease-out hover:border-white/20 hover:-translate-y-0.5 md:p-8 xl:min-h-[580px] xl:gap-12 xl:p-12",
+        "group relative isolate flex min-h-120 flex-1 dark:bg-[#0F0F0F] bg-[#f7f7f7] flex-col justify-between gap-8 border border-white/5 p-6 transition-all duration-300 ease-out hover:border-white/20 hover:-translate-y-0.5 md:p-8 xl:min-h-145 xl:gap-12 xl:p-12",
         !isTextured && "bg-surface"
       )}
     >
@@ -64,7 +64,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
           >
             {card.label}
           </p>
-          <h3 className="text-[24px] leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-[36px] xl:text-[32px] xl:leading-[38px]">
+          <h3 className="text-6 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-deco-h4 xl:leading-9">
             <span className="font-normal">{titleText.regular}</span>{" "}
             {titleText.bold && <span className="font-bold">{titleText.bold}</span>}
           </h3>

@@ -37,9 +37,9 @@ function CardLink({
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-[38px] shrink-0"
+        className="h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-[24px] font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="font-funnel text-6 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
         {cta?.buttonText ?? "Learn More"}
       </span>
     </>
@@ -83,22 +83,22 @@ export function AIServices({ data }: { data?: AIServicesData }) {
           return (
             <article
               key={item._key ?? `${service.name}-${index}`}
-              className="flex min-h-[340px] flex-col justify-between gap-10 border border-black/15 bg-black/[0.04] p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[380px] md:p-12"
+              className="flex min-h-[340px] flex-col justify-between gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[380px] md:p-12"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   {service.tag ? (
-                    <span className="self-start bg-brand/30 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-[1.5]">
+                    <span className="self-start bg-brand/30 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
                       {service.tag}
                     </span>
                   ) : null}
 
-                  <h3 className="max-w-[16ch] font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                  <h3 className="max-w-[16ch] font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                     {service.name}
                   </h3>
 
                   {(service.price || service.duration) && (
-                    <div className="flex flex-wrap gap-x-3 gap-y-1 font-funnel text-[18px] leading-[1.5]">
+                    <div className="flex flex-wrap gap-x-3 gap-y-1 font-funnel text-[18px] leading-normal">
                       {service.price ? <p className="text-brand">{service.price}</p> : null}
                       {service.duration ? (
                         <p className="text-black/60 dark:text-[#efefef]/60">{service.duration}</p>

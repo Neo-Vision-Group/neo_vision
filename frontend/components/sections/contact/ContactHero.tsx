@@ -54,16 +54,16 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
     <section className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background">
       <HeroBrandDotsBackground />
 
-      <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-[48px]">
-        <div className="flex flex-col gap-[48px] lg:flex-row lg:items-start">
+      <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-12">
+        <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
           {/* Left column - intro and steps */}
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-6 font-funnel text-black dark:text-[#efefef]">
-              <p className="font-betatron text-[32px] leading-[1.2] text-brand">
+              <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
                 {eyebrow}
               </p>
 
-              <h2 className="text-[48px] leading-[1.2] tracking-[-1px]">
+              <h2 className="text-12 leading-[1.2] tracking-[-1px]">
                 {heading.split("\n").map((line, i) => (
                   <span key={i}>
                     {line}
@@ -71,7 +71,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                   </span>
                 ))}
               </h2>
-              <p className="max-w-[540px] text-[18px] leading-normal">
+              <p className="max-w135 text-[18px] leading-normal">
                 {description}
               </p>
             </div>
@@ -79,10 +79,10 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             {/* Timeline steps */}
             <div className="flex flex-col">
               {steps.map((step, idx) => (
-                <div key={idx} className="flex gap-[15px]">
+                <div key={idx} className="flex gap-4">
                   {/* Timeline indicator */}
                   <div className="flex flex-col items-center">
-                    <div className="h-[12px] w-[12px] shrink-0 bg-brand" />
+                    <div className="h-3 w-3 shrink-0 bg-brand" />
                     {idx < steps.length - 1 && (
                       <div className="w-px flex-1 bg-black/20 dark:bg-white/20" />
                     )}
@@ -90,12 +90,12 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
 
                   {/* Step content */}
                   <div className="flex-1 pb-6">
-                    <div className="flex items-start gap-[24px] p-3">
-                      <p className="font-betatron text-[32px] leading-[1.2] text-brand">
+                    <div className="flex items-start gap-6 p-3">
+                      <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
                         0{idx + 1}.
                       </p>
                       <div className="flex flex-1 flex-col gap-1">
-                        <p className="font-funnel text-[24px] font-bold leading-[1.2] text-black dark:text-[#efefef]">
+                        <p className="font-funnel text-6 font-bold leading-[1.2] text-black dark:text-[#efefef]">
                           {step.title}
                         </p>
                         <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
@@ -110,24 +110,24 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           </div>
 
           {/* Right column - Form container */}
-          <div className="flex flex-1 flex-col gap-[48px] bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-[24px]">
+          <div className="flex flex-1 flex-col gap-12 bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-6">
             {/* Tab buttons */}
-            <div className="flex gap-[24px]">
+            <div className="flex gap-6">
               <button
                 type="button"
                 onClick={() => setActiveTab("message")}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
+                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
                   activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
                 )}
               >
                 Send a message
                 {activeTab === "message" && (
                   <>
-                    <div className="absolute -left-[5px] -right-[5px] -top-px h-px bg-brand" />
-                    <div className="absolute -bottom-px -left-[5px] -right-[5px] h-px bg-brand" />
-                    <div className="absolute -left-px -top-[5px] -bottom-[5px] w-px bg-brand" />
-                    <div className="absolute -right-px -top-[5px] -bottom-[5px] w-px bg-brand" />
+                    <div className="absolute -left-1.25 -right-1.25 -top-px h-px bg-brand" />
+                    <div className="absolute -bottom-px -left-1.25 -right-1.25 h-px bg-brand" />
+                    <div className="absolute -left-px -top-1.25 -bottom-1.25 w-px bg-brand" />
+                    <div className="absolute -right-px -top-1.25 -bottom-1.25 w-px bg-brand" />
                   </>
                 )}
               </button>
@@ -135,17 +135,17 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                 type="button"
                 onClick={() => setActiveTab("call")}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-[10px] font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
+                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
                   activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
                 )}
               >
                 Book a call
                 {activeTab === "call" && (
                   <>
-                    <div className="absolute -left-[5px] -right-[5px] -top-px h-px bg-brand" />
-                    <div className="absolute -bottom-px -left-[5px] -right-[5px] h-px bg-brand" />
-                    <div className="absolute -left-px -top-[5px] -bottom-[5px] w-px bg-brand" />
-                    <div className="absolute -right-px -top-[5px] -bottom-[5px] w-px bg-brand" />
+                    <div className="absolute -left-1.25 -right-1.25 -top-px h-px bg-brand" />
+                    <div className="absolute -bottom-px -left-1.25 -right-1.25 h-px bg-brand" />
+                    <div className="absolute -left-px -top-1.25 -bottom-1.25 w-px bg-brand" />
+                    <div className="absolute -right-px -top-1.25 -bottom-1.25 w-px bg-brand" />
                   </>
                 )}
               </button>

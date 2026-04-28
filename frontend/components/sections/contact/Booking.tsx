@@ -185,7 +185,7 @@ export function Booking({ data }: { data?: BookingData }) {
   const eyebrow = (
     <div className="flex flex-col gap-5">
       {cleanData?.eyebrow && (
-        <p className="font-betatron text-[32px] leading-[1.2] text-black dark:text-white">
+        <p className="font-betatron text-deco-h4 leading-[1.2] text-black dark:text-white">
           {cleanData.eyebrow}
         </p>
       )}
@@ -202,7 +202,7 @@ export function Booking({ data }: { data?: BookingData }) {
               colorReveal
               type="words"
               as='h2'
-              className="font-funnel text-[48px] leading-[1.2] tracking-[-1px] text-black dark:text-white"
+              className="font-funnel text-12 leading-[1.2] tracking-[-1px] text-black dark:text-white"
             >
               {cleanData.heading.regular} <span className="font-bold">{cleanData.heading.bold}</span>
             </SplitTextReveal>
@@ -224,10 +224,10 @@ export function Booking({ data }: { data?: BookingData }) {
           </div>
 
           {/* Call Details */}
-          <div className="flex w-full flex-col gap-6 md:w-[400px]">
+          <div className="flex w-full flex-col gap-6 md:w-100">
             {cleanData?.callTitle && cleanData?.teamMember?.name && (
               <div>
-                <h3 className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-black dark:text-white whitespace-pre-line">
+                <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-white whitespace-pre-line">
                   {cleanData.callTitle}
                   {"\n"}with {cleanData.teamMember.name.split(' ')[0]}
                 </h3>
@@ -236,8 +236,8 @@ export function Booking({ data }: { data?: BookingData }) {
 
             {/* Person Info */}
             {cleanData?.teamMember && (
-              <div className="flex items-center gap-[18px]">
-                <div className="relative h-[50px] w-[50px] shrink-0">
+              <div className="flex items-center gap-5">
+                <div className="relative h-12 w-12 shrink-0">
                   <div className="absolute inset-0 overflow-hidden bg-(--bg-card)">
                     {cleanData.teamMember.portrait?.asset?._ref ? (
                       <Image
@@ -254,10 +254,10 @@ export function Booking({ data }: { data?: BookingData }) {
                       <div className="absolute inset-0 bg-(--bg-card)" />
                     )}
                   </div>
-                  <div className="absolute left-1/2 top-0 h-px w-[60px] -translate-x-1/2 bg-(--brand)" />
-                  <div className="absolute bottom-0 left-1/2 h-px w-[60px] -translate-x-1/2 bg-(--brand)" />
-                  <div className="absolute left-0 top-1/2 h-[60px] w-px -translate-y-1/2 bg-(--brand)" />
-                  <div className="absolute right-0 top-1/2 h-[60px] w-px -translate-y-1/2 bg-(--brand)" />
+                  <div className="absolute left-1/2 top-0 h-px w-h-15 -translate-x-1/2 bg-(--brand)" />
+                  <div className="absolute bottom-0 left-1/2 h-px w-h-15 -translate-x-1/2 bg-(--brand)" />
+                  <div className="absolute left-0 top-1/2 h-h-15 w-px -translate-y-1/2 bg-(--brand)" />
+                  <div className="absolute right-0 top-1/2 h-h-15 w-px -translate-y-1/2 bg-(--brand)" />
                 </div>
                 <div className="flex flex-col">
                   <p className="font-funnel text-[18px] leading-normal text-black dark:text-white">
@@ -274,7 +274,7 @@ export function Booking({ data }: { data?: BookingData }) {
 
             {/* What to Expect */}
             {cleanData?.whatToExpectHeading && (
-              <p className="font-funnel text-[24px] leading-[1.2] font-bold text-black dark:text-white">
+              <p className="font-funnel text-6 leading-[1.2] font-bold text-black dark:text-white">
                 {cleanData.whatToExpectHeading}
               </p>
             )}

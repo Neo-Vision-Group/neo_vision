@@ -97,7 +97,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
 
       <div className="relative flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 lg:py-28 xl:px-12 xl:py-16 2xl:px-16 2xl:py-20">
         {eyebrow ? (
-          <p className="font-betatron text-[32px] leading-[1.2] uppercase text-brand">
+          <p className="font-betatron text-deco-h4 leading-[1.2] uppercase text-brand">
             {eyebrow}
           </p>
         ) : null}
@@ -109,7 +109,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {subheading ? (
           <RevealOnScroll
             as="p"
-            className="max-w-[683px] font-funnel text-[18px] leading-normal text-foreground"
+            className="max-w-170 font-funnel text-[18px] leading-normal text-foreground"
             delay={0.15}
           >
             {subheading}
@@ -193,11 +193,11 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative ml-auto flex w-full flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 bg-[#0f0f0f] p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative ml-auto flex w-full flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20= p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:items-stretch md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex aspect-square w-full overflow-hidden md:w-[227px] md:min-w-[227px]">
+      <div className="relative flex aspect-square w-full overflow-hidden md:w-57 md:min-w-57">
         {item.cover ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -206,7 +206,7 @@ function FeaturedReferenceCard({
               alt={title || ctaLabel}
               className="absolute inset-0 h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#c1c9c5] from-[35%] to-[#ff4100] mix-blend-multiply" />
+            <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
           </>
         ) : (
           <div
@@ -234,20 +234,20 @@ function FeaturedReferenceCard({
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-3">
             {label ? (
-              <span className="self-start bg-[rgba(255,65,0,0.3)] text-black px-2 py-1 font-funnel text-[14px] uppercase leading-[1.2] tracking-[-0.2px] dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-[1.5]">
+              <span className="self-start bg-[rgba(255,65,0,0.3)] text-black px-2 py-1 font-funnel text-[14px] uppercase leading-[1.2] tracking-[-0.2px] dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
                 {label}
               </span>
             ) : null}
 
             {title ? (
-              <p className="max-w-[18ch] font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-[32px] md:tracking-[-1px]">
+              <p className="max-w-[18ch] font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-deco-h4 md:tracking-[-1px]">
                 {title}
               </p>
             ) : null}
           </div>
 
           {description ? (
-            <p className="max-w-[40ch] capitalize font-funnel text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-[1.5]">
+            <p className="max-w-[40ch] capitalize font-funnel text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
               {description}
             </p>
           ) : null}
@@ -260,7 +260,7 @@ function FeaturedReferenceCard({
             height={24}
             className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
           />
-          <span className="font-funnel text-[24px] font-bold dark:text-[#efefef] text-[#040404] leading-[1.2]">
+          <span className="font-funnel text-6 font-bold dark:text-[#efefef] text-[#040404] leading-[1.2]">
             {ctaLabel}
           </span>
         </div>
