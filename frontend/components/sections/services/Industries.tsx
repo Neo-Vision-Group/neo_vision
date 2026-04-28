@@ -43,9 +43,9 @@ export function Industries({ data }: { data: IndustryData }) {
                 {industries.map((item, idx) => (
                 <article
                     key={(item.industry ?? "ind") + idx}
-                    className="flex dark:bg-[#0F0F0F] bg-white flex-col gap-3 border dark:border-white/10 border-black/10 p-6"
+                    className="flex dark:bg-[#0F0F0F] bg-black/4 flex-col gap-3 border dark:border-white/10 border-black/10 p-6"
                 >
-                    <h3 className="text-deco-h4 leading-[1.05] font-betatron text-brand font-medium sm:text-[40px] lg:text-5xl">{item.industry}</h3>
+                    <h3 className="text-4xl leading-[1.05] font-betatron text-brand font-medium sm:text-[40px] lg:text-5xl">{item.industry}</h3>
                     <p className="text-body-2 text-foreground/70">{item.description}</p>
                 </article>
                 ))}
@@ -71,7 +71,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                     <dt className="whitespace-nowrap font-betatron text-64 leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}
                                     </dt>
-                                    <dd className="max-w-[8ch] whitespace-pre-line font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-deco-h4 md:tracking-[-1px]">
+                                    <dd className="max-w-[8ch] whitespace-pre-line font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-4xl md:tracking-[-1px]">
                                         {item.label}
                                     </dd>
                                 </div>

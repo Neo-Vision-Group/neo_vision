@@ -185,7 +185,7 @@ export function Booking({ data }: { data?: BookingData }) {
   const eyebrow = (
     <div className="flex flex-col gap-5">
       {cleanData?.eyebrow && (
-        <p className="font-betatron text-deco-h4 leading-[1.2] text-black dark:text-white">
+        <p className="font-betatron text-4xl leading-[1.2] text-black dark:text-white">
           {cleanData.eyebrow}
         </p>
       )}
@@ -227,7 +227,7 @@ export function Booking({ data }: { data?: BookingData }) {
           <div className="flex w-full flex-col gap-6 md:w-100">
             {cleanData?.callTitle && cleanData?.teamMember?.name && (
               <div>
-                <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-white whitespace-pre-line">
+                <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-white whitespace-pre-line">
                   {cleanData.callTitle}
                   {"\n"}with {cleanData.teamMember.name.split(' ')[0]}
                 </h3>

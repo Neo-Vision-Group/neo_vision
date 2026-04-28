@@ -97,7 +97,7 @@ export function Reality({data}: {data?: RealityData}) {
                 <div key={point._key ?? `${point.title ?? "point"}-${index}`} className="p-6">
                   <article className="flex h-full min-h-70 flex-col gap-12 border border-black/10 bg-surface p-6 dark:border-white/20 dark:bg-[#111111] md:p-8">
                     {point.title ? (
-                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-deco-h4">
+                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-4xl">
                         {point.title}
                       </h3>
                     ) : null}

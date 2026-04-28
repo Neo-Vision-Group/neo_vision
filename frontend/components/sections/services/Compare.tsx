@@ -100,7 +100,7 @@ export function Compare({data}: {data?: CompareData}) {
       <div className="flex flex-col gap-16">
         <RevealOnScroll as="div" className="flex flex-col gap-16" stagger={0.08}>
           <div className="max-w-4xl">
-            <h2 className="text-deco-h4 leading-[1.2] tracking-[-0.03em] text-foreground md:text-[40px] lg:text-5xl">
+            <h2 className="text-4xl leading-[1.2] tracking-[-0.03em] text-foreground md:text-[40px] lg:text-5xl">
               <span className="font-bold text-foreground">{heading.highlighted} </span>
               <span className="text-foreground/70">{heading.regular}</span>
             </h2>
@@ -166,7 +166,7 @@ export function Compare({data}: {data?: CompareData}) {
           </div>
 
           {closing?.lead || closing?.followup ? (
-            <div className="max-w-4xl text-[28px] leading-[1.2] tracking-[-0.03em] text-foreground md:text-deco-h4">
+            <div className="max-w-4xl text-[28px] leading-[1.2] tracking-[-0.03em] text-foreground md:text-4xl">
               {closing?.lead ? (
                 <p>
                   <span>{closing.lead} </span>

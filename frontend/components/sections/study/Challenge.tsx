@@ -37,7 +37,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
       <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
           <div className="flex flex-col gap-3">
-            <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
+            <h2 className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
               {heading}
             </h2>
           </div>
@@ -49,7 +49,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               .map((paragraph, index) => (
                 <p
                   key={`${paragraph.slice(0, 24)}-${index}`}
-                  className="max-w-[72ch] text-[18px] leading-normal text-[#efefef]/70"
+                  className="max-w-[72ch] text-[18px] leading-normal text-black dark:text-white md:text-[20px] md:leading-7"
                 >
                   {paragraph}
                 </p>
@@ -64,12 +64,12 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
             {issues.map((iss, idx) => (
               <article
                 key={(iss.tag ?? "iss") + idx}
-                className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-[#0f0f0f] p-8"
+                className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f]s p-8"
               >
                 <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                   {iss.tag}
                 </span>
-                <p className="text-100 font-bold leading-[1.2] text-[#efefef]">
+                <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
                   {iss.body}
                 </p>
               </article>

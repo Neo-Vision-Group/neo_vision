@@ -6,7 +6,7 @@ export const why = defineType({
     description: 'This is a Why us section that can be used in a page.',
     type: 'object',
     fields: [
-        defineField({ name: "eyebrow", type: "string", initialValue: "WHY TWELVETEN" }),
+        defineField({ name: "eyebrow", type: "string", initialValue: "WHY Neo Vision" }),
         defineField({ name: "heading", type: "string" }),
         defineField({
             name: "points",

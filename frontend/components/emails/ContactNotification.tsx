@@ -65,7 +65,7 @@ export function ContactNotification({
     ? "Your message is in"
     : "New contact form submission";
   const intro = forClient
-    ? "Thanks for reaching out to 1210. We have your message and will come back with the right next step as soon as possible."
+    ? "Thanks for reaching out to Neo Vision. We have your message and will come back with the right next step as soon as possible."
     : "A new lead came in through the website contact form. Details are below.";
   const footer = forClient
     ? "If you want to add anything else, just reply to this email and we will keep everything in one thread."
@@ -106,7 +106,7 @@ export function ContactNotification({
                 textTransform: "uppercase",
               }}
             >
-              1210
+              Neo Vision
             </p>
           </div>
 

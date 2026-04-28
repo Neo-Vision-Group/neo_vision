@@ -5,7 +5,7 @@ import { ComparisonTable } from "@/components/partials/ComparisonTable";
 import Image from "next/image";
 
 /**
- * PortableTextRenderer — renders Sanity Portable Text with TwelveTen's
+ * PortableTextRenderer — renders Sanity Portable Text with Neo Vision's
  * custom block types (pullquote, keyPoint, comparisonTable) used in
  * Insight posts. Typography tuned for long-form reading.
  */
@@ -32,7 +32,7 @@ const components: PortableTextComponents = {
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mt-10 mb-3 text-deco-h4 font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
+      <h3 className="mt-10 mb-3 text-4xl font-funnel font-normal leading-[1.2] tracking-[-1px] text-foreground">
         {children}
       </h3>
     ),
@@ -87,7 +87,7 @@ const components: PortableTextComponents = {
   types: {
     pullquote: ({ value }: { value: PullquoteBlock }) => (
       <figure className="my-10 border-y border-brand/40 py-8">
-        <blockquote className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-deco-h4 md:leading-10">
+        <blockquote className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-4xl md:leading-10">
           &ldquo;{value.quote}&rdquo;
         </blockquote>
         {value.attribution ? (

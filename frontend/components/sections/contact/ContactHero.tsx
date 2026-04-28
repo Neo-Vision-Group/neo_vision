@@ -46,7 +46,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
     }
   }
   
-  const description = cleanData?.description || "No pitch. No slides. Just a 30-minute call about whether TwelveTen is the right partner for what you're building. We respond within 24 hours.";
+  const description = cleanData?.description || "No pitch. No slides. Just a 30-minute call about whether Neo Vision is the right partner for what you're building. We respond within 24 hours.";
   const stats = cleanData?.stats;
   const steps = cleanData?.steps || [];
   
@@ -59,7 +59,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           {/* Left column - intro and steps */}
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-6 font-funnel text-black dark:text-[#efefef]">
-              <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
+              <p className="font-betatron text-4xl leading-[1.2] text-brand">
                 {eyebrow}
               </p>
 
@@ -91,7 +91,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                   {/* Step content */}
                   <div className="flex-1 pb-6">
                     <div className="flex items-start gap-6 p-3">
-                      <p className="font-betatron text-deco-h4 leading-[1.2] text-brand">
+                      <p className="font-betatron text-4xl leading-[1.2] text-brand">
                         0{idx + 1}.
                       </p>
                       <div className="flex flex-1 flex-col gap-1">

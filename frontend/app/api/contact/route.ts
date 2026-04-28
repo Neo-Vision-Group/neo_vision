@@ -58,7 +58,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Couldn't save your message. Please email hello@1210.ai directly.",
+        error: "Couldn't save your message. Please email hello@Neo Vision.ai directly.",
       },
       { status: 500 }
     );
@@ -75,7 +75,7 @@ export async function POST(req: Request) {
         from,
         to,
         replyTo: data.email,
-        subject: `[1210 contact] ${data.name}${data.company ? ` · ${data.company}` : ""}`,
+        subject: `[Neo Vision contact] ${data.name}${data.company ? ` · ${data.company}` : ""}`,
         react: ContactNotification({
           name: data.name,
           email: data.email,
@@ -93,7 +93,7 @@ export async function POST(req: Request) {
       await resend.emails.send({
         from,
         to: data.email,
-        subject: `Thanks for reaching out to 1210!`,
+        subject: `Thanks for reaching out to Neo Vision!`,
         react: ContactNotification({
           name: data.name,
           email: data.email,

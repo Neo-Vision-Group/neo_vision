@@ -1,5 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
+import { AnimatedBorder } from "@/components/AnimatedBorder";
+import { BorderWrapper } from "@/components/BorderWrapper";
+import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import { cleanStega } from "@/sanity/lib/utils";
 
@@ -31,32 +37,52 @@ function ServiceCardLink({
   href?: string;
   label: string;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   const content = (
     <>
+      <AnimatedBorder isHovered={isHovered} />
       <ArrowRightPixel
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-10 shrink-0"
+        className="relative z-10 h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
         {label}
       </span>
     </>
   );
 
   const className =
-    "group inline-flex items-center gap-3 self-start text-black dark:text-[#efefef]";
+    `relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200 ${
+      isHovered ? "text-brand" : "text-black dark:text-[#efefef]"
+    }`;
 
   if (!href) {
-    return <div className={className}>{content}</div>;
+    return (
+      <div
+        className={className}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        {content}
+      </div>
+    );
   }
 
   const isInternal = href.startsWith("/");
 
   if (isInternal) {
     return (
-      <Link href={href} className={className}>
+      <Link
+        href={href}
+        className={className}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
+      >
         {content}
       </Link>
     );
@@ -66,6 +92,10 @@ function ServiceCardLink({
     <a
       href={href}
       className={className}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
       target="_blank"
       rel="noreferrer"
     >
@@ -90,28 +120,8 @@ export function EngineeringServices({
   const eyebrow = cleanData?.eyebrow ?? "ENGINEERING SERVICES";
 
   return (
-    <section id="engineering-services" className="relative flex w-full flex-col lg:flex-row">
-      <div className="border-y border-black/15 px-6 py-6 dark:border-white/20 lg:hidden">
-        <p className="max-w-[12ch] font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-deco-h4">
-          {eyebrow}
-        </p>
-      </div>
-
-      <aside className="hidden lg:sticky lg:top-0 lg:z-10 lg:flex lg:w-93 lg:shrink-0 lg:flex-col lg:pt-24">
-        <div className="h-px w-full bg-black/15 dark:bg-white/20" />
-        <div className="w-full px-12 py-6">
-          <p className="max-w-[7ch] font-betatron text-deco-h4 leading-[1.2] text-black dark:text-[#efefef]">
-            {eyebrow}
-          </p>
-        </div>
-        <div className="h-px w-full bg-black/15 dark:bg-white/20" />
-      </aside>
-
-      <div className="hidden lg:block lg:w-px lg:self-stretch lg:bg-black/15 dark:lg:bg-white/20" />
-
-      <div className="flex min-w-0 flex-1 flex-col gap-12 pt-12 lg:pt-24">
-        <div className="hidden h-px w-full bg-black/15 dark:bg-white/20 lg:block" />
-        <div className="flex flex-col gap-6 px-6 pb-24">
+    <SectionsWrapper id="engineering-services" eyebrow={eyebrow}>
+      <div className="flex flex-col gap-6">
           {services.map((item, index) => {
             const service = item.service;
 
@@ -132,14 +142,16 @@ export function EngineeringServices({
                 <div className="flex flex-col gap-6">
                   <div className="flex flex-col gap-3">
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
-                      <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                      <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                         {service.name}
                       </h3>
 
                       {service.tag ? (
-                        <span className="self-start whitespace-nowrap bg-brand/30 px-2.5 py-1 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]">
-                          {service.tag}
-                        </span>
+                        <BorderWrapper className="self-start whitespace-nowrap bg-brand/30">
+                          <span className="relative z-10 px-2.5 py-1 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]">
+                            {service.tag}
+                          </span>
+                        </BorderWrapper>
                       ) : null}
                     </div>
 
@@ -168,8 +180,7 @@ export function EngineeringServices({
               </article>
             );
           })}
-        </div>
       </div>
-    </section>
+    </SectionsWrapper>
   );
 }

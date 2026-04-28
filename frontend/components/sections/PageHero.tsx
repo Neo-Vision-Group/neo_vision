@@ -97,7 +97,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
 
       <div className="relative flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 lg:py-28 xl:px-12 xl:py-16 2xl:px-16 2xl:py-20">
         {eyebrow ? (
-          <p className="font-betatron text-deco-h4 leading-[1.2] uppercase text-brand">
+          <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
             {eyebrow}
           </p>
         ) : null}
@@ -240,7 +240,7 @@ function FeaturedReferenceCard({
             ) : null}
 
             {title ? (
-              <p className="max-w-[18ch] font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-deco-h4 md:tracking-[-1px]">
+              <p className="max-w-[18ch] font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-4xl md:tracking-[-1px]">
                 {title}
               </p>
             ) : null}

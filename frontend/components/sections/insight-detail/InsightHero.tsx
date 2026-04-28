@@ -118,7 +118,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
             {slug ? (
               <div className="flex items-center gap-3 md:ml-4">
                 <Link
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://twelveten.com/insights/${slug}`)}`}
+                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Share on LinkedIn"
@@ -127,7 +127,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                   <span className="text-[20px] font-semibold leading-none">in</span>
                 </Link>
                 <Link
-                  href={`https://x.com/intent/post?url=${encodeURIComponent(`https://twelveten.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
+                  href={`https://x.com/intent/post?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Share on X"
@@ -136,7 +136,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                   <span className="text-[20px] font-semibold leading-none">X</span>
                 </Link>
                 <Link
-                  href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://twelveten.com/insights/${slug}`)}`}
+                  href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
                   aria-label="Share by email"
                   className="flex h-12 w-12 items-center justify-center bg-white/75 text-black transition-colors hover:bg-brand hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-brand"
                 >

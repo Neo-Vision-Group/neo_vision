@@ -1,9 +1,9 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { trustedBy as trustedByFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -14,6 +14,7 @@ const RevealOnScroll = dynamic(
 );
 
 export type Testimonial = {
+  name: string;
   attribution: string;
   quote: string;
   profilePicture?: any;
@@ -34,20 +35,25 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const trustedBy: {
-    eyebrow: string;
+    eyebrow?: string;
     logos: Logo[];
     testimonials: Testimonial[];
   } = {
-    eyebrow: cleanData?.eyebrow ?? trustedByFallback.eyebrow,
+    eyebrow: cleanData?.eyebrow?.trim(),
     logos:
-      cleanData?.logos && cleanData.logos.length > 0
-        ? cleanData.logos
-        : trustedByFallback.logos.map(name => ({ name, logo: null })),
+      cleanData?.logos?.filter((logo) => logo.name?.trim() || logo.logo) ?? [],
     testimonials:
-      cleanData?.testimonials && cleanData.testimonials.length > 0
-        ? cleanData.testimonials
-        : (trustedByFallback.testimonials as Testimonial[]),
+      cleanData?.testimonials?.filter(
+        (testimonial) =>
+          testimonial.name?.trim() &&
+          testimonial.attribution?.trim() &&
+          testimonial.quote?.trim(),
+      ) ?? [],
   };
+
+  if (trustedBy.logos.length === 0 && trustedBy.testimonials.length === 0) {
+    return null;
+  }
 
   const logoRows: Logo[][] = [];
   for (let i = 0; i < trustedBy.logos.length; i += 3) {
@@ -69,21 +75,15 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
                     <div key={cIdx} className="p-6">
                       <div className="group/logo relative aspect-[102.5/57.65] w-full overflow-hidden bg-black">
                         <div className="absolute inset-0 bg-black" />
-                        {/* Dotted texture placeholder background */}
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src="/figma/logo-card-bg.png"
-                          alt=""
-                          className="absolute inset-0 h-full w-full object-cover opacity-20"
-                        />
                         <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-[35.039%] to-[#ff4100] mix-blend-multiply" />
                         {/* Client logo */}
                         {logoUrl && (
-                          /* eslint-disable-next-line @next/next/no-img-element */
-                          <img
+                          <Image
                             src={logoUrl}
                             alt={logoItem.name}
                             className="absolute inset-0 h-full w-full object-contain p-4"
+                            fill
+                            sizes="(min-width: 768px) 33vw, 50vw"
                           />
                         )}
                       </div>
@@ -97,55 +97,51 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
         </div>
 
         {/* Testimonials */}
-        <RevealOnScroll
-          as="div"
-          stagger={0.12}
-          from="bottom"
-          distance={24}
-          className="grid grid-cols-1 gap-6 px-6 xl:grid-cols-2"
-        >
-          {trustedBy.testimonials.map((t, idx) => {
-            const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;
-            return (
-              <article
-                key={idx}
-                className="flex flex-col gap-12 bg-[#f7f7f7] p-8 dark:bg-[#0F0F0F] xl:p-12"
-              >
-                <QuoteMark />
-                <div className="flex flex-col gap-6">
-                  <div className="flex items-center gap-4">
-                    {profileUrl && (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
-                        src={profileUrl}
-                        alt={t.attribution}
-                        className="h-12 w-12 rounded-full object-cover"
-                      />
-                    )}
-                    <p className="text-[18px] leading-normal text-brand">{t.attribution}</p>
+        {trustedBy.testimonials.length > 0 ? (
+          <RevealOnScroll
+            as="div"
+            stagger={0.12}
+            from="bottom"
+            distance={24}
+            className="grid grid-cols-1 gap-6 px-6 xl:grid-cols-2"
+          >
+            {trustedBy.testimonials.map((t, idx) => {
+              const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;
+              return (
+                <article
+                  key={idx}
+                  className="flex flex-col gap-6 bg-[#f7f7f7] p-8 dark:bg-[#0F0F0F] xl:p-12"
+                >
+                  <ProfilePicture src={profileUrl} alt={t.attribution} />
+                  <div className="flex flex-col gap-6">
+                    <div className="flex items-center gap-4">
+                      <p className="text-[18px] leading-normal text-brand">{t.name}, {t.attribution}</p>
+                    </div>
+                    <p className="text-[30px] leading-[1.2] tracking-[-1px] text-foreground 2xl:text-4xl">
+                      &ldquo;{t.quote}&rdquo;
+                    </p>
                   </div>
-                  <p className="text-[30px] leading-[1.2] tracking-[-1px] text-foreground 2xl:text-deco-h4">
-                    &ldquo;{t.quote}&rdquo;
-                  </p>
-                </div>
-              </article>
-            );
-          })}
-        </RevealOnScroll>
+                </article>
+              );
+            })}
+          </RevealOnScroll>
+        ) : null}
       </div>
     </SectionsWrapper>
   );
 }
 
-function QuoteMark() {
+function ProfilePicture({ src, alt }: { src: string | null; alt: string }) {
+  if (!src) return null;
+
   return (
-    /* eslint-disable-next-line @next/next/no-img-element */
-    <img
-      src="/figma/quote-mark.svg"
-      alt=""
+    <Image
+      src={src}
+      alt={alt}
       aria-hidden="true"
-      className="h-12 w-[31.689px] shrink-0"
-      style={{ transform: "scaleY(-1) rotate(180deg)" }}
+      className="h-16 w-16 shrink-0 rounded-full object-cover"
+      width={96}
+      height={96}
     />
   );
 }

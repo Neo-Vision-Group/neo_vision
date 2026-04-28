@@ -167,6 +167,7 @@ const sharedPageBuilderProjection = /* groq */ `
         logo
       },
       testimonials[]->{
+        name,
         attribution,
         quote,
         profilePicture
@@ -176,9 +177,20 @@ const sharedPageBuilderProjection = /* groq */ `
       ...,
       cards[]{
         ...,
+        cta {
+          ...,
+          ${linkFields}
+        },
         services[]->{
           ...
         }
+      }
+    },
+    _type == "signature" => {
+      ...,
+      cta {
+        ...,
+        ${linkFields}
       }
     },
     _type == "signature2" => {
@@ -228,11 +240,7 @@ const sharedPageBuilderProjection = /* groq */ `
           year,
           slug,
           category,
-          title,
           tagline,
-          description,
-          image,
-          link,
           thumb
         }
       }

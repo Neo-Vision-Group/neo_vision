@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import dynamic from "next/dynamic";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 import ArrowRight from "@/components/icons/ArrowRight";
 import ResolvedLink from "@/components/ResolvedLink";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega } from "@/sanity/lib/utils";
+import { Button } from "@/components/partials/Button";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -92,32 +95,51 @@ function CardLink({
   cta?: ServiceNavigatorCard["cta"];
   className?: string;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   const content = (
     <>
+      <AnimatedBorder isHovered={isHovered} />
       <ArrowRight
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-10 shrink-0"
+        className="relative z-10 h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
         {cta?.buttonText ?? "Learn more"}
       </span>
     </>
   );
 
+  const interactiveClassName = `${className ?? ""} relative inline-flex items-center gap-3 px-2 py-1 transition-colors duration-200 ${
+    isHovered ? "text-brand" : "text-black dark:text-[#efefef]"
+  }`;
+
   if (cta?.link) {
     return (
       <ResolvedLink
         link={cta.link}
-        className={`${className ?? ""} group inline-flex items-center gap-3`}
+        className={interactiveClassName}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
       >
         {content}
       </ResolvedLink>
     );
   }
 
-  return <div className={`${className ?? ""} inline-flex items-center gap-3`}>{content}</div>;
+  return (
+    <div
+      className={interactiveClassName}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {content}
+    </div>
+  );
 }
 
 function ClosingLink({
@@ -198,7 +220,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
             >
               <div className="flex flex-col gap-3">
                 {card.prompt ? (
-                  <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-deco-h4 md:tracking-[-1px]">
+                  <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
                     {card.prompt}
                   </h3>
                 ) : null}
@@ -209,19 +231,20 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
                 ) : null}
               </div>
 
-              <CardLink cta={card.cta} className="self-start text-black dark:text-[#efefef]" />
+              <CardLink cta={card.cta} className="self-start" />
             </article>
           ))}
         </RevealOnScroll>
 
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-deco-h4 md:tracking-[-1px]">
+          <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
             {navigator.closingText}
           </p>
-          <ClosingLink
-            buttonText={navigator.closingCta.buttonText}
-            link={navigator.closingCta.link}
-          />
+          <Button>
+            <p className="text-white font-funnel text-[18px] leading-normal">
+              {navigator.closingCta.buttonText}
+            </p>
+          </Button>
         </div>
       </div>
     </SectionsWrapper>

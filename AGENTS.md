@@ -65,6 +65,7 @@ Sanity Document (page / service / project)
 | `frontend/components/BlockErrorBoundary.tsx`              | Isolates individual page block render failures so one broken section does not crash the whole page                                              |
 | `frontend/components/RouteLoading.tsx`                    | Shared loading UI used by route-level `loading.tsx` files in the App Router                                                                     |
 | `frontend/components/partials/FirstLoadIntro.tsx`         | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator                 |
+| `frontend/components/partials/HeroBrandDotsMediaProvider.tsx` | App-shell-level owner for the shared `hero.mp4` media. It must stay mounted so hero, intro, and transition surfaces mirror one persistent playback source |
 | `frontend/components/transition/TransitionProvider.tsx`   | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal |
 | `frontend/components/transition/PageTransitionMarker.tsx` | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern   |
 | `frontend/components/partials/CookieBanner.tsx`           | Global client-side cookie consent banner/preferences panel driven by `siteSettings.cookieSettings` and reopened from the footer                 |
@@ -110,6 +111,8 @@ The intro component is responsible for:
 - Hardcoding the website name for fast boot rendering
 - Animating a brand-colored loading bar with a Betatron percentage readout without depending on client hydration, so the motion starts during the streamed loading fallback
 - Persisting completion in session storage and a cookie via the root layout marker after the first page boot completes so the intro does not replay during in-site navigation or subsequent visits
+- Deferring to the app-shell page transition during in-site navigation so route-level `loading.tsx` fallbacks do not flash underneath the transition wipe
+- Reusing the app-shell-mounted hero media source instead of mounting its own `hero.mp4` instance
 
 ### App-Shell Page Transitions
 
@@ -121,10 +124,13 @@ The root layout now mounts a client-side `TransitionProvider` around the shared 
 
 `loading.tsx` fallbacks do **not** emit route-ready markers. The wipe should reveal only when final route content mounts.
 
+Route-level loading UI is reserved for document entry/loading outside an active client transition. During internal navigations, the fallback should stay visually hidden while the transition overlay remains mounted.
+
 The shared halftone persistence rule is driven by two conventions:
 
 - Hero sections that visually own the brand dots must include `.has-hero-pattern`
 - Final page content must render `PageTransitionMarker` with the correct `hasHeroPattern` value
+- The expensive hero graphic media must remain owned by the root layout app shell. Hero/intro/transition visuals may mirror it, but they should not mount their own separate `hero.mp4` elements
 
 The current hero sections that should carry `.has-hero-pattern` are:
 

@@ -3,11 +3,10 @@
 import Link from "next/link";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
-import ArrowRight from "@/components/icons/ArrowRight";
-import { ourWork as ourWorkFallback } from "@/lib/content/home";
 import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -41,23 +40,21 @@ export type PortfolioData = {
   } | null;
   cards?: Array<{
     _key?: string;
-    graphic?: SanityImageSource;
+    graphic?: SanityImageSource | string;
     project?: {
       _id?: string;
       client?: string;
       year?: string;
       slug?: { current?: string };
       category?: string;
-      title?: string;
       tagline?: string;
-      image?: SanityImageSource;
-      thumb?: SanityImageSource;
-      link?: string;
+      thumb?: SanityImageSource | string;
     };
   }>;
 };
 
 type ProjectItem = {
+  key: string;
   client: string;
   year: string;
   category: string;
@@ -66,59 +63,94 @@ type ProjectItem = {
   thumbHref: string;
   ctaLabel: string;
   ctaHref: string;
-  imageUrl?: string;
-  graphicUrl?: string;
+  imageUrl: string | undefined;
+  graphicUrl: string | undefined;
 };
+
+function resolveImageUrl(image?: SanityImageSource | string) {
+  if (!image) {
+    return undefined;
+  }
+
+  if (typeof image === "string") {
+    return image;
+  }
+
+  return urlForImage(image).width(1920).height(1080).url();
+}
+
+function resolveGraphicUrl(image?: SanityImageSource | string) {
+  if (!image) {
+    return undefined;
+  }
+
+  if (typeof image === "string") {
+    return image;
+  }
+
+  return urlForImage(image).width(1600).fit("max").url();
+}
 
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
-  const ctaHref =
-    linkResolver(cleanData?.cta?.link ?? undefined) ?? ourWorkFallback.cta.href;
-  const ctaLabel = cleanData?.cta?.buttonText ?? ourWorkFallback.cta.label;
+  const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined);
+  const ctaLabel = cleanData?.cta?.buttonText?.trim();
+  const heading = cleanData?.heading?.trim();
 
-  const itemsFromCards: ProjectItem[] =
-    cleanData?.cards?.map((card) => {
-      const projectVisual = card.project?.image ?? card.project?.thumb;
+  const itemsFromCards =
+    cleanData?.cards
+      ?.map((card, index) => {
+        const projectVisual = card.project?.thumb;
+        const projectSlug = card.project?.slug?.current?.trim();
+        const projectName = card.project?.client?.trim();
 
-      return {
-        client: card.project?.client || "",
-        year: card.project?.year || "",
-        category: card.project?.category || "",
-        name: card.project?.title || "",
-        tagline: card.project?.tagline || "",
-        thumbHref: card.project?.link || "#",
-        ctaLabel: "View",
-        ctaHref: card.project?.slug?.current
-          ? `/portfolio/${card.project.slug.current}`
-          : "#",
-        imageUrl: projectVisual
-          ? urlForImage(projectVisual).width(1920).height(1080).url()
-          : undefined,
-        graphicUrl: card.graphic
-          ? urlForImage(card.graphic).width(1600).fit("max").url()
-          : undefined,
-      };
-    }) ?? [];
+        if (!projectSlug || !projectName) {
+          return null;
+        }
 
-  const items = itemsFromCards.length > 0 ? itemsFromCards : [...ourWorkFallback.items];
+        const projectHref = `/portfolio/${projectSlug}`;
+
+        return {
+          key: card._key ?? `${projectSlug}-${index}`,
+          client: projectName,
+          year: card.project?.year?.trim() || "",
+          category: card.project?.category?.trim() || "",
+          name: projectName,
+          tagline: card.project?.tagline?.trim() || "",
+          thumbHref: projectHref,
+          ctaLabel: "View",
+          ctaHref: projectHref,
+          imageUrl: resolveImageUrl(projectVisual),
+          graphicUrl: resolveGraphicUrl(card.graphic),
+        };
+      })
+      .filter((item): item is ProjectItem => item !== null) ?? [];
+
+  const items = itemsFromCards;
+
+  if (!heading && items.length === 0 && !ctaLabel) {
+    return null;
+  }
 
   return (
     <SectionsWrapper
       id="work"
-      eyebrow={cleanData?.eyebrow || ourWorkFallback.eyebrow}
+      eyebrow={cleanData?.eyebrow?.trim()}
     >
       <div className="flex flex-col gap-12">
-        <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-          <SplitTextReveal
-            as="h2"
-            type="words"
-            stagger={0.04}
-            colorReveal
-            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
-          >
-            {cleanData?.heading}
-          </SplitTextReveal>
-        </div>
+        {heading ? (
+          <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+            <SplitTextReveal
+              as="h2"
+              type="words"
+              stagger={0.04}
+              colorReveal
+              className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+            >
+              {heading}
+            </SplitTextReveal>
+          </div>
+        ) : null}
 
         <RevealOnScroll
           as="div"
@@ -127,16 +159,18 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           distance={24}
           className="flex flex-col gap-6"
         >
-          {items.map((item, idx) => (
-            <CaseRow key={idx} item={item} />
+          {items.map((item) => (
+            <CaseRow key={item.key} item={item} />
           ))}
         </RevealOnScroll>
 
-        <div className="flex justify-center px-6 pb-4">
-          <Button href={ctaHref} variant="primary">
-            {ctaLabel}
-          </Button>
-        </div>
+        {ctaLabel && ctaHref ? (
+          <div className="flex justify-center px-6 pb-4">
+            <Button href={ctaHref} variant="primary">
+              {ctaLabel}
+            </Button>
+          </div>
+        ) : null}
       </div>
     </SectionsWrapper>
   );
@@ -201,13 +235,13 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </>
       ) : null}
 
-      <div className="flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
-        <div className="flex w-full flex-col p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
+      <div className="flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out dark:group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
+        <div className="flex w-full flex-col justify-end p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
-              {item.client}
+              Date
             </span>
-            <span className="font-betatron text-deco-h4 leading-9 tracking-[-0.2px] text-foreground">
+            <span className="font-betatron text-4xl leading-9 tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>
@@ -224,19 +258,19 @@ function CaseRow({ item }: { item: ProjectItem }) {
         <div className="p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="relative aspect-video w-full overflow-hidden bg-black">
             {item.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <Image
                 src={item.imageUrl}
                 alt={item.name}
                 className="absolute inset-0 h-full w-full object-cover"
+                fill
               />
             ) : (
               <>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/figma/work-thumb.png"
                   alt=""
                   className="absolute inset-0 h-full w-full object-cover opacity-20"
+                  fill
                 />
                 <div
                   aria-hidden="true"
@@ -260,10 +294,10 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="text-caption capitalize tracking-[-0.16px] text-brand">
               {item.category}
             </span>
-            <span className="font-funnel dark:text-white text-black text-deco-h4 leading-9 tracking-[-0.2px]">
+            <span className="font-funnel dark:text-white text-black text-4xl leading-9 tracking-[-0.2px]">
               {item.name}
             </span>
-            <p className="text-funnel text-[#EFEFEFB3] text-[18px]">{item.tagline}</p>
+            <p className="text-funnel dark:text-[#efefefb3] text-[#040404b3] text-[18px]">{item.tagline}</p>
           </div>
         </div>
       </div>

@@ -85,13 +85,13 @@ export function TechStacks({data}: {data?: TechStacksData}) {
               <section key={group?._key ?? `group-${groupIndex}`} className="flex flex-col">
                 {group?.title ? (
                   <div className="py-6">
-                    <h3 className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+                    <h3 className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                       {group.title}
                     </h3>
                   </div>
                 ) : null}
 
-                <div className="border-y border-white/10">
+                <div className="border-y  border-white/10">
                   <RevealOnScroll
                     as="div"
                     stagger={0.05}
@@ -137,7 +137,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
         </div>
 
         {closingNote ? (
-          <p className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+          <p className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
             {closingNote}
           </p>
         ) : null}

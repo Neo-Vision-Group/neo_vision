@@ -13,6 +13,7 @@ import Footer from '@/components/layout/Footer'
 import {IntroVisitMarker} from '@/components/IntroVisitMarker'
 import CookieBanner from '@/components/partials/CookieBanner'
 import DraftModeToast from '@/components/partials/DraftModeToast'
+import {HeroBrandDotsMediaProvider} from '@/components/partials/HeroBrandDotsMediaProvider'
 import LenisProvider from '@/components/partials/motion/lenis-provider'
 import Nav from '@/components/layout/Nav'
 import {ScrollToTopOnNavigate} from '@/components/ScrollToTopOnNavigate'
@@ -24,14 +25,9 @@ import {settingsQuery} from '@/sanity/lib/queries'
 import {resolveOpenGraphImage} from '@/sanity/lib/utils'
 import PlausibleProvider from 'next-plausible'
 
-/**
- * Generate metadata for the page.
- * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function
- */
 export async function generateMetadata(): Promise<Metadata> {
   const {data: settings} = await sanityFetch({
     query: settingsQuery,
-    // Metadata should never contain stega
     stega: false,
   })
   const title = settings?.title || demo.title
@@ -119,31 +115,33 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           enableSystem
           disableTransitionOnChange
         >
-          <LenisProvider>
-            <TransitionProvider>
-              <ScrollToTopOnNavigate />
-              <section className="min-h-screen overflow-x-clip bg-white dark:bg-black">
-                {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
-                <Toaster />
-                {isDraftMode && (
-                  <>
-                    <DraftModeToast />
-                    {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
-                    <VisualEditing />
-                  </>
-                )}
-                {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
-                <SanityLive onError={handleError} />
-                <Nav />
-                <main className="">
-                  {children}
-                  <IntroVisitMarker />
-                </main>
-                <Footer />
-                <CookieBanner settings={settings?.cookieSettings} />
-              </section>
-            </TransitionProvider>
-          </LenisProvider>
+          <HeroBrandDotsMediaProvider>
+            <LenisProvider>
+              <TransitionProvider>
+                <ScrollToTopOnNavigate />
+                <section className="min-h-screen overflow-x-clip bg-white dark:bg-black">
+                  {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
+                  <Toaster />
+                  {isDraftMode && (
+                    <>
+                      <DraftModeToast />
+                      {/*  Enable Visual Editing, only to be rendered when Draft Mode is enabled */}
+                      <VisualEditing />
+                    </>
+                  )}
+                  {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
+                  <SanityLive onError={handleError} />
+                  <Nav />
+                  <main className="">
+                    {children}
+                    <IntroVisitMarker />
+                  </main>
+                  <Footer />
+                  <CookieBanner settings={settings?.cookieSettings} />
+                </section>
+              </TransitionProvider>
+            </LenisProvider>
+          </HeroBrandDotsMediaProvider>
         </ThemeProvider>
         <SpeedInsights />
       </body>

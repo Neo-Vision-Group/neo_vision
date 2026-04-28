@@ -57,7 +57,7 @@ export const booking = defineType({
       title: 'Expectations',
       type: 'array',
       of: [{ type: 'string' }],
-      initialItems: [
+      initialValue: [
         'Your goals and challenges',
         'Whether AI/engineering fits',
         'Honest assessment of fit',

@@ -140,11 +140,11 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               return (
                 <div key={`${segment}-${index}`} className="contents">
                   {index > 0 ? (
-                    <span className={cn(isCurrent ? "text-brand" : "text-foreground/70")}>
+                    <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
                       /
                     </span>
                   ) : null}
-                  <span className={cn(isCurrent ? "text-brand" : "text-foreground/70")}>
+                  <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
                     {segment}
                   </span>
                 </div>
@@ -156,7 +156,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
         <div className="flex flex-col gap-6 md:gap-8">
           <RevealOnScroll
             as="p"
-            className="font-betatron text-[28px] leading-[1.2] text-brand md:text-deco-h4"
+            className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl"
           >
             {eyebrow}
           </RevealOnScroll>
@@ -190,7 +190,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
             className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
             stagger={0.08}
           >
-            <div className="flex flex-col gap-3 md:flex-row md:items-stretch md:gap-0">
+            <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
               {railItems.map((item, index) => (
                 <div key={item.key} className="contents">
                   {index > 0 ? (
@@ -226,7 +226,7 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   return (
     <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
-        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-deco-h4">
+        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
           {value}
         </p>
       ) : null}

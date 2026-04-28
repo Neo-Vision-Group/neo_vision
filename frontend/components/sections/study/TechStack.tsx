@@ -25,7 +25,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
         {tools.map((t) => (
           <article
             key={t}
-            className="flex flex-col gap-3 border border-white/15 bg-[#0f0f0f] p-6"
+            className="flex flex-col gap-3 border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] p-6"
           >
             <div
               aria-hidden="true"
@@ -36,7 +36,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
                 backgroundSize: "8px 8px, auto",
               }}
             />
-            <p className="text-center text-[18px] leading-normal text-[#efefef]">
+            <p className="text-center text-[18px] leading-normal text-black dark:text-white">
               {t}
             </p>
           </article>

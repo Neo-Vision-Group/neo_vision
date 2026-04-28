@@ -1,38 +1,9 @@
+'use client'
+
 import {useId} from 'react'
 
+import {HeroBrandDotsCanvas} from '@/components/partials/HeroBrandDotsMediaProvider'
 import {cn} from '@/lib/utils'
-
-const HERO_VIDEO_POSTER_LIGHT =
-  "data:image/svg+xml;charset=UTF-8," +
-  encodeURIComponent(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
-      <rect width="1600" height="900" fill="#fff8f4" />
-    </svg>
-  `)
-
-const HERO_VIDEO_POSTER_DARK =
-  "data:image/svg+xml;charset=UTF-8," +
-  encodeURIComponent(`
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
-      <defs>
-        <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f4efe9" />
-          <stop offset="100%" stop-color="#ece3db" />
-        </linearGradient>
-        <radialGradient id="glowA" cx="78%" cy="24%" r="28%">
-          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.08" />
-          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="glowB" cx="24%" cy="82%" r="32%">
-          <stop offset="0%" stop-color="#9d2b03" stop-opacity="0.16" />
-          <stop offset="100%" stop-color="#9d2b03" stop-opacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="1600" height="900" fill="url(#bg)" />
-      <rect width="1600" height="900" fill="url(#glowA)" />
-      <rect width="1600" height="900" fill="url(#glowB)" />
-    </svg>
-  `)
 
 export function HeroBrandDotsSurface({className}: {className?: string}) {
   const filterId = `${useId().replace(/:/g, '')}-brand-dots-filter`
@@ -70,18 +41,10 @@ export function HeroBrandDotsSurface({className}: {className?: string}) {
             `,
           }}
         />
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_POSTER_LIGHT}
+        <HeroBrandDotsCanvas
           className="absolute inset-0 h-full w-full object-cover"
           style={{filter: `url(#${filterId})`, opacity: 0.22}}
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       <div aria-hidden className={cn('absolute inset-0 hidden dark:block', className)}>
@@ -96,18 +59,10 @@ export function HeroBrandDotsSurface({className}: {className?: string}) {
           }}
         />
 
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={HERO_VIDEO_POSTER_DARK}
+        <HeroBrandDotsCanvas
           className="absolute inset-0 h-full w-full object-cover"
           style={{filter: `url(#${filterId})`, opacity: 0.5}}
-        >
-          <source src="/videos/hero.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
     </>
   )

@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { methodology as methodologyFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -31,19 +30,30 @@ export function Methodology({ data }: { data?: MethodologyData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const methodology = {
-    eyebrow: cleanData?.eyebrow ?? methodologyFallback.eyebrow,
-    heading: cleanData?.heading
-      ? cleanData.heading
-      : `${methodologyFallback.heading.faded}\n${methodologyFallback.heading.bold}`,
+    eyebrow: cleanData?.eyebrow?.trim(),
+    heading: cleanData?.heading?.trim(),
     steps:
-      cleanData?.steps && cleanData.steps.length > 0
-        ? cleanData.steps.map((step, idx) => ({
+      cleanData?.steps
+        ?.map((step, idx) => {
+          const title = step.title?.trim();
+          const body = step.body?.trim();
+
+          if (!title || !body) {
+            return null;
+          }
+
+          return {
             number: `${String(idx + 1).padStart(2, "0")}.`,
-            title: step.title,
-            body: step.body,
-          }))
-        : methodologyFallback.steps,
+            title,
+            body,
+          };
+        })
+        .filter((step): step is NonNullable<typeof step> => Boolean(step)) ?? [],
   };
+
+  if (!methodology.heading && methodology.steps.length === 0) {
+    return null;
+  }
 
   return (
     <SectionsWrapper id="methodology" eyebrow={methodology.eyebrow}>
@@ -92,7 +102,7 @@ function MethodologyCard({
           {step.number}
         </span>
         <div className="flex flex-col">
-          <h3 className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-deco-h4 xl:leading-9">
+          <h3 className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-4xl xl:leading-9">
             {step.title}
           </h3>
           <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">

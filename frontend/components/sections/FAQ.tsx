@@ -88,7 +88,7 @@ export function FAQ({ data }: { data?: FaqData }) {
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                   )}
                 >
-                  <span className="flex-1 font-funnel text-100 text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-deco-h4 md:tracking-[-1px]">
+                  <span className="flex-1 font-funnel text-100 text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-4xl md:tracking-[-1px]">
                     {item.question}
                   </span>
                   <ToggleIcon open={open} />

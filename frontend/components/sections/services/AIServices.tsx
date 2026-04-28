@@ -1,3 +1,9 @@
+"use client";
+
+import { useState } from "react";
+
+import { AnimatedBorder } from "@/components/AnimatedBorder";
+import { BorderWrapper } from "@/components/BorderWrapper";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import ResolvedLink from "@/components/ResolvedLink";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
@@ -31,32 +37,51 @@ function CardLink({
   cta?: AIServiceCard["cta"];
   className?: string;
 }) {
+  const [isHovered, setIsHovered] = useState(false);
+
   const content = (
     <>
+      <AnimatedBorder isHovered={isHovered} />
       <ArrowRightPixel
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-10 shrink-0"
+        className="relative z-10 h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
+      <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
         {cta?.buttonText ?? "Learn More"}
       </span>
     </>
   );
 
+  const interactiveClassName = `${className ?? ""} relative inline-flex items-center gap-3 px-2 py-1 transition-colors duration-200 ${
+    isHovered ? "text-brand" : "text-black dark:text-[#efefef]"
+  }`;
+
   if (cta?.link) {
     return (
       <ResolvedLink
         link={cta.link}
-        className={`${className ?? ""} group inline-flex items-center gap-3`}
+        className={interactiveClassName}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
       >
         {content}
       </ResolvedLink>
     );
   }
 
-  return <div className={`${className ?? ""} inline-flex items-center gap-3`}>{content}</div>;
+  return (
+    <div
+      className={interactiveClassName}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {content}
+    </div>
+  );
 }
 
 export function AIServices({ data }: { data?: AIServicesData }) {
@@ -88,12 +113,14 @@ export function AIServices({ data }: { data?: AIServicesData }) {
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   {service.tag ? (
-                    <span className="self-start bg-brand/30 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
-                      {service.tag}
-                    </span>
+                    <BorderWrapper className="self-start bg-brand/30">
+                      <span className="relative z-10 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
+                        {service.tag}
+                      </span>
+                    </BorderWrapper>
                   ) : null}
 
-                  <h3 className="max-w-[16ch] font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                  <h3 className="max-w-[16ch] font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                     {service.name}
                   </h3>
 
@@ -114,7 +141,7 @@ export function AIServices({ data }: { data?: AIServicesData }) {
                 ) : null}
               </div>
 
-              <CardLink cta={item.cta} className="self-start text-black dark:text-[#efefef]" />
+              <CardLink cta={item.cta} className="self-start" />
             </article>
           );
         })}

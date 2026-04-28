@@ -78,7 +78,8 @@ export const steps = defineType({
       hidden: ({parent}) => !parent?.visual,
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          if (context.parent?.visual && !value) {
+          const parent = context.parent as {visual?: unknown} | undefined
+          if (parent?.visual && !value) {
             return 'Alt text is required when a visual is provided.'
           }
           return true

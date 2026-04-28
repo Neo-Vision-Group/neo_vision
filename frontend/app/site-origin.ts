@@ -1,0 +1,52 @@
+import {headers} from 'next/headers'
+import {sanityFetch} from '@/sanity/lib/live'
+import {settingsQuery} from '@/sanity/lib/queries'
+
+function toOrigin(value?: string | null): string | null {
+  if (!value) return null
+
+  const trimmed = value.trim()
+  if (!trimmed) return null
+
+  const withProtocol = /^https?:\/\//i.test(trimmed)
+    ? trimmed
+    : `https://${trimmed}`
+
+  try {
+    return new URL(withProtocol).origin
+  } catch {
+    return null
+  }
+}
+
+export async function resolveSiteOrigin(): Promise<string> {
+  try {
+    const {data: settings} = await sanityFetch({
+      query: settingsQuery,
+      perspective: 'published',
+      stega: false,
+    })
+
+    const metadataBaseOrigin = toOrigin(settings?.ogImage?.metadataBase)
+    if (metadataBaseOrigin) return metadataBaseOrigin
+  } catch {
+    // Sitemap and robots should still render even if settings are unavailable.
+  }
+
+  const envOrigin =
+    toOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
+    toOrigin(process.env.SITE_URL) ??
+    toOrigin(process.env.VERCEL_PROJECT_PRODUCTION_URL) ??
+    toOrigin(process.env.VERCEL_URL)
+
+  if (envOrigin) return envOrigin
+
+  const requestHeaders = await headers()
+  const forwardedHost = requestHeaders.get('x-forwarded-host')
+  const host = forwardedHost ?? requestHeaders.get('host') ?? 'localhost:3000'
+  const protocol =
+    requestHeaders.get('x-forwarded-proto') ??
+    (host.includes('localhost') || host.startsWith('127.0.0.1') ? 'http' : 'https')
+
+  return `${protocol}://${host}`
+}

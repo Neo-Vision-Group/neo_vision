@@ -14,14 +14,14 @@ export function PortfolioMetrics({ data }: { data?: PortfolioMetricsData }) {
   }
 
   return (
-    <section className="dark:bg-[#040404] bg-white px-6 py-8 md:px-12 md:py-10">
+    <section className="dark:bg-black bg-white px-6 py-8 md:px-12 md:py-10">
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 xl:grid-cols-4 xl:gap-6">
         {items.map((item, index) => (
           <article key={`${item.label ?? "metric"}-${index}`} className="flex flex-col gap-6">
             <p className="font-betatron text-[44px] leading-[1.2] tracking-[-1px] text-brand md:text-[56px]">
               {item.value ?? ""}
             </p>
-            <p className="max-w-[10ch] font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-deco-h4">
+            <p className="max-w-[10ch] font-funnel text-[28px] leading-[1.2] tracking-[-1px] dark:text-[#efefef] text-black md:text-4xl">
               {item.label ?? ""}
             </p>
           </article>

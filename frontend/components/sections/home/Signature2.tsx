@@ -1,8 +1,7 @@
 import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {Button} from '@/components/partials/Button'
 import {cn} from '@/lib/utils'
-import {signatureModel2 as signature2Fallback} from '@/lib/content/home'
-import {cleanStega, urlForImage} from '@/sanity/lib/utils'
+import {cleanStega, linkResolver, urlForImage} from '@/sanity/lib/utils'
 import type {SanityImageSource} from '@sanity/image-url'
 
 type Signature2Step = {
@@ -39,30 +38,19 @@ export function Signature2({data}: {data?: Signature2Data}) {
     cleanData?.steps?.filter((step) => step.title?.trim()).map((step, index) => ({
       _key: step._key,
       title: step.title?.trim() ?? '',
-      highlighted:
-        typeof step.highlighted === 'boolean'
-          ? step.highlighted
-          : signature2Fallback.steps[index]?.highlighted ?? false,
+      highlighted: Boolean(step.highlighted),
       graphic: step.graphic
         ? urlForImage(step.graphic).width(1600).fit('max').url()
         : undefined,
-    })) ??
-    signature2Fallback.steps.map((step) => ({
-      title: step.title,
-      highlighted: step.highlighted,
-      graphic: undefined,
     }))
+    ?? []
 
-  const eyebrow = cleanData?.eyebrow ?? signature2Fallback.eyebrow
-  const headingFaded = cleanData?.headingFaded ?? signature2Fallback.heading.faded
-  const headingBold = cleanData?.headingBold ?? signature2Fallback.heading.bold
-  const body = cleanData?.body ?? signature2Fallback.body
-  const ctaLabel = cleanData?.cta?.buttonText ?? signature2Fallback.cta.label
-  const ctaHref =
-    cleanData?.cta?.link?.href ??
-    cleanData?.cta?.link?.page ??
-    cleanData?.cta?.link?.post ??
-    signature2Fallback.cta.href
+  const eyebrow = cleanData?.eyebrow?.trim()
+  const headingFaded = cleanData?.headingFaded?.trim()
+  const headingBold = cleanData?.headingBold?.trim()
+  const body = cleanData?.body?.trim()
+  const ctaLabel = cleanData?.cta?.buttonText?.trim()
+  const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined)
 
   if (!headingFaded && !headingBold && !body && steps.length === 0 && !ctaLabel) {
     return null
@@ -85,7 +73,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
           </h2>
 
           {body ? (
-            <p className="max-w-205 text-body text-foreground/70 md:text-[18px] md:leading-205">
+            <p className="max-w-205 text-body text-foreground/70 md:text-[18px]">
               {body}
             </p>
           ) : null}

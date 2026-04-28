@@ -55,7 +55,7 @@ export function Steps({data}: {data?: StepsData}) {
     <SectionsWrapper eyebrow={eyebrow} id="steps">
       <div className="flex flex-col gap-12 md:gap-16">
         <div className="max-w-225">
-          <h2 className="font-funnel text-deco-h4 leading-[1.15] tracking-[-0.8px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
+          <h2 className="font-funnel text-4xl leading-[1.15] tracking-[-0.8px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
             <span className="text-foreground/70">{intro} </span>
             <span className="font-bold text-foreground">{highlight}</span>
           </h2>
@@ -96,7 +96,7 @@ export function Steps({data}: {data?: StepsData}) {
                           </h3>
                         ) : null}
                         {item.duration ? (
-                          <span className="inline-flex items-center bg-brand/20 px-2.5 py-1 text-64 leading-[1.2] text-foreground md:text-[18px] md:leading-normal">
+                          <span className="inline-flex items-center bg-brand/20 px-2.5 py-1 text-64 leading-[1.2] text-black dark:text-white md:text-[18px] md:leading-normal">
                             {item.duration}
                           </span>
                         ) : null}

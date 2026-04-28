@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { origin as originFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -22,13 +21,17 @@ export type OriginData = {
 
 export function Origin({ data }: { data?: OriginData }) {
   const cleanData = data ? cleanStega(data) : data;
-  
+
   const origin = {
-    eyebrow: cleanData?.eyebrow ?? originFallback.eyebrow,
-    heading: cleanData?.heading ?? `${originFallback.heading.full}${originFallback.heading.medium}${originFallback.heading.faded}`,
-    body: cleanData?.body ?? `${originFallback.body.prefix}${originFallback.body.bold}${originFallback.body.suffix}`,
-    subtext: cleanData?.subtext ?? null,
+    eyebrow: cleanData?.eyebrow?.trim(),
+    heading: cleanData?.heading?.trim(),
+    body: cleanData?.body?.trim(),
+    subtext: cleanData?.subtext?.trim(),
   };
+
+  if (!origin.heading && !origin.body && !origin.subtext) {
+    return null;
+  }
 
   return (
     <SectionsWrapper id="origin" eyebrow={origin.eyebrow}>
@@ -40,11 +43,11 @@ export function Origin({ data }: { data?: OriginData }) {
           colorReveal
           className="text-[58px]P font-normal font-funnel leading-17 tracking-[-0.3px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
-          {origin.heading} {origin.body}
+          {[origin.heading, origin.body].filter(Boolean).join(" ")}
         </SplitTextReveal>
         <div className="flex flex-col gap-4">
           {origin.subtext && (
-            <p className="text-100 text-[#EFEFEFB3] font-funnel leading-8">
+            <p className="text-xl dark:text-[#efefefb3] text-[#040404b3] font-funnel leading-8">
               {origin.subtext}
             </p>
           )}

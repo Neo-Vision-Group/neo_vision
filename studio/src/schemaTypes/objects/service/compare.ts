@@ -11,7 +11,7 @@ const defaultRows = [
 
 const defaultColumns = [
   {
-    name: 'TwelveTen',
+    name: 'Neo Vision',
     highlightColumn: true,
     values: [
       {available: true},
@@ -76,7 +76,7 @@ export const compare = defineType({
   initialValue: {
     eyebrow: 'HOW WE COMPARE',
     heading: {
-      highlighted: 'TwelveTen',
+      highlighted: 'Neo Vision',
       regular: 'vs the alternatives.',
     },
     rows: defaultRows,

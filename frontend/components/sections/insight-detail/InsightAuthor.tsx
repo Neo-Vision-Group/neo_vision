@@ -27,7 +27,7 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
           <div className="flex items-center px-6 py-8 md:px-10 md:py-12 lg:px-12">
             <div className="w-full max-w-xl">
               {author?.name ? (
-                <p className="font-funnel text-[28px] leading-[1.15] tracking-[-1px] text-foreground md:text-deco-h4">
+                <p className="font-funnel text-[28px] leading-[1.15] tracking-[-1px] text-foreground md:text-4xl">
                   {author.name}
                 </p>
               ) : null}
@@ -52,7 +52,7 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
             <div className="relative aspect-429/523 min-h-80 overflow-hidden bg-[#f3f3f5] dark:bg-[#090909]">
               <div
                 aria-hidden="true"
-                className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre-wrap break-all px-4 pt-3 font-mono text-deco-h4 uppercase leading-[1.08] tracking-[0.18em] text-black/10 dark:text-white/10"
+                className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre-wrap break-all px-4 pt-3 font-mono text-4xl uppercase leading-[1.08] tracking-[0.18em] text-black/10 dark:text-white/10"
               >
                 {BINARY_PATTERN}
               </div>

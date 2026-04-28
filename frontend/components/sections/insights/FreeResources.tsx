@@ -92,7 +92,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
 
         {cleanData?.footnote ? (
           <div className="border-b border-black/15 px-6 py-10 dark:border-white/20 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-12">
-            <p className="max-w-[30ch] text-[28px] leading-[1.1] tracking-[-0.8px] text-black/70 dark:text-[#efefef]/70 md:text-deco-h4 md:leading-[1.2] md:tracking-[-1px]">
+            <p className="max-w-[30ch] text-[28px] leading-[1.1] tracking-[-0.8px] text-black/70 dark:text-[#efefef]/70 md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
               {cleanData.footnote}
             </p>
           </div>
@@ -130,7 +130,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
 
             <div className="flex flex-col gap-1">
               {item?.title ? (
-                <h3 className="max-w-[12ch] text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-deco-h4 md:leading-[1.2] md:tracking-[-1px]">
+                <h3 className="max-w-[12ch] text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
                   {item.title}
                 </h3>
               ) : null}

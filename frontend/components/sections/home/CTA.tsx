@@ -1,8 +1,7 @@
 "use client";
 
 import { Button } from "@/components/partials/Button";
-import { closingCta as closingCtaFallback } from "@/lib/content/home";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
 const RevealOnScroll = dynamic(
@@ -34,24 +33,27 @@ export type CtaData = {
 export function ClosingCta({ data }: { data?: CtaData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const heading = cleanData?.heading
-    ? {
-        regular: cleanData.heading.split("**")[0] || "",
-        bold: cleanData.heading.split("**")[1]?.replace(/\*\*/g, "") || "",
-      }
-    : closingCtaFallback.heading;
+  const headingText = cleanData?.heading?.trim();
+  const headingParts = headingText?.split("**") ?? [];
+  const heading = {
+    regular: headingParts[0]?.trim() ?? headingText ?? "",
+    bold: headingParts[1]?.replace(/\*\*/g, "").trim() ?? "",
+  };
 
-  const body = cleanData?.body
-    ? cleanData.body.split("\n").filter((line) => line.trim())
-    : closingCtaFallback.body;
+  const body =
+    cleanData?.body
+      ?.split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean) ?? [];
 
-  const ctaLabel = cleanData?.cta?.buttonText || closingCtaFallback.ctaLabel;
-  const ctaHref =
-    cleanData?.cta?.link?.href ||
-    cleanData?.cta?.link?.page ||
-    closingCtaFallback.ctaHref;
+  const ctaLabel = cleanData?.cta?.buttonText?.trim();
+  const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined);
 
-  const microcopy = cleanData?.subtext || closingCtaFallback.microcopy;
+  const microcopy = cleanData?.subtext?.trim();
+
+  if (!heading.regular && !heading.bold && body.length === 0 && !ctaLabel && !microcopy) {
+    return null;
+  }
 
   return (
     <section
@@ -118,7 +120,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           stagger={0.06}
           duration={0.9}
           scrollTriggered
-          className="text-deco-h4 leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-5xl lg:tracking-[-0.6px]"
+          className="text-4xl leading-[1.15] tracking-[-0.4px] text-foreground md:text-[40px] md:tracking-[-0.5px] lg:text-5xl lg:tracking-[-0.6px]"
         >
           <span className="font-normal">{heading.regular} </span>
           <span className="font-bold">{heading.bold}</span>
@@ -136,10 +138,14 @@ export function ClosingCta({ data }: { data?: CtaData }) {
               <p key={idx}>{line}</p>
             ))}
           </div>
-          <Button href={ctaHref} variant="primary">
-            {ctaLabel}
-          </Button>
-          <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">{microcopy}</p>
+          {ctaLabel && ctaHref ? (
+            <Button href={ctaHref} variant="primary">
+              {ctaLabel}
+            </Button>
+          ) : null}
+          {microcopy ? (
+            <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">{microcopy}</p>
+          ) : null}
         </RevealOnScroll>
       </div>
     </section>

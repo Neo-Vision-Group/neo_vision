@@ -1,4 +1,10 @@
+"use client"
+
+import {useEffect, useState} from 'react'
+import {useTheme} from 'next-themes'
+
 import {SectionsWrapper} from '@/components/SectionsWrapper'
+import {AnimatedBorder} from '@/components/AnimatedBorder'
 import {Button} from '@/components/partials/Button'
 import ResolvedLink from '@/components/ResolvedLink'
 import ArrowRight from '@/components/icons/ArrowRight'
@@ -43,74 +49,6 @@ export type PricingData = {
   tiers?: PricingTier[] | null
 }
 
-const fallbackData = {
-  eyebrow: 'PRICING',
-  headingPrimary: 'Transparent pricing.',
-  headingSecondary: 'No surprises.',
-  tiers: [
-    {
-      _key: 'landing-page',
-      width: 'half',
-      priceLayout: 'stacked',
-      title: 'Landing Page',
-      price: 'EUR3K - EUR8K',
-      description:
-        'Single page, custom design, responsive, CMS integration, 2 revision rounds. Perfect for product launches, campaigns, or MVPs.',
-      ctaStyle: 'textLink',
-      cta: {
-        buttonText: 'Learn More',
-        link: {linkType: 'href', href: '/contact'},
-      },
-    },
-    {
-      _key: 'multi-page',
-      width: 'half',
-      priceLayout: 'stacked',
-      badge: 'Most popular',
-      title: 'Multi-Page Website',
-      price: 'EUR12K - EUR30K',
-      description:
-        '5-15 pages, full design system, GSAP animations, headless CMS, SEO setup. The standard for most businesses.',
-      ctaStyle: 'button',
-      cta: {
-        buttonText: 'Start Project',
-        link: {linkType: 'href', href: '/contact'},
-      },
-    },
-    {
-      _key: 'automation',
-      width: 'full',
-      priceLayout: 'split',
-      badge: 'Avg 120 hrs/mo saved',
-      title: 'AI Automation',
-      price: 'EUR3K - EUR8K',
-      description:
-        'The 10 hours your team wastes every week? Automated. Lead qualification, email triage, report generation, data enrichment.',
-      ctaStyle: 'textLink',
-      cta: {
-        buttonText: 'Learn More',
-        link: {linkType: 'href', href: '/services/ai-transformation'},
-      },
-    },
-    {
-      _key: 'rag',
-      width: 'full',
-      priceLayout: 'inline',
-      badge: '5+ enterprise deployments',
-      title: 'Knowledge Hub (RAG)',
-      price: 'From EUR10K + EUR1K/mo',
-      meta: '4-8 weeks',
-      description:
-        'AI strategy that starts with your P&L.\nVendor-agnostic advice, implementation roadmap, access-controlled.',
-      ctaStyle: 'textLink',
-      cta: {
-        buttonText: 'Learn More',
-        link: {linkType: 'href', href: '/services/ai-transformation'},
-      },
-    },
-  ],
-} satisfies PricingData
-
 function getHref(link?: PricingLink | null) {
   const resolved = link ? linkResolver(link) : null
   return typeof resolved === 'string' ? resolved : null
@@ -134,75 +72,108 @@ function toResolvedLink(link?: PricingLink | null): DereferencedLink | null {
 function TextLink({
   label,
   link,
+  isDarkTheme,
 }: {
   label?: string | null
   link?: PricingLink | null
+  isDarkTheme: boolean
 }) {
+  if (!label?.trim() || !link) {
+    return null
+  }
+
+  const [isHovered, setIsHovered] = useState(false)
+
   const content = (
     <>
+      <AnimatedBorder isHovered={isHovered} />
       <ArrowRight
         color="currentColor"
         width={38}
         height={24}
-        className="h-6 w-10 shrink-0"
+        className="relative z-10 h-6 w-10 shrink-0"
       />
-      <span className="font-funnel text-100 font-bold leading-[1.2] text-black transition-colors duration-200 dark:text-[#efefef]">
-        {label || 'Learn more'}
+      <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
+        {label}
       </span>
     </>
   )
 
-  const className = 'group inline-flex items-center gap-3 self-start'
+  const className = cn(
+    'relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200',
+    isHovered ? 'text-brand' : isDarkTheme ? 'text-[#efefef]' : 'text-black',
+  )
   const resolvedLink = toResolvedLink(link)
 
   if (resolvedLink) {
     return (
-      <ResolvedLink link={resolvedLink} className={className}>
+      <ResolvedLink
+        link={resolvedLink}
+        className={className}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onFocus={() => setIsHovered(true)}
+        onBlur={() => setIsHovered(false)}
+      >
         {content}
       </ResolvedLink>
     )
   }
 
-  return <div className={className}>{content}</div>
+  return (
+    <div
+      className={className}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {content}
+    </div>
+  )
 }
 
-function CardCta({tier}: {tier: PricingTier}) {
-  if (!tier?.cta?.buttonText && !tier?.cta?.link) {
+function CardCta({
+  tier,
+  isDarkTheme,
+}: {
+  tier: NonNullable<PricingTier>
+  isDarkTheme: boolean
+}) {
+  const buttonText = tier?.cta?.buttonText?.trim()
+  const href = getHref(tier?.cta?.link as PricingLink | null | undefined)
+
+  if (!buttonText || !href) {
     return null
   }
 
   if (tier.ctaStyle === 'button') {
-    const href = getHref(tier.cta?.link as PricingLink | null | undefined)
-
-    if (href) {
-      return (
-        <Button
-          href={href}
-          target={tier.cta?.link?.openInNewTab ? '_blank' : undefined}
-          rel={tier.cta?.link?.openInNewTab ? 'noopener noreferrer' : undefined}
-          className="self-start"
-        >
-          {tier.cta?.buttonText || 'Start Project'}
-        </Button>
-      )
-    }
-
     return (
-      <Button className="self-start">
-        {tier.cta?.buttonText || 'Start Project'}
+      <Button
+        href={href}
+        target={tier.cta?.link?.openInNewTab ? '_blank' : undefined}
+        rel={tier.cta?.link?.openInNewTab ? 'noopener noreferrer' : undefined}
+        className="self-start"
+      >
+        {buttonText}
       </Button>
     )
   }
 
   return (
     <TextLink
-      label={tier.cta?.buttonText}
+      label={buttonText}
       link={tier.cta?.link as PricingLink | null | undefined}
+      isDarkTheme={isDarkTheme}
     />
   )
 }
 
-function PricingCard({tier}: {tier: PricingTier}) {
+function PricingCard({
+  tier,
+  isDarkTheme,
+}: {
+  tier: NonNullable<PricingTier>
+  isDarkTheme: boolean
+}) {
   const isFullWidth = tier?.width === 'full'
   const priceLayout = tier?.priceLayout ?? 'stacked'
   const hasBadge = Boolean(tier?.badge?.trim())
@@ -223,7 +194,7 @@ function PricingCard({tier}: {tier: PricingTier}) {
 
         {priceLayout === 'split' ? (
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+            <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
               {tier?.title}
             </h3>
             <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
@@ -232,7 +203,7 @@ function PricingCard({tier}: {tier: PricingTier}) {
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <h3 className="font-funnel text-deco-h4 leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+            <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
               {tier?.title}
             </h3>
 
@@ -262,18 +233,26 @@ function PricingCard({tier}: {tier: PricingTier}) {
         ) : null}
       </div>
 
-      <CardCta tier={tier} />
+      <CardCta tier={tier} isDarkTheme={isDarkTheme} />
     </article>
   )
 }
 
 export function Pricing({data}: {data?: PricingData}) {
+  const {resolvedTheme} = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const cleanData = data ? cleanStega(data) : data
-  const tiersSource = cleanData?.tiers ?? fallbackData.tiers
+  const tiersSource = cleanData?.tiers ?? []
   const tiers = tiersSource.filter(
     (tier): tier is NonNullable<PricingTier> =>
       Boolean(tier?.title?.trim() && tier?.price?.trim()),
   )
+  const isDarkTheme = !mounted || resolvedTheme === 'dark'
 
   if (tiers.length === 0) {
     return null
@@ -282,25 +261,30 @@ export function Pricing({data}: {data?: PricingData}) {
   return (
     <SectionsWrapper
       id="pricing"
-      eyebrow={cleanData?.eyebrow ?? fallbackData.eyebrow}
+      eyebrow={cleanData?.eyebrow?.trim()}
     >
       <div className="flex flex-col gap-12 md:gap-16">
-        <div>
-          <h2 className="max-w-225 font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-5xl">
-            <span>{cleanData?.headingPrimary ?? fallbackData.headingPrimary}</span>{' '}
-            {(cleanData?.headingSecondary ?? fallbackData.headingSecondary) ? (
-              <span className="font-normal text-black/55 dark:text-[#efefef]/55">
-                {cleanData?.headingSecondary ?? fallbackData.headingSecondary}
-              </span>
-            ) : null}
-          </h2>
-        </div>
+        {cleanData?.headingPrimary?.trim() || cleanData?.headingSecondary?.trim() ? (
+          <div>
+            <h2 className="max-w-225 font-funnel text-[36px] font-bold leading-[1.1] tracking-[-0.02em] text-black dark:text-[#efefef] md:text-5xl">
+              {cleanData?.headingPrimary?.trim() ? (
+                <span>{cleanData.headingPrimary.trim()}</span>
+              ) : null}{' '}
+              {cleanData?.headingSecondary?.trim() ? (
+                <span className="font-normal text-black/55 dark:text-[#efefef]/55">
+                  {cleanData.headingSecondary.trim()}
+                </span>
+              ) : null}
+            </h2>
+          </div>
+        ) : null}
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {tiers.map((tier, index) => (
             <PricingCard
               key={tier?._key ?? `${tier?.title ?? 'pricing'}-${index}`}
               tier={tier}
+              isDarkTheme={isDarkTheme}
             />
           ))}
         </div>

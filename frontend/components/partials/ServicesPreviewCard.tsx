@@ -1,16 +1,16 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/partials/Button";
-import { services } from "@/lib/content/home";
 import Image from "next/image";
 
 type ServiceCard = {
   _key?: string;
   kind?: "engineering" | "ai";
-  label: string;
+  label?: string;
+  labelImage?: string;
   title: string | { regular?: string; bold?: string };
   body: string | readonly string[];
   services?: Array<{ name?: string; price?: string }>;
-  cta: { label: string; href: string; variant: "primary" | "secondary" };
+  cta?: { label: string; href: string; variant: "primary" | "secondary" };
   texture?: string;
 };
 
@@ -20,8 +20,6 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   const titleText = typeof card.title === "string" 
     ? { regular: card.title, bold: "" }
     : card.title;
-  
-  const bodyLines = Array.isArray(card.body) ? card.body : [card.body];
   
   const displayItems = card.services || [];
 
@@ -56,23 +54,33 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
-          <p
-            className={cn(
-              "text-caption tracking-[-0.16px]",
-              card.kind === "ai" ? "text-brand" : "text-foreground"
-            )}
-          >
-            {card.label}
-          </p>
-          <h3 className="text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-deco-h4 xl:leading-9">
+          {card.labelImage ? (
+            <div className="relative h-5 w-full max-w-[13rem]">
+              <Image
+                src={card.labelImage}
+                alt={card.label || ""}
+                fill
+                className="object-contain object-left"
+                sizes="208px"
+              />
+            </div>
+          ) : card.label ? (
+            <p
+              className={cn(
+                "font-betatron uppercase text-caption tracking-[-0.16px]",
+                card.kind === "ai" ? "text-brand" : "text-foreground"
+              )}
+            >
+              {card.label}
+            </p>
+          ) : null}
+          <h3 className="text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-4xl xl:leading-9">
             <span className="font-normal">{titleText.regular}</span>{" "}
             {titleText.bold && <span className="font-bold">{titleText.bold}</span>}
           </h3>
         </div>
-        <div className="flex flex-col text-body text-foreground">
-          {bodyLines.map((line, idx) => (
-            <p key={idx}>{line}</p>
-          ))}
+        <div className="flex flex-col text-body dark:text-[#efefefb3] text-[#040404b3]">
+          {card.body}
         </div>
       </div>
 
@@ -100,11 +108,13 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
         </ul>
       )}
 
-      <div className="flex justify-start">
-        <Button href={card.cta.href} variant={card.cta.variant}>
-          {card.cta.label}
-        </Button>
-      </div>
+      {card.cta?.label && card.cta.href ? (
+        <div className="flex justify-start">
+          <Button href={card.cta.href} variant={card.cta.variant}>
+            {card.cta.label}
+          </Button>
+        </div>
+      ) : null}
     </article>
   );
 }

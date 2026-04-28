@@ -1,14 +1,26 @@
-import {defineEnableDraftMode} from 'next-sanity/draft-mode'
+import {validatePreviewUrl} from '@sanity/preview-url-secret'
+import {draftMode} from 'next/headers'
+import {NextResponse} from 'next/server'
 
 import {client} from '@/sanity/lib/client'
 import {token} from '@/sanity/lib/token'
 
-/**
- * defineEnableDraftMode() is used to enable draft mode. Set the route of this file
- * as the previewMode.enable option for presentationTool in your sanity.config.ts
- * Learn more: https://github.com/sanity-io/next-sanity?tab=readme-ov-file#5-integrating-with-sanity-presentation-tool--visual-editing
- */
+export const dynamic = 'force-dynamic'
 
-export const {GET} = defineEnableDraftMode({
-  client: client.withConfig({token}),
-})
+export async function GET(request: Request) {
+  const {isValid, redirectTo = '/'} = await validatePreviewUrl(
+    client.withConfig({token}),
+    request.url
+  )
+
+  if (!isValid) {
+    return new NextResponse('Invalid secret', {status: 401})
+  }
+
+  const draftModeStore = await draftMode()
+  if (!draftModeStore.isEnabled) {
+    draftModeStore.enable()
+  }
+
+  return NextResponse.redirect(new URL(redirectTo, request.url))
+}

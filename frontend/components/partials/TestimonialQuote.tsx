@@ -21,7 +21,7 @@ export function TestimonialQuote({
     return (
       <figure
         className={cn(
-          "relative flex h-full flex-col gap-12 bg-[#0f0f0f] p-8 text-[#efefef] md:p-12",
+          "relative flex h-full flex-col gap-12 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] dark:text-white md:p-12",
           className
         )}
       >
@@ -37,7 +37,7 @@ export function TestimonialQuote({
             - {attribution}
             {source ? `, ${source}` : ""}
           </cite>
-          <blockquote className="text-[28px] leading-[1.2] tracking-[-1px] text-[#efefef] md:text-deco-h4">
+          <blockquote className="text-[28px] leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-4xl">
             {quote}
           </blockquote>
         </div>
@@ -61,7 +61,7 @@ export function TestimonialQuote({
         &ldquo;
       </span>
 
-      <blockquote className="flex-1 text-[22px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-deco-h4 2xl:leading-10">
+      <blockquote className="flex-1 text-[22px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-4xl 2xl:leading-10">
         {quote}
       </blockquote>
 

@@ -78,7 +78,7 @@ export function Awards({data}: {data?: AwardsData}) {
             >
               <div className="flex flex-col gap-6">
                 {item?.title ? (
-                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                     {item.title}
                   </h3>
                 ) : null}
@@ -118,7 +118,7 @@ export function Awards({data}: {data?: AwardsData}) {
         {featuredTitle ? (
           <article className="border border-white/10 bg-surface p-8 md:p-12">
             <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-              <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+              <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                 {featuredTitle}
               </h3>
               {badgeUrl ? (

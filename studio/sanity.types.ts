@@ -156,6 +156,14 @@ export type ObjectLogo = {
   _type: 'image'
 }
 
+export type LabelImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "labelImage.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type Texture = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "texture.media" in schema
@@ -763,6 +771,7 @@ export type WhatWeDo = {
   cards: Array<{
     kind?: 'engineering' | 'ai'
     label?: string
+    labelImage?: LabelImage
     title: string
     body: string
     services?: Array<
@@ -1902,6 +1911,7 @@ export type AllSanitySchemaTypes =
   | ObjectGraphic
   | ValueCardGraphic
   | ObjectLogo
+  | LabelImage
   | Texture
   | StudyApproachHeading
   | Callout

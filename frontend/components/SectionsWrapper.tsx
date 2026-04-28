@@ -36,7 +36,7 @@ export function SectionsWrapper({
 
       <div className="hidden lg:block lg:w-px lg:self-stretch bg-black/20 dark:bg-white/20" />
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col gap-12 pt-24">
+      <div className="flex min-w-0 flex-1 flex-col gap-12 pt-24">
         {!hideTopBorder && (
           <div className="h-px w-full bg-black/20 dark:bg-white/20" />
         )}

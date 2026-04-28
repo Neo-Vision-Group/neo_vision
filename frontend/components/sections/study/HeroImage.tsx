@@ -20,11 +20,13 @@ export function StudyHeroImage({ data }: { data?: StudyHeroImageData }) {
       eyebrow=""
       hideTopBorder
     >
-      <div className="aspect-video w-full overflow-hidden border border-white/10 bg-black">
+      <div className="relative aspect-video w-full overflow-hidden border border-white/10 bg-black">
         <Image
           src={cleanData.image}
           alt={cleanData.alt ?? "Hero image"}
-          className="h-full w-full object-cover"
+          fill
+          sizes="(min-width: 1280px) 1280px, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
+          className="object-cover"
         />
       </div>
     </SectionsWrapper>

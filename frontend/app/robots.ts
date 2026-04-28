@@ -1,10 +1,15 @@
 import {MetadataRoute} from 'next'
+import {resolveSiteOrigin} from '@/app/site-origin'
 
-export default function robots(): MetadataRoute.Robots {
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const origin = await resolveSiteOrigin()
+
   return {
     rules: {
       userAgent: '*',
       allow: '/',
     },
+    host: origin,
+    sitemap: `${origin}/sitemap.xml`,
   }
 }

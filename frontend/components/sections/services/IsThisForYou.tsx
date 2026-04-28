@@ -36,12 +36,12 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
           <RevealOnScroll
             as="div"
             stagger={0.06}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+            className="grid grid-cols-1 gap-4"
           >
             {items.map((item, idx) => (
               <article
                 key={(item.text ?? "item") + idx}
-                className="flex items-center gap-3 border border-white/10 bg-surface p-6"
+                className="flex items-center gap-3 bg-surface p-6"
               >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-brand">
                   <svg
@@ -57,7 +57,7 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
                     <polyline points="20 6 9 17 4 12"></polyline>
                   </svg>
                 </div>
-                <span className="text-body-2 text-foreground/80">{item.text}</span>
+                <span className="text-body-2 text-black dark:text-white">{item.text}</span>
               </article>
             ))}
           </RevealOnScroll>

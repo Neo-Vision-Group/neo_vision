@@ -47,6 +47,7 @@ const PageTransitionContext = createContext<PageTransitionContextValue | null>(n
 
 const LEAD_SWEEP_DURATION = 0.9
 const GRAPHIC_FADE_DURATION = 0.22
+const ENTER_SETTLE_DELAY_MS = 48
 const SWEEP_WIDTH = '24vw'
 const SWEEP_MIN_WIDTH = 160
 const SWEEP_LEFT = `calc(-${SWEEP_WIDTH} - ${SWEEP_MIN_WIDTH}px)`
@@ -96,6 +97,8 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   const sweepRef = useRef<HTMLDivElement | null>(null)
   const veilRef = useRef<HTMLDivElement | null>(null)
   const scrollLockRef = useRef<string | null>(null)
+  const enterTimeoutRef = useRef<number | null>(null)
+  const enterFrameRef = useRef<number | null>(null)
 
   const syncVeilToSweep = useCallback(() => {
     if (!sweepRef.current || !veilRef.current) {
@@ -116,6 +119,18 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
     activeTimelineRef.current?.kill()
     activeTimelineRef.current = null
     gsap.killTweensOf([sweepRef.current, veilRef.current])
+  }, [])
+
+  const clearPendingEnter = useCallback(() => {
+    if (enterTimeoutRef.current !== null) {
+      window.clearTimeout(enterTimeoutRef.current)
+      enterTimeoutRef.current = null
+    }
+
+    if (enterFrameRef.current !== null) {
+      window.cancelAnimationFrame(enterFrameRef.current)
+      enterFrameRef.current = null
+    }
   }, [])
 
   const unlockScroll = useCallback(() => {
@@ -164,6 +179,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
         return
       }
 
+      clearPendingEnter()
       killActiveTimeline()
       pendingRouteMetaRef.current = routeMeta
       statusRef.current = 'entering'
@@ -181,12 +197,35 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
           opacity: 0,
           ease: 'power2.out',
         },
-        routeMeta.hasHeroPattern ? 0.1 : 0.04,
+        routeMeta.hasHeroPattern ? 0.14 : 0.08,
       )
 
       activeTimelineRef.current = timeline
     },
-    [finishTransition, killActiveTimeline],
+    [clearPendingEnter, finishTransition, killActiveTimeline],
+  )
+
+  const scheduleEnter = useCallback(
+    (routeMeta: RouteMeta) => {
+      clearPendingEnter()
+
+      enterTimeoutRef.current = window.setTimeout(() => {
+        enterTimeoutRef.current = null
+        enterFrameRef.current = window.requestAnimationFrame(() => {
+          enterFrameRef.current = window.requestAnimationFrame(() => {
+            enterFrameRef.current = null
+
+            if (
+              statusRef.current === 'waiting-for-route' &&
+              pendingNavigationRef.current?.routeKey === routeMeta.routeKey
+            ) {
+              runEnter(routeMeta)
+            }
+          })
+        })
+      }, ENTER_SETTLE_DELAY_MS)
+    },
+    [clearPendingEnter, runEnter],
   )
 
   const navigate = useCallback(
@@ -228,6 +267,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
         routeKey: nextRouteKey,
         trigger: null,
       }
+      clearPendingEnter()
       pendingRouteMetaRef.current = null
       statusRef.current = 'leaving'
       setStatus('leaving')
@@ -287,7 +327,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       activeTimelineRef.current = timeline
       return true
     },
-    [finishTransition, killActiveTimeline, lockScroll, routeKey, router, syncVeilToSweep],
+    [clearPendingEnter, finishTransition, killActiveTimeline, lockScroll, routeKey, router, syncVeilToSweep],
   )
 
   useEffect(() => {
@@ -355,14 +395,14 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       pendingRouteMetaRef.current = routeMeta
 
       if (statusRef.current === 'waiting-for-route') {
-        runEnter(routeMeta)
+        scheduleEnter(routeMeta)
       }
     }
 
     window.addEventListener(PAGE_TRANSITION_ROUTE_READY_EVENT, handleRouteReady)
     return () =>
       window.removeEventListener(PAGE_TRANSITION_ROUTE_READY_EVENT, handleRouteReady)
-  }, [runEnter])
+  }, [scheduleEnter])
 
   useEffect(() => {
     if (
@@ -370,16 +410,17 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       pendingNavigationRef.current?.routeKey === routeKey &&
       pendingRouteMetaRef.current
     ) {
-      runEnter(pendingRouteMetaRef.current)
+      scheduleEnter(pendingRouteMetaRef.current)
     }
-  }, [routeKey, runEnter])
+  }, [routeKey, scheduleEnter])
 
   useEffect(() => {
     return () => {
+      clearPendingEnter()
       killActiveTimeline()
       unlockScroll()
     }
-  }, [killActiveTimeline, unlockScroll])
+  }, [clearPendingEnter, killActiveTimeline, unlockScroll])
 
   const contextValue = useMemo<PageTransitionContextValue>(
     () => ({
@@ -428,4 +469,8 @@ export function usePageTransition() {
   }
 
   return context
+}
+
+export function useOptionalPageTransition() {
+  return useContext(PageTransitionContext)
 }

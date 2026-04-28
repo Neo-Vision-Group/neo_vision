@@ -34,20 +34,20 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
     >
       <div className="flex flex-col gap-8 text-[#efefef]">
         {heading ? (
-          <h2 className="text-deco-h4 leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
-            <span className="text-[#efefef]/70">{heading.faded} </span>
-            <span className="font-bold text-[#efefef]">{heading.bold}</span>
+          <h2 className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
+            <span className="text-black dark:text-white">{heading.faded} </span>
+            <span className="text-black dark:text-white">{heading.bold}</span>
           </h2>
         ) : null}
         {body ? (
-          <p className="max-w-[70ch] text-[18px] leading-normal text-[#efefef]/70 md:text-[20px] md:leading-7">
+          <p className="max-w-[70ch] text-[18px] leading-normal text-black dark:text-white md:text-[20px] md:leading-7">
             {body}
           </p>
         ) : null}
         {callout?.body ? (
           <CalloutCard
             label={callout.label ?? "Approach"}
-            className="border-white/15 bg-[#0f0f0f] text-[#efefef]"
+            className="border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] text-black dark:text-white"
           >
             {callout.body}
           </CalloutCard>

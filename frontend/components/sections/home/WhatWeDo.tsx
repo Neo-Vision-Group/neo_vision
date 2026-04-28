@@ -2,8 +2,7 @@
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ServicesPreviewCard from "@/components/partials/ServicesPreviewCard";
-import { services as servicesFallback } from "@/lib/content/home";
-import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 
@@ -20,44 +19,72 @@ export type WhatWeDoData = {
   cards?: Array<{
     _key?: string;
     kind: "engineering" | "ai";
-    label: string;
+    label?: string;
+    labelImage?: SanityImageSource | string;
     title: string;
     body: string;
     services?: Array<{ name?: string, price?: string }>;
-    cta: { buttonText?: string; link?: any };
-    texture?: SanityImageSource | string;
+  cta: { buttonText?: string; link?: any };
+  texture?: SanityImageSource | string;
   }>;
 };
 
 export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
   const cleanData = data ? cleanStega(data) : data;
-  
+
   const whatWeDo = {
-    eyebrow: cleanData?.eyebrow ?? servicesFallback.eyebrow,
-    cards: cleanData?.cards?.map(card => ({
-      _key: card._key,
-      kind: card.kind,
-      label: card.label,
-      title: card.title,
-      body: card.body,
-      services: card.services?.map(service => ({ name: service.name, price: service.price })) ?? [],
-      cta: {
-        label: card.cta?.buttonText ?? "Learn more",
-        href: card.cta?.link?.href ?? card.cta?.link?.page ?? card.cta?.link?.post ?? "#",
-        variant: (card.kind === "ai" ? "primary" : "secondary") as "primary" | "secondary",
-      },
+    eyebrow: cleanData?.eyebrow?.trim(),
+    cards:
+      cleanData?.cards
+        ?.map((card) => {
+          const title = card.title?.trim();
+          const body = card.body?.trim();
+
+          if (!title || !body) {
+            return null;
+          }
+
+          return {
+            _key: card._key,
+            kind: card.kind,
+            label: card.label?.trim(),
+      labelImage:
+        typeof card.labelImage === "string"
+          ? card.labelImage
+          : card.labelImage
+            ? urlForImage(card.labelImage).width(640).fit("max").url()
+            : undefined,
+            title,
+            body,
+            services:
+              card.services?.map((service) => ({
+                name: service.name?.trim(),
+                price: service.price?.trim(),
+              })) ?? [],
+            cta:
+              card.cta?.buttonText?.trim() && linkResolver(card.cta?.link)
+                ? {
+                    label: card.cta.buttonText.trim(),
+                    href: linkResolver(card.cta.link)!,
+                    variant: (card.kind === "ai" ? "primary" : "secondary") as
+                      | "primary"
+                      | "secondary",
+                  }
+                : undefined,
       texture:
         typeof card.texture === "string"
           ? card.texture
           : card.texture
             ? urlForImage(card.texture).width(1600).fit("max").url()
             : undefined,
-    })) ?? servicesFallback.cards.map((card, idx) => ({
-      _key: `fallback-${card.kind}-${idx}`,
-      ...card,
-      services: card.services ? card.services.map(service => ({ name: service.title, price: undefined })) : [],
-    })),
+          };
+        })
+        .filter((card): card is NonNullable<typeof card> => Boolean(card)) ?? [],
   };
+
+  if (whatWeDo.cards.length === 0) {
+    return null;
+  }
 
   return (
     <SectionsWrapper id="what-we-do" eyebrow={whatWeDo.eyebrow}>
@@ -69,7 +96,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
         duration={0.9}
         className="flex flex-col gap-6 px-6 md:px-6 lg:px-8 xl:flex-row xl:px-12 2xl:gap-6 2xl:px-16"
       >
-        {whatWeDo.cards && whatWeDo.cards.length > 0 && whatWeDo.cards.map((card, idx) => (
+        {whatWeDo.cards.map((card, idx) => (
           <ServicesPreviewCard key={card._key || `card-${idx}`} card={card} />
         ))}
       </RevealOnScroll>

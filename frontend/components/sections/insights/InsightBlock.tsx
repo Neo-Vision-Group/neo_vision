@@ -67,7 +67,7 @@ const portableTextComponents = {
       <p className="my-5 text-[18px] leading-normal text-foreground/80">{children}</p>
     ),
     h3: ({ children }: { children?: ReactNode }) => (
-      <h3 className="mt-10 mb-3 text-deco-h4 font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
+      <h3 className="mt-10 mb-3 text-4xl font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
     ),
   },
   list: {

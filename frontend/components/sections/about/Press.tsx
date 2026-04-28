@@ -59,7 +59,7 @@ export function Press({data}: {data?: PressData}) {
             <div className="flex flex-col items-start gap-8">
               <div className="flex max-w-[640px] flex-col gap-3">
                 {cardTitle ? (
-                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-deco-h4 md:tracking-[-1px]">
+                  <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                     {cardTitle}
                   </h3>
                 ) : null}

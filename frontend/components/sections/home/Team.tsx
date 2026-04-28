@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { team as teamFallback } from "@/lib/content/home";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { useGSAP } from "@gsap/react";
@@ -13,14 +12,6 @@ import TeamArrowRight from '@/components/icons/TeamArrowRight'
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-
-const RevealOnScroll = dynamic(
-  () =>
-    import("@/components/partials/motion/RevealOnScroll").then(
-      (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
-);
 
 const SplitTextReveal = dynamic(
   () =>
@@ -39,7 +30,6 @@ export type TeamMember = {
 };
 
 type ClosingStatementPart = string | { bold: string };
-
 export type TeamData = {
   eyebrow?: string;
   heading?: string;
@@ -51,16 +41,21 @@ export function Team({ data }: { data?: TeamData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const team = {
-    eyebrow: cleanData?.eyebrow ?? teamFallback.eyebrow,
-    heading: cleanData?.heading ?? `${teamFallback.heading.faded} ${teamFallback.heading.bold}`,
+    eyebrow: cleanData?.eyebrow?.trim(),
+    heading: cleanData?.heading?.trim(),
     members:
-      cleanData?.members && cleanData.members.length > 0
-        ? [...cleanData.members].sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-        : teamFallback.members,
-    closingStatement: cleanData?.closingStatement
-      ? parseClosingStatement(cleanData.closingStatement)
-      : teamFallback.closingStatement,
+      cleanData?.members
+        ?.filter(
+          (member) =>
+            member.name?.trim() && member.role?.trim() && member.bio?.trim(),
+        )
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) ?? [],
+    closingStatement: cleanData?.closingStatement?.trim(),
   };
+
+  if (!team.heading && team.members.length === 0 && !team.closingStatement) {
+    return null;
+  }
 
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
@@ -227,7 +222,7 @@ export function Team({ data }: { data?: TeamData }) {
 
         <div className="relative">
           {hasMultiple && (
-            <div className="absolute right-6 top-0 z-20 hidden items-center gap-3 md:flex md:right-12">
+            <div className="absolute right-6 top-0 z-20 hidden items-center gap-3 md:flex md:right-1/2">
               <button
                 type="button"
                 aria-label="Previous team member"
@@ -263,11 +258,11 @@ export function Team({ data }: { data?: TeamData }) {
                   className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] lg:flex-row md:items-center md:pr-48"
                 >
                   <div className="flex flex-1 flex-col items-end">
-                    <div className="flex w-full flex-col gap-12 md:max-w-[650px] md:gap-16 md:py-6">
+                    <div className="flex w-full flex-col gap-12 md:max-w-163 md:gap-16 md:py-6">
                       <div className="flex flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex flex-col px-6">
-                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-deco-h4">
+                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-4xl">
                               {member.name}
                             </p>
                             <p className="font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
@@ -285,7 +280,7 @@ export function Team({ data }: { data?: TeamData }) {
                     </div>
                   </div>
 
-                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-[#0f0f0f] md:w-[429px]">
+                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-[#0f0f0f] md:w-108">
                     <p
                       className="absolute left-0 top-0 w-full bg-clip-text font-mono text-[36px] uppercase leading-[1.4] text-transparent"
                       style={{
@@ -304,13 +299,6 @@ export function Team({ data }: { data?: TeamData }) {
                         fill
                       />
                     )}
-                    <div className="absolute left-[21px] top-[21px] size-[63px]">
-                      <img
-                        src="https://www.figma.com/api/mcp/asset/f8b7ffd6-5d61-47ce-bb9e-b769150d55df"
-                        alt=""
-                        className="size-full object-contain"
-                      />
-                    </div>
                   </div>
                 </div>
               );
@@ -319,63 +307,25 @@ export function Team({ data }: { data?: TeamData }) {
         </div>
 
         <div className="px-6 md:px-12">
-          <div className="font-funnel text-100 leading-[1.2] tracking-[-1px] text-foreground/70 md:text-deco-h4">
-            <ClosingStatement parts={team.closingStatement} />
-          </div>
+          {team.closingStatement && (
+            <div className="leading-8 text-foreground">
+              <ClosingStatement parts={team.closingStatement} />
+            </div>
+          )}
         </div>
       </div>
     </SectionsWrapper>
   );
 }
 
-function parseClosingStatement(text: string): ClosingStatementPart[] {
-  const parts: ClosingStatementPart[] = [];
-  const boldRegex = /\*\*(.*?)\*\*/g;
-  let lastIndex = 0;
-  let match;
-
-  while ((match = boldRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.substring(lastIndex, match.index));
-    }
-    parts.push({ bold: match[1] });
-    lastIndex = match.index + match[0].length;
-  }
-
-  if (lastIndex < text.length) {
-    parts.push(text.substring(lastIndex));
-  }
-
-  return parts;
-}
-
 function ClosingStatement({
   parts,
 }: {
-  parts: ReadonlyArray<ClosingStatementPart>;
+  parts: string;
 }) {
   return (
-    <>
-      {parts.map((part, idx) => {
-        if (typeof part === "string") {
-          const segments = part.split("\n");
-          return (
-            <span key={`s-${idx}`}>
-              {segments.map((seg, i) => (
-                <span key={`s-${idx}-${i}`}>
-                  {i > 0 ? <br /> : null}
-                  {seg}
-                </span>
-              ))}
-            </span>
-          );
-        }
-        return (
-          <span key={`b-${idx}`} className="font-semibold text-foreground">
-            {part.bold}
-          </span>
-        );
-      })}
-    </>
+    <span className="dark:text-[#efefefb3] text-[#040404b3] text-xl md:text-2xl lg:text-3xl font-funnel">
+      {parts}
+    </span>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { whyTwelveTen as whyFallback } from "@/lib/content/home";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -34,15 +33,32 @@ export function Why({ data }: { data?: WhyData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const why = {
-    eyebrow: cleanData?.eyebrow ?? whyFallback.eyebrow,
-    heading: cleanData?.heading ?? whyFallback.heading,
+    eyebrow: cleanData?.eyebrow?.trim(),
+    heading: cleanData?.heading?.trim(),
     points:
-      cleanData?.points?.map((point) => ({
-        title: point.title,
-        body: point.body.split("\n").filter(Boolean),
-      })) ??
-      whyFallback.points,
+      cleanData?.points
+        ?.map((point) => {
+          const title = point.title?.trim();
+          const body = point.body
+            ?.split("\n")
+            .map((line) => line.trim())
+            .filter(Boolean);
+
+          if (!title || !body || body.length === 0) {
+            return null;
+          }
+
+          return {
+            title,
+            body,
+          };
+        })
+        .filter((point): point is NonNullable<typeof point> => Boolean(point)) ?? [],
   };
+
+  if (!why.heading && why.points.length === 0) {
+    return null;
+  }
 
   return (
     <SectionsWrapper id="why" eyebrow={why.eyebrow}>
@@ -87,7 +103,7 @@ export function Why({ data }: { data?: WhyData }) {
                   style={{ background: "#7a1a00" }}
                 />
               </div>
-              <h3 className="text-[22px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 xl:text-deco-h4 xl:leading-9">
+              <h3 className="text-[22px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 xl:text-4xl xl:leading-9">
                 {point.title}
               </h3>
               <div className="text-body text-foreground/70">

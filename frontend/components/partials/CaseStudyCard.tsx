@@ -100,7 +100,7 @@ export function CaseStudyCard({
                   {item.metricLabel}
                 </p>
               ) : null}
-              <p className="font-betatron text-[28px] leading-[1.2] tracking-[-1px] md:text-deco-h4">
+              <p className="font-betatron text-[28px] leading-[1.2] tracking-[-1px] md:text-4xl">
                 {item.metric}
               </p>
             </div>
@@ -121,7 +121,7 @@ export function CaseStudyCard({
             </span>
           ) : null}
           <div className="flex flex-col gap-2">
-            <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-deco-h4 md:tracking-[-1px]">
+            <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
               {item.client}
             </p>
             {item.tagline ? (

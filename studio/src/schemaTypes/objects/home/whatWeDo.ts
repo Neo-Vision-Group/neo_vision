@@ -15,7 +15,21 @@ export const whatWeDo = defineType({
               type: "object",
               fields: [
                 { name: "kind", type: "string", options: { list: ["engineering", "ai"] } },
-                { name: "label", type: "string" },
+                {
+                  name: "label",
+                  title: "Label Text",
+                  type: "string",
+                  description: "Optional text label. Rendered in Betatron when no label image is provided.",
+                },
+                {
+                  name: "labelImage",
+                  title: "Label Image",
+                  type: "image",
+                  description: "Optional image label. When provided, it replaces the text label in the card UI.",
+                  options: {
+                    hotspot: true,
+                  },
+                },
                 {
                   name: "title",
                   title: "Card Title",

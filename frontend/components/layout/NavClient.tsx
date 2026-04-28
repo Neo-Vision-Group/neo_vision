@@ -157,7 +157,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           ) : (
             <Logo />
           )}
-          <span className="text-2xl font-medium leading-none tracking-tight text-black dark:text-white lg:font-funnel lg:font-normal lg:tracking-normal">
+          <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}
           </span>
         </Link>

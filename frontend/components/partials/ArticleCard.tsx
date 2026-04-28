@@ -116,7 +116,7 @@ export function ArticleCard({
               className={cn(
                 "font-funnel-display-bold tracking-[-0.2px] text-black dark:text-white",
                 featured
-                  ? "text-100 leading-8 md:text-deco-h4 md:leading-10"
+                  ? "text-100 leading-8 md:text-4xl md:leading-10"
                   : "text-100 leading-[1.2]"
               )}
             >

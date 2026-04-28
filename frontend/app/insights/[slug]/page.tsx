@@ -35,14 +35,14 @@ export async function generateMetadata({
   const post = await loadInsight(slug);
 
   if (!post) {
-    return { title: "Insight - TwelveTen" };
+    return { title: "Insight - Neo Vision" };
   }
 
   return {
-    title: `${post.title ?? "Insight"} - TwelveTen`,
+    title: `${post.title ?? "Insight"} - Neo Vision`,
     description: post.excerpt ?? undefined,
     openGraph: {
-      title: `${post.title ?? "Insight"} - TwelveTen`,
+      title: `${post.title ?? "Insight"} - Neo Vision`,
       description: post.excerpt ?? undefined,
       url: `/insights/${slug}`,
       type: "article",
