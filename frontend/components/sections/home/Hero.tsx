@@ -103,11 +103,11 @@ export function Hero({ data }: { data?: HeroData }) {
           <div className="flex min-w-0 flex-col items-start gap-6 px-6 py-6 md:flex-row md:items-center md:gap-4 md:p-5 lg:gap-6 lg:p-8 2xl:gap-8 2xl:p-12">
             <SplitTextReveal
               as="p"
-              type="chars"
+              type="words"
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-deco-h4 whitespace-pre-line [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron text-wrap uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-deco-h4 [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>
