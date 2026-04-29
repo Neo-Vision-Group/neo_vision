@@ -45,6 +45,7 @@ export type PortfolioData = {
     project?: {
       _id?: string;
       client?: string;
+      title?: string;
       year?: string;
       slug?: { current?: string };
       category?: string;
@@ -56,7 +57,7 @@ export type PortfolioData = {
 
 type ProjectItem = {
   key: string;
-  client: string;
+  title: string;
   year: string;
   category: string;
   name: string;
@@ -90,7 +91,8 @@ export function OurWork({ data }: { data?: PortfolioData }) {
       ?.map((card, index) => {
         const projectVisual = card.project?.thumb;
         const projectSlug = card.project?.slug?.current?.trim();
-        const projectName = card.project?.client?.trim();
+        const projectName =
+          card.project?.title?.trim() || card.project?.client?.trim();
 
         if (!projectSlug || !projectName) {
           return null;
@@ -100,7 +102,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
 
         return {
           key: card._key ?? `${projectSlug}-${index}`,
-          client: projectName,
+          title: projectName,
           year: card.project?.year?.trim() || "",
           category: card.project?.category?.trim() || "",
           name: projectName,
@@ -224,7 +226,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
+      <div className="relative z-10 flex w-full max-w-270 flex-col bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
         <div className="flex w-full flex-col justify-end p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">

@@ -20,6 +20,12 @@ export const project = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
       name: 'year',
       title: 'Year',
       type: 'string',

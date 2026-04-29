@@ -308,6 +308,7 @@ const sharedPageBuilderProjection = /* groq */ `
         ...,
         project->{
           _id,
+          title,
           client,
           year,
           slug,
