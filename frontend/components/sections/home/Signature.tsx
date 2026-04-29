@@ -115,7 +115,7 @@ export function Signature({ data }: { data?: SignatureData }) {
   return (
     <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="flex flex-col gap-6 px-6 pb-24 lg:px-16">
+        <div className="flex flex-col gap-6 px-6 lg:px-16">
           {signature.heading?.length ? (
             <PortableTextRenderer
               value={signature.heading}
