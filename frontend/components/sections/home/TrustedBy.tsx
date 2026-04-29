@@ -68,7 +68,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
           {logoRows.map((row, rIdx) => (
             <div key={rIdx}>
               {rIdx === 0 ? <div className="h-px w-full dark:bg-white/20 bg-black/20" /> : null}
-              <div className="grid grid-cols-2 divide-x dark:divide-white/20 divide-black/20 md:grid-cols-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-x dark:divide-white/20 divide-black/20 lg:grid-cols-3">
                 {row.map((logoItem, cIdx) => {
                   const logoUrl = logoItem.logo ? urlForImage(logoItem.logo).width(410).height(230).url() : null;
                   return (
@@ -103,7 +103,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
             stagger={0.12}
             from="bottom"
             distance={24}
-            className="grid grid-cols-1 gap-6 px-6 xl:grid-cols-2"
+            className="grid grid-cols-1 gap-6 xl:grid-cols-2"
           >
             {trustedBy.testimonials.map((t, idx) => {
               const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;

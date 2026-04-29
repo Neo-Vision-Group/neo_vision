@@ -120,14 +120,14 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      <div className="relative w-full shrink-0">
-        <div className="flex flex-col md:grid md:grid-cols-[210px_1px_1fr] lg:grid-cols-[minmax(240px,360px)_1px_1fr] 2xl:grid-cols-[480px_1px_1fr]">
+      <div className="relative w-full shrink-0 2xl:px-30">
+        <div className="flex flex-col md:grid md:[grid-template-columns:fit-content(25%)_1px_minmax(0,1fr)]">
           {/* Stats */}
           <RevealOnScroll
             as="div"
             from="bottom"
             distance={16}
-            className="flex items-center px-6 py-6 md:p-5 lg:p-8 2xl:p-12"
+            className="flex items-center text-center md:text-justify py-6 md:py-5 lg:py-8 2xl:py-10"
           >
             {hero.stats ? (
               <p className="w-full text-foreground font-funnel">{hero.stats}</p>
@@ -139,7 +139,7 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden self-stretch bg-border md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="flex min-w-0 flex-col items-start gap-6 px-6 py-6 md:flex-row md:items-center md:gap-4 md:p-5 lg:gap-6 lg:p-8 2xl:gap-8 2xl:p-12">
+          <div className="flex min-w-0 flex-col items-start py-6 md:flex-row md:items-center gap-20 md:py-5 lg:gap-24 lg:py-8 2xl:gap-24 2xl:py-12">
             <SplitTextReveal
               as="p"
               type="words"

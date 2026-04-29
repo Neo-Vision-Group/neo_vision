@@ -94,7 +94,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
         from="bottom"
         distance={32}
         duration={0.9}
-        className="flex flex-col gap-6 px-6 md:px-6 lg:px-8 xl:flex-row xl:px-12 2xl:gap-6 2xl:px-16"
+        className="flex flex-col gap-6 xl:flex-row 2xl:gap-6"
       >
         {whatWeDo.cards.map((card, idx) => (
           <ServicesPreviewCard key={card._key || `card-${idx}`} card={card} />

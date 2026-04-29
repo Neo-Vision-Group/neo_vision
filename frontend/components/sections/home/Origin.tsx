@@ -41,7 +41,7 @@ export function Origin({ data }: { data?: OriginData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-[58px]P font-normal font-funnel leading-17 tracking-[-0.3px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-3xl font-funnel tracking-[-0.2px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
           {[origin.heading, origin.body].filter(Boolean).join(" ")}
         </SplitTextReveal>

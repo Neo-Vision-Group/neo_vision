@@ -211,7 +211,7 @@ export function Team({ data }: { data?: TeamData }) {
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          className="text-[28px] leading-9 tracking-[-0.3px] md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-3xl leading-9 tracking-[-0.3px] md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"
           as="h2"
           stagger={0.04}

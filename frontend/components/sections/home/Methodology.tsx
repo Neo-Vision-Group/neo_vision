@@ -93,12 +93,12 @@ function MethodologyCard({
 }) {
   return (
     <div
-      className={`relative border-b border-border p-4 md:p-6 ${
+      className={`relative border-b border-border py-4 md:p-6 ${
         idx % 2 === 0 ? "md:border-r" : ""
       } xl:border-r ${idx % 3 === 2 ? "xl:border-r-0" : ""}`}
     >
       <div className="group/card flex h-full flex-col gap-8 border border-white/10 dark:bg-[#0F0F0F] bg-[#f7f7f7] p-6 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5 md:p-8">
-        <span className="font-betatron text-64 leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+        <span className="font-betatron text-5xl leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
           {step.number}
         </span>
         <div className="flex flex-col">

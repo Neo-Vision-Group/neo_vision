@@ -136,7 +136,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border bg-white/80 backdrop-blur dark:bg-black/80 lg:border-transparent lg:bg-[#EFEFEF] lg:backdrop-blur-[13.5px] dark:lg:bg-black">
-      <div className="flex h-16 items-center justify-between gap-4 px-6 md:gap-8 md:px-12 lg:h-auto lg:gap-12 lg:px-12 lg:py-3">
+      <div className="flex h-16 items-center justify-between gap-4 px-4 md:gap-8 md:px-12 lg:h-auto lg:gap-12 lg:px-16 2xl:px-30 lg:py-3">
         {/* Logo */}
         <Link
           href="/"

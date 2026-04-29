@@ -40,7 +40,7 @@ export function SectionsWrapper({
         {!hideTopBorder && (
           <div className="h-px w-full bg-black/20 dark:bg-white/20" />
         )}
-        <div className="w-full px-6 pb-24 lg:px-6">{children}</div>
+        <div className="w-full px-6 pb-24 lg:px-16">{children}</div>
       </div>
     </section>
   );
