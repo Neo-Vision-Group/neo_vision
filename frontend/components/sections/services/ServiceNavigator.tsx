@@ -6,9 +6,11 @@ import { AnimatedBorder } from "@/components/AnimatedBorder";
 import ArrowRight from "@/components/icons/ArrowRight";
 import ResolvedLink from "@/components/ResolvedLink";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import { cn } from "@/lib/utils";
 import { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega } from "@/sanity/lib/utils";
 import { Button } from "@/components/partials/Button";
+import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -100,7 +102,7 @@ function CardLink({
   const content = (
     <>
       <AnimatedBorder isHovered={isHovered} />
-      <ArrowRight
+      <ArrowRightPixel
         color="currentColor"
         width={38}
         height={24}
@@ -189,11 +191,20 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
       link: { _type: "link", linkType: "href", href: "/contact" },
     },
   };
+  const cardRows: Array<typeof navigator.cards> = [];
+
+  for (let index = 0; index < navigator.cards.length; index += 2) {
+    cardRows.push(navigator.cards.slice(index, index + 2));
+  }
 
   return (
-    <SectionsWrapper id="service-navigator" eyebrow={navigator.eyebrow}>
-      <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-        <div className="max-w-180">
+    <SectionsWrapper
+      id="service-navigator"
+      eyebrow={navigator.eyebrow}
+      classNameOverride="px-0 pb-24"
+    >
+      <div className="flex flex-col gap-12">
+        <div className="max-w-180 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:tracking-[-1px]">
             <span className="text-black/70 dark:text-[#efefef]/70">
               {navigator.headingRegular}
@@ -205,38 +216,59 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
           </h2>
         </div>
 
-        <RevealOnScroll
-          as="div"
-          stagger={0.08}
-          from="bottom"
-          distance={24}
-          duration={0.8}
-          className="grid grid-cols-1 gap-6 lg:grid-cols-2"
-        >
-          {navigator.cards.map((card, index) => (
-            <article
-              key={card._key ?? `${card.prompt}-${index}`}
-              className="flex min-h-73 flex-col justify-between gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12"
-            >
-              <div className="flex flex-col gap-3">
-                {card.prompt ? (
-                  <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
-                    {card.prompt}
-                  </h3>
-                ) : null}
-                {card.details ? (
-                  <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
-                    {card.details}
-                  </p>
+        <div className="border-y border-black/20 dark:border-white/20">
+          <RevealOnScroll
+            as="div"
+            stagger={0.08}
+            from="bottom"
+            distance={24}
+            duration={0.8}
+            className="flex flex-col"
+          >
+            {cardRows.map((row, rowIndex) => (
+              <div
+                key={`row-${rowIndex}`}
+                className="grid grid-cols-1 border-b border-black/20 dark:border-white/20 lg:grid-cols-2"
+              >
+                {row.map((card, columnIndex) => (
+                  <div
+                    key={card._key ?? `${card.prompt}-${rowIndex}-${columnIndex}`}
+                    className={cn(
+                      "p-6 md:p-8",
+                      columnIndex === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
+                    )}
+                  >
+                    <article className="flex min-h-73 flex-col justify-between gap-10 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
+                      <div className="flex flex-col gap-3">
+                        {card.prompt ? (
+                          <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
+                            {card.prompt}
+                          </h3>
+                        ) : null}
+                        {card.details ? (
+                          <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
+                            {card.details}
+                          </p>
+                        ) : null}
+                      </div>
+
+                      <CardLink cta={card.cta} className="self-start" />
+                    </article>
+                  </div>
+                ))}
+
+                {row.length === 1 ? (
+                  <div
+                    aria-hidden="true"
+                    className="hidden lg:block lg:border-l lg:border-black/20 lg:dark:border-white/20"
+                  />
                 ) : null}
               </div>
+            ))}
+          </RevealOnScroll>
+        </div>
 
-              <CardLink cta={card.cta} className="self-start" />
-            </article>
-          ))}
-        </RevealOnScroll>
-
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-6 px-6 md:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 xl:px-12 2xl:px-16">
           <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
             {navigator.closingText}
           </p>

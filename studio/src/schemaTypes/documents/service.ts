@@ -54,13 +54,6 @@ export const service = defineType({
       },
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO Override',
-      type: 'seo',
-      description:
-        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
-    }),
-    defineField({
       name: 'duration',
       title: 'Duration',
       type: 'string',
@@ -73,6 +66,13 @@ export const service = defineType({
       of: universalPageBuilderBlocks,
       options: universalPageBuilderOptions,
       components: universalPageBuilderComponents,
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO Override',
+      type: 'seo',
+      description:
+        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
     }),
   ],
 })

@@ -75,8 +75,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
                   return (
                     <div key={cIdx} className="p-6">
                       <div className="flex flex-col items-center gap-2.5">
-                        <div className="relative aspect-[102.5/57.65] w-full overflow-hidden bg-black">
-                          <TrustedByLogoPanel />
+                        <div className="relative aspect-[102.5/57.65] w-full overflow-hidden dark:bg-black">
                           {logoUrl ? (
                             <div className="relative z-10 h-full w-full p-5 md:p-6">
                               <Image
@@ -153,55 +152,5 @@ function ProfilePicture({ src, alt }: { src: string | null; alt: string }) {
       width={96}
       height={96}
     />
-  );
-}
-
-function TrustedByLogoPanel() {
-  const filterId = `${useId().replace(/:/g, "")}-trusted-by-logo-filter`;
-
-  return (
-    <>
-      <svg
-        aria-hidden="true"
-        className="pointer-events-none absolute h-0 w-0 overflow-hidden"
-        focusable="false"
-      >
-        <defs>
-          <filter id={filterId} colorInterpolationFilters="sRGB">
-            <feColorMatrix
-              type="matrix"
-              values="
-                0.2126 0.7152 0.0722 0 0
-                0.0542 0.1823 0.0184 0 0
-                0      0      0      0 0
-                0.2126 0.7152 0.0722 0 0
-              "
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(circle at 82% 24%, rgba(255,65,0,0.08) 0%, rgba(255,65,0,0.02) 24%, rgba(255,65,0,0) 40%), linear-gradient(180deg, #040404 0%, #040404 100%)",
-        }}
-      />
-      <HeroBrandDotsCanvas
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ filter: `url(#${filterId})`, opacity: 0.5 }}
-      />
-      <div
-        aria-hidden="true"
-        className="absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(193,201,197,0.22) 35.04%, rgba(255,65,0,0.88) 100%)",
-          mixBlendMode: "multiply",
-        }}
-      />
-    </>
   );
 }

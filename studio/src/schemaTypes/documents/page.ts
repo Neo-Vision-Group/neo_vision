@@ -50,19 +50,19 @@ export const page = defineType({
       description: 'Select the type of page this represents',
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO Override',
-      type: 'seo',
-      description:
-        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
-    }),
-    defineField({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
       of: universalPageBuilderBlocks,
       options: universalPageBuilderOptions,
       components: universalPageBuilderComponents,
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO Override',
+      type: 'seo',
+      description:
+        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
     }),
   ],
 })

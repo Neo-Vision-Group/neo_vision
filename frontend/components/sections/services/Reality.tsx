@@ -65,7 +65,7 @@ export function Reality({data}: {data?: RealityData}) {
   }
 
   return (
-    <SectionsWrapper eyebrow={eyebrow}>
+    <SectionsWrapper eyebrow={eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 lg:gap-16">
         <div className="px-0 lg:px-12">
           <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-5xl lg:leading-[1.2] lg:tracking-[-1px]">
@@ -103,7 +103,7 @@ export function Reality({data}: {data?: RealityData}) {
                     ) : null}
 
                     {point.body ? (
-                      <p className="max-w-[18ch] font-funnel text-[18px] leading-normal text-foreground dark:text-[#efefef]">
+                      <p className="font-funnel text-[18px] leading-normal text-foreground dark:text-[#efefef]">
                         {point.body}
                       </p>
                     ) : null}

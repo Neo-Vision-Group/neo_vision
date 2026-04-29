@@ -66,13 +66,6 @@ export const project = defineType({
       options: {hotspot: true},
     }),
     defineField({
-      name: 'seo',
-      title: 'SEO Override',
-      type: 'seo',
-      description:
-        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
-    }),
-    defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
       type: 'array',
@@ -84,6 +77,13 @@ export const project = defineType({
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime',
+    }),
+    defineField({
+      name: 'seo',
+      title: 'SEO Override',
+      type: 'seo',
+      description:
+        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
     }),
   ],
 })
