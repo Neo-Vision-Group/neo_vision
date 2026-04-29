@@ -1,5 +1,10 @@
 ﻿import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+import {
+  universalPageBuilderBlocks,
+  universalPageBuilderComponents,
+  universalPageBuilderOptions,
+} from '../pageBuilderBlocks'
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -28,7 +33,7 @@ export const service = defineType({
       name: 'category',
       title: 'Category',
       type: 'string',
-      options: { list: ["engineering", "ai"] },
+      options: {list: ['engineering', 'ai']},
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -49,19 +54,11 @@ export const service = defineType({
       },
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      validation: (Rule) => Rule.required(),
-      description: 'The description of this page. Important for SEO.'
-    }),
-    defineField({
-      name: 'keywords',
-      title: 'Keywords',
-      type: 'array',
-      of: [{type: 'string'}],
-      validation: (Rule) => Rule.required(),
-      description: 'The keywords of this page. Important for SEO. (though less relevant for Google today)'
+      name: 'seo',
+      title: 'SEO Override',
+      type: 'seo',
+      description:
+        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
     }),
     defineField({
       name: 'duration',
@@ -73,48 +70,9 @@ export const service = defineType({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
-      of: [
-        {type: 'pageHero'},
-        {type: 'serviceHero'},
-        {type: 'contactHero'},
-        {type: 'contactForm'},
-        {type: 'homeHero'},
-        {type: 'list'},
-        {type: 'cta'},
-        {type: 'methodology'},
-        {type: 'origin'},
-        {type: 'portfolio'},
-        {type: 'pricing'},
-        {type: 'signature'},
-        {type: 'story'},
-        {type: 'team'},
-        {type: 'testimonials'},
-        {type: 'whatWeDo'},
-        {type: 'why'},
-        {type: 'engineeringServices'},
-        {type: 'aiServices'},
-        {type: 'whyRomania'},
-        {type: 'soundFamiliar'},
-        {type: 'compare'},
-        {type: 'steps'},
-        {type: 'faq'},
-        {type: 'isThisForYou'},
-        {type: 'awards'},
-        {type: 'techStack'},
-      ],
-      options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/studio/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },
+      of: universalPageBuilderBlocks,
+      options: universalPageBuilderOptions,
+      components: universalPageBuilderComponents,
     }),
   ],
 })
-

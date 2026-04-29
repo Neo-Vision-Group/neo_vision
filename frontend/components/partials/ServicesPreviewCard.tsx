@@ -49,13 +49,33 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
               background: "#ff4404",
             }}
           />
+          <div
+            className="absolute inset-0 dark:hidden"
+            style={{
+              backgroundImage: `
+                linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 14%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.45) 86%, rgba(255,255,255,0.9) 100%),
+                linear-gradient(90deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.4) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 76%, rgba(255,255,255,0.4) 88%, rgba(255,255,255,0.82) 100%),
+                linear-gradient(180deg, rgba(255,68,4,0.08) 0%, rgba(255,68,4,0.18) 100%)
+              `,
+            }}
+          />
+          <div
+            className="absolute inset-0 hidden dark:block"
+            style={{
+              backgroundImage: `
+                linear-gradient(180deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 16%, rgba(11,11,11,0) 32%, rgba(11,11,11,0) 68%, rgba(11,11,11,0.42) 84%, rgba(11,11,11,0.88) 100%),
+                linear-gradient(90deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 12%, rgba(11,11,11,0) 24%, rgba(11,11,11,0) 76%, rgba(11,11,11,0.42) 88%, rgba(11,11,11,0.88) 100%),
+                linear-gradient(180deg, rgba(15,15,15,0.18) 0%, rgba(15,15,15,0.84) 100%)
+              `,
+            }}
+          />
         </div>
       ) : null}
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
           {card.labelImage ? (
-            <div className="relative h-5 w-full max-w-[13rem]">
+            <div className="relative h-5 w-full max-w-52">
               <Image
                 src={card.labelImage}
                 alt={card.label || ""}

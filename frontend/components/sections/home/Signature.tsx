@@ -2,11 +2,15 @@
 
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
+import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import { cn } from "@/lib/utils";
 import type { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
+import type { PortableTextBlock } from "@portabletext/types";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
+
+const signatureStepHoverGraphic = "/images/cta-graphic.jpg";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -16,25 +20,15 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
-const SplitTextReveal = dynamic(
-  () =>
-    import("@/components/partials/motion/SplitTextReveal").then(
-      (mod) => mod.SplitTextReveal
-    ),
-  { ssr: false }
-);
-
 export type SignatureData = {
   eyebrow?: string;
-  heading?: string;
+  heading?: PortableTextBlock[];
   body?: string;
   secondaryLine?: string;
   steps?: Array<{
     title: string;
     duration: string;
     body: string;
-    textured?: boolean;
-    graphic?: SanityImageSource;
   }>;
   cta?: { buttonText?: string; link?: DereferencedLink | null };
   valueCard?: {
@@ -83,7 +77,7 @@ export function Signature({ data }: { data?: SignatureData }) {
 
   const signature = {
     eyebrow: cleanData?.eyebrow?.trim(),
-    heading: cleanData?.heading?.trim(),
+    heading: cleanData?.heading,
     body: cleanData?.body?.trim(),
     secondaryLine: cleanData?.secondaryLine?.trim(),
     steps:
@@ -98,12 +92,10 @@ export function Signature({ data }: { data?: SignatureData }) {
           }
 
           return {
-        number: `${String(idx + 1).padStart(2, "0")}.`,
+            number: `${String(idx + 1).padStart(2, "0")}.`,
             title,
             duration,
             body,
-        textured: step.textured,
-        graphic: step.graphic,
           };
         })
         .filter((step): step is NonNullable<typeof step> => Boolean(step)) ?? [],
@@ -120,43 +112,30 @@ export function Signature({ data }: { data?: SignatureData }) {
     return null;
   }
 
-  const headingLines = signature.heading?.split("\n").filter(Boolean) ?? [];
-
   return (
-    <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow}>
+    <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="flex flex-col gap-6">
-          {headingLines.length > 0 ? (
-            <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]">
-              {headingLines.map((line, idx) => (
-                <span key={idx}>
-                  {idx === 0 ? (
-                    <SplitTextReveal
-                      as="span"
-                      type="words"
-                      stagger={0.04}
-                      colorReveal
-                      className="font-normal text-foreground/70"
-                    >
-                      {line}
-                    </SplitTextReveal>
-                  ) : (
-                    <>
-                      <br />
-                      <SplitTextReveal
-                        as="span"
-                        type="words"
-                        stagger={0.04}
-                        colorReveal
-                        className="font-bold"
-                      >
-                        {line}
-                      </SplitTextReveal>
-                    </>
-                  )}
-                </span>
-              ))}
-            </h2>
+        <div className="flex flex-col gap-6 px-6 pb-24 lg:px-16">
+          {signature.heading?.length ? (
+            <PortableTextRenderer
+              value={signature.heading}
+              className={cn(
+                "[&_p]:my-0",
+                "[&_p]:font-funnel",
+                "[&_p]:text-[28px]",
+                "[&_p]:leading-8.5",
+                "[&_p]:tracking-[-0.3px]",
+                "[&_p]:text-foreground",
+                "md:[&_p]:text-[36px]",
+                "md:[&_p]:leading-11",
+                "lg:[&_p]:text-[48px]",
+                "lg:[&_p]:leading-14.5",
+                "lg:[&_p]:tracking-[-0.4px]",
+                "[&_p:first-of-type]:font-normal",
+                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
+                "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+              )}
+            />
           ) : null}
           {signature.body ? (
             <p className="max-w-195 dark:text-[#efefefb3] text-[#040404b3]">
@@ -166,14 +145,14 @@ export function Signature({ data }: { data?: SignatureData }) {
         </div>
 
         <div className="flex flex-col">
-          <div className="py-6">
+          <div className="py-6 px-6 pb-24 lg:px-16">
             {signature.secondaryLine ? (
               <p className="text-3xl leading-[1.3] md:text-100">
                 {signature.secondaryLine}
               </p>
             ) : null}
           </div>
-          <div className="h-px w-full dark:bg-[#efefefb3] bg-[#040404b3]" />
+          <div className="h-px w-full dark:bg-white/20 md:border-t-0 bg-black/20" />
 
           <RevealOnScroll
             as="div"
@@ -186,7 +165,7 @@ export function Signature({ data }: { data?: SignatureData }) {
               <StepCard
                 key={step.number}
                 step={step}
-                showBottomBorder={idx < 2}
+                showBottomBorder={true}
                 showRightBorder={idx % 2 === 0}
               />
             ))}
@@ -222,34 +201,27 @@ function StepCard({
     title: string;
     duration: string;
     body: string;
-    textured?: boolean;
-    graphic?: SanityImageSource;
   };
   showBottomBorder: boolean;
   showRightBorder: boolean;
 }) {
-  const graphicUrl = step.graphic
-    ? urlForImage(step.graphic).width(1600).fit("max").url()
-    : "/figma/signature-texture.png";
-  const isTextured = Boolean(step.textured);
-
   return (
     <div
       className={cn(
-        "relative h-full p-4 lg:p-6",
-        showBottomBorder && "md:border-b border-white/20",
-      showRightBorder && "md:border-r border-white/20",
-        !showBottomBorder && "border-t border-white/20 md:border-t-0"
+        "group/step-shell relative h-full p-4 lg:p-6",
+        showBottomBorder && "md:border-b dark:border-white/20 border-black/20",
+        showRightBorder && "md:border-r dark:border-white/20 border-black/20",
+        !showBottomBorder && "border-t dark:border-white/20 md:border-t-0 border-black/20"
       )}
     >
-      <div className="group/step relative isolate flex h-full flex-col gap-8 overflow-hidden border border-white/10 bg-[#f7f7f7] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:bg-[#0F0F0F] lg:p-8">
-        {isTextured ? (
+      <div className="pointer-events-none absolute inset-4 transition-all duration-300 ease-out group-hover/step-shell:inset-0 lg:inset-6">
+        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-300 ease-out group-hover/step-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-300 ease-out group-hover/step-shell:opacity-100"
           >
             <img
-              src={graphicUrl}
+              src={signatureStepHoverGraphic}
               alt=""
               className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
             />
@@ -262,8 +234,10 @@ function StepCard({
               style={{ background: "#ff4404" }}
             />
           </div>
-        ) : null}
+        </div>
+      </div>
 
+      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
         <div className="flex items-start gap-6">
           <span className="font-betatron text-4xl leading-none text-brand">
             {step.number}

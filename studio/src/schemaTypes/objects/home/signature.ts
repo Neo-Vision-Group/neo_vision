@@ -7,7 +7,7 @@ export const signature = defineType({
     type: 'object',
     fields: [
         defineField({ name: "eyebrow", type: "string", initialValue: "OUR SIGNATURE MODEL" }),
-        defineField({ name: "heading", type: "string" }),
+        defineField({ name: "heading", type: "blockContentTextOnly" }),
         defineField({ name: "body", type: "text", rows: 3 }),
         defineField({ name: "secondaryLine", type: "string" }),
         defineField({
@@ -20,15 +20,6 @@ export const signature = defineType({
                 { name: "title", type: "string" },
                 { name: "duration", type: "string" },
                 { name: "body", type: "text", rows: 3 },
-                { name: "textured", type: "boolean", initialValue: false },
-                {
-                  name: "graphic",
-                  title: "Graphic",
-                  type: "image",
-                  hidden: ({ parent }) => !parent?.textured,
-                  description:
-                    "Optional black-and-white line graphic for textured cards. White lines will render with the red overlay treatment on the frontend.",
-                },
               ],
             },
           ],

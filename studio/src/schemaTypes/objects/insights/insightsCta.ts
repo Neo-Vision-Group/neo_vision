@@ -3,6 +3,7 @@ import {defineField, defineType} from 'sanity'
 export const insightsCta = defineType({
   name: 'insightsCta',
   title: 'Insights CTA',
+  description: 'Closing call-to-action section used on insights pages and articles.',
   type: 'object',
   fields: [
     defineField({

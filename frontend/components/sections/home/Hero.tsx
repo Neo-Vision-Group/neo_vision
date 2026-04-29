@@ -120,17 +120,19 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      <div className="relative w-full shrink-0 2xl:px-30">
-        <div className="flex flex-col md:grid md:[grid-template-columns:fit-content(25%)_1px_minmax(0,1fr)]">
+      <div className="relative w-full shrink-0 px-4 pb-6 md:px-12 md:pb-10 lg:px-16 lg:pb-12 2xl:px-30 2xl:pb-16">
+        <div className="flex flex-col md:grid md:[grid-template-columns:minmax(0,324px)_1px_minmax(0,1fr)]">
           {/* Stats */}
           <RevealOnScroll
             as="div"
             from="bottom"
             distance={16}
-            className="flex items-center text-center md:text-justify py-6 md:py-5 lg:py-8 2xl:py-10"
+            className="flex items-center px-0 py-6 text-left md:px-6 md:py-2.5 lg:py-2.5"
           >
             {hero.stats ? (
-              <p className="w-full text-foreground font-funnel">{hero.stats}</p>
+              <p className="w-full font-funnel text-[18px] leading-[1.5] text-foreground">
+                {hero.stats}
+              </p>
             ) : null}
           </RevealOnScroll>
 
@@ -139,14 +141,14 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden self-stretch bg-border md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="flex min-w-0 flex-col items-start py-6 md:flex-row md:items-center gap-20 md:py-5 lg:gap-24 lg:py-8 2xl:gap-24 2xl:py-12">
+          <div className="flex min-w-0 flex-col items-start gap-8 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-12 md:py-3">
             <SplitTextReveal
               as="p"
               type="words"
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron text-wrap uppercase leading-[1.1] tracking-[-0.8px] text-foreground text-4xl [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[28px] md:whitespace-normal md:leading-[1.2] lg:text-[52px] lg:whitespace-pre-line xl:text-[72px] 2xl:text-[96px]"
+              className="min-w-0 flex-1 font-betatron text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:max-w-[420px] md:text-[52px] md:leading-[1.18] lg:max-w-[520px] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>
@@ -155,9 +157,9 @@ export function Hero({ data }: { data?: HeroData }) {
               from="right"
               distance={24}
               delay={0.15}
-              className="flex w-full shrink-0 flex-col items-start gap-4 md:w-auto md:items-end"
+              className="flex w-full shrink-0 flex-col items-start gap-[18px] md:w-auto md:items-end md:self-center"
             >
-              <div className="text-body-2 text-foreground font-funnel md:text-right 2xl:text-body">
+              <div className="font-funnel text-[18px] leading-[1.5] text-foreground md:text-right">
                 {hero.mergerNote.map((line) => (
                   <p key={line}>{line}</p>
                 ))}
@@ -166,8 +168,8 @@ export function Hero({ data }: { data?: HeroData }) {
                 <Button
                   href={hero.secondaryCtaHref}
                   variant="secondary"
-                  size="sm"
-                  className="w-full justify-between bg-black text-white md:w-auto md:justify-center dark:bg-white dark:text-black"
+                  size="md"
+                  className="w-full justify-between whitespace-nowrap md:w-auto md:justify-center"
                 >
                   {hero.secondaryCtaLabel}
                 </Button>

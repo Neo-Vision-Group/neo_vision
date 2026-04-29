@@ -1,4 +1,4 @@
-import {CogIcon} from '@sanity/icons'
+import {CogIcon, SearchIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
 import pluralize from 'pluralize-esm'
 
@@ -8,7 +8,7 @@ import pluralize from 'pluralize-esm'
  * Learn more: https://www.sanity.io/docs/structure-builder-introduction
  */
 
-const DISABLED_TYPES = ['siteSettings', 'assist.instruction.context']
+const DISABLED_TYPES = ['siteSettings', 'seoSettings', 'assist.instruction.context']
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
   S.list()
@@ -26,4 +26,8 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('Site Settings')
         .child(S.document().schemaType('siteSettings').documentId('siteSettings'))
         .icon(CogIcon),
+      S.listItem()
+        .title('SEO Settings')
+        .child(S.document().schemaType('seoSettings').documentId('seoSettings'))
+        .icon(SearchIcon),
     ])

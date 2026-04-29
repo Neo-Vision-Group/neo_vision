@@ -129,9 +129,13 @@ export function PortableTextRenderer({
   value,
   className,
 }: {
-  value: PortableTextBlock[];
+  value?: PortableTextBlock[] | null;
   className?: string;
 }) {
+  if (!value?.length) {
+    return null;
+  }
+
   return (
     <div className={className}>
       <PortableText value={value} components={components} />

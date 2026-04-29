@@ -130,6 +130,36 @@ const sharedPageBuilderProjection = /* groq */ `
         hearAboutUs
       }
     },
+    _type == "insightBlock" => {
+      ...,
+      text[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      },
+      quote {
+        attribution,
+        quote[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      },
+      card {
+        label,
+        body[]{
+          ...,
+          markDefs[]{
+            ...,
+            ${linkReference}
+          }
+        }
+      }
+    },
     _type == "booking" => {
       ...,
       heading,
@@ -410,6 +440,10 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "insightsGrid" => {
       ...,
+      categoryFilters[]{
+        label,
+        value
+      },
       items[]->{
         _id,
         title,
@@ -445,6 +479,122 @@ const sharedPageBuilderProjection = /* groq */ `
         file,
         externalUrl,
         "fileUrl": file.asset->url
+      }
+    },
+    _type == "studyHero" => {
+      ...,
+      details[]{
+        _key,
+        label,
+        value
+      },
+      heroImage {
+        ...,
+        asset->
+      }
+    },
+    _type == "studyHeroImage" => {
+      ...,
+      image {
+        ...,
+        asset->
+      }
+    },
+    _type == "studyChallenge" => {
+      ...,
+      issues[]{
+        _key,
+        tag,
+        body
+      }
+    },
+    _type == "studyApproach" => {
+      ...,
+      heading {
+        faded,
+        bold
+      },
+      callout {
+        label,
+        body
+      }
+    },
+    _type == "studyKeyWins" => {
+      ...,
+      comparison {
+        beforeLabel,
+        afterLabel,
+        rows[]{
+          _key,
+          label,
+          before,
+          after
+        }
+      }
+    },
+    _type == "studyWhatWeBuilt" => {
+      ...,
+      features[]{
+        _key,
+        number,
+        title,
+        body,
+        image {
+          ...,
+          asset->
+        }
+      }
+    },
+    _type == "studyNumbers" => {
+      ...,
+      stats[]{
+        _key,
+        value,
+        label
+      }
+    },
+    _type == "studyTestimonial" => {
+      ...,
+      quote {
+        quote,
+        attribution,
+        source,
+        accent
+      }
+    },
+    _type == "studyTechStack" => {
+      ...,
+      tools[]
+    },
+    _type == "studyMoreLikeThis" => {
+      ...,
+      heading {
+        regular,
+        bold
+      },
+      items[]->{
+        _id,
+        client,
+        slug,
+        year,
+        category,
+        industry,
+        tagline,
+        metric,
+        metricLabel,
+        "thumb": thumb.asset->url
+      }
+    },
+    _type == "studyClosingCta" => {
+      ...,
+      heading {
+        regular,
+        bold
+      },
+      body,
+      cta {
+        ...,
+        ${linkFields}
       }
     },
     _type == "portfolioFeatured" => {
@@ -736,133 +886,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     publishedAt,
     readTime,
     featured,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "insightBlock" => {
-        ...,
-        text[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        },
-        quote {
-          attribution,
-          quote[]{
-            ...,
-            markDefs[]{
-              ...,
-              ${linkReference}
-            }
-          }
-        },
-        card {
-          label,
-          body[]{
-            ...,
-            markDefs[]{
-              ...,
-              ${linkReference}
-            }
-          }
-        }
-      },
-      _type == "whyRomania" => {
-        ...,
-        title,
-        body[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        },
-        highlights[]{
-          stat,
-          description
-        }
-      },
-      _type == "steps" => {
-        ...,
-        items[]{
-          ...,
-          title,
-          duration,
-          body
-        },
-        visual {
-          ...,
-          asset->
-        }
-      },
-      _type == "compare" => {
-        ...,
-        heading {
-          highlighted,
-          regular
-        },
-        rows[]{
-          label
-        },
-        columns[]{
-          name,
-          highlightColumn,
-          values[]{
-            available
-          }
-        },
-        closing {
-          lead,
-          highlight,
-          followup
-        }
-      },
-      _type == "awards" => {
-        ...,
-        eyebrow,
-        items[]{
-          title,
-          recognitions,
-          cta {
-            ...,
-            ${linkFields}
-          }
-        },
-        featuredTitle,
-        featuredBadge {
-          ...,
-          asset->
-        }
-      },
-      _type == "techStack" => {
-        ...,
-        eyebrow,
-        headingRegular,
-        headingBold,
-        groups[]{
-          title,
-          items[]{
-            name,
-            logo {
-              ...,
-              asset->
-            }
-          }
-        },
-        closingNote
-      },
-      _type == "pricing" => {
-        ...,
-        tiers[]{
-          ...,
-          cta {
-            ...,
-            ${linkFields}
-          }
-        }
-      }
-    },
+    ${sharedPageBuilderProjection},
     author->{name, role, bio, portrait},
     relatedInsights[]->{
       _id,
@@ -912,245 +936,7 @@ export const projectBySlugQuery = defineQuery(`
     metric,
     metricLabel,
     thumb,
-    "pageBuilder": pageBuilder[]{
-      ...,
-      _type == "studyHero" => {
-        ...,
-        details[]{
-          _key,
-          label,
-          value
-        },
-        heroImage {
-          ...,
-          asset->
-        }
-      },
-      _type == "studyChallenge" => {
-        ...,
-        issues[]{
-          _key,
-          tag,
-          body
-        }
-      },
-      _type == "studyApproach" => {
-        ...,
-        heading {
-          faded,
-          bold
-        },
-        callout {
-          label,
-          body
-        }
-      },
-      _type == "studyKeyWins" => {
-        ...,
-        comparison {
-          beforeLabel,
-          afterLabel,
-          rows[]{
-            _key,
-            label,
-            before,
-            after
-          }
-        }
-      },
-      _type == "studyWhatWeBuilt" => {
-        ...,
-        features[]{
-          _key,
-          number,
-          title,
-          body,
-          image {
-            ...,
-            asset->
-          }
-        }
-      },
-      _type == "studyNumbers" => {
-        ...,
-        stats[]{
-          _key,
-          value,
-          label
-        }
-      },
-      _type == "studyTestimonial" => {
-        ...,
-        quote {
-          quote,
-          attribution,
-          source,
-          accent
-        }
-      },
-      _type == "studyTechStack" => {
-        ...,
-        tools[]
-      },
-      _type == "portfolioGrid" => {
-        ...,
-        items[]->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          "thumb": thumb.asset->url
-        },
-        serviceFilters[]{
-          label,
-          value
-        },
-        industryFilters[]{
-          label,
-          value
-        }
-      },
-      _type == "cta" => {
-        ...,
-        heading,
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        },
-        subtext
-      },
-      _type == "studyMoreLikeThis" => {
-        ...,
-        heading {
-          regular,
-          bold
-        },
-        items[]->{
-          _id,
-          client,
-          slug,
-          year,
-          category,
-          industry,
-          tagline,
-          metric,
-          metricLabel,
-          "thumb": thumb.asset->url
-        }
-      },
-      _type == "studyClosingCta" => {
-        ...,
-        heading {
-          regular,
-          bold
-        },
-        body,
-        cta {
-          ...,
-          ${linkFields}
-        }
-      },
-      _type == "whyRomania" => {
-        ...,
-        title,
-        body[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
-        },
-        highlights[]{
-          stat,
-          description
-        }
-      },
-      _type == "steps" => {
-        ...,
-        items[]{
-          ...,
-          title,
-          duration,
-          body
-        },
-        visual {
-          ...,
-          asset->
-        }
-      },
-      _type == "compare" => {
-        ...,
-        heading {
-          highlighted,
-          regular
-        },
-        rows[]{
-          label
-        },
-        columns[]{
-          name,
-          highlightColumn,
-          values[]{
-            available
-          }
-        },
-        closing {
-          lead,
-          highlight,
-          followup
-        }
-      },
-      _type == "awards" => {
-        ...,
-        eyebrow,
-        items[]{
-          title,
-          recognitions,
-          cta {
-            ...,
-            ${linkFields}
-          }
-        },
-        featuredTitle,
-        featuredBadge {
-          ...,
-          asset->
-        }
-      },
-      _type == "techStack" => {
-        ...,
-        eyebrow,
-        headingRegular,
-        headingBold,
-        groups[]{
-          title,
-          items[]{
-            name,
-            logo {
-              ...,
-              asset->
-            }
-          }
-        },
-        closingNote
-      },
-      _type == "pricing" => {
-        ...,
-        tiers[]{
-          ...,
-          cta {
-            ...,
-            ${linkFields}
-          }
-        }
-      }
-    },
+    ${sharedPageBuilderProjection},
     publishedAt
   }
 `)

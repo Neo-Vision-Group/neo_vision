@@ -47,6 +47,12 @@ export type ValueCard = {
   graphic?: ValueCardGraphic
 }
 
+export type Breadcrumb = {
+  rootLabel?: string
+  categoryLabel?: string
+  currentLabel?: string
+}
+
 export type RealityHeading = {
   faded?: string
   bold: string
@@ -103,75 +109,6 @@ export type Card = {
   body?: BlockContentTextOnly
 }
 
-export type SanityImageAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
-}
-
-export type Logo = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "logo.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type Breadcrumb = {
-  rootLabel?: string
-  categoryLabel?: string
-  currentLabel?: string
-}
-
-export type Graphic = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "graphic.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type ObjectGraphic = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "object.graphic.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type ValueCardGraphic = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "valueCard.graphic.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type ObjectLogo = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "object.logo.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type LabelImage = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "labelImage.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type Texture = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "texture.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
 export type StudyApproachHeading = {
   faded?: string
   bold: string
@@ -200,9 +137,74 @@ export type StudyTestimonialQuote = {
   accent?: boolean
 }
 
+export type StudyMoreLikeThisHeading = {
+  regular?: string
+  bold?: string
+}
+
+export type StudyClosingCtaHeading = {
+  regular: string
+  bold: string
+}
+
+export type SanityImageAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
+}
+
+export type Graphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ValueCardGraphic = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "valueCard.graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type StepGraphic = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "step.graphic.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type Logo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type LabelImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "labelImage.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type Texture = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "texture.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ItemLogo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -219,6 +221,14 @@ export type ResourceFile = {
   asset?: SanityFileAssetReference
   media?: unknown // Unable to locate the referenced type "resource.file.media" in schema
   _type: 'file'
+}
+
+export type ObjectImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
 }
 
 export type Steps = {
@@ -297,18 +307,9 @@ export type FreeResources = {
 
 export type StudyClosingCta = {
   _type: 'studyClosingCta'
-  heading?: {
-    regular: string
-    bold: string
-  }
+  heading?: StudyClosingCtaHeading
   body?: string
   cta?: Button
-}
-
-export type Button = {
-  _type: 'button'
-  buttonText?: string
-  link?: Link
 }
 
 export type TechStack = {
@@ -320,7 +321,7 @@ export type TechStack = {
     title: string
     items?: Array<{
       name: string
-      logo?: Logo
+      logo?: ItemLogo
       _type: 'item'
       _key: string
     }>
@@ -385,10 +386,7 @@ export type ProjectReference = {
 
 export type StudyMoreLikeThis = {
   _type: 'studyMoreLikeThis'
-  heading?: {
-    regular?: string
-    bold?: string
-  }
+  heading?: StudyMoreLikeThisHeading
   items: Array<
     {
       _key: string
@@ -428,31 +426,9 @@ export type StudyWhatWeBuilt = {
     number: string
     title: string
     body: string
-    image?: {
-      asset?: SanityImageAssetReference
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
+    image?: ObjectImage
     _key: string
   }>
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type StudyKeyWins = {
@@ -797,7 +773,7 @@ export type Testimonials = {
   eyebrow: string
   logos: Array<{
     name: string
-    logo: ObjectLogo
+    logo: Logo
     _key: string
   }>
   testimonials: Array<
@@ -856,15 +832,13 @@ export type Signature2 = {
 export type Signature = {
   _type: 'signature'
   eyebrow?: string
-  heading?: string
+  heading?: BlockContentTextOnly
   body?: string
   secondaryLine?: string
   steps?: Array<{
     title?: string
     duration?: string
     body?: string
-    textured?: boolean
-    graphic?: ObjectGraphic
     _key: string
   }>
   cta?: Button
@@ -1065,6 +1039,92 @@ export type Link = {
   openInNewTab?: boolean
 }
 
+export type SeoAlternateLanguage = {
+  _type: 'seoAlternateLanguage'
+  languageCode: string
+  url: string
+  isDefault?: boolean
+}
+
+export type Seo = {
+  _type: 'seo'
+  metaTitle?: string
+  metaDescription?: string
+  metaKeywords?: Array<string>
+  seoTitleSuffix?: string
+  canonicalUrl?: string
+  robotsMode?: 'inherit' | 'indexFollow' | 'noIndexNoFollow' | 'custom'
+  robots?: string
+  googleBot?: string
+  noIndex?: boolean
+  noFollow?: boolean
+  noArchive?: boolean
+  noSnippet?: boolean
+  noImageIndex?: boolean
+  maxSnippet?: number
+  maxImagePreview?: string
+  maxVideoPreview?: number
+  alternateLanguages?: Array<
+    {
+      _key: string
+    } & SeoAlternateLanguage
+  >
+  paginationPrevUrl?: string
+  paginationNextUrl?: string
+  ogTitle?: string
+  ogDescription?: string
+  ogImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  ogType?: 'website' | 'article' | 'profile'
+  ogUrl?: string
+  ogSiteName?: string
+  ogLocale?: string
+  twitterCard?: 'summary' | 'summary_large_image'
+  twitterTitle?: string
+  twitterDescription?: string
+  twitterImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  twitterSite?: string
+  twitterCreator?: string
+  socialTitle?: string
+  socialDescription?: string
+  socialImage?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  socialImageAlt?: string
+  schemaType?: 'WebPage' | 'AboutPage' | 'Service' | 'Article' | 'FAQPage' | 'ContactPage'
+  structuredDataMode?: 'inherit' | 'generated' | 'custom'
+  structuredData?: string
+  enableBreadcrumbSchema?: boolean
+  enableFaqSchema?: boolean
+  searchTitle?: string
+  searchDescription?: string
+  breadcrumbTitle?: string
+  locale?: string
+  themeColor?: string
+  applicationName?: string
+  category?: string
+  referrer?: string
+  formatDetection?: string
+}
+
 export type BlockContentTextOnly = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -1116,6 +1176,28 @@ export type BlockContent = Array<
       _key: string
     }
 >
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
+
+export type Button = {
+  _type: 'button'
+  buttonText?: string
+  link?: Link
+}
 
 export type ContactSubmission = {
   _id: string
@@ -1171,6 +1253,21 @@ export type Person = {
     alt?: string
     _type: 'image'
   }
+}
+
+export type SeoSettings = {
+  _id: string
+  _type: 'seoSettings'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  siteName: string
+  defaultSeo?: Seo
+  googleSiteVerification?: string
+  bingSiteVerification?: string
+  pinterestVerification?: string
+  yandexVerification?: string
+  facebookDomainVerification?: string
 }
 
 export type SiteSettings = {
@@ -1290,67 +1387,7 @@ export type Post = {
     } & PostReference
   >
   order?: number
-  pageBuilder?: Array<
-    | ({
-        _key: string
-      } & InsightBlock)
-    | ({
-        _key: string
-      } & Steps)
-    | ({
-        _key: string
-      } & WhyRomania)
-    | ({
-        _key: string
-      } & Compare)
-    | ({
-        _key: string
-      } & TechStack)
-    | ({
-        _key: string
-      } & Awards)
-    | ({
-        _key: string
-      } & Pricing)
-  >
-}
-
-export type TeamMember = {
-  _id: string
-  _type: 'teamMember'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name: string
-  order: number
-  role: string
-  bio: string
-  portrait?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
-export type Page = {
-  _id: string
-  _type: 'page'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  name: string
-  slug: Slug
-  pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
-  description: string
-  keywords: Array<string>
+  seo?: Seo
   pageBuilder?: Array<
     | ({
         _key: string
@@ -1367,9 +1404,6 @@ export type Page = {
     | ({
         _key: string
       } & HomeHero)
-    | ({
-        _key: string
-      } & List)
     | ({
         _key: string
       } & Cta)
@@ -1409,6 +1443,9 @@ export type Page = {
     | ({
         _key: string
       } & EngineeringServices)
+    | ({
+        _key: string
+      } & ServiceHero)
     | ({
         _key: string
       } & AiServices)
@@ -1472,30 +1509,87 @@ export type Page = {
     | ({
         _key: string
       } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
   >
 }
 
-export type Service = {
+export type TeamMember = {
   _id: string
-  _type: 'service'
+  _type: 'teamMember'
   _createdAt: string
   _updatedAt: string
   _rev: string
   name: string
-  price: string
-  category: 'engineering' | 'ai'
-  tag: string
+  order: number
+  role: string
+  bio: string
+  portrait?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
+}
+
+export type Page = {
+  _id: string
+  _type: 'page'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
   slug: Slug
-  description: string
-  keywords: Array<string>
-  duration: string
+  pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
+  seo?: Seo
   pageBuilder?: Array<
     | ({
         _key: string
       } & PageHero)
-    | ({
-        _key: string
-      } & ServiceHero)
     | ({
         _key: string
       } & ContactHero)
@@ -1504,10 +1598,10 @@ export type Service = {
       } & ContactForm)
     | ({
         _key: string
-      } & HomeHero)
+      } & Booking)
     | ({
         _key: string
-      } & List)
+      } & HomeHero)
     | ({
         _key: string
       } & Cta)
@@ -1528,6 +1622,9 @@ export type Service = {
       } & Signature)
     | ({
         _key: string
+      } & Signature2)
+    | ({
+        _key: string
       } & Story)
     | ({
         _key: string
@@ -1546,13 +1643,19 @@ export type Service = {
       } & EngineeringServices)
     | ({
         _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
       } & AiServices)
     | ({
         _key: string
-      } & WhyRomania)
+      } & ServiceNavigator)
     | ({
         _key: string
-      } & SoundFamiliar)
+      } & Industries)
+    | ({
+        _key: string
+      } & Reality)
     | ({
         _key: string
       } & Compare)
@@ -1561,16 +1664,88 @@ export type Service = {
       } & Steps)
     | ({
         _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
       } & Faq)
     | ({
         _key: string
-      } & IsThisForYou)
+      } & InsightsFeatured)
+    | ({
+        _key: string
+      } & InsightsGrid)
+    | ({
+        _key: string
+      } & InsightsCta)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
     | ({
         _key: string
       } & Awards)
     | ({
         _key: string
+      } & Place)
+    | ({
+        _key: string
+      } & Press)
+    | ({
+        _key: string
       } & TechStack)
+    | ({
+        _key: string
+      } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
   >
 }
 
@@ -1595,7 +1770,137 @@ export type Project = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  seo?: Seo
   pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
+    | ({
+        _key: string
+      } & Booking)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Signature2)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+    | ({
+        _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
+      } & AiServices)
+    | ({
+        _key: string
+      } & ServiceNavigator)
+    | ({
+        _key: string
+      } & Industries)
+    | ({
+        _key: string
+      } & Reality)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
+      } & Faq)
+    | ({
+        _key: string
+      } & InsightsFeatured)
+    | ({
+        _key: string
+      } & InsightsGrid)
+    | ({
+        _key: string
+      } & InsightsCta)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & Place)
+    | ({
+        _key: string
+      } & Press)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
     | ({
         _key: string
       } & StudyHero)
@@ -1610,6 +1915,9 @@ export type Project = {
       } & StudyKeyWins)
     | ({
         _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
       } & StudyNumbers)
     | ({
         _key: string
@@ -1619,30 +1927,188 @@ export type Project = {
       } & StudyTechStack)
     | ({
         _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
+  >
+  publishedAt?: string
+}
+
+export type Service = {
+  _id: string
+  _type: 'service'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  price: string
+  category: 'engineering' | 'ai'
+  tag: string
+  slug: Slug
+  seo?: Seo
+  duration: string
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & ContactForm)
+    | ({
+        _key: string
+      } & Booking)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Signature2)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+    | ({
+        _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
+      } & AiServices)
+    | ({
+        _key: string
+      } & ServiceNavigator)
+    | ({
+        _key: string
+      } & Industries)
+    | ({
+        _key: string
+      } & Reality)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
       } & Steps)
     | ({
         _key: string
       } & WhyRomania)
     | ({
         _key: string
-      } & Compare)
+      } & Faq)
     | ({
         _key: string
-      } & Awards)
+      } & InsightsFeatured)
     | ({
         _key: string
-      } & TechStack)
+      } & InsightsGrid)
     | ({
         _key: string
-      } & Pricing)
+      } & InsightsCta)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
     | ({
         _key: string
       } & PortfolioGrid)
     | ({
         _key: string
-      } & Cta)
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & Place)
+    | ({
+        _key: string
+      } & Press)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
   >
-  publishedAt?: string
 }
 
 export type SanityAssistInstructionTask = {
@@ -1894,6 +2360,7 @@ export type AllSanitySchemaTypes =
   | ContactFormFormConfig
   | Heading
   | ValueCard
+  | Breadcrumb
   | RealityHeading
   | CompareHeading
   | Closing
@@ -1904,29 +2371,29 @@ export type AllSanitySchemaTypes =
   | Quote
   | Table
   | Card
-  | SanityImageAssetReference
-  | Logo
-  | Breadcrumb
-  | Graphic
-  | ObjectGraphic
-  | ValueCardGraphic
-  | ObjectLogo
-  | LabelImage
-  | Texture
   | StudyApproachHeading
   | Callout
   | Comparison
   | StudyTestimonialQuote
+  | StudyMoreLikeThisHeading
+  | StudyClosingCtaHeading
+  | SanityImageAssetReference
+  | Graphic
+  | ValueCardGraphic
   | StepGraphic
+  | Logo
+  | LabelImage
+  | Texture
+  | ItemLogo
   | SanityFileAssetReference
   | ResourceFile
+  | ObjectImage
   | Steps
   | ServiceNavigator
   | SoundFamiliar
   | IsThisForYou
   | FreeResources
   | StudyClosingCta
-  | Button
   | TechStack
   | Press
   | Place
@@ -1937,8 +2404,6 @@ export type AllSanitySchemaTypes =
   | StudyTestimonial
   | StudyNumbers
   | StudyWhatWeBuilt
-  | SanityImageCrop
-  | SanityImageHotspot
   | StudyKeyWins
   | StudyApproach
   | StudyChallenge
@@ -1985,18 +2450,24 @@ export type AllSanitySchemaTypes =
   | List
   | PageReference
   | Link
+  | SeoAlternateLanguage
+  | Seo
   | BlockContentTextOnly
   | BlockContent
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Button
   | ContactSubmission
   | Testimonial
   | Person
+  | SeoSettings
   | SiteSettings
   | Post
   | TeamMember
   | Slug
   | Page
-  | Service
   | Project
+  | Service
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus
   | SanityAssistSchemaTypeAnnotations

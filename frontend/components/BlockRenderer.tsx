@@ -17,43 +17,55 @@ import {PageHero, PageHeroData} from '@/components/sections/PageHero'
 import {ContactHero, ContactHeroData} from '@/components/sections/contact/ContactHero'
 import {OurWork, PortfolioData} from '@/components/sections/home/Work'
 import {ClosingCta, CtaData} from '@/components/sections/home/CTA'
-import {EngineeringServices, EngineeringServicesData } from '@/components/sections/services/Engineering'
-import {ServiceHero, ServiceHeroData } from '@/components/sections/services/ServiceHero'
-import { Industries, IndustryData } from './sections/services/Industries'
-import { Reality, RealityData } from './sections/services/Reality'
-import { Compare, CompareData } from './sections/services/Compare'
-import { FAQ, FaqData } from './sections/FAQ'
-import { PortfolioFeatured, PortfolioFeaturedData } from '@/components/sections/portfolio/PortfolioFeatured'
-import { PortfolioGrid, PortfolioGridData } from '@/components/sections/portfolio/PortfolioGrid'
-import { PortfolioCta, PortfolioCtaData } from '@/components/sections/portfolio/PortfolioCta'
-import { PortfolioMetrics, PortfolioMetricsData } from '@/components/sections/portfolio/Metrics'
-import { StudyHeroImage, StudyHeroImageData } from '@/components/sections/study/HeroImage'
-import { StudyHero, StudyHeroData } from '@/components/sections/study/Hero'
-import { StudyChallenge, StudyChallengeData } from '@/components/sections/study/Challenge'
-import { StudyApproach, StudyApproachData } from '@/components/sections/study/Approach'
-import { StudyKeyWins, StudyKeyWinsData } from '@/components/sections/study/KeyWins'
-import { StudyWhatWeBuilt, StudyWhatWeBuiltData } from '@/components/sections/study/WhatWeBuilt'
-import { StudyNumbers, StudyNumbersData } from '@/components/sections/study/Numbers'
-import { StudyTestimonial, StudyTestimonialData } from '@/components/sections/study/Testimonial'
-import { StudyTechStack, StudyTechStackData } from '@/components/sections/study/TechStack'
-import { StudyMoreLikeThis, StudyMoreLikeThisData } from '@/components/sections/study/MoreLikeThis'
-import { StudyClosingCta, StudyClosingCtaData } from '@/components/sections/study/ClosingCta'
-import { InsightsFeatured, InsightsFeaturedData } from '@/components/sections/insights/InsightsFeatured'
-import { InsightsGrid, InsightsGridData } from '@/components/sections/insights/InsightsGrid'
-import { InsightsCta, InsightsCtaData } from '@/components/sections/insights/InsightsCta'
-import { InsightBlock, InsightBlockQueryResponse } from '@/components/sections/insights/InsightBlock'
-import { Booking, BookingData } from '@/components/sections/contact/Booking'
-import { SoundFamiliar, SoundFamiliarData } from '@/components/sections/services/SoundFamiliar'
-import { WhyRomania, WhyRomaniaData } from '@/components/sections/services/WhyRomania'
-import { Awards, AwardsData } from '@/components/sections/about/Awards'
-import { Place, PlaceData } from '@/components/sections/about/Place'
-import { Press, PressData } from '@/components/sections/about/Press'
-import { TechStacks, TechStacksData } from '@/components/sections/about/TechStacks'
-import { FreeResources, FreeResourcesData } from '@/components/sections/insights/FreeResources'
-import { IsThisForYou, IsThisForYouData } from '@/components/sections/services/IsThisForYou'
-import { ServiceNavigator, ServiceNavigatorData } from '@/components/sections/services/ServiceNavigator'
-import { Steps, StepsData } from '@/components/sections/services/Steps'
-import { AIServices, AIServicesData } from '@/components/sections/services/AIServices'
+import {
+  EngineeringServices,
+  EngineeringServicesData,
+} from '@/components/sections/services/Engineering'
+import {ServiceHero, ServiceHeroData} from '@/components/sections/services/ServiceHero'
+import {Industries, IndustryData} from './sections/services/Industries'
+import {Reality, RealityData} from './sections/services/Reality'
+import {Compare, CompareData} from './sections/services/Compare'
+import {FAQ, FaqData} from './sections/FAQ'
+import {
+  PortfolioFeatured,
+  PortfolioFeaturedData,
+} from '@/components/sections/portfolio/PortfolioFeatured'
+import {PortfolioGrid, PortfolioGridData} from '@/components/sections/portfolio/PortfolioGrid'
+import {PortfolioCta, PortfolioCtaData} from '@/components/sections/portfolio/PortfolioCta'
+import {PortfolioMetrics, PortfolioMetricsData} from '@/components/sections/portfolio/Metrics'
+import {StudyHeroImage, StudyHeroImageData} from '@/components/sections/study/HeroImage'
+import {StudyHero, StudyHeroData} from '@/components/sections/study/Hero'
+import {StudyChallenge, StudyChallengeData} from '@/components/sections/study/Challenge'
+import {StudyApproach, StudyApproachData} from '@/components/sections/study/Approach'
+import {StudyKeyWins, StudyKeyWinsData} from '@/components/sections/study/KeyWins'
+import {StudyWhatWeBuilt, StudyWhatWeBuiltData} from '@/components/sections/study/WhatWeBuilt'
+import {StudyNumbers, StudyNumbersData} from '@/components/sections/study/Numbers'
+import {StudyTestimonial, StudyTestimonialData} from '@/components/sections/study/Testimonial'
+import {StudyTechStack, StudyTechStackData} from '@/components/sections/study/TechStack'
+import {StudyMoreLikeThis, StudyMoreLikeThisData} from '@/components/sections/study/MoreLikeThis'
+import {StudyClosingCta, StudyClosingCtaData} from '@/components/sections/study/ClosingCta'
+import {
+  InsightsFeatured,
+  InsightsFeaturedData,
+} from '@/components/sections/insights/InsightsFeatured'
+import {InsightsGrid, InsightsGridData} from '@/components/sections/insights/InsightsGrid'
+import {InsightsCta, InsightsCtaData} from '@/components/sections/insights/InsightsCta'
+import {InsightBlock, InsightBlockQueryResponse} from '@/components/sections/insights/InsightBlock'
+import {Booking, BookingData} from '@/components/sections/contact/Booking'
+import {SoundFamiliar, SoundFamiliarData} from '@/components/sections/services/SoundFamiliar'
+import {WhyRomania, WhyRomaniaData} from '@/components/sections/services/WhyRomania'
+import {Awards, AwardsData} from '@/components/sections/about/Awards'
+import {Place, PlaceData} from '@/components/sections/about/Place'
+import {Press, PressData} from '@/components/sections/about/Press'
+import {TechStacks, TechStacksData} from '@/components/sections/about/TechStacks'
+import {FreeResources, FreeResourcesData} from '@/components/sections/insights/FreeResources'
+import {IsThisForYou, IsThisForYouData} from '@/components/sections/services/IsThisForYou'
+import {
+  ServiceNavigator,
+  ServiceNavigatorData,
+} from '@/components/sections/services/ServiceNavigator'
+import {Steps, StepsData} from '@/components/sections/services/Steps'
+import {AIServices, AIServicesData} from '@/components/sections/services/AIServices'
 
 type BlockProps = {
   index: number
@@ -71,49 +83,52 @@ const Blocks = {
     return <PageHero data={block as PageHeroData} />
   },
   contactHero: ({block}: BlockProps) => {
-    return <ContactHero data={block  as ContactHeroData} />
+    return <ContactHero data={block as ContactHeroData} />
+  },
+  contactForm: ({block}: BlockProps) => {
+    return <ContactHero data={block as ContactHeroData} />
   },
   homeHero: ({block}: BlockProps) => {
     return <Hero data={block as HeroData} />
   },
   origin: ({block}: BlockProps) => {
-    return <Origin data={block  as OriginData} />
+    return <Origin data={block as OriginData} />
   },
   whatWeDo: ({block}: BlockProps) => {
-    return <WhatWeDo data={block  as WhatWeDoData} />
+    return <WhatWeDo data={block as WhatWeDoData} />
   },
   signature: ({block}: BlockProps) => {
-    return <Signature data={block  as SignatureData} />
+    return <Signature data={block as SignatureData} />
   },
   signature2: ({block}: BlockProps) => {
     return <Signature2 data={block as Signature2Data} />
   },
   why: ({block}: BlockProps) => {
-    return <Why data={block  as WhyData} />
+    return <Why data={block as WhyData} />
   },
   story: ({block}: BlockProps) => {
-    return <Story data={block  as StoryData} />
+    return <Story data={block as StoryData} />
   },
   team: ({block}: BlockProps) => {
-    return <Team data={block  as TeamData} />
+    return <Team data={block as TeamData} />
   },
   methodology: ({block}: BlockProps) => {
-    return <Methodology data={block  as MethodologyData} />
+    return <Methodology data={block as MethodologyData} />
   },
   testimonials: ({block}: BlockProps) => {
-    return <TrustedBy data={block  as TrustedByData} />
+    return <TrustedBy data={block as TrustedByData} />
   },
   pricing: ({block}: BlockProps) => {
     return <Pricing data={block as PricingData} />
   },
   portfolio: ({block}: BlockProps) => {
-    return <OurWork data={block  as PortfolioData} />
+    return <OurWork data={block as PortfolioData} />
   },
   cta: ({block}: BlockProps) => {
-    return <ClosingCta data={block  as CtaData} />
+    return <ClosingCta data={block as CtaData} />
   },
   engineeringServices: ({block}: BlockProps) => {
-    return <EngineeringServices data={block  as EngineeringServicesData} />
+    return <EngineeringServices data={block as EngineeringServicesData} />
   },
   serviceHero: ({block}: BlockProps) => {
     return <ServiceHero data={block as ServiceHeroData} />
@@ -125,111 +140,110 @@ const Blocks = {
     return <ServiceNavigator data={block as ServiceNavigatorData} />
   },
   industries: ({block}: BlockProps) => {
-    return <Industries data={block  as IndustryData} />
+    return <Industries data={block as IndustryData} />
   },
   reality: ({block}: BlockProps) => {
-    return <Reality data={block  as RealityData} />
+    return <Reality data={block as RealityData} />
   },
   compare: ({block}: BlockProps) => {
     return <Compare data={block as CompareData} />
   },
   faq: ({block}: BlockProps) => {
-    return <FAQ data={block  as FaqData} />
+    return <FAQ data={block as FaqData} />
   },
   portfolioFeatured: ({block}: BlockProps) => {
-    return <PortfolioFeatured data={block  as PortfolioFeaturedData} />
+    return <PortfolioFeatured data={block as PortfolioFeaturedData} />
   },
   portfolioGrid: ({block}: BlockProps) => {
-    return <PortfolioGrid data={block  as PortfolioGridData} />
+    return <PortfolioGrid data={block as PortfolioGridData} />
   },
   portfolioCta: ({block}: BlockProps) => {
-    return <PortfolioCta data={block  as PortfolioCtaData} />
+    return <PortfolioCta data={block as PortfolioCtaData} />
   },
   portfolioMetrics: ({block}: BlockProps) => {
-    return <PortfolioMetrics data={block  as PortfolioMetricsData} />
+    return <PortfolioMetrics data={block as PortfolioMetricsData} />
   },
   studyHeroImage: ({block}: BlockProps) => {
-    return <StudyHeroImage data={block  as StudyHeroImageData} />
+    return <StudyHeroImage data={block as StudyHeroImageData} />
   },
   studyHero: ({block}: BlockProps) => {
-    return <StudyHero data={block  as StudyHeroData} />
+    return <StudyHero data={block as StudyHeroData} />
   },
   studyChallenge: ({block}: BlockProps) => {
-    return <StudyChallenge data={block  as StudyChallengeData} />
+    return <StudyChallenge data={block as StudyChallengeData} />
   },
   studyApproach: ({block}: BlockProps) => {
-    return <StudyApproach data={block  as StudyApproachData} />
+    return <StudyApproach data={block as StudyApproachData} />
   },
   studyKeyWins: ({block}: BlockProps) => {
-    return <StudyKeyWins data={block  as StudyKeyWinsData} />
+    return <StudyKeyWins data={block as StudyKeyWinsData} />
   },
   studyWhatWeBuilt: ({block}: BlockProps) => {
-    return <StudyWhatWeBuilt data={block  as StudyWhatWeBuiltData} />
+    return <StudyWhatWeBuilt data={block as StudyWhatWeBuiltData} />
   },
   studyNumbers: ({block}: BlockProps) => {
-    return <StudyNumbers data={block  as StudyNumbersData} />
+    return <StudyNumbers data={block as StudyNumbersData} />
   },
   studyTestimonial: ({block}: BlockProps) => {
-    return <StudyTestimonial data={block  as StudyTestimonialData} />
+    return <StudyTestimonial data={block as StudyTestimonialData} />
   },
   studyTechStack: ({block}: BlockProps) => {
-    return <StudyTechStack data={block  as StudyTechStackData} />
+    return <StudyTechStack data={block as StudyTechStackData} />
   },
   studyMoreLikeThis: ({block}: BlockProps) => {
-    return <StudyMoreLikeThis data={block  as StudyMoreLikeThisData} />
+    return <StudyMoreLikeThis data={block as StudyMoreLikeThisData} />
   },
   studyClosingCta: ({block}: BlockProps) => {
-    return <StudyClosingCta data={block  as StudyClosingCtaData} />
+    return <StudyClosingCta data={block as StudyClosingCtaData} />
   },
   insightsFeatured: ({block}: BlockProps) => {
-    return <InsightsFeatured data={block  as InsightsFeaturedData} />
+    return <InsightsFeatured data={block as InsightsFeaturedData} />
   },
   insightsGrid: ({block}: BlockProps) => {
-    return <InsightsGrid data={block  as InsightsGridData} />
+    return <InsightsGrid data={block as InsightsGridData} />
   },
   insightsCta: ({block}: BlockProps) => {
-    return <InsightsCta data={block  as InsightsCtaData} />
+    return <InsightsCta data={block as InsightsCtaData} />
   },
   insightBlock: ({block}: BlockProps) => {
     return <InsightBlock data={block as InsightBlockQueryResponse} />
   },
   booking: ({block}: BlockProps) => {
-    return <Booking data={block  as BookingData} />
+    return <Booking data={block as BookingData} />
   },
   soundFamiliar: ({block}: BlockProps) => {
-    return <SoundFamiliar data={block  as SoundFamiliarData} />
+    return <SoundFamiliar data={block as SoundFamiliarData} />
   },
   whyRomania: ({block}: BlockProps) => {
-    return <WhyRomania data={block  as WhyRomaniaData} />
+    return <WhyRomania data={block as WhyRomaniaData} />
   },
   awards: ({block}: BlockProps) => {
-    return <Awards data={block  as AwardsData} />
+    return <Awards data={block as AwardsData} />
   },
   place: ({block}: BlockProps) => {
-    return <Place data={block  as PlaceData} />
+    return <Place data={block as PlaceData} />
   },
   press: ({block}: BlockProps) => {
-    return <Press data={block  as PressData} />
+    return <Press data={block as PressData} />
   },
   techStack: ({block}: BlockProps) => {
-    return <TechStacks data={block  as TechStacksData} />
+    return <TechStacks data={block as TechStacksData} />
   },
   freeResources: ({block}: BlockProps) => {
-    return <FreeResources data={block  as FreeResourcesData} />
+    return <FreeResources data={block as FreeResourcesData} />
   },
   isThisForYou: ({block}: BlockProps) => {
-    return <IsThisForYou data={block  as IsThisForYouData} />
+    return <IsThisForYou data={block as IsThisForYouData} />
   },
   steps: ({block}: BlockProps) => {
     return <Steps data={block as StepsData} />
-  }
+  },
 } as BlocksType
 
 /**
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
-  
   // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {
     return (

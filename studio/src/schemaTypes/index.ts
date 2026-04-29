@@ -7,10 +7,13 @@ import {project} from './documents/project'
 import {testimonial} from './documents/testimonial'
 import {contactSubmission} from './documents/contactSubmission'
 import {settings} from './singletons/settings'
+import {seoSettings} from './singletons/seoSettings'
 import {link} from './objects/link'
 import {blockContent} from './objects/blockContent'
 import button from './objects/button'
 import {blockContentTextOnly} from './objects/blockContentTextOnly'
+import {seo} from './objects/seo'
+import {seoAlternateLanguage} from './objects/seoAlternateLanguage'
 import {list} from './objects/list'
 import {homeHero} from './objects/home/hero'
 import {cta} from './objects/home/cta'
@@ -71,6 +74,7 @@ import {freeResources} from './objects/resources/freeResources'
 export const schemaTypes = [
   // Singletons
   settings,
+  seoSettings,
   // Documents
   page,
   post,
@@ -84,6 +88,8 @@ export const schemaTypes = [
   button,
   blockContent,
   blockContentTextOnly,
+  seo,
+  seoAlternateLanguage,
   link,
   list,
   pageHero,

@@ -211,7 +211,7 @@ export function Team({ data }: { data?: TeamData }) {
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          className="text-3xl leading-9 tracking-[-0.3px] md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="block max-w-[16ch] text-balance text-3xl leading-9 tracking-[-0.3px] whitespace-normal md:max-w-[18ch] md:text-[36px] md:leading-12 lg:max-w-[20ch] lg:text-[44px] lg:leading-14 2xl:max-w-[22ch] 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"
           as="h2"
           stagger={0.04}
@@ -255,24 +255,24 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] lg:flex-row md:items-center md:pr-48"
+                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:items-center md:pr-48 lg:flex-row"
                 >
-                  <div className="flex flex-1 flex-col items-end">
-                    <div className="flex w-full flex-col gap-12 md:max-w-163 md:gap-16 md:py-6">
-                      <div className="flex flex-col gap-12 md:px-6">
+                  <div className="flex min-w-0 flex-1 flex-col items-end">
+                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-[34rem] md:gap-16 md:py-6">
+                      <div className="flex min-w-0 flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
-                          <div className="flex flex-col px-6">
-                            <p className="font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-4xl">
+                          <div className="flex min-w-0 flex-col px-6">
+                            <p className="break-words font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-4xl">
                               {member.name}
                             </p>
-                            <p className="font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
+                            <p className="break-words font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
                           <div className="h-px w-full bg-white/20" />
                         </div>
-                        <div className="px-6">
-                          <p className="font-funnel text-64 leading-normal text-foreground md:text-[18px]">
+                        <div className="min-w-0 px-6">
+                          <p className="break-words font-funnel text-64 leading-normal text-foreground md:text-[18px]">
                             {member.bio}
                           </p>
                         </div>
@@ -308,7 +308,7 @@ export function Team({ data }: { data?: TeamData }) {
 
         <div className="px-6 md:px-12">
           {team.closingStatement && (
-            <div className="leading-8 text-foreground">
+            <div className="max-w-[24ch] leading-8 text-foreground md:max-w-[28ch] lg:max-w-[32ch]">
               <ClosingStatement parts={team.closingStatement} />
             </div>
           )}

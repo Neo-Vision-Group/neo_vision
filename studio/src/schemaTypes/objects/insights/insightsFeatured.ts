@@ -3,6 +3,7 @@ import {defineField, defineType} from 'sanity'
 export const insightsFeatured = defineType({
   name: 'insightsFeatured',
   title: 'Insights Featured',
+  description: 'Single featured insight card for editorial landing pages.',
   type: 'object',
   fields: [
     defineField({

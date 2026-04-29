@@ -5,6 +5,7 @@ interface SectionsWrapperProps {
   children: ReactNode;
   id?: string;
   hideTopBorder?: boolean;
+  classNameOverride?: string;
 }
 
 export function SectionsWrapper({
@@ -12,6 +13,7 @@ export function SectionsWrapper({
   children,
   id,
   hideTopBorder = false,
+  classNameOverride = "",
 }: SectionsWrapperProps) {
   return (
     <section id={id} className="relative flex flex-col md:flex-row w-full items-start">
@@ -40,7 +42,9 @@ export function SectionsWrapper({
         {!hideTopBorder && (
           <div className="h-px w-full bg-black/20 dark:bg-white/20" />
         )}
-        <div className="w-full px-6 pb-24 lg:px-16">{children}</div>
+        <div className={classNameOverride || "w-full px-6 pb-24 lg:px-16"}>
+          {children}
+        </div>
       </div>
     </section>
   );

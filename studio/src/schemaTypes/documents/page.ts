@@ -1,5 +1,10 @@
 ﻿import {defineField, defineType} from 'sanity'
 import {DocumentIcon} from '@sanity/icons'
+import {
+  universalPageBuilderBlocks,
+  universalPageBuilderComponents,
+  universalPageBuilderOptions,
+} from '../pageBuilderBlocks'
 
 /**
  * Page schema.  Define and edit the fields for the 'page' content type.
@@ -45,79 +50,19 @@ export const page = defineType({
       description: 'Select the type of page this represents',
     }),
     defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      validation: (Rule) => Rule.required(),
-      description: 'The description of this page. Important for SEO.'
-    }),
-    defineField({
-      name: 'keywords',
-      title: 'Keywords',
-      type: 'array',
-      of: [{type: 'string'}],
-      validation: (Rule) => Rule.required(),
-      description: 'The keywords of this page. Important for SEO. (though less relevant for Google today)'
+      name: 'seo',
+      title: 'SEO Override',
+      type: 'seo',
+      description:
+        'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
     }),
     defineField({
       name: 'pageBuilder',
       title: 'Page builder',
       type: 'array',
-      of: [
-        {type: 'pageHero'},
-        {type: 'contactHero'},
-        {type: 'contactForm'},
-        {type: 'booking'},
-        {type: 'homeHero'},
-        {type: 'list'},
-        {type: 'cta'},
-        {type: 'methodology'},
-        {type: 'origin'},
-        {type: 'portfolio'},
-        {type: 'pricing'},
-        {type: 'signature'},
-        {type: 'signature2'},
-        {type: 'story'},
-        {type: 'team'},
-        {type: 'testimonials'},
-        {type: 'whatWeDo'},
-        {type: 'why'},
-        {type: 'engineeringServices'},
-        {type: 'aiServices'},
-        {type: 'serviceNavigator'},
-        {type: 'industries'},
-        {type: 'reality'},
-        {type: 'compare'},
-        {type: 'steps'},
-        {type: 'whyRomania'},
-        {type: 'faq'},
-        {type: 'insightsFeatured'},
-        {type: 'insightsGrid'},
-        {type: 'insightsCta'},
-        {type: 'portfolioFeatured'},
-        {type: 'portfolioGrid'},
-        {type: 'portfolioCta'},
-        {type: 'portfolioMetrics'},
-        {type: 'awards'},
-        {type: 'place'},
-        {type: 'press'},
-        {type: 'techStack'},
-        {type: 'freeResources'},
-        {type: 'insightBlock'},
-      ],
-      options: {
-        insertMenu: {
-          // Configure the "Add Item" menu to display a thumbnail preview of the content type. https://www.sanity.io/docs/studio/array-type#efb1fe03459d
-          views: [
-            {
-              name: 'grid',
-              previewImageUrl: (schemaTypeName) =>
-                `/static/page-builder-thumbnails/${schemaTypeName}.webp`,
-            },
-          ],
-        },
-      },
+      of: universalPageBuilderBlocks,
+      options: universalPageBuilderOptions,
+      components: universalPageBuilderComponents,
     }),
   ],
 })
-

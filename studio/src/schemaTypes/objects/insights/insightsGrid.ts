@@ -3,6 +3,7 @@ import {defineField, defineType} from 'sanity'
 export const insightsGrid = defineType({
   name: 'insightsGrid',
   title: 'Insights Grid',
+  description: 'Filterable grid of insight cards with optional category filters.',
   type: 'object',
   fields: [
     defineField({

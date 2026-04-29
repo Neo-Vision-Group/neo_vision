@@ -54,26 +54,28 @@ Sanity Document (page / service / project)
 
 ### Key Files
 
-| File                                                      | Role                                                                                                                                            |
-| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `frontend/sanity/lib/queries.ts`                          | All GROQ queries — **single source** for data fetching                                                                                          |
-| `frontend/sanity/lib/types.ts`                            | Shared TypeScript types (`PageBuilderSection`, etc.)                                                                                            |
-| `frontend/sanity.types.ts`                                | **Auto-generated** by `sanity typegen generate` — never edit manually                                                                           |
-| `sanity.schema.json`                                      | Committed schema snapshot generated from the Studio and consumed by frontend typegen/builds                                                     |
-| `frontend/components/PageBuilder.tsx`                     | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer`                                                                 |
-| `frontend/components/BlockRenderer.tsx`                   | Maps `block._type` string → React component. **Every new page block must be registered here.**                                                  |
-| `frontend/components/BlockErrorBoundary.tsx`              | Isolates individual page block render failures so one broken section does not crash the whole page                                              |
-| `frontend/components/RouteLoading.tsx`                    | Shared loading UI used by route-level `loading.tsx` files in the App Router                                                                     |
-| `frontend/components/partials/FirstLoadIntro.tsx`         | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator                 |
+| File                                                          | Role                                                                                                                                                      |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `frontend/sanity/lib/queries.ts`                              | All GROQ queries — **single source** for data fetching                                                                                                    |
+| `frontend/sanity/lib/types.ts`                                | Shared TypeScript types (`PageBuilderSection`, etc.)                                                                                                      |
+| `frontend/sanity.types.ts`                                    | **Auto-generated** by `sanity typegen generate` — never edit manually                                                                                     |
+| `sanity.schema.json`                                          | Committed schema snapshot generated from the Studio and consumed by frontend typegen/builds                                                               |
+| `frontend/components/PageBuilder.tsx`                         | Receives a page document, extracts `pageBuilder[]`, renders via `BlockRenderer`                                                                           |
+| `frontend/components/BlockRenderer.tsx`                       | Maps `block._type` string → React component. **Every new page block must be registered here.**                                                            |
+| `frontend/components/BlockErrorBoundary.tsx`                  | Isolates individual page block render failures so one broken section does not crash the whole page                                                        |
+| `frontend/components/RouteLoading.tsx`                        | Shared loading UI used by route-level `loading.tsx` files in the App Router                                                                               |
+| `frontend/components/partials/FirstLoadIntro.tsx`             | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator                           |
 | `frontend/components/partials/HeroBrandDotsMediaProvider.tsx` | App-shell-level owner for the shared `hero.mp4` media. It must stay mounted so hero, intro, and transition surfaces mirror one persistent playback source |
-| `frontend/components/transition/TransitionProvider.tsx`   | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal |
-| `frontend/components/transition/PageTransitionMarker.tsx` | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern   |
-| `frontend/components/partials/CookieBanner.tsx`           | Global client-side cookie consent banner/preferences panel driven by `siteSettings.cookieSettings` and reopened from the footer                 |
-| `studio/src/schemaTypes/index.ts`                         | Registers all Sanity schema types (documents + objects)                                                                                         |
-| `studio/src/schemaTypes/documents/page.ts`                | `page` document — **its `pageBuilder.of` array must list every block type available to main pages**                                             |
-| `studio/src/schemaTypes/documents/service.ts`             | `service` document — has its own `pageBuilder.of` array for service detail pages                                                                |
-| `studio/src/schemaTypes/documents/project.ts`             | `project` document — case study data with optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.)                |
-| `studio/src/schemaTypes/singletons/settings.tsx`          | Global site singleton. Also contains the `cookieSettings` object used by the banner and footer reopen control                                   |
+| `frontend/components/transition/TransitionProvider.tsx`       | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal           |
+| `frontend/components/transition/PageTransitionMarker.tsx`     | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern             |
+| `frontend/components/partials/CookieBanner.tsx`               | Global client-side cookie consent banner/preferences panel driven by `siteSettings.cookieSettings` and reopened from the footer                           |
+| `studio/src/schemaTypes/pageBuilderBlocks.ts`                 | Shared registry for renderable page-builder block types and the reusable Studio insert-menu configuration used across all page-builder documents          |
+| `studio/src/schemaTypes/index.ts`                             | Registers all Sanity schema types (documents + objects)                                                                                                   |
+| `studio/src/schemaTypes/singletons/seoSettings.ts`            | Global SEO defaults singleton. Page-like documents override these values through their shared `seo` object field                                          |
+| `studio/src/schemaTypes/documents/page.ts`                    | `page` document — **its `pageBuilder.of` array must list every block type available to main pages**                                                       |
+| `studio/src/schemaTypes/documents/service.ts`                 | `service` document — has its own `pageBuilder.of` array for service detail pages                                                                          |
+| `studio/src/schemaTypes/documents/project.ts`                 | `project` document — case study data with optional `pageBuilder` field for block-based content (studyHero, studyChallenge, etc.)                          |
+| `studio/src/schemaTypes/singletons/settings.tsx`              | Global site singleton. Also contains the `cookieSettings` object used by the banner and footer reopen control                                             |
 
 ---
 
@@ -154,6 +156,10 @@ Implementation rules:
 - The footer button reopens the customize state by dispatching the shared `neo:open-cookie-preferences` browser event
 - The banner must remain responsive and theme-aware in both light and dark mode because it sits outside page-builder content
 
+### Global SEO Settings
+
+Global SEO defaults are modeled in a dedicated `seoSettings` singleton. Page-like documents (`page`, `service`, `project`, and `post`) expose a shared `seo` override object, and blank override fields are intended to inherit from `seoSettings` during frontend metadata mapping.
+
 The `homePageQuery` in `queries.ts` filters only by `pageType == 'home'` and includes all the same pageBuilder block projections as `pageQuery`.
 
 The `pageQuery` in `queries.ts` uses conditional logic to handle slug-based routing:
@@ -221,6 +227,17 @@ If a block is registered for:
 
 Otherwise the block may appear in Studio but fail to render on the frontend.
 
+### Shared Page-Builder Registry
+
+All renderable page-builder blocks now share one Studio registry: `studio/src/schemaTypes/pageBuilderBlocks.ts`.
+
+Implementation rules:
+
+- `page`, `service`, `project`, and `post` should all reuse the shared block list instead of maintaining separate manual `pageBuilder.of` arrays
+- The Studio insert menu should keep both `list` and `grid` views enabled so editors can search by block name/description or browse thumbnails
+- Thumbnail previews should live at `/static/page-builder-thumbnails/<schemaTypeName>.webp`
+- The legacy `list` schema object is not part of the shared renderable block registry because it is a nested helper object, not a frontend section component
+
 ### Current Block Types
 
 #### Main Page Blocks (available in `page` document)
@@ -259,7 +276,7 @@ Otherwise the block may appear in Studio but fail to render on the frontend.
 | `insightsResources`   | `InsightsResources`   | insights               |
 | `insightsCta`         | `InsightsCta`         | insights               |
 
-`signature` note: the nested `steps[]` objects support `textured` plus an optional Sanity `graphic` image field for red-tinted line-art hover states, and the nested `valueCard` object supports its own optional `graphic` image field for the panel beside the CTA.
+`signature` note: the nested `steps[]` objects no longer expose per-card texture controls in Sanity; the frontend applies the red-tinted line-art hover treatment automatically with the local `frontend/public/images/cta-graphic.jpg` asset, while the nested `valueCard` object still supports its own optional `graphic` image field for the panel beside the CTA.
 `signature2` note: highlighted `steps[]` items support an optional Sanity `graphic` image field for the same red-tinted line-art card treatment used in the Work block.
 `portfolio` note: the section-level bottom CTA now uses the shared Sanity `button` object, so editors can manage both its label and destination from CMS.
 
@@ -293,7 +310,7 @@ Otherwise the block may appear in Studio but fail to render on the frontend.
 | Sanity `_type`        | Component             | Notes                                                                                                                  |
 | --------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `engineeringServices` | `EngineeringServices` | Services listing / capability cards                                                                                    |
-| `serviceHero`         | `ServiceHero`         | Service detail hero with breadcrumb trail, multi-line headline, CTA rail, and service metadata fallbacks              |
+| `serviceHero`         | `ServiceHero`         | Service detail hero with breadcrumb trail, multi-line headline, CTA rail, and service metadata fallbacks               |
 | `aiServices`          | `AIServices`          | AI transformation service card grid with service references and per-card CTAs                                          |
 | `isThisForYou`        | `IsThisForYou`        | Service detail qualifier checklist                                                                                     |
 | `soundFamiliar`       | `SoundFamiliar`       | Service detail pain-point cards                                                                                        |

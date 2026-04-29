@@ -3,6 +3,7 @@ import {defineField, defineType} from 'sanity'
 export const freeResources = defineType({
   name: 'freeResources',
   title: 'Free Resources',
+  description: 'Resource download grid with optional files, links, and supporting copy.',
   type: 'object',
   fields: [
     defineField({
