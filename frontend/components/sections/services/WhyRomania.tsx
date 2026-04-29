@@ -1,6 +1,7 @@
 import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {PortableTextRenderer} from '@/components/partials/PortableTextRenderer'
 import {SplitTextReveal} from '@/components/partials/motion/SplitTextReveal'
+import {cn} from '@/lib/utils'
 import {cleanStega} from '@/sanity/lib/utils'
 import dynamic from 'next/dynamic'
 import type {PortableTextBlock} from '@portabletext/react'
@@ -33,15 +34,20 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
     cleanData?.highlights?.filter(
       (highlight) => highlight.stat?.trim() || highlight.description?.trim(),
     ) ?? []
+  const highlightRows: WhyRomaniaHighlight[][] = []
+
+  for (let index = 0; index < highlights.length; index += 2) {
+    highlightRows.push(highlights.slice(index, index + 2))
+  }
 
   if (!cleanData?.title && !cleanData?.body?.length && highlights.length === 0) {
     return null
   }
 
   return (
-    <SectionsWrapper eyebrow={eyebrow}>
+    <SectionsWrapper eyebrow={eyebrow} classNameOverride="px-0 pb-24">
       <div className="flex flex-col gap-16">
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-12 px-6 lg:px-16">
           {cleanData?.title ? (
             <SplitTextReveal
               as="h2"
@@ -63,31 +69,46 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
         </div>
 
         {highlights.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            stagger={0.08}
-            className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          >
-            {highlights.map((highlight, index) => (
-              <article
-                key={highlight._key ?? `highlight-${index}`}
-                className="border dark:border-white/10 border-black/10 bg-surface p-6 md:p-8"
-              >
-                <div className="flex flex-col gap-12">
-                  {highlight.stat ? (
-                    <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
-                      {highlight.stat}
-                    </p>
-                  ) : null}
-                  {highlight.description ? (
-                    <p className="max-w-[22ch] text-100 font-bold leading-[1.2] text-foreground">
-                      {highlight.description}
-                    </p>
+          <div className="flex flex-col">
+            <div className="h-px w-full bg-black/10 dark:bg-white/10" />
+            <RevealOnScroll as="div" stagger={0.08} className="flex flex-col">
+              {highlightRows.map((row, rowIndex) => (
+                <div
+                  key={`row-${rowIndex}`}
+                  className="grid grid-cols-1 border-b border-black/10 dark:border-white/10 md:grid-cols-2"
+                >
+                  {row.map((highlight, columnIndex) => (
+                    <div
+                      key={highlight._key ?? `highlight-${rowIndex}-${columnIndex}`}
+                      className={cn(
+                        'p-6',
+                        columnIndex === 0 && 'md:border-r md:border-black/10 md:dark:border-white/10',
+                      )}
+                    >
+                      <article className="bg-surface border border-black/10 p-6 dark:border-white/10 md:p-8">
+                        <div className="flex flex-col gap-12">
+                          {highlight.stat ? (
+                            <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
+                              {highlight.stat}
+                            </p>
+                          ) : null}
+                          {highlight.description ? (
+                            <p className="max-w-[22ch] text-100 font-bold leading-[1.2] text-foreground">
+                              {highlight.description}
+                            </p>
+                          ) : null}
+                        </div>
+                      </article>
+                    </div>
+                  ))}
+
+                  {row.length === 1 ? (
+                    <div className="hidden md:block" aria-hidden="true" />
                   ) : null}
                 </div>
-              </article>
-            ))}
-          </RevealOnScroll>
+              ))}
+            </RevealOnScroll>
+          </div>
         ) : null}
       </div>
     </SectionsWrapper>

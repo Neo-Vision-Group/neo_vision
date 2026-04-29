@@ -237,7 +237,7 @@ export function Team({ data }: { data?: TeamData }) {
                   className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:items-center md:pr-48 lg:flex-row"
                 >
                   <div className="flex min-w-0 flex-1 flex-col items-end">
-                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-[34rem] md:gap-16 md:py-6">
+                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-[42rem] md:gap-16 md:py-6 lg:max-w-[48rem]">
                       <div className="flex min-w-0 flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col px-6">
@@ -261,17 +261,17 @@ export function Team({ data }: { data?: TeamData }) {
                                 </button>
                               </div>
                             )}
-                            <p className="break-words font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-4xl">
+                            <p className="font-funnel text-[34px] leading-[1.08] tracking-[-0.9px] text-foreground md:text-[48px] lg:text-[56px]">
                               {member.name}
                             </p>
-                            <p className="break-words font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
+                            <p className="font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
                           <div className="h-px w-full bg-white/20" />
                         </div>
                         <div className="min-w-0 px-6">
-                          <p className="break-words font-funnel text-64 leading-normal text-foreground md:text-[18px]">
+                          <p className="font-funnel text-64 leading-normal text-foreground md:text-[18px]">
                             {member.bio}
                           </p>
                         </div>
@@ -279,17 +279,19 @@ export function Team({ data }: { data?: TeamData }) {
                     </div>
                   </div>
 
-                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-[#0f0f0f] md:w-108">
+                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-black md:w-108">
                     <BinaryGlitchField />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,77,0,0.16),transparent_42%),linear-gradient(180deg,rgba(15,15,15,0.08),rgba(15,15,15,0.72))]" />
                     {portraitUrl && (
-                      <div className="absolute inset-5 relative overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:inset-6">
-                        <Image
-                          src={portraitUrl}
-                          alt={member.name}
-                          className="size-full object-cover"
-                          fill
-                        />
+                      <div className="absolute inset-x-[12%] bottom-0 top-[12%] overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:inset-x-[14%] md:top-[13%]">
+                        <div className="relative size-full">
+                          <Image
+                            src={portraitUrl}
+                            alt={member.name}
+                            className="object-cover"
+                            fill
+                          />
+                        </div>
                       </div>
                     )}
                   </div>

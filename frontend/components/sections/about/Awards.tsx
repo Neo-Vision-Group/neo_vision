@@ -66,7 +66,7 @@ export function Awards({data}: {data?: AwardsData}) {
 
   return (
     <SectionsWrapper eyebrow={eyebrow}>
-      <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-6">
+      <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-6 bg-white/20 dark:bg-black/20">
         {items.map((item, index) => {
           const recognitions = item?.recognitions?.filter((entry) => entry?.trim()) ?? []
           const ctaHref = item?.cta?.link ? getHref(item.cta.link) : null
@@ -74,7 +74,7 @@ export function Awards({data}: {data?: AwardsData}) {
           return (
             <article
               key={item?._key ?? `award-${index}`}
-              className="border border-white/10 bg-surface p-8 md:p-12"
+              className="border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12"
             >
               <div className="flex flex-col gap-6">
                 {item?.title ? (

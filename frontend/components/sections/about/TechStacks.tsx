@@ -62,16 +62,18 @@ export function TechStacks({data}: {data?: TechStacksData}) {
   }
 
   return (
-    <SectionsWrapper eyebrow={eyebrow}>
+    <SectionsWrapper eyebrow={eyebrow} classNameOverride="px-0 pb-24">
       <div className="flex flex-col gap-16">
-        <SplitTextReveal
-          as="h2"
-          type="lines"
-          scrollTriggered
-          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
-        >
-          {`${headingRegular} ${headingBold}`.trim()}
-        </SplitTextReveal>
+        <div className="px-6 lg:px-16">
+          <SplitTextReveal
+            as="h2"
+            type="lines"
+            scrollTriggered
+            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
+          >
+            {`${headingRegular} ${headingBold}`.trim()}
+          </SplitTextReveal>
+        </div>
 
         <div className="flex flex-col gap-12">
           {groups.map((group, groupIndex) => {
@@ -84,14 +86,14 @@ export function TechStacks({data}: {data?: TechStacksData}) {
             return (
               <section key={group?._key ?? `group-${groupIndex}`} className="flex flex-col">
                 {group?.title ? (
-                  <div className="py-6">
+                  <div className="px-6 py-6 lg:px-16">
                     <h3 className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                       {group.title}
                     </h3>
                   </div>
                 ) : null}
 
-                <div className="border-y  border-white/10">
+                <div className="border-y border-black/20 dark:border-white/20">
                   <RevealOnScroll
                     as="div"
                     stagger={0.05}
@@ -103,7 +105,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                       return (
                         <article
                           key={item?._key ?? `item-${itemIndex}`}
-                          className="flex min-h-40 flex-col justify-between border-b border-r border-white/10 p-6 odd:border-l md:min-h-47[188px] lg:min-h-53"
+                          className="flex min-h-40 flex-col justify-between border border-black/20 p-6 -mt-px -ml-px dark:border-white/20 md:min-h-47[188px] lg:min-h-53"
                         >
                           <div className="flex flex-1 items-center justify-center">
                             <div className="w-full max-w-64">
@@ -137,9 +139,11 @@ export function TechStacks({data}: {data?: TechStacksData}) {
         </div>
 
         {closingNote ? (
-          <p className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
-            {closingNote}
-          </p>
+          <div className="px-6 lg:px-16">
+            <p className="text-100 leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
+              {closingNote}
+            </p>
+          </div>
         ) : null}
       </div>
     </SectionsWrapper>
