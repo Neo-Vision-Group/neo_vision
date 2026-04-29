@@ -53,7 +53,7 @@ function BlockTypeCard({block, onSelect}: {block: BlockTemplate; onSelect: () =>
               src={block.previewImageUrl}
               alt={`${block.title} preview`}
               onError={() => setImageFailed(true)}
-              style={{display: 'block', width: '100%', height: '100%', objectFit: 'cover'}}
+              style={{display: 'block', width: '100%', height: '100%', objectFit: 'fill'}}
             />
           ) : (
             <Flex align="center" justify="center" style={{height: '100%'}}>

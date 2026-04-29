@@ -221,27 +221,6 @@ export function Team({ data }: { data?: TeamData }) {
         </SplitTextReveal>
 
         <div className="relative">
-          {hasMultiple && (
-            <div className="absolute right-6 top-0 z-20 hidden items-center gap-3 md:flex md:right-1/2">
-              <button
-                type="button"
-                aria-label="Previous team member"
-                onClick={() => scroll("prev")}
-                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
-              >
-                <TeamArrowLeft color={arrowColor} />
-              </button>
-              <button
-                type="button"
-                aria-label="Next team member"
-                onClick={() => scroll("next")}
-                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
-              >
-                <TeamArrowRight color={arrowColor} />
-              </button>
-            </div>
-          )}
-
           <div
             ref={scrollerRef}
             className="no-scrollbar flex overflow-x-auto px-6 pb-12 md:px-12 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
@@ -262,6 +241,26 @@ export function Team({ data }: { data?: TeamData }) {
                       <div className="flex min-w-0 flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col px-6">
+                            {hasMultiple && (
+                              <div className="mb-6 flex items-center gap-3">
+                                <button
+                                  type="button"
+                                  aria-label="Previous team member"
+                                  onClick={() => scroll("prev")}
+                                  className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+                                >
+                                  <TeamArrowLeft color={arrowColor} />
+                                </button>
+                                <button
+                                  type="button"
+                                  aria-label="Next team member"
+                                  onClick={() => scroll("next")}
+                                  className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+                                >
+                                  <TeamArrowRight color={arrowColor} />
+                                </button>
+                              </div>
+                            )}
                             <p className="break-words font-funnel text-[28px] leading-[1.2] tracking-[-1px] text-foreground md:text-4xl">
                               {member.name}
                             </p>
@@ -281,23 +280,17 @@ export function Team({ data }: { data?: TeamData }) {
                   </div>
 
                   <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-[#0f0f0f] md:w-108">
-                    <p
-                      className="absolute left-0 top-0 w-full bg-clip-text font-mono text-[36px] uppercase leading-[1.4] text-transparent"
-                      style={{
-                        backgroundImage:
-                          "linear-gradient(179.95deg, rgba(239, 239, 239, 0.4) 0.53%, rgba(239, 239, 239, 0.04) 56.56%)",
-                        WebkitBackgroundClip: "text",
-                      }}
-                    >
-                      10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010.10010111010
-                    </p>
+                    <BinaryGlitchField />
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,77,0,0.16),transparent_42%),linear-gradient(180deg,rgba(15,15,15,0.08),rgba(15,15,15,0.72))]" />
                     {portraitUrl && (
-                      <Image
-                        src={portraitUrl}
-                        alt={member.name}
-                        className="absolute inset-0 size-full object-cover"
-                        fill
-                      />
+                      <div className="absolute inset-5 relative overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:inset-6">
+                        <Image
+                          src={portraitUrl}
+                          alt={member.name}
+                          className="size-full object-cover"
+                          fill
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
@@ -315,6 +308,59 @@ export function Team({ data }: { data?: TeamData }) {
         </div>
       </div>
     </SectionsWrapper>
+  );
+}
+
+function BinaryGlitchField() {
+  const [lines, setLines] = useState(() => createBinaryLines());
+
+  useEffect(() => {
+    const mediaQuery =
+      typeof window !== "undefined"
+        ? window.matchMedia("(prefers-reduced-motion: reduce)")
+        : null;
+
+    if (mediaQuery?.matches) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setLines(createBinaryLines());
+    }, 70);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div className="absolute inset-[-8%] overflow-hidden opacity-90">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
+      <div className="absolute inset-0 font-mono text-[22px] uppercase leading-[1.05] tracking-[0.24em] text-white/40 md:text-[28px]">
+        {lines.map((line, index) => (
+          <p
+            key={`${index}-${line.slice(0, 10)}`}
+            className="whitespace-nowrap"
+            style={{
+              transform: `translate3d(${index % 2 === 0 ? "-3%" : "1%"}, ${
+                index * 92
+              }%, 0)`,
+            }}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,15,15,0.75),transparent_18%,transparent_82%,rgba(15,15,15,0.72)),linear-gradient(180deg,rgba(15,15,15,0.18),rgba(15,15,15,0.8))]" />
+    </div>
+  );
+}
+
+function createBinaryLines(lineCount = 9, lineLength = 28) {
+  return Array.from({ length: lineCount }, () =>
+    Array.from({ length: lineLength }, () =>
+      Math.random() > 0.5 ? "1" : "0"
+    ).join("")
   );
 }
 

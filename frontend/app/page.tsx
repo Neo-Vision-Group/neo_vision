@@ -1,6 +1,42 @@
+import type {Metadata} from 'next'
+import {cache} from 'react'
+import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilderPage from '@/components/PageBuilder'
+import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {sanityFetch} from '@/sanity/lib/live'
 import {homePageQuery} from '@/sanity/lib/queries'
+import {
+  buildRouteMetadata,
+  buildRouteStructuredData,
+  extractPageBuilderDescription,
+  resolveSeoContext,
+} from '@/sanity/lib/seo'
+
+const loadHomePageForMetadata = cache(async () => {
+  const {data} = await sanityFetch({
+    query: homePageQuery,
+    stega: false,
+  })
+
+  return data
+})
+
+export async function generateMetadata(): Promise<Metadata> {
+  const homePage = await loadHomePageForMetadata()
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: '/',
+    origin,
+    seo: homePage?.seo,
+    fallbackTitle: homePage?.name,
+    fallbackDescription: extractPageBuilderDescription(
+      homePage?.pageBuilder as Array<Record<string, unknown>> | null | undefined
+    ),
+    schemaTypeFallback: 'WebPage',
+  })
+
+  return buildRouteMetadata(seoContext)
+}
 
 export default async function Page() {
   const {data: homePage} = await sanityFetch({
@@ -30,5 +66,27 @@ export default async function Page() {
     )
   }
 
-  return <PageBuilderPage page={homePage} />
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: '/',
+    origin,
+    seo: homePage.seo,
+    fallbackTitle: homePage.name,
+    fallbackDescription: extractPageBuilderDescription(
+      homePage.pageBuilder as Array<Record<string, unknown>> | null | undefined
+    ),
+    schemaTypeFallback: 'WebPage',
+  })
+  const structuredData = buildRouteStructuredData({
+    ...seoContext,
+    routeType: 'page',
+    pageBuilder: homePage.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+  })
+
+  return (
+    <>
+      <StructuredDataScript nodes={structuredData} />
+      <PageBuilderPage page={homePage} />
+    </>
+  )
 }

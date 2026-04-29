@@ -1,5 +1,12 @@
+import type {Metadata} from 'next'
 import {HeroBrandDotsBackground} from '@/components/partials/HeroBrandDotsBackground'
 import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
+
+export const metadata: Metadata = {
+  title: 'Page not found',
+  description: 'The page you are looking for does not exist or has been moved.',
+  robots: 'noindex, nofollow',
+}
 
 export default function NotFound() {
   return (

@@ -28,6 +28,49 @@ const postFields = /* groq */ `
   "author": author->{firstName, lastName, picture},
 `
 
+const seoImageFields = /* groq */ `
+  {
+    ...,
+    asset->
+  }
+`
+
+const seoFields = /* groq */ `
+  seo{
+    ...,
+    ogImage ${seoImageFields},
+    twitterImage ${seoImageFields},
+    socialImage ${seoImageFields},
+    alternateLanguages[]{
+      ...,
+      languageCode,
+      url,
+      isDefault
+    }
+  }
+`
+
+const seoSettingsFields = /* groq */ `
+  siteName,
+  defaultSeo{
+    ...,
+    ogImage ${seoImageFields},
+    twitterImage ${seoImageFields},
+    socialImage ${seoImageFields},
+    alternateLanguages[]{
+      ...,
+      languageCode,
+      url,
+      isDefault
+    }
+  },
+  googleSiteVerification,
+  bingSiteVerification,
+  pinterestVerification,
+  yandexVerification,
+  facebookDomainVerification
+`
+
 const sharedPageBuilderProjection = /* groq */ `
   "pageBuilder": pageBuilder[]{
     ...,
@@ -263,7 +306,6 @@ const sharedPageBuilderProjection = /* groq */ `
       },
       cards[]{
         ...,
-        graphic,
         project->{
           _id,
           client,
@@ -782,6 +824,12 @@ export const settingsQuery = defineQuery(`
   }
 `)
 
+export const seoSettingsQuery = defineQuery(`
+  *[_type == "seoSettings" && (_id == "seoSettings" || _id == "drafts.seoSettings")][0]{
+    ${seoSettingsFields}
+  }
+`)
+
 export const pageQuery = defineQuery(`
   *[_type == 'page' && (
     ($slug == "" && pageType == 'home') ||
@@ -792,6 +840,7 @@ export const pageQuery = defineQuery(`
     name,
     slug,
     pageType,
+    ${seoFields},
     heading,
     subheading,
     ${sharedPageBuilderProjection},
@@ -806,6 +855,7 @@ export const homePageQuery = defineQuery(`
     name,
     slug,
     pageType,
+    ${seoFields},
     heading,
     subheading,
     ${sharedPageBuilderProjection},
@@ -876,6 +926,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     _type,
     title,
     slug,
+    ${seoFields},
     excerpt,
     coverImage {
       ...,
@@ -930,6 +981,7 @@ export const projectBySlugQuery = defineQuery(`
     client,
     year,
     slug,
+    ${seoFields},
     category,
     industry,
     tagline,
@@ -947,8 +999,7 @@ export const serviceQuery = defineQuery(`
     _type,
     name,
     slug,
-    description,
-    keywords,
+    ${seoFields},
     price,
     category,
     tag,

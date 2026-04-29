@@ -1,6 +1,5 @@
 import {headers} from 'next/headers'
-import {sanityFetch} from '@/sanity/lib/live'
-import {settingsQuery} from '@/sanity/lib/queries'
+import {getGlobalSeoData} from '@/sanity/lib/seo'
 
 function toOrigin(value?: string | null): string | null {
   if (!value) return null
@@ -20,19 +19,6 @@ function toOrigin(value?: string | null): string | null {
 }
 
 export async function resolveSiteOrigin(): Promise<string> {
-  try {
-    const {data: settings} = await sanityFetch({
-      query: settingsQuery,
-      perspective: 'published',
-      stega: false,
-    })
-
-    const metadataBaseOrigin = toOrigin(settings?.ogImage?.metadataBase)
-    if (metadataBaseOrigin) return metadataBaseOrigin
-  } catch {
-    // Sitemap and robots should still render even if settings are unavailable.
-  }
-
   const envOrigin =
     toOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
     toOrigin(process.env.SITE_URL) ??
@@ -40,6 +26,18 @@ export async function resolveSiteOrigin(): Promise<string> {
     toOrigin(process.env.VERCEL_URL)
 
   if (envOrigin) return envOrigin
+
+  try {
+    const {seoSettings, siteSettings} = await getGlobalSeoData()
+
+    const defaultCanonicalOrigin = toOrigin(seoSettings?.defaultSeo?.canonicalUrl)
+    if (defaultCanonicalOrigin) return defaultCanonicalOrigin
+
+    const metadataBaseOrigin = toOrigin(siteSettings?.ogImage?.metadataBase)
+    if (metadataBaseOrigin) return metadataBaseOrigin
+  } catch {
+    // Sitemap and robots should still render even if settings are unavailable.
+  }
 
   const requestHeaders = await headers()
   const forwardedHost = requestHeaders.get('x-forwarded-host')

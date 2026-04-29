@@ -1,12 +1,42 @@
 import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
+import {cache} from 'react'
 
+import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilderPage from '@/components/PageBuilder'
+import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {sanityFetch} from '@/sanity/lib/live'
 import {pageQuery, pagesSlugs} from '@/sanity/lib/queries'
+import {
+  buildRouteMetadata,
+  buildRouteStructuredData,
+  extractPageBuilderDescription,
+  resolveSeoContext,
+} from '@/sanity/lib/seo'
 
 type Props = {
   params: Promise<{slug: string}>
+}
+
+const loadPageForMetadata = cache(async (slug: string) => {
+  const {data} = await sanityFetch({
+    query: pageQuery,
+    params: {slug},
+    stega: false,
+  })
+
+  return data
+})
+
+function getPageSchemaType(slug: string) {
+  switch (slug) {
+    case 'about':
+      return 'AboutPage' as const
+    case 'contact':
+      return 'ContactPage' as const
+    default:
+      return 'WebPage' as const
+  }
 }
 
 /**
@@ -29,17 +59,23 @@ export async function generateStaticParams() {
  */
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params
-  const {data: page} = await sanityFetch({
-    query: pageQuery,
-    params,
-    // Metadata should never contain stega
-    stega: false,
+  const page = await loadPageForMetadata(params.slug)
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: `/${params.slug}`,
+    origin,
+    seo: page?.seo,
+    fallbackTitle: page?.name,
+    fallbackDescription:
+      page?.heading ??
+      page?.subheading ??
+      extractPageBuilderDescription(
+        page?.pageBuilder as Array<Record<string, unknown>> | null | undefined
+      ),
+    schemaTypeFallback: getPageSchemaType(params.slug),
   })
 
-  return {
-    title: page?.name,
-    description: page?.heading,
-  } satisfies Metadata
+  return buildRouteMetadata(seoContext)
 }
 
 export default async function Page(props: Props) {
@@ -50,5 +86,30 @@ export default async function Page(props: Props) {
     notFound()
   }
 
-  return <PageBuilderPage page={page} />
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: `/${params.slug}`,
+    origin,
+    seo: page.seo,
+    fallbackTitle: page.name,
+    fallbackDescription:
+      page.heading ??
+      page.subheading ??
+      extractPageBuilderDescription(
+        page.pageBuilder as Array<Record<string, unknown>> | null | undefined
+      ),
+    schemaTypeFallback: getPageSchemaType(params.slug),
+  })
+  const structuredData = buildRouteStructuredData({
+    ...seoContext,
+    routeType: 'page',
+    pageBuilder: page.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+  })
+
+  return (
+    <>
+      <StructuredDataScript nodes={structuredData} />
+      <PageBuilderPage page={page} />
+    </>
+  )
 }

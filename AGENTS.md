@@ -278,7 +278,7 @@ Implementation rules:
 
 `signature` note: the nested `steps[]` objects no longer expose per-card texture controls in Sanity; the frontend applies the red-tinted line-art hover treatment automatically with the local `frontend/public/images/cta-graphic.jpg` asset, while the nested `valueCard` object still supports its own optional `graphic` image field for the panel beside the CTA.
 `signature2` note: highlighted `steps[]` items support an optional Sanity `graphic` image field for the same red-tinted line-art card treatment used in the Work block.
-`portfolio` note: the section-level bottom CTA now uses the shared Sanity `button` object, so editors can manage both its label and destination from CMS.
+`portfolio` note: the section-level bottom CTA uses the shared Sanity `button` object, and Work cards no longer expose per-card texture graphics in Sanity; the frontend applies the red-tinted hover treatment automatically with the local `frontend/public/images/cta-graphic.jpg` asset.
 
 #### Portfolio Page Blocks (registered in BlockRenderer but NOT in `page.ts` pageBuilder)
 

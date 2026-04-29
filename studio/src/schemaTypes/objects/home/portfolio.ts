@@ -23,7 +23,7 @@ export const portfolio = defineType({
             name: 'cards',
             title: 'Projects',
             type: 'array',
-            description: 'Select the projects to show in this Work block and optionally upload a per-card graphic override.',
+            description: 'Select the projects to show in this Work block.',
             of: [
                 {
                     type: 'object',
@@ -34,27 +34,19 @@ export const portfolio = defineType({
                             type: 'reference',
                             to: [{ type: 'project' }],
                             validation: (Rule) => Rule.required()
-                        }),
-                        defineField({
-                            name: 'graphic',
-                            title: 'Card Graphic',
-                            type: 'image',
-                            description:
-                                'Optional black-and-white line graphic for this Work card. White lines render red on the frontend.'
                         })
                     ],
                     preview: {
                         select: {
                             title: 'project.client',
                             subtitle: 'project.tagline',
-                            graphic: 'graphic',
                             thumb: 'project.thumb'
                         },
-                        prepare({ title, subtitle, graphic, thumb }) {
+                        prepare({ title, subtitle, thumb }) {
                             return {
                                 title: title || 'Untitled project',
                                 subtitle: subtitle || 'Work card',
-                                media: graphic || thumb
+                                media: thumb
                             }
                         }
                     }

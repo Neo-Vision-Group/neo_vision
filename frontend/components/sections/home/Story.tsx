@@ -1,12 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cn } from "@/lib/utils";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "@/components/partials/motion/gsap-setup";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
@@ -50,6 +46,8 @@ export function Story({ data }: { data?: StoryData }) {
   }
 
   const scrollerRef = useRef<HTMLOListElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [edgePadding, setEdgePadding] = useState(24);
 
   // ----- Pointer drag-to-scroll with pointer capture -------------------
   useEffect(() => {
@@ -97,54 +95,96 @@ export function Story({ data }: { data?: StoryData }) {
     };
   }, []);
 
-  // ----- Scroll-linked opacity fade ------------------------------------
-  useGSAP(
-    () => {
-      const scroller = scrollerRef.current;
-      if (!scroller) return;
+  useEffect(() => {
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
 
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          motion: "(prefers-reduced-motion: no-preference)",
-        },
-        (ctx) => {
-          const items = Array.from(
-            scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]")
-          );
-          if (ctx.conditions?.reduced) {
-            gsap.set(items, { opacity: 1 });
-            return;
-          }
+    let frameId = 0;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-          items.forEach((item, idx) => {
-            gsap.set(item, { opacity: idx === 0 ? 1 : 0.2 });
-          });
+    const getItems = () =>
+      Array.from(scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]"));
 
-          const triggers: ScrollTrigger[] = [];
-          items.forEach((item, idx) => {
-            if (idx === 0) return;
-            const st = ScrollTrigger.create({
-              trigger: item,
-              scroller,
-              horizontal: true,
-              start: "left 60%",
-              end: "left 30%",
-              scrub: 0.5,
-              animation: gsap.to(item, { opacity: 1, ease: "none" }),
-            });
-            triggers.push(st);
-          });
+    const updateEdgePadding = () => {
+      const [firstItem] = getItems();
+      if (!firstItem) return;
 
-          return () => {
-            triggers.forEach((t) => t.kill());
-          };
-        }
+      const nextPadding = Math.max(
+        24,
+        (scroller.clientWidth - firstItem.offsetWidth) / 2
       );
-    },
-    { dependencies: [] }
-  );
+
+      setEdgePadding((current) =>
+        Math.abs(current - nextPadding) < 1 ? current : nextPadding
+      );
+    };
+
+    const updateActiveIndex = () => {
+      const items = getItems();
+      if (items.length === 0) return;
+
+      const scrollerRect = scroller.getBoundingClientRect();
+      const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
+      const inactiveScale = window.innerWidth >= 768 ? 56 / 96 : 0.625;
+      const activationDistance = Math.max(scrollerRect.width * 0.35, 1);
+      const metrics = items.map((item, index) => {
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.left + rect.width / 2;
+        const distance = Math.abs(scrollerCenter - itemCenter);
+        const progress = Math.max(0, 1 - distance / activationDistance);
+
+        return { item, index, distance, progress };
+      });
+
+      let nextActiveIndex = 0;
+      let minDistance = Number.POSITIVE_INFINITY;
+
+      metrics.forEach(({ index, distance }) => {
+        if (distance < minDistance) {
+          minDistance = distance;
+          nextActiveIndex = index;
+        }
+      });
+
+      metrics.forEach(({ item, index, progress }) => {
+        const year = item.querySelector<HTMLElement>("[data-story-year]");
+        const scale = inactiveScale + (1 - inactiveScale) * progress;
+        const itemOpacity = 0.2 + progress * 0.8;
+
+        item.style.opacity = String(itemOpacity);
+
+        if (year) {
+          year.style.transform = reducedMotion.matches
+            ? index === nextActiveIndex
+              ? "scale(1)"
+              : `scale(${inactiveScale})`
+            : `scale(${scale})`;
+        }
+      });
+
+      setActiveIndex((current) =>
+        current === nextActiveIndex ? current : nextActiveIndex
+      );
+    };
+
+    const syncScroller = () => {
+      cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        updateEdgePadding();
+        updateActiveIndex();
+      });
+    };
+
+    syncScroller();
+    scroller.addEventListener("scroll", syncScroller, { passive: true });
+    window.addEventListener("resize", syncScroller);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      scroller.removeEventListener("scroll", syncScroller);
+      window.removeEventListener("resize", syncScroller);
+    };
+  }, [story.milestones.length]);
 
   return (
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
@@ -165,22 +205,25 @@ export function Story({ data }: { data?: StoryData }) {
           <ol
             ref={scrollerRef}
             className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-12 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
+            style={{
+              paddingLeft: edgePadding,
+              paddingRight: edgePadding,
+            }}
           >
             {story.milestones.map((m, idx) => (
               <li
                 key={m.year + idx}
                 data-milestone
+                data-active={idx === activeIndex ? "true" : "false"}
                 className={cn(
-                  "relative flex w-full shrink-0 flex-col gap-2 md:w-85 lg:w-100 xl:w-120 2xl:w-138"
+                  "relative flex w-full shrink-0 flex-col gap-2 transition-opacity duration-300 ease-out md:w-85 lg:w-100 xl:w-120 2xl:w-138"
                 )}
               >
                 <div className="flex flex-col gap-0.5">
                   <span
+                    data-story-year
                     className={cn(
-                      "font-betatron capitalize text-brand",
-                      idx === 0
-                        ? "text-8xl tracking-[-3.84px] md:text-[96px] md:leading-none md:tracking-[-5.76px]"
-                        : "text-6xl tracking-[-2.88px] md:text-[56px] md:leading-none md:tracking-[-3.84px]"
+                      "block origin-left font-betatron capitalize text-brand text-8xl leading-none tracking-[-3.84px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none md:text-[96px] md:tracking-[-5.76px]"
                     )}
                   >
                     {m.year}

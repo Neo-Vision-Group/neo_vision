@@ -1,6 +1,7 @@
 import type { SanityImageSource } from "@sanity/image-url";
 import type { ArticleCardData } from "@/components/partials/ArticleCard";
 import type { PageBuilderSection } from "@/sanity/lib/types";
+import type { Seo } from "@/sanity.types";
 
 export type InsightAuthorData = {
   name?: string | null;
@@ -15,6 +16,7 @@ export type InsightDoc = {
   title?: string;
   slug?: { current?: string } | string | null;
   excerpt?: string | null;
+  seo?: Seo | null;
   coverImage?: SanityImageSource | null;
   cover?: string | null;
   category?: string | null;

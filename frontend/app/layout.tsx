@@ -8,6 +8,7 @@ import {draftMode} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
+import {resolveSiteOrigin} from '@/app/site-origin'
 import {handleError} from '@/app/client-utils'
 import Footer from '@/components/layout/Footer'
 import {IntroVisitMarker} from '@/components/IntroVisitMarker'
@@ -16,43 +17,28 @@ import DraftModeToast from '@/components/partials/DraftModeToast'
 import {HeroBrandDotsMediaProvider} from '@/components/partials/HeroBrandDotsMediaProvider'
 import LenisProvider from '@/components/partials/motion/lenis-provider'
 import Nav from '@/components/layout/Nav'
+import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {ScrollToTopOnNavigate} from '@/components/ScrollToTopOnNavigate'
 import {TransitionProvider} from '@/components/transition/TransitionProvider'
 import * as demo from '@/sanity/lib/demo'
 import {ThemeProvider} from '@/components/partials/theme/theme-provider'
-import {sanityFetch, SanityLive} from '@/sanity/lib/live'
-import {settingsQuery} from '@/sanity/lib/queries'
-import {resolveOpenGraphImage} from '@/sanity/lib/utils'
+import {SanityLive} from '@/sanity/lib/live'
+import {buildGlobalMetadata, buildGlobalStructuredData, getGlobalSeoData} from '@/sanity/lib/seo'
 import PlausibleProvider from 'next-plausible'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const {data: settings} = await sanityFetch({
-    query: settingsQuery,
-    stega: false,
-  })
-  const title = settings?.title || demo.title
-  const description = settings?.description || demo.description
+  const origin = await resolveSiteOrigin()
+  const {siteSettings, seoSettings} = await getGlobalSeoData()
 
-  // const ogImage = resolveOpenGraphImage(settings?.ogImage)
-  let metadataBase: URL | undefined = undefined
-  try {
-    metadataBase = settings?.ogImage?.metadataBase
-      ? new URL(settings.ogImage.metadataBase)
-      : undefined
-  } catch {
-    // ignore
-  }
-  return {
-    metadataBase,
-    title: {
-      template: `%s | ${title}`,
-      default: title,
-    },
-    description: toPlainText(description),
-    // openGraph: {
-    //   images: ogImage ? [ogImage] : [],
-    // },
-  }
+  return buildGlobalMetadata({
+    origin,
+    siteSettings,
+    seoSettings,
+    fallbackTitle: siteSettings?.title || demo.title,
+    fallbackDescription: siteSettings?.description
+      ? toPlainText(siteSettings.description)
+      : toPlainText(demo.description),
+  })
 }
 
 const inter = Inter({
@@ -93,8 +79,12 @@ const betatron = localFont({
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
-  const {data: settings} = await sanityFetch({
-    query: settingsQuery,
+  const origin = await resolveSiteOrigin()
+  const {siteSettings, seoSettings} = await getGlobalSeoData()
+  const globalStructuredData = buildGlobalStructuredData({
+    origin,
+    siteSettings,
+    seoSettings,
   })
 
   return (
@@ -109,6 +99,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         />
       </head>
       <body className="overflow-x-clip">
+        <StructuredDataScript nodes={globalStructuredData} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -137,7 +128,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                     <IntroVisitMarker />
                   </main>
                   <Footer />
-                  <CookieBanner settings={settings?.cookieSettings} />
+                  <CookieBanner settings={siteSettings?.cookieSettings} />
                 </section>
               </TransitionProvider>
             </LenisProvider>

@@ -1,14 +1,18 @@
 import type {Metadata} from 'next'
 import {notFound} from 'next/navigation'
+import {cache} from 'react'
+import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilderPage from '@/components/PageBuilder'
-import {sanityFetch} from '@/sanity/lib/live'
+import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {client} from '@/sanity/lib/client'
+import {sanityFetch} from '@/sanity/lib/live'
+import {allProjectsQuery, projectBySlugQuery} from '@/sanity/lib/queries'
+import {buildRouteMetadata, buildRouteStructuredData, resolveSeoContext} from '@/sanity/lib/seo'
 import type {
   AllProjectsQueryResult,
   PageQueryResult,
   ProjectBySlugQueryResult,
 } from '@/sanity.types'
-import {projectBySlugQuery, allProjectsQuery} from '@/sanity/lib/queries'
 
 type ProjectBlock = NonNullable<NonNullable<ProjectBySlugQueryResult>['pageBuilder']>[number]
 
@@ -45,6 +49,16 @@ function enrichProjectBlocks(project: NonNullable<ProjectBySlugQueryResult>): Pr
   })
 }
 
+const loadProjectForMetadata = cache(async (slug: string) => {
+  const {data} = await sanityFetch({
+    query: projectBySlugQuery,
+    params: {slug},
+    stega: false,
+  })
+
+  return data as ProjectBySlugQueryResult | null
+})
+
 export async function generateStaticParams() {
   const projects = await client.fetch<AllProjectsQueryResult>(allProjectsQuery)
   return projects.map((project) => ({slug: project.slug.current}))
@@ -56,25 +70,20 @@ export async function generateMetadata({
   params: Promise<{slug: string}>
 }): Promise<Metadata> {
   const {slug} = await params
-  const project = (await sanityFetch({
-    query: projectBySlugQuery,
-    params: {slug},
-  })) as {data: ProjectBySlugQueryResult | null}
+  const project = await loadProjectForMetadata(slug)
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: `/portfolio/${slug}`,
+    origin,
+    seo: project?.seo,
+    fallbackTitle: project?.client,
+    fallbackDescription: project?.tagline,
+    fallbackImage: project?.thumb,
+    schemaTypeFallback: 'WebPage',
+    openGraphTypeFallback: 'website',
+  })
 
-  if (!project.data) {
-    return {title: 'Case study - Neo Vision Technologies'}
-  }
-
-  return {
-    title: `${project.data.client} - Neo Vision Technologies`,
-    description: project.data.tagline ?? undefined,
-    openGraph: {
-      title: `${project.data.client} - Neo Vision Technologies`,
-      description: project.data.tagline ?? undefined,
-      url: `/portfolio/${slug}`,
-      type: 'article',
-    },
-  }
+  return buildRouteMetadata(seoContext)
 }
 
 export default async function CaseStudyDetailPage({params}: {params: Promise<{slug: string}>}) {
@@ -89,6 +98,23 @@ export default async function CaseStudyDetailPage({params}: {params: Promise<{sl
     notFound()
   }
 
+  const origin = await resolveSiteOrigin()
+  const seoContext = await resolveSeoContext({
+    pathname: `/portfolio/${slug}`,
+    origin,
+    seo: projectData.seo,
+    fallbackTitle: projectData.client,
+    fallbackDescription: projectData.tagline,
+    fallbackImage: projectData.thumb,
+    schemaTypeFallback: 'WebPage',
+    openGraphTypeFallback: 'website',
+  })
+  const structuredData = buildRouteStructuredData({
+    ...seoContext,
+    routeType: 'project',
+    pageBuilder: projectData.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+  })
+
   const caseStudyPageData: NonNullable<PageQueryResult> = {
     _id: projectData._id,
     _type: 'page',
@@ -97,8 +123,14 @@ export default async function CaseStudyDetailPage({params}: {params: Promise<{sl
     pageType: 'caseStudies',
     heading: null,
     subheading: null,
+    seo: projectData.seo ?? null,
     pageBuilder: enrichProjectBlocks(projectData) as NonNullable<PageQueryResult>['pageBuilder'],
   }
 
-  return <PageBuilderPage page={caseStudyPageData} />
+  return (
+    <>
+      <StructuredDataScript nodes={structuredData} />
+      <PageBuilderPage page={caseStudyPageData} />
+    </>
+  )
 }

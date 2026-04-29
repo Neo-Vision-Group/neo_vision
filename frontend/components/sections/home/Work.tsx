@@ -8,6 +8,8 @@ import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 
+const workCardHoverGraphic = "/images/cta-graphic.jpg";
+
 const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
@@ -40,7 +42,6 @@ export type PortfolioData = {
   } | null;
   cards?: Array<{
     _key?: string;
-    graphic?: SanityImageSource | string;
     project?: {
       _id?: string;
       client?: string;
@@ -64,7 +65,6 @@ type ProjectItem = {
   ctaLabel: string;
   ctaHref: string;
   imageUrl: string | undefined;
-  graphicUrl: string | undefined;
 };
 
 function resolveImageUrl(image?: SanityImageSource | string) {
@@ -77,18 +77,6 @@ function resolveImageUrl(image?: SanityImageSource | string) {
   }
 
   return urlForImage(image).width(1920).height(1080).url();
-}
-
-function resolveGraphicUrl(image?: SanityImageSource | string) {
-  if (!image) {
-    return undefined;
-  }
-
-  if (typeof image === "string") {
-    return image;
-  }
-
-  return urlForImage(image).width(1600).fit("max").url();
 }
 
 export function OurWork({ data }: { data?: PortfolioData }) {
@@ -121,7 +109,6 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           ctaLabel: "View",
           ctaHref: projectHref,
           imageUrl: resolveImageUrl(projectVisual),
-          graphicUrl: resolveGraphicUrl(card.graphic),
         };
       })
       .filter((item): item is ProjectItem => item !== null) ?? [];
@@ -177,17 +164,17 @@ export function OurWork({ data }: { data?: PortfolioData }) {
 }
 
 function CaseRow({ item }: { item: ProjectItem }) {
-  const hasGraphic = Boolean(item.graphicUrl);
-
   return (
-    <div className="group relative isolate flex justify-center overflow-hidden px-6 py-6 transition-all duration-300 ease-out lg:px-6">
-      {hasGraphic ? (
-        <>
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
+    <div className="group/work-shell relative isolate flex justify-center overflow-hidden px-6 py-6 transition-all duration-300 ease-out lg:px-6">
+      <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
+        <div className="relative isolate h-full w-full overflow-hidden bg-surface transition-all duration-300 ease-out dark:bg-[#0F0F0F]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
+          >
             <div className="absolute inset-0 bg-white" />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={item.graphicUrl}
+              src={workCardHoverGraphic}
               alt=""
               className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
               style={{
@@ -208,14 +195,16 @@ function CaseRow({ item }: { item: ProjectItem }) {
             />
           </div>
 
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 hidden dark:block">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 hidden opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:block"
+          >
             <div
               className="absolute inset-0"
               style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={item.graphicUrl}
+              src={workCardHoverGraphic}
               alt=""
               className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
               style={{
@@ -232,10 +221,10 @@ function CaseRow({ item }: { item: ProjectItem }) {
               }}
             />
           </div>
-        </>
-      ) : null}
+        </div>
+      </div>
 
-      <div className="flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out dark:group-hover:border-white/15 group-hover:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
+      <div className="relative z-10 flex w-full max-w-270 flex-col border dark:border-white/20 border-black/20 bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
         <div className="flex w-full flex-col justify-end p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">

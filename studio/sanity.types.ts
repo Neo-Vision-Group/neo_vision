@@ -44,7 +44,7 @@ export type Heading = {
 export type ValueCard = {
   value?: string
   body?: string
-  graphic?: ValueCardGraphic
+  graphic?: Graphic
 }
 
 export type Breadcrumb = {
@@ -157,14 +157,6 @@ export type SanityImageAssetReference = {
 export type Graphic = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "graphic.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
-export type ValueCardGraphic = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "valueCard.graphic.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -871,7 +863,6 @@ export type Portfolio = {
   heading: string
   cards: Array<{
     project: ProjectReference
-    graphic?: Graphic
     _key: string
   }>
   cta?: Button
@@ -2379,7 +2370,6 @@ export type AllSanitySchemaTypes =
   | StudyClosingCtaHeading
   | SanityImageAssetReference
   | Graphic
-  | ValueCardGraphic
   | StepGraphic
   | Logo
   | LabelImage
