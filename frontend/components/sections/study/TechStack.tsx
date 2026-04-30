@@ -17,16 +17,14 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
   }
 
   return (
-    <SectionsWrapper
-      id="tech-stack"
-      eyebrow={eyebrow}
-    >
-      <div className="grid grid-cols-2 gap-0 border-y border-white/15 md:grid-cols-4">
-        {tools.map((t) => (
-          <article
-            key={t}
-            className="flex flex-col gap-3 border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] p-6"
-          >
+    <SectionsWrapper id="tech-stack" eyebrow={eyebrow}>
+      <div className="border-y border-white/20 dark:border-white/20">
+        <div className="grid grid-cols-2 md:grid-cols-4">
+          {tools.map((t) => (
+            <article
+              key={t}
+              className="flex flex-col gap-3 bg-black/40 p-6 -mt-px -ml-px border border-white/20 dark:border-white/20 dark:bg-[#0f0f0f]"
+            >
             <div
               aria-hidden="true"
               className="aspect-[102.5/57.65] w-full bg-black"
@@ -41,6 +39,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
             </p>
           </article>
         ))}
+        </div>
       </div>
     </SectionsWrapper>
   );

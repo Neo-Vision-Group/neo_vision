@@ -62,14 +62,14 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
   }
 
   return (
-    <SectionsWrapper id="resources" eyebrow={cleanData?.eyebrow ?? 'FREE RESOURCES'}>
-      <div className="-mx-6 flex flex-col md:-mx-6">
+    <SectionsWrapper id="resources" eyebrow={cleanData?.eyebrow ?? 'FREE RESOURCES'} classNameOverride='px-0 pb-24'>
+      <div className="flex flex-col">
         <div className="px-6 pb-12 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
-          <h2 className="max-w-[13ch] text-640 leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:leading-[1.2] md:tracking-[-1px]">
+          <h2 className="text-640 leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:leading-[1.2] md:tracking-[-1px]">
             <Heading value={cleanData?.heading ?? {}} />
           </h2>
           {cleanData?.body ? (
-            <p className="mt-3 max-w-[60ch] text-64 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
+            <p className="mt-3 text-64 leading-[1.55] text-black/70 dark:text-[#efefef]/70 md:text-[18px] md:leading-normal">
               {cleanData.body}
             </p>
           ) : null}
@@ -92,7 +92,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
 
         {cleanData?.footnote ? (
           <div className="border-b border-black/15 px-6 py-10 dark:border-white/20 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-12">
-            <p className="max-w-[30ch] text-[28px] leading-[1.1] tracking-[-0.8px] text-black/70 dark:text-[#efefef]/70 md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
+            <p className="text-[28px] leading-[1.1] tracking-[-0.8px] text-black/70 dark:text-[#efefef]/70 md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
               {cleanData.footnote}
             </p>
           </div>
@@ -117,7 +117,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
     <article className="p-4 md:p-6">
       <div className="group flex h-full min-h-70 flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
         <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
-          <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-45" />
+          <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-90" />
         </div>
 
         <div className="flex flex-1 flex-col justify-between gap-8">
@@ -130,7 +130,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
 
             <div className="flex flex-col gap-1">
               {item?.title ? (
-                <h3 className="max-w-[12ch] text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
+                <h3 className="text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
                   {item.title}
                 </h3>
               ) : null}

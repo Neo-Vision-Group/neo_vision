@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import ArrowRight from "@/components/icons/ArrowRightPixel";
 import Image from "next/image";
+import { AnimatedBorder } from "../AnimatedBorder";
 
 export type ArticleCardData = {
   _id?: string;
@@ -132,9 +133,17 @@ export function ArticleCard({
         </div>
         
         <div className="mt-auto flex items-center gap-3 pt-4">
-          <ArrowRight width={38.4} height={24} color={buttonColor} />
-          <span className="font-funnel-display-bold text-100 leading-[1.2] text-black dark:text-white transition-transform duration-200 group-hover:translate-x-0.5">
-            Read
+          <span className="relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200 text-black dark:text-[#efefef] group-hover:text-brand">
+            <AnimatedBorder groupHover />
+            <ArrowRight
+              color="currentColor"
+              width={38}
+              height={24}
+              className="relative z-10 h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+            />
+            <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
+              Read case study
+            </span>
           </span>
         </div>
       </div>

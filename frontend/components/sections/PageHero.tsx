@@ -90,7 +90,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
+        "has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
       )}
     >
       <HeroBrandDotsBackground />
@@ -193,11 +193,11 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative ml-auto flex w-full flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20= p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
-        "md:flex-row md:items-stretch md:gap-6 md:p-6"
+        "group relative ml-auto flex flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "md:flex-row md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex aspect-square w-full overflow-hidden md:w-57 md:min-w-57">
+      <div className="relative flex aspect-square w-full overflow-hidden md:w-57">
         {item.cover ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}

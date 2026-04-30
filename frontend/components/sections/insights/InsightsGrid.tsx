@@ -113,7 +113,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
         <RevealOnScroll
           as="div"
           stagger={0.06}
-          className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+          className="grid grid-cols-1 gap-4 2xl:grid-cols-3 lg:grid-cols-2"
         >
           {filtered.map((article) => (
             <ArticleCard key={getArticleKey(article)} article={article} />
