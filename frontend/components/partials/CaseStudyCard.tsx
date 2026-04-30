@@ -4,6 +4,7 @@ import ArrowRight from "../icons/ArrowRightPixel";
 import Image from "next/image";
 import type { SanityImageSource } from "@sanity/image-url";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import { AnimatedBorder } from "../AnimatedBorder";
 
 /**
  * Case study listing card — used on /portfolio and
@@ -137,15 +138,20 @@ export function CaseStudyCard({
           </div>
         </div>
 
-        <span className="mt-8 inline-flex items-center gap-3 font-funnel text-[20px] font-bold leading-[1.2] text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef] md:mt-10 md:text-100">
-          <ArrowRight
-            color="currentColor"
-            width={38}
-            height={24}
-            className="text-black dark:text-[#efefef]"
-          />
-          Read case study
-        </span>
+        <div className="mt-8 flex justify-start md:mt-10">
+          <span className="relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200 text-black dark:text-[#efefef] group-hover:text-brand">
+            <AnimatedBorder groupHover />
+            <ArrowRight
+              color="currentColor"
+              width={38}
+              height={24}
+              className="relative z-10 h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+            />
+            <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
+              Read case study
+            </span>
+          </span>
+        </div>
       </div>
     </Link>
   );

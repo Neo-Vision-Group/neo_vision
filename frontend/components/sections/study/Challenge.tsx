@@ -33,10 +33,11 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
     <SectionsWrapper
       id="challenge"
       eyebrow={eyebrow}
+      classNameOverride="px-0"
     >
       <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 px-6 lg:px-16">
             <h2 className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
               {heading}
             </h2>
@@ -49,7 +50,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               .map((paragraph, index) => (
                 <p
                   key={`${paragraph.slice(0, 24)}-${index}`}
-                  className="max-w-[72ch] text-[18px] leading-normal text-black dark:text-white md:text-[20px] md:leading-7"
+                  className="max-w-[72ch] text-[18px] leading-normal px-6 lg:px-16 text-black dark:text-white md:text-[20px] md:leading-7"
                 >
                   {paragraph}
                 </p>
@@ -59,7 +60,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
           <RevealOnScroll
             as="div"
             stagger={0.06}
-            className="grid grid-cols-1 gap-6 border-y border-white/15 py-6 md:grid-cols-2"
+            className="grid grid-cols-1 gap-6 border-y border-white/15 py-6 md:grid-cols-2 px-6 lg:px-16"
           >
             {issues.map((iss, idx) => (
               <article

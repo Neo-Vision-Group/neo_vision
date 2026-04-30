@@ -106,6 +106,8 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
     return '#'
   }
   
+  const { theme } = useTheme()
+
   const ctaText = cta?.buttonText || 'Get Started'
   const ctaHref = getCtaHref()
   const ctaOpenInNewTab = cta?.link?.openInNewTab || false
@@ -155,7 +157,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               className="h-8 w-auto"
             />
           ) : (
-            <Logo />
+            <Logo darkMode={theme === 'dark'} />
           )}
           <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}

@@ -121,34 +121,34 @@ export function Hero({ data }: { data?: HeroData }) {
       </div>
 
       <div className="relative w-full shrink-0 px-4 pb-6 md:px-12 md:pb-10 lg:px-16 lg:pb-12 2xl:px-30 2xl:pb-16">
-        <div className="flex flex-col md:grid md:[grid-template-columns:minmax(0,324px)_1px_minmax(0,1fr)]">
+        <div className="flex flex-col border-t border-border md:flex-row">
           {/* Stats */}
           <RevealOnScroll
             as="div"
             from="bottom"
             distance={16}
-            className="flex items-center px-0 py-6 text-left md:px-6 md:py-2.5 lg:py-2.5"
+            className="flex items-center px-0 py-6 text-left md:w-1/4 md:pr-6 md:py-6 lg:pr-12"
           >
             {hero.stats ? (
-              <p className="w-full font-funnel text-[18px] leading-[1.5] text-foreground">
+              <p className="w-full font-funnel text-[18px] leading-normal text-foreground">
                 {hero.stats}
               </p>
             ) : null}
           </RevealOnScroll>
 
           {/* Vertical / horizontal divider */}
-          <div aria-hidden="true" className="h-px w-full bg-border md:hidden" />
-          <div aria-hidden="true" className="hidden self-stretch bg-border md:block md:w-px" />
+          <div aria-hidden="true" className="h-px w-full shrink-0 bg-border md:hidden" />
+          <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-border md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="flex min-w-0 flex-col items-start gap-8 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:px-12 md:py-3">
+          <div className="flex min-w-0 flex-1 flex-col items-start gap-8 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 md:py-6 lg:pl-12">
             <SplitTextReveal
               as="p"
               type="words"
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:max-w-[420px] md:text-[52px] md:leading-[1.18] lg:max-w-[520px] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="min-w-0 flex-1 font-betatron text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[52px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

@@ -36,7 +36,7 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
           <RevealOnScroll
             as="div"
             stagger={0.06}
-            className="grid grid-cols-1 gap-4"
+            className="grid grid-cols-1"
           >
             {items.map((item, idx) => (
               <article

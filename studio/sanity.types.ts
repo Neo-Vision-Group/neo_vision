@@ -1378,7 +1378,6 @@ export type Post = {
     } & PostReference
   >
   order?: number
-  seo?: Seo
   pageBuilder?: Array<
     | ({
         _key: string
@@ -1540,6 +1539,7 @@ export type Post = {
         _key: string
       } & StudyClosingCta)
   >
+  seo?: Seo
 }
 
 export type TeamMember = {
@@ -1576,7 +1576,6 @@ export type Page = {
   name: string
   slug: Slug
   pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
-  seo?: Seo
   pageBuilder?: Array<
     | ({
         _key: string
@@ -1738,6 +1737,7 @@ export type Page = {
         _key: string
       } & StudyClosingCta)
   >
+  seo?: Seo
 }
 
 export type Project = {
@@ -1747,6 +1747,7 @@ export type Project = {
   _updatedAt: string
   _rev: string
   client: string
+  title: string
   year: string
   slug: Slug
   category: string
@@ -1761,7 +1762,6 @@ export type Project = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-  seo?: Seo
   pageBuilder?: Array<
     | ({
         _key: string
@@ -1924,6 +1924,7 @@ export type Project = {
       } & StudyClosingCta)
   >
   publishedAt?: string
+  seo?: Seo
 }
 
 export type Service = {
@@ -1937,7 +1938,6 @@ export type Service = {
   category: 'engineering' | 'ai'
   tag: string
   slug: Slug
-  seo?: Seo
   duration: string
   pageBuilder?: Array<
     | ({
@@ -2100,6 +2100,7 @@ export type Service = {
         _key: string
       } & StudyClosingCta)
   >
+  seo?: Seo
 }
 
 export type SanityAssistInstructionTask = {

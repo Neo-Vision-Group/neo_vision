@@ -172,7 +172,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           </RevealOnScroll>
           <div className="h-px w-full bg-white/20" />
           {ctaData || valueCardData ? (
-            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-6">
+            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-6 px-6 lg:px-16">
               {ctaData ? (
                 <Button
                   href={ctaData.href}

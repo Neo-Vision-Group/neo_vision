@@ -44,7 +44,7 @@ export function StudyMoreLikeThis({ data }: { data?: StudyMoreLikeThisData }) {
         <RevealOnScroll
           as="div"
           stagger={0.08}
-          className="grid grid-cols-1 gap-4 md:grid-cols-3"
+          className="flex flex-col gap-6"
         >
           {items.slice(0, 3).map((item, idx) => (
             <CaseStudyCard key={item._id ?? item.client + idx} item={item} />

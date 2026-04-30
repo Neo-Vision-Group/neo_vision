@@ -48,9 +48,9 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
           {cleanData.painPoints.map((p, idx) => (
             <article
               key={(p.title ?? "pp") + idx}
-              className="flex flex-col gap-3 border border-white/10 bg-black/4 dark:border-white/20 dark:bg-[#0f0f0f] p-6"
+              className="flex flex-col gap-3 border border-white/10 bg-decoration-dark dark:border-white/20 dark:bg-[#0f0f0f] p-6"
             >
-              <h3 className="text-h4 font-medium text-foreground">{p.title}</h3>
+              <h3 className="">{p.title}</h3>
               <p className="text-body-2 text-foreground/70">{p.body}</p>
             </article>
           ))}

@@ -8,6 +8,7 @@ import { BorderWrapper } from "@/components/BorderWrapper";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import { cleanStega } from "@/sanity/lib/utils";
+import Badge from "@/components/partials/Badge";
 
 type EngineeringService = {
   _key?: string;
@@ -146,13 +147,7 @@ export function EngineeringServices({
                         {service.name}
                       </h3>
 
-                      {service.tag ? (
-                        <BorderWrapper className="self-start whitespace-nowrap bg-brand/30">
-                          <span className="relative z-10 px-2.5 py-1 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]">
-                            {service.tag}
-                          </span>
-                        </BorderWrapper>
-                      ) : null}
+                      {service.tag ? <Badge text={service.tag} /> : null}
                     </div>
 
                     {(service.price || service.duration) && (

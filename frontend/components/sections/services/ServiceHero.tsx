@@ -1,10 +1,9 @@
-import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
-import ResolvedLink from "@/components/ResolvedLink";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cn } from "@/lib/utils";
 import type { DereferencedLink } from "@/sanity/lib/types";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import { Button } from "@/components/partials/Button";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -202,9 +201,24 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
 
                   {item.kind === "highlight" ? (
                     <HighlightCard card={item.card} />
-                  ) : (
-                    <HeroCta cta={item.cta} />
-                  )}
+                  ) : (() => {
+                    const resolvedHref = item.cta.link ? linkResolver(item.cta.link) : null;
+                    return resolvedHref ? (
+                      <Button
+                        href={resolvedHref}
+                        target={item.cta.link?.openInNewTab ? "_blank" : undefined}
+                        rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+                        variant="primary"
+                        className="min-h-30 flex-1"
+                      >
+                        {item.cta.buttonText}
+                      </Button>
+                    ) : (
+                      <Button variant="primary" className="min-h-30 flex-1">
+                        {item.cta.buttonText}
+                      </Button>
+                    );
+                  })()}
                 </div>
               ))}
             </div>
@@ -238,41 +252,6 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
       ) : null}
     </article>
   );
-}
-
-function HeroCta({ cta }: { cta: ServiceHeroCta }) {
-  const label = asTrimmedString(cta.buttonText);
-
-  if (!label) {
-    return null;
-  }
-
-  const content = (
-    <>
-      <span className="font-funnel text-[18px] leading-normal text-white">
-        {label}
-      </span>
-      <ArrowRightPixel
-        color="white"
-        width={38}
-        height={24}
-        className="h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-      />
-    </>
-  );
-
-  const className =
-    "group flex min-h-30 items-center justify-between gap-6 bg-brand px-6 py-5 transition-colors duration-200 hover:bg-brand-hover md:min-h-0 md:min-w-65";
-
-  if (cta.link) {
-    return (
-      <ResolvedLink link={cta.link} className={className}>
-        {content}
-      </ResolvedLink>
-    );
-  }
-
-  return <div className={className}>{content}</div>;
 }
 
 function getHighlights(items?: ServiceHeroHighlight[]) {

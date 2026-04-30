@@ -111,7 +111,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
               stagger={0.12}
               from="bottom"
               distance={24}
-              className="grid grid-cols-1 gap-6 xl:grid-cols-2"
+              className="grid grid-cols-1 gap-6 xl:grid-cols-2 px-6 lg:px-16"
             >
               {trustedBy.testimonials.map((t, idx) => {
                 const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;

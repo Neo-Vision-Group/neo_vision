@@ -48,7 +48,7 @@ export function Press({data}: {data?: PressData}) {
       <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-12 md:gap-16">
         {heading ? (
           <div className="px-0 md:px-6 lg:px-12">
-            <h2 className="max-w-[12ch] text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
+            <h2 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
               {heading}
             </h2>
           </div>
@@ -57,7 +57,7 @@ export function Press({data}: {data?: PressData}) {
         <div className="px-0 md:px-3">
           <article className="border border-brand bg-surface p-8 md:p-12">
             <div className="flex flex-col items-start gap-8">
-              <div className="flex max-w-[640px] flex-col gap-3">
+              <div className="flex flex-col gap-3">
                 {cardTitle ? (
                   <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                     {cardTitle}

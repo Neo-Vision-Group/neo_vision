@@ -211,7 +211,7 @@ export function Team({ data }: { data?: TeamData }) {
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          className="block max-w-[16ch] text-balance text-3xl leading-9 tracking-[-0.3px] whitespace-normal md:max-w-[18ch] md:text-[36px] md:leading-12 lg:max-w-[20ch] lg:text-[44px] lg:leading-14 2xl:max-w-[22ch] 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="block text-balance text-3xl leading-9 tracking-[-0.3px] whitespace-normal md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"
           as="h2"
           stagger={0.04}
@@ -281,7 +281,7 @@ export function Team({ data }: { data?: TeamData }) {
 
                   <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-black md:w-108">
                     <BinaryGlitchField />
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,77,0,0.16),transparent_42%),linear-gradient(180deg,rgba(15,15,15,0.08),rgba(15,15,15,0.72))]" />
+                    <div className="absolute inset-0" />
                     {portraitUrl && (
                       <div className="absolute inset-x-[12%] bottom-0 top-[12%] overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:inset-x-[14%] md:top-[13%]">
                         <div className="relative size-full">
@@ -303,7 +303,7 @@ export function Team({ data }: { data?: TeamData }) {
 
         <div className="px-6 md:px-12">
           {team.closingStatement && (
-            <div className="max-w-[24ch] leading-8 text-foreground md:max-w-[28ch] lg:max-w-[32ch]">
+            <div className="leading-8 text-foreground">
               <ClosingStatement parts={team.closingStatement} />
             </div>
           )}
@@ -337,7 +337,7 @@ function BinaryGlitchField() {
 
   return (
     <div className="absolute inset-[-8%] overflow-hidden opacity-90">
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
+      <div className="absolute inset-0" />
       <div className="absolute inset-0 font-mono text-[22px] uppercase leading-[1.05] tracking-[0.24em] text-white/40 md:text-[28px]">
         {lines.map((line, index) => (
           <p
@@ -353,7 +353,7 @@ function BinaryGlitchField() {
           </p>
         ))}
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,15,15,0.75),transparent_18%,transparent_82%,rgba(15,15,15,0.72)),linear-gradient(180deg,rgba(15,15,15,0.18),rgba(15,15,15,0.8))]" />
+      <div className="absolute inset-0" />
     </div>
   );
 }

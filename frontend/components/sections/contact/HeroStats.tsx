@@ -93,6 +93,7 @@ function StatCard({
             value={stat.number}
             suffix={stat.suffix}
             duration={2000}
+            className="font-betatron text-4xl leading-[1.2] tracking-[-2.88px] text-brand"
           />
         </div>
         <p className="w-full font-funnel text-100 font-bold leading-[1.2] text-foreground">

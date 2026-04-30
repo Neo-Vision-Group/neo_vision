@@ -12,6 +12,12 @@ const RevealOnScroll = dynamic(
   {ssr: false},
 )
 
+const DrawLine = dynamic(
+  () =>
+    import('@/components/partials/motion/DrawLine').then((mod) => mod.DrawLine),
+  {ssr: false},
+)
+
 type StepItem = {
   _key?: string
   title?: string
@@ -76,7 +82,9 @@ export function Steps({data}: {data?: StepsData}) {
                 <div className="flex flex-col items-center">
                   <div className="h-3 w-3 shrink-0 bg-brand" />
                   {index < items.length - 1 ? (
-                    <div className="w-px flex-1 bg-black/20 dark:bg-white/20" />
+                    <div className="relative w-px flex-1 bg-black/20 dark:bg-white/20">
+                      <DrawLine className="absolute inset-0 w-full bg-brand" start="top 50%" end="bottom 50%" />
+                    </div>
                   ) : (
                     <div className="w-px flex-1 bg-transparent" />
                   )}

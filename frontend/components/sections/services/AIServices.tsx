@@ -9,6 +9,7 @@ import ResolvedLink from "@/components/ResolvedLink";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega } from "@/sanity/lib/utils";
+import Badge from "@/components/partials/Badge";
 
 type AIServiceCard = {
   _key?: string;
@@ -112,13 +113,7 @@ export function AIServices({ data }: { data?: AIServicesData }) {
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                  {service.tag ? (
-                    <BorderWrapper className="self-start bg-brand/30">
-                      <span className="relative z-10 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
-                        {service.tag}
-                      </span>
-                    </BorderWrapper>
-                  ) : null}
+                  {service.tag ? <Badge text={service.tag} /> : null}
 
                   <h3 className="max-w-[16ch] font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                     {service.name}
