@@ -15,6 +15,7 @@
   --brand: #ff4100;
   --brand-dark: #a52a00b3;
   --muted-light: #040404b3;
+  --muted-dark: #efefefb3;
   --decoration-light: #ffffff33;
   --decoration-dark: #00000033;
 }
@@ -103,6 +104,7 @@ h4 {
   --color-dark-light: var(--dark-light);
   --color-brand: var(--brand);
   --color-brand-dark: var(--brand-dark);
+  --color-muted-dark: var(--muted-dark);
   --color-muted-light: var(--muted-light);
   --color-decoration-light: var(--decoration-light);
   --color-decoration-dark: var(--decoration-dark);

@@ -95,11 +95,10 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
             </p>
           ) : null}
           <h3 className="text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-4xl xl:leading-9">
-            <span className="font-normal">{titleText.regular}</span>{" "}
-            {titleText.bold && <span className="font-bold">{titleText.bold}</span>}
+            <span className="font-funnel text-[32px]">{titleText.regular}</span>
           </h3>
         </div>
-        <div className="flex flex-col text-body dark:text-[#efefefb3] text-[#040404b3]">
+        <div className="flex flex-col font-funnel text-xl dark:text-white-light text-muted-light">
           {card.body}
         </div>
       </div>
@@ -111,15 +110,12 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
             key={`item-${idx}-${item.name || 'service'}`}
             className={cn(
               "flex items-baseline justify-between gap-4 py-2.5 text-body-2 md:text-body",
-              idx !== 0 && "border-t border-white/10"
+              idx !== 0 && "border-t border-decoration-dark dark:border-decoration-light"
             )}
           >
-            <span className="flex-1 dark:text-white text-black font-funnel">{item.name}</span>
+            <span className="flex-1 dark:text-white-light text-dark-light font-funnel text-[18px]">{item.name}</span>
             <span
-              className={cn(
-                "shrink-0 text-right dark:text-[#EFEFEFB3] text-black",
-                card.kind === "ai" ? "text-white/50" : "text-muted"
-              )}
+              className="shrink-0 font-funnel text-right text-[18px] dark:text-white-light text-muted-light"
             >
               {item.price}
             </span>
