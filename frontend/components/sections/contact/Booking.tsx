@@ -182,18 +182,8 @@ export function Booking({ data }: { data?: BookingData }) {
     };
   }, [calendlyUrl, mounted]);
 
-  const eyebrow = (
-    <div className="flex flex-col gap-5">
-      {cleanData?.eyebrow && (
-        <p className="font-betatron text-4xl leading-[1.2] text-black dark:text-white">
-          {cleanData.eyebrow}
-        </p>
-      )}
-    </div>
-  );
-
   return (
-    <SectionsWrapper eyebrow={eyebrow} id="booking">
+    <SectionsWrapper eyebrow={cleanData?.eyebrow} id="booking">
       <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16 bg-white dark:bg-[#0f0f0f]">
         {/* Heading */}
         <div className="px-6">
