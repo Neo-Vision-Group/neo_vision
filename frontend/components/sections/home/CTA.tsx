@@ -58,7 +58,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
   return (
     <section
       id="closing-cta"
-      className="relative isolate flex min-h-100 w-full items-center justify-center overflow-hidden bg-background px-6 py-24 md:py-32 lg:py-40"
+      className="relative isolate flex min-h-100 w-full items-center justify-center overflow-hidden bg-background px-6 py-24 md:py-32 lg:p-48"
     >
       {/* Light mode background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">

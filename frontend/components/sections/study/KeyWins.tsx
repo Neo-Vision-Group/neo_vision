@@ -125,7 +125,7 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
                       key={`${row.label}-${card.key}-${index}`}
                       className="grid grid-cols-1 gap-3 border-b border-black/10 py-4 dark:border-white/10 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-6"
                     >
-                      <p className="text-sm font-betatron uppercase tracking-[-0.16px] text-black/45 dark:text-white/45">
+                      <p className="text-sm font-funnel uppercase tracking-[-0.16px] text-black/45 dark:text-white/45">
                         {row.label}
                       </p>
                       <p className="text-base leading-6 text-black/75 dark:text-white/72 md:text-right md:text-[18px] md:leading-7">

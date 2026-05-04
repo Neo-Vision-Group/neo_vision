@@ -3,11 +3,12 @@
 import { cn } from "@/lib/utils";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
-import { HeroStats, type HeroStat } from "@/components/sections/contact/HeroStats";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import { PortableTextRenderer } from "../partials/PortableTextRenderer";
+import type { PortableTextBlock } from "@portabletext/types";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -17,35 +18,20 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
-const SplitTextReveal = dynamic(
-  () =>
-    import("@/components/partials/motion/SplitTextReveal").then(
-      (mod) => mod.SplitTextReveal
-    ),
-  { ssr: false }
-);
+export type HeadingShape = string | { faded?: string; bold?: string; trailing?: string; regular?: string };
 
-export type HeadingShape =
-  | string
-  | {
-      faded?: string | null;
-      bold?: string | null;
-      trailing?: string | null;
-      regular?: string | null;
-    };
+export type PageHeroStat = {
+  number?: number;
+  suffix?: string;
+  label?: string;
+  value?: string;
+};
 
 export type PageHeroData = {
   eyebrow?: string;
-  headingType?: 'simple' | 'multipart';
-  heading?: string;
-  headingMultipart?: {
-    faded?: string | null;
-    bold?: string | null;
-    trailing?: string | null;
-    regular?: string | null;
-  };
+  heading: PortableTextBlock[];
   subheading?: string;
-  stats?: HeroStat[];
+  stats?: PageHeroStat[];
   featured?: {
     _type?: "post" | "project";
     _id?: string;
@@ -74,14 +60,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
 
   const eyebrow = cleanData?.eyebrow;
   const subheading = cleanData?.subheading;
-  
-  // Determine heading shape based on headingType
-  let heading: HeadingShape;
-  if (cleanData?.headingType === 'multipart' && cleanData?.headingMultipart) {
-    heading = cleanData.headingMultipart;
-  } else {
-    heading = cleanData?.heading || '';
-  }
+
 
   // Get stats
   const stats = cleanData?.stats;
@@ -102,9 +81,25 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           </p>
         ) : null}
 
-        <SplitTextReveal as="h1" className="block">
-          <Heading value={heading} />
-        </SplitTextReveal>
+        <PortableTextRenderer
+              value={cleanData?.heading}
+              className={cn(
+                "[&_p]:my-0",
+                "[&_p]:font-funnel",
+                "[&_p]:text-[28px]",
+                "[&_p]:leading-8.5",
+                "[&_p]:tracking-[-0.3px]",
+                "[&_p]:text-foreground",
+                "md:[&_p]:text-[36px]",
+                "md:[&_p]:leading-11",
+                "lg:[&_p]:text-[48px]",
+                "lg:[&_p]:leading-14.5",
+                "lg:[&_p]:tracking-[-0.4px]",
+                "[&_p:first-of-type]:font-normal",
+                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
+                "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+              )}
+            />
 
         {subheading ? (
           <RevealOnScroll
@@ -116,7 +111,28 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           </RevealOnScroll>
         ) : null}
 
-        <HeroStats stats={stats} delay={0.25} />
+        {stats && stats.length > 0 ? (
+          <RevealOnScroll
+            as="div"
+            className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
+            stagger={0.08}
+            delay={0.25}
+          >
+            <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+              {stats.map((stat, index) => (
+                <div key={`stat-${index}`} className="contents">
+                  {index > 0 ? (
+                    <div
+                      aria-hidden="true"
+                      className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                    />
+                  ) : null}
+                  <StatCard stat={stat} />
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        ) : null}
 
         {featured ? (
           <RevealOnScroll
@@ -129,30 +145,6 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         ) : null}
       </div>
     </section>
-  );
-}
-
-function Heading({ value }: { value: HeadingShape }) {
-  const base =
-    "font-funnel text-[52px] capitalize leading-[1.08] tracking-[-0.6px] text-foreground sm:text-[60px] md:text-[72px] md:tracking-[-0.8px] lg:text-[96px] lg:leading-[1.2] lg:tracking-[-1px]";
-
-  if (typeof value === "string") {
-    return <span className={base}>{value}</span>;
-  }
-
-  const { faded, bold, trailing, regular } = value;
-  return (
-    <span className={base}>
-      {faded ? <span className="text-foreground/70">{faded} </span> : null}
-      {regular ? <span>{regular} </span> : null}
-      {bold ? <span className="font-bold">{bold}</span> : null}
-      {trailing ? (
-        <>
-          <br />
-          <span className="text-foreground/70">{trailing}</span>
-        </>
-      ) : null}
-    </span>
   );
 }
 
@@ -303,4 +295,29 @@ function formatReadTime(value?: number | null) {
   }
 
   return `${value} min read`;
+}
+
+function StatCard({ stat }: { stat: PageHeroStat }) {
+  const displayValue = stat.value ?? (stat.number !== undefined ? `${stat.number}${stat.suffix ?? ""}` : undefined);
+  const label = stat.label;
+
+  if (!displayValue && !label) {
+    return null;
+  }
+
+  return (
+    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+      {displayValue ? (
+        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
+          {displayValue}
+        </p>
+      ) : null}
+
+      {label ? (
+        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-100">
+          {label}
+        </p>
+      ) : null}
+    </article>
+  );
 }

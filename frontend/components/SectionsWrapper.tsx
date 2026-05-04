@@ -35,8 +35,18 @@ export function SectionsWrapper({
       </aside>
 
       {/* Mobile Borders */}
-      <div aria-hidden="true" className="absolute inset-y-0 left-3 w-px bg-black/20 dark:bg-white/20 md:hidden" />
-      <div aria-hidden="true" className="absolute inset-y-0 right-3 w-px bg-black/20 dark:bg-white/20 md:hidden" />
+      <DrawLine
+        className="md:hidden absolute inset-y-0 left-3 w-px bg-black/20 dark:bg-white/20"
+        start="top 85%"
+        end="bottom 85%"
+        direction="vertical"
+      />
+      <DrawLine
+        className="md:hidden absolute inset-y-0 right-3 w-px bg-black/20 dark:bg-white/20"
+        start="top 85%"
+        end="bottom 85%"
+        direction="vertical"
+      />
 
       {/* Vertical Separator: This one looks correct, but ensure parent has height */}
       <DrawLine

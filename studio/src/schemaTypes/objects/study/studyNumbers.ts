@@ -41,6 +41,11 @@ export const studyNumbers = defineType({
               title: 'Label',
               type: 'string',
               validation: (Rule) => Rule.required()
+            }),
+            defineField({
+              name: 'description',
+              title: 'Description',
+              type: 'string'
             })
           ]
         }

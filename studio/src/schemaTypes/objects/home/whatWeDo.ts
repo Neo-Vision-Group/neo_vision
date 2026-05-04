@@ -7,6 +7,18 @@ export const whatWeDo = defineType({
     type: 'object',
     fields: [
         defineField({ name: "eyebrow", type: "string", initialValue: "WHAT WE DO" }),
+        defineField({ name: "heading", type: "blockContentTextOnly" }),
+        defineField({
+          name: "ctaSection",
+          title: "CTA Section",
+          type: "object",
+          description: "The CTA section at the bottom with heading, subheading, and button",
+          fields: [
+            defineField({ name: "heading", type: "string", title: "CTA Heading" }),
+            defineField({ name: "subheading", type: "text", rows: 2, title: "CTA Subheading" }),
+            defineField({ name: "cta", type: "button", title: "CTA Button" }),
+          ],
+        }),
         defineField({
           name: "cards",
           type: "array",
@@ -40,8 +52,7 @@ export const whatWeDo = defineType({
                     name: "body",
                     title: "Description",
                     description: "The description text for the card.",
-                    type: "text", 
-                    validation: (Rule) => Rule.required() 
+                    type: "text",
                 },
                 {
                   name: "services",
@@ -55,7 +66,7 @@ export const whatWeDo = defineType({
                 },
                 {
                   name: "cta",
-                  title: "CTA",
+                  title: "Card CTA",
                   type: "button",
                   validation: (Rule) => Rule.required(),
                 },

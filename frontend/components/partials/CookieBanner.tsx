@@ -7,6 +7,7 @@ import type {ButtonHTMLAttributes, ReactNode} from 'react'
 import type {TypedObject} from '@portabletext/types'
 import {cn} from '@/lib/utils'
 import ArrowRight from '@/components/icons/ArrowRight'
+import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
 
 const COOKIE_STORAGE_KEY = 'neo-cookie-preferences'
 export const COOKIE_PREFERENCES_EVENT = 'neo:open-cookie-preferences'
@@ -190,9 +191,9 @@ function PreferenceToggle({
       aria-disabled={disabled}
       className={cn(
         'relative inline-flex h-8 w-12 shrink-0 border p-1 transition-colors duration-200',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-(--bg-card)]',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black',
         disabled ? 'cursor-default opacity-100' : 'cursor-pointer',
-        'border-(--border)] bg-(--bg-page)',
+        'border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-900',
       )}
       disabled={disabled}
       onClick={onToggle}
@@ -202,7 +203,7 @@ function PreferenceToggle({
       <span
         className={cn(
           'h-full w-5 transition-all duration-200',
-          checked ? 'ml-auto bg-brand' : 'bg---text-muted)]',
+          checked ? 'ml-auto bg-brand' : 'bg-gray-400 dark:bg-gray-600',
         )}
       />
     </button>
@@ -299,14 +300,14 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   const richTextComponents = {
     block: {
       normal: ({children}: {children?: ReactNode}) => (
-        <p className="text-[18px] leading-normal text---text)]">{children}</p>
+        <p className="text-[18px] leading-normal text-gray-700 dark:text-gray-300">{children}</p>
       ),
     },
     marks: {
       link: ({value, children}: {value?: Record<string, unknown>; children?: ReactNode}) => {
         const href = resolveLinkHref(value)
         const className =
-          'font-bold text---text)] underline decoration-brand decoration-[7%] underline-offset-[0.15em] transition-colors hover:text-brand'
+          'font-bold text-black underline decoration-brand decoration-[7%] underline-offset-[0.15em] transition-colors hover:text-brand dark:text-white'
 
         if (/^https?:/i.test(href)) {
           return (
@@ -331,12 +332,12 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-70 sm:inset-x-4 sm:bottom-4">
-      <div className="pointer-events-auto mx-auto w-full max-w-5xl border border-brand bg---bg-card)] text---text)] shadow-[0_35px_60px_-15px_rgba(0,0,0,0.45)]">
+    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-[100] sm:inset-x-4 sm:bottom-4">
+      <div className="pointer-events-auto mx-auto w-full max-w-5xl border border-brand bg-white text-black shadow-[0_35px_60px_-15px_rgba(0,0,0,0.45)] dark:bg-black dark:text-white">
         {mode === 'summary' ? (
           <div className="flex flex-col gap-4 p-3 md:p-4 lg:flex-row lg:items-start">
             <div className="min-w-0 flex-1 p-3">
-              <h2 className="text-100 leading-[1.2] font-bold text---text)]">
+              <h2 className="text-100 leading-[1.2] font-bold text-black dark:text-white">
                 {settings.bannerTitle || 'Cookies on Neovision'}
               </h2>
               {settings.bannerDescription?.length ? (
@@ -366,11 +367,11 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text-black transition-colors hover:text-brand lg:self-end dark:text-white"
                 onClick={() => setMode('customize')}
                 type="button"
               >
-                <ArrowRight color="currentColor" className="h-5 w-8" width={32} height={20} />
+                <ArrowRightPixel color="currentColor" className="h-5 w-8" width={32} height={20} />
                 <span>{settings.customizeLabel || 'Customize'}</span>
               </button>
             </div>
@@ -380,7 +381,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
             <div className="flex lg:w-23 lg:shrink-0 lg:flex-col">
               <button
                 aria-label={settings.backLabel || 'Back'}
-                className="flex h-15 w-18 items-center justify-center bg-brand text-white transition-colors hover:bg---brand-hover)] lg:h-19 lg:w-20"
+                className="flex h-15 w-18 items-center justify-center bg-brand text-white transition-colors hover:bg-brand-dark lg:h-19 lg:w-20"
                 onClick={() => setMode('summary')}
                 type="button"
               >
@@ -391,17 +392,17 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                   height={20}
                 />
               </button>
-              <div className="hidden w-3 bg---bg-page)] py-2 lg:flex">
+              <div className="hidden w-3 bg-gray-100 py-2 lg:flex dark:bg-gray-900">
                 <div className="w-full bg-brand" />
               </div>
             </div>
 
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="px-4 pt-4 lg:p-6 lg:pb-4">
-                <h2 className="text-100 leading-[1.2] font-bold text---text)]">
+                <h2 className="text-100 leading-[1.2] font-bold text-black dark:text-white">
                   {settings.preferencesTitle || 'Your cookie preferences'}
                 </h2>
-                <p className="mt-2 max-w-lg text-[18px] leading-normal text---text)]">
+                <p className="mt-2 max-w-lg text-[18px] leading-normal text-gray-700 dark:text-gray-300">
                   {settings.preferencesDescription ||
                     'Choose which cookies we can use. You can change these any time from the footer.'}
                 </p>
@@ -419,11 +420,11 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-3">
-                            <h3 className="text-[20px] leading-[1.2] font-normal text---text)]">
+                            <h3 className="text-[20px] leading-[1.2] font-normal text-black dark:text-white">
                               {category.title}
                             </h3>
                             {category.required ? (
-                              <span className="bg-brand/30 px-3 py-1 text-[18px] leading-normal text---text)]">
+                              <span className="bg-brand/30 px-3 py-1 text-[18px] leading-normal text-black dark:text-white">
                                 {category.lockedLabel || 'Always on'}
                               </span>
                             ) : null}
@@ -446,7 +447,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                         />
                       </div>
 
-                      <p className="mt-3 max-w-2xl text-[18px] leading-normal text---text)]">
+                      <p className="mt-3 max-w-2xl text-[18px] leading-normal text-gray-600 dark:text-gray-400">
                         {category.description}
                       </p>
                     </div>
@@ -472,11 +473,11 @@ export default function CookieBanner({settings}: CookieBannerProps) {
               </div>
 
               <button
-                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text---text)] transition-colors hover:text-brand lg:self-end"
+                className="inline-flex items-center gap-3 self-start p-2 text-100 leading-[1.2] font-bold text-black transition-colors hover:text-brand lg:self-end dark:text-white"
                 onClick={handleSavePreferences}
                 type="button"
               >
-                <ArrowRight color="currentColor" className="h-5 w-8" width={32} height={20} />
+                <ArrowRightPixel color="currentColor" className="h-5 w-8" width={32} height={20} />
                 <span>{settings.savePreferencesLabel || 'Save my preferences'}</span>
               </button>
             </div>

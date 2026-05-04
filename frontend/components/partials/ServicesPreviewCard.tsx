@@ -8,7 +8,7 @@ type ServiceCard = {
   label?: string;
   labelImage?: string;
   title: string | { regular?: string; bold?: string };
-  body: string | readonly string[];
+  body?: string | readonly string[];
   services?: Array<{ name?: string; price?: string }>;
   cta?: { label: string; href: string; variant: "primary" | "secondary" };
   texture?: string;

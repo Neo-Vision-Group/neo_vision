@@ -10,6 +10,11 @@ export type InsightAuthorData = {
   portrait?: SanityImageSource | null;
 };
 
+export type InsightStat = {
+  value?: string;
+  label?: string;
+};
+
 export type InsightDoc = {
   _id?: string;
   _type?: string;
@@ -26,4 +31,5 @@ export type InsightDoc = {
   pageBuilder?: PageBuilderSection[];
   author?: InsightAuthorData | null;
   relatedInsights?: ArticleCardData[];
+  stats?: InsightStat[];
 };

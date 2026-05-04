@@ -1,43 +1,6 @@
 [
   {
     "type": "type",
-    "name": "headingMultipart",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "faded": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "regular": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "bold": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "trailing": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "type": "type",
     "name": "formConfig",
     "value": {
       "type": "object",
@@ -5991,35 +5954,11 @@
           },
           "optional": true
         },
-        "headingType": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "simple"
-              },
-              {
-                "type": "string",
-                "value": "multipart"
-              }
-            ]
-          },
-          "optional": false
-        },
         "heading": {
           "type": "objectAttribute",
           "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "headingMultipart": {
-          "type": "objectAttribute",
-          "value": {
             "type": "inline",
-            "name": "headingMultipart"
+            "name": "blockContentTextOnly"
           },
           "optional": true
         },

@@ -12,6 +12,7 @@ import {resolveSiteOrigin} from '@/app/site-origin'
 import {handleError} from '@/app/client-utils'
 import Footer from '@/components/layout/Footer'
 import {IntroVisitMarker} from '@/components/IntroVisitMarker'
+import {FirstLoadIntroGate} from '@/components/partials/FirstLoadIntro'
 import CookieBanner from '@/components/partials/CookieBanner'
 import DraftModeToast from '@/components/partials/DraftModeToast'
 import {HeroBrandDotsMediaProvider} from '@/components/partials/HeroBrandDotsMediaProvider'
@@ -63,6 +64,13 @@ const funnelDisplay = Funnel_Display({
   preload: false,
 })
 
+const openingHoursMono = localFont({
+  src: './fonts/opening-hours-mono.woff2',
+  variable: '--font-opening-hours-mono',
+  display: 'swap',
+  preload: false,
+})
+
 const betatron = localFont({
   src: './fonts/betatron.woff2',
   variable: '--font-betatron',
@@ -90,7 +98,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} bg-white text-black`}
+      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
     >
       <head>
         <PlausibleProvider
@@ -107,6 +115,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           disableTransitionOnChange
         >
           <HeroBrandDotsMediaProvider>
+            <FirstLoadIntroGate />
             <LenisProvider>
               <TransitionProvider>
                 <ScrollToTopOnNavigate />

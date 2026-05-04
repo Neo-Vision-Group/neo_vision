@@ -87,7 +87,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           const duration = step.duration?.trim();
           const body = step.body?.trim();
 
-          if (!title || !duration || !body) {
+          if (!title || !body) {
             return null;
           }
 

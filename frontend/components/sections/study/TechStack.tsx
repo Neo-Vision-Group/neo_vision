@@ -17,15 +17,15 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
   }
 
   return (
-    <SectionsWrapper id="tech-stack" eyebrow={eyebrow}>
-      <div className="border-y border-white/20 dark:border-white/20">
+    <SectionsWrapper id="tech-stack" eyebrow={eyebrow} classNameOverride="px-0 py-0">
+      <div className="">
         <div className="grid grid-cols-2 md:grid-cols-4">
           {tools.map((t) => (
             <article
               key={t}
-              className="flex flex-col gap-3 bg-black/40 p-6 -mt-px -ml-px border border-white/20 dark:border-white/20 dark:bg-[#0f0f0f]"
+              className="flex flex-col gap-3 p-6 -mt-px -ml-px border-r border-t border-b border-white/20 dark:border-white/20"
             >
-            <div
+            <div 
               aria-hidden="true"
               className="aspect-[102.5/57.65] w-full bg-black"
               style={{

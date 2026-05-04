@@ -13,66 +13,10 @@ export const pageHero = defineType({
       description: 'Small text above the heading (optional)',
     }),
     defineField({
-      name: 'headingType',
-      title: 'Heading Type',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Simple (single style)', value: 'simple' },
-          { title: 'Multi-part (faded + bold + trailing)', value: 'multipart' },
-        ],
-        layout: 'radio',
-      },
-      initialValue: 'simple',
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
       name: 'heading',
-      title: 'Heading (Simple)',
-      type: 'string',
-      description: 'Full-weight headline text',
-      hidden: ({ parent }) => parent?.headingType !== 'simple',
-      validation: (Rule) =>
-        Rule.custom((value, context) => {
-          const parent = context.parent as any
-          if (parent?.headingType === 'simple' && !value) {
-            return 'Heading is required when using Simple heading type'
-          }
-          return true
-        }),
-    }),
-    defineField({
-      name: 'headingMultipart',
-      title: 'Heading (Multi-part)',
-      type: 'object',
-      description: 'Headline with multiple text styles',
-      hidden: ({ parent }) => parent?.headingType !== 'multipart',
-      fields: [
-        defineField({
-          name: 'faded',
-          title: 'Faded Text',
-          type: 'string',
-          description: 'First part with 70% opacity (optional)',
-        }),
-        defineField({
-          name: 'regular',
-          title: 'Regular Text',
-          type: 'string',
-          description: 'Regular weight text (optional)',
-        }),
-        defineField({
-          name: 'bold',
-          title: 'Bold Text',
-          type: 'string',
-          description: 'Bold weight text (optional)',
-        }),
-        defineField({
-          name: 'trailing',
-          title: 'Trailing Text',
-          type: 'string',
-          description: 'Third line with 70% opacity (optional)',
-        }),
-      ],
+      title: 'Heading',
+      type: 'blockContentTextOnly',
+      description: 'Headline text (supports inline styling via portable text)',
     }),
     defineField({
       name: 'subheading',
@@ -136,20 +80,14 @@ export const pageHero = defineType({
   ],
   preview: {
     select: {
-      headingType: 'headingType',
       heading: 'heading',
-      multipart: 'headingMultipart',
       eyebrow: 'eyebrow',
     },
-    prepare({ headingType, heading, multipart, eyebrow }) {
-      const title =
-        headingType === 'simple'
-          ? heading
-          : [multipart?.faded, multipart?.regular, multipart?.bold, multipart?.trailing]
-              .filter(Boolean)
-              .join(' ')
+    prepare({ heading, eyebrow }) {
+      const firstBlock = Array.isArray(heading) ? heading[0] : null
+      const title = firstBlock?.children?.map((c: { text?: string }) => c.text).join('') || 'Page Hero'
       return {
-        title: title || 'Page Hero',
+        title,
         subtitle: eyebrow || 'Standard page hero',
       }
     },

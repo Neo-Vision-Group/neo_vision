@@ -1,6 +1,11 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
+import Badge from "@/components/partials/Badge";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 import type { InsightDoc } from "@/lib/types/insight";
 import { urlForImage } from "@/sanity/lib/utils";
 
@@ -31,6 +36,26 @@ function resolveSlug(slug?: InsightDoc["slug"]) {
   return slug.current ?? "";
 }
 
+function ShareButton({
+  href,
+  children,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof Link> & { children: React.ReactNode }) {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <Link
+      href={href}
+      {...props}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="relative flex h-12 w-12 items-center justify-center bg-brand-dark text-dark transition-colors duration-300 hover:bg-brand dark:text-white"
+    >
+      <AnimatedBorder isHovered={isHovered} />
+      {children}
+    </Link>
+  );
+}
+
 export function InsightHero({ post }: { post: InsightDoc }) {
   const publishedDate = formatDate(post.publishedAt);
   const categoryLabel = formatCategory(post.category);
@@ -44,33 +69,35 @@ export function InsightHero({ post }: { post: InsightDoc }) {
       <HeroBrandDotsBackground />
       <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
 
-      <div className="relative px-4 pt-12 pb-14 md:px-6 md:pt-16 md:pb-20 xl:px-8 xl:pt-20 xl:pb-24">
-        <div className="mx-auto flex max-w-330 flex-col gap-10">
-          <nav className="flex flex-wrap items-center gap-2 text-[14px] leading-[1.4] text-black/55 dark:text-white/55 md:text-[18px]">
-            <Link href="/insights" className="transition-colors hover:text-black dark:hover:text-white">
-              Insights
-            </Link>
-            <span>/</span>
-            {categoryLabel ? (
-              <>
-                <Link href="/insights" className="transition-colors hover:text-black dark:hover:text-white">
-                  {categoryLabel}
-                </Link>
-                <span className="text-brand">/</span>
-              </>
-            ) : null}
-            <span className="text-brand">{post.title}</span>
-          </nav>
-
-          <div className="flex max-w-190 flex-col gap-6 md:gap-8">
-            {categoryLabel ? (
-              <div className="inline-flex self-start bg-brand/25 px-3 py-1.5 text-64 leading-[1.2] text-black dark:text-white md:text-[18px]">
+      <div className="relative pt-12 pb-14 md:pt-16 md:pb-20 xl:pt-20 xl:pb-24">
+        {/* Breadcrumb — padded to match navbar */}
+        <nav className="mb-10 flex flex-wrap items-center gap-2 px-4 text-[14px] leading-[1.4] text-black/55 dark:text-white/55 md:px-12 md:text-[18px] lg:px-16 2xl:px-30">
+          <Link href="/insights" className="transition-colors hover:text-black dark:hover:text-white">
+            Insights
+          </Link>
+          <span>/</span>
+          {categoryLabel ? (
+            <>
+              <Link href="/insights" className="transition-colors hover:text-black dark:hover:text-white">
                 {categoryLabel}
+              </Link>
+              <span className="text-brand">/</span>
+            </>
+          ) : null}
+          <span className="text-brand">{post.title}</span>
+        </nav>
+
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch">
+          {/* Left column — text content, padded to match navbar */}
+          <div className="flex flex-col gap-6 px-4 md:gap-8 md:px-12 lg:w-1/2 lg:shrink-0 lg:px-16 2xl:px-30">
+            {categoryLabel ? (
+              <div className="self-start">
+                <Badge text={categoryLabel} />
               </div>
             ) : null}
 
             <div className="flex flex-col gap-5 md:gap-6">
-              <h1 className="max-w-[12ch] text-[44px] font-normal leading-[1.02] tracking-[-0.04em] md:text-[72px] xl:text-[88px]">
+              <h1 className="text-[44px] font-normal leading-[1.02] tracking-[-0.04em] md:text-[72px] xl:text-[80px]">
                 {post.title}
               </h1>
               {post.excerpt ? (
@@ -79,88 +106,86 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 </p>
               ) : null}
             </div>
+
+            <div className="mt-auto flex flex-wrap items-center gap-4 md:gap-5">
+              {post.author?.name ? (
+                <div className="flex items-center gap-4">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-black/6 dark:bg-white/6">
+                    {post.author.portrait ? (
+                      <Image
+                        src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
+                        alt={post.author.name}
+                        width={56}
+                        height={56}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center text-[18px] text-black/35 dark:text-white/35">
+                        {post.author.name.charAt(0)}
+                      </div>
+                    )}
+                    <span className="absolute -inset-x-2 top-0 h-px bg-brand" />
+                    <span className="absolute -inset-x-2 bottom-0 h-px bg-brand" />
+                    <span className="absolute -inset-y-2 left-0 w-px bg-brand" />
+                    <span className="absolute -inset-y-2 right-0 w-px bg-brand" />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <p className="text-100 leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
+                    <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-64">
+                      {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
+                        .filter(Boolean)
+                        .join(" | ")}
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
+              {slug ? (
+                <div className="flex items-center gap-3 md:ml-4">
+                  <ShareButton
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on LinkedIn"
+                  >
+                    <span className="text-[20px] font-semibold leading-none">in</span>
+                  </ShareButton>
+                  <ShareButton
+                    href={`https://x.com/intent/post?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on X"
+                  >
+                    <span className="text-[20px] font-semibold leading-none">X</span>
+                  </ShareButton>
+                  <ShareButton
+                    href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
+                    aria-label="Share by email"
+                  >
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                      <path
+                        d="M2.25 4.5H15.75V13.5H2.25V4.5ZM3.75 6L9 9.75L14.25 6"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </ShareButton>
+                </div>
+              ) : null}
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 md:gap-5">
-            {post.author?.name ? (
-              <div className="flex items-center gap-4">
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-black/6 dark:bg-white/6">
-                  {post.author.portrait ? (
-                    <Image
-                      src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
-                      alt={post.author.name}
-                      width={56}
-                      height={56}
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center text-[18px] text-black/35 dark:text-white/35">
-                      {post.author.name.charAt(0)}
-                    </div>
-                  )}
-                  <span className="absolute -inset-x-2 top-0 h-px bg-brand" />
-                  <span className="absolute -inset-x-2 bottom-0 h-px bg-brand" />
-                  <span className="absolute -inset-y-2 left-0 w-px bg-brand" />
-                  <span className="absolute -inset-y-2 right-0 w-px bg-brand" />
-                </div>
-
-                <div className="flex flex-col">
-                  <p className="text-100 leading-[1.2] tracking-[-0.02em]">{post.author.name}</p>
-                  <p className="text-[14px] leading-[1.2] tracking-[-0.03em] text-black/60 dark:text-white/60 md:text-64">
-                    {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
-                      .filter(Boolean)
-                      .join(" | ")}
-                  </p>
-                </div>
-              </div>
-            ) : null}
-
-            {slug ? (
-              <div className="flex items-center gap-3 md:ml-4">
-                <Link
-                  href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on LinkedIn"
-                  className="flex h-12 w-12 items-center justify-center bg-white/75 text-black transition-colors hover:bg-brand hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-brand"
-                >
-                  <span className="text-[20px] font-semibold leading-none">in</span>
-                </Link>
-                <Link
-                  href={`https://x.com/intent/post?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Share on X"
-                  className="flex h-12 w-12 items-center justify-center bg-white/75 text-black transition-colors hover:bg-brand hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-brand"
-                >
-                  <span className="text-[20px] font-semibold leading-none">X</span>
-                </Link>
-                <Link
-                  href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
-                  aria-label="Share by email"
-                  className="flex h-12 w-12 items-center justify-center bg-white/75 text-black transition-colors hover:bg-brand hover:text-white dark:bg-white/10 dark:text-white dark:hover:bg-brand"
-                >
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-                    <path
-                      d="M2.25 4.5H15.75V13.5H2.25V4.5ZM3.75 6L9 9.75L14.25 6"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </Link>
-              </div>
-            ) : null}
-          </div>
-
+          {/* Right column — cover image, bleeds to right viewport edge */}
           {coverImageUrl ? (
-            <div className="relative aspect-video w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5">
+            <div className="relative min-h-64 w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5 lg:min-h-0 lg:flex-1">
               <Image
                 src={coverImageUrl}
                 alt={post.title ?? "Insight cover image"}
                 fill
-                sizes="(min-width: 1280px) 1320px, (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
+                sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
                 className="object-cover"
               />
             </div>

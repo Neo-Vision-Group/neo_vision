@@ -8,12 +8,12 @@ export default function Badge({ text }: { text: string }) {
 
   return (
     <div 
-      className="relative bg-brand-dark hover:bg-brand p-2.5 transition-colors duration-300"
+      className="relative w-fit bg-brand-dark hover:bg-brand p-2 transition-colors duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
         <AnimatedBorder isHovered={isHovered} />
-        <p className="text-white font-funnel text-xl">{text}</p>
+        <p className="text-dark dark:text-white font-funnel text-[18px]">{text}</p>
     </div>
   );
 }

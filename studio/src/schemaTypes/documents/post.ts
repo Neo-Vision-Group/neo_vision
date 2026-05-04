@@ -89,6 +89,22 @@ export const post = defineType({
       type: 'number',
     }),
     defineField({
+      name: 'stats',
+      title: 'Hero Stats',
+      type: 'array',
+      description: 'Optional metrics to display in the insight hero.',
+      of: [
+        {
+          type: 'object',
+          name: 'stat',
+          fields: [
+            {name: 'value', type: 'string', title: 'Value', description: 'e.g., "50%" or "10x"'},
+            {name: 'label', type: 'string', title: 'Label', description: 'e.g., "Increase in efficiency"'},
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
       type: 'array',

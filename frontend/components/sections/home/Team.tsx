@@ -1,12 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { useGSAP } from "@gsap/react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import "@/components/partials/motion/gsap-setup";
 import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
 import TeamArrowRight from '@/components/icons/TeamArrowRight'
 import dynamic from "next/dynamic";
@@ -56,8 +52,6 @@ export function Team({ data }: { data?: TeamData }) {
   if (!team.heading && team.members.length === 0 && !team.closingStatement) {
     return null;
   }
-
-  const scrollerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
   const isDarkTheme = !mounted || resolvedTheme === "dark";
@@ -66,108 +60,10 @@ export function Team({ data }: { data?: TeamData }) {
     ? "border-white/10 hover:bg-white/5"
     : "border-black/10 hover:bg-black/5";
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // ----- Pointer drag-to-scroll with pointer capture -------------------
-  useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-
-    let activePointerId: number | null = null;
-    let startX = 0;
-    let startScroll = 0;
-
-    function onDown(e: PointerEvent) {
-      if (e.pointerType === "touch") return;
-      activePointerId = e.pointerId;
-      startX = e.pageX - el!.offsetLeft;
-      startScroll = el!.scrollLeft;
-      el!.dataset.grabbing = "true";
-      el!.setPointerCapture(e.pointerId);
-      e.preventDefault();
-      window.getSelection()?.removeAllRanges();
-    }
-    function onMove(e: PointerEvent) {
-      if (activePointerId !== e.pointerId) return;
-      const x = e.pageX - el!.offsetLeft;
-      el!.scrollLeft = startScroll - (x - startX);
-    }
-    function onRelease(e: PointerEvent) {
-      if (activePointerId !== e.pointerId) return;
-      activePointerId = null;
-      delete el!.dataset.grabbing;
-      if (el!.hasPointerCapture(e.pointerId)) {
-        el!.releasePointerCapture(e.pointerId);
-      }
-    }
-
-    el.addEventListener("pointerdown", onDown);
-    el.addEventListener("pointermove", onMove);
-    el.addEventListener("pointerup", onRelease);
-    el.addEventListener("pointercancel", onRelease);
-
-    return () => {
-      el.removeEventListener("pointerdown", onDown);
-      el.removeEventListener("pointermove", onMove);
-      el.removeEventListener("pointerup", onRelease);
-      el.removeEventListener("pointercancel", onRelease);
-    };
-  }, []);
-
-  // ----- Scroll-linked opacity fade ------------------------------------
-  useGSAP(
-    () => {
-      const scroller = scrollerRef.current;
-      if (!scroller) return;
-
-      const mm = gsap.matchMedia();
-      mm.add(
-        {
-          reduced: "(prefers-reduced-motion: reduce)",
-          motion: "(prefers-reduced-motion: no-preference)",
-        },
-        (ctx) => {
-          const items = Array.from(
-            scroller.querySelectorAll<HTMLDivElement>("[data-member]")
-          );
-          if (ctx.conditions?.reduced) {
-            gsap.set(items, { opacity: 1 });
-            return;
-          }
-
-          items.forEach((item, idx) => {
-            gsap.set(item, { opacity: idx === 0 ? 1 : 0.2 });
-          });
-
-          const triggers: ScrollTrigger[] = [];
-          items.forEach((item, idx) => {
-            if (idx === 0) return;
-            const st = ScrollTrigger.create({
-              trigger: item,
-              scroller,
-              horizontal: true,
-              start: "left 70%",
-              end: "left 40%",
-              scrub: 0.5,
-              animation: gsap.to(item, { opacity: 1, ease: "none" }),
-            });
-            triggers.push(st);
-          });
-
-          return () => {
-            triggers.forEach((t) => t.kill());
-          };
-        }
-      );
-    },
-    { dependencies: [team.members] }
-  );
-
   const hasMultiple = team.members.length > 1;
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (dir: "prev" | "next") => {
+  const scroll = useCallback((dir: "prev" | "next") => {
     if (!scrollerRef.current) return;
     const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
     if (items.length === 0) return;
@@ -180,7 +76,8 @@ export function Team({ data }: { data?: TeamData }) {
     let minDistance = Infinity;
 
     items.forEach((item, i) => {
-      const rect = item.getBoundingClientRect();
+      const el = item as HTMLElement;
+      const rect = el.getBoundingClientRect();
       const itemCenter = rect.left + rect.width / 2;
       const distance = Math.abs(scrollerCenter - itemCenter);
       if (distance < minDistance) {
@@ -205,7 +102,7 @@ export function Team({ data }: { data?: TeamData }) {
       left: scrollLeft,
       behavior: "smooth",
     });
-  };
+  }, [scrollerRef]);
 
   return (
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
@@ -221,9 +118,29 @@ export function Team({ data }: { data?: TeamData }) {
         </SplitTextReveal>
 
         <div className="relative">
+          {hasMultiple && (
+            <div className="absolute top-0 left-6 z-10 flex items-center gap-3 md:left-12">
+              <button
+                type="button"
+                aria-label="Previous team member"
+                onClick={() => scroll("prev")}
+                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+              >
+                <TeamArrowLeft color={arrowColor} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next team member"
+                onClick={() => scroll("next")}
+                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+              >
+                <TeamArrowRight color={arrowColor} />
+              </button>
+            </div>
+          )}
           <div
             ref={scrollerRef}
-            className="no-scrollbar flex overflow-x-auto px-6 pb-12 md:px-12 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
+            className="no-scrollbar flex overflow-x-auto px-6 pb-12 md:px-12"
           >
             {team.members.map((member, i) => {
               const portraitUrl = member.portrait
@@ -241,34 +158,15 @@ export function Team({ data }: { data?: TeamData }) {
                       <div className="flex min-w-0 flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col px-6">
-                            {hasMultiple && (
-                              <div className="mb-6 flex items-center gap-3">
-                                <button
-                                  type="button"
-                                  aria-label="Previous team member"
-                                  onClick={() => scroll("prev")}
-                                  className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
-                                >
-                                  <TeamArrowLeft color={arrowColor} />
-                                </button>
-                                <button
-                                  type="button"
-                                  aria-label="Next team member"
-                                  onClick={() => scroll("next")}
-                                  className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
-                                >
-                                  <TeamArrowRight color={arrowColor} />
-                                </button>
-                              </div>
-                            )}
-                            <p className="font-funnel text-[34px] leading-[1.08] tracking-[-0.9px] text-foreground md:text-[48px] lg:text-[56px]">
+                            {hasMultiple && <div className="mb-6 h-12" />}
+                            <p className="font-funnel text-[32px] leading-[1.08] tracking-[-0.9px] text-muted dark:text-muted md:text-[48px] lg:text-[56px]">
                               {member.name}
                             </p>
-                            <p className="font-funnel text-64 leading-normal text-[#EFEFEFB3] md:text-[18px]">
+                            <p className="font-funnel text-64 leading-normal text-muted dark:text-muted md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
-                          <div className="h-px w-full bg-white/20" />
+                          <div className="h-px w-full bg-decoration-dark dark:bg-decoration-light" />
                         </div>
                         <div className="min-w-0 px-6">
                           <p className="font-funnel text-64 leading-normal text-foreground md:text-[18px]">
@@ -336,9 +234,9 @@ function BinaryGlitchField() {
   }, []);
 
   return (
-    <div className="absolute inset-[-8%] overflow-hidden opacity-90">
+    <div className="absolute inset-[-8%] overflow-hidden">
       <div className="absolute inset-0" />
-      <div className="absolute inset-0 font-mono text-[22px] uppercase leading-[1.05] tracking-[0.24em] text-white/40 md:text-[28px]">
+      <div className="absolute inset-0 font-opening-hours-mono text-[22px] bg-white dark:bg-black uppercase leading-[1.05] tracking-[0.24em] text-decoration-dark dark:text-decoration-light md:text-[28px]">
         {lines.map((line, index) => (
           <p
             key={`${index}-${line.slice(0, 10)}`}

@@ -115,14 +115,7 @@ const sharedPageBuilderProjection = /* groq */ `
     _type == "pageHero" => {
       ...,
       eyebrow,
-      headingType,
       heading,
-      headingMultipart {
-        faded,
-        regular,
-        bold,
-        trailing
-      },
       subheading,
       stats[]{
         number,
@@ -593,7 +586,8 @@ const sharedPageBuilderProjection = /* groq */ `
       stats[]{
         _key,
         value,
-        label
+        label,
+        description
       }
     },
     _type == "studyTestimonial" => {
@@ -938,6 +932,10 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
     publishedAt,
     readTime,
     featured,
+    stats[]{
+      value,
+      label
+    },
     ${sharedPageBuilderProjection},
     author->{name, role, bio, portrait},
     relatedInsights[]->{

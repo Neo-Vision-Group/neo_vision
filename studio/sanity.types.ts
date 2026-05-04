@@ -15,13 +15,6 @@
 export declare const internalGroqTypeReferenceTo: unique symbol
 
 // Source: ../sanity.schema.json
-export type HeadingMultipart = {
-  faded?: string
-  regular?: string
-  bold?: string
-  trailing?: string
-}
-
 export type FormConfig = {
   services?: Array<string>
   budgetRanges?: Array<string>
@@ -994,9 +987,7 @@ export type ContactHero = {
 export type PageHero = {
   _type: 'pageHero'
   eyebrow?: string
-  headingType: 'simple' | 'multipart'
-  heading?: string
-  headingMultipart?: HeadingMultipart
+  heading?: BlockContentTextOnly
   subheading?: string
   stats?: Array<{
     number: number
@@ -2347,7 +2338,6 @@ export type Geopoint = {
 }
 
 export type AllSanitySchemaTypes =
-  | HeadingMultipart
   | FormConfig
   | ContactFormFormConfig
   | Heading
