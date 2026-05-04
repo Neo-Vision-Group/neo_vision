@@ -62,7 +62,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const page = await loadPageForMetadata(params.slug)
   const origin = await resolveSiteOrigin()
   const seoContext = await resolveSeoContext({
-    pathname: `/${params.slug}`,
+    pathname: params.slug === '/' ? '/' : `/${params.slug}`,
     origin,
     seo: page?.seo,
     fallbackTitle: page?.name,
@@ -88,7 +88,7 @@ export default async function Page(props: Props) {
 
   const origin = await resolveSiteOrigin()
   const seoContext = await resolveSeoContext({
-    pathname: `/${params.slug}`,
+    pathname: params.slug === '/' ? '/' : `/${params.slug}`,
     origin,
     seo: page.seo,
     fallbackTitle: page.name,
