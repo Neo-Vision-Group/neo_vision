@@ -107,6 +107,11 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   }
   
   const { theme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const ctaText = cta?.buttonText || 'Get Started'
   const ctaHref = getCtaHref()
@@ -157,7 +162,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               className="h-8 w-auto"
             />
           ) : (
-            <Logo darkMode={theme === 'dark'} />
+            <Logo darkMode={mounted ? theme === 'dark' : false} />
           )}
           <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}

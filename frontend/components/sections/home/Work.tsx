@@ -248,30 +248,13 @@ function CaseRow({ item }: { item: ProjectItem }) {
 
         <div className="p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
           <div className="relative aspect-video w-full overflow-hidden bg-black">
-            {item.imageUrl ? (
+            {item.imageUrl ?? (
               <Image
                 src={item.imageUrl}
                 alt={item.name}
                 className="absolute inset-0 h-full w-full object-cover"
                 fill
               />
-            ) : (
-              <>
-                <Image
-                  src="/figma/work-thumb.png"
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover opacity-20"
-                  fill
-                />
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-0 mix-blend-multiply"
-                  style={{
-                    background:
-                      "linear-gradient(to bottom, #c1c9c5 35%, #ff4100 100%)",
-                  }}
-                />
-              </>
             )}
           </div>
         </div>

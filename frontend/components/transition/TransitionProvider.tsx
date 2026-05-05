@@ -99,6 +99,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   const scrollLockRef = useRef<string | null>(null)
   const enterTimeoutRef = useRef<number | null>(null)
   const enterFrameRef = useRef<number | null>(null)
+  const waitingFallbackRef = useRef<number | null>(null)
 
   const syncVeilToSweep = useCallback(() => {
     if (!sweepRef.current || !veilRef.current) {
@@ -163,14 +164,22 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
     })
   }, [])
 
+  const clearWaitingFallback = useCallback(() => {
+    if (waitingFallbackRef.current !== null) {
+      window.clearTimeout(waitingFallbackRef.current)
+      waitingFallbackRef.current = null
+    }
+  }, [])
+
   const finishTransition = useCallback(() => {
+    clearWaitingFallback()
     pendingNavigationRef.current = null
     pendingRouteMetaRef.current = null
     statusRef.current = 'idle'
     setStatus('idle')
     unlockScroll()
     resetOverlay()
-  }, [resetOverlay, unlockScroll])
+  }, [clearWaitingFallback, resetOverlay, unlockScroll])
 
   const runEnter = useCallback(
     (routeMeta: RouteMeta) => {
@@ -284,6 +293,14 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
 
           statusRef.current = 'waiting-for-route'
           setStatus('waiting-for-route')
+
+          clearWaitingFallback()
+          waitingFallbackRef.current = window.setTimeout(() => {
+            waitingFallbackRef.current = null
+            if (statusRef.current === 'waiting-for-route') {
+              finishTransition()
+            }
+          }, 4000)
 
           if (options.replace) {
             router.replace(pendingNavigation.href)
@@ -417,10 +434,11 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   useEffect(() => {
     return () => {
       clearPendingEnter()
+      clearWaitingFallback()
       killActiveTimeline()
       unlockScroll()
     }
-  }, [clearPendingEnter, killActiveTimeline, unlockScroll])
+  }, [clearPendingEnter, clearWaitingFallback, killActiveTimeline, unlockScroll])
 
   const contextValue = useMemo<PageTransitionContextValue>(
     () => ({

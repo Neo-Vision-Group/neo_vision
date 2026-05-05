@@ -99,6 +99,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     <html
       lang="en"
       className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
+      suppressHydrationWarning
     >
       <head>
         <PlausibleProvider
