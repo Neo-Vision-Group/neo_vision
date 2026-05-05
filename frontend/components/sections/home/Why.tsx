@@ -89,11 +89,6 @@ export function Why({ data }: { data?: WhyData }) {
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover/why:opacity-100"
               >
-                <img
-                  src="/figma/signature-texture.png"
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover opacity-40"
-                />
                 <div
                   className="absolute inset-0"
                   style={{ background: "#4a0e00" }}

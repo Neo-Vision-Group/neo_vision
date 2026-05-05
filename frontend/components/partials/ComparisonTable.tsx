@@ -57,29 +57,25 @@ export function ComparisonTable({
 
   const getCellClasses = (columnIndex: number, isHeader: boolean) =>
     cn(
-      "border-b border-r border-black/8 px-4 py-3 text-left align-middle dark:border-white/10",
-      columnIndex === 0
-        ? "min-w-45 font-medium text-black dark:text-white"
-        : "min-w-30 text-black/78 dark:text-white/76",
+      "px-4 py-3.5 text-center align-middle font-funnel text-black dark:text-white",
       isHeader
-        ? "bg-[#f4efe9] font-mono text-[11px] uppercase tracking-[0.18em] text-black/55 dark:bg-white/[0.07] dark:text-white/55"
-        : "bg-white text-[14px] leading-[1.4] md:text-64 dark:bg-[#111111]",
+        ? "font-funnel text-[18px] font-normal uppercase text-black"
+        : "text-[14px] leading-[1.5] border-t border-dark-light dark:border-decoration-light",
       columnIndex === resolvedHighlightColumn &&
         (isHeader
-          ? "bg-brand text-white dark:bg-brand dark:text-white"
-          : "bg-[#ffe3d8] font-medium text-brand dark:bg-brand/20 dark:text-white"),
-      columnIndex === normalizedHeaders.length - 1 && "border-r-0",
+          ? "bg-brand text-black"
+          : "font-funnel text-brand"),
     );
 
   return (
     <div
       className={cn(
-        "w-full overflow-x-auto border border-black/8 bg-[#fbf8f4] shadow-[0_24px_60px_-40px_rgba(15,23,42,0.4)] dark:border-white/10 dark:bg-[#0d0d0d]",
+        "w-full overflow-x-auto dark:bg-dark",
         className,
       )}
     >
-      <table className="min-w-full border-separate border-spacing-0 text-left">
-        <thead>
+      <table className="min-w-full text-center">
+        <thead className="bg-white-dark dark:bg-dark-light">
           <tr>
             {normalizedHeaders.map((header, index) => (
               <th key={`${header}-${index}`} scope="col" className={getCellClasses(index, true)}>
@@ -88,7 +84,7 @@ export function ComparisonTable({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="dark:bg-black bg-white">
           {normalizedRows.map((row, rowIndex) => (
             <tr key={`${row.join("-")}-${rowIndex}`}>
               {Array.from({ length: normalizedHeaders.length }, (_, columnIndex) => {

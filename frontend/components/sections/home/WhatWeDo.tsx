@@ -163,7 +163,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
                 <ResolvedLink link={ctaSectionLink}>
                   <Button
                     variant="primary"
-                    className="h-full min-h-30 self-start px-8 md:min-h-38 md:px-10 lg:self-center"
+                    className="h-full self-start px-8 md:px-10 lg:self-center"
                   >
                     {ctaSectionLabel}
                   </Button>
@@ -172,7 +172,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
                 <Button
                   href={ctaSectionHref || "#"}
                   variant="primary"
-                  className="h-full min-h-30 self-start px-8 md:min-h-38 md:px-10 lg:self-center"
+                  className="h-full self-start px-8 md:px-10 lg:self-center"
                 >
                   {ctaSectionLabel}
                 </Button>

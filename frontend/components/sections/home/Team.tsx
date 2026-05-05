@@ -212,13 +212,14 @@ export function Team({ data }: { data?: TeamData }) {
 }
 
 function BinaryGlitchField() {
-  const [lines, setLines] = useState(() => createBinaryLines());
+  const [mounted, setMounted] = useState(false);
+  const [lines, setLines] = useState<string[]>([]);
 
   useEffect(() => {
-    const mediaQuery =
-      typeof window !== "undefined"
-        ? window.matchMedia("(prefers-reduced-motion: reduce)")
-        : null;
+    setMounted(true);
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    setLines(createBinaryLines());
 
     if (mediaQuery?.matches) {
       return;
@@ -232,6 +233,8 @@ function BinaryGlitchField() {
       window.clearInterval(interval);
     };
   }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="absolute inset-[-8%] overflow-hidden">

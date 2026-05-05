@@ -260,9 +260,7 @@ function ValueCard({
 }: {
   valueCard: { value: string; body: string[]; graphic?: SanityImageSource };
 }) {
-  const graphicUrl = valueCard.graphic
-    ? urlForImage(valueCard.graphic).width(1600).fit("max").url()
-    : "/figma/signature-texture.png";
+  const graphicUrl = urlForImage(valueCard.graphic).width(1600).fit("max").url();
 
   return (
     <div className="relative isolate flex flex-col gap-6 border border-white/15 bg-[#EFEFEFB3] p-6 dark:bg-black">

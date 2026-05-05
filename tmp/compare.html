@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Hero halftone — wave-band v3</title>
+<style>
+  :root {
+    --bg: #040404;
+    --tint: #9D2B03;
+    --cta: #FF500A;
+    --cta-hover: #E85223;
+    --body: #C5C3BE;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #000; color: #fff; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+
+  .topbar {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 16px; background: rgba(0,0,0,.65); backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    font-size: 12px; letter-spacing: .04em; text-transform: uppercase;
+  }
+  .topbar strong { color: var(--cta); }
+
+  .toggle {
+    position: fixed; top: 50px; right: 12px; z-index: 200;
+    display: flex; gap: 4px;
+    background: rgba(0,0,0,.65); backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.15); border-radius: 999px;
+    padding: 4px;
+  }
+  .toggle button {
+    background: transparent; color: #aaa; border: none;
+    padding: 6px 12px; border-radius: 999px; font-size: 11px;
+    text-transform: uppercase; letter-spacing: .08em; cursor: pointer;
+    font-family: inherit;
+  }
+  .toggle button.on { background: var(--cta); color: #fff; }
+
+  .split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    height: 100vh; padding-top: 42px;
+  }
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  }
+
+  .pane {
+    position: relative; overflow: hidden;
+    background: var(--bg);
+    isolation: isolate;
+    border-right: 1px solid rgba(255,255,255,.06);
+  }
+  .pane:last-child { border-right: none; }
+
+  .label {
+    position: absolute; top: 12px; left: 12px; z-index: 30;
+    background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.15);
+    padding: 6px 10px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  }
+  .label .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+  .label.a .dot { background: #4ade80; }
+  .label.b .dot { background: #60a5fa; }
+
+  .layer-video, .layer-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: .30;
+    pointer-events: none;
+  }
+
+  .layer-tint {
+    position: absolute; inset: 0;
+    background: var(--tint);
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  body.no-tint .layer-tint { display: none; }
+  body.no-tint .layer-video,
+  body.no-tint .layer-canvas { opacity: 1; }
+
+  .content {
+    position: relative; z-index: 10;
+    height: 100%;
+    padding: 80px 6vw 40px;
+    display: flex; flex-direction: column; justify-content: center;
+    color: #fff;
+  }
+  body.no-tint .content { display: none; }
+
+  .wordmark {
+    font-weight: 500;
+    font-size: clamp(48px, 7vw, 110px);
+    line-height: .95;
+    letter-spacing: -.03em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+  }
+  .lede { font-size: 1.05rem; font-weight: 500; margin: 0 0 6px; }
+  .body { color: var(--body); max-width: 32ch; margin: 0 0 24px; font-size: .95rem; line-height: 1.5; }
+
+  .cta {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: var(--cta); color: #fff; text-decoration: none;
+    padding: 12px 22px; border-radius: 999px; font-weight: 500;
+    transition: background .15s;
+    width: fit-content;
+  }
+  .cta:hover { background: var(--cta-hover); }
+
+  .notes {
+    position: absolute; bottom: 12px; left: 12px; right: 12px; z-index: 30;
+    background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.1);
+    padding: 10px 12px; border-radius: 8px;
+    font-size: 11px; line-height: 1.5; color: #d4d4d4;
+    backdrop-filter: blur(6px);
+  }
+  .notes b { color: #fff; }
+
+  /* Tuner panel for live param adjustment */
+  .tuner {
+    position: fixed; top: 90px; right: 12px; z-index: 200;
+    width: 280px;
+    background: rgba(0,0,0,.85); backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,.15); border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 11px; color: #ccc;
+  }
+  .tuner h3 { margin: 0 0 10px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #fff; }
+  .tuner label { display: block; margin: 8px 0 2px; }
+  .tuner label span { float: right; color: var(--cta); font-variant-numeric: tabular-nums; }
+  .tuner input[type=range] { width: 100%; accent-color: var(--cta); }
+  .tuner .preset-row { display: flex; gap: 4px; margin-top: 12px; }
+  .tuner .preset-row button {
+    flex: 1; padding: 6px 4px; font-size: 10px;
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.15);
+    color: #ccc; border-radius: 4px; cursor: pointer; font-family: inherit;
+  }
+  .tuner .preset-row button:hover { background: rgba(255,80,10,.2); border-color: var(--cta); color: #fff; }
+  .tuner.collapsed .tuner-body { display: none; }
+  .tuner-toggle {
+    position: absolute; top: 8px; right: 8px;
+    background: transparent; border: none; color: #888;
+    cursor: pointer; font-size: 14px; padding: 0; line-height: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Hero halftone — bold flowing waves (anisotropic simplex)</span>
+  <span><strong>Multiply</strong> tint #9D2B03 over base #040404</span>
+</div>
+
+<div class="toggle" role="group" aria-label="View toggle">
+  <button id="tintOn" class="on">Final look</button>
+  <button id="tintOff">Raw halftone</button>
+</div>
+
+<div class="tuner" id="tuner">
+  <button class="tuner-toggle" id="tunerToggle">−</button>
+  <h3>Tune live</h3>
+  <div class="tuner-body">
+    <label>noise scale <span id="vNoiseScale"></span></label>
+    <input type="range" id="noiseScale" min="0.0004" max="0.002" step="0.0001" value="0.0009" />
+
+    <label>wave stretch <span id="vWaveStretch"></span></label>
+    <input type="range" id="waveStretch" min="1" max="6" step="0.1" value="3.5" />
+
+    <label>wave angle (deg) <span id="vWaveAngle"></span></label>
+    <input type="range" id="waveAngle" min="-90" max="90" step="1" value="-23" />
+
+    <label>contrast <span id="vContrast"></span></label>
+    <input type="range" id="contrast" min="2" max="8" step="0.1" value="5.0" />
+
+    <label>min radius <span id="vMinRadius"></span></label>
+    <input type="range" id="minRadius" min="0.1" max="1.0" step="0.05" value="0.4" />
+
+    <label>speed <span id="vSpeed"></span></label>
+    <input type="range" id="speed" min="0.05" max="0.6" step="0.01" value="0.18" />
+
+    <div class="preset-row">
+      <button data-preset="default">Default</button>
+      <button data-preset="bold">Bold</button>
+      <button data-preset="subtle">Subtle</button>
+    </div>
+  </div>
+</div>
+
+<div class="split">
+
+  <section class="pane" id="paneA">
+    <span class="label a"><span class="dot"></span>Option A · video (.mp4)</span>
+
+    <video
+      class="layer-video"
+      autoplay loop muted playsinline preload="auto"
+      aria-hidden="true">
+      <source src="A_uniform_grid_of_halftone_dot_Kling_O3_58333.mp4" type="video/mp4" />
+    </video>
+
+    <div class="layer-tint" aria-hidden="true"></div>
+
+    <div class="content">
+      <h1 class="wordmark">Neo Vision</h1>
+      <p class="lede">We take you from 1 to 10.</p>
+      <p class="body">AI native engineering and transformation for companies that need working systems, not slide decks.</p>
+      <a class="cta" href="#">Start with 2 <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="notes">
+      <b>Option A · video</b> — actual Kling .mp4. Round blob waves.
+    </div>
+  </section>
+
+  <section class="pane" id="paneB">
+    <span class="label b"><span class="dot"></span>Option B · canvas wave-band</span>
+
+    <canvas class="layer-canvas" id="halftoneCanvas" aria-hidden="true"></canvas>
+
+    <div class="layer-tint" aria-hidden="true"></div>
+
+    <div class="content">
+      <h1 class="wordmark">Neo Vision</h1>
+      <p class="lede">We take you from 1 to 10.</p>
+      <p class="body">AI native engineering and transformation for companies that need working systems, not slide decks.</p>
+      <a class="cta" href="#">Start with 2 <span aria-hidden="true">→</span></a>
+    </div>
+
+    <div class="notes">
+      <b>Option B · anisotropic simplex</b> — flowing diagonal wave-bands. Use the tuner to dial in.
+    </div>
+  </section>
+
+</div>
+
+<script>
+  // Simplex 2D noise (Stefan Gustavson)
+  const F2 = 0.5 * (Math.sqrt(3) - 1);
+  const G2 = (3 - Math.sqrt(3)) / 6;
+  const grad3 = new Float32Array([
+    1, 1, -1, 1, 1, -1, -1, -1,
+    1, 0, -1, 0, 1, 0, -1, 0,
+    0, 1, 0, -1, 0, 1, 0, -1,
+  ]);
+  const _p = new Uint8Array(256);
+  for (let i = 0; i < 256; i++) _p[i] = i;
+  let _s = 1234;
+  for (let i = 255; i > 0; i--) {
+    _s = (_s * 9301 + 49297) % 233280;
+    const j = Math.floor((_s / 233280) * (i + 1));
+    [_p[i], _p[j]] = [_p[j], _p[i]];
+  }
+  const perm = new Uint8Array(512);
+  for (let i = 0; i < 512; i++) perm[i] = _p[i & 255];
+
+  function simplex2(xin, yin) {
+    const sn = (xin + yin) * F2;
+    const i = Math.floor(xin + sn);
+    const j = Math.floor(yin + sn);
+    const tn = (i + j) * G2;
+    const x0 = xin - (i - tn);
+    const y0 = yin - (j - tn);
+    let i1, j1;
+    if (x0 > y0) { i1 = 1; j1 = 0; } else { i1 = 0; j1 = 1; }
+    const x1 = x0 - i1 + G2, y1 = y0 - j1 + G2;
+    const x2 = x0 - 1 + 2 * G2, y2 = y0 - 1 + 2 * G2;
+    const ii = i & 255, jj = j & 255;
+    const gi0 = (perm[ii + perm[jj]] % 12) * 2;
+    const gi1 = (perm[ii + i1 + perm[jj + j1]] % 12) * 2;
+    const gi2 = (perm[ii + 1 + perm[jj + 1]] % 12) * 2;
+    let n0 = 0, n1 = 0, n2 = 0;
+    let t0 = 0.5 - x0 * x0 - y0 * y0;
+    if (t0 >= 0) { t0 *= t0; n0 = t0 * t0 * (grad3[gi0] * x0 + grad3[gi0 + 1] * y0); }
+    let t1 = 0.5 - x1 * x1 - y1 * y1;
+    if (t1 >= 0) { t1 *= t1; n1 = t1 * t1 * (grad3[gi1] * x1 + grad3[gi1 + 1] * y1); }
+    let t2 = 0.5 - x2 * x2 - y2 * y2;
+    if (t2 >= 0) { t2 *= t2; n2 = t2 * t2 * (grad3[gi2] * x2 + grad3[gi2 + 1] * y2); }
+    return 70 * (n0 + n1 + n2);
+  }
+
+  // Live-tunable parameters
+  const params = {
+    gridSize: 10,
+    dotMaxRadius: 6.0,
+    noiseScale: 0.0009,
+    octaves: 1,
+    contrast: 5.0,
+    minRadius: 0.4,
+    waveStretch: 3.5,
+    waveAngle: -0.4,    // radians
+    speed: 0.18,
+  };
+
+  (function () {
+    const canvas = document.getElementById('halftoneCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = 0, height = 0, t = 0, rafId = 0, lastTime = performance.now();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      width = rect.width; height = rect.height;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = '#FFFFFF';
+      const cosA = Math.cos(params.waveAngle);
+      const sinA = Math.sin(params.waveAngle);
+      const cols = Math.ceil(width / params.gridSize) + 1;
+      const rows = Math.ceil(height / params.gridSize) + 1;
+      const freqAlong = params.noiseScale / params.waveStretch;
+      const freqAcross = params.noiseScale * params.waveStretch;
+
+      for (let y = 0; y < rows; y++) {
+        for (let x = 0; x < cols; x++) {
+          const px = x * params.gridSize;
+          const py = y * params.gridSize;
+          const xr = px * cosA + py * sinA;
+          const yr = -px * sinA + py * cosA;
+
+          let n = 0, amp = 1, fa = freqAlong, fc = freqAcross, ampSum = 0;
+          for (let o = 0; o < params.octaves; o++) {
+            const ox = o * 0.13;
+            n += simplex2(xr * fa + ox, yr * fc + t) * amp;
+            ampSum += amp;
+            fa *= 2;
+            fc *= 2;
+            amp *= 0.5;
+          }
+          n /= ampSum;
+          const v = Math.max(0, (n + 1) * 0.5);
+          const intensity = Math.pow(v, params.contrast);
+          const r = params.dotMaxRadius * intensity;
+          if (r < params.minRadius) continue;
+          ctx.beginPath();
+          ctx.arc(px, py, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+
+    function tick(now) {
+      const dt = Math.min(0.05, (now - lastTime) / 1000);
+      lastTime = now;
+      t += params.speed * dt;
+      draw();
+      rafId = requestAnimationFrame(tick);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) cancelAnimationFrame(rafId);
+      else { lastTime = performance.now(); rafId = requestAnimationFrame(tick); }
+    });
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) draw();
+    else rafId = requestAnimationFrame(tick);
+  })();
+
+  // Tuner UI
+  function bindRange(id, key, format, transform) {
+    const el = document.getElementById(id);
+    const out = document.getElementById('v' + id.charAt(0).toUpperCase() + id.slice(1));
+    const update = () => {
+      const v = parseFloat(el.value);
+      params[key] = transform ? transform(v) : v;
+      out.textContent = format(v);
+    };
+    el.addEventListener('input', update);
+    update();
+  }
+  bindRange('noiseScale', 'noiseScale', v => v.toFixed(4));
+  bindRange('waveStretch', 'waveStretch', v => v.toFixed(1));
+  bindRange('waveAngle', 'waveAngle', v => v + '°', v => v * Math.PI / 180);
+  bindRange('contrast', 'contrast', v => v.toFixed(1));
+  bindRange('minRadius', 'minRadius', v => v.toFixed(2));
+  bindRange('speed', 'speed', v => v.toFixed(2));
+
+  // Presets
+  const presets = {
+    default: { noiseScale: 0.0009, waveStretch: 3.5, waveAngle: -23, contrast: 5.0, minRadius: 0.4, speed: 0.18 },
+    bold:    { noiseScale: 0.0008, waveStretch: 4.5, waveAngle: -20, contrast: 6.0, minRadius: 0.5, speed: 0.22 },
+    subtle:  { noiseScale: 0.0014, waveStretch: 2.5, waveAngle: -15, contrast: 4.0, minRadius: 0.3, speed: 0.12 },
+  };
+  document.querySelectorAll('.preset-row button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = presets[btn.dataset.preset];
+      document.getElementById('noiseScale').value = p.noiseScale;
+      document.getElementById('waveStretch').value = p.waveStretch;
+      document.getElementById('waveAngle').value = p.waveAngle;
+      document.getElementById('contrast').value = p.contrast;
+      document.getElementById('minRadius').value = p.minRadius;
+      document.getElementById('speed').value = p.speed;
+      ['noiseScale', 'waveStretch', 'waveAngle', 'contrast', 'minRadius', 'speed'].forEach(id =>
+        document.getElementById(id).dispatchEvent(new Event('input'))
+      );
+    });
+  });
+
+  // Tuner collapse
+  document.getElementById('tunerToggle').addEventListener('click', () => {
+    const t = document.getElementById('tuner');
+    t.classList.toggle('collapsed');
+    document.getElementById('tunerToggle').textContent = t.classList.contains('collapsed') ? '+' : '−';
+  });
+
+  // View toggle
+  document.getElementById('tintOn').addEventListener('click', () => {
+    document.body.classList.remove('no-tint');
+    document.getElementById('tintOn').classList.add('on');
+    document.getElementById('tintOff').classList.remove('on');
+  });
+  document.getElementById('tintOff').addEventListener('click', () => {
+    document.body.classList.add('no-tint');
+    document.getElementById('tintOff').classList.add('on');
+    document.getElementById('tintOn').classList.remove('on');
+  });
+</script>
+
+</body>
+</html>

@@ -40,6 +40,12 @@ export type ValueCard = {
   graphic?: Graphic
 }
 
+export type CtaSection = {
+  heading?: string
+  subheading?: string
+  cta?: Button
+}
+
 export type Breadcrumb = {
   rootLabel?: string
   categoryLabel?: string
@@ -399,6 +405,7 @@ export type StudyNumbers = {
   stats: Array<{
     value: string
     label: string
+    description?: string
     _key: string
   }>
 }
@@ -729,12 +736,14 @@ export type Why = {
 export type WhatWeDo = {
   _type: 'whatWeDo'
   eyebrow?: string
+  heading?: BlockContentTextOnly
+  ctaSection?: CtaSection
   cards: Array<{
     kind?: 'engineering' | 'ai'
     label?: string
     labelImage?: LabelImage
     title: string
-    body: string
+    body?: string
     services?: Array<
       {
         _key: string
@@ -1369,6 +1378,12 @@ export type Post = {
     } & PostReference
   >
   order?: number
+  stats?: Array<{
+    value?: string
+    label?: string
+    _type: 'stat'
+    _key: string
+  }>
   pageBuilder?: Array<
     | ({
         _key: string
@@ -2342,6 +2357,7 @@ export type AllSanitySchemaTypes =
   | ContactFormFormConfig
   | Heading
   | ValueCard
+  | CtaSection
   | Breadcrumb
   | RealityHeading
   | CompareHeading

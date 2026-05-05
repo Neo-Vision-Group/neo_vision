@@ -19,10 +19,10 @@ export function CalloutCard({
   return (
     <aside
       className={cn(
-        "flex flex-col bg-[#f0eded] dark:bg-black gap-12 border border-white/20 p-8 dark:border-white/30",
+        "flex flex-col bg-[#f0eded] dark:bg-dark-light gap-12 border border-decoration-dark p-8 dark:border-decoration-light",
         variant === "accent"
           ? "border-brand bg-brand/10"
-          : "border-white/20 bg-surface dark:border-white/30",
+          : "border-decoration-dark dark:border-decoration-light",
         className
       )}
     >

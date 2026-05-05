@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
 import type { InsightAuthorData } from "@/lib/types/insight";
@@ -20,11 +23,12 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
   return (
     <section
       id="author"
-      className="px-4 py-16 md:px-6 xl:px-8"
+      className="px-4 py-16 md:px-6 bg-white dark:bg-black"
     >
-      <div className="mx-auto max-w-330 border border-black/10 bg-white dark:border-white/10 dark:bg-[#0f0f0f]">
+      <div className="mx-auto max-w-330 bg-white dark:bg-black">
+        <div className="border-t border-black/10 dark:border-white/10" />
         <div className="grid overflow-hidden lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,429px)]">
-          <div className="flex items-center px-6 py-8 md:px-10 md:py-12 lg:px-12">
+          <div className="flex items-center px-6 py-8 md:px-8">
             <div className="w-full max-w-xl">
               {author?.name ? (
                 <p className="font-funnel text-[28px] leading-[1.15] tracking-[-1px] text-foreground md:text-4xl">
@@ -48,14 +52,9 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
             </div>
           </div>
 
-          <div className="border-t border-black/10 dark:border-white/10 lg:border-l lg:border-t-0">
+          <div>
             <div className="relative aspect-429/523 min-h-80 overflow-hidden bg-[#f3f3f5] dark:bg-[#090909]">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 overflow-hidden whitespace-pre-wrap break-all px-4 pt-3 font-mono text-4xl uppercase leading-[1.08] tracking-[0.18em] text-black/10 dark:text-white/10"
-              >
-                {BINARY_PATTERN}
-              </div>
+              <BinaryGlitchField />
 
               {portraitUrl ? (
                 <div className="bottom-0 right-0 h-[82%] w-[78%] overflow-hidden bg-white/70 dark:bg-black/20 relative">
@@ -84,13 +83,61 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
   );
 }
 
-const BINARY_PATTERN = `
-10010111010.10010111010.10010111010.10010111010.
-10010111010.10010111010.10010111010.10010111010.
-10010111010.10010111010.10010111010.10010111010.
-10010111010.10010111010.10010111010.10010111010.
-10010111010.10010111010.10010111010.10010111010.
-`;
+function BinaryGlitchField() {
+  const [mounted, setMounted] = useState(false);
+  const [lines, setLines] = useState<string[]>([]);
+
+  useEffect(() => {
+    setMounted(true);
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    setLines(createBinaryLines());
+
+    if (mediaQuery?.matches) {
+      return;
+    }
+
+    const interval = window.setInterval(() => {
+      setLines(createBinaryLines());
+    }, 70);
+
+    return () => {
+      window.clearInterval(interval);
+    };
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <div className="absolute inset-[-8%] overflow-hidden">
+      <div className="absolute inset-0" />
+      <div className="absolute inset-0 font-opening-hours-mono text-[22px] bg-white dark:bg-black uppercase leading-[1.05] tracking-[0.24em] text-decoration-dark dark:text-decoration-light md:text-[28px]">
+        {lines.map((line, index) => (
+          <p
+            key={`${index}-${line.slice(0, 10)}`}
+            className="whitespace-nowrap"
+            style={{
+              transform: `translate3d(${index % 2 === 0 ? "-3%" : "1%"}, ${
+                index * 92
+              }%, 0)`,
+            }}
+          >
+            {line}
+          </p>
+        ))}
+      </div>
+      <div className="absolute inset-0" />
+    </div>
+  );
+}
+
+function createBinaryLines(lineCount = 9, lineLength = 28) {
+  return Array.from({ length: lineCount }, () =>
+    Array.from({ length: lineLength }, () =>
+      Math.random() > 0.5 ? "1" : "0"
+    ).join("")
+  );
+}
 
 function getInitials(name?: string | null) {
   if (!name) return "NVT";

@@ -8,8 +8,10 @@ export function InsightRelated({ related }: InsightRelatedProps) {
   if (related.length === 0) return null;
 
   return (
-    <section id="related" className="px-4 py-16 md:px-6 xl:px-8">
+    <section id="related" className="px-4 py-16 md:px-6">
       <div className="mx-auto max-w-330">
+        <div className="border-t border-black/10 dark:border-white/10" />
+        <div className="px-6 pt-12 md:px-8">
         <h2 className="mb-8 text-[36px] font-normal leading-[1.2] tracking-[-1px] text-foreground md:text-[44px]">
           <span className="font-bold">Keep reading.</span>
         </h2>
@@ -17,6 +19,7 @@ export function InsightRelated({ related }: InsightRelatedProps) {
           {related.slice(0, 3).map((r, idx) => (
             <ArticleCard key={r._id ?? r.title + idx} article={r} />
           ))}
+        </div>
         </div>
       </div>
     </section>

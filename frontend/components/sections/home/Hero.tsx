@@ -120,14 +120,14 @@ export function Hero({ data }: { data?: HeroData }) {
         </RevealOnScroll>
       </div>
 
-      <div className="relative w-full shrink-0 px-4 pb-6 md:px-12 md:pb-10 lg:px-16 lg:pb-12 2xl:px-30 2xl:pb-16">
-        <div className="flex flex-col border-t border-border md:flex-row">
+      <div className="relative w-full border-t border-decoration-dark dark:border-decoration-light shrink-0">
+        <div className="flex flex-col md:flex-row">
           {/* Stats */}
           <RevealOnScroll
             as="div"
             from="bottom"
             distance={16}
-            className="flex items-center px-0 py-6 text-left md:w-1/4 md:pr-6 md:py-6 lg:pr-12"
+            className="flex items-center py-6 text-left md:max-w-1/4 pb-6 md:pb-10 lg:pb-12 2xl:pb-16 px-4 md:px-12 lg:px-16 2xl:px-30"
           >
             {hero.stats ? (
               <p className="w-full font-funnel text-[18px] leading-normal text-foreground">
@@ -137,11 +137,11 @@ export function Hero({ data }: { data?: HeroData }) {
           </RevealOnScroll>
 
           {/* Vertical / horizontal divider */}
-          <div aria-hidden="true" className="h-px w-full shrink-0 bg-border md:hidden" />
-          <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-border md:block md:w-px" />
+          <div aria-hidden="true" className="h-px w-full shrink-0 bg-decoration-dark dark:bg-decoration-light md:hidden" />
+          <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="flex min-w-0 flex-1 flex-col items-start gap-8 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 md:py-6 lg:pl-12">
+          <div className="flex min-w-0 flex-1 flex-col items-start gap-8 pb-6 md:pb-10 lg:pb-12 2xl:pb-16 py-6 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 md:py-6 lg:pl-12 px-4 md:px-12 lg:px-16 2xl:px-30">
             <SplitTextReveal
               as="p"
               type="words"
@@ -159,7 +159,7 @@ export function Hero({ data }: { data?: HeroData }) {
               delay={0.15}
               className="flex w-full shrink-0 flex-col items-start gap-[18px] md:w-auto md:items-end md:self-center"
             >
-              <div className="font-funnel text-[18px] leading-[1.5] text-foreground md:text-right">
+              <div className="font-funnel text-[18px] pl-48 leading-normal text-foreground md:text-right">
                 {hero.mergerNote.map((line) => (
                   <p key={line}>{line}</p>
                 ))}

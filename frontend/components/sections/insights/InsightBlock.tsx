@@ -139,63 +139,66 @@ export function InsightBlock({ data }: InsightBlockProps) {
   const { title, text, sectionType, quote, table, card } = data
 
   return (
-    <section className="px-4 py-16 md:px-6 md:py-20 xl:px-8">
-      <article className="mx-auto max-w-330 px-6 md:px-12">
-        <h2 className="mb-8 max-w-[14ch] text-[36px] font-medium leading-10 tracking-[-0.4px] text-foreground md:text-[56px] md:leading-16 xl:text-[72px] xl:leading-20">
-          {title}
-        </h2>
+    <section className="px-4 pb-16 md:px-6 md:pb-20">
+      <article className="mx-auto max-w-330">
+        <div className="border-t border-black/10 dark:border-white/10" />
+        <div className="px-6 pt-16 md:px-8 md:pt-20">
+          <h2 className="mb-8 text-[36px] font-medium leading-10 tracking-[-0.4px] text-foreground md:text-[56px] md:leading-16 xl:text-[72px] xl:leading-20">
+            {title}
+          </h2>
 
-        {text && text.length > 0 && (
-          <div className="mb-12 max-w-225 text-body text-foreground/80">
-            <PortableText value={text} components={portableTextComponents} />
-          </div>
-        )}
-
-        {sectionType === 'quote' && quote?.quote && quote.quote.length > 0 && (
-          <div className="mb-12 max-w-245">
-            <div className="border border-black/8 bg-black/4 px-6 py-8 dark:border-white/10 dark:bg-white/4 md:px-8 md:py-10">
-              <div className="flex items-start gap-4 md:gap-6">
-                <div aria-hidden className="mt-1 shrink-0 text-brand">
-                  <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M11.816 0.992188L4.64801 11.1922C3.81601 12.3762 3.40001 13.6402 3.40001 14.9842C3.40001 16.4562 3.89601 17.6882 4.88801 18.6802C5.91201 19.6402 7.16001 20.1202 8.63201 20.1202C10.104 20.1202 11.336 19.6402 12.328 18.6802C13.32 17.6882 13.816 16.4562 13.816 14.9842C13.816 13.7362 13.464 12.6482 12.76 11.7202C12.056 10.7602 11.128 10.1042 9.97601 9.75219L16.952 0.992188H11.816ZM26.216 0.992188L19.048 11.1922C18.216 12.3762 17.8 13.6402 17.8 14.9842C17.8 16.4562 18.296 17.6882 19.288 18.6802C20.312 19.6402 21.56 20.1202 23.032 20.1202C24.504 20.1202 25.736 19.6402 26.728 18.6802C27.72 17.6882 28.216 16.4562 28.216 14.9842C28.216 13.7362 27.864 12.6482 27.16 11.7202C26.456 10.7602 25.528 10.1042 24.376 9.75219L31.352 0.992188H26.216Z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                </div>
-                <div className="min-w-0 flex-1 space-y-5">
-                  <PortableText value={quote.quote} components={quotePortableTextComponents} />
-                </div>
-              </div>
-              {quote.attribution && (
-                <p className="mt-5 pl-12 text-[14px] uppercase tracking-[0.18em] text-foreground/55 md:pl-14">
-                  {quote.attribution}
-                </p>
-              )}
+          {text && text.length > 0 && (
+            <div className="mb-12 max-w-225 text-body text-foreground/80">
+              <PortableText value={text} components={portableTextComponents} />
             </div>
-          </div>
-        )}
+          )}
 
-        {sectionType === 'table' && table && table.headers && table.rows && (
-          <div className="mb-12 max-w-275">
-            <ComparisonTable
-              headers={table.headers}
-              rows={table.rows}
-            />
-          </div>
-        )}
-
-        {sectionType === 'card' && card && (
-          <div className="mb-12 max-w-225">
-            <CalloutCard label={card.label}>
-              {card.body && card.body.length > 0 ? (
-                <div className="[&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
-                  <PortableText value={card.body} components={portableTextComponents} />
+          {sectionType === 'quote' && quote?.quote && quote.quote.length > 0 && (
+            <div className="mb-12 max-w-245">
+              <div className="bg-black/4 px-6 py-8 dark:bg-white/4 md:px-8 md:py-10">
+                <div className="flex items-start gap-4 md:gap-6">
+                  <div aria-hidden className="mt-1 shrink-0 text-brand">
+                    <svg width="30" height="24" viewBox="0 0 30 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M11.816 0.992188L4.64801 11.1922C3.81601 12.3762 3.40001 13.6402 3.40001 14.9842C3.40001 16.4562 3.89601 17.6882 4.88801 18.6802C5.91201 19.6402 7.16001 20.1202 8.63201 20.1202C10.104 20.1202 11.336 19.6402 12.328 18.6802C13.32 17.6882 13.816 16.4562 13.816 14.9842C13.816 13.7362 13.464 12.6482 12.76 11.7202C12.056 10.7602 11.128 10.1042 9.97601 9.75219L16.952 0.992188H11.816ZM26.216 0.992188L19.048 11.1922C18.216 12.3762 17.8 13.6402 17.8 14.9842C17.8 16.4562 18.296 17.6882 19.288 18.6802C20.312 19.6402 21.56 20.1202 23.032 20.1202C24.504 20.1202 25.736 19.6402 26.728 18.6802C27.72 17.6882 28.216 16.4562 28.216 14.9842C28.216 13.7362 27.864 12.6482 27.16 11.7202C26.456 10.7602 25.528 10.1042 24.376 9.75219L31.352 0.992188H26.216Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+                  <div className="min-w-0 flex-1 space-y-5">
+                    <PortableText value={quote.quote} components={quotePortableTextComponents} />
+                  </div>
                 </div>
-              ) : null}
-            </CalloutCard>
-          </div>
-        )}
+                {quote.attribution && (
+                  <p className="mt-5 pl-12 text-[14px] uppercase tracking-[0.18em] text-foreground/55 md:pl-14">
+                    {quote.attribution}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {sectionType === 'table' && table && table.headers && table.rows && (
+            <div className="mb-12 max-w-275">
+              <ComparisonTable
+                headers={table.headers}
+                rows={table.rows}
+              />
+            </div>
+          )}
+
+          {sectionType === 'card' && card && (
+            <div className="mb-12 max-w-225">
+              <CalloutCard label={card.label}>
+                {card.body && card.body.length > 0 ? (
+                  <div className="[&_p:first-child]:mt-0 [&_p:last-child]:mb-0">
+                    <PortableText value={card.body} components={portableTextComponents} />
+                  </div>
+                ) : null}
+              </CalloutCard>
+            </div>
+          )}
+        </div>
       </article>
     </section>
   )
