@@ -9,6 +9,7 @@ import {InsightAuthor} from '@/components/sections/insight-detail/InsightAuthor'
 import {InsightHero} from '@/components/sections/insight-detail/InsightHero'
 import {InsightRelated} from '@/components/sections/insight-detail/InsightRelated'
 import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
+import {DrawLine} from '@/components/partials/motion/DrawLine'
 import type {InsightDoc} from '@/lib/types/insight'
 import {sanityFetch} from '@/sanity/lib/live'
 import {
@@ -144,11 +145,29 @@ export default async function InsightDetailPage({
     <>
       <StructuredDataScript nodes={structuredData} />
       <InsightHero post={post} />
-      {post.pageBuilder && post.pageBuilder.length > 0 ? (
-        <PageBuilder deferRouteReadySignal page={post as any} />
-      ) : null}
-      <InsightAuthor author={post.author} />
-      <InsightRelated related={related} />
+      <div className="relative">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex px-4 md:px-6">
+          <div className="relative mx-auto w-full max-w-330">
+            <DrawLine
+              direction="vertical"
+              start="top bottom"
+              end="bottom top"
+              className="absolute inset-y-0 left-0 w-px bg-black/10 dark:bg-white/10"
+            />
+            <DrawLine
+              direction="vertical"
+              start="top bottom"
+              end="bottom top"
+              className="absolute inset-y-0 right-0 w-px bg-black/10 dark:bg-white/10"
+            />
+          </div>
+        </div>
+        {post.pageBuilder && post.pageBuilder.length > 0 ? (
+          <PageBuilder deferRouteReadySignal page={post as any} />
+        ) : null}
+        <InsightAuthor author={post.author} />
+        <InsightRelated related={related} />
+      </div>
       <PageTransitionMarker hasHeroPattern />
     </>
   )

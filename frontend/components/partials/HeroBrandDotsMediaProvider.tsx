@@ -283,7 +283,9 @@ export function HeroBrandDotsCanvas({className, style}: {className?: string; sty
     const canvas = canvasRef.current
     if (!context || !canvas) return
 
-    let unregister: (() => void) | undefined
+    // Register immediately so the canvas starts drawing on the first RAF tick.
+    // This is critical for FirstLoadIntro (fixed overlay) where IO may fire late.
+    let unregister: (() => void) | undefined = context.registerCanvas(canvas)
 
     // Keep canvas buffer dimensions current without touching the draw hot-path
     const resizeObserver = new ResizeObserver((entries) => {
@@ -295,6 +297,7 @@ export function HeroBrandDotsCanvas({className, style}: {className?: string; sty
     })
     resizeObserver.observe(canvas)
 
+    // IO now only pauses drawing when scrolled off-screen and resumes on return.
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

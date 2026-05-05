@@ -69,78 +69,86 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
+        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
       )}
     >
       <HeroBrandDotsBackground />
 
-      <div className="relative flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 lg:py-28 xl:px-12 xl:py-16 2xl:px-16 2xl:py-20">
-        {eyebrow ? (
-          <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
-            {eyebrow}
-          </p>
-        ) : null}
+      <div className={cn(
+        "relative flex flex-1",
+        featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"
+      )}>
+        <div className={cn(
+          "flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-16",
+          featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
+        )}>
+          {eyebrow ? (
+            <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
+              {eyebrow}
+            </p>
+          ) : null}
 
-        <PortableTextRenderer
-              value={cleanData?.heading}
-              className={cn(
-                "[&_p]:my-0",
-                "[&_p]:font-funnel",
-                "[&_p]:text-[28px]",
-                "[&_p]:leading-8.5",
-                "[&_p]:tracking-[-0.3px]",
-                "[&_p]:text-foreground",
-                "md:[&_p]:text-[36px]",
-                "md:[&_p]:leading-11",
-                "lg:[&_p]:text-[48px]",
-                "lg:[&_p]:leading-14.5",
-                "lg:[&_p]:tracking-[-0.4px]",
-                "[&_p:first-of-type]:font-normal",
-                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
-                "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
-              )}
-            />
+          <PortableTextRenderer
+            value={cleanData?.heading}
+            className={cn(
+              "[&_p]:my-0",
+              "[&_p]:font-funnel",
+              "[&_p]:text-[28px]",
+              "[&_p]:leading-8.5",
+              "[&_p]:tracking-[-0.3px]",
+              "[&_p]:text-foreground",
+              "md:[&_p]:text-[36px]",
+              "md:[&_p]:leading-11",
+              "lg:[&_p]:text-[48px]",
+              "lg:[&_p]:leading-14.5",
+              "lg:[&_p]:tracking-[-0.4px]",
+              "[&_p:first-of-type]:font-normal",
+              "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
+              "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+            )}
+          />
 
-        {subheading ? (
-          <RevealOnScroll
-            as="p"
-            className="max-w-170 font-funnel text-[18px] leading-normal text-foreground"
-            delay={0.15}
-          >
-            {subheading}
-          </RevealOnScroll>
-        ) : null}
+          {subheading ? (
+            <RevealOnScroll
+              as="p"
+              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground"
+              delay={0.15}
+            >
+              {subheading}
+            </RevealOnScroll>
+          ) : null}
 
-        {stats && stats.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
-            stagger={0.08}
-            delay={0.25}
-          >
-            <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
-              {stats.map((stat, index) => (
-                <div key={`stat-${index}`} className="contents">
-                  {index > 0 ? (
-                    <div
-                      aria-hidden="true"
-                      className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
-                    />
-                  ) : null}
-                  <StatCard stat={stat} />
-                </div>
-              ))}
-            </div>
-          </RevealOnScroll>
-        ) : null}
+          {stats && stats.length > 0 ? (
+            <RevealOnScroll
+              as="div"
+              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
+              stagger={0.08}
+              delay={0.25}
+            >
+              <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+                {stats.map((stat, index) => (
+                  <div key={`stat-${index}`} className="contents">
+                    {index > 0 ? (
+                      <div
+                        aria-hidden="true"
+                        className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                      />
+                    ) : null}
+                    <StatCard stat={stat} />
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+          ) : null}
+        </div>
 
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="w-full md:ml-auto md:w-[calc(100%-210px)] lg:w-[calc(100%-280px)] xl:w-[calc(100%-360px)] 2xl:w-[calc(100%-480px)]"
+            className="flex flex-col items-stretch justify-center px-6 py-8 lg:w-[640px] xl:w-[720px] 2xl:w-[820px] lg:shrink-0 lg:px-8 xl:px-10"
             delay={0.35}
           >
-            <FeaturedReferenceCard item={featured} />
+            <FeaturedReferenceCard item={featured} variant="sidebar" />
           </RevealOnScroll>
         ) : null}
       </div>
@@ -150,8 +158,10 @@ export function PageHero({ data }: { data?: PageHeroData }) {
 
 function FeaturedReferenceCard({
   item,
+  variant = "inline",
 }: {
   item: NonNullable<PageHeroData["featured"]>;
+  variant?: "inline" | "sidebar";
 }) {
   const slug =
     typeof item.slug === "string" ? item.slug : item.slug?.current ?? "";
@@ -185,11 +195,11 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative ml-auto flex flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex aspect-square w-full overflow-hidden md:w-57">
+      <div className="relative flex aspect-square overflow-hidden w-full md:w-57">
         {item.cover ? (
           <>
             {/* eslint-disable-next-line @next/next/no-img-element */}

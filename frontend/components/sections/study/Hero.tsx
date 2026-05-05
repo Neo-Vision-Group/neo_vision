@@ -57,12 +57,13 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] max-h-[calc(100svh-4rem)] min-h-0 w-full flex-col overflow-hidden border-b border-black/10 bg-white text-black dark:border-white/20 dark:bg-background dark:text-white"
+        "has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] max-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden border-b border-black/10 bg-white text-black dark:border-white/20 dark:bg-background dark:text-white"
       )}
     >
       <HeroBrandDotsBackground />
 
-      <div className="relative flex w-full min-h-0 flex-1 flex-col gap-6 px-6 pt-20 pb-6 md:gap-10 md:px-8 md:pt-24 md:pb-8 lg:px-12 lg:pb-10 xl:px-12 2xl:px-16">
+      {/* Text content — padded */}
+      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-20 pb-6 md:gap-10 md:px-8 md:pt-24 md:pb-6 lg:px-12 xl:px-12 2xl:px-16">
         <div className="font-funnel text-[16px] leading-normal text-black/65 dark:text-white/70 md:text-[18px]">
           <span>Work</span>
           <span className="px-2 text-brand">/</span>
@@ -92,65 +93,47 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
             </RevealOnScroll>
           ) : null}
         </div>
-
-        {/* Container for image and overlaying metrics */}
-        <div className="relative mt-auto w-full shrink-0 pb-0">
-          {/* Image - positioned absolutely from top:0, extends downward and gets cut */}
-          {imageUrl ? (
-            <div className="absolute inset-x-0 top-0 w-full overflow-hidden border border-brand/70 bg-[#f2f2f2] dark:bg-[#0f0f0f]" style={{ height: '80vh' }}>
-              <div className="pointer-events-none absolute inset-x-[-20px] top-0 h-px bg-brand" />
-              <div className="pointer-events-none absolute inset-x-[-20px] bottom-0 h-px bg-brand" />
-              <div className="pointer-events-none absolute inset-y-[-20px] left-0 w-px bg-brand" />
-              <div className="pointer-events-none absolute inset-y-[-20px] right-0 w-px bg-brand" />
-
-              <div className="relative h-full w-full">
-                <Image
-                  src={imageUrl}
-                  alt={heading ?? "Hero image"}
-                  fill
-                  sizes="(min-width: 1280px) 1280px, 100vw"
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08)_0%,rgba(255,255,255,0)_35%,rgba(4,4,4,0.5)_100%)] dark:bg-[linear-gradient(180deg,rgba(4,4,4,0.04)_0%,rgba(4,4,4,0)_42%,rgba(4,4,4,0.6)_100%)]" />
-              </div>
-            </div>
-          ) : null}
-
-          {/* Metrics rail - overlays the image with higher z-index */}
-          {details.length > 0 ? (
-            <div className="relative z-10 flex flex-col">
-              <RevealOnScroll
-                as="div"
-                className="flex w-full flex-col"
-                stagger={0.08}
-              >
-                <div className="flex flex-col gap-0 md:flex-row md:items-stretch">
-                  {details.map((item, index) => (
-                    <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
-                      {index > 0 ? (
-                        <div
-                          aria-hidden="true"
-                          className="hidden md:block md:w-px md:self-stretch md:bg-white/20"
-                        />
-                      ) : null}
-                      <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-white/20 bg-black/70 p-6 backdrop-blur-md dark:bg-black/80">
-                        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
-                          {item.value}
-                        </p>
-                        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-white md:text-100">
-                          {item.label}
-                        </p>
-                      </article>
-                    </div>
-                  ))}
-                </div>
-              </RevealOnScroll>
-            </div>
-          ) : null}
-        </div>
       </div>
+
+      {/* Image — 16:9, sits at the bottom, gets clipped by section overflow-hidden */}
+      {imageUrl ? (
+        <div className="relative mt-auto shrink-0 aspect-video overflow-hidden border-t border-brand/70 bg-[#f2f2f2] dark:bg-[#0f0f0f] mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-16">
+          <Image
+            src={imageUrl}
+            alt={heading ?? "Hero image"}
+            fill
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            className="object-cover"
+            priority
+          />
+        </div>
+      ) : null}
+
+      {/* Stats — absolutely pinned to section bottom, over the image */}
+      {details.length > 0 ? (
+        <div className="absolute inset-x-0 bottom-0 z-20 border-t border-black/10 dark:border-white/20">
+          <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+            {details.map((item, index) => (
+              <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
+                {index > 0 ? (
+                  <div
+                    aria-hidden="true"
+                    className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                  />
+                ) : null}
+                <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+                  <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
+                    {item.value}
+                  </p>
+                  <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-100">
+                    {item.label}
+                  </p>
+                </article>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
-

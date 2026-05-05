@@ -44,12 +44,7 @@ import {StudyTestimonial, StudyTestimonialData} from '@/components/sections/stud
 import {StudyTechStack, StudyTechStackData} from '@/components/sections/study/TechStack'
 import {StudyMoreLikeThis, StudyMoreLikeThisData} from '@/components/sections/study/MoreLikeThis'
 import {StudyClosingCta, StudyClosingCtaData} from '@/components/sections/study/ClosingCta'
-import {
-  InsightsFeatured,
-  InsightsFeaturedData,
-} from '@/components/sections/insights/InsightsFeatured'
 import {InsightsGrid, InsightsGridData} from '@/components/sections/insights/InsightsGrid'
-import {InsightsCta, InsightsCtaData} from '@/components/sections/insights/InsightsCta'
 import {InsightBlock, InsightBlockQueryResponse} from '@/components/sections/insights/InsightBlock'
 import {Booking, BookingData} from '@/components/sections/contact/Booking'
 import {SoundFamiliar, SoundFamiliarData} from '@/components/sections/services/SoundFamiliar'
@@ -196,14 +191,8 @@ const Blocks = {
   studyClosingCta: ({block}: BlockProps) => {
     return <StudyClosingCta data={block as StudyClosingCtaData} />
   },
-  insightsFeatured: ({block}: BlockProps) => {
-    return <InsightsFeatured data={block as InsightsFeaturedData} />
-  },
   insightsGrid: ({block}: BlockProps) => {
     return <InsightsGrid data={block as InsightsGridData} />
-  },
-  insightsCta: ({block}: BlockProps) => {
-    return <InsightsCta data={block as InsightsCtaData} />
   },
   insightBlock: ({block}: BlockProps) => {
     return <InsightBlock data={block as InsightBlockQueryResponse} />

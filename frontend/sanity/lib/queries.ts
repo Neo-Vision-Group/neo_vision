@@ -459,21 +459,6 @@ const sharedPageBuilderProjection = /* groq */ `
         asset->
       }
     },
-    _type == "insightsFeatured" => {
-      ...,
-      insight->{
-        _id,
-        title,
-        slug,
-        excerpt,
-        category,
-        publishedAt,
-        readTime,
-        featured,
-        "cover": coverImage.asset->url,
-        author->{name, role, portrait}
-      }
-    },
     _type == "insightsGrid" => {
       ...,
       categoryFilters[]{
@@ -491,13 +476,6 @@ const sharedPageBuilderProjection = /* groq */ `
         featured,
         "cover": coverImage.asset->url,
         author->{name, role, portrait}
-      }
-    },
-    _type == "insightsCta" => {
-      ...,
-      cta {
-        ...,
-        ${linkFields}
       }
     },
     _type == "freeResources" => {

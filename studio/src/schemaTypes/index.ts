@@ -45,9 +45,7 @@ import {portfolioFeatured} from './objects/portfolio/portfolioFeatured'
 import {portfolioGrid} from './objects/portfolio/portfolioGrid'
 import {portfolioCta} from './objects/portfolio/portfolioCta'
 import {portfolioMetrics} from './objects/portfolio/portfolioMetrics'
-import {insightsFeatured} from './objects/insights/insightsFeatured'
 import {insightsGrid} from './objects/insights/insightsGrid'
-import {insightsCta} from './objects/insights/insightsCta'
 import {insightBlock} from './objects/insights/insightBlock'
 import {studyHeroImage} from './objects/study/studyHeroImage'
 import {studyHero} from './objects/study/studyHero'
@@ -122,9 +120,7 @@ export const schemaTypes = [
   portfolioGrid,
   portfolioCta,
   portfolioMetrics,
-  insightsFeatured,
   insightsGrid,
-  insightsCta,
   insightBlock,
   studyHeroImage,
   studyHero,

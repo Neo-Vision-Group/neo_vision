@@ -3,7 +3,6 @@
 import { useState } from "react";
 
 import { AnimatedBorder } from "@/components/AnimatedBorder";
-import { BorderWrapper } from "@/components/BorderWrapper";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import ResolvedLink from "@/components/ResolvedLink";
 import { SectionsWrapper } from "@/components/SectionsWrapper";

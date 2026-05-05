@@ -41,18 +41,18 @@ function RenderSections({
 
   return (
     <div
-      className={cn(isInsightDetailPage && 'mx-auto max-w-330 md:px-12')}
+      className={cn(isInsightDetailPage && '')}
       data-sanity={dataAttr({
         id: page._id,
         type: page._type,
         path: `pageBuilder`,
       }).toString()}
     >
-      <div className={cn(isInsightDetailPage && 'md:border-x md:border-b md:border-black/10 md:dark:border-white/20')}>
+      <div>
         {pageBuilderSections.map((block: PageBuilderSection, index: number) => (
           <div
             key={block._key}
-            className={cn(isInsightDetailPage && 'md:border-t md:border-black/10 md:dark:border-white/20')}
+            className={cn(isInsightDetailPage && '')}
           >
             <BlockRenderer
               index={index}

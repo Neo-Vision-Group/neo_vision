@@ -8,6 +8,7 @@ import Badge from "@/components/partials/Badge";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import type { InsightDoc } from "@/lib/types/insight";
 import { urlForImage } from "@/sanity/lib/utils";
+import { BorderWrapper } from "@/components/BorderWrapper";
 
 function formatDate(iso?: string | null) {
   if (!iso) return null;
@@ -48,7 +49,7 @@ function ShareButton({
       {...props}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative flex h-12 w-12 items-center justify-center bg-brand-dark text-dark transition-colors duration-300 hover:bg-brand dark:text-white"
+      className="relative flex h-12 w-12 items-center justify-center hover:bg-brand-dark text-dark transition-colors duration-300 active:bg-brand dark:text-white"
     >
       <AnimatedBorder isHovered={isHovered} />
       {children}
@@ -65,7 +66,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
     : post.cover || null;
 
   return (
-    <section className="has-hero-pattern relative isolate overflow-hidden border-b border-border bg-white text-[#111111] dark:bg-background dark:text-[#efefef]">
+    <section className="has-hero-pattern relative isolate overflow-hidden bg-white text-[#111111] dark:bg-background dark:text-[#efefef]">
       <HeroBrandDotsBackground />
       <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
 
@@ -103,22 +104,24 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               {post.excerpt ? (
                 <p className="max-w-[34ch] text-[20px] leading-[1.45] text-black/80 dark:text-white/78 md:text-100">
                   {post.excerpt}
-                </p>
+                </p>  
               ) : null}
             </div>
 
-            <div className="mt-auto flex flex-wrap items-center gap-4 md:gap-5">
+            <div className="mt-auto flex flex-col items-start gap-4 md:gap-5">
               {post.author?.name ? (
                 <div className="flex items-center gap-4">
                   <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-black/6 dark:bg-white/6">
                     {post.author.portrait ? (
-                      <Image
-                        src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
-                        alt={post.author.name}
-                        width={56}
-                        height={56}
-                        className="h-full w-full object-cover"
-                      />
+                      <BorderWrapper>
+                        <Image
+                          src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
+                          alt={post.author.name}
+                          width={56}
+                          height={56}
+                          className="h-full w-full object-cover"
+                        />
+                      </BorderWrapper>
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-[18px] text-black/35 dark:text-white/35">
                         {post.author.name.charAt(0)}
@@ -142,7 +145,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               ) : null}
 
               {slug ? (
-                <div className="flex items-center gap-3 md:ml-4">
+                <div className="flex items-center gap-3">
                   <ShareButton
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
                     target="_blank"
@@ -180,7 +183,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
 
           {/* Right column — cover image, bleeds to right viewport edge */}
           {coverImageUrl ? (
-            <div className="relative min-h-64 w-full overflow-hidden border border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5 lg:min-h-0 lg:flex-1">
+            <div className="relative min-h-64 w-full overflow-hidden border-y border-black/10 bg-black/5 dark:border-white/10 dark:bg-white/5 lg:min-h-0 lg:flex-1">
               <Image
                 src={coverImageUrl}
                 alt={post.title ?? "Insight cover image"}
