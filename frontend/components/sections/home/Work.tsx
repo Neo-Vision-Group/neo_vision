@@ -125,6 +125,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
     <SectionsWrapper
       id="work"
       eyebrow={cleanData?.eyebrow?.trim()}
+      classNameOverride="px-0"
     >
       <div className="flex flex-col gap-12">
         {heading ? (
@@ -146,10 +147,12 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           stagger={0.15}
           from="bottom"
           distance={24}
-          className="flex flex-col gap-6"
+          className="flex flex-col gap-6 "
         >
           {items.map((item) => (
-            <CaseRow key={item.key} item={item} />
+            <div className="px-6 lg:px-16 hover:px-0">
+              <CaseRow key={item.key} item={item} />
+            </div>
           ))}
         </RevealOnScroll>
 
@@ -167,7 +170,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
 
 function CaseRow({ item }: { item: ProjectItem }) {
   return (
-    <div className="group/work-shell relative isolate flex justify-center overflow-hidden px-6 py-6 transition-all duration-300 ease-out lg:px-6">
+    <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
       <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
         <div className="relative isolate h-full w-full overflow-hidden bg-surface transition-all duration-300 ease-out dark:bg-[#0F0F0F]">
           <div
@@ -226,8 +229,8 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:grid md:grid-cols-[150px_minmax(0,1fr)_250px]">
-        <div className="flex w-full flex-col justify-end p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
+      <div className="relative z-10 flex w-full max-w-270 flex-col bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:flex md:flex-row">
+        <div className="flex w-full flex-col justify-end p-4">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
@@ -246,7 +249,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </Link>
         </div>
 
-        <div className="p-4 md:border-r md:border-black/20 md:p-6 md:dark:border-white/20">
+        <div className="p-4">
           <div className="relative aspect-video w-full overflow-hidden bg-black">
             {item.imageUrl ?? (
               <Image
@@ -259,7 +262,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </div>
         </div>
 
-        <div className="flex w-full flex-col justify-between gap-6 p-4 md:p-6">
+        <div className="flex w-full flex-col justify-between gap-6 py-4 md:py-6">
           <Link href={item.ctaHref}>
             <Button variant="primary">{item.ctaLabel}</Button>
           </Link>

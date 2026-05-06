@@ -68,16 +68,6 @@ export type Closing = {
   followup: string
 }
 
-export type InsightsCtaHeading = {
-  regular?: string
-  bold?: string
-}
-
-export type InsightsCtaCta = {
-  label?: string
-  href?: string
-}
-
 export type PortfolioCtaHeading = {
   regular: string
   bold: string
@@ -509,13 +499,6 @@ export type InsightBlock = {
   card?: Card
 }
 
-export type InsightsCta = {
-  _type: 'insightsCta'
-  heading?: InsightsCtaHeading
-  body?: string
-  cta?: InsightsCtaCta
-}
-
 export type PostReference = {
   _ref: string
   _type: 'reference'
@@ -536,11 +519,6 @@ export type InsightsGrid = {
     _type: 'filter'
     _key: string
   }>
-}
-
-export type InsightsFeatured = {
-  _type: 'insightsFeatured'
-  insight: PostReference
 }
 
 export type PortfolioMetrics = {
@@ -1468,13 +1446,7 @@ export type Post = {
       } & Faq)
     | ({
         _key: string
-      } & InsightsFeatured)
-    | ({
-        _key: string
       } & InsightsGrid)
-    | ({
-        _key: string
-      } & InsightsCta)
     | ({
         _key: string
       } & PortfolioFeatured)
@@ -1666,13 +1638,7 @@ export type Page = {
       } & Faq)
     | ({
         _key: string
-      } & InsightsFeatured)
-    | ({
-        _key: string
       } & InsightsGrid)
-    | ({
-        _key: string
-      } & InsightsCta)
     | ({
         _key: string
       } & PortfolioFeatured)
@@ -1852,13 +1818,7 @@ export type Project = {
       } & Faq)
     | ({
         _key: string
-      } & InsightsFeatured)
-    | ({
-        _key: string
       } & InsightsGrid)
-    | ({
-        _key: string
-      } & InsightsCta)
     | ({
         _key: string
       } & PortfolioFeatured)
@@ -2029,13 +1989,7 @@ export type Service = {
       } & Faq)
     | ({
         _key: string
-      } & InsightsFeatured)
-    | ({
-        _key: string
       } & InsightsGrid)
-    | ({
-        _key: string
-      } & InsightsCta)
     | ({
         _key: string
       } & PortfolioFeatured)
@@ -2362,8 +2316,6 @@ export type AllSanitySchemaTypes =
   | RealityHeading
   | CompareHeading
   | Closing
-  | InsightsCtaHeading
-  | InsightsCtaCta
   | PortfolioCtaHeading
   | FreeResourcesHeading
   | Quote
@@ -2407,10 +2359,8 @@ export type AllSanitySchemaTypes =
   | StudyHero
   | StudyHeroImage
   | InsightBlock
-  | InsightsCta
   | PostReference
   | InsightsGrid
-  | InsightsFeatured
   | PortfolioMetrics
   | PortfolioCta
   | PortfolioGrid

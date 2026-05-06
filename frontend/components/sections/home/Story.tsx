@@ -148,6 +148,7 @@ export function Story({ data }: { data?: StoryData }) {
 
       metrics.forEach(({ item, index, progress }) => {
         const year = item.querySelector<HTMLElement>("[data-story-year]");
+        const body = item.querySelector<HTMLElement>("[data-story-body]");
         const scale = inactiveScale + (1 - inactiveScale) * progress;
         const itemOpacity = 0.2 + progress * 0.8;
 
@@ -155,6 +156,14 @@ export function Story({ data }: { data?: StoryData }) {
 
         if (year) {
           year.style.transform = reducedMotion.matches
+            ? index === nextActiveIndex
+              ? "scale(1)"
+              : `scale(${inactiveScale})`
+            : `scale(${scale})`;
+        }
+
+        if (body) {
+          body.style.transform = reducedMotion.matches
             ? index === nextActiveIndex
               ? "scale(1)"
               : `scale(${inactiveScale})`
@@ -228,7 +237,7 @@ export function Story({ data }: { data?: StoryData }) {
                   >
                     {m.year}
                   </span>
-                  <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl">
+                  <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl" data-story-body>
                     {m.body}
                   </p>
                 </div>

@@ -124,7 +124,7 @@ export function Team({ data }: { data?: TeamData }) {
                 type="button"
                 aria-label="Previous team member"
                 onClick={() => scroll("prev")}
-                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+                className={`group flex size-12 items-center justify-center transition-colors ${arrowButtonClassName}`}
               >
                 <TeamArrowLeft color={arrowColor} />
               </button>
@@ -132,7 +132,7 @@ export function Team({ data }: { data?: TeamData }) {
                 type="button"
                 aria-label="Next team member"
                 onClick={() => scroll("next")}
-                className={`group flex size-12 items-center justify-center rounded-full border transition-colors ${arrowButtonClassName}`}
+                className={`group flex size-12 items-center justify-center transition-colors ${arrowButtonClassName}`}
               >
                 <TeamArrowRight color={arrowColor} />
               </button>
