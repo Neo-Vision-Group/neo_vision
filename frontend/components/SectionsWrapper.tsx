@@ -6,6 +6,7 @@ interface SectionsWrapperProps {
   children: ReactNode
   id?: string
   hideTopBorder?: boolean
+  hideBorders?: boolean
   classNameOverride?: string
 }
 
@@ -14,24 +15,27 @@ export function SectionsWrapper({
   children,
   id,
   hideTopBorder = false,
+  hideBorders = false,
   classNameOverride = '',
 }: SectionsWrapperProps) {
   return (
     <section id={id} className="relative flex flex-col md:flex-row w-full lg:items-start">
       <aside className="w-full lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
-        <div className="h-px w-full bg-black/20 dark:bg-white/20" />
-        <div className="relative w-full px-12 py-6">
+        {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
+        <div className="relative w-full pl-30 pr-6 py-6">
           <p className="font-betatron text-3xl text-black dark:text-[#efefef]">{eyebrow}</p>
         </div>
         
         {/* Fixed: Horizontal line needs h-px and w-full. 
             Triggered when the top of the aside hits the middle of the screen */}
-        <DrawLine
-          className="hidden lg:block h-px w-full bg-black/20 dark:bg-white/20"
-          start="top 80%" 
-          end="top 40%"
-          direction="horizontal"
-        />
+        {!hideBorders && (
+          <DrawLine
+            className="hidden lg:block h-px w-full bg-black/20 dark:bg-white/20"
+            start="top 80%" 
+            end="top 40%"
+            direction="horizontal"
+          />
+        )}
       </aside>
 
       {/* Mobile Borders */}
@@ -59,7 +63,7 @@ export function SectionsWrapper({
       <div className="flex min-w-0 flex-1 flex-col gap-12 pt-24">
         {/* Fixed: Top border horizontal line. 
             Changed start/end to vertical triggers so it animates as you scroll down */}
-        {!hideTopBorder && (
+        {!(hideTopBorder || hideBorders) && (
           <DrawLine 
             className="w-full h-px bg-black/20 dark:bg-white/20" 
             start="top 90%" 

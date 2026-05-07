@@ -181,7 +181,7 @@ function PricingCard({
   return (
     <article
       className={cn(
-        'flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12',
+        'flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-dark-light md:p-12',
         isFullWidth && 'md:col-span-2',
       )}
     >

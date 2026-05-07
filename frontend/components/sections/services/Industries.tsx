@@ -41,7 +41,7 @@ export function Industries({ data }: { data: IndustryData }) {
                     <span className="text-foreground/70">{data.heading} </span>
                 </h2>
             </div>
-            <div className="border-y border-black/20 dark:border-white/20">
+            <div className="border-t border-black/20 dark:border-white/20">
                 <RevealOnScroll
                     as="div"
                     stagger={0.06}
@@ -92,8 +92,8 @@ export function Industries({ data }: { data: IndustryData }) {
             </div>
 
             {metrics.length > 0 ? (
-                <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-                    <dl className="grid grid-cols-1 gap-x-8 gap-y-10 bg-white px-6 py-8 text-black dark:bg-black dark:text-[#EFEFEF] sm:grid-cols-2 md:px-8 md:py-10 lg:grid-cols-3 lg:gap-x-10 lg:px-12 lg:py-12">
+                <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
+                    <dl className="flex flex-col md:flex-row justify-start gap-48 bg-white px-6 py-8 text-black dark:bg-black dark:text-[#EFEFEF]">
                         {metrics.map((item, idx) => {
                             const value = item.value ?? "";
                             const suffix = item.prefix ?? "";
@@ -107,10 +107,10 @@ export function Industries({ data }: { data: IndustryData }) {
                                     key={(item.label ?? "metric") + idx}
                                     className="flex flex-col gap-6"
                                 >
-                                    <dt className="whitespace-nowrap font-betatron text-64 leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+                                    <dt className="whitespace-nowrap font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[80px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}
                                     </dt>
-                                    <dd className="max-w-[8ch] whitespace-pre-line font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-4xl md:tracking-[-1px]">
+                                    <dd className="font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-4xl md:tracking-[-1px]">
                                         {item.label}
                                     </dd>
                                 </div>

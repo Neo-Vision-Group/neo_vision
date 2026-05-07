@@ -75,36 +75,38 @@ export function PageHero({ data }: { data?: PageHeroData }) {
       <HeroBrandDotsBackground />
 
       <div className={cn(
-        "relative flex flex-1",
-        featured ? "flex-col lg:flex-row lg:items-stretch" : "flex-col"
+        "relative flex pt-20",
+        featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
-          "flex flex-1 flex-col justify-center gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-16",
+          "flex flex-1 flex-col justify-start gap-10 px-3 py-8 md:gap-14 md:px-6 md:py-20 lg:px-8 xl:px-12 2xl:px-30",
           featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
         )}>
-          {eyebrow ? (
-            <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
-              {eyebrow}
-            </p>
-          ) : null}
+          <div>
+            {eyebrow ? (
+              <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
+                {eyebrow}
+              </p>
+            ) : null}
 
-          <PortableTextRenderer
-            value={cleanData?.heading}
-            className={cn(
-              "[&_p]:my-0",
-              "[&_p]:font-funnel",
-              "[&_p]:text-[28px]",
-              "[&_p]:leading-none",
-              "[&_p]:tracking-[-0.3px]",
-              "md:[&_p]:text-[64px]",
-              "md:[&_p]:leading-none",
-              "lg:[&_p]:text-[96px]",
-              "lg:[&_p]:leading-none",
-              "lg:[&_p]:tracking-[-0.4px]",
-              "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
-              "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
-            )}
-          />
+            <PortableTextRenderer
+              value={cleanData?.heading}
+              className={cn(
+                "[&_p]:my-0",
+                "[&_p]:font-funnel",
+                "[&_p]:text-[28px]",
+                "[&_p]:leading-none",
+                "[&_p]:tracking-[-0.3px]",
+                "md:[&_p]:text-[64px]",
+                "md:[&_p]:leading-none",
+                "lg:[&_p]:text-[96px]",
+                "lg:[&_p]:leading-none",
+                "lg:[&_p]:tracking-[-0.4px]",
+                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
+                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+              )}
+            />
+          </div>
 
           {subheading ? (
             <RevealOnScroll
@@ -143,7 +145,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="flex flex-col items-stretch justify-center px-6 py-8 lg:w-[640px] xl:w-[720px] 2xl:w-[820px] lg:shrink-0 lg:px-8 xl:px-10"
+            className="flex flex-col items-end justify-end px-6 py-8 lg:shrink-0 lg:px-8 xl:px-10"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
@@ -193,7 +195,7 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col max-w-3/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >
@@ -240,7 +242,7 @@ function FeaturedReferenceCard({
             ) : null}
 
             {title ? (
-              <p className="max-w-[18ch] font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-4xl md:tracking-[-1px]">
+              <p className="font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-4xl md:tracking-[-1px]">
                 {title}
               </p>
             ) : null}

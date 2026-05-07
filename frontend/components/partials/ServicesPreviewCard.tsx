@@ -26,7 +26,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
   return (
     <article
       className={cn(
-        "group relative isolate flex min-h-120 flex-1 dark:bg-[#0F0F0F] bg-[#f7f7f7] flex-col justify-between gap-8 border border-white/5 p-6 transition-all duration-300 ease-out hover:border-white/20 hover:-translate-y-0.5 md:p-8 xl:min-h-145 xl:gap-12 xl:p-12",
+        "group relative border border-decoration-dark dark:border-decoration-light isolate flex min-h-120 flex-1 dark:bg-[#0F0F0F] bg-[#f7f7f7] flex-col justify-between gap-8 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 md:p-8 xl:min-h-145 xl:gap-12 xl:p-12",
         !isTextured && "bg-surface"
       )}
     >

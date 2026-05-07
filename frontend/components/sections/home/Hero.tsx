@@ -127,7 +127,7 @@ export function Hero({ data }: { data?: HeroData }) {
             as="div"
             from="bottom"
             distance={16}
-            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-0 lg:py-0 2xl:py-8px-4 md:px-12 lg:px-16 2xl:px-20"
+            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-0 lg:py-0 2xl:py-8px-4 md:px-12 lg:px-16 2xl:pl-30"
           >
             {hero.stats ? (
               <p className="w-full font-funnel text-[18px] leading-normal">

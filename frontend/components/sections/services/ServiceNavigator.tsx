@@ -204,7 +204,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
       classNameOverride="px-0 pb-24"
     >
       <div className="flex flex-col gap-12">
-        <div className="max-w-180 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+        <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <h2 className="font-funnel text-[36px] leading-[1.15] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-5xl md:tracking-[-1px]">
             <span className="text-black/70 dark:text-[#efefef]/70">
               {navigator.headingRegular}
@@ -216,7 +216,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
           </h2>
         </div>
 
-        <div className="border-y border-black/20 dark:border-white/20">
+        <div className="border-t border-black/20 dark:border-white/20">
           <RevealOnScroll
             as="div"
             stagger={0.08}
@@ -238,7 +238,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
                       columnIndex === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
                     )}
                   >
-                    <article className="flex min-h-73 flex-col justify-between gap-10 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
+                    <article className="flex flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
                       <div className="flex flex-col gap-3">
                         {card.prompt ? (
                           <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
@@ -260,7 +260,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
                 {row.length === 1 ? (
                   <div
                     aria-hidden="true"
-                    className="hidden lg:block lg:border-l lg:border-black/20 lg:dark:border-white/20"
+                    className="hidden lg:block"
                   />
                 ) : null}
               </div>

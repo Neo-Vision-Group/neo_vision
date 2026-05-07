@@ -108,13 +108,13 @@ export function AIServices({ data }: { data?: AIServicesData }) {
           return (
             <article
               key={item._key ?? `${service.name}-${index}`}
-              className="flex min-h-[340px] flex-col justify-between gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[380px] md:p-12"
+              className="flex flex-col justify-between gap-12 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
                   {service.tag ? <Badge text={service.tag} /> : null}
 
-                  <h3 className="max-w-[16ch] font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                  <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                     {service.name}
                   </h3>
 
@@ -129,7 +129,7 @@ export function AIServices({ data }: { data?: AIServicesData }) {
                 </div>
 
                 {service.description ? (
-                  <p className="max-w-[34ch] font-funnel text-[18px] leading-[1.55] text-black/70 dark:text-[#efefef]/70">
+                  <p className="font-funnel text-[18px] leading-[1.55] text-black/70 dark:text-[#efefef]/70">
                     {service.description}
                   </p>
                 ) : null}

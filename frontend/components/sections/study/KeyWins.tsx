@@ -1,8 +1,9 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+
+const signatureStepHoverGraphic = "/images/cta-graphic.jpg";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -89,17 +90,48 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
             <article
               key={card.key}
               className={cn(
-                "group relative isolate flex min-h-[28rem] flex-col justify-between overflow-hidden border p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 md:p-10 xl:min-h-[34rem] xl:p-12",
+                "group relative isolate flex min-h-112 flex-col justify-between overflow-hidden border p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 md:p-10  xl:p-12",
                 card.cardClassName
               )}
             >
               {card.textured ? (
-                <>
-                  <div className="absolute inset-0 opacity-30 dark:opacity-35">
-                    <HeroBrandDotsBackground />
-                  </div>
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,68,4,0.18),transparent_42%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(255,68,4,0.22),transparent_42%)]" />
-                </>
+                <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">      
+                  <img
+                    src={signatureStepHoverGraphic}
+                    alt=""
+                    className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+                  />
+                  <div
+                    className="absolute inset-0 mix-blend-screen dark:hidden"
+                    style={{ background: "#ff4404" }}
+                  />
+                  <div
+                    className="absolute inset-0 hidden mix-blend-multiply dark:block"
+                    style={{
+                      background: "#ff4404",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 dark:hidden"
+                    style={{
+                      backgroundImage: `
+                        linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 14%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.45) 86%, rgba(255,255,255,0.9) 100%),
+                        linear-gradient(90deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.4) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 76%, rgba(255,255,255,0.4) 88%, rgba(255,255,255,0.82) 100%),
+                        linear-gradient(180deg, rgba(255,68,4,0.08) 0%, rgba(255,68,4,0.18) 100%)
+                      `,
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 hidden dark:block"
+                    style={{
+                      backgroundImage: `
+                        linear-gradient(180deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 16%, rgba(11,11,11,0) 32%, rgba(11,11,11,0) 68%, rgba(11,11,11,0.42) 84%, rgba(11,11,11,0.88) 100%),
+                        linear-gradient(90deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 12%, rgba(11,11,11,0) 24%, rgba(11,11,11,0) 76%, rgba(11,11,11,0.42) 88%, rgba(11,11,11,0.88) 100%),
+                        linear-gradient(180deg, rgba(15,15,15,0.18) 0%, rgba(15,15,15,0.84) 100%)
+                      `,
+                    }}
+                  />
+                </div>
               ) : (
                 <div className="absolute inset-x-0 top-0 h-28 bg-[linear-gradient(180deg,rgba(4,4,4,0.04),transparent)] dark:bg-[linear-gradient(180deg,rgba(255,255,255,0.06),transparent)]" />
               )}

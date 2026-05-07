@@ -33,20 +33,15 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
           </h2>
         ) : null}
 
-        {/* Grid with full-bleed vertical lines */}
-        <div className="relative">
-          {/* Vertical line at midpoint between the two columns */}
-          <div className="pointer-events-none absolute inset-y-0 left-1/2 w-px bg-black/15 dark:bg-white/15" />
-          {/* Vertical line at right edge */}
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-px bg-black/15 dark:bg-white/15" />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3">
-            {stats.map((stat, index) => {
-              return (
-                <div
-                  key={`${stat.value}-${index}`}
-                  className="flex flex-col justify-between gap-8 border border-decoration-dark dark:border-decoration-light bg-black/5 dark:bg-white/5 p-6 lg:p-10"
-                >
+        {/* Grid with borders on each card container */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 border-t border-black/15 dark:border-white/15">
+          {stats.map((stat, index) => {
+            return (
+              <div
+                key={`${stat.value}-${index}`}
+                className="border-b border-r border-black/15 p-6 lg:p-8 dark:border-white/15"
+              >
+                <div className="flex flex-col justify-between gap-8 border border-black/15 bg-black/5 p-6 lg:p-10 dark:border-white/15 dark:bg-white/5">
                   <p className="font-betatron text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
                     {stat.value}
                   </p>
@@ -59,15 +54,15 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
                         {stat.description}
                       </p>
                     ) : null}
+                </div>
                   </div>
                 </div>
               );
             })}
           </div>
-        </div>
 
         {footnote ? (
-          <p className="px-6 py-8 lg:px-16 lg:py-12 font-funnel text-[16px] leading-[1.6] tracking-[-0.3px] text-black/65 dark:text-[#efefef]/70">
+          <p className="px-6 py-8 lg:px-16 lg:py-12 font-funnel text-[18px] leading-[1.6] tracking-[-0.3px] text-black/65 dark:text-[#efefef]/70">
             {footnote}
           </p>
         ) : null}

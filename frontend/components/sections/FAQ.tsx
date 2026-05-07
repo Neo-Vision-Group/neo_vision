@@ -62,7 +62,7 @@ export function FAQ({ data }: { data?: FaqData }) {
           </SplitTextReveal>
         </div>
 
-        <ul className="flex w-full max-w-227 flex-col gap-4 md:gap-6">
+        <ul className="flex w-full flex-col gap-4 md:gap-6">
           {items.map((item, idx) => {
             const open = openIdx === idx;
             const headingId = `${groupId}-${idx}`;
@@ -72,8 +72,8 @@ export function FAQ({ data }: { data?: FaqData }) {
               <li
                 key={item.question}
                 className={cn(
-                  "overflow-hidden border border-decoration-dark bg-white-dark dark:bg-dark-light transition-colors duration-200",
-                  open && "border-brand"
+                  "overflow-hidden border border-decoration-dark dark:border-decoration-light bg-white-dark dark:bg-dark-light transition-colors duration-200",
+                  open && "border border-brand"
                 )}
               >
                 <button

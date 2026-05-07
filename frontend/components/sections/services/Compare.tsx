@@ -118,7 +118,7 @@ export function Compare({data}: {data?: CompareData}) {
                       return (
                         <th
                           key={column._key ?? `${column.name}-${columnIndex}`}
-                          className={`px-3 py-5 text-center text-[14px] font-normal leading-[1.2] tracking-[-0.5px] ${
+                          className={`px-3 py-5 text-center text-[14px] font-funnel leading-[1.2] tracking-[-0.5px] ${
                             highlighted
                               ? 'bg-brand text-white'
                               : 'text-black dark:text-white'
@@ -137,7 +137,7 @@ export function Compare({data}: {data?: CompareData}) {
                       key={row._key ?? `${row.label}-${rowIndex}`}
                       className="border-b border-black/10 dark:border-white/20"
                     >
-                      <th className="px-2 py-5 text-left text-[14px] font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
+                      <th className="px-2 py-5 text-left text-[14px] font-funnel leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
                         {row.label}
                       </th>
 
@@ -148,7 +148,7 @@ export function Compare({data}: {data?: CompareData}) {
                         return (
                           <td
                             key={`${column._key ?? column.name}-${rowIndex}-${columnIndex}`}
-                            className={`px-3 py-5 text-center text-[20px] font-bold leading-none ${
+                            className={`px-3 py-5 text-center text-[20px] font-funnel leading-none ${
                               highlighted
                                 ? 'bg-brand/20'
                                 : 'text-black dark:text-white'

@@ -1,3 +1,4 @@
+import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
 
 export type PortfolioMetricsData = {
@@ -14,7 +15,7 @@ export function PortfolioMetrics({ data }: { data?: PortfolioMetricsData }) {
   }
 
   return (
-    <section className="dark:bg-black bg-white px-6 py-8 md:px-12 md:py-10">
+    <SectionsWrapper eyebrow="" classNameOverride="dark:bg-black bg-white px-6 py-8 md:px-12 md:py-10" hideBorders>
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 xl:grid-cols-4 xl:gap-6">
         {items.map((item, index) => (
           <article key={`${item.label ?? "metric"}-${index}`} className="flex flex-col gap-6">
@@ -27,6 +28,6 @@ export function PortfolioMetrics({ data }: { data?: PortfolioMetricsData }) {
           </article>
         ))}
       </div>
-    </section>
+    </SectionsWrapper>
   );
 }

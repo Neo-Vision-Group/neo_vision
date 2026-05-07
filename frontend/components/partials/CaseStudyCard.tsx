@@ -69,16 +69,15 @@ export function CaseStudyCard({
     >
       <div
         className={cn(
-          "relative isolate flex aspect-square overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
-          featured ? "w-full md:w-92 md:min-w-92" : "w-full md:w-92 md:min-w-92"
+          "relative isolate flex aspect-square overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5 w-full md:w-80 lg:w-94",
         )}
       >
         {thumbSrc ? (
           <Image
             src={thumbSrc}
             alt={item.client}
-            fill
-            sizes="(min-width: 768px) 367px, 100vw"
+            width={250}
+            height={250}
             className="absolute inset-0 h-full w-full object-cover opacity-50 transition-opacity duration-300 group-hover:opacity-60"
           />
         ) : (
@@ -126,7 +125,7 @@ export function CaseStudyCard({
               {item.client}
             </p>
             {item.tagline ? (
-              <p className="max-w-[28ch] text-64 leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
+              <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
                 {item.tagline}
               </p>
             ) : null}

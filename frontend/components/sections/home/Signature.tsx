@@ -145,9 +145,9 @@ export function Signature({ data }: { data?: SignatureData }) {
         </div>
 
         <div className="flex flex-col">
-          <div className="py-6 px-6 pb-24 lg:px-16">
+          <div className="py-6 px-6 lg:px-16">
             {signature.secondaryLine ? (
-              <p className="text-3xl leading-[1.3] md:text-100">
+              <p className="text-3xl leading-[1.3] md:text-100 pb-24">
                 {signature.secondaryLine}
               </p>
             ) : null}
@@ -260,13 +260,12 @@ function ValueCard({
 }: {
   valueCard: { value: string; body: string[]; graphic?: SanityImageSource };
 }) {
-  const graphicUrl = urlForImage(valueCard.graphic).width(1600).fit("max").url();
 
   return (
     <div className="relative isolate flex flex-col gap-6 border border-white/15 bg-[#EFEFEFB3] p-6 dark:bg-black">
       <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">
         <img
-          src={graphicUrl}
+          src={signatureStepHoverGraphic}
           alt=""
           className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
         />

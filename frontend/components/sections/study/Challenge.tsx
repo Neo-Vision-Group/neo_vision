@@ -60,19 +60,21 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
           <RevealOnScroll
             as="div"
             stagger={0.06}
-            className="grid grid-cols-1 gap-6 border-y border-white/15 py-6 md:grid-cols-2 px-6 lg:px-16"
+            className="grid grid-cols-1 border-t border-white/15 md:grid-cols-2 dark:border-white/15"
           >
             {issues.map((iss, idx) => (
               <article
                 key={(iss.tag ?? "iss") + idx}
-                className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f]s p-8"
+                className="border-b border-r border-white/15 p-6 dark:border-white/15"
               >
-                <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
-                  {iss.tag}
-                </span>
-                <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
-                  {iss.body}
-                </p>
+                <div className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f]">
+                  <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
+                    {iss.tag}
+                  </span>
+                  <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
+                    {iss.body}
+                  </p>
+                </div>
               </article>
             ))}
           </RevealOnScroll>

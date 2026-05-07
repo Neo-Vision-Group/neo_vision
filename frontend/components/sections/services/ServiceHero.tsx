@@ -123,107 +123,113 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
   return (
     <section
       id="service-hero"
-      className="has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden border-b border-black/10 bg-white dark:border-white/20 dark:bg-background"
+      className="has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden bg-white dark:bg-background"
     >
       <HeroBrandDotsBackground />
 
-      <div className="relative flex flex-1 flex-col gap-10 px-6 pb-6 pt-24 md:gap-12 md:px-8 md:pb-8 md:pt-28 lg:px-12 lg:pb-10 lg:pt-32 xl:px-12 2xl:px-16">
-        {breadcrumbSegments.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-64 leading-normal text-foreground/70 md:text-[18px]"
-          >
-            {breadcrumbSegments.map((segment, index) => {
-              const isCurrent = index === breadcrumbSegments.length - 1;
-
-              return (
-                <div key={`${segment}-${index}`} className="contents">
-                  {index > 0 ? (
-                    <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
-                      /
-                    </span>
-                  ) : null}
-                  <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
-                    {segment}
-                  </span>
-                </div>
-              );
-            })}
-          </RevealOnScroll>
-        ) : null}
-
-        <div className="flex flex-col gap-6 md:gap-8">
-          <RevealOnScroll
-            as="p"
-            className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl"
-          >
-            {eyebrow}
-          </RevealOnScroll>
-
-          {resolvedHeadlineLines.length > 0 ? (
+      <div className="relative flex flex-col gap-32 pt-20">
+        <div className="xl:px-12 2xl:px-30 lg:px-12 md:px-8 px-6 md:gap-12 gap-10 flex flex-col">
+          {breadcrumbSegments.length > 0 ? (
             <RevealOnScroll
-              as="h1"
-              className="font-funnel text-[52px] leading-none tracking-[-0.8px] text-foreground md:text-[72px] md:tracking-[-0.9px] lg:text-[96px] lg:tracking-[-1px]"
+              as="div"
+              className="flex flex-wrap items-center gap-x-3 gap-y-1 font-funnel text-64 leading-normal text-foreground/70 md:text-[18px]"
             >
-              {resolvedHeadlineLines.map((line, index) => (
-                <span key={`${line}-${index}`} className="block">
-                  {line}
-                </span>
-              ))}
+              {breadcrumbSegments.map((segment, index) => {
+                const isCurrent = index === breadcrumbSegments.length - 1;
+
+                return (
+                  <div key={`${segment}-${index}`} className="contents">
+                    {index > 0 ? (
+                      <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
+                        /
+                      </span>
+                    ) : null}
+                    <span className={cn(isCurrent ? "text-brand" : "text-black dark:text-white")}>
+                      {segment}
+                    </span>
+                  </div>
+                );
+              })}
             </RevealOnScroll>
           ) : null}
 
-          {description ? (
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-0">
+              <RevealOnScroll
+                as="p"
+                className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl"
+              >
+                {eyebrow}
+              </RevealOnScroll>
+
+              {resolvedHeadlineLines.length > 0 ? (
+                <RevealOnScroll
+                  as="h1"
+                  className="font-funnel text-[52px] leading-none tracking-[-0.8px] text-foreground md:text-[72px] md:tracking-[-0.9px] lg:text-[96px] lg:tracking-[-1px]"
+                >
+                  {resolvedHeadlineLines.map((line, index) => (
+                    <span key={`${line}-${index}`} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </RevealOnScroll>
+              ) : null}
+            </div>
+
+            {description ? (
+              <RevealOnScroll
+                as="p"
+                className="max-w-170 font-funnel text-[18px] leading-normal text-foreground/80"
+              >
+                {description}
+              </RevealOnScroll>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="px-12 border-t border-black/10 pt-3 dark:border-white/20">
+          {railItems.length > 0 ? (
             <RevealOnScroll
-              as="p"
-              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground/80"
+              as="div"
+              className="mt-auto flex w-full flex-col"
+              stagger={0.08}
             >
-              {description}
+              <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+                {railItems.map((item, index) => (
+                  <div key={item.key} className="contents">
+                    {index > 0 ? (
+                      <div
+                        aria-hidden="true"
+                        className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                      />
+                    ) : null}
+
+                    {item.kind === "highlight" ? (
+                      <HighlightCard card={item.card} />
+                    ) : (() => {
+                      const resolvedHref = item.cta.link ? linkResolver(item.cta.link) : null;
+                      return resolvedHref ? (
+                        <Button
+                          href={resolvedHref}
+                          target={item.cta.link?.openInNewTab ? "_blank" : undefined}
+                          rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+                          variant="primary"
+                          className="min-h-30 flex-1"
+                        >
+                          {item.cta.buttonText}
+                        </Button>
+                      ) : (
+                        <Button variant="primary" className="min-h-30 flex-1">
+                          {item.cta.buttonText}
+                        </Button>
+                      );
+                    })()}
+                  </div>
+                ))}
+              </div>
             </RevealOnScroll>
           ) : null}
         </div>
-
-        {railItems.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
-            stagger={0.08}
-          >
-            <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
-              {railItems.map((item, index) => (
-                <div key={item.key} className="contents">
-                  {index > 0 ? (
-                    <div
-                      aria-hidden="true"
-                      className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
-                    />
-                  ) : null}
-
-                  {item.kind === "highlight" ? (
-                    <HighlightCard card={item.card} />
-                  ) : (() => {
-                    const resolvedHref = item.cta.link ? linkResolver(item.cta.link) : null;
-                    return resolvedHref ? (
-                      <Button
-                        href={resolvedHref}
-                        target={item.cta.link?.openInNewTab ? "_blank" : undefined}
-                        rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
-                        variant="primary"
-                        className="min-h-30 flex-1"
-                      >
-                        {item.cta.buttonText}
-                      </Button>
-                    ) : (
-                      <Button variant="primary" className="min-h-30 flex-1">
-                        {item.cta.buttonText}
-                      </Button>
-                    );
-                  })()}
-                </div>
-              ))}
-            </div>
-          </RevealOnScroll>
-        ) : null}
       </div>
     </section>
   );

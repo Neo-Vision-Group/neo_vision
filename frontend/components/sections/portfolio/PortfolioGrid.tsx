@@ -114,10 +114,10 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   }
 
   return (
-    <div className="flex flex-col border-y border-black/15 dark:border-white/10 lg:flex-row">
+    <div className="flex flex-col border-y border-black/20 dark:border-white/20 lg:flex-row">
       <div className="lg:flex lg:w-full">
-        <aside className="border-b border-black/15 dark:border-white/10 lg:sticky lg:top-24 lg:w-93 lg:flex-none lg:self-start lg:border-b-0">
-          <div className="flex flex-col gap-10 px-6 py-8 md:px-10 lg:px-12 lg:py-6">
+        <aside className="border-b border-black/20 dark:border-white/20 lg:sticky lg:top-24 md:w-1/4 lg:flex-none lg:self-start lg:border-b-0 pl-30">
+          <div className="flex flex-col gap-10 lg:py-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
                 <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-4xl">
@@ -162,7 +162,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           </div>
         </aside>
 
-        <div className="hidden w-px shrink-0 bg-black/15 dark:bg-white/10 lg:block" />
+        <div className="hidden w-px shrink-0 bg-black/20 dark:bg-white/20 lg:block" />
 
         <div className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-0 lg:py-0">
           {filtered.length === 0 ? (

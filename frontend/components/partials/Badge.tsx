@@ -8,7 +8,7 @@ export default function Badge({ text }: { text: string }) {
 
   return (
     <div 
-      className="relative w-fit bg-brand-dark hover:bg-brand p-2 transition-colors duration-300"
+      className="relative w-fit bg-[#ff41004d] hover:bg-brand p-2 transition-colors duration-300"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

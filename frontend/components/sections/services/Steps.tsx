@@ -92,19 +92,19 @@ export function Steps({data}: {data?: StepsData}) {
 
                 <div className="px-0 pb-10 pl-4 md:pl-6 lg:px-8 lg:pb-14">
                   <div className="flex flex-col gap-6">
-                    <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
-                      <p className="font-betatron text-[44px] leading-[1] tracking-[-1px] text-brand md:text-[56px] md:leading-[1.2]">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                      <p className="font-betatron flex text-[44px] leading-none tracking-[-1px] text-brand md:text-[56px] md:leading-[1.2]">
                         {formatIndex(index)}.
                       </p>
 
                       <div className="flex min-w-0 flex-col items-start gap-1.5 pt-1.5">
                         {item.title ? (
-                          <h3 className="font-funnel text-100 font-bold leading-[1.2] text-foreground">
+                          <h4 className="font-funnel text-[24px]">
                             {item.title}
-                          </h3>
+                          </h4>
                         ) : null}
                         {item.duration ? (
-                          <span className="inline-flex items-center bg-brand/20 px-2.5 py-1 text-64 leading-[1.2] text-black dark:text-white md:text-[18px] md:leading-normal">
+                          <span className="inline-flex font-funnel items-center bg-brand/20 px-2.5 py-1 text-[18px] leading-[1.2] text-black dark:text-white md:text-[18px] md:leading-normal">
                             {item.duration}
                           </span>
                         ) : null}
