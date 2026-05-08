@@ -3,14 +3,12 @@ import {notFound} from 'next/navigation'
 import {cache} from 'react'
 import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilder from '@/components/PageBuilder'
-import type {ArticleCardData} from '@/components/partials/ArticleCard'
 import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {InsightAuthor} from '@/components/sections/insight-detail/InsightAuthor'
 import {InsightHero} from '@/components/sections/insight-detail/InsightHero'
 import {InsightRelated} from '@/components/sections/insight-detail/InsightRelated'
 import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
 import {DrawLine} from '@/components/partials/motion/DrawLine'
-import type {InsightDoc} from '@/lib/types/insight'
 import type {PageQueryResult} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
 import {
@@ -19,6 +17,43 @@ import {
   INSIGHT_BY_SLUG_QUERY,
 } from '@/sanity/lib/queries'
 import {buildRouteMetadata, buildRouteStructuredData, resolveSeoContext} from '@/sanity/lib/seo'
+
+import type { SanityImageSource } from "@sanity/image-url";
+import type { ArticleCardData } from "@/components/partials/ArticleCard";
+import type { PageBuilderSection } from "@/sanity/lib/types";
+import type { Seo } from "@/sanity.types";
+
+export type InsightAuthorData = {
+  name?: string | null;
+  role?: string | null;
+  bio?: string | null;
+  portrait?: SanityImageSource | null;
+};
+
+export type InsightStat = {
+  value?: string;
+  label?: string;
+};
+
+export type InsightDoc = {
+  _id?: string;
+  _type?: string;
+  title?: string;
+  slug?: { current?: string } | string | null;
+  excerpt?: string | null;
+  seo?: Seo | null;
+  coverImage?: SanityImageSource | null;
+  cover?: string | null;
+  category?: string | null;
+  publishedAt?: string | null;
+  readTime?: number | null;
+  featured?: boolean | null;
+  pageBuilder?: PageBuilderSection[];
+  author?: InsightAuthorData | null;
+  relatedInsights?: ArticleCardData[];
+  stats?: InsightStat[];
+};
+
 
 export const revalidate = 60
 
@@ -169,7 +204,7 @@ export default async function InsightDetailPage({
         <InsightAuthor author={post.author} />
         <InsightRelated related={related} />
       </div>
-      <PageTransitionMarker hasHeroPattern />
+      <PageTransitionMarker />
     </>
   )
 }

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { PortableTextRenderer } from "../partials/PortableTextRenderer";
 import type { PortableTextBlock } from "@portabletext/types";
+import { useEffect, useState } from "react";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -185,8 +186,14 @@ function FeaturedReferenceCard({
         .join(" | ");
 
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isDarkTheme = resolvedTheme === "dark";
-    const buttonColor = isDarkTheme
+  const buttonColor = mounted && isDarkTheme
     ? "#EFEFEF"
     : "#040404";
 

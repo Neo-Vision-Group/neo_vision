@@ -5,6 +5,47 @@ import { contactSchema } from "@/lib/contact-schema";
 import { ContactNotification } from "@/components/emails/ContactNotification";
 
 export async function POST(req: Request) {
+    const origin = req.headers.get('origin');
+  const referer = req.headers.get('referer');
+  
+  // Allow same-origin requests only
+  const allowedOrigins = [
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    'https://neovision.dev', // Add your production domain
+  ];
+  
+  // Check Origin header (preferred for POST)
+  if (origin) {
+    const originUrl = new URL(origin);
+    const isAllowed = allowedOrigins.some(allowed => {
+      const allowedUrl = new URL(allowed);
+      return originUrl.hostname === allowedUrl.hostname;
+    });
+    
+    if (!isAllowed) {
+      return NextResponse.json(
+        { ok: false, error: "Invalid origin." },
+        { status: 403 }
+      );
+    }
+  }
+  
+  // Fallback: check Referer if Origin is missing
+  else if (referer) {
+    const refererUrl = new URL(referer);
+    const isAllowed = allowedOrigins.some(allowed => {
+      const allowedUrl = new URL(allowed);
+      return refererUrl.hostname === allowedUrl.hostname;
+    });
+    
+    if (!isAllowed) {
+      return NextResponse.json(
+        { ok: false, error: "Invalid referer." },
+        { status: 403 }
+      );
+    }
+  }
+
   let body: unknown;
   try {
     body = await req.json();

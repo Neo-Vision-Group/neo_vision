@@ -8,13 +8,7 @@ import {
   PAGE_TRANSITION_ROUTE_READY_EVENT,
 } from '@/lib/page-transition'
 
-type PageTransitionMarkerProps = {
-  hasHeroPattern?: boolean
-}
-
-function PageTransitionMarkerInner({
-  hasHeroPattern = false,
-}: PageTransitionMarkerProps) {
+function PageTransitionMarkerInner() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const search = searchParams.toString()
@@ -25,7 +19,6 @@ function PageTransitionMarkerInner({
     window.dispatchEvent(
       new CustomEvent(PAGE_TRANSITION_ROUTE_READY_EVENT, {
         detail: {
-          hasHeroPattern,
           routeKey,
         },
       }),
@@ -40,22 +33,21 @@ function PageTransitionMarkerInner({
     }, 120)
 
     return () => window.clearTimeout(retryTimer)
-  }, [hasHeroPattern, routeKey])
+  }, [routeKey])
 
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none absolute h-0 w-0 overflow-hidden opacity-0"
-      data-route-has-hero-pattern={hasHeroPattern ? 'true' : 'false'}
       data-route-ready-key={routeKey}
     />
   )
 }
 
-export function PageTransitionMarker(props: PageTransitionMarkerProps) {
+export function PageTransitionMarker() {
   return (
     <Suspense fallback={null}>
-      <PageTransitionMarkerInner {...props} />
+      <PageTransitionMarkerInner />
     </Suspense>
   )
 }

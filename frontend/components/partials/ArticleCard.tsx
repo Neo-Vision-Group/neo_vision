@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import ArrowRight from "@/components/icons/ArrowRightPixel";
 import Image from "next/image";
 import { AnimatedBorder } from "../AnimatedBorder";
+import { useEffect, useState } from "react";
 
 export type ArticleCardData = {
   _id?: string;
@@ -50,8 +51,14 @@ export function ArticleCard({
   const category = formatCategory(article.category);
 
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isDarkTheme = resolvedTheme === "dark";
-    const buttonColor = isDarkTheme
+  const buttonColor = mounted && isDarkTheme
     ? "#EFEFEF"
     : "#040404";
 

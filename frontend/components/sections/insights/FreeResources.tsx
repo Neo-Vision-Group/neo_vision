@@ -7,6 +7,7 @@ import {HeadingShape} from '@/components/sections/PageHero'
 import {cleanStega} from '@/sanity/lib/utils'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 
 const RevealOnScroll = dynamic(
   () => import('@/components/partials/motion/RevealOnScroll').then((mod) => mod.RevealOnScroll),
@@ -108,8 +109,14 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
   const hasUrl = Boolean(downloadUrl)
 
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const isDarkTheme = resolvedTheme === "dark";
-    const buttonColor = isDarkTheme
+  const buttonColor = mounted && isDarkTheme
     ? "#EFEFEF"
     : "#040404";
 

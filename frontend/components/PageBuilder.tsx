@@ -9,7 +9,6 @@ import {PageQueryResult} from '@/sanity.types'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
 import { cn } from '@/lib/utils'
-import {pageHasHeroPattern} from '@/lib/page-transition'
 
 type PageBuilderPageProps = {
   page: PageQueryResult
@@ -117,10 +116,6 @@ export default function PageBuilder({
     return currentSections
   })
 
-  const hasHeroPattern = pageHasHeroPattern(
-    (pageBuilderSections ?? []).map((section) => section._type),
-  )
-
   return (
     <>
       {pageBuilderSections && pageBuilderSections.length > 0 ? (
@@ -128,7 +123,7 @@ export default function PageBuilder({
       ) : (
         <RenderEmptyState page={page} />
       )}
-      {!deferRouteReadySignal ? <PageTransitionMarker hasHeroPattern={hasHeroPattern} /> : null}
+      {!deferRouteReadySignal ? <PageTransitionMarker /> : null}
     </>
   )
 }
