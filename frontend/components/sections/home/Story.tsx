@@ -147,23 +147,14 @@ export function Story({ data }: { data?: StoryData }) {
       });
 
       metrics.forEach(({ item, index, progress }) => {
-        const year = item.querySelector<HTMLElement>("[data-story-year]");
-        const body = item.querySelector<HTMLElement>("[data-story-body]");
+        const storyItem = item.querySelector<HTMLElement>("[data-story-item]");
         const scale = inactiveScale + (1 - inactiveScale) * progress;
         const itemOpacity = 0.2 + progress * 0.8;
 
-        item.style.opacity = String(itemOpacity);
+        storyItem && (storyItem.style.opacity = String(itemOpacity));
 
-        if (year) {
-          year.style.transform = reducedMotion.matches
-            ? index === nextActiveIndex
-              ? "scale(1)"
-              : `scale(${inactiveScale})`
-            : `scale(${scale})`;
-        }
-
-        if (body) {
-          body.style.transform = reducedMotion.matches
+        if (storyItem) {
+          storyItem.style.transform = reducedMotion.matches
             ? index === nextActiveIndex
               ? "scale(1)"
               : `scale(${inactiveScale})`
@@ -184,7 +175,33 @@ export function Story({ data }: { data?: StoryData }) {
       });
     };
 
-    syncScroller();
+    // Force first item to be visually active on mount
+    const initializeFirstItemActive = () => {
+      const items = getItems();
+      if (items.length === 0) return;
+
+      const inactiveScale = window.innerWidth >= 768 ? 56 / 96 : 0.625;
+
+      items.forEach((item, index) => {
+        const storyItem = item.querySelector<HTMLElement>("[data-story-item]");
+        if (!storyItem) return;
+
+        if (index === 0) {
+          storyItem.style.opacity = "1";
+          storyItem.style.transform = "scale(1)";
+        } else {
+          storyItem.style.opacity = "0.2";
+          storyItem.style.transform = reducedMotion.matches
+            ? `scale(${inactiveScale})`
+            : `scale(${inactiveScale})`;
+        }
+      });
+
+      setActiveIndex(0);
+    };
+
+    initializeFirstItemActive();
+    updateEdgePadding();
     scroller.addEventListener("scroll", syncScroller, { passive: true });
     window.addEventListener("resize", syncScroller);
 
@@ -228,16 +245,15 @@ export function Story({ data }: { data?: StoryData }) {
                   "relative flex w-full shrink-0 flex-col gap-2 transition-opacity duration-300 ease-out md:w-85 lg:w-100 xl:w-120 2xl:w-138"
                 )}
               >
-                <div className="flex flex-col gap-0.5">
+                <div className="flex flex-col gap-0.5" data-story-item>
                   <span
-                    data-story-year
                     className={cn(
                       "block origin-left font-betatron capitalize text-brand text-8xl leading-none tracking-[-3.84px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none md:text-[96px] md:tracking-[-5.76px]"
                     )}
                   >
                     {m.year}
                   </span>
-                  <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl" data-story-body>
+                  <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl">
                     {m.body}
                   </p>
                 </div>
