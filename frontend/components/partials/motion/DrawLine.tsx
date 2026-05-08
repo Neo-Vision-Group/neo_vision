@@ -65,9 +65,12 @@ export function DrawLine({
 
       // Force a ScrollTrigger refresh after a tiny delay to catch layout shifts
       setTimeout(() => {
-        if (typeof window !== 'undefined' && (gsap as any).utils.toArray('.gsap-marker-start').length === 0) {
-          // Only refresh if markers aren't active to avoid cluttering dev
-          (gsap as any).install ? null : null; // sanity check
+        if (typeof window !== 'undefined' && 'utils' in gsap && 'toArray' in gsap.utils) {
+          const markers = gsap.utils.toArray('.gsap-marker-start')
+          if (markers.length === 0) {
+            // Only refresh if markers aren't active to avoid cluttering dev
+            'install' in gsap ? null : null; // sanity check
+          }
         }
       }, 100);
 

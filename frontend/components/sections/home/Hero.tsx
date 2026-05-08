@@ -8,16 +8,14 @@ const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
+    )
 );
 
 const SplitTextReveal = dynamic(
   () =>
     import("@/components/partials/motion/SplitTextReveal").then(
       (mod) => mod.SplitTextReveal
-    ),
-  { ssr: false }
+    )
 );
 
 export type HeroData = {
@@ -99,11 +97,11 @@ export function Hero({ data }: { data?: HeroData }) {
         >
           <div className="flex flex-col gap-2 text-foreground">
             {hero.heading ? (
-              <p className="text-4xl font-medium leading-8 tracking-[-0.3px] md:text-4xl md:leading-10 lg:text-[36px] lg:leading-12">
+              <h1 className="text-4xl font-medium leading-8 tracking-[-0.3px] md:text-4xl md:leading-10 lg:text-[36px] lg:leading-12">
                 {hero.heading}
-              </p>
+              </h1>
             ) : null}
-            {hero.body ? <p className="text-[18px]">{hero.body}</p> : null}
+            {hero.body ? <h3 className="text-[18px]">{hero.body}</h3> : null}
           </div>
           {hero.primaryCtaLabel && hero.primaryCtaHref ? (
             <div className="flex w-full">

@@ -9,8 +9,7 @@ const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
+    )
 );
 
 type ServiceHeroBreadcrumb = {

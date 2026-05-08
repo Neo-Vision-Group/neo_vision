@@ -8,7 +8,7 @@ import { cleanStega } from "@/sanity/lib/utils";
 
 export type ContactHeroData = {
   eyebrow?: string;
-  heading?: string;
+  heading?: string | LegacyHeadingFormat;
   description?: string;
   stats?: HeroStat[];
   steps?: Array<{
@@ -21,6 +21,11 @@ export type ContactHeroData = {
     timelines?: string[];
     hearAboutUs?: string[];
   };
+};
+
+type LegacyHeadingFormat = {
+  faded?: string;
+  bold?: string;
 };
 
 import { ContactFormSection } from "./ContactFormSection";
@@ -39,9 +44,10 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
       heading = cleanData.heading;
     } else if (typeof cleanData.heading === 'object' && 'faded' in cleanData.heading) {
       // Legacy format: { faded, bold }
+      const legacyHeading = cleanData.heading as LegacyHeadingFormat;
       const parts = [];
-      if (cleanData.heading) parts.push(cleanData.heading);
-      if ((cleanData.heading as any).bold) parts.push((cleanData.heading as any).bold);
+      if (legacyHeading.faded) parts.push(legacyHeading.faded);
+      if (legacyHeading.bold) parts.push(legacyHeading.bold);
       heading = parts.join(' ');
     }
   }

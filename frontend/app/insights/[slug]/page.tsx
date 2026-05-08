@@ -11,6 +11,7 @@ import {InsightRelated} from '@/components/sections/insight-detail/InsightRelate
 import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
 import {DrawLine} from '@/components/partials/motion/DrawLine'
 import type {InsightDoc} from '@/lib/types/insight'
+import type {PageQueryResult} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
 import {
   ALL_INSIGHTS_QUERY,
@@ -163,7 +164,7 @@ export default async function InsightDetailPage({
           </div>
         </div>
         {post.pageBuilder && post.pageBuilder.length > 0 ? (
-          <PageBuilder deferRouteReadySignal page={post as any} />
+          <PageBuilder deferRouteReadySignal page={post as PageQueryResult} />
         ) : null}
         <InsightAuthor author={post.author} />
         <InsightRelated related={related} />

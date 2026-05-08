@@ -101,15 +101,16 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       lang="en"
       className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
     >
-      <head>
-        <PlausibleProvider
-          src={process.env.PLAUSIBLE_DOMAIN || 'localhost'}
-          enabled={process.env.NODE_ENV === 'production'}
-        />
-      </head>
       <body className="overflow-x-clip">
-        <StructuredDataScript nodes={globalStructuredData} />
-        <ThemeProvider
+        <PlausibleProvider
+          src={process.env.PLAUSIBLE_SCRIPT_URL}
+          enabled={process.env.NODE_ENV === 'production'}
+          init={{
+            captureOnLocalhost: false,
+          }}
+        >
+          <StructuredDataScript nodes={globalStructuredData} />
+          <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
@@ -149,6 +150,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           </HeroBrandDotsMediaProvider>
         </ThemeProvider>
         <SpeedInsights />
+        </PlausibleProvider>
       </body>
     </html>
   )

@@ -51,7 +51,7 @@ export function RevealOnScroll({
           const targets: Element[] = stagger ? Array.from(el.children) : [el];
 
           if (reduced) {
-            gsap.set(targets, { opacity: 1, x: 0, y: 0 });
+            gsap.set(targets, { opacity: 1, x: 0, y: 0, visibility: "visible" });
             return;
           }
 
@@ -64,6 +64,7 @@ export function RevealOnScroll({
             {
               opacity: 1,
               [axis]: 0,
+              visibility: "visible",
               duration,
               delay,
               stagger,
@@ -83,7 +84,7 @@ export function RevealOnScroll({
 
   const Tag = Component as ElementType;
   return (
-    <Tag ref={ref as React.Ref<HTMLElement>} className={className}>
+    <Tag ref={ref as React.Ref<HTMLElement>} className={className} style={{ visibility: "hidden" }}>
       {children}
     </Tag>
   );

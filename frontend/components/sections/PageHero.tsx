@@ -14,8 +14,7 @@ const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
+    )
 );
 
 export type HeadingShape = string | { faded?: string; bold?: string; trailing?: string; regular?: string };

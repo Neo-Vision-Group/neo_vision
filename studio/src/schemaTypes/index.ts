@@ -13,7 +13,6 @@ import {blockContent} from './objects/blockContent'
 import button from './objects/button'
 import {blockContentTextOnly} from './objects/blockContentTextOnly'
 import {seo} from './objects/seo'
-import {seoAlternateLanguage} from './objects/seoAlternateLanguage'
 import {list} from './objects/list'
 import {homeHero} from './objects/home/hero'
 import {cta} from './objects/home/cta'
@@ -30,8 +29,7 @@ import {whatWeDo} from './objects/home/whatWeDo'
 import {why} from './objects/home/why'
 import {faq} from './objects/faq'
 import {pageHero} from './objects/pageHero'
-import {contactHero} from './objects/contactHero'
-import {contactForm} from './objects/contactForm'
+import {contactHero} from './objects/contact/contactHero'
 import {cookieSettings} from './objects/cookieSettings'
 import {booking} from './objects/contact/booking'
 import {engineeringServices} from './objects/service/engineering'
@@ -87,12 +85,10 @@ export const schemaTypes = [
   blockContent,
   blockContentTextOnly,
   seo,
-  seoAlternateLanguage,
   link,
   list,
   pageHero,
   contactHero,
-  contactForm,
   cookieSettings,
   booking,
   homeHero,

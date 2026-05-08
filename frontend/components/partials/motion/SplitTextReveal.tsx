@@ -70,15 +70,15 @@ export function SplitTextReveal({
         (ctx) => {
           if (ctx.conditions?.reduced) {
             if (colorReveal) {
-              gsap.set(el, { color: finalColor });
+              gsap.set(el, { color: finalColor, visibility: "visible" });
             } else {
-              gsap.set(el, { opacity: 1 });
+              gsap.set(el, { opacity: 1, visibility: "visible" });
             }
             return;
           }
 
           if (colorReveal) {
-            gsap.set(el, { opacity: 1 });
+            gsap.set(el, { opacity: 1, visibility: "visible" });
             const split = SplitText.create(el, { type: "words" });
             gsap.set(split.words, { color: colorFrom });
             const tween = gsap.to(split.words, {
@@ -98,7 +98,7 @@ export function SplitTextReveal({
             };
           }
 
-          gsap.set(el, { opacity: 1 });
+          gsap.set(el, { opacity: 1, visibility: "visible" });
 
           const split = SplitText.create(el, {
             type,
@@ -139,7 +139,7 @@ export function SplitTextReveal({
 
   const Tag = Component as ElementType;
   return (
-    <Tag ref={ref as React.Ref<HTMLElement>} className={className} style={{ opacity: 0 }}>
+    <Tag ref={ref as React.Ref<HTMLElement>} className={className} style={{ visibility: "hidden" }}>
       {children}
     </Tag>
   );

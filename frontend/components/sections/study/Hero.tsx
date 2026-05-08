@@ -8,16 +8,14 @@ const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
       (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
+    )
 );
 
 const SplitTextReveal = dynamic(
   () =>
     import("@/components/partials/motion/SplitTextReveal").then(
       (mod) => mod.SplitTextReveal
-    ),
-  { ssr: false }
+    )
 );
 
 type StudyHeroDetail = {
