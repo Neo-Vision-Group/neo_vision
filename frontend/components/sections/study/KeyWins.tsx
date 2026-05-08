@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
-const signatureStepHoverGraphic = "/images/cta-graphic.jpg";
+const signatureStepHoverGraphic = "/images/graphic.jpg";
 
 const RevealOnScroll = dynamic(
   () =>

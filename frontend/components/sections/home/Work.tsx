@@ -6,7 +6,7 @@ import { Button } from "@/components/partials/Button";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 
-const workCardHoverGraphic = "/images/cta-graphic.jpg";
+const workCardHoverGraphic = "/images/graphic.jpg";
 
 const RevealOnScroll = dynamic(
   () =>

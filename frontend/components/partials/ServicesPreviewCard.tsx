@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/partials/Button";
 import Image from "next/image";
-const workCardHoverGraphic = "/images/cta-graphic.jpg";
+const workCardHoverGraphic = "/images/graphic.jpg";
 
 type ServiceCard = {
   _key?: string;

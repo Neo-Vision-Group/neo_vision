@@ -10,7 +10,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 
-const signatureStepHoverGraphic = "/images/cta-graphic.jpg";
+const signatureStepHoverGraphic = "/images/graphic.jpg";
 
 const RevealOnScroll = dynamic(
   () =>

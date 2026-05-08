@@ -65,7 +65,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
         <div className="absolute inset-0 bg-white" />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/cta-graphic.jpg"
+          src="/images/graphic.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
           style={{
@@ -94,7 +94,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
         />
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/cta-graphic.jpg"
+          src="/images/graphic.jpg"
           alt=""
           className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
           style={{
