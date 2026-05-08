@@ -142,7 +142,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   const pathname = usePathname()
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border bg-white/80 backdrop-blur dark:bg-black/80 lg:border-transparent lg:bg-[#EFEFEF] lg:backdrop-blur-[13.5px] dark:lg:bg-black">
+    <nav className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur dark:bg-black/80 lg:bg-[#EFEFEF] lg:backdrop-blur-[13.5px] dark:lg:bg-black">
       <div className="flex h-16 items-center justify-between gap-4 px-4 md:gap-8 md:px-12 lg:h-auto lg:gap-12 lg:px-16 2xl:px-30 lg:py-3">
         {/* Logo */}
         <Link

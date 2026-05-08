@@ -16,6 +16,7 @@ import {FirstLoadIntroGate} from '@/components/partials/FirstLoadIntro'
 import CookieBanner from '@/components/partials/CookieBanner'
 import DraftModeToast from '@/components/partials/DraftModeToast'
 import {HeroBrandDotsMediaProvider} from '@/components/partials/HeroBrandDotsMediaProvider'
+import {HeroBrandDotsBackground} from '@/components/partials/HeroBrandDotsBackground'
 import LenisProvider from '@/components/partials/motion/lenis-provider'
 import Nav from '@/components/layout/Nav'
 import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
@@ -99,7 +100,6 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     <html
       lang="en"
       className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
-      suppressHydrationWarning
     >
       <head>
         <PlausibleProvider
@@ -116,11 +116,15 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           disableTransitionOnChange
         >
           <HeroBrandDotsMediaProvider>
+            {/* Global hero background - visible behind any transparent hero section */}
+            <div className="fixed inset-0 -z-10">
+              <HeroBrandDotsBackground />
+            </div>
             <FirstLoadIntroGate />
             <LenisProvider>
               <TransitionProvider>
                 <ScrollToTopOnNavigate />
-                <section className="min-h-screen overflow-x-clip bg-white dark:bg-black">
+                <section className="min-h-screen overflow-x-clip bg-transparent">
                   {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
                   <Toaster />
                   {isDraftMode && (
@@ -133,7 +137,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                   {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
                   <SanityLive onError={handleError} />
                   <Nav />
-                  <main className="">
+                  <main className="transition-opacity min-h-screen duration-500">
                     {children}
                     <IntroVisitMarker />
                   </main>

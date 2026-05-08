@@ -145,7 +145,7 @@ export default async function InsightDetailPage({
     <>
       <StructuredDataScript nodes={structuredData} />
       <InsightHero post={post} />
-      <div className="relative">
+      <div className="relative bg-white dark:bg-black">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex px-4 md:px-6">
           <div className="relative mx-auto w-full max-w-330">
             <DrawLine

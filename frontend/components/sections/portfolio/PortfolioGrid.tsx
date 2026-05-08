@@ -114,7 +114,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   }
 
   return (
-    <div className="flex flex-col border-y border-black/20 dark:border-white/20 lg:flex-row">
+    <div className="flex flex-col border-y border-black/20 dark:border-white/20 lg:flex-row bg-white dark:bg-dark">
       <div className="lg:flex lg:w-full">
         <aside className="border-b border-black/20 dark:border-white/20 lg:sticky lg:top-24 md:w-1/4 lg:flex-none lg:self-start lg:border-b-0 pl-30">
           <div className="flex flex-col gap-10 lg:py-6">

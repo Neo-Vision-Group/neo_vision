@@ -13,7 +13,6 @@ import {
 } from 'react'
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
 
-import {HeroBrandDotsSurface} from '@/components/partials/HeroBrandDotsSurface'
 import {gsap} from '@/components/partials/motion/gsap-setup'
 import {
   getRouteKey,
@@ -95,31 +94,17 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   })
   const statusRef = useRef<TransitionStatus>('idle')
   const sweepRef = useRef<HTMLDivElement | null>(null)
-  const veilRef = useRef<HTMLDivElement | null>(null)
+  const mainRef = useRef<HTMLElement | null>(null)
   const scrollLockRef = useRef<string | null>(null)
   const enterTimeoutRef = useRef<number | null>(null)
   const enterFrameRef = useRef<number | null>(null)
   const waitingFallbackRef = useRef<number | null>(null)
 
-  const syncVeilToSweep = useCallback(() => {
-    if (!sweepRef.current || !veilRef.current) {
-      return
-    }
-
-    const sweepBounds = sweepRef.current.getBoundingClientRect()
-    const viewportWidth = window.innerWidth
-    const revealedWidth = Math.max(0, Math.min(sweepBounds.left, viewportWidth))
-    const rightInset = Math.max(0, viewportWidth - revealedWidth)
-
-    gsap.set(veilRef.current, {
-      clipPath: `inset(0 ${rightInset}px 0 0)`,
-    })
-  }, [])
 
   const killActiveTimeline = useCallback(() => {
     activeTimelineRef.current?.kill()
     activeTimelineRef.current = null
-    gsap.killTweensOf([sweepRef.current, veilRef.current])
+    gsap.killTweensOf(sweepRef.current)
   }, [])
 
   const clearPendingEnter = useCallback(() => {
@@ -153,15 +138,11 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   }, [])
 
   const resetOverlay = useCallback(() => {
-    if (!sweepRef.current || !veilRef.current) {
-      return
-    }
-
+    if (!sweepRef.current) return
     gsap.set(sweepRef.current, {x: 0})
-    gsap.set(veilRef.current, {
-      autoAlpha: 0,
-      clipPath: 'inset(0 100% 0 0)',
-    })
+    if (mainRef.current) {
+      mainRef.current.classList.remove('opacity-0')
+    }
   }, [])
 
   const clearWaitingFallback = useCallback(() => {
@@ -183,35 +164,22 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
 
   const runEnter = useCallback(
     (routeMeta: RouteMeta) => {
-      if (!sweepRef.current || !veilRef.current) {
-        finishTransition()
-        return
-      }
-
       clearPendingEnter()
-      killActiveTimeline()
       pendingRouteMetaRef.current = routeMeta
       statusRef.current = 'entering'
       setStatus('entering')
 
-      const timeline = gsap.timeline({
-        defaults: {ease: 'power3.inOut'},
-        onComplete: finishTransition,
-      })
-
-      timeline.to(
-        veilRef.current,
-        {
-          duration: routeMeta.hasHeroPattern ? 0.12 : GRAPHIC_FADE_DURATION,
-          opacity: 0,
-          ease: 'power2.out',
-        },
-        routeMeta.hasHeroPattern ? 0.14 : 0.08,
-      )
-
-      activeTimelineRef.current = timeline
+      // Wait 1 second after route ready, then fade in content
+      window.setTimeout(() => {
+        if (mainRef.current) {
+          mainRef.current.classList.remove('opacity-0')
+          window.setTimeout(finishTransition, routeMeta.hasHeroPattern ? 350 : 500)
+        } else {
+          finishTransition()
+        }
+      }, 1000)
     },
-    [clearPendingEnter, finishTransition, killActiveTimeline],
+    [clearPendingEnter, finishTransition],
   )
 
   const scheduleEnter = useCallback(
@@ -265,7 +233,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
         return false
       }
 
-      if (!sweepRef.current || !veilRef.current) {
+      if (!sweepRef.current) {
         return false
       }
 
@@ -310,46 +278,37 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
         },
       })
 
-      timeline.set(
-        sweepRef.current,
-        {
-          x: 0,
-        },
-        0,
-      )
+      timeline.set(sweepRef.current, {x: 0}, 0)
 
-      timeline.set(
-        veilRef.current,
-        {
-          autoAlpha: 1,
-          opacity: 1,
-          clipPath: 'inset(0 100% 0 0)',
-        },
-        0,
-      )
+      // Fade out main content immediately
+      if (mainRef.current) {
+        mainRef.current.classList.add('opacity-0')
+      }
 
+      // Sweep starts immediately after fade
       timeline.to(
         sweepRef.current,
         {
           duration: LEAD_SWEEP_DURATION,
           x: () => getSweepTravelDistance(sweepRef.current!),
-          ease: 'power1.inOut',
-          onStart: syncVeilToSweep,
-          onUpdate: syncVeilToSweep,
-          onComplete: syncVeilToSweep,
+          ease: 'power2.inOut',
         },
-        0,
+        0.1,
       )
 
       activeTimelineRef.current = timeline
       return true
     },
-    [clearPendingEnter, finishTransition, killActiveTimeline, lockScroll, routeKey, router, syncVeilToSweep],
+    [clearPendingEnter, finishTransition, killActiveTimeline, lockScroll, routeKey, router],
   )
 
   useEffect(() => {
     statusRef.current = status
   }, [status])
+
+  useEffect(() => {
+    mainRef.current = document.querySelector('main')
+  }, [])
 
   useEffect(() => {
     currentRouteMetaRef.current = {
@@ -452,13 +411,11 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
     <PageTransitionContext.Provider value={contextValue}>
       {children}
 
+      {/* Transition sweep over everything */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-0 z-[200] overflow-hidden"
+        className="pointer-events-none fixed inset-0 z-200 overflow-hidden"
       >
-        <div ref={veilRef} className="absolute inset-0 opacity-0">
-          <HeroBrandDotsSurface />
-        </div>
         <div
           ref={sweepRef}
           className="absolute inset-y-0 w-[24vw] min-w-[160px] bg-[#FF3B00]"

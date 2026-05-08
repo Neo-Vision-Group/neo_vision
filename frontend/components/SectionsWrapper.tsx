@@ -19,7 +19,7 @@ export function SectionsWrapper({
   classNameOverride = '',
 }: SectionsWrapperProps) {
   return (
-    <section id={id} className="relative flex flex-col md:flex-row w-full lg:items-start">
+    <section id={id} className="relative flex flex-col md:flex-row w-full lg:items-start bg-white dark:bg-dark">
       <aside className="w-full lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
         <div className="relative w-full pl-30 pr-6 py-6">

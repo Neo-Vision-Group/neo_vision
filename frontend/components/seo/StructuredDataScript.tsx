@@ -17,7 +17,6 @@ export function StructuredDataScript({nodes = []}: StructuredDataScriptProps) {
         <script
           key={index}
           type="application/ld+json"
-          suppressHydrationWarning
           dangerouslySetInnerHTML={{__html: JSON.stringify(node)}}
         />
       ))}

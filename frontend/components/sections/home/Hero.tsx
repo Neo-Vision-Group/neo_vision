@@ -72,9 +72,8 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] min-h-145 flex-col justify-between overflow-hidden bg-background"
+      className="relative isolate flex h-[calc(100svh-4rem)] flex-col justify-between overflow-hidden bg-transparent"
     >
-      <HeroBrandDotsBackground />
 
       <div className="relative flex flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-28 2xl:pt-20">
         <div className="flex w-full flex-col gap-3 md:gap-4">
