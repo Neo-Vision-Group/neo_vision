@@ -26,12 +26,14 @@ export type WhatWeDoData = {
     _key?: string;
     kind: "engineering" | "ai";
     label?: string;
-    labelImage?: SanityImageSource | string;
+    labelImage?: SanityImageSource | null;
+    labelImageLight?: SanityImageSource | null;
+    labelImageDark?: SanityImageSource | null;
     title: string;
     body: string;
     services?: Array<{ name?: string, price?: string }>;
     cta: { buttonText?: string; link?: any };
-    texture?: SanityImageSource | string;
+    texture?: boolean;
   }>;
   ctaSection?: {
     heading?: string;
@@ -68,12 +70,15 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
             _key: card._key,
             kind: card.kind,
             label: card.label?.trim(),
-      labelImage:
-        typeof card.labelImage === "string"
-          ? card.labelImage
-          : card.labelImage
-            ? urlForImage(card.labelImage).width(640).fit("max").url()
-            : undefined,
+      labelImage: card.labelImage
+        ? urlForImage(card.labelImage).width(640).fit("max").url()
+        : undefined,
+      labelImageLight: card.labelImageLight
+        ? urlForImage(card.labelImageLight).width(640).fit("max").url()
+        : undefined,
+      labelImageDark: card.labelImageDark
+        ? urlForImage(card.labelImageDark).width(640).fit("max").url()
+        : undefined,
             title,
             body,
             services:
@@ -91,12 +96,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
                       | "secondary",
                   }
                 : undefined,
-      texture:
-        typeof card.texture === "string"
-          ? card.texture
-          : card.texture
-            ? urlForImage(card.texture).width(1600).fit("max").url()
-            : undefined,
+      texture: card.texture ?? false,
           };
         })
         .filter((card): card is NonNullable<typeof card> => Boolean(card)) ?? [],

@@ -307,7 +307,7 @@ const sharedPageBuilderProjection = /* groq */ `
           slug,
           category,
           tagline,
-          thumb
+          "thumb": thumb.asset->url
         }
       }
     },

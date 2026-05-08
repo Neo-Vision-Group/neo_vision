@@ -1,17 +1,20 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/partials/Button";
 import Image from "next/image";
+const workCardHoverGraphic = "/images/cta-graphic.jpg";
 
 type ServiceCard = {
   _key?: string;
   kind?: "engineering" | "ai";
   label?: string;
   labelImage?: string;
+  labelImageLight?: string;
+  labelImageDark?: string;
   title: string | { regular?: string; bold?: string };
   body?: string | readonly string[];
   services?: Array<{ name?: string; price?: string }>;
   cta?: { label: string; href: string; variant: "primary" | "secondary" };
-  texture?: string;
+  texture?: boolean;
 };
 
 export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
@@ -34,39 +37,27 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
         <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">
           {card.texture &&           
           <Image
-            src={card.texture}
+            src={workCardHoverGraphic}
             alt=""
             className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
           />}
           <div
             className="absolute inset-0 mix-blend-screen dark:hidden"
             style={{ background: "#ff4404" }}
           />
           <div
-            className="absolute inset-0 hidden mix-blend-multiply dark:block"
-            style={{
-              background: "#ff4404",
-            }}
-          />
-          <div
             className="absolute inset-0 dark:hidden"
             style={{
-              backgroundImage: `
-                linear-gradient(180deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.45) 14%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.45) 86%, rgba(255,255,255,0.9) 100%),
-                linear-gradient(90deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.4) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0) 76%, rgba(255,255,255,0.4) 88%, rgba(255,255,255,0.82) 100%),
-                linear-gradient(180deg, rgba(255,68,4,0.08) 0%, rgba(255,68,4,0.18) 100%)
-              `,
+              background: "linear-gradient(0deg, #f7f7f7 0%, rgba(247, 247, 247, 0.00) 68.19%)",
             }}
           />
           <div
             className="absolute inset-0 hidden dark:block"
             style={{
-              backgroundImage: `
-                linear-gradient(180deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 16%, rgba(11,11,11,0) 32%, rgba(11,11,11,0) 68%, rgba(11,11,11,0.42) 84%, rgba(11,11,11,0.88) 100%),
-                linear-gradient(90deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 12%, rgba(11,11,11,0) 24%, rgba(11,11,11,0) 76%, rgba(11,11,11,0.42) 88%, rgba(11,11,11,0.88) 100%),
-                linear-gradient(180deg, rgba(15,15,15,0.18) 0%, rgba(15,15,15,0.84) 100%)
-              `,
+              background: `linear-gradient(0deg, #0F0F0F 0%, rgba(0, 0, 0, 0.00) 68.19%), linear-gradient(0deg, #FF4404 0%, #FF4404 100%), url(${workCardHoverGraphic}) lightgray 50% / cover no-repeat`,
+              backgroundBlendMode: "normal, color, normal",
             }}
           />
         </div>
@@ -74,15 +65,26 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
 
       <div className="flex flex-col gap-6">
         <div className="flex flex-col">
-          {card.labelImage ? (
+          {(card.labelImage || card.labelImageLight || card.labelImageDark) ? (
             <div className="relative h-5 w-full max-w-52">
-              <Image
-                src={card.labelImage}
-                alt={card.label || ""}
-                fill
-                className="object-contain object-left"
-                sizes="208px"
-              />
+              {(card.labelImageLight || card.labelImage) && (
+                <Image
+                  src={(card.labelImageLight || card.labelImage)!}
+                  alt={card.label || ""}
+                  fill
+                  className="object-contain object-left dark:hidden"
+                  sizes="208px"
+                />
+              )}
+              {(card.labelImageDark || card.labelImage) && (
+                <Image
+                  src={(card.labelImageDark || card.labelImage)!}
+                  alt={card.label || ""}
+                  fill
+                  className="object-contain object-left hidden dark:block"
+                  sizes="208px"
+                />
+              )}
             </div>
           ) : card.label ? (
             <p

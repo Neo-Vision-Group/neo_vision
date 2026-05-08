@@ -3,10 +3,8 @@
 import Link from "next/link";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
-import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
-import type { SanityImageSource } from "@sanity/image-url";
+import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
 const workCardHoverGraphic = "/images/cta-graphic.jpg";
 
@@ -50,7 +48,7 @@ export type PortfolioData = {
       slug?: { current?: string };
       category?: string;
       tagline?: string;
-      thumb?: SanityImageSource | string;
+      thumb?: string;
     };
   }>;
 };
@@ -68,16 +66,8 @@ type ProjectItem = {
   imageUrl: string | undefined;
 };
 
-function resolveImageUrl(image?: SanityImageSource | string) {
-  if (!image) {
-    return undefined;
-  }
-
-  if (typeof image === "string") {
-    return image;
-  }
-
-  return urlForImage(image).width(1920).height(1080).url();
+function resolveImageUrl(image?: string) {
+  return image || undefined;
 }
 
 export function OurWork({ data }: { data?: PortfolioData }) {
@@ -150,8 +140,8 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           className="flex flex-col gap-6 "
         >
           {items.map((item) => (
-            <div className="px-6 lg:px-16 hover:px-0">
-              <CaseRow key={item.key} item={item} />
+            <div key={item.key} className="px-6 lg:px-16 hover:px-0">
+              <CaseRow item={item} />
             </div>
           ))}
         </RevealOnScroll>
@@ -172,7 +162,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
   return (
     <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
       <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
-        <div className="relative isolate h-full w-full overflow-hidden bg-surface transition-all duration-300 ease-out dark:bg-[#0F0F0F]">
+        <div className="relative isolate h-full w-full overflow-hidden bg-white-dark transition-all duration-300 ease-out dark:bg-dark-light">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
@@ -181,14 +171,12 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <img
               src={workCardHoverGraphic}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
-              style={{
-                filter:
-                  "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
-                opacity: 0.55,
-              }}
+              className="absolute inset-0 h-full w-full object-cover invert"
             />
-            <div className="absolute inset-0 bg-brand mix-blend-screen opacity-18" />
+            <div
+              className="absolute inset-0 mix-blend-screen"
+              style={{ background: "#ff4404" }}
+            />
             <div
               className="absolute inset-0"
               style={{
@@ -249,14 +237,13 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </Link>
         </div>
 
-        <div className="p-4">
-          <div className="relative aspect-video w-full overflow-hidden bg-black">
-            {item.imageUrl ?? (
-              <Image
+        <div className="flex-1 min-w-0 p-4">
+          <div className="w-full overflow-hidden bg-black" style={{ aspectRatio: "16/9" }}>
+            {item.imageUrl && (
+              <img
                 src={item.imageUrl}
                 alt={item.name}
-                className="absolute inset-0 h-full w-full object-cover"
-                fill
+                className="h-full w-full object-cover"
               />
             )}
           </div>
