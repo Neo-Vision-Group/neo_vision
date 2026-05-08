@@ -6,7 +6,7 @@ import Link from "next/link";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import Badge from "@/components/partials/Badge";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
-import type { InsightDoc } from "@/lib/types/insight";
+import type { InsightDoc } from "@/app/insights/[slug]/page";
 import { urlForImage } from "@/sanity/lib/utils";
 import { BorderWrapper } from "@/components/BorderWrapper";
 

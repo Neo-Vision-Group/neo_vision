@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { urlForImage } from "@/sanity/lib/utils";
-import type { InsightAuthorData } from "@/lib/types/insight";
+import type { InsightAuthorData } from "@/app/insights/[slug]/page";
 
 interface InsightAuthorProps {
   author?: InsightAuthorData | null;
