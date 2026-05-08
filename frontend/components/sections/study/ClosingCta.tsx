@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -43,7 +46,11 @@ export function StudyClosingCta({ data }: { data?: StudyClosingCtaData }) {
         ) : null}
         {cta?.label && cta?.href ? (
           <div>
-            <Button href={cta.href} variant="primary">
+            <Button
+              href={cta.href}
+              variant="primary"
+              onClick={() => posthog.capture("study_cta_clicked", { cta_label: cta.label, destination: cta.href })}
+            >
               {cta.label}
             </Button>
           </div>

@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "./ArrowRight";
 
@@ -70,6 +73,14 @@ export function ResourceCard({
         href={href}
         target={isExternal ? "_blank" : undefined}
         rel={isExternal ? "noopener noreferrer" : undefined}
+        onClick={() =>
+          posthog.capture("resource_downloaded", {
+            resource_title: resource.title,
+            resource_category: resource.category ?? null,
+            resource_url: href,
+            is_external: isExternal,
+          })
+        }
         className="inline-flex items-center gap-2 text-body-2 font-medium text-foreground transition-transform duration-200 group-hover:translate-x-0.5"
       >
         Download

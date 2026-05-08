@@ -100,6 +100,7 @@ export function Button(props: ButtonProps) {
         target={linkProps.target}
         rel={linkProps.rel}
         download={linkProps.download}
+        onClick={linkProps.onClick}
         className={classes}
       >
         {content}

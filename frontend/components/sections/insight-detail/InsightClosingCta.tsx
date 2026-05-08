@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { Button } from "@/components/partials/Button";
 
 export function InsightClosingCta() {
@@ -11,7 +14,11 @@ export function InsightClosingCta() {
           Every engagement starts with a short discovery, no sales pitch.
         </p>
         <div>
-          <Button href="/contact" variant="primary">
+          <Button
+            href="/contact"
+            variant="primary"
+            onClick={() => posthog.capture("insight_cta_clicked", { cta_label: "Book a call", destination: "/contact" })}
+          >
             Book a call
           </Button>
         </div>

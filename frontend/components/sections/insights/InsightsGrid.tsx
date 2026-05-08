@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import posthog from "posthog-js";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
@@ -96,7 +97,13 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
             key={option.value}
             label={option.label}
             active={categoryFilter === option.value}
-            onClick={() => setCategoryFilter(option.value)}
+            onClick={() => {
+              setCategoryFilter(option.value);
+              posthog.capture("insights_category_filtered", {
+                category: option.value,
+                category_label: option.label,
+              });
+            }}
           />
         ))}
       </div>

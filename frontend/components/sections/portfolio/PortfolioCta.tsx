@@ -1,3 +1,6 @@
+"use client";
+
+import posthog from "posthog-js";
 import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
 
@@ -48,7 +51,11 @@ export function PortfolioCta({ data }: { data?: PortfolioCtaData }) {
       ) : null}
       {cta?.label && cta?.href ? (
         <div>
-          <Button href={cta.href} variant="primary">
+          <Button
+            href={cta.href}
+            variant="primary"
+            onClick={() => posthog.capture("portfolio_cta_clicked", { cta_label: cta.label, destination: cta.href })}
+          >
             {cta.label}
           </Button>
         </div>

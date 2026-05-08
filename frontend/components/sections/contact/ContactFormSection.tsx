@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import posthog from "posthog-js";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import ChevronIcon from "@/components/icons/ChevronIcon";
@@ -54,15 +55,35 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
       });
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
-        setErrorMessage(json.error ?? "Something went wrong");
+        const errMsg = json.error ?? "Something went wrong";
+        setErrorMessage(errMsg);
         setSubmitState("error");
+        posthog.capture("contact_form_error", {
+          error_message: errMsg,
+          project_type: formData.projectType,
+          budget: formData.budget,
+          source: formData.source,
+        });
         return;
       }
       reset();
       setSubmitState("ok");
-    } catch {
+      posthog.capture("contact_form_submitted", {
+        project_type: formData.projectType,
+        budget: formData.budget,
+        hear_about_us: formData.hearAboutUs,
+        source: formData.source,
+        has_company: !!formData.company,
+        has_phone: !!formData.phone,
+      });
+    } catch (err) {
       setErrorMessage("Something went wrong");
       setSubmitState("error");
+      posthog.captureException(err);
+      posthog.capture("contact_form_error", {
+        error_message: "network_error",
+        source: formData.source,
+      });
     }
   });
 

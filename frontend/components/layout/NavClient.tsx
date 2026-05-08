@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
+import posthog from 'posthog-js'
 import { cn } from '@/lib/utils'
 import { HamburgerIcon } from '../icons/HamburgerIcon'
 import { Button } from '@/components/partials/Button'
@@ -180,10 +181,11 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
 
         {/* CTA & Theme Toggle */}
         <div className="hidden items-center gap-2 lg:flex">
-          <Button 
-            href={ctaHref} 
-            variant="primary" 
+          <Button
+            href={ctaHref}
+            variant="primary"
             className="shrink-0"
+            onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'desktop' })}
             {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
           >
             {ctaText}
@@ -197,6 +199,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               href={ctaHref}
               size="sm"
               variant="primary"
+              onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'mobile_top' })}
               {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
             >
               {ctaText}
@@ -255,6 +258,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               href={ctaHref}
               variant="primary"
               className="w-full justify-between"
+              onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'mobile_menu' })}
               {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
             >
               {ctaText}

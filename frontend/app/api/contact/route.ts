@@ -3,6 +3,7 @@ import { Resend } from "resend";
 import { sanityWriteClient } from "@/sanity/lib/write-client";
 import { contactSchema } from "@/lib/contact-schema";
 import { ContactNotification } from "@/components/emails/ContactNotification";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 export async function POST(req: Request) {
     const origin = req.headers.get('origin');
@@ -104,6 +105,22 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+
+  // Track server-side conversion event (durable — fires only after Sanity write succeeds)
+  const distinctId = req.headers.get("x-posthog-distinct-id") ?? data.email;
+  const posthog = getPostHogClient();
+  posthog.capture({
+    distinctId,
+    event: "contact_submitted",
+    properties: {
+      project_type: data.projectType || null,
+      budget: data.budget || null,
+      hear_about_us: data.hearAboutUs || null,
+      source: data.source || "/contact",
+      has_company: !!data.company,
+      has_phone: !!data.phone,
+    },
+  });
 
   // 2. Send notification email (optional — degrade gracefully)
   const resendKey = process.env.RESEND_API_KEY;
