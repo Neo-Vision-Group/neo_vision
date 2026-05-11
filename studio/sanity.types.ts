@@ -152,9 +152,17 @@ export type StepGraphic = {
   _type: 'image'
 }
 
-export type Logo = {
+export type LogoLight = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  media?: unknown // Unable to locate the referenced type "logoLight.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type LogoDark = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logoDark.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -184,9 +192,9 @@ export type LabelImageDark = {
   _type: 'image'
 }
 
-export type ItemLogo = {
+export type Logo = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -303,7 +311,7 @@ export type TechStack = {
     title: string
     items?: Array<{
       name: string
-      logo?: ItemLogo
+      logo?: Logo
       _type: 'item'
       _key: string
     }>
@@ -748,7 +756,8 @@ export type Testimonials = {
   eyebrow: string
   logos: Array<{
     name: string
-    logo: Logo
+    logoLight: LogoLight
+    logoDark?: LogoDark
     _key: string
   }>
   testimonials: Array<
@@ -1699,14 +1708,7 @@ export type Project = {
   tagline: string
   metric?: string
   metricLabel?: string
-  thumbLight?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  thumbDark?: {
+  thumb?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -2302,11 +2304,12 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | Graphic
   | StepGraphic
-  | Logo
+  | LogoLight
+  | LogoDark
   | LabelImage
   | LabelImageLight
   | LabelImageDark
-  | ItemLogo
+  | Logo
   | SanityFileAssetReference
   | ResourceFile
   | ObjectImage

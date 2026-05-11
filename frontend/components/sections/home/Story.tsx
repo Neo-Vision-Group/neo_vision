@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
+import { Logo } from "@/components/icons/Logo";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
@@ -48,6 +49,7 @@ export function Story({ data }: { data?: StoryData }) {
   const scrollerRef = useRef<HTMLOListElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [edgePadding, setEdgePadding] = useState(24);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // ----- Pointer drag-to-scroll with pointer capture -------------------
   useEffect(() => {
@@ -167,11 +169,22 @@ export function Story({ data }: { data?: StoryData }) {
       );
     };
 
+    const updateScrollProgress = () => {
+      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+      if (maxScroll <= 0) {
+        setScrollProgress(0);
+        return;
+      }
+      const progress = scroller.scrollLeft / maxScroll;
+      setScrollProgress(Math.max(0, Math.min(1, progress)));
+    };
+
     const syncScroller = () => {
       cancelAnimationFrame(frameId);
       frameId = window.requestAnimationFrame(() => {
         updateEdgePadding();
         updateActiveIndex();
+        updateScrollProgress();
       });
     };
 
@@ -227,7 +240,24 @@ export function Story({ data }: { data?: StoryData }) {
         </SplitTextReveal>
 
         <div className="relative -mx-6">
-          <div className="absolute top-12 left-0 w-full h-px bg-white/20 -z-10" />
+          {/* Storyline tracker */}
+          <div className="relative mb-8 px-6 md:mb-12">
+            <div className="relative h-1 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
+              <div
+                className="absolute left-0 top-0 h-full bg-brand transition-all duration-75 ease-out"
+                style={{ width: `${scrollProgress * 100}%` }}
+              />
+            </div>
+            {/* Moving logo point */}
+            <div
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-75 ease-out"
+              style={{ left: `${scrollProgress * 100}%` }}
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand shadow-lg">
+                <Logo className="h-6 w-6" darkMode />
+              </div>
+            </div>
+          </div>
           <ol
             ref={scrollerRef}
             className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-12 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"

@@ -61,8 +61,9 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
         ?.map((card) => {
           const title = card.title?.trim();
           const body = card.body?.trim();
+          const hasServices = card.services && card.services.length > 0;
 
-          if (!title || !body) {
+          if ((!title || !body) && !hasServices) {
             return null;
           }
 

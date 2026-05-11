@@ -5,7 +5,7 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useId } from "react";
+import React, { useId } from "react";
 import { useTheme } from "next-themes";
 
 const RevealOnScroll = dynamic(
@@ -36,8 +36,15 @@ export type TrustedByData = {
 };
 
 function LogoItem({ logoItem }: { logoItem: Logo }) {
-  const { theme } = useTheme();
-  const logo = theme === 'dark' ? logoItem.logoDark : logoItem.logoLight;
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Use light logo for SSR to ensure consistency, then switch after mount
+  const logo = mounted && resolvedTheme === 'dark' ? logoItem.logoDark : logoItem.logoLight;
   const logoUrl = logo ? urlForImage(logo).width(410).height(230).url() : null;
 
   return (
@@ -51,6 +58,7 @@ function LogoItem({ logoItem }: { logoItem: Logo }) {
               className="h-full w-full object-contain"
               fill
               sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+              suppressHydrationWarning
             />
           </div>
         ) : null}

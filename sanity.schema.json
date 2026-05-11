@@ -723,7 +723,7 @@
   },
   {
     "type": "type",
-    "name": "logo",
+    "name": "logoLight",
     "value": {
       "type": "object",
       "attributes": {
@@ -739,7 +739,55 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "logo.media"
+            "name": "logoLight.media"
+          },
+          "optional": true
+        },
+        "hotspot": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageHotspot"
+          },
+          "optional": true
+        },
+        "crop": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageCrop"
+          },
+          "optional": true
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "image"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "logoDark",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageAsset.reference"
+          },
+          "optional": true
+        },
+        "media": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "logoDark.media"
           },
           "optional": true
         },
@@ -915,7 +963,7 @@
   },
   {
     "type": "type",
-    "name": "item.logo",
+    "name": "logo",
     "value": {
       "type": "object",
       "attributes": {
@@ -931,7 +979,7 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "item.logo.media"
+            "name": "logo.media"
           },
           "optional": true
         },
@@ -1646,7 +1694,7 @@
                           "type": "objectAttribute",
                           "value": {
                             "type": "inline",
-                            "name": "item.logo"
+                            "name": "logo"
                           },
                           "optional": true
                         },
@@ -4459,13 +4507,21 @@
                   },
                   "optional": false
                 },
-                "logo": {
+                "logoLight": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "inline",
-                    "name": "logo"
+                    "name": "logoLight"
                   },
                   "optional": false
+                },
+                "logoDark": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "inline",
+                    "name": "logoDark"
+                  },
+                  "optional": true
                 }
               },
               "rest": {
@@ -10366,54 +10422,7 @@
         },
         "optional": true
       },
-      "thumbLight": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "object",
-          "attributes": {
-            "asset": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageAsset.reference"
-              },
-              "optional": true
-            },
-            "media": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "unknown"
-              },
-              "optional": true
-            },
-            "hotspot": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageHotspot"
-              },
-              "optional": true
-            },
-            "crop": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "inline",
-                "name": "sanity.imageCrop"
-              },
-              "optional": true
-            },
-            "_type": {
-              "type": "objectAttribute",
-              "value": {
-                "type": "string",
-                "value": "image"
-              }
-            }
-          }
-        },
-        "optional": true
-      },
-      "thumbDark": {
+      "thumb": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
