@@ -152,9 +152,17 @@ export type StepGraphic = {
   _type: 'image'
 }
 
-export type Logo = {
+export type LogoLight = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "logo.media" in schema
+  media?: unknown // Unable to locate the referenced type "logoLight.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type LogoDark = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "logoDark.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -184,9 +192,9 @@ export type LabelImageDark = {
   _type: 'image'
 }
 
-export type ItemLogo = {
+export type Logo = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+  media?: unknown // Unable to locate the referenced type "logo.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -303,7 +311,7 @@ export type TechStack = {
     title: string
     items?: Array<{
       name: string
-      logo?: ItemLogo
+      logo?: Logo
       _type: 'item'
       _key: string
     }>
@@ -748,7 +756,8 @@ export type Testimonials = {
   eyebrow: string
   logos: Array<{
     name: string
-    logo: Logo
+    logoLight: LogoLight
+    logoDark?: LogoDark
     _key: string
   }>
   testimonials: Array<
@@ -1699,14 +1708,7 @@ export type Project = {
   tagline: string
   metric?: string
   metricLabel?: string
-  thumbLight?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    _type: 'image'
-  }
-  thumbDark?: {
+  thumb?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -2302,11 +2304,12 @@ export type AllSanitySchemaTypes =
   | SanityImageAssetReference
   | Graphic
   | StepGraphic
-  | Logo
+  | LogoLight
+  | LogoDark
   | LabelImage
   | LabelImageLight
   | LabelImageDark
-  | ItemLogo
+  | Logo
   | SanityFileAssetReference
   | ResourceFile
   | ObjectImage
@@ -3768,7 +3771,7 @@ export type PageQueryResult = {
               category: string
               industry: string
               tagline: string
-              cover: null
+              cover: string | null
             }
           | null
       }
@@ -3819,7 +3822,7 @@ export type PageQueryResult = {
             slug: Slug
             category: string
             tagline: string
-            thumb: null
+            thumb: string | null
           }
           _key: string
         }>
@@ -3871,7 +3874,13 @@ export type PageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }
       }
     | {
@@ -3887,7 +3896,13 @@ export type PageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }>
         serviceFilters: Array<{
           label: string
@@ -4358,7 +4373,7 @@ export type PageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: string | null
         }>
       }
     | {
@@ -4510,7 +4525,7 @@ export type PageQueryResult = {
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
-              media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
               _type: 'image'
@@ -4525,8 +4540,8 @@ export type PageQueryResult = {
         eyebrow: string
         logos: Array<{
           name: string
-          logoLight: null
-          logoDark: null
+          logoLight: string | null
+          logoDark: string | null
         }>
         testimonials: Array<{
           name: string
@@ -5730,7 +5745,7 @@ export type HomePageQueryResult = {
               category: string
               industry: string
               tagline: string
-              cover: null
+              cover: string | null
             }
           | null
       }
@@ -5781,7 +5796,7 @@ export type HomePageQueryResult = {
             slug: Slug
             category: string
             tagline: string
-            thumb: null
+            thumb: string | null
           }
           _key: string
         }>
@@ -5833,7 +5848,13 @@ export type HomePageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }
       }
     | {
@@ -5849,7 +5870,13 @@ export type HomePageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }>
         serviceFilters: Array<{
           label: string
@@ -6320,7 +6347,7 @@ export type HomePageQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: string | null
         }>
       }
     | {
@@ -6472,7 +6499,7 @@ export type HomePageQueryResult = {
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
-              media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
               _type: 'image'
@@ -6487,8 +6514,8 @@ export type HomePageQueryResult = {
         eyebrow: string
         logos: Array<{
           name: string
-          logoLight: null
-          logoDark: null
+          logoLight: string | null
+          logoDark: string | null
         }>
         testimonials: Array<{
           name: string
@@ -7871,7 +7898,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               category: string
               industry: string
               tagline: string
-              cover: null
+              cover: string | null
             }
           | null
       }
@@ -7922,7 +7949,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             slug: Slug
             category: string
             tagline: string
-            thumb: null
+            thumb: string | null
           }
           _key: string
         }>
@@ -7974,7 +8001,13 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }
       }
     | {
@@ -7990,7 +8023,13 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }>
         serviceFilters: Array<{
           label: string
@@ -8467,7 +8506,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: string | null
         }>
       }
     | {
@@ -8619,7 +8658,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
-              media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
               _type: 'image'
@@ -8634,8 +8673,8 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         eyebrow: string
         logos: Array<{
           name: string
-          logoLight: null
-          logoDark: null
+          logoLight: string | null
+          logoDark: string | null
         }>
         testimonials: Array<{
           name: string
@@ -8953,7 +8992,13 @@ export type AllProjectsQueryResult = Array<{
   tagline: string
   metric: string | null
   metricLabel: string | null
-  thumb: null
+  thumb: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
 }>
 
 // Source: sanity/lib/queries.ts
@@ -9107,7 +9152,13 @@ export type ProjectBySlugQueryResult = {
   tagline: string
   metric: string | null
   metricLabel: string | null
-  thumb: null
+  thumb: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
   pageBuilder: Array<
     | {
         _key: string
@@ -9905,7 +9956,7 @@ export type ProjectBySlugQueryResult = {
               category: string
               industry: string
               tagline: string
-              cover: null
+              cover: string | null
             }
           | null
       }
@@ -9956,7 +10007,7 @@ export type ProjectBySlugQueryResult = {
             slug: Slug
             category: string
             tagline: string
-            thumb: null
+            thumb: string | null
           }
           _key: string
         }>
@@ -10008,7 +10059,13 @@ export type ProjectBySlugQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }
       }
     | {
@@ -10024,7 +10081,13 @@ export type ProjectBySlugQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }>
         serviceFilters: Array<{
           label: string
@@ -10495,7 +10558,7 @@ export type ProjectBySlugQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: string | null
         }>
       }
     | {
@@ -10647,7 +10710,7 @@ export type ProjectBySlugQueryResult = {
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
-              media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
               _type: 'image'
@@ -10662,8 +10725,8 @@ export type ProjectBySlugQueryResult = {
         eyebrow: string
         logos: Array<{
           name: string
-          logoLight: null
-          logoDark: null
+          logoLight: string | null
+          logoDark: string | null
         }>
         testimonials: Array<{
           name: string
@@ -11869,7 +11932,7 @@ export type ServiceQueryResult = {
               category: string
               industry: string
               tagline: string
-              cover: null
+              cover: string | null
             }
           | null
       }
@@ -11920,7 +11983,7 @@ export type ServiceQueryResult = {
             slug: Slug
             category: string
             tagline: string
-            thumb: null
+            thumb: string | null
           }
           _key: string
         }>
@@ -11972,7 +12035,13 @@ export type ServiceQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }
       }
     | {
@@ -11988,7 +12057,13 @@ export type ServiceQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
         }>
         serviceFilters: Array<{
           label: string
@@ -12459,7 +12534,7 @@ export type ServiceQueryResult = {
           tagline: string
           metric: string | null
           metricLabel: string | null
-          thumb: null
+          thumb: string | null
         }>
       }
     | {
@@ -12611,7 +12686,7 @@ export type ServiceQueryResult = {
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
-              media?: unknown // Unable to locate the referenced type "item.logo.media" in schema
+              media?: unknown // Unable to locate the referenced type "logo.media" in schema
               hotspot?: SanityImageHotspot
               crop?: SanityImageCrop
               _type: 'image'
@@ -12626,8 +12701,8 @@ export type ServiceQueryResult = {
         eyebrow: string
         logos: Array<{
           name: string
-          logoLight: null
-          logoDark: null
+          logoLight: string | null
+          logoDark: string | null
         }>
         testimonials: Array<{
           name: string
