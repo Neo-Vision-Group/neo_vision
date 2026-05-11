@@ -7,7 +7,7 @@ export const whatWeDo = defineType({
     type: 'object',
     fields: [
         defineField({ name: "eyebrow", type: "string", initialValue: "WHAT WE DO" }),
-        defineField({ name: "heading", type: "blockContentTextOnly" }),
+        defineField({ name: "heading", type: "string" }),
         defineField({
           name: "ctaSection",
           title: "CTA Section",

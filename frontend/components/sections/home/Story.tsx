@@ -254,7 +254,7 @@ export function Story({ data }: { data?: StoryData }) {
               style={{ left: `${scrollProgress * 100}%` }}
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand shadow-lg">
-                <Logo className="h-6 w-6" darkMode />
+                <Logo className="h-6 w-6" darkMode accentColor="#efefef" />
               </div>
             </div>
           </div>

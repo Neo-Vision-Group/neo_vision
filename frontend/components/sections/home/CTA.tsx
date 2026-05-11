@@ -79,8 +79,8 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.95) 80%, #ffffff 100%),
-              linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 15%, rgba(255,255,255,0) 30%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.95) 85%, #ffffff 100%)
+              linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.95) 92%, #ffffff 100%),
+              linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.95) 92%, #ffffff 100%)
             `,
           }}
         />
@@ -106,8 +106,8 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(180deg, #0b0b0b 0%, rgba(11,11,11,0.9) 25%, rgba(11,11,11,0) 40%, rgba(11,11,11,0) 60%, rgba(11,11,11,0.9) 75%, #0b0b0b 100%),
-              linear-gradient(90deg, #0b0b0b 0%, rgba(11,11,11,0.9) 15%, rgba(11,11,11,0) 30%, rgba(11,11,11,0) 70%, rgba(11,11,11,0.9) 85%, #0b0b0b 100%)
+              linear-gradient(180deg, #0b0b0b 0%, rgba(11,11,11,0.9) 10%, rgba(11,11,11,0) 50%, rgba(11,11,11,0) 50%, rgba(11,11,11,0.9) 90%, #0b0b0b 100%),
+              linear-gradient(90deg, #0b0b0b 0%, rgba(11,11,11,0.9) 8%, rgba(11,11,11,0) 45%, rgba(11,11,11,0) 55%, rgba(11,11,11,0.9) 92%, #0b0b0b 100%)
             `,
           }}
         />

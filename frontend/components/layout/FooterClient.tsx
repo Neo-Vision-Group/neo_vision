@@ -87,7 +87,10 @@ export function Footer({
                   className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20"
                 />
               ) : (
-                <Logo className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20" />
+                <>
+                  <Logo className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:hidden" accentColor="#040404" />
+                  <Logo className="hidden h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:block" />
+                </>
               )}
               <p className="min-w-0 font-betatron uppercase text-[22px] leading-8 tracking-[-0.2px] text-white md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-4xl 2xl:leading-9">
                 {title}

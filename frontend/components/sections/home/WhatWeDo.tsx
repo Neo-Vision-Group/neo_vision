@@ -3,13 +3,11 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import ServicesPreviewCard from "@/components/partials/ServicesPreviewCard";
 import { Button } from "@/components/partials/Button";
-import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import ResolvedLink from "@/components/ResolvedLink";
-import { cn } from "@/lib/utils";
 import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
-import type { PortableTextBlock } from "@portabletext/types";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
+import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -21,7 +19,7 @@ const RevealOnScroll = dynamic(
 
 export type WhatWeDoData = {
   eyebrow?: string;
-  heading?: PortableTextBlock[];
+  heading?: string;
   cards?: Array<{
     _key?: string;
     kind: "engineering" | "ai";
@@ -112,25 +110,15 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
       <div className="flex flex-col gap-12 md:gap-16">
         {whatWeDo.heading?.length ? (
           <div className="px-6 lg:px-8 xl:px-16">
-            <PortableTextRenderer
-              value={whatWeDo.heading}
-              className={cn(
-                "[&_p]:my-0",
-                "[&_p]:font-funnel",
-                "[&_p]:text-[28px]",
-                "[&_p]:leading-8.5",
-                "[&_p]:tracking-[-0.3px]",
-                "[&_p]:text-foreground",
-                "md:[&_p]:text-[36px]",
-                "md:[&_p]:leading-11",
-                "lg:[&_p]:text-[48px]",
-                "lg:[&_p]:leading-14.5",
-                "lg:[&_p]:tracking-[-0.4px]",
-                "[&_p:first-of-type]:font-normal",
-                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
-                "[&_p:last-of-type]:font-bold dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
-              )}
-            />
+            <SplitTextReveal
+              as="p"
+              type="words"
+              stagger={0.04}
+              colorReveal
+              className="text-3xl font-funnel tracking-[-0.2px] md:text-[58px] md:leading-17 lg:text-[40px] lg:leading-13 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+            >
+              {whatWeDo.heading}
+            </SplitTextReveal>
           </div>
         ) : null}
         <RevealOnScroll

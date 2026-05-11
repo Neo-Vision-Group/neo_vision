@@ -163,7 +163,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
   return (
     <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
       <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
-        <div className="relative isolate h-full w-full overflow-hidden bg-white-dark transition-all duration-300 ease-out dark:bg-dark-light">
+        <div className="relative isolate h-full w-full overflow-hidden bg-white transition-all duration-300 ease-out dark:bg-dark">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
@@ -218,8 +218,8 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col bg-surface transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:flex md:flex-row">
-        <div className="flex w-full flex-col justify-end p-4">
+      <div className="relative z-10 flex w-full max-w-270 flex-col bg-white transition-all duration-300 ease-out group-hover/work-shell:bg-transparent dark:bg-dark md:flex-row">
+        <div className="flex w-full shrink-0 flex-col justify-end p-4 md:w-1/4">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
@@ -238,20 +238,20 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </Link>
         </div>
 
-        <div className="min-w-0 p-4">
-          <div className="w-full bg-black">
+        <div className="relative min-h-48 min-w-0 flex-1 p-4 md:min-h-64">
+          <div className="relative h-full w-full overflow-hidden bg-black">
             {item.imageUrl && (
               <Image
                 src={item.imageUrl}
                 alt={item.name}
-                className="h-full w-full object-cover"
+                className="object-cover"
                 fill
               />
             )}
           </div>
         </div>
 
-        <div className="flex w-full flex-col justify-between gap-6 py-4 md:py-6">
+        <div className="flex w-full shrink-0 flex-col justify-between gap-6 p-4 md:w-1/4 md:py-6">
           <Link href={item.ctaHref}>
             <Button variant="primary">{item.ctaLabel}</Button>
           </Link>
