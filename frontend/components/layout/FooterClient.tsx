@@ -74,7 +74,7 @@ export function Footer({
       </div>
 
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
-        <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 py-8 md:w-1/4 md:flex-none md:py-10 lg:py-12 lg:pl-30 lg:pr-12">
+        <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 py-8 md:w-1/4 md:flex-none md:py-10 lg:py-12 xl:pl-30 lg:pl-16 lg:pr-12">
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-4 md:gap-5">
               {logo ? (

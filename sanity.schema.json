@@ -50,55 +50,6 @@
   },
   {
     "type": "type",
-    "name": "contactForm.formConfig",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "services": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "string"
-            }
-          },
-          "optional": true
-        },
-        "budgetRanges": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "string"
-            }
-          },
-          "optional": true
-        },
-        "timelines": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "string"
-            }
-          },
-          "optional": true
-        },
-        "hearAboutUs": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "string"
-            }
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "type": "type",
     "name": "heading",
     "value": {
       "type": "object",
@@ -868,7 +819,7 @@
   },
   {
     "type": "type",
-    "name": "texture",
+    "name": "labelImageLight",
     "value": {
       "type": "object",
       "attributes": {
@@ -884,7 +835,55 @@
           "type": "objectAttribute",
           "value": {
             "type": "inline",
-            "name": "texture.media"
+            "name": "labelImageLight.media"
+          },
+          "optional": true
+        },
+        "hotspot": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageHotspot"
+          },
+          "optional": true
+        },
+        "crop": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageCrop"
+          },
+          "optional": true
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "image"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "labelImageDark",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageAsset.reference"
+          },
+          "optional": true
+        },
+        "media": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "labelImageDark.media"
           },
           "optional": true
         },
@@ -4310,6 +4309,22 @@
                   },
                   "optional": true
                 },
+                "labelImageLight": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "inline",
+                    "name": "labelImageLight"
+                  },
+                  "optional": true
+                },
+                "labelImageDark": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "inline",
+                    "name": "labelImageDark"
+                  },
+                  "optional": true
+                },
                 "title": {
                   "type": "objectAttribute",
                   "value": {
@@ -4357,8 +4372,7 @@
                 "texture": {
                   "type": "objectAttribute",
                   "value": {
-                    "type": "inline",
-                    "name": "texture"
+                    "type": "boolean"
                   },
                   "optional": true
                 }
@@ -5672,88 +5686,6 @@
     }
   },
   {
-    "name": "contactForm",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "contactForm"
-          }
-        },
-        "eyebrow": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "heading": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        },
-        "description": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        },
-        "steps": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "title": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  },
-                  "optional": false
-                },
-                "description": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  },
-                  "optional": false
-                }
-              },
-              "rest": {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "optional": false
-        },
-        "formConfig": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "contactForm.formConfig"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
     "name": "contactHero",
     "type": "type",
     "value": {
@@ -6123,43 +6055,6 @@
     }
   },
   {
-    "name": "seoAlternateLanguage",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "seoAlternateLanguage"
-          }
-        },
-        "languageCode": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        },
-        "url": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": false
-        },
-        "isDefault": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "boolean"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
     "name": "seo",
     "type": "type",
     "value": {
@@ -6302,28 +6197,6 @@
           "type": "objectAttribute",
           "value": {
             "type": "number"
-          },
-          "optional": true
-        },
-        "alternateLanguages": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "_key": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string"
-                  }
-                }
-              },
-              "rest": {
-                "type": "inline",
-                "name": "seoAlternateLanguage"
-              }
-            }
           },
           "optional": true
         },
@@ -8682,21 +8555,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "contactForm"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "booking"
                 }
               },
@@ -9686,21 +9544,6 @@
                 },
                 "rest": {
                   "type": "inline",
-                  "name": "contactForm"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
                   "name": "booking"
                 }
               },
@@ -10523,7 +10366,54 @@
         },
         "optional": true
       },
-      "thumb": {
+      "thumbLight": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "object",
+          "attributes": {
+            "asset": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageAsset.reference"
+              },
+              "optional": true
+            },
+            "media": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "unknown"
+              },
+              "optional": true
+            },
+            "hotspot": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageHotspot"
+              },
+              "optional": true
+            },
+            "crop": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "inline",
+                "name": "sanity.imageCrop"
+              },
+              "optional": true
+            },
+            "_type": {
+              "type": "objectAttribute",
+              "value": {
+                "type": "string",
+                "value": "image"
+              }
+            }
+          }
+        },
+        "optional": true
+      },
+      "thumbDark": {
         "type": "objectAttribute",
         "value": {
           "type": "object",
@@ -10605,21 +10495,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "contactHero"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "contactForm"
                 }
               },
               {
@@ -11487,21 +11362,6 @@
                 "rest": {
                   "type": "inline",
                   "name": "contactHero"
-                }
-              },
-              {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "rest": {
-                  "type": "inline",
-                  "name": "contactForm"
                 }
               },
               {

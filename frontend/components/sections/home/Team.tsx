@@ -53,12 +53,9 @@ export function Team({ data }: { data?: TeamData }) {
     return null;
   }
   const [mounted, setMounted] = useState(false);
-  const { resolvedTheme } = useTheme();
-  const isDarkTheme = !mounted || resolvedTheme === "dark";
-  const arrowColor = isDarkTheme ? "#EFEFEF" : "#0F0F0F";
-  const arrowButtonClassName = isDarkTheme
-    ? "border-white/10 hover:bg-white/5"
-    : "border-black/10 hover:bg-black/5";
+  const { theme } = useTheme();
+  const isDarkTheme = !mounted || theme === "dark";
+  const arrowColor = isDarkTheme ? "#efefef" : "#0f0f0f";
 
   const hasMultiple = team.members.length > 1;
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -105,7 +102,7 @@ export function Team({ data }: { data?: TeamData }) {
   }, [scrollerRef]);
 
   return (
-    <SectionsWrapper id="the-team" eyebrow={team.eyebrow} hideTopBorder>
+    <SectionsWrapper id="the-team" eyebrow={team.eyebrow}>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
           className="block text-balance text-3xl leading-9 tracking-[-0.3px] whitespace-normal md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
@@ -124,17 +121,17 @@ export function Team({ data }: { data?: TeamData }) {
                 type="button"
                 aria-label="Previous team member"
                 onClick={() => scroll("prev")}
-                className={`group flex size-12 items-center justify-center transition-colors ${arrowButtonClassName}`}
+                className={`group flex size-12 items-center justify-center transition-colors`}
               >
-                <TeamArrowLeft color={arrowColor} />
+                <TeamArrowLeft key={arrowColor} color={arrowColor} />
               </button>
               <button
                 type="button"
                 aria-label="Next team member"
                 onClick={() => scroll("next")}
-                className={`group flex size-12 items-center justify-center transition-colors ${arrowButtonClassName}`}
+                className={`group flex size-12 items-center justify-center transition-colors`}
               >
-                <TeamArrowRight color={arrowColor} />
+                <TeamArrowRight key={arrowColor} color={arrowColor} />
               </button>
             </div>
           )}

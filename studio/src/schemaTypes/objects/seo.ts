@@ -199,15 +199,6 @@ export const seo = defineType({
       fieldset: 'indexing',
     }),
     defineField({
-      name: 'alternateLanguages',
-      title: 'Alternate Language URLs',
-      type: 'array',
-      of: [defineArrayMember({type: 'seoAlternateLanguage'})],
-      description:
-        'Alternate-language versions of this page for hreflang tags.',
-      fieldset: 'alternates',
-    }),
-    defineField({
       name: 'paginationPrevUrl',
       title: 'Previous Page URL',
       type: 'url',

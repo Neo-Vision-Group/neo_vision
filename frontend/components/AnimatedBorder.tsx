@@ -1,8 +1,14 @@
-'use client'
+"use client";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
-export function AnimatedBorder({ isHovered, groupHover = false }: { isHovered?: boolean, groupHover?: boolean }) {
+export function AnimatedBorder({
+  isHovered,
+  groupHover = false,
+}: {
+  isHovered?: boolean;
+  groupHover?: boolean;
+}) {
   return (
     <>
       <span
@@ -19,13 +25,13 @@ export function AnimatedBorder({ isHovered, groupHover = false }: { isHovered?: 
       />
       <span
         className={cn(
-          'absolute left-[-12.5%] top-0 h-px w-[125%] origin-right bg-brand transition-transform duration-300 ease-in-out',
+          'absolute -left-2 top-0 h-px w-[calc(100%+1rem)] origin-right bg-brand transition-transform duration-300 ease-in-out',
           groupHover ? 'scale-x-0 group-hover:scale-x-100' : (isHovered ? 'scale-x-100' : 'scale-x-0')
         )}
       />
       <span
         className={cn(
-          'absolute bottom-0 left-[-12.5%] h-px w-[125%] origin-left bg-brand transition-transform duration-300 ease-in-out',
+          'absolute bottom-0 -left-2 h-px w-[calc(100%+1rem)] origin-left bg-brand transition-transform duration-300 ease-in-out',
           groupHover ? 'scale-x-0 group-hover:scale-x-100' : (isHovered ? 'scale-x-100' : 'scale-x-0')
         )}
       />

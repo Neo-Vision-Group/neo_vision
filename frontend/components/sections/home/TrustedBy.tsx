@@ -6,6 +6,7 @@ import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useId } from "react";
+import { useTheme } from "next-themes";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -24,7 +25,8 @@ export type Testimonial = {
 
 export type Logo = {
   name: string;
-  logo?: any;
+  logoLight?: any;
+  logoDark?: any;
 };
 
 export type TrustedByData = {
@@ -32,6 +34,35 @@ export type TrustedByData = {
   logos?: Array<Logo>;
   testimonials?: Array<Testimonial>;
 };
+
+function LogoItem({ logoItem }: { logoItem: Logo }) {
+  const { theme } = useTheme();
+  const logo = theme === 'dark' ? logoItem.logoDark : logoItem.logoLight;
+  const logoUrl = logo ? urlForImage(logo).width(410).height(230).url() : null;
+
+  return (
+    <div className="flex flex-col items-center gap-2.5">
+      <div className="relative aspect-[102.5/57.65] w-full overflow-hidden dark:bg-black">
+        {logoUrl ? (
+          <div className="relative z-10 h-full w-full p-5 md:p-6">
+            <Image
+              src={logoUrl}
+              alt={logoItem.name}
+              className="h-full w-full object-contain"
+              fill
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+            />
+          </div>
+        ) : null}
+      </div>
+      {logoItem.name ? (
+        <span className="w-full text-center font-funnel text-[18px] leading-normal text-black dark:text-white">
+          {logoItem.name}
+        </span>
+      ) : null}
+    </div>
+  );
+}
 
 export function TrustedBy({ data }: { data?: TrustedByData }) {
   const cleanData = data ? cleanStega(data) : data;
@@ -43,7 +74,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
   } = {
     eyebrow: cleanData?.eyebrow?.trim(),
     logos:
-      cleanData?.logos?.filter((logo) => logo.name?.trim() || logo.logo) ?? [],
+      cleanData?.logos?.filter((logo) => logo.name?.trim() || logo.logoLight || logo.logoDark) ?? [],
     testimonials:
       cleanData?.testimonials?.filter(
         (testimonial) =>
@@ -71,29 +102,9 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
             <div key={rIdx}>
               <div className="grid grid-cols-1 md:grid-cols-2 divide-x dark:divide-white/20 divide-black/20 lg:grid-cols-3">
                 {row.map((logoItem, cIdx) => {
-                  const logoUrl = logoItem.logo ? urlForImage(logoItem.logo).width(410).height(230).url() : null;
                   return (
                     <div key={cIdx} className="p-6">
-                      <div className="flex flex-col items-center gap-2.5">
-                        <div className="relative aspect-[102.5/57.65] w-full overflow-hidden dark:bg-black">
-                          {logoUrl ? (
-                            <div className="relative z-10 h-full w-full p-5 md:p-6">
-                              <Image
-                                src={logoUrl}
-                                alt={logoItem.name}
-                                className="h-full w-full object-contain"
-                                fill
-                                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
-                              />
-                            </div>
-                          ) : null}
-                        </div>
-                        {logoItem.name ? (
-                          <span className="w-full text-center font-funnel text-[18px] leading-[1.5] text-black dark:text-white">
-                            {logoItem.name}
-                          </span>
-                        ) : null}
-                      </div>
+                      <LogoItem logoItem={logoItem} />
                     </div>
                   );
                 })}
@@ -111,7 +122,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
               stagger={0.12}
               from="bottom"
               distance={24}
-              className="grid grid-cols-1 gap-6 xl:grid-cols-2 px-6 lg:px-16"
+              className="grid grid-cols-1 gap-6 xl:grid-cols-2 px-6"
             >
               {trustedBy.testimonials.map((t, idx) => {
                 const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;

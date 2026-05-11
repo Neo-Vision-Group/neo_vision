@@ -1,14 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-
-import { AnimatedBorder } from "@/components/AnimatedBorder";
-import { BorderWrapper } from "@/components/BorderWrapper";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import { cleanStega } from "@/sanity/lib/utils";
 import Badge from "@/components/partials/Badge";
+import ThirdButton from "@/components/partials/ThirdButton";
 
 type EngineeringService = {
   _key?: string;
@@ -30,80 +25,6 @@ export type EngineeringServicesData = {
   eyebrow?: string;
   services?: EngineeringService[];
 };
-
-function ServiceCardLink({
-  href,
-  label,
-}: {
-  href?: string;
-  label: string;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const content = (
-    <>
-      <AnimatedBorder isHovered={isHovered} />
-      <ArrowRightPixel
-        color="currentColor"
-        width={38}
-        height={24}
-        className="relative z-10 h-6 w-10 shrink-0"
-      />
-      <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
-        {label}
-      </span>
-    </>
-  );
-
-  const className =
-    `relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200 ${
-      isHovered ? "text-brand" : "text-black dark:text-[#efefef]"
-    }`;
-
-  if (!href) {
-    return (
-      <div
-        className={className}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        {content}
-      </div>
-    );
-  }
-
-  const isInternal = href.startsWith("/");
-
-  if (isInternal) {
-    return (
-      <Link
-        href={href}
-        className={className}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onFocus={() => setIsHovered(true)}
-        onBlur={() => setIsHovered(false)}
-      >
-        {content}
-      </Link>
-    );
-  }
-
-  return (
-    <a
-      href={href}
-      className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsHovered(true)}
-      onBlur={() => setIsHovered(false)}
-      target="_blank"
-      rel="noreferrer"
-    >
-      {content}
-    </a>
-  );
-}
 
 export function EngineeringServices({
   data,
@@ -171,7 +92,7 @@ export function EngineeringServices({
                   ) : null}
                 </div>
 
-                <ServiceCardLink href={href} label={ctaLabel} />
+                <ThirdButton href={href} label={ctaLabel} />
               </article>
             );
           })}

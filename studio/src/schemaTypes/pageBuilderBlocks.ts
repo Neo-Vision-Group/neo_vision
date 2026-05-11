@@ -4,7 +4,6 @@ import {PageBuilderInput} from '../components/PageBuilderInput'
 export const universalPageBuilderBlockTypes = [
   'pageHero',
   'contactHero',
-  'contactForm',
   'booking',
   'homeHero',
   'cta',

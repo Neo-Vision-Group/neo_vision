@@ -22,7 +22,7 @@ export function SectionsWrapper({
     <section id={id} className="relative flex flex-col md:flex-row w-full lg:items-start bg-white dark:bg-dark">
       <aside className="w-full lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
-        <div className="relative w-full pl-30 pr-6 py-6">
+        <div className="relative w-full 2xl:pl-30 lg:pl-16 pr-6 py-6">
           <p className="font-betatron text-3xl text-black dark:text-[#efefef]">{eyebrow}</p>
         </div>
         
@@ -71,7 +71,7 @@ export function SectionsWrapper({
             direction="horizontal" 
           />
         )}
-        <div className={classNameOverride || 'w-full px-6 pb-24 lg:px-16'}>
+        <div className={classNameOverride || 'w-full px-6 pb-24 lg:px-8 xl:px-16'}>
           {children}
         </div>
       </div>

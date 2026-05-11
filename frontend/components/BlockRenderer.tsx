@@ -80,9 +80,6 @@ const Blocks = {
   contactHero: ({block}: BlockProps) => {
     return <ContactHero data={block as ContactHeroData} />
   },
-  contactForm: ({block}: BlockProps) => {
-    return <ContactHero data={block as ContactHeroData} />
-  },
   homeHero: ({block}: BlockProps) => {
     return <Hero data={block as HeroData} />
   },

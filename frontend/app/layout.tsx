@@ -101,6 +101,26 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       lang="en"
       className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                  var resolvedTheme = theme || systemTheme;
+                  if (resolvedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="overflow-x-clip">
         <PlausibleProvider
           src={process.env.PLAUSIBLE_SCRIPT_URL}
@@ -111,11 +131,12 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         >
           <StructuredDataScript nodes={globalStructuredData} />
           <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+            enableColorScheme={false}
+          >
           <HeroBrandDotsMediaProvider>
             {/* Global hero background - visible behind any transparent hero section */}
             <div className="fixed inset-0 -z-10">

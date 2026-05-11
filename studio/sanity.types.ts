@@ -22,13 +22,6 @@ export type FormConfig = {
   hearAboutUs?: Array<string>
 }
 
-export type ContactFormFormConfig = {
-  services?: Array<string>
-  budgetRanges?: Array<string>
-  timelines?: Array<string>
-  hearAboutUs?: Array<string>
-}
-
 export type Heading = {
   regular?: string
   bold?: string
@@ -175,9 +168,17 @@ export type LabelImage = {
   _type: 'image'
 }
 
-export type Texture = {
+export type LabelImageLight = {
   asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "texture.media" in schema
+  media?: unknown // Unable to locate the referenced type "labelImageLight.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type LabelImageDark = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "labelImageDark.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -720,6 +721,8 @@ export type WhatWeDo = {
     kind?: 'engineering' | 'ai'
     label?: string
     labelImage?: LabelImage
+    labelImageLight?: LabelImageLight
+    labelImageDark?: LabelImageDark
     title: string
     body?: string
     services?: Array<
@@ -728,7 +731,7 @@ export type WhatWeDo = {
       } & ServiceReference
     >
     cta: Button
-    texture?: Texture
+    texture?: boolean
     _key: string
   }>
 }
@@ -939,19 +942,6 @@ export type CookieSettings = {
   }>
 }
 
-export type ContactForm = {
-  _type: 'contactForm'
-  eyebrow?: string
-  heading: string
-  description: string
-  steps: Array<{
-    title: string
-    description: string
-    _key: string
-  }>
-  formConfig?: ContactFormFormConfig
-}
-
 export type ContactHero = {
   _type: 'contactHero'
   eyebrow?: string
@@ -1008,13 +998,6 @@ export type Link = {
   openInNewTab?: boolean
 }
 
-export type SeoAlternateLanguage = {
-  _type: 'seoAlternateLanguage'
-  languageCode: string
-  url: string
-  isDefault?: boolean
-}
-
 export type Seo = {
   _type: 'seo'
   metaTitle?: string
@@ -1033,11 +1016,6 @@ export type Seo = {
   maxSnippet?: number
   maxImagePreview?: string
   maxVideoPreview?: number
-  alternateLanguages?: Array<
-    {
-      _key: string
-    } & SeoAlternateLanguage
-  >
   paginationPrevUrl?: string
   paginationNextUrl?: string
   ogTitle?: string
@@ -1371,9 +1349,6 @@ export type Post = {
       } & ContactHero)
     | ({
         _key: string
-      } & ContactForm)
-    | ({
-        _key: string
       } & Booking)
     | ({
         _key: string
@@ -1563,9 +1538,6 @@ export type Page = {
       } & ContactHero)
     | ({
         _key: string
-      } & ContactForm)
-    | ({
-        _key: string
       } & Booking)
     | ({
         _key: string
@@ -1727,7 +1699,14 @@ export type Project = {
   tagline: string
   metric?: string
   metricLabel?: string
-  thumb?: {
+  thumbLight?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  thumbDark?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -1741,9 +1720,6 @@ export type Project = {
     | ({
         _key: string
       } & ContactHero)
-    | ({
-        _key: string
-      } & ContactForm)
     | ({
         _key: string
       } & Booking)
@@ -1912,9 +1888,6 @@ export type Service = {
     | ({
         _key: string
       } & ContactHero)
-    | ({
-        _key: string
-      } & ContactForm)
     | ({
         _key: string
       } & Booking)
@@ -2308,7 +2281,6 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | FormConfig
-  | ContactFormFormConfig
   | Heading
   | ValueCard
   | CtaSection
@@ -2332,7 +2304,8 @@ export type AllSanitySchemaTypes =
   | StepGraphic
   | Logo
   | LabelImage
-  | Texture
+  | LabelImageLight
+  | LabelImageDark
   | ItemLogo
   | SanityFileAssetReference
   | ResourceFile
@@ -2391,13 +2364,11 @@ export type AllSanitySchemaTypes =
   | HomeHero
   | Booking
   | CookieSettings
-  | ContactForm
   | ContactHero
   | PageHero
   | List
   | PageReference
   | Link
-  | SeoAlternateLanguage
   | Seo
   | BlockContentTextOnly
   | BlockContent

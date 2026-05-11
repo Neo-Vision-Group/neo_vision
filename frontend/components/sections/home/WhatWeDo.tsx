@@ -110,7 +110,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
     <SectionsWrapper id="what-we-do" eyebrow={whatWeDo.eyebrow}>
       <div className="flex flex-col gap-12 md:gap-16">
         {whatWeDo.heading?.length ? (
-          <div className="px-6 lg:px-16">
+          <div className="px-6 lg:px-8 xl:px-16">
             <PortableTextRenderer
               value={whatWeDo.heading}
               className={cn(

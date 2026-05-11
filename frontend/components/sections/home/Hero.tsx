@@ -35,11 +35,7 @@ export function Hero({ data }: { data?: HeroData }) {
   const primaryCtaHref = linkResolver(cleanData?.primaryCta?.link ?? undefined);
   const secondaryCtaLabel = cleanData?.secondaryCta?.buttonText?.trim();
   const secondaryCtaHref = linkResolver(cleanData?.secondaryCta?.link ?? undefined);
-  const ctaTextLines =
-    cleanData?.ctaText
-      ?.split("\n")
-      .map((line) => line.trim())
-      .filter(Boolean) ?? [];
+  const ctaTextLines = cleanData?.ctaText
 
   const hero = {
     label: cleanData?.label?.trim(),
@@ -60,7 +56,6 @@ export function Hero({ data }: { data?: HeroData }) {
     !hero.body &&
     !hero.stats &&
     !hero.dimensionLine &&
-    hero.mergerNote.length === 0 &&
     !hero.primaryCtaLabel &&
     !hero.secondaryCtaLabel
   ) {
@@ -80,7 +75,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[28px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[36px] lg:text-[40px] 2xl:text-[200px]"
+            className="inline-block font-light uppercase text-[28px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[36px] lg:text-[100px] xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>
@@ -97,11 +92,11 @@ export function Hero({ data }: { data?: HeroData }) {
         >
           <div className="flex flex-col gap-2 text-foreground">
             {hero.heading ? (
-              <h1 className="text-4xl font-medium leading-8 tracking-[-0.3px] md:text-4xl md:leading-10 lg:text-[36px] lg:leading-12">
+              <p className="text-4xl leading-8 tracking-[-0.3px] md:leading-10 lg:leading-12">
                 {hero.heading}
-              </h1>
+              </p>
             ) : null}
-            {hero.body ? <h3 className="text-[18px]">{hero.body}</h3> : null}
+            {hero.body ? <p className="text-[18px]">{hero.body}</p> : null}
           </div>
           {hero.primaryCtaLabel && hero.primaryCtaHref ? (
             <div className="flex w-full">
@@ -138,14 +133,14 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="pb-3 flex min-w-0 flex-1 flex-col items-start gap-8 py-0 md:py-0 lg:py0 2xl:py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-4 md:px-12 lg:px-16 2xl:px-30">
+          <div className="pb-3 flex min-w-0 flex-col items-start gap-8 py-0 md:py-0 lg:py0 2xl:py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-4 md:px-12 lg:px-16 2xl:px-30">
             <SplitTextReveal
               as="p"
               type="words"
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="min-w-0 flex-1 font-betatron text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[52px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[52px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>
@@ -154,12 +149,10 @@ export function Hero({ data }: { data?: HeroData }) {
               from="right"
               distance={24}
               delay={0.15}
-              className="flex w-full shrink-0 flex-col items-start gap-[18px] md:w-auto md:items-end md:self-center"
+              className="flex flex-1 flex-col items-start gap-[18px] md:items-end"
             >
-              <div className="font-funnel text-[18px] pl-48 leading-normal text-foreground md:text-right">
-                {hero.mergerNote.map((line) => (
-                  <p key={line}>{line}</p>
-                ))}
+              <div className="font-funnel text-[18px] leading-normal text-foreground md:text-right">
+                <p>{hero.mergerNote}</p>
               </div>
               {hero.secondaryCtaLabel && hero.secondaryCtaHref ? (
                 <Button

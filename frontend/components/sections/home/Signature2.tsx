@@ -1,8 +1,12 @@
+'use client'
+
 import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {Button} from '@/components/partials/Button'
 import {cn} from '@/lib/utils'
 import {cleanStega, linkResolver, urlForImage} from '@/sanity/lib/utils'
 import type {SanityImageSource} from '@sanity/image-url'
+import {useEffect, useRef, useState} from 'react'
+import Image from 'next/image'
 
 type Signature2Step = {
   _key?: string
@@ -52,13 +56,50 @@ export function Signature2({data}: {data?: Signature2Data}) {
   const ctaLabel = cleanData?.cta?.buttonText?.trim()
   const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined)
 
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      {threshold: 0.3}
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isVisible || steps.length === 0) return
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % steps.length)
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [isVisible, steps.length])
+
   if (!headingFaded && !headingBold && !body && steps.length === 0 && !ctaLabel) {
     return null
   }
 
   return (
     <SectionsWrapper eyebrow={eyebrow}>
-      <div className="flex flex-col gap-12 md:gap-14 lg:gap-16">
+      <div ref={sectionRef} className="flex flex-col gap-12 md:gap-14 lg:gap-16">
         <div className="max-w-215 space-y-4 md:space-y-5">
           <h2 className="text-[30px] leading-[1.15] tracking-[-0.6px] text-foreground md:text-640 lg:text-5xl lg:tracking-[-1px]">
             {headingFaded ? (
@@ -88,6 +129,8 @@ export function Signature2({data}: {data?: Signature2Data}) {
                   index={index}
                   step={step}
                   showConnector={index < steps.length - 1}
+                  isActive={isVisible && index === activeIndex}
+                  isConnectorActive={isVisible && index + 1 <= activeIndex}
                 />
               ))}
             </div>
@@ -110,19 +153,24 @@ function StepRailItem({
   index,
   step,
   showConnector,
+  isActive,
+  isConnectorActive,
 }: {
   index: number
   step: {title: string; highlighted: boolean; graphic?: string}
   showConnector: boolean
+  isActive: boolean
+  isConnectorActive: boolean
 }) {
   const hasGraphic = step.highlighted && Boolean(step.graphic)
+  const workCardHoverGraphic = '/images/graphic.jpg'
 
   return (
     <>
       <article
         className={cn(
-          'relative isolate min-h-45 overflow-hidden border bg-surface p-8 md:min-h-45',
-          step.highlighted ? 'border-brand' : 'border-black/20 dark:border-white/20',
+          'relative isolate min-h-45 overflow-hidden border bg-surface p-8 md:min-h-45 transition-all duration-500 ease-out',
+          isActive ? 'border-brand' : 'border-black/20 dark:border-white/20',
         )}
       >
         {hasGraphic ? (
@@ -178,6 +226,41 @@ function StepRailItem({
           </>
         ) : null}
 
+        {!hasGraphic ? (
+          <div
+            aria-hidden="true"
+            className={cn(
+              'absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black transition-opacity duration-500 ease-out',
+              isActive ? 'opacity-100' : 'opacity-0'
+            )}
+          >
+            <Image
+              src={workCardHoverGraphic}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div
+              className="absolute inset-0 mix-blend-screen dark:hidden"
+              style={{background: '#ff4404'}}
+            />
+            <div
+              className="absolute inset-0 dark:hidden"
+              style={{
+                background: 'linear-gradient(0deg, #f7f7f7 0%, rgba(247, 247, 247, 0.00) 68.19%)',
+              }}
+            />
+            <div
+              className="absolute inset-0 hidden dark:block"
+              style={{
+                background: `linear-gradient(0deg, #0F0F0F 0%, rgba(0, 0, 0, 0.00) 68.19%), linear-gradient(0deg, #FF4404 0%, #FF4404 100%), url(${workCardHoverGraphic}) lightgray 50% / cover no-repeat`,
+                backgroundBlendMode: 'normal, color, normal',
+              }}
+            />
+          </div>
+        ) : null}
+
         <div className="flex h-full flex-col justify-between gap-10">
           <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
@@ -191,7 +274,10 @@ function StepRailItem({
       {showConnector ? (
         <div
           aria-hidden="true"
-          className="hidden h-px w-6 self-center bg-brand xl:block"
+          className={cn(
+            'hidden h-px w-6 self-center xl:block transition-colors duration-500 ease-out',
+            isConnectorActive ? 'bg-brand' : 'bg-black/20 dark:bg-white/20'
+          )}
         />
       ) : null}
     </>

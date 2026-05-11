@@ -72,8 +72,8 @@ export function FAQ({ data }: { data?: FaqData }) {
               <li
                 key={item.question}
                 className={cn(
-                  "overflow-hidden border border-decoration-dark dark:border-decoration-light bg-white-dark dark:bg-dark-light transition-colors duration-200",
-                  open && "border border-brand"
+                  "overflow-hidden bg-white-dark dark:bg-dark-light transition-colors duration-200",
+                  open ? "border border-brand": "border border-decoration-dark dark:border-decoration-light"
                 )}
               >
                 <button

@@ -29,7 +29,7 @@ export function MetricStrip({
   return (
     <dl
       className={cn(
-        "grid grid-cols-2 gap-6 p-6 md:grid-cols-4 bg-white dark:bg-black md:gap-8 md:p-8 lg:gap-12",
+        "grid grid-cols-2 gap-6 p-6 md:grid-cols-4 bg-white dark:bg-dark md:gap-8 md:p-8 lg:gap-12",
         wrapperStyles[variant],
         className
       )}

@@ -230,7 +230,8 @@ const sharedPageBuilderProjection = /* groq */ `
       eyebrow,
       logos[]{
         name,
-        logo
+        "logoLight": logoLight.asset->url,
+        "logoDark": logoDark.asset->url
       },
       testimonials[]->{
         name,

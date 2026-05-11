@@ -23,10 +23,11 @@ export const testimonials = defineType({
                     type: 'object',
                     fields: [
                         { name: 'name', type: 'string', title: 'Company Name', validation: (Rule) => Rule.required() },
-                        { name: 'logo', type: 'image', title: 'Logo Image', validation: (Rule) => Rule.required() }
+                        { name: 'logoLight', type: 'image', title: 'Logo (Light Mode)', validation: (Rule) => Rule.required(), description: 'Logo to display in light mode' },
+                        { name: 'logoDark', type: 'image', title: 'Logo (Dark Mode)', description: 'Logo to display in dark mode' }
                     ],
                     preview: {
-                        select: { title: 'name', media: 'logo' }
+                        select: { title: 'name', media: 'logoLight' }
                     }
                 }
             ],

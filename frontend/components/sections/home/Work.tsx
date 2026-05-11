@@ -5,6 +5,7 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image"
 
 const workCardHoverGraphic = "/images/graphic.jpg";
 
@@ -100,7 +101,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           thumbHref: projectHref,
           ctaLabel: "View",
           ctaHref: projectHref,
-          imageUrl: resolveImageUrl(projectVisual),
+          imageUrl: projectVisual,
         };
       })
       .filter((item): item is ProjectItem => item !== null) ?? [];
@@ -237,13 +238,14 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </Link>
         </div>
 
-        <div className="flex-1 min-w-0 p-4">
-          <div className="w-full overflow-hidden bg-black" style={{ aspectRatio: "16/9" }}>
+        <div className="min-w-0 p-4">
+          <div className="w-full bg-black">
             {item.imageUrl && (
-              <img
+              <Image
                 src={item.imageUrl}
                 alt={item.name}
                 className="h-full w-full object-cover"
+                fill
               />
             )}
           </div>

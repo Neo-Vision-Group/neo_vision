@@ -7,9 +7,11 @@ import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import { PortableTextRenderer } from "../partials/PortableTextRenderer";
+import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import type { PortableTextBlock } from "@portabletext/types";
 import { useEffect, useState } from "react";
+import Badge from "@/components/partials/Badge";
+import ThirdButton from "@/components/partials/ThirdButton"
 
 const RevealOnScroll = dynamic(
   () =>
@@ -69,7 +71,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background"
+        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden bg-white dark:bg-background"
       )}
     >
       <HeroBrandDotsBackground />
@@ -158,7 +160,6 @@ export function PageHero({ data }: { data?: PageHeroData }) {
 
 function FeaturedReferenceCard({
   item,
-  variant = "inline",
 }: {
   item: NonNullable<PageHeroData["featured"]>;
   variant?: "inline" | "sidebar";
@@ -242,9 +243,7 @@ function FeaturedReferenceCard({
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-3">
             {label ? (
-              <span className="self-start bg-[rgba(255,65,0,0.3)] text-black px-2 py-1 font-funnel text-[14px] uppercase leading-[1.2] tracking-[-0.2px] dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
-                {label}
-              </span>
+              <Badge text={label} />
             ) : null}
 
             {title ? (
@@ -262,15 +261,7 @@ function FeaturedReferenceCard({
         </div>
 
         <div className="inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
-          <ArrowRightPixel
-            color={buttonColor}
-            width={39}
-            height={24}
-            className="shrink-0 transition-transform duration-200 group-hover:translate-x-1"
-          />
-          <span className="font-funnel text-100 font-bold dark:text-[#efefef] text-[#040404] leading-[1.2]">
-            {ctaLabel}
-          </span>
+          <ThirdButton href={slug} label={ctaLabel} />
         </div>
       </div>
     </Link>
@@ -337,3 +328,4 @@ function StatCard({ stat }: { stat: PageHeroStat }) {
     </article>
   );
 }
+
