@@ -151,7 +151,7 @@ export function Team({ data }: { data?: TeamData }) {
                   className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:items-center md:pr-48 lg:flex-row"
                 >
                   <div className="flex min-w-0 flex-1 flex-col items-end">
-                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-[42rem] md:gap-16 md:py-6 lg:max-w-[48rem]">
+                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-2xl md:gap-16 md:py-6 lg:max-w-3xl">
                       <div className="flex min-w-0 flex-col gap-12 md:px-6">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col px-6">

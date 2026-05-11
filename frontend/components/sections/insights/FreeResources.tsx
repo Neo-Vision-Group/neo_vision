@@ -84,7 +84,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
           {items.map((item, idx) => (
             <div
               key={idx}
-              className="border-black/15 last:border-b-0 dark:border-white/20 [&:not(:last-child)]:border-b md:last:border-b md:[&:nth-child(odd)]:border-r md:[&:nth-last-child(-n+2)]:border-b-0"
+              className="border-black/15 last:border-b-0 dark:border-white/20 not-last:border-b md:last:border-b md:odd:border-r md:nth-last-[-n+2]:border-b-0"
             >
               <ResourceCard item={item} />
             </div>

@@ -332,7 +332,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   }
 
   return (
-    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-[100] sm:inset-x-4 sm:bottom-4">
+    <div className="pointer-events-none fixed inset-x-3 bottom-3 z-100 sm:inset-x-4 sm:bottom-4">
       <div className="pointer-events-auto mx-auto w-full max-w-5xl border border-brand bg-white text-black shadow-[0_35px_60px_-15px_rgba(0,0,0,0.45)] dark:bg-black dark:text-white">
         {mode === 'summary' ? (
           <div className="flex flex-col gap-4 p-3 md:p-4 lg:flex-row lg:items-start">

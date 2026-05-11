@@ -153,7 +153,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
     <div
       aria-busy={pct < 100}
       aria-live="polite"
-      className={cn('fixed inset-0 z-[120] overflow-hidden bg-background text-foreground', className)}
+      className={cn('fixed inset-0 z-120 overflow-hidden bg-background text-foreground', className)}
       style={{
         opacity,
         transition: opacity < 1 ? `opacity ${FADE_DURATION}ms cubic-bezier(0.4,0,0.2,1)` : undefined,
@@ -161,7 +161,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
     >
       <HeroBrandDotsBackground />
 
-      <div className="relative z-10 flex min-h-screen min-h-svh items-center justify-center px-6 py-10">
+      <div className="relative z-10 flex min-h-svh items-center justify-center px-6 py-10">
         <div className="flex w-full max-w-3xl flex-col items-center justify-center gap-8 text-center md:gap-10">
           <h1
             className="uppercase leading-[0.84] tracking-[-0.07em] text-foreground"
