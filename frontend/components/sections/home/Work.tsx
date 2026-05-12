@@ -218,8 +218,8 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col bg-white transition-all duration-300 ease-out group-hover/work-shell:bg-transparent dark:bg-dark md:flex-row">
-        <div className="flex w-full shrink-0 flex-col justify-end p-4 md:w-1/4">
+      <div className="relative z-10 flex w-full max-w-270 flex-col bg-white transition-all duration-300 ease-out group-hover/work-shell:bg-transparent dark:bg-dark lg:flex-row">
+        <div className="flex w-full shrink-0 flex-col justify-end p-4 lg:w-1/4">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
@@ -251,7 +251,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </div>
         </div>
 
-        <div className="flex w-full shrink-0 flex-col justify-between gap-6 p-4 md:w-1/4 md:py-6">
+        <div className="flex w-full shrink-0 flex-col justify-between gap-6 p-4 lg:w-1/4 lg:py-6">
           <Link href={item.ctaHref}>
             <Button variant="primary">{item.ctaLabel}</Button>
           </Link>

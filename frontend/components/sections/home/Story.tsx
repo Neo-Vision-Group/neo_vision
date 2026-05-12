@@ -121,22 +121,37 @@ export function Story({ data }: { data?: StoryData }) {
       );
     };
 
+    const isVertical = () => window.innerWidth < 1024;
+
     const updateActiveIndex = () => {
       const items = getItems();
       if (items.length === 0) return;
 
-      const scrollerRect = scroller.getBoundingClientRect();
-      const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
       const inactiveScale = window.innerWidth >= 768 ? 56 / 96 : 0.625;
-      const activationDistance = Math.max(scrollerRect.width * 0.35, 1);
-      const metrics = items.map((item, index) => {
-        const rect = item.getBoundingClientRect();
-        const itemCenter = rect.left + rect.width / 2;
-        const distance = Math.abs(scrollerCenter - itemCenter);
-        const progress = Math.max(0, 1 - distance / activationDistance);
+      let metrics: { item: HTMLLIElement; index: number; distance: number; progress: number }[];
 
-        return { item, index, distance, progress };
-      });
+      if (isVertical()) {
+        const viewportCenter = window.innerHeight / 2;
+        const activationDistance = Math.max(window.innerHeight * 0.35, 1);
+        metrics = items.map((item, index) => {
+          const rect = item.getBoundingClientRect();
+          const itemCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(viewportCenter - itemCenter);
+          const progress = Math.max(0, 1 - distance / activationDistance);
+          return { item, index, distance, progress };
+        });
+      } else {
+        const scrollerRect = scroller.getBoundingClientRect();
+        const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
+        const activationDistance = Math.max(scrollerRect.width * 0.35, 1);
+        metrics = items.map((item, index) => {
+          const rect = item.getBoundingClientRect();
+          const itemCenter = rect.left + rect.width / 2;
+          const distance = Math.abs(scrollerCenter - itemCenter);
+          const progress = Math.max(0, 1 - distance / activationDistance);
+          return { item, index, distance, progress };
+        });
+      }
 
       let nextActiveIndex = 0;
       let minDistance = Number.POSITIVE_INFINITY;
@@ -170,13 +185,26 @@ export function Story({ data }: { data?: StoryData }) {
     };
 
     const updateScrollProgress = () => {
-      const maxScroll = scroller.scrollWidth - scroller.clientWidth;
-      if (maxScroll <= 0) {
-        setScrollProgress(0);
-        return;
+      if (isVertical()) {
+        const items = getItems();
+        if (items.length === 0) { setScrollProgress(0); return; }
+        const first = items[0].getBoundingClientRect();
+        const last = items[items.length - 1].getBoundingClientRect();
+        const totalRange = last.bottom - first.top;
+        if (totalRange <= 0) { setScrollProgress(0); return; }
+        const viewportCenter = window.innerHeight / 2;
+        const traveled = viewportCenter - first.top;
+        const progress = traveled / totalRange;
+        setScrollProgress(Math.max(0, Math.min(1, progress)));
+      } else {
+        const maxScroll = scroller.scrollWidth - scroller.clientWidth;
+        if (maxScroll <= 0) {
+          setScrollProgress(0);
+          return;
+        }
+        const progress = scroller.scrollLeft / maxScroll;
+        setScrollProgress(Math.max(0, Math.min(1, progress)));
       }
-      const progress = scroller.scrollLeft / maxScroll;
-      setScrollProgress(Math.max(0, Math.min(1, progress)));
     };
 
     const syncScroller = () => {
@@ -216,11 +244,13 @@ export function Story({ data }: { data?: StoryData }) {
     initializeFirstItemActive();
     updateEdgePadding();
     scroller.addEventListener("scroll", syncScroller, { passive: true });
+    window.addEventListener("scroll", syncScroller, { passive: true });
     window.addEventListener("resize", syncScroller);
 
     return () => {
       cancelAnimationFrame(frameId);
       scroller.removeEventListener("scroll", syncScroller);
+      window.removeEventListener("scroll", syncScroller);
       window.removeEventListener("resize", syncScroller);
     };
   }, [story.milestones.length]);
@@ -236,12 +266,12 @@ export function Story({ data }: { data?: StoryData }) {
           colorReveal
           className="text-4xl leading-[1.2] tracking-[-1px]  md:text-5xl max-w-225"
         >
-            {story.heading}
+          {story.heading}
         </SplitTextReveal>
 
         <div className="relative -mx-6">
-          {/* Storyline tracker */}
-          <div className="relative mb-8 px-6 md:mb-12">
+          {/* Horizontal tracker — desktop only */}
+          <div className="relative mb-8 hidden px-6 lg:block md:mb-12">
             <div className="relative h-1 w-full overflow-hidden rounded-full bg-black/10 dark:bg-white/10">
               <div
                 className="absolute left-0 top-0 h-full bg-brand transition-all duration-75 ease-out"
@@ -258,38 +288,62 @@ export function Story({ data }: { data?: StoryData }) {
               </div>
             </div>
           </div>
-          <ol
-            ref={scrollerRef}
-            className="no-scrollbar story-scroller flex flex-col gap-8 overflow-x-auto px-6 md:flex-row md:gap-16 md:pt-12 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing"
-            style={{
-              paddingLeft: edgePadding,
-              paddingRight: edgePadding,
-            }}
-          >
-            {story.milestones.map((m, idx) => (
-              <li
-                key={m.year + idx}
-                data-milestone
-                data-active={idx === activeIndex ? "true" : "false"}
-                className={cn(
-                  "relative flex w-full shrink-0 flex-col gap-2 transition-opacity duration-300 ease-out md:w-85 lg:w-100 xl:w-120 2xl:w-138"
-                )}
+
+          {/* Milestone list + vertical tracker side-by-side on mobile/tablet */}
+          <div className="flex items-stretch lg:contents">
+            <ol
+              ref={scrollerRef}
+              className="no-scrollbar story-scroller min-w-0 flex-1 flex flex-col gap-8 overflow-x-auto px-6 lg:flex-row md:gap-16 md:pt-12 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing lg:w-auto lg:flex-none"
+              style={{
+                paddingLeft: edgePadding,
+                paddingRight: edgePadding,
+              }}
+            >
+              {story.milestones.map((m, idx) => (
+                <li
+                  key={m.year + idx}
+                  data-milestone
+                  data-active={idx === activeIndex ? "true" : "false"}
+                  className={cn(
+                    "relative flex w-full shrink-0 flex-col gap-2 transition-opacity duration-300 ease-out md:w-85 lg:w-100 xl:w-120 2xl:w-138"
+                  )}
+                >
+                  <div className="flex flex-col gap-0.5" data-story-item>
+                    <span
+                      className={cn(
+                        "block origin-left font-betatron capitalize text-brand text-8xl leading-none tracking-[-3.84px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none md:text-[96px] md:tracking-[-5.76px]"
+                      )}
+                    >
+                      {m.year}
+                    </span>
+                    <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl">
+                      {m.body}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            {/* Vertical tracker — mobile/tablet only */}
+            <div className="lg:hidden sticky top-0 self-start h-screen w-8 shrink-0 flex flex-col items-center py-6 pr-2">
+              {/* Rail */}
+              <div className="relative flex-1 w-0.5 rounded-full bg-black/10 dark:bg-white/10 overflow-hidden">
+                <div
+                  className="absolute top-0 left-0 w-full bg-brand transition-all duration-75 ease-out"
+                  style={{ height: `${scrollProgress * 100}%` }}
+                />
+              </div>
+              {/* Logo dot */}
+              <div
+                className="absolute left-1/2 -translate-x-1/2 transition-all duration-75 ease-out"
+                style={{ top: `calc(24px + ${scrollProgress} * (100% - 48px - 24px))` }}
               >
-                <div className="flex flex-col gap-0.5" data-story-item>
-                  <span
-                    className={cn(
-                      "block origin-left font-betatron capitalize text-brand text-8xl leading-none tracking-[-3.84px] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform motion-reduce:transition-none md:text-[96px] md:tracking-[-5.76px]"
-                    )}
-                  >
-                    {m.year}
-                  </span>
-                  <p className="py-4 text-4xl leading-[1.2] tracking-[-1px] text-foreground md:py-12 md:text-4xl 2xl:text-4xl">
-                    {m.body}
-                  </p>
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand shadow-lg">
+                  <Logo className="h-5 w-5" darkMode accentColor="#efefef" />
                 </div>
-              </li>
-            ))}
-          </ol>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </SectionsWrapper>

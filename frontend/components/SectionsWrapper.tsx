@@ -19,18 +19,18 @@ export function SectionsWrapper({
   classNameOverride = '',
 }: SectionsWrapperProps) {
   return (
-    <section id={id} className="relative flex flex-col md:flex-row w-full lg:items-start bg-white dark:bg-dark">
-      <aside className="w-full lg:sticky lg:top-0 lg:z-10 lg:flex lg:h-fit lg:w-1/4 lg:shrink-0 lg:flex-col lg:items-start lg:pt-24">
+    <section id={id} className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
+      <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start md:pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
-        <div className="relative w-full 2xl:pl-30 lg:pl-16 pr-6 py-6">
-          <p className="font-betatron text-3xl text-black dark:text-[#efefef]">{eyebrow}</p>
+        <div className="relative w-full 2xl:pl-30 lg:pl-16 md:pl-12 pr-6 py-6">
+          <p className="font-betatron text-center md:text-left text-3xl text-black dark:text-[#efefef]">{eyebrow}</p>
         </div>
         
         {/* Fixed: Horizontal line needs h-px and w-full. 
             Triggered when the top of the aside hits the middle of the screen */}
         {!hideBorders && (
           <DrawLine
-            className="hidden lg:block h-px w-full bg-black/20 dark:bg-white/20"
+            className="hidden md:block h-px w-full bg-black/20 dark:bg-white/20"
             start="top 80%" 
             end="top 40%"
             direction="horizontal"
@@ -54,7 +54,7 @@ export function SectionsWrapper({
 
       {/* Vertical Separator: This one looks correct, but ensure parent has height */}
       <DrawLine
-        className="hidden lg:block w-px self-stretch bg-black/20 dark:bg-white/20"
+        className="hidden md:block w-px self-stretch bg-black/20 dark:bg-white/20"
         start="top 85%"
         end="bottom 85%"
         direction="vertical"

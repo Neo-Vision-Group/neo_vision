@@ -106,8 +106,8 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(180deg, #0b0b0b 0%, rgba(11,11,11,0.9) 10%, rgba(11,11,11,0) 50%, rgba(11,11,11,0) 50%, rgba(11,11,11,0.9) 90%, #0b0b0b 100%),
-              linear-gradient(90deg, #0b0b0b 0%, rgba(11,11,11,0.9) 8%, rgba(11,11,11,0) 45%, rgba(11,11,11,0) 55%, rgba(11,11,11,0.9) 92%, #0b0b0b 100%)
+              linear-gradient(180deg, #040404 0%, rgba(4,4,4,0.9) 10%, rgba(4,4,4,0) 50%, rgba(4,4,4,0) 50%, rgba(4,4,4,0.9) 90%, #040404 100%),
+              linear-gradient(90deg, #040404 0%, rgba(4,4,4,0.9) 8%, rgba(4,4,4,0) 45%, rgba(4,4,4,0) 55%, rgba(4,4,4,0.9) 92%, #040404 100%)
             `,
           }}
         />

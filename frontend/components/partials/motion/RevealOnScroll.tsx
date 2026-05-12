@@ -3,6 +3,7 @@
 import { useRef, type ElementType, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./gsap-setup";
 import { cn } from "../../../lib/utils";
 
@@ -73,11 +74,14 @@ export function RevealOnScroll({
                 trigger: el,
                 start,
                 toggleActions: "play none none none",
+                invalidateOnRefresh: true,
               },
             }
           );
         }
       );
+
+      requestAnimationFrame(() => ScrollTrigger.refresh());
     },
     { scope: ref, dependencies: [] }
   );
