@@ -13,11 +13,12 @@
     "predev": "npm run sanity:typegen",
     "dev": "sanity dev",
     "sanity:typegen": "sanity schema extract --enforce-required-fields --path ../sanity.schema.json && sanity typegen generate",
-    "start": "sanity start",
+    "start": "serve dist -l tcp://0.0.0.0:${PORT:-3333} --single",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@sanity/assist": "^6.0.4",
+    "serve": "^14.2.4",
     "@sanity/icons": "^3.7.4",
     "@sanity/vision": "^5.24.0",
     "date-fns": "^4.1.0",
