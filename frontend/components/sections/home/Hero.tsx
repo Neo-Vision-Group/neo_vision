@@ -75,7 +75,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[28px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[36px] lg:text-[100px] xl:text-[200px]"
+            className="inline-block font-light uppercase text-[70px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[36px] lg:text-[100px] xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>
@@ -92,11 +92,11 @@ export function Hero({ data }: { data?: HeroData }) {
         >
           <div className="flex flex-col gap-2 text-foreground">
             {hero.heading ? (
-              <p className="text-4xl leading-8 tracking-[-0.3px] md:leading-10 lg:leading-12">
+              <p className="text-2xl md:text-4xl leading-8 tracking-[-0.3px] md:leading-10 lg:leading-12">
                 {hero.heading}
               </p>
             ) : null}
-            {hero.body ? <p className="text-[18px]">{hero.body}</p> : null}
+            {hero.body ? <p className="text-[18px] text-xl">{hero.body}</p> : null}
           </div>
           {hero.primaryCtaLabel && hero.primaryCtaHref ? (
             <div className="flex w-full">
@@ -122,7 +122,7 @@ export function Hero({ data }: { data?: HeroData }) {
             className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-0 lg:py-0 2xl:py-8px-4 md:px-12 lg:px-16 2xl:pl-30"
           >
             {hero.stats ? (
-              <p className="w-full font-funnel text-[18px] leading-normal">
+              <p className="w-full font-funnel text-[18px] text-center px-1.5 leading-normal">
                 {hero.stats}
               </p>
             ) : null}
@@ -140,7 +140,7 @@ export function Hero({ data }: { data?: HeroData }) {
               stagger={0.015}
               duration={0.9}
               scrollTriggered
-              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] md:text-[52px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[52px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

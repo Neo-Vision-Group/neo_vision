@@ -4,6 +4,7 @@ import {SectionsWrapper} from '@/components/SectionsWrapper'
 import ArrowDownIcon from '@/components/icons/ArrowDownIcon'
 import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
 import {HeadingShape} from '@/components/sections/PageHero'
+import {AnimatedBorder} from '@/components/AnimatedBorder'
 import {cleanStega} from '@/sanity/lib/utils'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
@@ -76,10 +77,11 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
           ) : null}
         </div>
 
+        <div className="border-y border-black/15 dark:border-white/20">
         <RevealOnScroll
           as="div"
           stagger={0.06}
-          className="grid grid-cols-1 border-y border-black/15 dark:border-white/20 md:grid-cols-2"
+          className="grid grid-cols-1 md:grid-cols-2"
         >
           {items.map((item, idx) => (
             <div
@@ -90,6 +92,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
             </div>
           ))}
         </RevealOnScroll>
+        </div>
 
         {cleanData?.footnote ? (
           <div className="border-b border-black/15 px-6 py-10 dark:border-white/20 md:px-6 md:py-12 lg:px-8 xl:px-12 2xl:px-12">
@@ -110,7 +113,6 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
 
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -155,11 +157,12 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               href={downloadUrl}
               target={isExternal ? '_blank' : '_self'}
               rel={isExternal ? 'noopener noreferrer' : undefined}
-              className="inline-flex items-center gap-3 self-start text-black transition-transform duration-200 group-hover:translate-x-1 dark:text-[#efefef]"
+              className="relative inline-flex items-center gap-3 self-start px-2 py-1 text-black transition-colors duration-200 group-hover:text-brand dark:text-[#efefef]"
               download={!isExternal}
             >
-              <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
-              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
+              <AnimatedBorder groupHover />
+              <ArrowRightPixel color="currentColor" width={39} height={24} className="relative z-10 shrink-0" />
+              <span className="relative z-10 font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
                 Download
               </span>
             </a>

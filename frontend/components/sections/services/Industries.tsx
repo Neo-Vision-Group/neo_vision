@@ -56,12 +56,25 @@ export function Industries({ data }: { data: IndustryData }) {
                                 <div
                                     key={(item.industry ?? "ind") + `${rowIndex}-${columnIndex}`}
                                     className={cn(
-                                        "p-6 dark:border-white/20 md:p-8",
+                                        "p-4 dark:border-white/20 md:p-6",
                                         columnIndex === 0 && "md:border-r md:border-black/20 md:dark:border-white/20",
                                         columnIndex === 1 && "xl:border-r xl:border-black/20 xl:dark:border-white/20",
                                     )}
                                 >
-                                    <article className="flex flex-col gap-3 border border-black/10 bg-black/4 p-6 dark:border-white/10 dark:bg-[#0F0F0F]">
+                                    <article className="group relative isolate flex flex-col gap-3 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+                                        <div
+                                            aria-hidden="true"
+                                            className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
+                                        >
+                                            <div
+                                                className="absolute inset-0"
+                                                style={{ background: "#4a0e00" }}
+                                            />
+                                            <div
+                                                className="absolute inset-0 mix-blend-multiply"
+                                                style={{ background: "#7a1a00" }}
+                                            />
+                                        </div>
                                         <h3 className="text-4xl leading-[1.05] font-betatron text-brand font-medium sm:text-[40px] lg:text-5xl">{item.industry}</h3>
                                         <p className="text-body-2 text-foreground/70">{item.description}</p>
                                     </article>

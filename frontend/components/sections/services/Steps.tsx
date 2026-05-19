@@ -79,15 +79,22 @@ export function Steps({data}: {data?: StepsData}) {
                 key={item._key ?? `${item.title ?? 'step'}-${index}`}
                 className="grid grid-cols-[12px_minmax(0,1fr)] gap-x-4"
               >
-                <div className="flex flex-col items-center">
-                  <div className="h-3 w-3 shrink-0 bg-brand" />
-                  {index < items.length - 1 ? (
-                    <div className="relative w-px flex-1 bg-black/20 dark:bg-white/20">
-                      <DrawLine className="absolute inset-0 w-full bg-brand" start="top 50%" end="bottom 50%" />
+                <div className="relative flex flex-col items-center">
+                  {/* Full-height line behind the dot */}
+                  {(index > 0 || index < items.length - 1) ? (
+                    <div className={cn(
+                      'absolute left-1/2 -translate-x-1/2 w-px bg-black/20 dark:bg-white/20',
+                      index === 0 ? 'top-[22px] md:top-[34px] bottom-0' : index === items.length - 1 ? 'top-0 bottom-[calc(100%-22px)] md:bottom-[calc(100%-34px)]' : 'top-0 bottom-0',
+                    )}>
+                      <DrawLine className="absolute inset-0 w-full bg-brand" start="top 80%" end="bottom 80%" />
                     </div>
-                  ) : (
-                    <div className="w-px flex-1 bg-transparent" />
-                  )}
+                  ) : null}
+                  {/* Spacer above dot */}
+                  <div className="flex-none h-4 md:h-7" />
+                  {/* Dot */}
+                  <div className="relative z-10 h-3 w-3 shrink-0 bg-brand" />
+                  {/* Spacer below dot to maintain layout height */}
+                  <div className="w-px flex-1" />
                 </div>
 
                 <div className="px-0 pb-10 pl-4 md:pl-6 lg:px-8 lg:pb-14">

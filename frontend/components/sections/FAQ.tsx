@@ -71,21 +71,40 @@ export function FAQ({ data }: { data?: FaqData }) {
             return (
               <li
                 key={item.question}
+                onClick={() => setOpenIdx(open ? null : idx)}
                 className={cn(
-                  "overflow-hidden bg-white-dark dark:bg-dark-light transition-colors duration-200",
-                  open ? "border border-brand": "border border-decoration-dark dark:border-decoration-light"
+                  "group relative isolate overflow-hidden bg-white-dark dark:bg-dark-light transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40",
+                  open ? "border border-brand": "border border-decoration-dark dark:border-decoration-light",
+                  "cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTYgMTBWMjJNMTAgMTZIMjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==')_16_16,pointer]"
                 )}
               >
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "#4a0e00" }}
+                  />
+                  <div
+                    className="absolute inset-0 mix-blend-multiply"
+                    style={{ background: "#7a1a00" }}
+                  />
+                </div>
                 <button
                   id={headingId}
                   type="button"
                   aria-expanded={open}
                   aria-controls={panelId}
-                  onClick={() => setOpenIdx(open ? null : idx)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenIdx(open ? null : idx);
+                  }}
                   onKeyDown={(e) => handleKey(e, idx)}
                   className={cn(
                     "group flex w-full items-start gap-6 p-6 text-left transition-colors duration-200 md:gap-12 md:p-12",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTYgMTBWMjJNMTAgMTZIMjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==')_16_16,pointer]"
                   )}
                 >
                   <span className="flex-1 font-funnel text-100 text-black dark:text-white leading-[1.2] tracking-[-0.72px] md:text-4xl md:tracking-[-1px]">
@@ -146,7 +165,10 @@ function Panel({
       )}
     >
       <div className="overflow-hidden">
-        <div className="px-6 pb-6 text-64 leading-[1.55] text-foreground/70 md:px-12 md:pb-12 md:text-[18px] md:leading-normal">
+        <div className={cn(
+          "px-6 pb-6 text-64 leading-[1.55] text-foreground/70 md:px-12 md:pb-12 md:text-[18px] md:leading-normal",
+          "cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTYgMTBWMjJNMTAgMTZIMjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==')_16_16,pointer]"
+        )}>
           {children}
         </div>
       </div>

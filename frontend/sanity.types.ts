@@ -723,7 +723,7 @@ export type Why = {
 export type WhatWeDo = {
   _type: 'whatWeDo'
   eyebrow?: string
-  heading?: BlockContentTextOnly
+  heading?: string
   ctaSection?: CtaSection
   cards: Array<{
     kind?: 'engineering' | 'ai'
@@ -4560,7 +4560,7 @@ export type PageQueryResult = {
         _key: string
         _type: 'whatWeDo'
         eyebrow?: string
-        heading?: BlockContentTextOnly
+        heading?: string
         ctaSection?: CtaSection
         cards: Array<{
           kind?: 'ai' | 'engineering'
@@ -6534,7 +6534,7 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'whatWeDo'
         eyebrow?: string
-        heading?: BlockContentTextOnly
+        heading?: string
         ctaSection?: CtaSection
         cards: Array<{
           kind?: 'ai' | 'engineering'
@@ -8693,7 +8693,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'whatWeDo'
         eyebrow?: string
-        heading?: BlockContentTextOnly
+        heading?: string
         ctaSection?: CtaSection
         cards: Array<{
           kind?: 'ai' | 'engineering'
@@ -10745,7 +10745,7 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'whatWeDo'
         eyebrow?: string
-        heading?: BlockContentTextOnly
+        heading?: string
         ctaSection?: CtaSection
         cards: Array<{
           kind?: 'ai' | 'engineering'
@@ -12721,7 +12721,7 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'whatWeDo'
         eyebrow?: string
-        heading?: BlockContentTextOnly
+        heading?: string
         ctaSection?: CtaSection
         cards: Array<{
           kind?: 'ai' | 'engineering'

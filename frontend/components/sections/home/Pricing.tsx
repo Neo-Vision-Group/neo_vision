@@ -5,6 +5,7 @@ import {useTheme} from 'next-themes'
 
 import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {AnimatedBorder} from '@/components/AnimatedBorder'
+import Badge from '@/components/partials/Badge'
 import {Button} from '@/components/partials/Button'
 import ResolvedLink from '@/components/ResolvedLink'
 import ArrowRight from '@/components/icons/ArrowRight'
@@ -187,9 +188,7 @@ function PricingCard({
     >
       <div className="flex flex-1 flex-col gap-6">
         {hasBadge ? (
-          <span className="inline-flex w-fit items-center bg-[#7a3419] px-3 py-1 font-funnel text-[14px] leading-none text-white md:text-[18px] md:leading-normal">
-            {tier?.badge}
-          </span>
+          <Badge text={tier.badge!} />
         ) : null}
 
         {priceLayout === 'split' ? (

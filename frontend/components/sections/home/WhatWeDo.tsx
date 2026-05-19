@@ -109,7 +109,6 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
     <SectionsWrapper id="what-we-do" eyebrow={whatWeDo.eyebrow}>
       <div className="flex flex-col gap-12 md:gap-16">
         {whatWeDo.heading?.length ? (
-          <div className="px-6 lg:px-8 xl:px-16">
             <SplitTextReveal
               as="p"
               type="words"
@@ -119,7 +118,6 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
             >
               {whatWeDo.heading}
             </SplitTextReveal>
-          </div>
         ) : null}
         <RevealOnScroll
           as="div"
@@ -134,7 +132,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
           ))}
         </RevealOnScroll>
         {hasCtaSection ? (
-          <div className="flex flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-16">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-2">
               {ctaSectionHeading ? (
                 <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">

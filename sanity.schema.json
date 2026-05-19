@@ -4305,8 +4305,7 @@
         "heading": {
           "type": "objectAttribute",
           "value": {
-            "type": "inline",
-            "name": "blockContentTextOnly"
+            "type": "string"
           },
           "optional": true
         },

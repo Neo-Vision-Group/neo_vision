@@ -723,7 +723,7 @@ export type Why = {
 export type WhatWeDo = {
   _type: 'whatWeDo'
   eyebrow?: string
-  heading?: BlockContentTextOnly
+  heading?: string
   ctaSection?: CtaSection
   cards: Array<{
     kind?: 'engineering' | 'ai'

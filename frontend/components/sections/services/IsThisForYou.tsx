@@ -44,18 +44,6 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
                 className="flex items-center gap-3 bg-surface p-6"
               >
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-brand">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="h-4 w-4 text-background"
-                  >
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
                 </div>
                 <span className="text-body-2 text-black dark:text-white">{item.text}</span>
               </article>

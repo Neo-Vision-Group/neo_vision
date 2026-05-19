@@ -67,15 +67,16 @@ export function Awards({data}: {data?: AwardsData}) {
   return (
     <SectionsWrapper eyebrow={eyebrow}>
       <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-6 bg-white/20 dark:bg-black/20">
-        {items.map((item, index) => {
-          const recognitions = item?.recognitions?.filter((entry) => entry?.trim()) ?? []
-          const ctaHref = item?.cta?.link ? getHref(item.cta.link) : null
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {items.map((item, index) => {
+            const recognitions = item?.recognitions?.filter((entry) => entry?.trim()) ?? []
+            const ctaHref = item?.cta?.link ? getHref(item.cta.link) : null
 
-          return (
-            <article
-              key={item?._key ?? `award-${index}`}
-              className="border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12"
-            >
+            return (
+              <article
+                key={item?._key ?? `award-${index}`}
+                className="border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12"
+              >
               <div className="flex flex-col gap-6">
                 {item?.title ? (
                   <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
@@ -112,8 +113,9 @@ export function Awards({data}: {data?: AwardsData}) {
                 ) : null}
               </div>
             </article>
-          )
-        })}
+            )
+          })}
+        </div>
 
         {featuredTitle ? (
           <article className="border border-white/10 bg-surface p-8 md:p-12">

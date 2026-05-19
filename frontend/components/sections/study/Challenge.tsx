@@ -57,27 +57,36 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               ))
           : null}
         {issues.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            stagger={0.06}
-            className="grid grid-cols-1 border-t border-white/15 md:grid-cols-2 dark:border-white/15"
-          >
-            {issues.map((iss, idx) => (
-              <article
-                key={(iss.tag ?? "iss") + idx}
-                className="border-b border-r border-white/15 p-6 dark:border-white/15"
-              >
-                <div className="flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f]">
-                  <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
-                    {iss.tag}
-                  </span>
-                  <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
-                    {iss.body}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </RevealOnScroll>
+          <div className="border-t border-white/15 dark:border-white/15">
+            <RevealOnScroll
+              as="div"
+              stagger={0.06}
+              className="grid grid-cols-1 border-l border-white/15 md:grid-cols-2 dark:border-white/15"
+            >
+              {issues.map((iss, idx) => (
+                <article
+                  key={(iss.tag ?? "iss") + idx}
+                  className="border-b border-r border-white/15 p-6 dark:border-white/15"
+                >
+                  <div className="group relative isolate flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f]">
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
+                    >
+                      <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
+                      <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
+                    </div>
+                    <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
+                      {iss.tag}
+                    </span>
+                    <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
+                      {iss.body}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </RevealOnScroll>
+          </div>
         ) : null}
       </div>
     </SectionsWrapper>

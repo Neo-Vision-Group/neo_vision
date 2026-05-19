@@ -1,5 +1,6 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
+import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
 
 const RevealOnScroll = dynamic(
@@ -31,30 +32,52 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
     <SectionsWrapper
       id="sound-familiar"
       eyebrow={cleanData?.eyebrow ?? "SOUND FAMILIAR?"}
+      classNameOverride="px-0"
     >
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-12 pb-24">
         {cleanData?.heading && (
-          <div className="">
+          <div className="px-6 lg:px-8 xl:px-16">
             <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
               {cleanData.heading}
             </h2>
           </div>
         )}
-        <RevealOnScroll
-          as="div"
-          stagger={0.08}
-          className="grid grid-cols-1 gap-4 md:grid-cols-2"
-        >
-          {cleanData.painPoints.map((p, idx) => (
-            <article
-              key={(p.title ?? "pp") + idx}
-              className="flex flex-col gap-12 border border-white/10 bg-decoration-dark dark:border-white/20 dark:bg-[#0f0f0f] p-12"
-            >
-              <h3 className="text-[32px]">{p.title}</h3>
-              <p className="text-muted-light dark:text-muted-dark">{p.body}</p>
-            </article>
-          ))}
-        </RevealOnScroll>
+        <div className="border-t border-black/20 dark:border-white/20">
+          <RevealOnScroll
+            as="div"
+            stagger={0.08}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {cleanData.painPoints.map((p, idx) => (
+                <div
+                  key={(p.title ?? "pp") + idx}
+                  className={cn(
+                    "p-4 md:p-6 border-b border-black/20 dark:border-white/20",
+                    (idx + 1) % 2 !== 0 && "md:border-r md:border-black/20 md:dark:border-white/20"
+                  )}
+                >
+                  <article className="group relative isolate flex flex-col gap-12 border border-white/10 bg-decoration-dark dark:border-white/20 dark:bg-[#0f0f0f] p-12 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40">
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
+                    >
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: "#4a0e00" }}
+                      />
+                      <div
+                        className="absolute inset-0 mix-blend-multiply"
+                        style={{ background: "#7a1a00" }}
+                      />
+                    </div>
+                    <h3 className="font-betatron text-[32px] text-brand">{p.title}</h3>
+                    <p className="font-funnel text-muted-light dark:text-muted-dark">{p.body}</p>
+                  </article>
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
       </div>
     </SectionsWrapper>
   );

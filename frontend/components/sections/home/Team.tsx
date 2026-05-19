@@ -21,11 +21,10 @@ export type TeamMember = {
   name: string;
   role: string;
   bio: string;
-  portrait?: any;
+  portrait?: Record<string, unknown>;
   order?: number;
 };
 
-type ClosingStatementPart = string | { bold: string };
 export type TeamData = {
   eyebrow?: string;
   heading?: string;
@@ -49,9 +48,6 @@ export function Team({ data }: { data?: TeamData }) {
     closingStatement: cleanData?.closingStatement?.trim(),
   };
 
-  if (!team.heading && team.members.length === 0 && !team.closingStatement) {
-    return null;
-  }
   const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
   const isDarkTheme = !mounted || theme === "dark";
@@ -59,6 +55,8 @@ export function Team({ data }: { data?: TeamData }) {
 
   const hasMultiple = team.members.length > 1;
   const scrollerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
   const scroll = useCallback((dir: "prev" | "next") => {
     if (!scrollerRef.current) return;
@@ -101,6 +99,10 @@ export function Team({ data }: { data?: TeamData }) {
     });
   }, [scrollerRef]);
 
+  if (!team.heading && team.members.length === 0 && !team.closingStatement) {
+    return null;
+  }
+
   return (
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow}>
       <div className="flex flex-col gap-12">
@@ -115,29 +117,9 @@ export function Team({ data }: { data?: TeamData }) {
         </SplitTextReveal>
 
         <div className="relative">
-          {hasMultiple && (
-            <div className="absolute top-0 left-6 z-10 flex items-center gap-3 md:left-12">
-              <button
-                type="button"
-                aria-label="Previous team member"
-                onClick={() => scroll("prev")}
-                className={`group flex size-12 items-center justify-center transition-colors`}
-              >
-                <TeamArrowLeft key={arrowColor} color={arrowColor} />
-              </button>
-              <button
-                type="button"
-                aria-label="Next team member"
-                onClick={() => scroll("next")}
-                className={`group flex size-12 items-center justify-center transition-colors`}
-              >
-                <TeamArrowRight key={arrowColor} color={arrowColor} />
-              </button>
-            </div>
-          )}
           <div
             ref={scrollerRef}
-            className="no-scrollbar flex overflow-x-auto px-6 pb-12 md:px-12"
+            className="no-scrollbar flex gap-24 overflow-x-auto pb-12"
           >
             {team.members.map((member, i) => {
               const portraitUrl = member.portrait
@@ -148,24 +130,23 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex w-[85vw] shrink-0 flex-col items-start gap-12 pr-24 md:w-[70vw] md:items-center md:pr-48 lg:flex-row"
+                  className="flex shrink-0 flex-col items-start gap-12 md:items-center lg:flex-row justify-between"
                 >
                   <div className="flex min-w-0 flex-1 flex-col items-end">
                     <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-2xl md:gap-16 md:py-6 lg:max-w-3xl">
-                      <div className="flex min-w-0 flex-col gap-12 md:px-6">
+                      <div className="flex min-w-0 flex-col gap-12">
                         <div className="flex flex-col gap-6">
-                          <div className="flex min-w-0 flex-col px-6">
-                            {hasMultiple && <div className="mb-6 h-12" />}
+                          <div className="flex min-w-0 flex-col">
                             <p className="font-funnel text-[32px] leading-[1.08] tracking-[-0.9px] text-muted dark:text-muted md:text-[48px] lg:text-[56px]">
                               {member.name}
                             </p>
-                            <p className="font-funnel text-64 leading-normal text-muted dark:text-muted md:text-[18px]">
+                            <p className="font-funnel text-64 text-muted dark:text-muted md:text-[18px]">
                               {member.role}
                             </p>
                           </div>
                           <div className="h-px w-full bg-decoration-dark dark:bg-decoration-light" />
                         </div>
-                        <div className="min-w-0 px-6">
+                        <div className="min-w-0">
                           <p className="font-funnel text-64 leading-normal text-foreground md:text-[18px]">
                             {member.bio}
                           </p>
@@ -174,11 +155,11 @@ export function Team({ data }: { data?: TeamData }) {
                     </div>
                   </div>
 
-                  <div className="relative aspect-429/523 w-full shrink-0 overflow-hidden bg-black md:w-108">
+                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-black md:w-108">
                     <BinaryGlitchField />
                     <div className="absolute inset-0" />
                     {portraitUrl && (
-                      <div className="absolute inset-x-[12%] bottom-0 top-[12%] overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)] md:inset-x-[14%] md:top-[13%]">
+                      <div className="absolute inset-0 z-10 overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
                         <div className="relative size-full">
                           <Image
                             src={portraitUrl}
@@ -194,15 +175,33 @@ export function Team({ data }: { data?: TeamData }) {
               );
             })}
           </div>
-        </div>
-
-        <div className="px-6 md:px-12">
-          {team.closingStatement && (
-            <div className="leading-8 text-foreground">
-              <ClosingStatement parts={team.closingStatement} />
+          {hasMultiple && (
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                type="button"
+                aria-label="Previous team member"
+                onClick={() => scroll("prev")}
+                className="group flex size-12 items-center justify-center transition-colors"
+              >
+                <TeamArrowLeft key={arrowColor} color={arrowColor} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next team member"
+                onClick={() => scroll("next")}
+                className="group flex size-12 items-center justify-center transition-colors"
+              >
+                <TeamArrowRight key={arrowColor} color={arrowColor} />
+              </button>
             </div>
           )}
         </div>
+
+        {team.closingStatement && (
+          <div className="leading-8 text-foreground">
+            <ClosingStatement parts={team.closingStatement} />
+          </div>
+        )}
       </div>
     </SectionsWrapper>
   );
@@ -213,13 +212,14 @@ function BinaryGlitchField() {
   const [lines, setLines] = useState<string[]>([]);
 
   useEffect(() => {
-    setMounted(true);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    setLines(createBinaryLines());
+    const initId = setTimeout(() => {
+      setMounted(true);
+      setLines(createBinaryLines());
+    }, 0);
 
     if (mediaQuery?.matches) {
-      return;
+      return () => clearTimeout(initId);
     }
 
     const interval = window.setInterval(() => {
@@ -227,6 +227,7 @@ function BinaryGlitchField() {
     }, 70);
 
     return () => {
+      clearTimeout(initId);
       window.clearInterval(interval);
     };
   }, []);
@@ -270,7 +271,7 @@ function ClosingStatement({
   parts: string;
 }) {
   return (
-    <span className="dark:text-[#efefefb3] text-[#040404b3] text-xl md:text-2xl lg:text-3xl font-funnel">
+    <span className="dark:text-[#efefef] text-[#040404] text-xl md:text-2xl lg:text-3xl font-funnel">
       {parts}
     </span>
   );

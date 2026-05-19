@@ -1,6 +1,7 @@
 import {SectionsWrapper} from "@/components/SectionsWrapper"
 import {Button} from "@/components/partials/Button"
 import {cleanStega} from "@/sanity/lib/utils"
+import {cn} from "@/lib/utils"
 import dynamic from "next/dynamic"
 
 const RevealOnScroll = dynamic(
@@ -87,31 +88,56 @@ export function Reality({data}: {data?: RealityData}) {
         ) : null}
 
         {points.length > 0 ? (
-          <RevealOnScroll
-            as="div"
-            stagger={0.08}
-            className="border-y border-black/20 dark:border-white/20"
-          >
-            <div className="grid grid-cols-1 divide-y divide-black/20 md:grid-cols-2 md:divide-x md:divide-y-0 xl:grid-cols-3 dark:divide-white/20">
-              {points.map((point, index) => (
-                <div key={point._key ?? `${point.title ?? "point"}-${index}`} className="p-6">
-                  <article className="flex h-full min-h-70 flex-col gap-12 border border-black/10 bg-surface p-6 dark:border-white/20 dark:bg-[#111111] md:p-8">
-                    {point.title ? (
-                      <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-4xl">
-                        {point.title}
-                      </h3>
-                    ) : null}
+          <div className="border-t border-black/20 dark:border-white/20">
+            <RevealOnScroll
+              as="div"
+              stagger={0.08}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                {points.map((point, index) => (
+                  <div
+                    key={point._key ?? `${point.title ?? "point"}-${index}`}
+                    className={cn(
+                      "p-6 border-b border-black/20 dark:border-white/20",
+                      // Tablet: 2 columns
+                      (index + 1) % 2 !== 0 && "md:border-r md:border-black/20 md:dark:border-white/20",
+                      (index + 1) % 2 === 0 && "md:border-r-0",
+                      // Desktop: 3 columns
+                      (index + 1) % 3 !== 0 && "xl:border-r xl:border-black/20 xl:dark:border-white/20",
+                      (index + 1) % 3 === 0 && "xl:border-r-0"
+                    )}
+                  >
+                    <article className="group relative isolate flex h-full min-h-70 flex-col gap-12 border border-black/10 bg-surface p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#111111] md:p-8">
+                      <div
+                        aria-hidden="true"
+                        className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
+                      >
+                        <div
+                          className="absolute inset-0"
+                          style={{background: "#4a0e00"}}
+                        />
+                        <div
+                          className="absolute inset-0 mix-blend-multiply"
+                          style={{background: "#7a1a00"}}
+                        />
+                      </div>
+                      {point.title ? (
+                        <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-4xl">
+                          {point.title}
+                        </h3>
+                      ) : null}
 
-                    {point.body ? (
-                      <p className="font-funnel text-[18px] leading-normal text-foreground dark:text-[#efefef]">
-                        {point.body}
-                      </p>
-                    ) : null}
-                  </article>
-                </div>
-              ))}
-            </div>
-          </RevealOnScroll>
+                      {point.body ? (
+                        <p className="font-funnel text-[18px] leading-normal text-foreground dark:text-[#efefef]">
+                          {point.body}
+                        </p>
+                      ) : null}
+                    </article>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+          </div>
         ) : null}
 
         {cleanData?.cta?.buttonText && ctaHref ? (

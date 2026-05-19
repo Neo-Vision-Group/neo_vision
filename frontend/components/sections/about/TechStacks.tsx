@@ -93,7 +93,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                   </div>
                 ) : null}
 
-                <div className="border-y border-black/20 dark:border-white/20">
+                <div className="border-t border-black/20 dark:border-white/20">
                   <RevealOnScroll
                     as="div"
                     stagger={0.05}
@@ -105,7 +105,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                       return (
                         <article
                           key={item?._key ?? `item-${itemIndex}`}
-                          className="flex min-h-40 flex-col justify-between border border-black/20 p-6 -mt-px -ml-px dark:border-white/20 md:min-h-47[188px] lg:min-h-53"
+                          className="flex min-h-40 flex-col justify-between border-r border-b border-black/20 p-6 -mt-px -ml-px dark:border-white/20 md:min-h-47[188px] lg:min-h-53"
                         >
                           <div className="flex flex-1 items-center justify-center">
                             <div className="w-full max-w-64">

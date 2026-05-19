@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import type { PortableTextBlock } from "@portabletext/types";
 import { useEffect, useState } from "react";
-import Badge from "@/components/partials/Badge";
+import Badge from "@/components/partials/Badge"
 import ThirdButton from "@/components/partials/ThirdButton"
 
 const RevealOnScroll = dynamic(
@@ -261,7 +261,7 @@ function FeaturedReferenceCard({
         </div>
 
         <div className="inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
-          <ThirdButton href={slug} label={ctaLabel} />
+          <ThirdButton href={href} label={ctaLabel} />
         </div>
       </div>
     </Link>
@@ -313,7 +313,7 @@ function StatCard({ stat }: { stat: PageHeroStat }) {
   }
 
   return (
-    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand">
       {displayValue ? (
         <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
           {displayValue}

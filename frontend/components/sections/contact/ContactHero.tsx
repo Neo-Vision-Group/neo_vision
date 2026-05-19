@@ -29,11 +29,13 @@ type LegacyHeadingFormat = {
 };
 
 import { ContactFormSection } from "./ContactFormSection";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 
 export function ContactHero({ data }: { data?: ContactHeroData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const [activeTab, setActiveTab] = useState<"message" | "call">("message");
+  const [callTabHovered, setCallTabHovered] = useState(false);
 
   const eyebrow = cleanData?.eyebrow || "LET'S TALK";
   
@@ -140,11 +142,14 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
               <button
                 type="button"
                 onClick={() => setActiveTab("call")}
+                onMouseEnter={() => setCallTabHovered(true)}
+                onMouseLeave={() => setCallTabHovered(false)}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
-                  activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
+                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300",
+                  activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
+                <AnimatedBorder isHovered={callTabHovered && activeTab !== "call"} />
                 Book a call
                 {activeTab === "call" && (
                   <>
