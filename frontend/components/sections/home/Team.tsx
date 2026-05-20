@@ -155,17 +155,18 @@ export function Team({ data }: { data?: TeamData }) {
                     </div>
                   </div>
 
-                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-black md:w-108">
+                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-white dark:bg-dark md:w-108">
                     <BinaryGlitchField />
                     <div className="absolute inset-0" />
                     {portraitUrl && (
-                      <div className="absolute inset-0 z-10 overflow-hidden border border-white/10 bg-black/20 shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
+                      <div className="absolute inset-0 z-10 overflow-hidden">
                         <div className="relative size-full">
                           <Image
                             src={portraitUrl}
                             alt={member.name}
                             className="object-cover"
                             fill
+                            sizes="(min-width: 768px) 432px, 100vw"
                           />
                         </div>
                       </div>
@@ -237,7 +238,7 @@ function BinaryGlitchField() {
   return (
     <div className="absolute inset-[-8%] overflow-hidden">
       <div className="absolute inset-0" />
-      <div className="absolute inset-0 font-opening-hours-mono text-[22px] bg-white dark:bg-black uppercase leading-[1.05] tracking-[0.24em] text-decoration-dark dark:text-decoration-light md:text-[28px]">
+      <div className="absolute inset-0 text-[22px] bg-white dark:bg-dark uppercase leading-[1.05] tracking-[0.24em] text-decoration-dark dark:text-decoration-light md:text-[28px]" style={{ fontFamily: "'OHMonoVF', monospace" }}>
         {lines.map((line, index) => (
           <p
             key={`${index}-${line.slice(0, 10)}`}

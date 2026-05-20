@@ -2,6 +2,7 @@
 
 import {SanityDocument} from 'next-sanity'
 import {useOptimistic} from 'next-sanity/hooks'
+import {useEffect} from 'react'
 
 import BlockRenderer from '@/components/BlockRenderer'
 import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker'
@@ -88,10 +89,41 @@ function RenderEmptyState({page}: {page: PageQueryResult}) {
   )
 }
 
+function useScrollToHash() {
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+
+    let attempts = 0
+    const maxAttempts = 20
+    const delay = 100
+
+    const tryScroll = () => {
+      const element = document.querySelector(hash)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return true
+      }
+      return false
+    }
+
+    const interval = setInterval(() => {
+      attempts++
+      if (tryScroll() || attempts >= maxAttempts) {
+        clearInterval(interval)
+      }
+    }, delay)
+
+    return () => clearInterval(interval)
+  }, [])
+}
+
 export default function PageBuilder({
   page,
   deferRouteReadySignal = false,
 }: PageBuilderPageProps) {
+  useScrollToHash()
+
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>

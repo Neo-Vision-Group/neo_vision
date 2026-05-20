@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import ArrowRight from "@/components/icons/ArrowRightPixel";
 import Image from "next/image";
 import { AnimatedBorder } from "../AnimatedBorder";
+import Badge from "./Badge";
 import { useEffect, useState } from "react";
 
 export type ArticleCardData = {
@@ -95,12 +96,11 @@ export function ArticleCard({
         )}
         
         {/* Author + read time badge */}
-        <div className="absolute w-full left-2 bottom-2 bg-[rgba(255,65,0,0.3)] p-2">
-          <p className="font-funnel-display text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
-            {article.author?.name ? `${article.author.name} · ` : ''}
-            {article.readTime ? `${article.readTime} min` : ''}
-          </p>
-        </div>
+        {(article.author?.name || article.readTime) ? (
+          <div className="absolute left-2 bottom-2">
+            <Badge text={`${article.author?.name ? `${article.author.name} · ` : ''}${article.readTime ? `${article.readTime} min` : ''}`} />
+          </div>
+        ) : null}
       </div>
 
       <div
@@ -112,13 +112,7 @@ export function ArticleCard({
         <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-4">
             {/* Category badge */}
-            {category ? (
-              <div className="bg-[rgba(255,65,0,0.3)] p-2.5 self-start">
-                <p className="font-funnel-display text-[18px] leading-normal text-black dark:text-white">
-                  {category}
-                </p>
-              </div>
-            ) : null}
+            {category ? <Badge text={category} /> : null}
             
             <h3
               className={cn(

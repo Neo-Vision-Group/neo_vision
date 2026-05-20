@@ -635,20 +635,12 @@ const sharedPageBuilderProjection = /* groq */ `
         client,
         slug,
         year,
-        category,
-        industry,
+        "category": category->name,
+        "industry": industry->name,
         tagline,
         metric,
         metricLabel,
         thumb
-      },
-      serviceFilters[]{
-        label,
-        value
-      },
-      industryFilters[]{
-        label,
-        value
       }
     },
     _type == "portfolioMetrics" => {

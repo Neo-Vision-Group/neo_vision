@@ -75,7 +75,7 @@ export function Awards({data}: {data?: AwardsData}) {
             return (
               <article
                 key={item?._key ?? `award-${index}`}
-                className="border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12"
+                className="group border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5"
               >
               <div className="flex flex-col gap-6">
                 {item?.title ? (
@@ -118,7 +118,7 @@ export function Awards({data}: {data?: AwardsData}) {
         </div>
 
         {featuredTitle ? (
-          <article className="border border-white/10 bg-surface p-8 md:p-12">
+          <article className="group border border-white/10 bg-surface p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5">
             <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
               <h3 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-4xl md:tracking-[-1px]">
                 {featuredTitle}

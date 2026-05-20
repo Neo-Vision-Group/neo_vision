@@ -3,6 +3,7 @@ import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBack
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -121,19 +122,124 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
                     className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
                   />
                 ) : null}
-                <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
-                  <p className="font-funnel text-[28px] leading-none text-brand md:text-4xl">
-                    {item.value}
-                  </p>
-                  <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-100">
-                    {item.label}
-                  </p>
-                </article>
+                <HighlightCard card={item} />
               </div>
             ))}
           </div>
         </div>
       ) : null}
     </section>
+  );
+}
+
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+function useScrambleText(text: string | undefined, duration = 2000) {
+  const [displayText, setDisplayText] = useState(text || "");
+  const [hasStarted, setHasStarted] = useState(false);
+  const elementRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (!text || hasStarted) return;
+
+    const element = elementRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStarted) {
+            setHasStarted(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [text, hasStarted]);
+
+  useEffect(() => {
+    if (!text || !hasStarted) {
+      setDisplayText(text || "");
+      return;
+    }
+
+    const targetText = text;
+    const iterations = 20;
+    const intervalTime = duration / iterations;
+    let currentIteration = 0;
+
+    const interval = setInterval(() => {
+      currentIteration++;
+
+      if (currentIteration >= iterations) {
+        setDisplayText(targetText);
+        clearInterval(interval);
+        return;
+      }
+
+      const progress = currentIteration / iterations;
+      const revealedLength = Math.floor(progress * targetText.length);
+
+      let result = targetText.substring(0, revealedLength);
+
+      for (let i = revealedLength; i < targetText.length; i++) {
+        if (targetText[i] === " ") {
+          result += " ";
+        } else {
+          result += CHARS[Math.floor(Math.random() * CHARS.length)];
+        }
+      }
+
+      setDisplayText(result);
+    }, intervalTime);
+
+    return () => clearInterval(interval);
+  }, [text, hasStarted, duration]);
+
+  return { displayText, elementRef };
+}
+
+function ScrambleText({
+  text,
+  className,
+}: {
+  text: string | undefined;
+  className?: string;
+}) {
+  const { displayText, elementRef } = useScrambleText(text, 2000);
+
+  return (
+    <p ref={elementRef} className={className}>
+      {displayText}
+    </p>
+  );
+}
+
+function HighlightCard({ card }: { card: StudyHeroDetail }) {
+  const value = card.value;
+  const label = card.label;
+
+  if (!value && !label) {
+    return null;
+  }
+
+  return (
+    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+      {value ? (
+        <ScrambleText
+          text={value}
+          className="font-funnel text-[28px] leading-none text-brand md:text-4xl"
+        />
+      ) : null}
+
+      {label ? (
+        <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-100">
+          {label}
+        </p>
+      ) : null}
+    </article>
   );
 }

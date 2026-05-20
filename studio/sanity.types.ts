@@ -553,16 +553,6 @@ export type PortfolioGrid = {
       _key: string
     } & ProjectReference
   >
-  serviceFilters?: Array<{
-    label: string
-    value: string
-    _key: string
-  }>
-  industryFilters?: Array<{
-    label: string
-    value: string
-    _key: string
-  }>
 }
 
 export type PortfolioFeatured = {
@@ -1693,6 +1683,13 @@ export type Page = {
   seo?: Seo
 }
 
+export type IndustryReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'industry'
+}
+
 export type Project = {
   _id: string
   _type: 'project'
@@ -1703,8 +1700,8 @@ export type Project = {
   title: string
   year: string
   slug: Slug
-  category: string
-  industry: string
+  category: ServiceReference
+  industry: IndustryReference
   tagline: string
   metric?: string
   metricLabel?: string
@@ -1869,6 +1866,17 @@ export type Project = {
   >
   publishedAt?: string
   seo?: Seo
+}
+
+export type Industry = {
+  _id: string
+  _type: 'industry'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  slug: Slug
+  order?: number
 }
 
 export type Service = {
@@ -2387,7 +2395,9 @@ export type AllSanitySchemaTypes =
   | TeamMember
   | Slug
   | Page
+  | IndustryReference
   | Project
+  | Industry
   | Service
   | SanityAssistInstructionTask
   | SanityAssistTaskStatus

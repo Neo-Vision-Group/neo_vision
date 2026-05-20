@@ -67,6 +67,7 @@ export function Place({ data }: { data?: PlaceData }) {
               src={bgImageUrl}
               alt=""
               fill
+              sizes="100vw"
               className="object-cover object-center dark:invert"
               priority={false}
             />

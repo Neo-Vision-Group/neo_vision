@@ -4,6 +4,7 @@ import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {Button} from '@/components/partials/Button'
 import {cleanStega} from '@/sanity/lib/utils'
 import dynamic from 'next/dynamic'
+import posthog from 'posthog-js'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -39,6 +40,31 @@ export function Press({data}: {data?: PressData}) {
   const fileName = cleanData?.file?.asset?.originalFilename ?? 'press-kit'
   const ctaLabel = cleanData?.ctaLabel ?? 'Download press kit'
 
+  const handleDownload = async () => {
+    if (!downloadUrl) return
+
+    posthog.capture('press_kit_downloaded', {
+      file_name: fileName,
+      file_url: downloadUrl,
+    })
+
+    try {
+      const response = await fetch(downloadUrl)
+      const blob = await response.blob()
+      const blobUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = blobUrl
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(blobUrl)
+    } catch (error) {
+      console.error('Download failed:', error)
+      window.open(downloadUrl, '_blank')
+    }
+  }
+
   if (!heading && !cardTitle && !cardBody) {
     return null
   }
@@ -55,7 +81,7 @@ export function Press({data}: {data?: PressData}) {
         ) : null}
 
         <div className="px-0 md:px-3">
-          <article className="border border-brand bg-surface p-8 md:p-12">
+          <article className="group border border-brand bg-surface p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/70 hover:-translate-y-0.5">
             <div className="flex flex-col items-start gap-8">
               <div className="flex flex-col gap-3">
                 {cardTitle ? (
@@ -73,8 +99,7 @@ export function Press({data}: {data?: PressData}) {
 
               {downloadUrl ? (
                 <Button
-                  href={downloadUrl}
-                  download={fileName}
+                  onClick={handleDownload}
                   className="w-fit"
                 >
                   {ctaLabel}

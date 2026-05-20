@@ -5,6 +5,7 @@ import Image from "next/image";
 import type { SanityImageSource } from "@sanity/image-url";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { AnimatedBorder } from "../AnimatedBorder";
+import Badge from "./Badge";
 
 /**
  * Case study listing card — used on /portfolio and
@@ -115,11 +116,7 @@ export function CaseStudyCard({
         )}
       >
         <div className="flex flex-col gap-3">
-          {item.category ? (
-            <span className="self-start bg-brand/30 px-2 py-1 font-funnel text-[14px] leading-[1.2] text-black dark:text-[#efefef]">
-              {item.category}
-            </span>
-          ) : null}
+          {item.category ? <Badge text={item.category} /> : null}
           <div className="flex flex-col gap-2">
             <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
               {item.client}

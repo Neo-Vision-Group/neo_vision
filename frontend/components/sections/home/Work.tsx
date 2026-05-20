@@ -246,6 +246,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
                 alt={item.name}
                 className="object-cover"
                 fill
+                sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
               />
             )}
           </div>

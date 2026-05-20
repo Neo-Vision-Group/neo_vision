@@ -43,7 +43,7 @@ const variantStyles: Record<ButtonVariant, string> = {
 };
 
 const baseStyles =
-  "group inline-flex max-w-full text-xl items-center justify-center font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none";
+  "group inline-flex max-w-full text-xl items-center justify-center font-medium leading-none transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:opacity-50 disabled:pointer-events-none cursor-pointer";
 
 export function Button(props: ButtonProps) {
   const isLink = "href" in props && typeof props.href === "string";

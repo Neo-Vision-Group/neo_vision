@@ -2,6 +2,14 @@
 
 @plugin "@tailwindcss/typography";
 
+@font-face {
+  font-family: 'OpeningHoursMonoVF';
+  src: url('/fonts/opening-hours-mono-vf.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* =========================================================================
  * CSS Variables for component theming (light/dark compatible)
  * ========================================================================= */

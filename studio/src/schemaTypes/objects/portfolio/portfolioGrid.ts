@@ -9,6 +9,7 @@ export const portfolioGrid = defineType({
     defineField({
       name: 'items',
       title: 'Case Studies',
+      description: 'Filters are automatically populated from the selected case studies',
       type: 'array',
       of: [
         {
@@ -17,54 +18,6 @@ export const portfolioGrid = defineType({
         }
       ],
       validation: (Rule) => Rule.required()
-    }),
-    defineField({
-      name: 'serviceFilters',
-      title: 'Service Filters',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Label',
-              type: 'string',
-              validation: (Rule) => Rule.required()
-            }),
-            defineField({
-              name: 'value',
-              title: 'Value',
-              type: 'string',
-              validation: (Rule) => Rule.required()
-            })
-          ]
-        }
-      ]
-    }),
-    defineField({
-      name: 'industryFilters',
-      title: 'Industry Filters',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            defineField({
-              name: 'label',
-              title: 'Label',
-              type: 'string',
-              validation: (Rule) => Rule.required()
-            }),
-            defineField({
-              name: 'value',
-              title: 'Value',
-              type: 'string',
-              validation: (Rule) => Rule.required()
-            })
-          ]
-        }
-      ]
     })
   ],
   preview: {

@@ -14,7 +14,8 @@
     "dev": "sanity dev",
     "sanity:typegen": "sanity schema extract --enforce-required-fields --path ../sanity.schema.json && sanity typegen generate",
     "start": "serve dist -l tcp://0.0.0.0:${PORT:-3333} --single",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "migrate:set-project-references": "npx tsx migrations/set-project-industry-and-service/index.ts"
   },
   "dependencies": {
     "@sanity/assist": "^6.0.4",

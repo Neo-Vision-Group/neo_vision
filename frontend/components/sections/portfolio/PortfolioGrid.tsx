@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { CaseStudyCard, type CaseStudyCardData } from "@/components/partials/CaseStudyCard";
 import { Button } from "@/components/partials/Button";
@@ -21,19 +21,16 @@ export type PortfolioGridData = {
     client?: string;
     slug?: string | { current?: string };
     year?: string;
-    category?: string;
+    category?: string | null;
     industry?: string | null;
     tagline?: string;
     metric?: string;
     metricLabel?: string;
     thumb?: string;
   }>;
-  serviceFilters?: Array<{ label?: string; value?: string }>;
-  industryFilters?: Array<{ label?: string; value?: string }>;
 };
 
 const EMPTY_ITEMS: NonNullable<PortfolioGridData["items"]> = [];
-const EMPTY_FILTERS: Array<{ label?: string; value?: string }> = [];
 const INITIAL_VISIBLE_ITEMS = 3;
 const LOAD_MORE_COUNT = 3;
 
@@ -68,28 +65,45 @@ function FilterButton({
   );
 }
 
+function extractUniqueFilters(
+  items: PortfolioGridData["items"],
+  key: "category" | "industry"
+): Array<{ label: string; value: string }> {
+  const unique = new Map<string, string>();
+  items?.forEach((item) => {
+    const value = item?.[key];
+    if (value && typeof value === "string") {
+      unique.set(value.toLowerCase(), value);
+    }
+  });
+  const sorted = Array.from(unique.entries()).sort((a, b) => a[1].localeCompare(b[1]));
+  return [{ label: "All", value: "all" }, ...sorted.map(([value, label]) => ({ label, value }))];
+}
+
 export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const items = useMemo(() => cleanData?.items ?? EMPTY_ITEMS, [cleanData]);
-  const serviceFilters = useMemo(
-    () => cleanData?.serviceFilters ?? EMPTY_FILTERS,
-    [cleanData]
-  );
-  const industryFilters = useMemo(
-    () => cleanData?.industryFilters ?? EMPTY_FILTERS,
-    [cleanData]
-  );
 
-  const [serviceFilter, setServiceFilter] = useState(serviceFilters[0]?.value ?? "all");
-  const [industryFilter, setIndustryFilter] = useState(industryFilters[0]?.value ?? "all");
+  const serviceFilters = useMemo(() => extractUniqueFilters(items, "category"), [items]);
+  const industryFilters = useMemo(() => extractUniqueFilters(items, "industry"), [items]);
+
+  const [serviceFilter, setServiceFilter] = useState("all");
+  const [industryFilter, setIndustryFilter] = useState("all");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_ITEMS);
+
+  // Reset filters when items change
+  useEffect(() => {
+    setServiceFilter("all");
+    setIndustryFilter("all");
+    setVisibleCount(INITIAL_VISIBLE_ITEMS);
+  }, [items]);
 
   const filtered = useMemo(() => {
     return items.filter((item) => {
       const matchesService =
         serviceFilter === "all" ||
-        item.category?.toLowerCase().includes(serviceFilter.toLowerCase());
+        item.category?.toLowerCase() === serviceFilter.toLowerCase();
       const matchesIndustry =
         industryFilter === "all" ||
         item.industry?.toLowerCase() === industryFilter.toLowerCase();
@@ -174,6 +188,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           ) : (
             <div className="flex flex-col gap-6 p-0 md:p-6 lg:gap-8 lg:p-12">
               <RevealOnScroll
+                key={`${serviceFilter}-${industryFilter}`}
                 as="div"
                 stagger={0.06}
                 className="flex flex-col gap-4"

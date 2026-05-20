@@ -39,14 +39,16 @@ export const project = defineType({
     }),
     defineField({
       name: 'category',
-      title: 'Category',
-      type: 'string',
+      title: 'Service',
+      type: 'reference',
+      to: [{type: 'service'}],
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'industry',
       title: 'Industry',
-      type: 'string',
+      type: 'reference',
+      to: [{type: 'industry'}],
       validation: (Rule) => Rule.required(),
     }),
     defineField({

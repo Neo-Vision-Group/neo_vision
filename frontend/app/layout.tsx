@@ -103,6 +103,15 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       suppressHydrationWarning
     >
       <head>
+        <style dangerouslySetInnerHTML={{ __html: `
+          @font-face {
+            font-family: 'OHMonoVF';
+            src: url('/fonts/opening-hours-mono-vf.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+          }
+        ` }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `
