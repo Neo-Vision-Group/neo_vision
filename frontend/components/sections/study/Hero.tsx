@@ -56,10 +56,9 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] max-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden bg-white text-black dark:bg-background dark:text-white"
+        "has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] max-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden bg-transparent text-black dark:text-white"
       )}
     >
-      <HeroBrandDotsBackground />
 
       {/* Text content — padded */}
       <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-20 pb-6 md:gap-10 md:px-8 md:pt-24 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">

@@ -138,8 +138,8 @@ const sharedPageBuilderProjection = /* groq */ `
         _type == "project" => {
           client,
           year,
-          category,
-          industry,
+          "category": category->name,
+          "industry": industry->name,
           tagline,
           "cover": thumb.asset->url
         }

@@ -71,13 +71,12 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden bg-white dark:bg-background"
+        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden bg-transparent"
       )}
     >
-      <HeroBrandDotsBackground />
 
       <div className={cn(
-        "relative flex pt-20",
+        "relative flex bg-none",
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(

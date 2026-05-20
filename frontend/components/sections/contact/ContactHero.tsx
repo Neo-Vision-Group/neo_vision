@@ -59,8 +59,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const steps = cleanData?.steps || [];
   
   return (
-    <section className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-white dark:bg-background">
-      <HeroBrandDotsBackground />
+    <section className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-transparent">
 
       <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-12">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start">

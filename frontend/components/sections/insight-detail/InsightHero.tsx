@@ -66,8 +66,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
     : post.cover || null;
 
   return (
-    <section className="has-hero-pattern relative isolate overflow-hidden bg-white text-[#111111] dark:bg-background dark:text-[#efefef]">
-      <HeroBrandDotsBackground />
+    <section className="has-hero-pattern bg-transparent relative isolate overflow-hidden text-[#111111] dark:text-[#efefef]">
       <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
 
       <div className="relative pt-12 pb-14 md:pt-16 md:pb-20 xl:pt-20 xl:pb-24">
