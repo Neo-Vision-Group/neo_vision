@@ -5,7 +5,7 @@ import {cache} from 'react'
 import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilderPage from '@/components/PageBuilder'
 import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
-import {sanityFetch} from '@/sanity/lib/live'
+import {debugSanityFetch} from '@/sanity/lib/debugFetch'
 import {pageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {
   buildRouteMetadata,
@@ -19,7 +19,7 @@ type Props = {
 }
 
 const loadPageForMetadata = cache(async (slug: string) => {
-  const {data} = await sanityFetch({
+  const {data} = await debugSanityFetch({
     query: pageQuery,
     params: {slug},
     stega: false,
@@ -44,7 +44,7 @@ function getPageSchemaType(slug: string) {
  * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
  */
 export async function generateStaticParams() {
-  const {data} = await sanityFetch({
+  const {data} = await debugSanityFetch({
     query: pagesSlugs,
     // // Use the published perspective in generateStaticParams
     perspective: 'published',
@@ -80,9 +80,26 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
 export default async function Page(props: Props) {
   const params = await props.params
-  const {data: page} = await sanityFetch({query: pageQuery, params})
+  
+  console.log(`[Route] Rendering page:`, {
+    slug: params.slug,
+    query: 'pageQuery'
+  })
+  
+  const {data: page} = await debugSanityFetch({query: pageQuery, params})
+
+  console.log(`[Route] Page data received:`, {
+    hasPage: !!page,
+    pageId: page?._id,
+    pageType: page?._type,
+    pageName: page?.name,
+    hasPageBuilder: !!page?.pageBuilder,
+    pageBuilderLength: page?.pageBuilder?.length,
+    pageBuilderTypes: page?.pageBuilder?.map((b: any) => b._type)
+  })
 
   if (!page) {
+    console.warn(`[Route] No page found for slug: ${params.slug}`)
     notFound()
   }
 

@@ -23,11 +23,11 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
   return (
     <section
       id="author"
-      className="px-4 py-16 md:px-6 bg-white dark:bg-black"
+      className="py-16 bg-white dark:bg-black"
     >
-      <div className="mx-auto max-w-330 bg-white dark:bg-black">
+      <div className="bg-white dark:bg-black">
         <div className="border-t border-black/10 dark:border-white/10" />
-        <div className="grid overflow-hidden lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,429px)]">
+        <div className="grid overflow-hidden px-4 md:px-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,429px)]">
           <div className="flex items-center px-6 py-8 md:px-8">
             <div className="w-full max-w-xl">
               {author?.name ? (

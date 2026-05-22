@@ -106,6 +106,34 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
   )
 }
 
+function useDownload(url: string, filename?: string) {
+  const [downloading, setDownloading] = useState(false)
+
+  const trigger = async (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (downloading) return
+    setDownloading(true)
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const objectUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = objectUrl
+      a.download = filename ?? url.split('/').pop() ?? 'download'
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(objectUrl)
+    } catch {
+      window.open(url, '_blank')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
+  return {trigger, downloading}
+}
+
 function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[number]}) {
   const downloadUrl = item?.fileUrl ?? item?.file?.asset?.url ?? item?.externalUrl ?? ''
   const isExternal = !!item?.externalUrl && !item?.fileUrl && !item?.file?.asset?.url
@@ -121,6 +149,8 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
   const buttonColor = mounted && isDarkTheme
     ? "#EFEFEF"
     : "#040404";
+
+  const {trigger, downloading} = useDownload(downloadUrl, item?.title ?? undefined)
 
   return (
     <article className="p-4 md:p-6">
@@ -158,12 +188,13 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               target={isExternal ? '_blank' : '_self'}
               rel={isExternal ? 'noopener noreferrer' : undefined}
               className="relative inline-flex items-center gap-3 self-start px-2 py-1 text-black transition-colors duration-200 group-hover:text-brand dark:text-[#efefef]"
-              download={!isExternal}
+              onClick={isExternal ? undefined : trigger}
+              aria-disabled={downloading}
             >
               <AnimatedBorder groupHover />
               <ArrowRightPixel color="currentColor" width={39} height={24} className="relative z-10 shrink-0" />
               <span className="relative z-10 font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
-                Download
+                {downloading ? 'Downloading…' : 'Download'}
               </span>
             </a>
           ) : (

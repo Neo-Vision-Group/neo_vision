@@ -8,6 +8,8 @@ import type {TypedObject} from '@portabletext/types'
 import {cn} from '@/lib/utils'
 import ArrowRight from '@/components/icons/ArrowRight'
 import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
+import Badge from '@/components/partials/Badge'
+import {dispatchConsentUpdate} from '@/hooks/useAnalyticsConsent'
 
 const COOKIE_STORAGE_KEY = 'neo-cookie-preferences'
 export const COOKIE_PREFERENCES_EVENT = 'neo:open-cookie-preferences'
@@ -140,6 +142,9 @@ function persistPreferences(categories: CookieCategory[], preferences: Record<st
 
   window.localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(payload))
   document.cookie = 'neo_cookie_preferences_set=1; Max-Age=31536000; Path=/; SameSite=Lax'
+
+  // Notify other components (e.g., analytics) that consent has changed
+  dispatchConsentUpdate()
 }
 
 function buildAcceptAllPreferences(categories: CookieCategory[]) {
@@ -424,9 +429,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
                               {category.title}
                             </h3>
                             {category.required ? (
-                              <span className="bg-brand/30 px-3 py-1 text-[18px] leading-normal text-black dark:text-white">
-                                {category.lockedLabel || 'Always on'}
-                              </span>
+                              <Badge text={category.lockedLabel || 'Always on'} />
                             ) : null}
                           </div>
                         </div>

@@ -14,7 +14,7 @@ export type ArticleCardData = {
   title: string;
   slug?: { current?: string } | string | null;
   excerpt?: string | null;
-  category?: string | null;
+  category?: string | {title?: string | null} | null;
   publishedAt?: string | null;
   readTime?: number | null;
   cover?: string | null;
@@ -30,12 +30,20 @@ function resolveSlug(slug: ArticleCardData["slug"]): string {
   return slug.current ?? "";
 }
 
-function formatCategory(value?: string | null) {
+function formatCategory(value?: string | {title?: string | null} | null) {
   if (!value) return null;
-  return value
-    .split("-")
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(" ");
+  // Handle new object format from Sanity reference
+  if (typeof value === 'object' && value.title) {
+    return value.title;
+  }
+  // Handle old string format (slug)
+  if (typeof value === 'string') {
+    return value
+      .split("-")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  }
+  return null;
 }
 
 export function ArticleCard({
@@ -97,8 +105,8 @@ export function ArticleCard({
         
         {/* Author + read time badge */}
         {(article.author?.name || article.readTime) ? (
-          <div className="absolute left-2 bottom-2">
-            <Badge text={`${article.author?.name ? `${article.author.name} · ` : ''}${article.readTime ? `${article.readTime} min` : ''}`} />
+          <div className="absolute left-2 bottom-2 bg-[rgba(255,65,0,0.3)] px-2 py-1 font-funnel text-[14px] leading-[1.2] tracking-[-0.2px] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
+            {`${article.author?.name ? `${article.author.name} · ` : ''}${article.readTime ? `${article.readTime} min` : ''}`}
           </div>
         ) : null}
       </div>

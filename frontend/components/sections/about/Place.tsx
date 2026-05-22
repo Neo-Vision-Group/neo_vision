@@ -1,8 +1,7 @@
 "use client";
 
-import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -48,12 +47,15 @@ export type PlaceData = {
 export function Place({ data }: { data?: PlaceData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const backgroundGraphic = cleanData?.backgroundGraphic;
-  const bgImageUrl = backgroundGraphic ? urlForImage(backgroundGraphic)?.url() : null;
   const message = cleanData?.message?.trim() || DEFAULT_MESSAGE;
 
   return (
-    <section className="overflow-hidden bg-transparent">
+    <section
+      className="overflow-hidden bg-transparent"
+      style={{
+        ['--place-fade' as string]: 'var(--color-white, #ffffff)',
+      } as React.CSSProperties}
+    >
       <RevealOnScroll
         as="div"
         stagger={0.1}
@@ -61,28 +63,34 @@ export function Place({ data }: { data?: PlaceData }) {
         distance={24}
         className="w-full overflow-hidden"
       >
-        <div className="relative isolate flex w-full max-w-full aspect-4.5/2 min-h-70 items-end overflow-hidden dark:bg-[#040404] md:min-h-90 lg:min-h-105">
-          {bgImageUrl ? (
-            <Image
-              src={bgImageUrl}
+        <div className="relative isolate flex w-full max-w-full aspect-4.5/2 min-h-70 items-end overflow-hidden bg-white dark:bg-[#040404] md:min-h-90 lg:min-h-105">
+          <div className="absolute inset-0 overflow-hidden" style={{ perspective: '800px' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/map.svg"
               alt=""
-              fill
-              sizes="100vw"
-              className="object-cover object-center dark:invert"
-              priority={false}
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              fetchPriority="low"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+              style={{
+                transform: 'rotateX(38deg) scale(1.6) translateY(-8%)',
+                transformOrigin: 'center 65%',
+              }}
             />
-          ) : (
-            <>
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_55%,rgba(255,255,255,0.1),transparent_38%),radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.04),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))]" />
-              <div className="absolute inset-x-[8%] top-[11%] h-px bg-white/5" />
-              <div className="absolute inset-x-[14%] bottom-[18%] h-px bg-white/5" />
-            </>
-          )}
+          </div>
 
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,4,4,0.96)_5.3%,rgba(4,4,4,0)_30.5%),linear-gradient(0deg,rgba(4,4,4,0.96)_5.3%,rgba(4,4,4,0)_24.4%)]" />
+          <div
+            className="absolute inset-0 dark:[--place-fade:var(--color-dark,#040404)]"
+            style={{
+              background:
+                'linear-gradient(180deg, var(--place-fade) 5.3%, transparent 30.5%), linear-gradient(0deg, var(--place-fade) 5.3%, transparent 24.4%)',
+            }}
+          />
 
           <div className="relative z-10 flex w-full items-end justify-center px-6 pb-8 pt-24 md:px-10 md:pb-10 md:pt-28 lg:px-12 lg:pb-12 lg:pt-32">
-            <p className="max-w-[18ch] text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
+            <p className="max-w-[18ch] text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-dark dark:text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
               {message}
             </p>
           </div>

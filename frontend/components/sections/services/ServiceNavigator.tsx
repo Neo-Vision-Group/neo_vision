@@ -182,7 +182,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
     eyebrow: cleanData?.eyebrow ?? "WHAT WE DO",
     headingRegular: cleanData?.headingRegular ?? "Not sure which service you need?",
     headingBold: cleanData?.headingBold ?? "Start here.",
-    cards: cards.length > 0 ? cards : fallbackCards,
+    cards: cards,
     closingText:
       cleanData?.closingText ??
       "Still unsure? Book a 30-min call - we'll figure it out together",
@@ -234,11 +234,11 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
                   <div
                     key={card._key ?? `${card.prompt}-${rowIndex}-${columnIndex}`}
                     className={cn(
-                      "p-6 md:p-8",
+                      "flex p-6 md:p-8",
                       columnIndex === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
                     )}
                   >
-                    <article className="flex flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
+                    <article className="flex h-full w-full flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
                       <div className="flex flex-col gap-3">
                         {card.prompt ? (
                           <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
@@ -269,7 +269,7 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
         </div>
 
         <div className="flex flex-col gap-6 px-6 md:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8 xl:px-12 2xl:px-16">
-          <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
+          <p className="font-funnel max-w-2/3 text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
             {navigator.closingText}
           </p>
           <Button>

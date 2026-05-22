@@ -46,39 +46,13 @@ export type CompareData = {
   closing?: CompareClosing
 }
 
-function StatusMark({available, highlighted}: {available: boolean; highlighted: boolean}) {
+function StatusMark({available}: {available: boolean; highlighted: boolean}) {
   return (
     <span
       aria-label={available ? 'Included' : 'Not included'}
-      className={available ? 'text-brand' : 'text-foreground/55'}
+      className={`font-inter text-[20px] font-bold leading-none ${available ? 'text-brand' : 'text-foreground/55'}`}
     >
-      {available ? (
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className={`mx-auto h-5 w-5 ${highlighted ? 'text-brand' : 'text-brand'}`}
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="3"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <polyline points="20 6 9 17 4 12" />
-        </svg>
-      ) : (
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          className="mx-auto h-5 w-5"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-        >
-          <path d="M7 7L17 17" />
-          <path d="M17 7L7 17" />
-        </svg>
-      )}
+      {available ? '✓' : '✗'}
     </span>
   )
 }
@@ -118,7 +92,7 @@ export function Compare({data}: {data?: CompareData}) {
                       return (
                         <th
                           key={column._key ?? `${column.name}-${columnIndex}`}
-                          className={`px-3 py-5 text-center text-[14px] font-funnel leading-[1.2] tracking-[-0.5px] ${
+                          className={`px-3 py-5 text-center text-[14px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] ${
                             highlighted
                               ? 'bg-brand text-white'
                               : 'text-black dark:text-white'
@@ -137,7 +111,7 @@ export function Compare({data}: {data?: CompareData}) {
                       key={row._key ?? `${row.label}-${rowIndex}`}
                       className="border-b border-black/10 dark:border-white/20"
                     >
-                      <th className="px-2 py-5 text-left text-[14px] font-funnel leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
+                      <th className="px-2 py-5 text-left text-[14px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
                         {row.label}
                       </th>
 

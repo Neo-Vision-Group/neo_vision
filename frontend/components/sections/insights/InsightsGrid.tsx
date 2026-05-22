@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import posthog from "posthog-js";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
@@ -18,7 +18,7 @@ const RevealOnScroll = dynamic(
 );
 
 export type InsightsGridData = {
-  items?: Array<ArticleCardData & { category?: string | null }>;
+  items?: Array<ArticleCardData & { category?: { _id: string; title: string; slug?: { current?: string } } | null }>;
   categoryFilters?: Array<{ label?: string; value?: string }>;
 };
 
@@ -42,14 +42,14 @@ function InsightsFilterButton({
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
       className={cn(
-        "relative inline-flex bg-[#f0f0f0] dark:bg-[#1a1a1a] min-h-7 items-center justify-center self-start px-2 py-2 font-funnel text-[18px] leading-normal transition-colors duration-200",
+        "relative inline-flex items-center justify-start text-left border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-normal",
         active
-          ? "bg-[rgba(255,65,0,0.3)]"
-          : " hover:bg-black/5 dark:hover:bg-white/5"
+          ? "bg-brand/30 text-black dark:text-[#efefef]"
+          : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
       )}
     >
       <AnimatedBorder isHovered={active || isHovered} />
-      <span className="text-black dark:text-white">{label}</span>
+      <span className="relative z-10">{label}</span>
     </button>
   );
 }
@@ -62,28 +62,56 @@ function getArticleKey(article: ArticleCardData) {
   return article.title;
 }
 
+function extractUniqueCategories(
+  items: InsightsGridData["items"]
+): Array<{ label: string; value: string; id: string }> {
+  const unique = new Map<string, { label: string; value: string; id: string }>();
+  items?.forEach((item) => {
+    const category = item?.category;
+    if (category?._id && category?.title) {
+      const slug = category.slug?.current ?? category._id;
+      unique.set(slug, {
+        label: category.title,
+        value: slug,
+        id: category._id,
+      });
+    }
+  });
+  return Array.from(unique.values()).sort((a, b) => a.label.localeCompare(b.label));
+}
+
 export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const categoryOptions = (
-    cleanData?.categoryFilters ?? [
-      { label: "All", value: "all" },
-      { label: "Engineering", value: "engineering" },
-      { label: "AI Transformation", value: "ai-transformation" },
-      { label: "Both", value: "both" },
-    ]
-  ).map((f) => ({ label: f.label ?? "All", value: f.value ?? "all" }));
+  const items = cleanData?.items ?? [];
 
-  const items = cleanData?.items;
+  // Extract unique categories from items
+  const categoryOptions = useMemo(() => extractUniqueCategories(items), [items]);
 
-  const [categoryFilter, setCategoryFilter] = useState(categoryOptions[0]?.value ?? "all");
+  // Multiple filter selection state (array of category slugs)
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
-  const filtered = (items ?? []).filter((item) => {
-    return (
-      categoryFilter === "all" ||
-      item.category?.toLowerCase().includes(categoryFilter.toLowerCase())
-    );
-  });
+  const toggleCategory = (value: string) => {
+    setSelectedCategories((prev) => {
+      const exists = prev.includes(value);
+      const next = exists ? prev.filter((v) => v !== value) : [...prev, value];
+      return next;
+    });
+    posthog.capture("insights_category_filtered", {
+      category: value,
+      selected_count: selectedCategories.length + (selectedCategories.includes(value) ? -1 : 1),
+    });
+  };
+
+  const filtered = useMemo(() => {
+    return items.filter((item) => {
+      // No filters selected = show all
+      if (selectedCategories.length === 0) return true;
+      // Match any selected category
+      const itemCategorySlug = item.category?.slug?.current ?? item.category?._id;
+      return itemCategorySlug && selectedCategories.includes(itemCategorySlug);
+    });
+  }, [items, selectedCategories]);
 
   const eyebrow = (
     <div className="flex flex-col items-start gap-5">
@@ -92,20 +120,18 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
       </p>
 
       <div className="flex flex-col items-start gap-5">
-        {categoryOptions.map((option) => (
-          <InsightsFilterButton
-            key={option.value}
-            label={option.label}
-            active={categoryFilter === option.value}
-            onClick={() => {
-              setCategoryFilter(option.value);
-              posthog.capture("insights_category_filtered", {
-                category: option.value,
-                category_label: option.label,
-              });
-            }}
-          />
-        ))}
+        {categoryOptions.length === 0 ? (
+          <p className="text-body text-foreground/60">No categories available.</p>
+        ) : (
+          categoryOptions.map((option) => (
+            <InsightsFilterButton
+              key={option.value}
+              label={option.label}
+              active={selectedCategories.includes(option.value)}
+              onClick={() => toggleCategory(option.value)}
+            />
+          ))
+        )}
       </div>
     </div>
   );
@@ -118,6 +144,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
         </p>
       ) : (
         <RevealOnScroll
+          key={selectedCategories.join(',')}
           as="div"
           stagger={0.06}
           className="grid grid-cols-1 gap-4 2xl:grid-cols-3 lg:grid-cols-2"

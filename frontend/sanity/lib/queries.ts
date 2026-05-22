@@ -26,6 +26,7 @@ const postFields = /* groq */ `
   "cover": coverImage.asset->url,
   "date": coalesce(date, _updatedAt),
   "author": author->{firstName, lastName, picture},
+  "category": category->{_id, title, slug},
 `
 
 const seoImageFields = /* groq */ `
@@ -129,7 +130,7 @@ const sharedPageBuilderProjection = /* groq */ `
         _type == "post" => {
           title,
           excerpt,
-          category,
+          "category": category->{_id, title, slug},
           publishedAt,
           readTime,
           "cover": coverImage.asset->url,
@@ -471,7 +472,7 @@ const sharedPageBuilderProjection = /* groq */ `
         title,
         slug,
         excerpt,
-        category,
+        "category": category->{_id, title, slug},
         publishedAt,
         readTime,
         featured,
@@ -877,7 +878,7 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
     title,
     slug,
     excerpt,
-    category,
+    "category": category->{_id, title, slug},
     publishedAt,
     readTime,
     featured,
@@ -899,7 +900,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       asset->
     },
     "cover": coverImage.asset->url,
-    category,
+    "category": category->{_id, title, slug},
     publishedAt,
     readTime,
     featured,
@@ -914,7 +915,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       title,
       slug,
       excerpt,
-      category,
+      "category": category->{_id, title, slug},
       publishedAt,
       readTime,
       "cover": coverImage.asset->url,

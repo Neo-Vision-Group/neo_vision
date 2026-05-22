@@ -73,6 +73,12 @@ function resolveImageUrl(image?: string) {
 
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
+  
+  console.log(`[Work] Component rendered with:`, {
+    hasData: !!data,
+    cardsCount: cleanData?.cards?.length,
+    heading: cleanData?.heading
+  });
   const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined);
   const ctaLabel = cleanData?.cta?.buttonText?.trim();
   const heading = cleanData?.heading?.trim();
@@ -86,6 +92,11 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           card.project?.title?.trim() || card.project?.client?.trim();
 
         if (!projectSlug || !projectName) {
+          console.warn(`[Work] Skipping card ${index}: missing slug or name`, {
+            projectSlug,
+            projectName,
+            card: card.project
+          });
           return null;
         }
 
@@ -107,6 +118,17 @@ export function OurWork({ data }: { data?: PortfolioData }) {
       .filter((item): item is ProjectItem => item !== null) ?? [];
 
   const items = itemsFromCards;
+
+  console.log(`[Work] Final items array:`, {
+    totalCards: cleanData?.cards?.length,
+    validItems: items.length,
+    items: items.map(item => ({
+      key: item.key,
+      name: item.name,
+      hasImage: !!item.imageUrl,
+      imageUrl: item.imageUrl?.substring(0, 100) + '...'
+    }))
+  });
 
   if (!heading && items.length === 0 && !ctaLabel) {
     return null;
@@ -141,7 +163,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           className="flex flex-col gap-6 "
         >
           {items.map((item) => (
-            <div key={item.key} className="px-6 lg:px-16 hover:px-0">
+            <div key={item.key} className="px-6 lg:px-16">
               <CaseRow item={item} />
             </div>
           ))}
@@ -163,7 +185,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
   return (
     <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
       <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
-        <div className="relative isolate h-full w-full overflow-hidden bg-white transition-all duration-300 ease-out dark:bg-dark">
+        <div className="relative isolate h-full w-full overflow-hidden transition-all duration-300 ease-out">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
@@ -195,22 +217,22 @@ function CaseRow({ item }: { item: ProjectItem }) {
           >
             <div
               className="absolute inset-0"
-              style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
+              style={{ background: "#040404" }}
             />
             <img
               src={workCardHoverGraphic}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+              className="absolute inset-0 h-full w-full object-cover mix-blend-screen"
               style={{
-                filter: "brightness(0.78) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.05)",
+                filter: "brightness(0.45) sepia(1) saturate(6) hue-rotate(-25deg) contrast(1.1)",
               }}
             />
             <div
               className="absolute inset-0"
               style={{
                 backgroundImage: `
-                  linear-gradient(180deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 16%, rgba(11,11,11,0) 32%, rgba(11,11,11,0) 68%, rgba(11,11,11,0.42) 84%, rgba(11,11,11,0.88) 100%),
-                  linear-gradient(90deg, rgba(11,11,11,0.88) 0%, rgba(11,11,11,0.42) 12%, rgba(11,11,11,0) 24%, rgba(11,11,11,0) 76%, rgba(11,11,11,0.42) 88%, rgba(11,11,11,0.88) 100%)
+                  linear-gradient(180deg, rgba(4,4,4,0.88) 0%, rgba(4,4,4,0.42) 16%, rgba(4,4,4,0) 32%, rgba(4,4,4,0) 68%, rgba(4,4,4,0.42) 84%, rgba(4,4,4,0.88) 100%),
+                  linear-gradient(90deg, rgba(4,4,4,0.88) 0%, rgba(4,4,4,0.42) 12%, rgba(4,4,4,0) 24%, rgba(4,4,4,0) 76%, rgba(4,4,4,0.42) 88%, rgba(4,4,4,0.88) 100%)
                 `,
               }}
             />
@@ -218,7 +240,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col bg-white transition-all duration-300 ease-out group-hover/work-shell:bg-transparent dark:bg-dark lg:flex-row">
+      <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-300 ease-out group-hover/work-shell:bg-transparent lg:flex-row">
         <div className="flex w-full shrink-0 flex-col justify-end p-4 lg:w-1/4">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
@@ -239,14 +261,20 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
 
         <div className="relative min-h-48 min-w-0 flex-1 p-4 md:min-h-64">
-          <div className="relative h-full w-full overflow-hidden bg-black">
+          <div className="relative h-full w-full overflow-hidden">
             {item.imageUrl && (
               <Image
                 src={item.imageUrl}
                 alt={item.name}
-                className="object-cover"
+                className="object-cover transition-transform duration-500 ease-out group-hover/work-shell:scale-105"
                 fill
                 sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
+                onError={(e) => {
+                  console.error(`[Work] Image failed to load:`, item.imageUrl, e);
+                }}
+                onLoad={() => {
+                  console.log(`[Work] Image loaded:`, item.imageUrl);
+                }}
               />
             )}
           </div>

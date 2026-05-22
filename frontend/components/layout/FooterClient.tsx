@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {cn} from '@/lib/utils'
 import {Logo} from '../icons/Logo'
-import {FooterGraphic} from '../icons/FooterGraphicLightTheme'
 import {openCookiePreferences} from '../partials/CookieBanner'
 
 type FooterLink = {
@@ -66,13 +65,7 @@ export function Footer({
   const displayColumns = contactColumn ? [...columns, contactColumn] : columns
 
   return (
-    <footer className="relative text-white w-full overflow-x-clip overflow-y-hidden border-t border-black/20 bg-brand dark:border-white/15 dark:bg-black">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-0 overflow-hidden">
-        <div className="flex w-full justify-end overflow-hidden translate-y-[15%]">
-          <FooterGraphic className="block h-auto w-[clamp(520px,72vw,1197px)] max-w-full shrink-0" />
-        </div>
-      </div>
-
+    <footer className="relative text-white w-full overflow-x-clip overflow-y-hidden border-t border-black/20 bg-brand dark:border-white/15 dark:bg-dark">
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
         <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 py-8 md:w-1/4 md:flex-none md:py-10 lg:py-12 xl:pl-30 lg:pl-16 lg:pr-12">
           <div className="flex flex-col gap-6">
@@ -92,7 +85,7 @@ export function Footer({
                   <Logo className="hidden h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:block" />
                 </>
               )}
-              <p className="min-w-0 font-betatron uppercase text-[22px] leading-8 tracking-[-0.2px] text-white md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-4xl 2xl:leading-9">
+              <p className="min-w-0 font-betatron uppercase text-[22px] leading-8 tracking-[-0.2px] text-white md:text-[24px] md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-[32px] 2xl:leading-[38px]">
                 {title}
               </p>
             </div>
@@ -112,10 +105,34 @@ export function Footer({
           </div>
         </div>
 
-        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-10 border-t border-black/20 p-8 md:flex-1 md:border-l md:border-t-0 md:px-8 md:py-12 lg:grid-cols-4 dark:border-white/15 lg:px-16">
+        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand p-8 dark:bg-black md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:py-12 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
+          {/* NEO VISION textured text - half visible at bottom, centered in this section */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center overflow-visible px-4 md:px-8"
+            style={{ height: 'clamp(80px, 21cqw, 180px)' }}
+          >
+            <span
+              className="font-betatron whitespace-nowrap uppercase leading-none"
+              style={{
+                fontSize: 'clamp(120px, 29cqw, 240px)',
+                backgroundImage: 'linear-gradient(0deg, #FF4404 0%, #FF4404 100%), url(/images/graphic.jpg)',
+                backgroundBlendMode: 'color, normal',
+                backgroundSize: 'cover, cover',
+                backgroundPosition: 'center, center',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+                transform: 'translateY(10%)',
+              }}
+            >
+              NEO VISION
+            </span>
+          </div>
+
           {displayColumns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-funnel text-100 leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-9 2xl:text-4xl 2xl:leading-9">
+              <h3 className="font-funnel text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-9 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">
@@ -125,7 +142,7 @@ export function Footer({
                       <Link
                         href={link.href}
                         className={cn(
-                          'text-xl block max-w-full break-all font-funnel transition-colors',
+                          'text-[18px] leading-normal block max-w-full wrap-break-word font-funnel transition-colors',
                           link.accent
                             ? 'text-brand hover:text-brand-hover'
                             : 'dark:hover:text-brand hover:text-black text-white',
@@ -134,7 +151,7 @@ export function Footer({
                         {link.label}
                       </Link>
                     ) : (
-                      <span className="text-body block max-w-full break-all font-funnel text-white">
+                      <span className="text-[18px] leading-normal block max-w-full wrap-break-word font-funnel text-white">
                         {link.label}
                       </span>
                     )}

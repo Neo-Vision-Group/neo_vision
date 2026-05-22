@@ -49,7 +49,7 @@ function LogoItem({ logoItem }: { logoItem: Logo }) {
 
   return (
     <div className="group/logo flex flex-col items-center gap-2.5">
-      <div className="relative aspect-[102.5/57.65] w-full overflow-hidden dark:bg-black">
+      <div className="relative aspect-[102.5/57.65] w-full overflow-hidden">
         {logoUrl ? (
           <div className="relative z-10 h-full w-full p-5 md:p-6 transition-all duration-300 group-hover/logo:drop-shadow-[0_0_20px_rgba(249,115,22,0.75)]">
             <Image
@@ -130,7 +130,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
               stagger={0.12}
               from="bottom"
               distance={24}
-              className="grid grid-cols-1 gap-6 xl:grid-cols-2 px-6"
+              className="grid grid-cols-1 gap-6 xl:grid-cols-2 px-10"
             >
               {trustedBy.testimonials.map((t, idx) => {
                 const profileUrl = t.profilePicture ? urlForImage(t.profilePicture).width(200).height(200).fit("crop").url() : null;

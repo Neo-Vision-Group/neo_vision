@@ -26,7 +26,7 @@ import * as demo from '@/sanity/lib/demo'
 import {ThemeProvider} from '@/components/partials/theme/theme-provider'
 import {SanityLive} from '@/sanity/lib/live'
 import {buildGlobalMetadata, buildGlobalStructuredData, getGlobalSeoData} from '@/sanity/lib/seo'
-import PlausibleProvider from 'next-plausible'
+import {ConsentAwarePlausible} from '@/components/partials/ConsentAwarePlausible'
 
 export async function generateMetadata(): Promise<Metadata> {
   const origin = await resolveSiteOrigin()
@@ -132,13 +132,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         />
       </head>
       <body className="overflow-x-clip">
-        <PlausibleProvider
-          src={process.env.PLAUSIBLE_SCRIPT_URL}
-          enabled={process.env.NODE_ENV === 'production'}
-          init={{
-            captureOnLocalhost: false,
-          }}
-        >
+        <ConsentAwarePlausible>
           <StructuredDataScript nodes={globalStructuredData} />
           <ThemeProvider
             attribute="class"
@@ -181,7 +175,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           </HeroBrandDotsMediaProvider>
         </ThemeProvider>
         <SpeedInsights />
-        </PlausibleProvider>
+        </ConsentAwarePlausible>
       </body>
     </html>
   )

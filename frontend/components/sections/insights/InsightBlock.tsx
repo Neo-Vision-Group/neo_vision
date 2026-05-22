@@ -69,6 +69,9 @@ const portableTextComponents = {
     h3: ({ children }: { children?: ReactNode }) => (
       <h3 className="mt-10 mb-3 text-4xl font-normal leading-[1.2] tracking-[-1px] text-foreground">{children}</h3>
     ),
+    default: ({ children }: { children?: ReactNode }) => (
+      <p className="my-5 text-[18px] leading-normal text-foreground/80">{children}</p>
+    ),
   },
   list: {
     bullet: ({ children }: { children?: ReactNode }) => (
@@ -116,6 +119,9 @@ const quotePortableTextComponents = {
     h3: ({ children }: { children?: ReactNode }) => (
       <h3 className="text-[28px] leading-[1.2] tracking-[-0.04em] text-foreground md:text-[36px]">{children}</h3>
     ),
+    default: ({ children }: { children?: ReactNode }) => (
+      <p className="text-100 leading-[1.3] tracking-[-0.03em] text-foreground md:text-[30px]">{children}</p>
+    ),
   },
   list: {
     bullet: ({ children }: { children?: ReactNode }) => (
@@ -139,16 +145,15 @@ export function InsightBlock({ data }: InsightBlockProps) {
   const { title, text, sectionType, quote, table, card } = data
 
   return (
-    <section className="px-4 pb-16 md:px-6 md:pb-20">
-      <article className="mx-auto max-w-330">
-        <div className="border-t border-black/10 dark:border-white/10" />
-        <div className="px-6 pt-16 md:px-8 md:pt-20">
+    <section className="pb-16 md:pb-20">
+      <article className="mx-auto min-w-0">
+        <div className="px-4 pt-16 md:px-6 md:pt-20">
           <h2 className="mb-8 text-[36px] font-medium leading-10 tracking-[-0.4px] text-foreground md:text-[56px] md:leading-16 xl:text-[72px] xl:leading-20">
             {title}
           </h2>
 
           {text && text.length > 0 && (
-            <div className="mb-12 max-w-225 text-body text-foreground/80">
+            <div className="mb-12 min-w-0 text-body text-foreground/80">
               <PortableText value={text} components={portableTextComponents} />
             </div>
           )}

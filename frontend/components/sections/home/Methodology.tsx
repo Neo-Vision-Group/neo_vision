@@ -90,7 +90,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
           {stepRows.map((row, rowIndex) => (
             <div
               key={`row-${rowIndex}`}
-              className="grid grid-cols-1 border-t border-black/20 dark:border-white/20 md:grid-cols-2"
+              className="grid grid-cols-1 px-5 lg:px-16 border-t border-black/20 dark:border-white/20 md:grid-cols-2"
             >
               {row.map((step, columnIndex) => (
                 <div

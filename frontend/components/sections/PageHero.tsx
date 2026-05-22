@@ -39,7 +39,7 @@ export type PageHeroData = {
     _id?: string;
     slug?: string | { current?: string | null } | null;
     cover?: string | null;
-    category?: string | null;
+    category?: string | {title?: string | null} | null;
     title?: string | null;
     excerpt?: string | null;
     publishedAt?: string | null;
@@ -260,22 +260,29 @@ function FeaturedReferenceCard({
         </div>
 
         <div className="inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
-          <ThirdButton href={href} label={ctaLabel} />
+          <ThirdButton label={ctaLabel} />
         </div>
       </div>
     </Link>
   );
 }
 
-function formatCategory(value?: string | null) {
+function formatCategory(value?: string | {title?: string | null} | null) {
   if (!value) {
     return null;
   }
-
-  return value
-    .split("-")
-    .map((segment) => segment.toUpperCase())
-    .join(" ");
+  // Handle new object format from Sanity reference
+  if (typeof value === 'object' && value.title) {
+    return value.title;
+  }
+  // Handle old string format (slug)
+  if (typeof value === 'string') {
+    return value
+      .split("-")
+      .map((segment) => segment.toUpperCase())
+      .join(" ");
+  }
+  return null;
 }
 
 function formatMonthYear(value?: string | null) {

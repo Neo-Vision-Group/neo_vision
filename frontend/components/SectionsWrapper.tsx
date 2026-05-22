@@ -22,8 +22,8 @@ export function SectionsWrapper({
     <section id={id} className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
       <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start md:pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
-        <div className="relative w-full 2xl:pl-30 lg:pl-16 md:pl-12 pr-6 py-6">
-          <p className="font-betatron text-center md:text-left text-3xl text-black dark:text-[#efefef]">{eyebrow}</p>
+        <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-12 pr-6 py-6">
+          <div className="font-betatron text-center md:text-left text-3xl text-black dark:text-[#efefef]">{eyebrow}</div>
         </div>
         
         {/* Fixed: Horizontal line needs h-px and w-full. 
@@ -60,7 +60,7 @@ export function SectionsWrapper({
         direction="vertical"
       />
 
-      <div className="flex min-w-0 flex-1 flex-col gap-12 pt-24">
+      <div className="flex min-w-0 flex-1 flex-col gap-12 md:pt-24">
         {/* Fixed: Top border horizontal line. 
             Changed start/end to vertical triggers so it animates as you scroll down */}
         {!(hideTopBorder || hideBorders) && (
@@ -71,7 +71,7 @@ export function SectionsWrapper({
             direction="horizontal" 
           />
         )}
-        <div className={classNameOverride || 'w-full px-6 pb-24 lg:px-8 xl:px-16'}>
+        <div className={classNameOverride || 'w-full px-8 pb-24 lg:px-8 xl:px-16'}>
           {children}
         </div>
       </div>

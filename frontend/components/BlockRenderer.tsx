@@ -46,6 +46,7 @@ import {StudyMoreLikeThis, StudyMoreLikeThisData} from '@/components/sections/st
 import {StudyClosingCta, StudyClosingCtaData} from '@/components/sections/study/ClosingCta'
 import {InsightsGrid, InsightsGridData} from '@/components/sections/insights/InsightsGrid'
 import {InsightBlock, InsightBlockQueryResponse} from '@/components/sections/insights/InsightBlock'
+import {InsightHero} from '@/components/sections/insight-detail/InsightHero'
 import {Booking, BookingData} from '@/components/sections/contact/Booking'
 import {SoundFamiliar, SoundFamiliarData} from '@/components/sections/services/SoundFamiliar'
 import {WhyRomania, WhyRomaniaData} from '@/components/sections/services/WhyRomania'
@@ -194,6 +195,9 @@ const Blocks = {
   insightBlock: ({block}: BlockProps) => {
     return <InsightBlock data={block as InsightBlockQueryResponse} />
   },
+  insightHero: ({block}: BlockProps) => {
+    return <InsightHero post={block as any} />
+  },
   booking: ({block}: BlockProps) => {
     return <Booking data={block as BookingData} />
   },
@@ -230,6 +234,15 @@ const Blocks = {
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
+  console.log(`[BlockRenderer] Rendering block:`, {
+    blockType: block._type,
+    blockKey: block._key,
+    pageId,
+    pageType,
+    hasComponent: typeof Blocks[block._type] !== 'undefined',
+    availableTypes: Object.keys(Blocks)
+  })
+
   // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {
     return (
@@ -254,8 +267,13 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     )
   }
   // Block doesn't exist yet
+  console.error(`[BlockRenderer] Unknown block type: ${block._type}`, {
+    blockKey: block._key,
+    availableTypes: Object.keys(Blocks),
+    blockData: block
+  })
+  
   if (process.env.NODE_ENV === 'development') {
-      console.warn(`[BlockRenderer] Unknown block type: ${block._type}`)
       return React.createElement(
         () => (
           <div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded">
@@ -265,4 +283,7 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
         {key: block._key},
       )
   }
+  
+  // In production, return null to avoid breaking the layout
+  return null
 }

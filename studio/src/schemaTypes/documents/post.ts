@@ -52,16 +52,9 @@ export const post = defineType({
     defineField({
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'AI Transformation', value: 'ai-transformation'},
-          {title: 'Engineering', value: 'engineering'},
-          {title: 'Design Research', value: 'design-research'},
-          {title: 'Systems Playbooks', value: 'systems-playbooks'},
-          {title: 'Operators Notes', value: 'operators-notes'},
-        ],
-      },
+      type: 'reference',
+      to: [{type: 'insightCategory'}],
+      description: 'Select a category for this insight. Categories are managed in the Insight Category section.',
     }),
     defineField({
       name: 'readTime',

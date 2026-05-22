@@ -44,7 +44,7 @@ export type InsightDoc = {
   seo?: Seo | null;
   coverImage?: SanityImageSource | null;
   cover?: string | null;
-  category?: string | null;
+  category?: string | {title?: string | null} | null;
   publishedAt?: string | null;
   readTime?: number | null;
   featured?: boolean | null;
@@ -182,7 +182,7 @@ export default async function InsightDetailPage({
       <StructuredDataScript nodes={structuredData} />
       <InsightHero post={post} />
       <div className="relative bg-white dark:bg-black">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex px-4 md:px-6">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex">
           <div className="relative mx-auto w-full max-w-330">
             <DrawLine
               direction="vertical"
@@ -198,11 +198,13 @@ export default async function InsightDetailPage({
             />
           </div>
         </div>
-        {post.pageBuilder && post.pageBuilder.length > 0 ? (
-          <PageBuilder deferRouteReadySignal page={post as PageQueryResult} />
-        ) : null}
-        <InsightAuthor author={post.author} />
-        <InsightRelated related={related} />
+        <div className="mx-auto w-full max-w-330">
+          {post.pageBuilder && post.pageBuilder.length > 0 ? (
+            <PageBuilder deferRouteReadySignal page={post as PageQueryResult} />
+          ) : null}
+          <InsightAuthor author={post.author} />
+          <InsightRelated related={related} />
+        </div>
       </div>
       <PageTransitionMarker />
     </>

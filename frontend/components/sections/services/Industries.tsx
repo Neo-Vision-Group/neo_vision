@@ -61,7 +61,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                         columnIndex === 1 && "xl:border-r xl:border-black/20 xl:dark:border-white/20",
                                     )}
                                 >
-                                    <article className="group relative isolate flex flex-col gap-3 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+                                    <article className="group relative isolate flex flex-col gap-3 border border-black/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
                                         <div
                                             aria-hidden="true"
                                             className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
@@ -106,7 +106,7 @@ export function Industries({ data }: { data: IndustryData }) {
 
             {metrics.length > 0 ? (
                 <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
-                    <dl className="flex flex-col md:flex-row justify-start gap-48 bg-white px-6 py-8 text-black dark:bg-black dark:text-[#EFEFEF]">
+                    <dl className="flex flex-col md:flex-row justify-start gap-48 px-6 py-8 text-black dark:text-[#EFEFEF]">
                         {metrics.map((item, idx) => {
                             const value = item.value ?? "";
                             const suffix = item.prefix ?? "";

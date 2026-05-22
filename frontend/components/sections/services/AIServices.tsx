@@ -108,7 +108,7 @@ export function AIServices({ data }: { data?: AIServicesData }) {
           return (
             <article
               key={item._key ?? `${service.name}-${index}`}
-              className="flex flex-col justify-between gap-12 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-[#0f0f0f] md:p-12"
+              className="flex flex-col justify-between gap-12 border border-black/15 bg-black/4 p-8 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:p-12"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">

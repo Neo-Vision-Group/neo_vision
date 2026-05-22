@@ -115,7 +115,7 @@ export function Signature({ data }: { data?: SignatureData }) {
   return (
     <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="flex flex-col gap-6 px-6 lg:px-16">
+        <div className="flex flex-col gap-6 px-8 lg:px-16">
           {signature.heading?.length ? (
             <PortableTextRenderer
               value={signature.heading}
@@ -144,7 +144,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           ) : null}
         </div>
 
-        <div className="flex flex-col">
+        <div className="flex flex-col md:px-0 px-4">
           <div className="py-6 px-6 lg:px-16">
             {signature.secondaryLine ? (
               <p className="text-3xl leading-[1.3] md:text-100 pb-24">
@@ -165,14 +165,14 @@ export function Signature({ data }: { data?: SignatureData }) {
               <StepCard
                 key={step.number}
                 step={step}
-                showBottomBorder={true}
+                showBottomBorder={idx !== signature.steps.length - 1}
                 showRightBorder={idx % 2 === 0}
               />
             ))}
           </RevealOnScroll>
-          <div className="h-px w-full bg-white/20" />
+          <div className="h-px w-full bg-white/20 " />
           {ctaData || valueCardData ? (
-            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-12 md:px-6 lg:px-6">
+            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-12 px-4 md:px-6 lg:px-6">
               {ctaData ? (
                 <Button
                   href={ctaData.href}

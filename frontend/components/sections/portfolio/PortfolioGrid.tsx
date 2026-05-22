@@ -53,7 +53,7 @@ function FilterButton({
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
-      className={`relative inline-flex items-center justify-center border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-normal ${
+      className={`relative inline-flex items-center justify-start text-left border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-normal ${
         isActive
           ? "bg-brand/30 text-black dark:text-[#efefef]"
           : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
@@ -77,39 +77,58 @@ function extractUniqueFilters(
     }
   });
   const sorted = Array.from(unique.entries()).sort((a, b) => a[1].localeCompare(b[1]));
-  return [{ label: "All", value: "all" }, ...sorted.map(([value, label]) => ({ label, value }))];
+  return sorted.map(([value, label]) => ({ label, value }));
 }
 
 export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const items = useMemo(() => cleanData?.items ?? EMPTY_ITEMS, [cleanData]);
+  const itemCount = items.length;
 
   const serviceFilters = useMemo(() => extractUniqueFilters(items, "category"), [items]);
   const industryFilters = useMemo(() => extractUniqueFilters(items, "industry"), [items]);
 
-  const [serviceFilter, setServiceFilter] = useState("all");
-  const [industryFilter, setIndustryFilter] = useState("all");
+  const [serviceFiltersSelected, setServiceFiltersSelected] = useState<string[]>([]);
+  const [industryFiltersSelected, setIndustryFiltersSelected] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_ITEMS);
 
-  // Reset filters when items change
+  // Reset filters when items change (use count as stable dependency)
   useEffect(() => {
-    setServiceFilter("all");
-    setIndustryFilter("all");
+    setServiceFiltersSelected([]);
+    setIndustryFiltersSelected([]);
     setVisibleCount(INITIAL_VISIBLE_ITEMS);
-  }, [items]);
+  }, [itemCount]);
+
+  const toggleServiceFilter = (value: string) => {
+    setServiceFiltersSelected((prev) => {
+      const exists = prev.includes(value);
+      const next = exists ? prev.filter((v) => v !== value) : [...prev, value];
+      return next;
+    });
+    setVisibleCount(INITIAL_VISIBLE_ITEMS);
+  };
+
+  const toggleIndustryFilter = (value: string) => {
+    setIndustryFiltersSelected((prev) => {
+      const exists = prev.includes(value);
+      const next = exists ? prev.filter((v) => v !== value) : [...prev, value];
+      return next;
+    });
+    setVisibleCount(INITIAL_VISIBLE_ITEMS);
+  };
 
   const filtered = useMemo(() => {
     return items.filter((item) => {
       const matchesService =
-        serviceFilter === "all" ||
-        item.category?.toLowerCase() === serviceFilter.toLowerCase();
+        serviceFiltersSelected.length === 0 ||
+        (item.category && serviceFiltersSelected.includes(item.category.toLowerCase()));
       const matchesIndustry =
-        industryFilter === "all" ||
-        item.industry?.toLowerCase() === industryFilter.toLowerCase();
+        industryFiltersSelected.length === 0 ||
+        (item.industry && industryFiltersSelected.includes(item.industry.toLowerCase()));
       return matchesService && matchesIndustry;
     });
-  }, [items, serviceFilter, industryFilter]);
+  }, [items, serviceFiltersSelected, industryFiltersSelected]);
 
   const normalizedItems = useMemo(
     () =>
@@ -130,7 +149,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   return (
     <div className="flex flex-col border-y border-black/20 dark:border-white/20 lg:flex-row bg-white dark:bg-dark">
       <div className="lg:flex lg:w-full">
-        <aside className="border-b border-black/20 dark:border-white/20 lg:sticky lg:top-24 md:w-1/4 lg:flex-none lg:self-start lg:border-b-0 pl-30">
+        <aside className="border-b border-black/20 dark:border-white/20 lg:sticky lg:top-24 lg:w-1/4 lg:flex-none lg:self-start lg:border-b-0 lg:pl-16 2xl:pl-30 lg:pr-5">
           <div className="flex flex-col gap-10 lg:py-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
@@ -142,11 +161,8 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                     <FilterButton
                       key={filter.value ?? filter.label}
                       label={filter.label ?? "All"}
-                      isActive={serviceFilter === filter.value}
-                      onClick={() => {
-                        setServiceFilter(filter.value ?? "all");
-                        setVisibleCount(INITIAL_VISIBLE_ITEMS);
-                      }}
+                      isActive={serviceFiltersSelected.includes(filter.value.toLowerCase())}
+                      onClick={() => toggleServiceFilter(filter.value.toLowerCase())}
                     />
                   ))}
                 </div>
@@ -163,11 +179,8 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                     <FilterButton
                       key={filter.value ?? filter.label}
                       label={filter.label ?? "All"}
-                      isActive={industryFilter === filter.value}
-                      onClick={() => {
-                        setIndustryFilter(filter.value ?? "all");
-                        setVisibleCount(INITIAL_VISIBLE_ITEMS);
-                      }}
+                      isActive={industryFiltersSelected.includes(filter.value.toLowerCase())}
+                      onClick={() => toggleIndustryFilter(filter.value.toLowerCase())}
                     />
                   ))}
                 </div>
@@ -188,7 +201,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           ) : (
             <div className="flex flex-col gap-6 p-0 md:p-6 lg:gap-8 lg:p-12">
               <RevealOnScroll
-                key={`${serviceFilter}-${industryFilter}`}
+                key={`${serviceFiltersSelected.join(',')}-${industryFiltersSelected.join(',')}`}
                 as="div"
                 stagger={0.06}
                 className="flex flex-col gap-4"

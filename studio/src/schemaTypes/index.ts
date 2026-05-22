@@ -5,6 +5,7 @@ import {service} from './documents/service'
 import {teamMember} from './documents/teamMember'
 import {project} from './documents/project'
 import {industry} from './documents/industry'
+import {insightCategory} from './documents/insightCategory'
 import {testimonial} from './documents/testimonial'
 import {contactSubmission} from './documents/contactSubmission'
 import {settings} from './singletons/settings'
@@ -80,6 +81,7 @@ export const schemaTypes = [
   teamMember,
   project,
   industry,
+  insightCategory,
   testimonial,
   contactSubmission,
   // Objects
