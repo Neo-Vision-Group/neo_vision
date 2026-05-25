@@ -67,7 +67,7 @@ export function Footer({
   return (
     <footer className="relative text-white w-full overflow-x-clip overflow-y-hidden border-t border-black/20 bg-brand dark:border-white/15 dark:bg-dark">
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
-        <div className="relative z-10 flex min-w-0 flex-col justify-between gap-10 py-8 md:w-1/4 md:flex-none md:py-10 lg:py-12 xl:pl-30 lg:pl-16 lg:pr-12">
+        <div className="relative z-10 flex min-w-0 flex-col items-center text-center justify-between gap-10 py-8 md:w-1/4 md:flex-none px-6 md:py-10 lg:py-12 xl:pl-30 lg:pl-16 lg:pr-12">
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-4 md:gap-5">
               {logo ? (
@@ -85,27 +85,18 @@ export function Footer({
                   <Logo className="hidden h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:block" />
                 </>
               )}
-              <p className="min-w-0 font-betatron uppercase text-[22px] leading-8 tracking-[-0.2px] text-white md:text-[24px] md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-[32px] 2xl:leading-[38px]">
+              <p className="min-w-0 font-betatron uppercase text-[32px] leading-8 tracking-[-0.2px] text-white md:text-[24px] md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-[32px] 2xl:leading-[38px]">
                 {title}
               </p>
             </div>
             <p className="text-body text-white">From 1 to 10</p>
           </div>
-          <div className="flex flex-col items-start gap-4">
+          <div className="flex flex-col items-center gap-4">
             <p className="text-body-2 text-white">{copyright}</p>
-            {cookiePreferencesLabel ? (
-              <button
-                className="text-body-2 text-left text-white underline decoration-brand underline-offset-4 transition-colors hover:text-brand"
-                onClick={openCookiePreferences}
-                type="button"
-              >
-                {cookiePreferencesLabel}
-              </button>
-            ) : null}
           </div>
         </div>
 
-        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand p-8 dark:bg-black md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:py-12 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
+        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand p-8 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:py-12 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
           {/* NEO VISION textured text - half visible at bottom, centered in this section */}
           <div
             aria-hidden="true"

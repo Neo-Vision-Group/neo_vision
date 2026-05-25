@@ -19,7 +19,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
   return (
     <SectionsWrapper id="tech-stack" eyebrow={eyebrow} classNameOverride="px-0 py-0">
       <div className="">
-        <div className="grid grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {tools.map((t) => (
             <article
               key={t}

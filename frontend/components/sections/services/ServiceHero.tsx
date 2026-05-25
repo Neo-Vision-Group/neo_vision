@@ -133,12 +133,11 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
   return (
     <section
       id="service-hero"
-      className="has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden bg-white dark:bg-background"
+      className="has-hero-pattern relative isolate flex min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] w-full flex-col bg-transparent"
     >
-      <HeroBrandDotsBackground />
 
-      <div className="relative flex flex-col gap-32 pt-20">
-        <div className="xl:px-12 2xl:px-30 lg:px-12 md:px-8 px-6 md:gap-12 gap-10 flex flex-col">
+      <div className="relative flex flex-col gap-6 pt-6 md:h-full md:justify-between md:gap-8 md:pt-8 lg:gap-10 lg:pt-12 overflow-hidden">
+        <div className="xl:px-16 2xl:px-30 lg:px-16 md:px-8 px-6 md:gap-5 gap-3 flex flex-col">
           {breadcrumbItems.length > 0 ? (
             <RevealOnScroll
               as="div"
@@ -175,11 +174,11 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
             </RevealOnScroll>
           ) : null}
 
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-3 md:gap-4 lg:gap-5">
             <div className="flex flex-col gap-0">
               <RevealOnScroll
                 as="p"
-                className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl"
+                className="font-betatron text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
               >
                 {eyebrow}
               </RevealOnScroll>
@@ -187,7 +186,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               {resolvedHeadlineLines.length > 0 ? (
                 <RevealOnScroll
                   as="h1"
-                  className="font-funnel text-[52px] leading-none tracking-[-0.8px] text-foreground md:text-[72px] md:tracking-[-0.9px] lg:text-[96px] lg:tracking-[-1px]"
+                  className="font-funnel text-[64px]! leading-none tracking-[-0.8px] text-foreground md:text-[32px] md:tracking-[-0.9px] lg:text-[48px] xl:text-[72px] 2xl:text-[96px] lg:tracking-[-1px]"
                 >
                   {resolvedHeadlineLines.map((line, index) => (
                     <span key={`${line}-${index}`} className="block">
@@ -201,7 +200,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
             {description ? (
               <RevealOnScroll
                 as="p"
-                className="max-w-170 font-funnel text-[18px] leading-normal text-foreground/80"
+                className="max-w-170 font-funnel text-[14px] md:text-[16px] lg:text-[18px] leading-normal text-foreground/80 line-clamp-3 md:line-clamp-4"
               >
                 {description}
               </RevealOnScroll>
@@ -209,14 +208,14 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           </div>
         </div>
 
-        <div className="px-12 border-t border-black/10 pt-3 dark:border-white/20">
+        <div className="relative w-full pb-3 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
           {railItems.length > 0 ? (
             <RevealOnScroll
               as="div"
-              className="mt-auto flex w-full flex-col"
+              className="flex w-full flex-col"
               stagger={0.08}
             >
-              <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+              <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-stretch p-3">
                 {railItems.map((item, index) => (
                   <div key={item.key} className="contents">
                     {index > 0 ? (
@@ -236,12 +235,12 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
                           target={item.cta.link?.openInNewTab ? "_blank" : undefined}
                           rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
                           variant="primary"
-                          className="min-h-30 flex-1"
+                          className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm"
                         >
                           {item.cta.buttonText}
                         </Button>
                       ) : (
-                        <Button variant="primary" className="min-h-30 flex-1">
+                        <Button variant="primary" className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm">
                           {item.cta.buttonText}
                         </Button>
                       );
@@ -352,16 +351,16 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   }
 
   return (
-    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 bg-black/4 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}
-          className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl"
+          className="font-betatron text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-100">
+        <p className="font-funnel text-[16px] md:text-[18px] lg:text-[22px] font-bold leading-[1.2] text-foreground">
           {label}
         </p>
       ) : null}

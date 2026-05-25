@@ -65,7 +65,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
     <SectionsWrapper
       id="methodology"
       eyebrow={methodology.eyebrow}
-      classNameOverride="px-0 pb-24"
+      classNameOverride="px-0"
     >
       <div className="flex flex-col gap-16">
         <div className="px-6 lg:px-16">
@@ -90,13 +90,13 @@ export function Methodology({ data }: { data?: MethodologyData }) {
           {stepRows.map((row, rowIndex) => (
             <div
               key={`row-${rowIndex}`}
-              className="grid grid-cols-1 px-5 lg:px-16 border-t border-black/20 dark:border-white/20 md:grid-cols-2"
+              className="grid grid-cols-1 first:border-t first:border-black/20 first:dark:border-white/20 md:grid-cols-2"
             >
               {row.map((step, columnIndex) => (
                 <div
                   key={step.number}
                   className={cn(
-                    "border-b border-black/20 p-4 dark:border-white/20 md:p-6",
+                    "border-b border-black/20 dark:border-white/20 p-6",
                     columnIndex === 0 && "md:border-r"
                   )}
                 >

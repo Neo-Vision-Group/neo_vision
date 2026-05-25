@@ -20,7 +20,7 @@ export function SectionsWrapper({
 }: SectionsWrapperProps) {
   return (
     <section id={id} className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
-      <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start md:pt-24">
+      <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
         <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-12 pr-6 py-6">
           <div className="font-betatron text-center md:text-left text-3xl text-black dark:text-[#efefef]">{eyebrow}</div>
@@ -39,7 +39,7 @@ export function SectionsWrapper({
       </aside>
 
       {/* Mobile Borders */}
-      <DrawLine
+      {/* <DrawLine
         className="md:hidden absolute inset-y-0 left-3 w-px bg-black/20 dark:bg-white/20"
         start="top 85%"
         end="bottom 85%"
@@ -50,7 +50,7 @@ export function SectionsWrapper({
         start="top 85%"
         end="bottom 85%"
         direction="vertical"
-      />
+      /> */}
 
       {/* Vertical Separator: This one looks correct, but ensure parent has height */}
       <DrawLine
@@ -71,7 +71,7 @@ export function SectionsWrapper({
             direction="horizontal" 
           />
         )}
-        <div className={classNameOverride || 'w-full px-8 pb-24 lg:px-8 xl:px-16'}>
+        <div className={classNameOverride || 'w-full px-6 lg:px-8 xl:px-16'}>
           {children}
         </div>
       </div>

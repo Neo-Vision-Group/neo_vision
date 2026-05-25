@@ -71,12 +71,12 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-screen flex w-full flex-col overflow-hidden bg-transparent"
+        "has-hero-pattern relative isolate h-[calc(100svh-4rem)] lg:h-[calc(100svh-3.5rem)] flex w-full flex-col bg-transparent"
       )}
     >
 
       <div className={cn(
-        "relative flex bg-none",
+        "flex h-full bg-none",
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
@@ -146,7 +146,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="flex flex-col items-end justify-end px-6 py-8 lg:shrink-0 lg:px-8 xl:px-10"
+            className="absolute bottom-3 left-0 right-0 flex flex-col items-stretch px-3 md:px-6 lg:left-auto lg:items-end lg:px-8 xl:px-10"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
@@ -201,7 +201,7 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col max-w-3/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col w-full lg:max-w-3/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >

@@ -55,6 +55,7 @@ export function Team({ data }: { data?: TeamData }) {
 
   const hasMultiple = team.members.length > 1;
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const [animKeys, setAnimKeys] = useState<Record<number, number>>({});
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
@@ -63,7 +64,6 @@ export function Team({ data }: { data?: TeamData }) {
     const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
     if (items.length === 0) return;
 
-    // Find current centered item or closest to center
     const scrollerRect = scrollerRef.current.getBoundingClientRect();
     const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
 
@@ -97,6 +97,8 @@ export function Team({ data }: { data?: TeamData }) {
       left: scrollLeft,
       behavior: "smooth",
     });
+
+    setAnimKeys(prev => ({ ...prev, [nextIndex]: (prev[nextIndex] ?? 0) + 1 }));
   }, [scrollerRef]);
 
   if (!team.heading && team.members.length === 0 && !team.closingStatement) {
@@ -119,7 +121,7 @@ export function Team({ data }: { data?: TeamData }) {
         <div className="relative">
           <div
             ref={scrollerRef}
-            className="no-scrollbar flex gap-24 overflow-x-auto pb-12"
+            className="no-scrollbar grid grid-flow-col auto-cols-[100%] overflow-x-auto snap-x snap-mandatory"
           >
             {team.members.map((member, i) => {
               const portraitUrl = member.portrait
@@ -130,9 +132,9 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex shrink-0 flex-col items-start gap-12 md:items-center lg:flex-row justify-between"
+                  className="flex w-full shrink-0 snap-start flex-col gap-0 lg:flex-row lg:justify-between lg:items-start"
                 >
-                  <div className="flex min-w-0 flex-1 flex-col items-end">
+                  <div className="flex min-w-0 flex-1 flex-col items-end pb-8 lg:pb-0">
                     <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-2xl md:gap-16 md:py-6 lg:max-w-3xl">
                       <div className="flex min-w-0 flex-col gap-12">
                         <div className="flex flex-col gap-6">
@@ -152,11 +154,32 @@ export function Team({ data }: { data?: TeamData }) {
                           </p>
                         </div>
                       </div>
+
+                      {hasMultiple && (
+                        <div className="flex items-center gap-3">
+                          <button
+                            type="button"
+                            aria-label="Previous team member"
+                            onClick={() => scroll("prev")}
+                            className="group flex size-12 items-center justify-center transition-colors"
+                          >
+                            <TeamArrowLeft key={arrowColor} color={arrowColor} />
+                          </button>
+                          <button
+                            type="button"
+                            aria-label="Next team member"
+                            onClick={() => scroll("next")}
+                            className="group flex size-12 items-center justify-center transition-colors"
+                          >
+                            <TeamArrowRight key={arrowColor} color={arrowColor} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-white dark:bg-dark md:w-108">
-                    <BinaryGlitchField />
+                  <div className="relative aspect-square w-full max-w-[360px] self-center shrink-0 overflow-hidden bg-white dark:bg-dark lg:self-start lg:max-w-none lg:w-108">
+                    <BinaryGlitchField key={`${i}-${animKeys[i] ?? 0}`} isDark={isDarkTheme} />
                     <div className="absolute inset-0" />
                     {portraitUrl && (
                       <div className="absolute inset-0 z-10 overflow-hidden">
@@ -166,7 +189,7 @@ export function Team({ data }: { data?: TeamData }) {
                             alt={member.name}
                             className="object-cover"
                             fill
-                            sizes="(min-width: 768px) 432px, 100vw"
+                            sizes="(min-width: 1024px) 432px, 100vw"
                           />
                         </div>
                       </div>
@@ -176,26 +199,6 @@ export function Team({ data }: { data?: TeamData }) {
               );
             })}
           </div>
-          {hasMultiple && (
-            <div className="flex items-center gap-3 pt-2">
-              <button
-                type="button"
-                aria-label="Previous team member"
-                onClick={() => scroll("prev")}
-                className="group flex size-12 items-center justify-center transition-colors"
-              >
-                <TeamArrowLeft key={arrowColor} color={arrowColor} />
-              </button>
-              <button
-                type="button"
-                aria-label="Next team member"
-                onClick={() => scroll("next")}
-                className="group flex size-12 items-center justify-center transition-colors"
-              >
-                <TeamArrowRight key={arrowColor} color={arrowColor} />
-              </button>
-            </div>
-          )}
         </div>
 
         {team.closingStatement && (
@@ -208,7 +211,7 @@ export function Team({ data }: { data?: TeamData }) {
   );
 }
 
-function BinaryGlitchField() {
+function BinaryGlitchField({ isDark }: { isDark: boolean }) {
   const [mounted, setMounted] = useState(false);
   const [lines, setLines] = useState<string[]>([]);
 
@@ -227,8 +230,13 @@ function BinaryGlitchField() {
       setLines(createBinaryLines());
     }, 70);
 
+    const stopId = setTimeout(() => {
+      window.clearInterval(interval);
+    }, 3500);
+
     return () => {
       clearTimeout(initId);
+      clearTimeout(stopId);
       window.clearInterval(interval);
     };
   }, []);
@@ -238,7 +246,17 @@ function BinaryGlitchField() {
   return (
     <div className="absolute inset-[-8%] overflow-hidden">
       <div className="absolute inset-0" />
-      <div className="absolute inset-0 text-[22px] bg-white dark:bg-dark uppercase leading-[1.05] tracking-[0.24em] text-decoration-dark dark:text-decoration-light md:text-[28px]" style={{ fontFamily: "'OHMonoVF', monospace" }}>
+      <div
+        className="absolute inset-0 font-opening-hours-mono text-[22px] uppercase leading-[1.05] tracking-[0.24em] md:text-[28px]"
+        style={{
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          backgroundImage: isDark
+            ? "linear-gradient(180deg, rgba(220,220,220,0.5) 0%, rgba(220,220,220,0) 60%)"
+            : "linear-gradient(180deg, rgba(30,30,30,0.45) 0%, rgba(30,30,30,0) 60%)",
+        }}
+      >
         {lines.map((line, index) => (
           <p
             key={`${index}-${line.slice(0, 10)}`}
@@ -260,8 +278,8 @@ function BinaryGlitchField() {
 
 function createBinaryLines(lineCount = 9, lineLength = 28) {
   return Array.from({ length: lineCount }, () =>
-    Array.from({ length: lineLength }, () =>
-      Math.random() > 0.5 ? "1" : "0"
+    Array.from({ length: lineLength }, (_, i) =>
+      i % 11 === 10 ? "." : (Math.random() > 0.5 ? "1" : "0")
     ).join("")
   );
 }

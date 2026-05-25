@@ -5,7 +5,7 @@ import { Button } from "@/components/partials/Button";
 import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import { cn } from "@/lib/utils";
 import type { DereferencedLink } from "@/sanity/lib/types";
-import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
+import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import type { PortableTextBlock } from "@portabletext/types";
 import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
@@ -144,7 +144,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           ) : null}
         </div>
 
-        <div className="flex flex-col md:px-0 px-4">
+        <div className="flex flex-col md:px-0">
           <div className="py-6 px-6 lg:px-16">
             {signature.secondaryLine ? (
               <p className="text-3xl leading-[1.3] md:text-100 pb-24">
@@ -170,9 +170,9 @@ export function Signature({ data }: { data?: SignatureData }) {
               />
             ))}
           </RevealOnScroll>
-          <div className="h-px w-full bg-white/20 " />
+          <div className="h-px w-full bg-white/20" />
           {ctaData || valueCardData ? (
-            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-12 px-4 md:px-6 lg:px-6">
+            <div className="grid gap-6 py-8 lg:grid-cols-2 md:gap-12 md:px-6 lg:px-6">
               {ctaData ? (
                 <Button
                   href={ctaData.href}
@@ -208,13 +208,13 @@ function StepCard({
   return (
     <div
       className={cn(
-        "group/step-shell relative h-full p-4 lg:p-6",
-        showBottomBorder && "md:border-b dark:border-white/20 border-black/20",
-        showRightBorder && "md:border-r dark:border-white/20 border-black/20",
+        "group/step-shell relative h-full p-6",
+        showBottomBorder && "border-b dark:border-white/20 border-black/20",
+        showRightBorder && "lg:border-r dark:border-white/20 border-black/20",
         !showBottomBorder && "border-t dark:border-white/20 md:border-t-0 border-black/20"
       )}
     >
-      <div className="pointer-events-none absolute inset-4 transition-all duration-300 ease-out group-hover/step-shell:inset-0 lg:inset-6">
+      <div className="pointer-events-none absolute inset-6 transition-all duration-300 ease-out group-hover/step-shell:inset-0 lg:inset-6">
         <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-300 ease-out group-hover/step-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
           <div
             aria-hidden="true"

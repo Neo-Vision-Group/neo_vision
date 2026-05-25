@@ -69,7 +69,7 @@ export function Reality({data}: {data?: RealityData}) {
     <SectionsWrapper eyebrow={eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 lg:gap-16">
         <div className="px-0 lg:px-12">
-          <h2 className="max-w-5xl font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-5xl lg:leading-[1.2] lg:tracking-[-1px]">
+          <h2 className="max-w-5xl px-6 font-funnel text-[40px] leading-[1.15] tracking-[-0.04em] text-foreground md:text-[44px] lg:text-5xl lg:leading-[1.2] lg:tracking-[-1px]">
             {cleanData?.heading?.faded ? (
               <span className="text-foreground/70">{cleanData.heading.faded} </span>
             ) : null}
@@ -141,14 +141,14 @@ export function Reality({data}: {data?: RealityData}) {
         ) : null}
 
         {cleanData?.cta?.buttonText && ctaHref ? (
-          <div className="px-0 lg:px-12">
+          <div className="px-6 lg:px-12">
             <Button
               href={ctaHref}
               variant="primary"
               size="md"
               target={cleanData.cta.link?.openInNewTab ? "_blank" : undefined}
               rel={cleanData.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
-              className="flex w-full max-w-full whitespace-normal break-normal text-left md:w-auto md:min-w-153"
+              className="flex w-full max-w-full whitespace-normal break-normal text-left"
             >
               {cleanData.cta.buttonText}
             </Button>

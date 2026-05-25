@@ -191,12 +191,6 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
       link: { _type: "link", linkType: "href", href: "/contact" },
     },
   };
-  const cardRows: Array<typeof navigator.cards> = [];
-
-  for (let index = 0; index < navigator.cards.length; index += 2) {
-    cardRows.push(navigator.cards.slice(index, index + 2));
-  }
-
   return (
     <SectionsWrapper
       id="service-navigator"
@@ -223,48 +217,38 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
             from="bottom"
             distance={24}
             duration={0.8}
-            className="flex flex-col"
+            className="grid grid-cols-1 lg:grid-cols-2"
           >
-            {cardRows.map((row, rowIndex) => (
+            {navigator.cards.map((card, index) => (
               <div
-                key={`row-${rowIndex}`}
-                className="grid grid-cols-1 border-b border-black/20 dark:border-white/20 lg:grid-cols-2"
+                key={card._key ?? `${card.prompt}-${index}`}
+                className={cn(
+                  "flex border-b border-black/20 p-6 dark:border-white/20 md:p-8",
+                  index % 2 === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
+                )}
               >
-                {row.map((card, columnIndex) => (
-                  <div
-                    key={card._key ?? `${card.prompt}-${rowIndex}-${columnIndex}`}
-                    className={cn(
-                      "flex p-6 md:p-8",
-                      columnIndex === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
-                    )}
-                  >
-                    <article className="flex h-full w-full flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
-                      <div className="flex flex-col gap-3">
-                        {card.prompt ? (
-                          <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
-                            {card.prompt}
-                          </h3>
-                        ) : null}
-                        {card.details ? (
-                          <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
-                            {card.details}
-                          </p>
-                        ) : null}
-                      </div>
-
-                      <CardLink cta={card.cta} className="self-start" />
-                    </article>
+                <article className="flex h-full w-full flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
+                  <div className="flex flex-col gap-3">
+                    {card.prompt ? (
+                      <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
+                        {card.prompt}
+                      </h3>
+                    ) : null}
+                    {card.details ? (
+                      <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
+                        {card.details}
+                      </p>
+                    ) : null}
                   </div>
-                ))}
 
-                {row.length === 1 ? (
-                  <div
-                    aria-hidden="true"
-                    className="hidden lg:block"
-                  />
-                ) : null}
+                  <CardLink cta={card.cta} className="self-start" />
+                </article>
               </div>
             ))}
+
+            {navigator.cards.length % 2 === 1 ? (
+              <div aria-hidden="true" className="hidden lg:block" />
+            ) : null}
           </RevealOnScroll>
         </div>
 

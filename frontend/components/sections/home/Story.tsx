@@ -422,6 +422,102 @@ export function Story({ data }: { data?: StoryData }) {
     return () => window.removeEventListener("resize", onResize);
   }, [activeIndex, scrollToMilestone, syncFillAndDots]);
 
+  // ── mobile vertical scroll-driven activation ──────────────────────────────
+  useEffect(() => {
+    // Only run on mobile (vertical layout)
+    if (typeof window === "undefined" || window.innerWidth >= 1024) return;
+
+    const scroller = scrollerRef.current;
+    if (!scroller) return;
+
+    const items = Array.from(
+      scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]")
+    );
+    if (items.length === 0) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const inactiveScale = 0.625;
+    let frameId = 0;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
+
+    const updateActiveStyles = () => {
+      const viewportCenter = window.innerHeight / 2;
+      const activationDistance = window.innerHeight * 0.5;
+
+      let liveActiveIndex = 0;
+      let closestDist = Infinity;
+
+      items.forEach((item, i) => {
+        const storyItem = item.querySelector<HTMLElement>("[data-story-item]");
+        if (!storyItem) return;
+
+        const rect = item.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
+        const distanceFromCenter = Math.abs(viewportCenter - itemCenter);
+
+        if (distanceFromCenter < closestDist) {
+          closestDist = distanceFromCenter;
+          liveActiveIndex = i;
+        }
+
+        // Interpolate scale/opacity based on distance from viewport center
+        const progress = Math.max(0, Math.min(1, 1 - distanceFromCenter / activationDistance));
+        const scale = inactiveScale + (1 - inactiveScale) * progress;
+        const opacity = 0.2 + progress * 0.8;
+
+        storyItem.style.opacity = String(opacity);
+        storyItem.style.transform = reducedMotion.matches
+          ? `scale(${progress > 0.5 ? 1 : inactiveScale})`
+          : `scale(${scale})`;
+      });
+
+      // Update dots and ticks to match the active item
+      dotRefs.current.forEach((dot, i) => {
+        if (!dot) return;
+        const isActive = i === liveActiveIndex;
+        const isReached = i < liveActiveIndex;
+        dot.dataset.lit = isReached || isActive ? "true" : "false";
+        dot.dataset.active = isActive ? "true" : "false";
+      });
+
+      tickRefs.current.forEach((tick, i) => {
+        if (!tick) return;
+        const isActive = i === liveActiveIndex;
+        const isReached = i < liveActiveIndex;
+        tick.dataset.active = isActive ? "true" : "false";
+        tick.style.opacity = isActive ? "1" : isReached ? "0.55" : "0.4";
+      });
+
+      if (liveActiveIndex !== activeIndex) {
+        setActiveIndex(liveActiveIndex);
+      }
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(updateActiveStyles);
+
+      // Snap-on-settle: sync fill line after scroll stops
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        syncFillAndDots(activeIndex);
+      }, 80);
+    };
+
+    // Initialize
+    updateActiveStyles();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateActiveStyles);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearTimeout(scrollTimeout);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateActiveStyles);
+    };
+  }, [activeIndex, story.milestones.length, syncFillAndDots]);
+
   // ── initialize ────────────────────────────────────────────────────────────
   useEffect(() => {
     const scroller = scrollerRef.current;

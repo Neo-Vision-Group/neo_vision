@@ -68,7 +68,7 @@ export function Hero({ data }: { data?: HeroData }) {
       className="relative isolate flex h-[calc(100svh-4rem)] flex-col justify-between overflow-hidden bg-transparent"
     >
 
-      <div className="relative flex flex-col justify-center gap-6 px-4 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-28 2xl:pt-20">
+      <div className="relative flex flex-col justify-center gap-6 px-3 pt-16 md:gap-10 md:px-12 md:pt-20 lg:px-16 lg:pt-20 2xl:gap-12 2xl:px-28 2xl:pt-20">
         <div className="flex w-full flex-col gap-3 md:gap-4">
           <SplitTextReveal
             as="span"
@@ -119,7 +119,7 @@ export function Hero({ data }: { data?: HeroData }) {
             as="div"
             from="bottom"
             distance={16}
-            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-0 lg:py-0 2xl:py-8px-4 md:px-12 lg:px-16 2xl:pl-30"
+            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-0 lg:py-0 2xl:py-8 md:px-1 lg:px-16 2xl:pl-30"
           >
             {hero.stats ? (
               <p className="w-full font-funnel text-[18px] text-center px-1.5 leading-normal">
@@ -133,7 +133,7 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="pb-3 flex min-w-0 flex-col items-start gap-8 py-0 md:py-0 lg:py0 2xl:py-3 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-4 md:px-12 lg:px-16 2xl:px-30">
+          <div className="py-3 flex min-w-0 flex-col items-start gap-8 md:flex-row md:items-center md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30">
             <SplitTextReveal
               as="p"
               type="words"

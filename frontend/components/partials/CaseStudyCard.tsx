@@ -64,7 +64,7 @@ export function CaseStudyCard({
       href={href}
       className={cn(
         "group relative flex flex-col gap-6 bg-[#f0f0f0] dark:bg-[#040404] overflow-hidden border border-black/15 p-4 transition-all duration-300 ease-out hover:border-black/25 dark:border-white/10 dark:hover:border-white/20 md:gap-6 md:p-6",
-        featured ? "md:flex-row md:items-stretch" : "md:flex-row md:items-stretch",
+        featured ? "md:flex-row md:items-stretch" : "lg:flex-row lg:items-stretch",
         className
       )}
     >

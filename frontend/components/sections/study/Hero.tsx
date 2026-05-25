@@ -226,16 +226,16 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-black/4 p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-[28px] leading-none text-brand md:text-4xl"
+          className="font-funnel text-[28px] leading-none text-brand md:text-[16px] lg:text-[22px]"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-100">
+        <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-[12px] lg:text-[16px]">
           {label}
         </p>
       ) : null}

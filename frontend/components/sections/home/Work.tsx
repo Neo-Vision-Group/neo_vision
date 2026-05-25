@@ -142,7 +142,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
     >
       <div className="flex flex-col gap-12">
         {heading ? (
-          <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
+          <div className="px-6 xl:px-12 2xl:px-16">
             <SplitTextReveal
               as="h2"
               type="words"
@@ -160,10 +160,10 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           stagger={0.15}
           from="bottom"
           distance={24}
-          className="flex flex-col gap-6 "
+          className="flex flex-col gap-6"
         >
           {items.map((item) => (
-            <div key={item.key} className="px-6 lg:px-16">
+            <div key={item.key} className="px-2 xl:px-12 2xl:px-16">
               <CaseRow item={item} />
             </div>
           ))}

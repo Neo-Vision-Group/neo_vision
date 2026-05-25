@@ -183,7 +183,7 @@ function PricingCard({
     <article
       className={cn(
         'flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-dark-light md:p-12',
-        isFullWidth && 'md:col-span-2',
+        isFullWidth && 'lg:col-span-2',
       )}
     >
       <div className="flex flex-1 flex-col gap-6">
@@ -278,7 +278,7 @@ export function Pricing({data}: {data?: PricingData}) {
           </div>
         ) : null}
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {tiers.map((tier, index) => (
             <PricingCard
               key={tier?._key ?? `${tier?.title ?? 'pricing'}-${index}`}

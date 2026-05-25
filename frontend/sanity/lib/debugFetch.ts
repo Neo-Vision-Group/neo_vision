@@ -1,14 +1,8 @@
 import {sanityFetch} from './live'
 
-type FetchParams = {
-  query: string
-  params?: Record<string, any>
-  stega?: boolean
-  perspective?: 'published' | 'previewDrafts'
-}
-
-// Use the same return type as sanityFetch
-export async function debugSanityFetch(params: FetchParams) {
+export async function debugSanityFetch<const Q extends string>(
+  params: Parameters<typeof sanityFetch<Q>>[0],
+) {
   console.log(`[SanityFetch] Fetching:`, {
     query: params.query?.slice(0, 100) + '...',
     params: params.params,
