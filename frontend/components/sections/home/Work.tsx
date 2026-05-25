@@ -178,6 +178,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <Image
               src={workCardHoverGraphic}
               alt=""
+              fill
               className="absolute inset-0 h-full w-full object-cover invert"
             />
             <div
@@ -206,6 +207,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <Image
               src={workCardHoverGraphic}
               alt=""
+              fill
               className="absolute inset-0 h-full w-full object-cover mix-blend-screen"
               style={{
                 filter: "brightness(0.45) sepia(1) saturate(6) hue-rotate(-25deg) contrast(1.1)",

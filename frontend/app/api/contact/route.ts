@@ -100,7 +100,7 @@ export async function POST(req: Request) {
     return NextResponse.json(
       {
         ok: false,
-        error: "Couldn't save your message. Please email hello@Neo Vision.ai directly.",
+        error: "Couldn't save your message. Please email office@neovision.dev directly.",
       },
       { status: 500 }
     );
