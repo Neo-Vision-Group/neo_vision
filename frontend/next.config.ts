@@ -55,7 +55,16 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/:path',
+        source: '/ingest/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/(.*)',
         headers: [
           {
             key: 'X-Content-Type-Options',

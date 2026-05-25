@@ -107,7 +107,7 @@ export function Footer({
               className="font-betatron whitespace-nowrap uppercase leading-none"
               style={{
                 fontSize: 'clamp(120px, 29cqw, 240px)',
-                backgroundImage: 'linear-gradient(0deg, #FF4404 0%, #FF4404 100%), url(/images/graphic.jpg)',
+                backgroundImage: 'linear-gradient(0deg, #FF4404 0%, #FF4404 100%), url(/images/graphic.webp)',
                 backgroundBlendMode: 'color, normal',
                 backgroundSize: 'cover, cover',
                 backgroundPosition: 'center, center',

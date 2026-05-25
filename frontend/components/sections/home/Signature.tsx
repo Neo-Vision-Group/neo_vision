@@ -8,9 +8,10 @@ import type { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import type { PortableTextBlock } from "@portabletext/types";
 import type { SanityImageSource } from "@sanity/image-url";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 
-const signatureStepHoverGraphic = "/images/graphic.jpg";
+const signatureStepHoverGraphic = "/images/graphic.webp";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -220,10 +221,11 @@ function StepCard({
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-300 ease-out group-hover/step-shell:opacity-100"
           >
-            <img
+            <Image
               src={signatureStepHoverGraphic}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+              fill
+              className="absolute inset-0 object-cover invert dark:invert-0"
             />
             <div
               className="absolute inset-0 mix-blend-screen dark:hidden"
@@ -264,10 +266,11 @@ function ValueCard({
   return (
     <div className="relative isolate flex flex-col gap-6 border border-white/15 bg-[#EFEFEFB3] p-6 dark:bg-black">
       <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">
-        <img
+        <Image
           src={signatureStepHoverGraphic}
           alt=""
-          className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+          fill
+          className="absolute inset-0 object-cover invert dark:invert-0"
         />
         <div
           className="absolute inset-0 mix-blend-screen dark:hidden"

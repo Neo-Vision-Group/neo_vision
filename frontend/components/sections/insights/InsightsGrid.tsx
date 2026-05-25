@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import posthog from "posthog-js";
+import posthog from '@/lib/posthog-client';
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";

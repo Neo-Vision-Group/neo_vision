@@ -51,8 +51,8 @@ const SWEEP_WIDTH = '24vw'
 const SWEEP_MIN_WIDTH = 160
 const SWEEP_LEFT = `calc(-${SWEEP_WIDTH} - ${SWEEP_MIN_WIDTH}px)`
 
-function getSweepTravelDistance(element: HTMLDivElement) {
-  return window.innerWidth + element.offsetWidth + SWEEP_MIN_WIDTH
+function getSweepTravelDistance(cachedWidth: number) {
+  return window.innerWidth + cachedWidth + SWEEP_MIN_WIDTH
 }
 
 function isPrimaryButtonClick(event: MouseEvent | ReactMouseEvent) {
@@ -94,6 +94,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   })
   const statusRef = useRef<TransitionStatus>('idle')
   const sweepRef = useRef<HTMLDivElement | null>(null)
+  const sweepWidthRef = useRef<number>(0)
   const mainRef = useRef<HTMLElement | null>(null)
   const scrollLockRef = useRef<string | null>(null)
   const enterTimeoutRef = useRef<number | null>(null)
@@ -290,7 +291,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
         sweepRef.current,
         {
           duration: LEAD_SWEEP_DURATION,
-          x: () => getSweepTravelDistance(sweepRef.current!),
+          x: () => getSweepTravelDistance(sweepWidthRef.current),
           ease: 'power2.inOut',
         },
         0.1,
@@ -308,6 +309,19 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
 
   useEffect(() => {
     mainRef.current = document.querySelector('main')
+  }, [])
+
+  useEffect(() => {
+    const el = sweepRef.current
+    if (!el) return
+    sweepWidthRef.current = el.offsetWidth
+    const ro = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        sweepWidthRef.current = entry.contentRect.width
+      }
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
   }, [])
 
   useEffect(() => {

@@ -1,8 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
-import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -12,6 +10,7 @@ import type { PortableTextBlock } from "@portabletext/types";
 import { useEffect, useState } from "react";
 import Badge from "@/components/partials/Badge"
 import ThirdButton from "@/components/partials/ThirdButton"
+import Image from 'next/image'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -208,11 +207,11 @@ function FeaturedReferenceCard({
       <div className="relative flex aspect-square overflow-hidden w-full md:w-57">
         {item.cover ? (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={item.cover}
               alt={title || ctaLabel}
-              className="absolute inset-0 h-full w-full object-cover"
+              fill
+              className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
           </>

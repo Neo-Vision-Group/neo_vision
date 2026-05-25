@@ -54,6 +54,13 @@ export function Story({ data }: { data?: StoryData }) {
   const [edgePadding, setEdgePadding] = useState(0);
   const totalYears = story.milestones.length;
 
+  // Cached dot positions — updated by ResizeObserver + resize, never read mid-frame after a write
+  const cachedDotPositionsRef = useRef<number[]>([]);
+  // Cached fill width — updated after every write so syncFillAndDots never re-reads the DOM
+  const cachedFillWidthRef = useRef(0);
+  // Cached firstItem width — updated by ResizeObserver so updateEdgePadding never reads offsetWidth inline
+  const firstItemWidthRef = useRef(0);
+
   // ── mobile vertical tracker refs ─────────────────────────────────────────
   const vTrackerRef = useRef<HTMLDivElement>(null);
   const vLineFillRef = useRef<HTMLDivElement>(null);
@@ -61,18 +68,23 @@ export function Story({ data }: { data?: StoryData }) {
 
   // ── helpers ───────────────────────────────────────────────────────────────
 
-  // Measure the center-X of each dot relative to the inner translating wrapper.
-  // Using the inner wrapper (not the outer container) means positions are stable
-  // fixed layout values regardless of the current scroll-driven translation.
-  const getDotPositions = useCallback(() => {
+  // Re-measure dot positions and store in the cache ref.
+  // Call this only from layout-safe contexts (ResizeObserver cb, rAF after resize,
+  // or once after fonts/init) — never inline after a DOM write.
+  const refreshDotPositionCache = useCallback(() => {
     const inner = trackerInnerRef.current;
-    if (!inner) return [];
+    if (!inner) return;
     const innerRect = inner.getBoundingClientRect();
-    return dotRefs.current.map((dot) => {
+    cachedDotPositionsRef.current = dotRefs.current.map((dot) => {
       if (!dot) return 0;
       const r = dot.getBoundingClientRect();
       return r.left + r.width / 2 - innerRect.left;
     });
+  }, []);
+
+  // Read from cache — zero layout cost.
+  const getDotPositions = useCallback(() => {
+    return cachedDotPositionsRef.current;
   }, []);
 
   // Drive ALL dot visual state (lit, active, size, glow, rings) imperatively
@@ -101,11 +113,13 @@ export function Story({ data }: { data?: StoryData }) {
     if (positions.length === 0) return;
     const targetX = positions[nextActiveIndex];
 
-    const startWidth = lineFill.getBoundingClientRect().width;
+    // Use cached fill width — avoids a forced reflow after the previous style write
+    const startWidth = cachedFillWidthRef.current;
     const fillTransitionMs = 700;
 
     lineFill.style.transition = "width 0.7s cubic-bezier(0.4, 0, 0.2, 1)";
     lineFill.style.width = targetX + "px";
+    cachedFillWidthRef.current = targetX;
 
     dotTimeouts.current.forEach((t) => clearTimeout(t));
     dotTimeouts.current = [];
@@ -291,10 +305,24 @@ export function Story({ data }: { data?: StoryData }) {
     const getItems = () =>
       Array.from(scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]"));
 
+    // Seed firstItemWidthRef from the actual DOM once, then ResizeObserver keeps it fresh
+    const [firstItem] = getItems();
+    if (firstItem) {
+      firstItemWidthRef.current = firstItem.offsetWidth;
+      const ro = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          firstItemWidthRef.current = entry.contentRect.width;
+        }
+      });
+      ro.observe(firstItem);
+      // Cleanup handled in the returned cleanup fn below
+      const originalCleanup = () => ro.disconnect();
+      // Store for use in the effect cleanup
+      (scroller as HTMLElement & { _itemRo?: () => void })._itemRo = originalCleanup;
+    }
+
     const updateEdgePadding = () => {
-      const [firstItem] = getItems();
-      if (!firstItem) return;
-      const nextPadding = Math.max(24, (scroller.clientWidth - firstItem.offsetWidth) / 2);
+      const nextPadding = Math.max(24, (scroller.clientWidth - firstItemWidthRef.current) / 2);
       setEdgePadding((current) =>
         Math.abs(current - nextPadding) < 1 ? current : nextPadding
       );
@@ -350,6 +378,7 @@ export function Story({ data }: { data?: StoryData }) {
       cancelAnimationFrame(frameId);
       scroller.removeEventListener("scroll", sync);
       window.removeEventListener("resize", sync);
+      (scroller as HTMLElement & { _itemRo?: () => void })._itemRo?.();
     };
   }, [story.milestones.length]);
 
@@ -362,10 +391,14 @@ export function Story({ data }: { data?: StoryData }) {
     let startX = 0;
     let startScroll = 0;
 
+    let cachedOffsetLeft = 0;
+
     function onDown(e: PointerEvent) {
       if (e.pointerType === "touch") return;
       activePointerId = e.pointerId;
-      startX = e.pageX - el!.offsetLeft;
+      // Read offsetLeft once here — reuse in onMove to avoid per-event layout reads
+      cachedOffsetLeft = el!.offsetLeft;
+      startX = e.pageX - cachedOffsetLeft;
       startScroll = el!.scrollLeft;
       el!.dataset.grabbing = "true";
       el!.setPointerCapture(e.pointerId);
@@ -374,7 +407,7 @@ export function Story({ data }: { data?: StoryData }) {
     }
     function onMove(e: PointerEvent) {
       if (activePointerId !== e.pointerId) return;
-      const x = e.pageX - el!.offsetLeft;
+      const x = e.pageX - cachedOffsetLeft;
       el!.scrollLeft = startScroll - (x - startX);
     }
     function onRelease(e: PointerEvent) {
@@ -396,6 +429,17 @@ export function Story({ data }: { data?: StoryData }) {
       el.removeEventListener("pointercancel", onRelease);
     };
   }, []);
+
+  // ── keep dot position cache fresh via ResizeObserver ─────────────────────
+  useEffect(() => {
+    const inner = trackerInnerRef.current;
+    if (!inner) return;
+    const ro = new ResizeObserver(() => {
+      refreshDotPositionCache();
+    });
+    ro.observe(inner);
+    return () => ro.disconnect();
+  }, [refreshDotPositionCache]);
 
   // ── keyboard nav ──────────────────────────────────────────────────────────
   useEffect(() => {
@@ -422,11 +466,14 @@ export function Story({ data }: { data?: StoryData }) {
   useEffect(() => {
     const onResize = () => {
       scrollToMilestone(activeIndex);
-      requestAnimationFrame(() => syncFillAndDots(activeIndex));
+      requestAnimationFrame(() => {
+        refreshDotPositionCache();
+        syncFillAndDots(activeIndex);
+      });
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
-  }, [activeIndex, scrollToMilestone, syncFillAndDots]);
+  }, [activeIndex, scrollToMilestone, syncFillAndDots, refreshDotPositionCache]);
 
   // ── mobile vertical scroll-driven activation ──────────────────────────────
   useEffect(() => {
@@ -549,30 +596,20 @@ export function Story({ data }: { data?: StoryData }) {
       const items = Array.from(scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]"));
       if (items.length === 0) return;
 
-      const colTop = getDocTop(col);
-
-      // Position each dot at its item's vertical center
-      const dotYs: number[] = items.map((item) => {
-        const y = getDocTop(item) + item.offsetHeight / 2 - colTop;
-        return y;
-      });
-
-      vDotRefs.current.forEach((dot, i) => {
-        if (!dot || dotYs[i] == null) return;
-        dot.style.top = `${dotYs[i] - 5}px`;
-        dot.style.opacity = "1";
-      });
-
-      // Drive fill height based on scroll position
       const vFill = vLineFillRef.current;
-      if (!vFill || dotYs.length === 0) return;
 
+      // ── BATCH READS ── all geometry queries before any style writes ──────
+      const colTop = getDocTop(col);
+      const dotYs: number[] = items.map((item) => {
+        return getDocTop(item) + item.offsetHeight / 2 - colTop;
+      });
       const viewportCenter = window.innerHeight / 2;
       const itemViewportCenters = items.map((item) => {
         const r = item.getBoundingClientRect();
         return r.top + r.height / 2;
       });
 
+      // Compute fill interpolation from reads
       let aIdx = 0;
       for (let i = 0; i < itemViewportCenters.length; i++) {
         if (itemViewportCenters[i] <= viewportCenter) aIdx = i;
@@ -590,9 +627,18 @@ export function Story({ data }: { data?: StoryData }) {
         fillH = dotYs[aIdx] + t * (dotYs[bIdx] - dotYs[aIdx]);
       }
 
-      vFill.style.height = `${fillH}px`;
+      // ── BATCH WRITES ── all style mutations after all reads ──────────────
+      vDotRefs.current.forEach((dot, i) => {
+        if (!dot || dotYs[i] == null) return;
+        dot.style.top = `${dotYs[i] - 5}px`;
+        dot.style.opacity = "1";
+      });
 
-      // Sync vDot active/lit states with current active index
+      if (vFill) {
+        vFill.style.height = `${fillH}px`;
+      }
+
+      // Sync vDot active/lit states
       vDotRefs.current.forEach((dot, i) => {
         if (!dot) return;
         dot.dataset.active = i === aIdx ? "true" : "false";
@@ -633,6 +679,7 @@ export function Story({ data }: { data?: StoryData }) {
       );
       const firstItem = items[0];
       if (firstItem) {
+        // Batch reads first, then write
         const scrollerRect = scroller.getBoundingClientRect();
         const cardRect = firstItem.getBoundingClientRect();
         const scrollLeft =
@@ -642,6 +689,8 @@ export function Story({ data }: { data?: StoryData }) {
           cardRect.width / 2;
         scroller.scrollTo({ left: scrollLeft, behavior: "instant" });
       }
+      // Populate dot position cache before first syncFillAndDots call
+      refreshDotPositionCache();
       setTimeout(() => {
         const trackerInner = trackerInnerRef.current;
         if (trackerInner) {
@@ -655,7 +704,7 @@ export function Story({ data }: { data?: StoryData }) {
     } else {
       setTimeout(init, 100);
     }
-  }, [syncFillAndDots, story.milestones.length]);
+  }, [syncFillAndDots, story.milestones.length, refreshDotPositionCache]);
 
   // ── render ────────────────────────────────────────────────────────────────
   if (!story.heading && story.milestones.length === 0) {

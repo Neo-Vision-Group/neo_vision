@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import posthog from "posthog-js";
+import posthog from '@/lib/posthog-client';
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import ChevronIcon from "@/components/icons/ChevronIcon";

@@ -94,8 +94,8 @@ export function ArticleCard({
               src={article.cover}
               alt={article.title}
               fill
-              sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 50vw, 100vw"}
-              className="absolute inset-0 h-full w-full object-cover"
+              sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1536px) 33vw, (min-width: 1024px) 50vw, 100vw"}
+              className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5]/20 from-35% to-[#ff4100]/30" />
           </>

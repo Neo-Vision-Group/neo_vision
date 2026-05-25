@@ -163,7 +163,7 @@ function StepRailItem({
   isConnectorActive: boolean
 }) {
   const hasGraphic = step.highlighted && Boolean(step.graphic)
-  const workCardHoverGraphic = '/images/graphic.jpg'
+  const workCardHoverGraphic = '/images/graphic.webp'
 
   return (
     <>
@@ -177,10 +177,11 @@ function StepRailItem({
           <>
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
               <div className="absolute inset-0 bg-white" />
-              <img
-                src={step.graphic}
+              <Image
+                src={step.graphic || ''}
                 alt=""
-                className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+                fill
+                className="absolute inset-0 object-cover mix-blend-difference"
                 style={{
                   filter:
                     'brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)',
@@ -204,14 +205,15 @@ function StepRailItem({
                 className="absolute inset-0"
                 style={{background: 'linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)'}}
               />
-              <img
-                src={step.graphic}
+              <Image
+                src={step.graphic || ''}
                 alt=""
-                className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+                fill
+                className="absolute inset-0 object-cover mix-blend-multiply"
                 style={{
                   filter:
                     'brightness(0.78) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.05)',
-                }}
+                }}  
               />
               <div
                 className="absolute inset-0"
@@ -237,8 +239,8 @@ function StepRailItem({
             <Image
               src={workCardHoverGraphic}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
               fill
+              className="absolute inset-0 object-cover invert dark:invert-0"
               sizes="(max-width: 768px) 100vw, 50vw"
             />
             <div

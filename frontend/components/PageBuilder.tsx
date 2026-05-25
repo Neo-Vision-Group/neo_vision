@@ -124,25 +124,10 @@ export default function PageBuilder({
 }: PageBuilderPageProps) {
   useScrollToHash()
 
-  // Debug logging for page data
-  console.log(`[PageBuilder] Render with page:`, {
-    pageId: page?._id,
-    pageType: page?._type,
-    hasPageBuilder: !!page?.pageBuilder,
-    pageBuilderLength: page?.pageBuilder?.length,
-    pageBuilderTypes: page?.pageBuilder?.map(b => b._type)
-  })
-
   const pageBuilderSections = useOptimistic<
     PageBuilderSection[] | undefined,
     SanityDocument<PageData>
   >(page?.pageBuilder || [], (currentSections, action) => {
-    console.log(`[PageBuilder] Optimistic update:`, {
-      actionId: action.id,
-      pageId: page?._id,
-      hasPageBuilder: !!action.document.pageBuilder,
-      sectionsCount: action.document.pageBuilder?.length
-    })
 
     // The action contains updated document data from Sanity
     // when someone makes an edit in the Studio

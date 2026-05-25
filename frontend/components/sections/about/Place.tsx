@@ -2,6 +2,7 @@
 
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from 'next/image'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -65,15 +66,12 @@ export function Place({ data }: { data?: PlaceData }) {
       >
         <div className="relative isolate flex w-full max-w-full aspect-4.5/2 min-h-70 items-end overflow-hidden bg-white dark:bg-[#040404] md:min-h-90 lg:min-h-105">
           <div className="absolute inset-0 overflow-hidden" style={{ perspective: '800px' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/map.svg"
+            <Image
+              src="/images/map.min.svg"
               alt=""
               aria-hidden="true"
-              loading="lazy"
-              decoding="async"
-              fetchPriority="low"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              fill
+              className="absolute inset-0 object-cover object-center"
               style={{
                 transform: 'rotateX(38deg) scale(1.6) translateY(-8%)',
                 transformOrigin: 'center 65%',

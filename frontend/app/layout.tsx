@@ -62,7 +62,7 @@ const funnelDisplay = Funnel_Display({
   variable: '--font-funnel-display',
   subsets: ['latin'],
   display: 'swap',
-  preload: false,
+  preload: true,
 })
 
 const openingHoursMono = localFont({
@@ -76,7 +76,7 @@ const betatron = localFont({
   src: './fonts/betatron.woff2',
   variable: '--font-betatron',
   display: 'swap',
-  preload: false,
+  preload: true,
   declarations: [
     {
       prop: 'unicode-range',
@@ -103,15 +103,6 @@ export default async function RootLayout({children}: {children: React.ReactNode}
       suppressHydrationWarning
     >
       <head>
-        <style dangerouslySetInnerHTML={{ __html: `
-          @font-face {
-            font-family: 'OHMonoVF';
-            src: url('/fonts/opening-hours-mono-vf.woff') format('woff');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-          }
-        ` }} />
         <script
           dangerouslySetInnerHTML={{
             __html: `

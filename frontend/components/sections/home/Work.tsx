@@ -7,7 +7,7 @@ import { cleanStega, linkResolver } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image"
 
-const workCardHoverGraphic = "/images/graphic.jpg";
+const workCardHoverGraphic = "/images/graphic.webp";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -73,12 +73,7 @@ function resolveImageUrl(image?: string) {
 
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
-  
-  console.log(`[Work] Component rendered with:`, {
-    hasData: !!data,
-    cardsCount: cleanData?.cards?.length,
-    heading: cleanData?.heading
-  });
+
   const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined);
   const ctaLabel = cleanData?.cta?.buttonText?.trim();
   const heading = cleanData?.heading?.trim();
@@ -118,17 +113,6 @@ export function OurWork({ data }: { data?: PortfolioData }) {
       .filter((item): item is ProjectItem => item !== null) ?? [];
 
   const items = itemsFromCards;
-
-  console.log(`[Work] Final items array:`, {
-    totalCards: cleanData?.cards?.length,
-    validItems: items.length,
-    items: items.map(item => ({
-      key: item.key,
-      name: item.name,
-      hasImage: !!item.imageUrl,
-      imageUrl: item.imageUrl?.substring(0, 100) + '...'
-    }))
-  });
 
   if (!heading && items.length === 0 && !ctaLabel) {
     return null;
@@ -191,7 +175,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
           >
             <div className="absolute inset-0 bg-white" />
-            <img
+            <Image
               src={workCardHoverGraphic}
               alt=""
               className="absolute inset-0 h-full w-full object-cover invert"
@@ -219,7 +203,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
               className="absolute inset-0"
               style={{ background: "#040404" }}
             />
-            <img
+            <Image
               src={workCardHoverGraphic}
               alt=""
               className="absolute inset-0 h-full w-full object-cover mix-blend-screen"
@@ -271,9 +255,6 @@ function CaseRow({ item }: { item: ProjectItem }) {
                 sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
                 onError={(e) => {
                   console.error(`[Work] Image failed to load:`, item.imageUrl, e);
-                }}
-                onLoad={() => {
-                  console.log(`[Work] Image loaded:`, item.imageUrl);
                 }}
               />
             )}

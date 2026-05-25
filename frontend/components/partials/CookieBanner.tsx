@@ -10,6 +10,7 @@ import ArrowRight from '@/components/icons/ArrowRight'
 import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
 import Badge from '@/components/partials/Badge'
 import {dispatchConsentUpdate} from '@/hooks/useAnalyticsConsent'
+import {initPostHog} from '@/lib/posthog-client'
 
 const COOKIE_STORAGE_KEY = 'neo-cookie-preferences'
 export const COOKIE_PREFERENCES_EVENT = 'neo:open-cookie-preferences'
@@ -145,6 +146,19 @@ function persistPreferences(categories: CookieCategory[], preferences: Record<st
 
   // Notify other components (e.g., analytics) that consent has changed
   dispatchConsentUpdate()
+
+  // Initialize PostHog if analytics consent was granted
+  // Match the logic in useAnalyticsConsent: check for category key === 'analytics'
+  const analyticsCategory = categories.find((cat) => cat._key === 'analytics')
+  const analyticsEnabled = analyticsCategory
+    ? normalizedPreferences['analytics']
+    : categories.some((cat, idx) => {
+        const key = cat._key ?? `category-${idx}`
+        return cat.title?.toLowerCase().includes('analytics') && normalizedPreferences[key]
+      })
+  if (analyticsEnabled) {
+    void initPostHog()
+  }
 }
 
 function buildAcceptAllPreferences(categories: CookieCategory[]) {

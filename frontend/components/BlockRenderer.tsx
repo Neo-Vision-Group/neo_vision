@@ -234,14 +234,6 @@ const Blocks = {
  * Used by the <PageBuilder>, this component renders a the component that matches the block type.
  */
 export default function BlockRenderer({block, index, pageId, pageType}: BlockProps) {
-  console.log(`[BlockRenderer] Rendering block:`, {
-    blockType: block._type,
-    blockKey: block._key,
-    pageId,
-    pageType,
-    hasComponent: typeof Blocks[block._type] !== 'undefined',
-    availableTypes: Object.keys(Blocks)
-  })
 
   // Block does exist
   if (typeof Blocks[block._type] !== 'undefined') {

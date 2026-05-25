@@ -1,6 +1,6 @@
 "use client";
 
-import posthog from "posthog-js";
+import posthog from '@/lib/posthog-client';
 import { cn } from "@/lib/utils";
 import { ArrowRight } from "./ArrowRight";
 

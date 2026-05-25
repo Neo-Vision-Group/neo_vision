@@ -81,22 +81,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function Page(props: Props) {
   const params = await props.params
   
-  console.log(`[Route] Rendering page:`, {
-    slug: params.slug,
-    query: 'pageQuery'
-  })
-  
   const {data: page} = await debugSanityFetch({query: pageQuery, params})
-
-  console.log(`[Route] Page data received:`, {
-    hasPage: !!page,
-    pageId: page?._id,
-    pageType: page?._type,
-    pageName: page?.name,
-    hasPageBuilder: !!page?.pageBuilder,
-    pageBuilderLength: page?.pageBuilder?.length,
-    pageBuilderTypes: page?.pageBuilder?.map((b: any) => b._type)
-  })
 
   if (!page) {
     console.warn(`[Route] No page found for slug: ${params.slug}`)

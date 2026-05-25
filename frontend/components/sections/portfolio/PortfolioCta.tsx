@@ -1,6 +1,6 @@
 "use client";
 
-import posthog from "posthog-js";
+import posthog from '@/lib/posthog-client';
 import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
 

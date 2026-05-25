@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/partials/Button";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 
 const RevealOnScroll = dynamic(
@@ -63,11 +64,11 @@ export function ClosingCta({ data }: { data?: CtaData }) {
       {/* Light mode background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
         <div className="absolute inset-0 bg-white" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/graphic.jpg"
+        <Image
+          src="/images/graphic.webp"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover mix-blend-difference"
+          fill
+          className="absolute inset-0 object-cover mix-blend-difference"
           style={{
             filter: "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
             opacity: 0.4,
@@ -92,11 +93,11 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           className="absolute inset-0"
           style={{ background: "linear-gradient(0deg, #9D2B03 0%, #9D2B03 100%)" }}
         />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/images/graphic.jpg"
+        <Image
+          src="/images/graphic.webp"
           alt=""
-          className="absolute inset-0 h-full w-full object-cover mix-blend-multiply"
+          fill
+          className="absolute inset-0 object-cover mix-blend-multiply"
           style={{
             filter: "brightness(0.7) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.1)",
           }}

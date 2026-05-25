@@ -2,8 +2,9 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from 'next/image'
 
-const signatureStepHoverGraphic = "/images/graphic.jpg";
+const signatureStepHoverGraphic = "/images/graphic.webp";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -96,10 +97,11 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
             >
               {card.textured ? (
                 <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black">      
-                  <img
+                  <Image
                     src={signatureStepHoverGraphic}
                     alt=""
-                    className="absolute inset-0 h-full w-full object-cover invert dark:invert-0"
+                    fill
+                    className="absolute inset-0 object-cover invert dark:invert-0"
                   />
                   <div
                     className="absolute inset-0 mix-blend-screen dark:hidden"

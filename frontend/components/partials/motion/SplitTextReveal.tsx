@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useTheme } from "next-themes";
 import "./gsap-setup";
+import { scheduleScrollTriggerRefresh } from "./scheduleScrollTriggerRefresh";
 
 export function SplitTextReveal({
   children,
@@ -132,7 +133,7 @@ export function SplitTextReveal({
         }
       );
 
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      scheduleScrollTriggerRefresh();
       return () => {
         mm.revert();
       };

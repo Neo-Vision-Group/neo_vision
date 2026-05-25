@@ -1,9 +1,6 @@
-import posthog from "posthog-js";
+import {initPostHog} from '@/lib/posthog-client'
 
-posthog.init(process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN!, {
-  api_host: "/ingest",
-  ui_host: "https://eu.posthog.com",
-  defaults: "2026-01-30",
-  capture_exceptions: true,
-  debug: process.env.NODE_ENV === "development",
-});
+// Initialize PostHog lazily only if user has already given analytics consent
+// This prevents eager loading of heavy SDK bundles (surveys.js ~34KB, exception-autocapture.js ~5KB)
+// First-time visitors will trigger init via CookieBanner after acceptance
+void initPostHog()

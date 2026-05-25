@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./gsap-setup";
 import { cn } from "../../../lib/utils";
+import { scheduleScrollTriggerRefresh } from "./scheduleScrollTriggerRefresh";
 
 export function RevealOnScroll({
   children,
@@ -81,7 +82,7 @@ export function RevealOnScroll({
         }
       );
 
-      requestAnimationFrame(() => ScrollTrigger.refresh());
+      scheduleScrollTriggerRefresh();
     },
     { scope: ref, dependencies: [] }
   );

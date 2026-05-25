@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
-import posthog from "posthog-js";
+import posthog from '@/lib/posthog-client';
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import Image from "@/components/SanityImage";
 import { cleanStega } from "@/sanity/lib/utils";

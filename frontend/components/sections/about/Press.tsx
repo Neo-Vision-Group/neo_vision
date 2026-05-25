@@ -4,7 +4,7 @@ import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {Button} from '@/components/partials/Button'
 import {cleanStega} from '@/sanity/lib/utils'
 import dynamic from 'next/dynamic'
-import posthog from 'posthog-js'
+import posthog from '@/lib/posthog-client'
 
 const RevealOnScroll = dynamic(
   () =>
