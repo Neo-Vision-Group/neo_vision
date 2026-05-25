@@ -177,6 +177,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               {page.name}
             </NavItem>
           ))}
+          <NavItem href="/terminal/terminal/leaderboard">Terminal</NavItem>
         </div>
 
         {/* CTA & Theme Toggle */}
@@ -252,6 +253,18 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
                 </li>
               )
             })}
+            <li>
+              <Link
+                href="/terminal/terminal/leaderboard"
+                onClick={() => setOpen(false)}
+                className={cn(
+                  "block py-3 text-3xl font-medium tracking-tight transition-colors",
+                  pathname === '/terminal/terminal/leaderboard' ? "text-brand" : "text-black hover:text-brand dark:text-white"
+                )}
+              >
+                Terminal
+              </Link>
+            </li>
           </ul>
           <div className="flex flex-col gap-4 pt-8">
             <Button

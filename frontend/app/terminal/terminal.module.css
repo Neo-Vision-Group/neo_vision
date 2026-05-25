@@ -1,0 +1,1145 @@
+/* ============================================================================
+ * Ada Terminal — CSS Module
+ * Ported from reference/prototype.html with scoping + bug-fix adjustments.
+ * All styles wrapped under .adaRoot so nothing leaks to the host site.
+ * ============================================================================ */
+
+.adaRoot {
+  --nv-orange: #FF500A;
+  --nv-orange-dark: #E85223;
+  --nv-orange-soft: rgba(255, 80, 10, 0.12);
+  --nv-orange-glow: rgba(255, 80, 10, 0.4);
+  --nv-red: #E24B4A;
+  --nv-bg: #0C0C0A;
+  --nv-bg-soft: #161613;
+  --nv-text: #F5F3EE;
+  --nv-text-dim: #8F8E8A;
+  --nv-text-faint: #5C5B58;
+  --nv-border: rgba(255, 80, 10, 0.2);
+  --nv-border-soft: rgba(255, 255, 255, 0.08);
+
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  /* Atmospheric layers: black base + warm orange bleed at top + faint
+     dot grid. Alphas tuned a notch above the prototype defaults
+     (0.06 → 0.10, 0.02 → 0.04) so the CRT atmosphere is perceivable on
+     standard monitors without becoming visually loud.
+     phosphorBreathing animates background-color between two near-black
+     shades so the screen feels gently alive — barely perceptible
+     consciously, adds a tiny pulse subliminally. */
+  background-color: var(--nv-bg);
+  background-image:
+    radial-gradient(ellipse at center top, rgba(255, 80, 10, 0.10) 0%, transparent 60%),
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: auto, 28px 28px;
+  color: var(--nv-text);
+  /* IBM Plex Mono is the chrome default. Children that need a different
+     font override this explicitly: VT323 for conversation + input,
+     Share Tech Mono for the mode picker buttons, Press Start 2P for
+     the TRUST / MISTAKES labels, system-mono for the ASCII header. */
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  contain: layout style paint;
+  -webkit-font-smoothing: antialiased;
+  /* Belt-and-suspenders against horizontal overflow: the fixed overlay
+     should never produce a horizontal scrollbar regardless of what
+     children try to push wider. `overflow: hidden` already caps both
+     axes, but explicit overflow-x is here to make the intent obvious
+     to any future edit. max-width: 100vw guards against rounding bugs
+     between layout vw units and devicePixelRatio at fractional zoom. */
+  overflow: hidden;
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Scoped reset — the prototype's global `* { margin: 0; ... }` would leak. */
+.adaRoot *,
+.adaRoot *::before,
+.adaRoot *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.adaRoot * {
+  font-family: inherit;
+}
+
+/* Subtle CRT phosphor glow on primary terminal text. Two-layer text-shadow
+   (1 px tight + 4 px diffuse) gives characters a soft halo that reads as
+   phosphor bleed without blurring readability. The .headerAscii rule
+   redeclares text-shadow with heavier values further down so its glow
+   stays distinct. */
+.lineAda,
+.lineYou,
+.inputField,
+.inputPrompt,
+.topBar,
+.modeOption {
+  text-shadow:
+    0 0 1px rgba(255, 80, 10, 0.4),
+    0 0 4px rgba(255, 80, 10, 0.2);
+}
+
+/* Bug 2: lock browser-level scroll while the terminal is mounted. The
+   component also toggles .ada-terminal-active on <html>/<body> via useEffect
+   (see page.tsx) — these :global rules reinforce it. Only .shell scrolls. */
+:global(html.ada-terminal-active),
+:global(body.ada-terminal-active) {
+  /* While the terminal is mounted, the host page scrolls nothing and
+     measures exactly the viewport. overflow:hidden suppresses both
+     scrollbars; height/width pin the box to viewport units; margin
+     and padding are zeroed so platform defaults can't drift the
+     measurement. The Ada Terminal handles all internal scrolling
+     within `.shell`. */
+  overflow: hidden !important;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* Effect layers — absolute inside the contain-ed .adaRoot.
+   Stacking (lowest z first): scanlines, vignette, flicker.
+   The horizontal stripes sit beneath the radial darkening; the flicker
+   tints everything above.
+   .scanlinesOuter exists only to host the slow horizontal sway —
+   combining two transform animations on the same element makes the
+   second one override the first, so we split them across a wrapper
+   and an inner element. */
+.scanlinesOuter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  animation: scanlineHorizontalSway 14s ease-in-out infinite;
+}
+.scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 2px,
+    rgba(0, 0, 0, 0.18) 3px,
+    transparent 4px
+  );
+  mix-blend-mode: multiply;
+  animation: scanlineDrift 8s linear infinite;
+  opacity: 0.7;
+}
+@keyframes scanlineDrift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(4px); }
+}
+@keyframes scanlineHorizontalSway {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-2px); }
+  50%      { transform: translateX(0); }
+  75%      { transform: translateX(2px); }
+}
+
+.flicker {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  background: rgba(255, 80, 10, 0.03);
+  animation: flicker 0.15s infinite;
+}
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.96; }
+}
+
+/* Ambient flicker overlay — opacity is set inline by the JS (in
+   TerminalShell.tsx) at irregular intervals (2–6 s) with random
+   intensity 0.10–0.30 and random duration 40–120 ms, plus an
+   occasional double-flicker. Background is full black; the JS-set
+   opacity controls how dark the dip is. transition smooths the dip
+   into and out of the page so the eye reads it as electrical noise
+   rather than a hard cut. */
+.ambientFlicker {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: rgba(0, 0, 0, 1);
+  opacity: 0;
+  transition: opacity 0.04s linear;
+}
+
+/* CRT-style vignette: gentle darkening from center to edge plus an inset
+   shadow that fakes screen curvature along the perimeter. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 30%,
+    rgba(0, 0, 0, 0.4) 70%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  box-shadow: inset 0 0 80px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* The shell is the flex-column layout host: header at top, conversation
+   filling the middle (its own scroll container), input row pinned at the
+   bottom by flex order. .shell itself doesn't scroll — overflow:hidden
+   contains anything that tries to push wider while the inner .terminal
+   handles the only vertical scroll. max-width keeps the column from
+   stretching past the ASCII header on ultrawide displays. */
+.shell {
+  position: relative;
+  z-index: 10;
+  max-width: min(1100px, 100vw);
+  margin: 0 auto;
+  padding: 28px 28px 24px;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Bug 4: TRUST and MISTAKES on the same baseline, not stacked.
+   Anti-clip: explicit width / box-sizing / flex-wrap: nowrap so the row
+   never spills past its parent's content area. The two flex children
+   (sessionLabel, topRight) get specific shrink rules below — labels and
+   strike dots stay full-width, only the gauge gives up space when the
+   row is tight. The mobile media query below switches flex-wrap back
+   to wrap so on narrow viewports the top bar can stack onto two rows
+   instead of clipping. */
+/* Single-row top bar. Horizontal padding pushes the orange dot off the
+   shell edge so it lines up with the conversation column. The two child
+   groups (.topBarLeft / .topRight) each shrink-stop on their own
+   contents; the gauge inside .topRight is the one element allowed to
+   compress when the row is tight. */
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 32px;
+  border-bottom: 1px solid var(--nv-border);
+  margin-bottom: 24px;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--nv-text-dim);
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+}
+.topBar > * {
+  min-width: 0;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  /* Grow to fill available width up to .topRight (or to the row edge
+     when no gauges are shown), so the headerSessionId span can use
+     margin-left: auto to push to the right side of .topBarLeft. */
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.headerLabel {
+  color: var(--nv-orange);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+.headerSessionId {
+  margin-left: auto;
+  color: var(--nv-orange);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* Legacy alias kept around in case any consumer still references the
+   old class name; functionally identical to .topBarLeft. */
+.sessionLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.sessionDot {
+  width: 8px;
+  height: 8px;
+  background: var(--nv-orange);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--nv-orange-glow);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.6; transform: scale(0.85); }
+}
+
+.sessionId {
+  color: var(--nv-orange);
+  font-weight: 700;
+}
+
+/* Mode badge — small uppercase pill in the top bar next to the session id.
+   Hidden when mode is 'unset' (the picker hasn't been answered yet). */
+.modeBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  margin-left: 8px;
+  border: 1px solid var(--nv-orange);
+  color: var(--nv-orange);
+  background: rgba(255, 80, 10, 0.06);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  border-radius: 2px;
+}
+
+.topRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+  /* topRight as a whole shouldn't push the row wider than the parent.
+     The strikeRow inside it is flex-shrink: 0 (MISTAKES label + dots
+     must always be visible); the gauge is flex-shrink: 1 (it can
+     squeeze its track when room is tight). */
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+.gauge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 1;
+  min-width: 80px;
+}
+/* "TRUST" label — Press Start 2P pixel-art font scoped to the gauge /
+   mistakes labels for an 80s-arcade-HUD accent. The font is designed
+   at an 8 px base, so anything bigger reads as too loud. The
+   .mistakesLabel rule below shares the same treatment. */
+.gaugeLabel {
+  font-family: var(--ada-pixel), 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: var(--nv-text-faint);
+}
+.gaugeTrack {
+  width: 160px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--nv-border);
+  position: relative;
+  overflow: hidden;
+}
+.gaugeFill {
+  height: 100%;
+  width: 0%;
+  background: var(--nv-orange);
+  box-shadow: 0 0 10px var(--nv-orange-glow);
+  transition:
+    width 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s,
+    box-shadow 0.3s;
+  position: relative;
+}
+.gaugeFill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 60%
+  );
+  animation: sweep 2.4s linear infinite;
+}
+@keyframes sweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(100%); }
+}
+.gaugeValue {
+  font-size: 11px;
+  color: var(--nv-orange);
+  font-weight: 700;
+  min-width: 36px;
+  text-align: right;
+}
+.gaugeLow .gaugeFill {
+  background: var(--nv-red);
+  box-shadow: 0 0 10px rgba(226, 75, 74, 0.4);
+}
+.gaugeFlashUp .gaugeFill {
+  background: #FFA566;
+  box-shadow: 0 0 16px var(--nv-orange-glow);
+}
+.gaugeFlashDown .gaugeFill {
+  background: var(--nv-red);
+  box-shadow: 0 0 16px rgba(226, 75, 74, 0.5);
+}
+
+/* Bug 7: label says MISTAKES, not MARKS.
+   flex-shrink: 0 + white-space: nowrap so MISTAKES never gets clipped
+   when the row is tight. The gauge gives up width first. */
+.strikeRow {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--nv-text-faint);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+/* "MISTAKES" label — same Press Start 2P treatment as .gaugeLabel.
+   Applied via an explicit class on the span in TerminalShell.tsx so
+   the strike dots beside it stay in their default chrome font. */
+.mistakesLabel {
+  font-family: var(--ada-pixel), 'Press Start 2P', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  white-space: nowrap;
+}
+/* Active level pip for v2 jailbreak — green-tinted to mark progress
+   forward (vs v1's strikeDotUsed which marked failure progress). */
+.strikeDotActive {
+  background: var(--nv-orange);
+  box-shadow: 0 0 6px var(--nv-orange-glow);
+  opacity: 1;
+}
+.timerText {
+  margin-left: 12px;
+  color: var(--nv-orange);
+  font-weight: 700;
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.strikeDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--nv-orange);
+  box-shadow: 0 0 4px var(--nv-orange-glow);
+  transition: background 0.3s, opacity 0.3s, box-shadow 0.3s;
+}
+.strikeDotUsed {
+  background: var(--nv-red);
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* Unicode box-drawing header. 80-codepoint width is centered in the
+   conversation column via .headerAsciiWrapper. The session id no longer
+   lives inside the box — it's in the top bar. font-family pinned to
+   system mono so U+2500 glyphs render at consistent advance width.
+   inline-block + parent text-align: center is how the centering works.
+   Hidden on viewports too narrow to display the full box (see media
+   query below). */
+.headerAscii {
+  display: inline-block;
+  font-family: ui-monospace, 'Cascadia Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--nv-orange);
+  white-space: pre;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0;
+  font-feature-settings: "liga" 0;
+  font-variant-ligatures: none;
+  text-shadow: 0 0 2px rgba(255, 80, 10, 0.3), 0 0 8px rgba(255, 80, 10, 0.15);
+}
+.headerAsciiWrapper {
+  text-align: center;
+  margin: 24px 32px;
+  flex-shrink: 0;
+}
+
+/* .terminal is the conversation scroll container. flex: 1 1 auto +
+   min-height: 0 lets it shrink below its content size so the inner
+   overflow-y handles the scroll instead of pushing the input row off
+   the .shell. padding-right reserves room for the orange scrollbar
+   (10 px) plus 12 px of breathing space, putting the scrollbar in the
+   right column where the send button below it also lives — visually
+   they share the right-margin column. padding-bottom gives the last
+   message breathing room above the input row. scrollbar-{width,color}
+   style the scrollbar in Firefox; the webkit pseudo-element rules
+   below handle Chromium / Safari. */
+.terminal {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  /* padding-left matches .inputRow's left padding so Ada's message
+     border-left rail and the input ▸ arrow share the same x column.
+     padding-right reserves room for the orange scrollbar (10 px) plus
+     12 px breathing. padding-bottom is internal breathing for the last
+     message inside the scroll viewport — the gap between the SCROLLBAR
+     itself and the input row is created by .inputRow's margin-top
+     (margin between flex siblings), since the scrollbar bar extends
+     the full .terminal box height regardless of inner padding. */
+  padding-left: 32px;
+  padding-right: 22px;
+  padding-bottom: 24px;
+  width: 100%;
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 80, 10, 0.4) transparent;
+}
+.terminal::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.terminal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.terminal::-webkit-scrollbar-thumb {
+  /* border + background-clip insets the visible thumb 2 px from the
+     track edges so it reads as a refined pill instead of butting against
+     the column. */
+  background: rgba(255, 80, 10, 0.4);
+  border: 2px solid transparent;
+  background-clip: content-box;
+  border-radius: 5px;
+  transition: background 200ms;
+}
+.terminal::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 80, 10, 0.7);
+  background-clip: content-box;
+}
+.terminal::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.line {
+  font-size: 14px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  animation: lineIn 0.4s ease-out forwards;
+}
+@keyframes lineIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.lineSys {
+  color: var(--nv-text-faint);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Bug 5: Ada's multi-paragraph messages read as one coherent block via a
+   2px orange left border spanning the whole block. Replaces the per-line
+   "ADA ▸" prefix that broke paragraph continuity.
+   VT323 (loaded via the layout) gives Ada / You messages a 1980s-CRT
+   look at 19 px. Structural chrome (header, top bar, boot, picker,
+   input) stays in Space Mono for sharp alignment. The 0.02em letter
+   spacing nudges the bitmap-style font into easier readability without
+   losing the retro feel. */
+.lineAda {
+  color: var(--nv-text);
+  padding-left: 16px;
+  /* 3 px double renders as two 1 px lines with a 1 px gap — visually
+     echoes the U+2551 ║ box-drawing glyph without the complexity of
+     rendering literal chars per line of message text. Browsers fall
+     back to solid for border-width < 3 px, which is why we don't use
+     1 px double here. */
+  border-left: 3px double var(--nv-orange);
+  position: relative;
+  white-space: pre-wrap;
+  font-family: var(--ada-vt), 'VT323', 'Courier New', monospace;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+
+.lineYou {
+  color: var(--nv-orange);
+  padding-left: 16px;
+  position: relative;
+  white-space: pre-wrap;
+  font-family: var(--ada-vt), 'VT323', 'Courier New', monospace;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+}
+.lineYou::before {
+  content: 'YOU ▸';
+  position: absolute;
+  left: -60px;
+  top: 0;
+  color: var(--nv-text-dim);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  padding-top: 2px;
+}
+
+/* Result banner — ASCII-art block rendered when a turn lands a terminal
+   status (won/failed/completed). White-space: pre preserves the literal
+   ╔══╗ box; text-align: center centers the whole pre-block within its
+   margin. The fail variant dims the orange so it reads as "defeated"
+   without changing the layout. bannerAppear scales+fades in over 1.2 s
+   to give the result the weight of a moment. */
+.resultBanner {
+  font-family: ui-monospace, 'Cascadia Mono', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+  font-size: 14px;
+  color: var(--nv-orange);
+  line-height: 1.4;
+  white-space: pre;
+  text-align: center;
+  margin: 24px 32px;
+  letter-spacing: 0;
+  font-feature-settings: "liga" 0;
+  font-variant-ligatures: none;
+  text-shadow: 0 0 4px rgba(255, 80, 10, 0.5), 0 0 12px rgba(255, 80, 10, 0.3);
+  animation: bannerAppear 1.2s ease-out;
+}
+.resultBannerFail {
+  color: rgba(255, 80, 10, 0.7);
+  text-shadow: 0 0 4px rgba(255, 80, 10, 0.3), 0 0 12px rgba(255, 80, 10, 0.15);
+}
+@keyframes bannerAppear {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+
+/* ASCII spinner — replaces the old three-dot pulse with a literal monospace
+   spinner cycling through |/-\\ at 100 ms per frame. Compressed footprint
+   (18 px high) so it doesn't bulk up the conversation while still being
+   visible. */
+.thinkingSpinner {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  color: rgba(255, 80, 10, 0.7);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  padding: 4px 0;
+  margin-left: 16px;
+  height: 18px;
+  line-height: 18px;
+}
+.spinnerLabel {
+  font-size: 12px;
+}
+.spinnerChar {
+  font-size: 12px;
+  font-weight: 700;
+  width: 8px;
+  text-align: center;
+  display: inline-block;
+}
+
+.cursorInline {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--nv-orange);
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  0%, 50%    { opacity: 1; }
+  51%, 100%  { opacity: 0; }
+}
+
+/* Boot sequence — single-line system-log strip rendered as inline
+   segments separated by ' · '. Plays once on truly fresh sessions and
+   remains visible at the top as historical context. white-space: normal
+   lets the line wrap to a second row at narrow viewports rather than
+   pushing the column wider. Segments type out character-by-character
+   via the boot loop in page.tsx — no CSS reveal animation. */
+.bootLine {
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  color: rgba(255, 80, 10, 0.6);
+  letter-spacing: 0;
+  line-height: 1.6;
+  white-space: normal;
+  margin: 0 32px 24px;
+}
+/* Boot segment styling. The fade-in animation is gone — segments now
+   type out character-by-character via the boot loop in page.tsx, which
+   makes a CSS reveal redundant. The WARN segment still gets a brief
+   horizontal shake (bootSegmentShake fires once when the segment first
+   mounts, i.e. when its first character is pushed). .flickering is
+   applied transiently by a useEffect interval every ~900 ms during
+   boot to a random rendered segment — CRT signal interference. */
+.bootSegment {
+  display: inline-block;
+}
+.bootSegmentInit,
+.bootSegmentReady {
+  color: rgba(255, 80, 10, 0.7);
+}
+.bootSegmentOk {
+  color: rgba(255, 80, 10, 0.6);
+}
+.bootSegmentWarn {
+  color: rgba(255, 80, 10, 0.4);
+  animation: bootSegmentShake 0.4s ease-in-out;
+}
+.bootSeparator {
+  color: rgba(255, 80, 10, 0.3);
+}
+/* Inline boot spinner — appears between the latest finalized boot
+   segment and the next one while the boot loop is "checking". Same
+   font as the rest of the boot line so the cycling glyph blends. */
+.bootSpinner {
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 13px;
+  color: rgba(255, 80, 10, 0.5);
+  display: inline-block;
+  width: 8px;
+  text-align: center;
+}
+.flickering {
+  opacity: 0.3 !important;
+}
+@keyframes bootSegmentShake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-2px); }
+  40%      { transform: translateX(2px); }
+  60%      { transform: translateX(-1px); }
+  80%      { transform: translateX(1px); }
+}
+
+/* The input row is the last flex child of .shell with `flex: 0 0 auto`,
+   so it stays at its natural height while .terminal absorbs the rest of
+   the column. align-items: flex-start so the prompt arrow and send
+   button sit on the same first-line baseline as the textarea — multi-
+   line growth pushes the textarea content downward beneath that line.
+   padding-left: 32 matches .terminal so the ▸ arrow lands directly
+   under Ada's orange border-left rail. The faint orange-tinted bg +
+   subtle 1 px top border tell the eye "this is the active input zone"
+   without the heavier dashed-line treatment we removed earlier. */
+.inputRow {
+  flex: 0 0 auto;
+  /* margin-top creates a page-background gap between .terminal's bottom
+     edge (= the scrollbar's bottom) and the input row's top border. The
+     scrollbar bar extends the full .terminal height; padding-bottom
+     inside .terminal can't move it inward. Margin between flex siblings
+     is the only mechanism that produces a visible scrollbar-to-input
+     gap. */
+  margin-top: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 32px;
+  background: rgba(255, 80, 10, 0.04);
+  border-top: 1px solid rgba(255, 80, 10, 0.15);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.inputRowDisabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+.inputPrompt {
+  flex: 0 0 auto;
+  color: var(--nv-orange);
+  font-weight: 700;
+  /* VT323 to match the conversation messages and the input field —
+     what the user sees their text in is the same font as Ada's text. */
+  font-family: var(--ada-vt), 'VT323', 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px var(--nv-orange-glow);
+  /* Match the textarea's line-height so the ▸ glyph's line-box has the
+     same vertical extent as the textarea's first line — both then sit
+     on the same baseline under align-items: flex-start. Explicit zero
+     top spacing prevents stray margins from offsetting the line-box. */
+  line-height: 22px;
+  padding-top: 0;
+  margin-top: 0;
+}
+.inputField {
+  flex: 1 1 auto;
+  /* min-width: 0 is critical in flex layouts — without it, <textarea>
+     refuses to shrink below its default ~200px intrinsic min-width and
+     pushes the parent row past the viewport, producing a horizontal
+     scrollbar. width: 100% + box-sizing: border-box make the explicit
+     measurement unambiguous. */
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  background: transparent;
+  border: none;
+  color: var(--nv-orange);
+  /* VT323 so what the user types looks the same as the conversation
+     they're typing into. Other chrome elements use Share Tech Mono. */
+  font-family: var(--ada-vt), 'VT323', 'Courier New', monospace;
+  font-size: 14px;
+  /* line-height + min-height pin the natural single-line height to 22 px;
+     the JS adjustTextareaHeight callback in page.tsx grows the element
+     up to 5 lines (110 px) and toggles overflow-y as needed. resize:none
+     disables the corner drag handle — auto-grow is the only sizing
+     mechanism. */
+  line-height: 22px;
+  min-height: 22px;
+  outline: none;
+  padding: 0;
+  resize: none;
+  overflow-y: hidden;
+  caret-color: var(--nv-orange);
+  /* CSS-Level-4 caret-shape: Chromium recognizes 'block' for a solid
+     filled caret; Firefox/Safari ignore it and fall back to the default
+     thin caret rendered in caret-color. Either way the caret is orange. */
+  caret-shape: block;
+  /* Firefox + Chromium scrollbar styling for the textarea's internal
+     scrollbar. Only visible when adjustTextareaHeight() flips overflow-y
+     to 'auto' (after the user types past the 5-line cap). 6 px wide so
+     it doesn't crowd the narrow inline column. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 80, 10, 0.4) transparent;
+}
+.inputField::-webkit-scrollbar {
+  width: 6px;
+}
+.inputField::-webkit-scrollbar-track {
+  background: transparent;
+}
+.inputField::-webkit-scrollbar-thumb {
+  background: rgba(255, 80, 10, 0.4);
+  border-radius: 3px;
+  transition: background 200ms;
+}
+.inputField::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 80, 10, 0.7);
+}
+.inputField::placeholder {
+  color: var(--nv-text-faint);
+  font-style: italic;
+}
+
+/* Send button — glyph-only, mirrors the orange terminal aesthetic. The
+   button and the Enter key both call submitMessage; either is a valid
+   send affordance. flex-shrink: 0 keeps the glyph from collapsing when
+   the input expands. */
+.sendButton {
+  flex: 0 0 auto;
+  /* No align-self override — the button inherits align-items: flex-start
+     from .inputRow so it sits on the same first-line baseline as the
+     prompt arrow and the textarea's first line, regardless of how many
+     lines the textarea has grown to. */
+  background: transparent;
+  border: 1px solid var(--nv-orange);
+  color: var(--nv-orange);
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 120ms;
+}
+.sendButton:hover:not(:disabled) {
+  background: rgba(255, 80, 10, 0.1);
+}
+.sendButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--nv-orange);
+}
+.sendButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.finalPanel {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid var(--nv-orange);
+  background: var(--nv-orange-soft);
+  animation: lineIn 0.8s ease-out forwards;
+}
+.finalPanel h2 {
+  font-family: var(--ada-display), 'Space Grotesk', sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--nv-orange);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.finalPanel p {
+  color: var(--nv-text);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.finalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.finalInput {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--nv-border);
+  padding: 10px 14px;
+  color: var(--nv-orange);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+.finalInput:focus { border-color: var(--nv-orange); }
+.finalButton {
+  padding: 12px 20px;
+  background: var(--nv-orange);
+  color: var(--nv-bg);
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.finalButton:hover { background: var(--nv-orange-dark); }
+.finalButton:disabled { opacity: 0.5; cursor: wait; }
+.finalLink {
+  color: var(--nv-orange);
+  text-decoration: underline;
+  word-break: break-all;
+}
+.finalError {
+  color: #F09595;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.cooldown {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px dashed var(--nv-border);
+  color: var(--nv-text-dim);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.cooldownTime {
+  color: var(--nv-orange);
+  font-weight: 700;
+}
+
+/* Mode picker — rendered inline in the conversation stream when mode is
+   unset. Orange double-line left border ties it visually to Ada's
+   message blocks so it reads as part of her turn, not floating UI
+   chrome. margin-left: 0 (NOT 16) so the picker's border-left sits at
+   the same x as .lineAda's border-left — they share a single vertical
+   axis through the conversation column.
+   align-items: flex-start lets each .modeOption shrink to its content
+   width instead of stretching to fill the column. */
+.modePicker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 16px 0;
+  padding-left: 16px;
+  border-left: 3px double var(--nv-orange);
+}
+.modeOption {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 10px 16px;
+  background: transparent;
+  border: 1px solid var(--nv-orange);
+  color: var(--nv-orange);
+  /* Share Tech Mono — vintage 70s/80s terminal feel scoped to the
+     picker buttons only, so they read as a distinct "moment" against
+     the IBM Plex Mono chrome. */
+  font-family: var(--ada-share), 'Share Tech Mono', monospace;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 120ms, box-shadow 120ms;
+  width: auto;
+  white-space: nowrap;
+}
+.modeOption:hover,
+.modeOption:focus-visible {
+  background: rgba(255, 80, 10, 0.1);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--nv-orange);
+}
+.modeOption:active {
+  background: rgba(255, 80, 10, 0.18);
+}
+.modeArrow {
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.modeText {
+  flex: 1;
+}
+
+/* v2 password-guess row — rendered below the chat input. The label sits
+   above the input+button row; the row shakes briefly on a wrong guess
+   (className toggled by PasswordGuessRow). Input is always uppercase
+   via the component's onChange transform. */
+.passwordGuessRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 32px 8px;
+  border-top: 1px dashed rgba(255, 80, 10, 0.15);
+  background: rgba(255, 80, 10, 0.03);
+}
+.passwordGuessShake {
+  animation: passwordGuessShake 0.4s ease-in-out;
+}
+@keyframes passwordGuessShake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-3px); }
+  40%      { transform: translateX(3px); }
+  60%      { transform: translateX(-2px); }
+  80%      { transform: translateX(2px); }
+}
+.passwordGuessLabel {
+  color: var(--nv-text-faint);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.passwordGuessInputRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.passwordGuessInput {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--nv-border);
+  color: var(--nv-orange);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  padding: 8px 12px;
+  outline: none;
+  caret-color: var(--nv-orange);
+  text-transform: uppercase;
+}
+.passwordGuessInput:focus {
+  border-color: var(--nv-orange);
+  box-shadow: 0 0 0 1px var(--nv-orange);
+}
+.passwordGuessInput:disabled {
+  opacity: 0.5;
+}
+.passwordGuessButton {
+  flex-shrink: 0;
+  background: transparent;
+  border: 1px solid var(--nv-orange);
+  color: var(--nv-orange);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 120ms;
+}
+.passwordGuessButton:hover:not(:disabled) {
+  background: rgba(255, 80, 10, 0.1);
+}
+.passwordGuessButton:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 1px var(--nv-orange);
+}
+.passwordGuessButton:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.passwordGuessFeedback {
+  color: var(--nv-text-dim);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+/* Screen-reader-only label, scoped here so a11y doesn't rely on Tailwind. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 720px) {
+  .shell { padding: 20px 16px 16px; }
+  .lineYou { padding-left: 10px; }
+  .lineYou::before {
+    position: static;
+    display: inline;
+    margin-right: 8px;
+  }
+  .lineAda, .thinkingSpinner { padding-left: 10px; }
+  .gaugeTrack { width: 100px; }
+  .topBar { flex-wrap: wrap; gap: 8px; }
+  .topRight { gap: 16px; }
+  .headerAsciiWrapper { display: none; }
+}
+
+/* Respect operating system's reduced-motion preference. The CRT effects
+   (scanlines, flicker, gauge sweep, gauge fill, breathing dot) are animated
+   at frequencies that can be uncomfortable for users with vestibular or
+   photosensitivity issues. Hold them static when the user has asked. */
+@media (prefers-reduced-motion: reduce) {
+  .scanlines,
+  .flicker,
+  .sessionDot,
+  .gaugeFill,
+  .gaugeFill::after,
+  .cursorInline,
+  .bootLine {
+    animation: none !important;
+  }
+  .gaugeFill {
+    transition: width 0.2s linear, background 0.2s, box-shadow 0.2s;
+  }
+  .line,
+  .finalPanel {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}

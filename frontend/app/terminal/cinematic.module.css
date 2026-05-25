@@ -1,0 +1,130 @@
+/* Cinematic glitch dissolve — three phases. The overlay sits at z-index
+   2147483646 (just under .adaRoot's max-int z-index) so it covers
+   everything during the 4–5 s transition.
+
+   Phase order:
+     A. corrupting (1.5 s) — heavy filter (contrast + saturate), pulse
+     B. collapsing (1 s) — scale toward center + opacity to 0, then black
+     C. emerging  (1.5 s) — white pixel grows to full screen
+*/
+
+.cinematicOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483646;
+  pointer-events: none;
+  background: transparent;
+}
+
+.cinematicOverlay.muteToggle {
+  /* note: the mute toggle button lives inside the overlay; its own class
+     overrides pointer-events. */
+}
+
+.muteToggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 2147483647;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid rgba(255, 80, 10, 0.4);
+  color: var(--nv-orange, #FF500A);
+  font-family: var(--ada-plex), 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 14px;
+  padding: 6px 10px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* PHASE A — corruption. Scanline-density bump (via filter), color
+   contrast, and a brightness pulse. */
+.corruptionLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 1px,
+    rgba(0, 0, 0, 0.3) 2px,
+    transparent 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: corruptionEnter 0.3s ease-in forwards;
+}
+@keyframes corruptionEnter {
+  to { opacity: 1; }
+}
+.corruptionFilter {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(255, 80, 10, 0.05);
+  animation: corruptionPulse 1.5s ease-in forwards;
+}
+@keyframes corruptionPulse {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.4; }
+  40%  { opacity: 0.1; }
+  60%  { opacity: 0.6; }
+  80%  { opacity: 0.2; }
+  100% { opacity: 0.8; }
+}
+.corruptionBands {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  animation: corruptionBands 1.5s steps(20) forwards;
+}
+@keyframes corruptionBands {
+  0%, 7%   { background: linear-gradient(transparent 50%, rgba(255, 80, 10, 0.4) 50%, rgba(255, 80, 10, 0.4) 53%, transparent 53%); background-size: 100% 80px; background-position: 0 -40px; }
+  8%, 15%  { background: linear-gradient(transparent 50%, rgba(255, 80, 10, 0.5) 50%, rgba(255, 80, 10, 0.5) 51%, transparent 51%); background-size: 100% 60px; background-position: 0 200px; }
+  16%, 25% { background: transparent; }
+  26%, 35% { background: linear-gradient(transparent 30%, rgba(255, 80, 10, 0.5) 30%, rgba(255, 80, 10, 0.5) 32%, transparent 32%); background-size: 100% 100px; background-position: 0 -50px; }
+  36%, 60% { background: transparent; }
+  61%, 70% { background: linear-gradient(transparent 70%, rgba(255, 80, 10, 0.5) 70%, rgba(255, 80, 10, 0.5) 73%, transparent 73%); background-size: 100% 80px; background-position: 0 100px; }
+  71%, 100% { background: transparent; }
+}
+
+/* PHASE B — collapse. Scales the scene toward center; full black at end. */
+.collapseLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: black;
+  opacity: 0;
+  transform-origin: center center;
+  animation: collapseEnter 1s ease-in forwards;
+}
+@keyframes collapseEnter {
+  0%   { opacity: 0; }
+  60%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* PHASE C — emergence. A single bright pixel expands into a horizontal
+   line, then opens vertically into the full new screen. */
+.emergeLayer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emergePixel {
+  width: 2px;
+  height: 2px;
+  background: white;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  animation: emergePixel 1.5s ease-out forwards;
+}
+@keyframes emergePixel {
+  0%  { width: 2px;   height: 2px;   background: white; box-shadow: 0 0 18px rgba(255, 255, 255, 1); }
+  20% { width: 60vw;  height: 2px;   background: white; box-shadow: 0 0 14px rgba(255, 255, 255, 0.7); }
+  35% { width: 100vw; height: 2px; }
+  60% { width: 100vw; height: 100vh; }
+  100% { width: 100vw; height: 100vh; background: #0A0A08; box-shadow: none; }
+}
