@@ -149,14 +149,14 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   return (
     <div className="flex flex-col border-y border-black/20 dark:border-white/20 md:flex-row bg-white dark:bg-dark">
       <div className="md:flex md:w-full">
-        <aside className="border-b border-black/20 dark:border-white/20 md:sticky md:top-24 md:w-1/4 md:flex-none md:self-start md:border-b-0 md:pl-12 2xl:pl-30 md:pr-5">
-          <div className="flex flex-col md:gap-5 lg:gap-10 lg:py-6">
+        <aside className="border-b border-black/20 dark:border-white/20 md:sticky md:top-24 md:w-1/4 md:flex-none md:self-start md:border-b-0 px-5 py-6 md:pl-12 2xl:pl-30 md:pr-5 md:py-0">
+          <div className="flex flex-col gap-6 md:gap-5 lg:gap-10 lg:py-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
                 <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-4xl">
                   Service:
                 </p>
-                <div className="flex flex-wrap lg:gap-5">
+                <div className="flex flex-wrap gap-2 lg:gap-5">
                   {serviceFilters.map((filter) => (
                     <FilterButton
                       key={filter.value ?? filter.label}
@@ -174,7 +174,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                 <p className="font-betatron text-[28px] leading-[1.2] text-black dark:text-[#efefef] md:text-4xl">
                   Industry:
                 </p>
-                <div className="flex flex-wrap lg:gap-5">
+                <div className="flex flex-wrap gap-2 lg:gap-5">
                   {industryFilters.map((filter) => (
                     <FilterButton
                       key={filter.value ?? filter.label}

@@ -18,7 +18,7 @@ export function PortfolioMetrics({ data }: { data?: PortfolioMetricsData }) {
     <SectionsWrapper eyebrow="" classNameOverride="px-6 py-8 md:px-12 md:py-10" hideBorders>
       <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 xl:grid-cols-4 xl:gap-6">
         {items.map((item, index) => (
-          <article key={`${item.label ?? "metric"}-${index}`} className="flex flex-col gap-6">
+          <article key={`${item.label ?? "metric"}-${index}`} className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
             <p className="font-betatron text-[44px] leading-[1.2] tracking-[-1px] text-brand md:text-[56px]">
               {item.value ?? ""}
             </p>

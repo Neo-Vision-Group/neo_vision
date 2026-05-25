@@ -56,7 +56,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex h-[calc(100svh-4rem)] max-h-[calc(100svh-4rem)] w-full flex-col overflow-hidden bg-transparent text-black dark:text-white"
+        "has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] w-full flex-col lg:overflow-hidden bg-transparent text-black dark:text-white"
       )}
     >
 
@@ -109,9 +109,9 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
         </div>
       ) : null}
 
-      {/* Stats — absolutely pinned to section bottom, over the image */}
+      {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
-        <div className="absolute inset-x-0 bottom-0 z-20 px-12 py-3 border-t border-black/10 backdrop-blur-sm dark:border-white/20">
+        <div className="relative z-20 px-6 py-3 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-12">
           <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
             {details.map((item, index) => (
               <div key={item._key ?? `${item.label}-${item.value}`} className="contents">

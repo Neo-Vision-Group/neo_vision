@@ -1,10 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { HeroStats, type HeroStat } from "@/components/sections/contact/HeroStats";
 import { cleanStega } from "@/sanity/lib/utils";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "@/components/partials/motion/gsap-setup";
 
 export type ContactHeroData = {
   eyebrow?: string;
@@ -36,6 +38,38 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
 
   const [activeTab, setActiveTab] = useState<"message" | "call">("message");
   const [callTabHovered, setCallTabHovered] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const stepsWrapperRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    const section = sectionRef.current;
+    const line = lineRef.current;
+    if (!section || !line) return;
+
+    const mm = gsap.matchMedia();
+    mm.add({
+      reduced: "(prefers-reduced-motion: reduce)",
+      motion: "(prefers-reduced-motion: no-preference)",
+    }, (ctx) => {
+      if (ctx.conditions?.reduced) {
+        gsap.set(line, { scaleY: 1, visibility: "visible" });
+        return;
+      }
+      gsap.set(line, { scaleY: 0, transformOrigin: "top", visibility: "visible" });
+      gsap.to(line, {
+        scaleY: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+    });
+  }, { scope: sectionRef });
 
   const eyebrow = cleanData?.eyebrow || "LET'S TALK";
   
@@ -59,7 +93,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const steps = cleanData?.steps || [];
   
   return (
-    <section className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-transparent">
+    <section ref={sectionRef} className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-transparent">
 
       <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-12">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
@@ -84,40 +118,47 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             </div>
 
             {/* Timeline steps */}
-            <div className="flex flex-col">
-              {steps.map((step, idx) => (
-                <div key={idx} className="flex gap-4">
-                  {/* Timeline indicator */}
-                  <div className="flex flex-col items-center">
-                    <div className="h-3 w-3 shrink-0 bg-brand" />
-                    {idx < steps.length - 1 && (
-                      <div className="w-px flex-1 bg-black/20 dark:bg-white/20" />
-                    )}
+            {steps.length > 0 && (
+              <div ref={stepsWrapperRef} className="relative flex flex-col gap-0">
+                {/* Single continuous line spanning first dot to last dot */}
+                {steps.length > 1 && (
+                  <div className="absolute left-[5.5px] top-[22px] bottom-[22px] w-px bg-black/20 dark:bg-white/20 -translate-x-1/2">
+                    <div ref={lineRef} style={{ visibility: "hidden" }} className="absolute inset-0 w-full bg-brand will-change-transform" />
                   </div>
+                )}
+                {steps.map((step, idx) => (
+                  <article key={idx} className="grid grid-cols-[12px_minmax(0,1fr)] gap-x-4">
+                    {/* Dot column */}
+                    <div className="relative flex flex-col items-center">
+                      <div className="flex-none h-4" />
+                      <div className="relative z-10 h-3 w-3 shrink-0 bg-brand" />
+                      <div className="w-px flex-1" />
+                    </div>
 
-                  {/* Step content */}
-                  <div className="flex-1 pb-6">
-                    <div className="flex items-start gap-6 p-3">
-                      <p className="font-betatron text-4xl leading-[1.2] text-brand">
-                        0{idx + 1}.
-                      </p>
-                      <div className="flex flex-1 flex-col gap-1">
-                        <p className="font-funnel text-100 font-bold leading-[1.2] text-black dark:text-[#efefef]">
-                          {step.title}
+                    {/* Step content */}
+                    <div className="pb-8 pl-4">
+                      <div className="flex items-start gap-6">
+                        <p className="font-betatron text-4xl leading-[1.2] text-brand">
+                          0{idx + 1}.
                         </p>
-                        <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
-                          {step.description}
-                        </p>
+                        <div className="flex flex-1 flex-col gap-1 pt-1">
+                          <p className="font-funnel text-[20px] font-bold leading-[1.2] text-black dark:text-[#efefef]">
+                            {step.title}
+                          </p>
+                          <p className="font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70">
+                            {step.description}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+                  </article>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right column - Form container */}
-          <div className="flex flex-1 flex-col gap-12 bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-6">
+          <div suppressHydrationWarning className="flex flex-1 flex-col gap-12 bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-6">
             {/* Tab buttons */}
             <div className="flex gap-6">
               <button

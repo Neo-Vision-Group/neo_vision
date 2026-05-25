@@ -84,12 +84,15 @@ h4 {
   100% { transform: scale(4); opacity: 0; }
 }
 
-/* Dot: default state */
+/* Dot: default state — matches section bg so it looks like a cutout on the line */
 .story-tick-dot {
   width: 10px;
   height: 10px;
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: #0c0c0a;
+  border-color: rgba(128, 128, 128, 0.4);
+  background-color: #ffffff;
+}
+.dark .story-tick-dot {
+  background-color: #040404;
 }
 
 /* Dot: lit (passed by fill line) */

@@ -59,6 +59,8 @@ export function Team({ data }: { data?: TeamData }) {
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
+  const scrollAnimRef = useRef<number>(0);
+
   const scroll = useCallback((dir: "prev" | "next") => {
     if (!scrollerRef.current) return;
     const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
@@ -88,15 +90,36 @@ export function Team({ data }: { data?: TeamData }) {
 
     const targetItem = items[nextIndex] as HTMLElement;
     const targetRect = targetItem.getBoundingClientRect();
-    const scrollLeft =
+    const targetScrollLeft =
       scrollerRef.current.scrollLeft +
       (targetRect.left - scrollerRect.left) -
       (scrollerRect.width / 2 - targetRect.width / 2);
 
-    scrollerRef.current.scrollTo({
-      left: scrollLeft,
-      behavior: "smooth",
-    });
+    const startScrollLeft = scrollerRef.current.scrollLeft;
+    const delta = targetScrollLeft - startScrollLeft;
+    const duration = 700;
+    const startTime = performance.now();
+
+    cancelAnimationFrame(scrollAnimRef.current);
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    const el = scrollerRef.current;
+    el.style.scrollSnapType = "none";
+
+    const step = (now: number) => {
+      if (!scrollerRef.current) return;
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      scrollerRef.current.scrollLeft = startScrollLeft + delta * easeOutCubic(t);
+      if (t < 1) {
+        scrollAnimRef.current = requestAnimationFrame(step);
+      } else {
+        scrollerRef.current.style.scrollSnapType = "";
+      }
+    };
+
+    scrollAnimRef.current = requestAnimationFrame(step);
 
     setAnimKeys(prev => ({ ...prev, [nextIndex]: (prev[nextIndex] ?? 0) + 1 }));
   }, [scrollerRef]);
@@ -132,11 +155,11 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex w-full shrink-0 snap-start flex-col gap-0 lg:flex-row lg:justify-between lg:items-start"
+                  className="flex w-full shrink-0 snap-start flex-col gap-8 lg:flex-row lg:justify-between lg:items-stretch"
                 >
-                  <div className="flex min-w-0 flex-1 flex-col items-end pb-8 lg:pb-0">
-                    <div className="flex min-w-0 w-full flex-col gap-12 md:max-w-2xl md:gap-16 md:py-6 lg:max-w-3xl">
-                      <div className="flex min-w-0 flex-col gap-12">
+                  <div className="flex min-w-0 flex-1 flex-col justify-between">
+                    <div className="flex min-w-0 w-full flex-col gap-12 md:gap-16 md:py-6 lg:pr-12">
+                      <div className="flex min-w-0 flex-col gap-12 text-left">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col">
                             <p className="font-funnel text-[32px] leading-[1.08] tracking-[-0.9px] text-muted dark:text-muted md:text-[48px] lg:text-[56px]">
@@ -154,27 +177,6 @@ export function Team({ data }: { data?: TeamData }) {
                           </p>
                         </div>
                       </div>
-
-                      {hasMultiple && (
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            aria-label="Previous team member"
-                            onClick={() => scroll("prev")}
-                            className="group flex size-12 items-center justify-center transition-colors"
-                          >
-                            <TeamArrowLeft key={arrowColor} color={arrowColor} />
-                          </button>
-                          <button
-                            type="button"
-                            aria-label="Next team member"
-                            onClick={() => scroll("next")}
-                            className="group flex size-12 items-center justify-center transition-colors"
-                          >
-                            <TeamArrowRight key={arrowColor} color={arrowColor} />
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -199,6 +201,27 @@ export function Team({ data }: { data?: TeamData }) {
               );
             })}
           </div>
+
+          {hasMultiple && (
+            <div className="flex items-center gap-3 pt-8">
+              <button
+                type="button"
+                aria-label="Previous team member"
+                onClick={() => scroll("prev")}
+                className="group flex size-12 items-center justify-center transition-colors"
+              >
+                <TeamArrowLeft key={arrowColor} color={arrowColor} />
+              </button>
+              <button
+                type="button"
+                aria-label="Next team member"
+                onClick={() => scroll("next")}
+                className="group flex size-12 items-center justify-center transition-colors"
+              >
+                <TeamArrowRight key={arrowColor} color={arrowColor} />
+              </button>
+            </div>
+          )}
         </div>
 
         {team.closingStatement && (

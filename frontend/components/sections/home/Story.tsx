@@ -51,8 +51,13 @@ export function Story({ data }: { data?: StoryData }) {
   const trackerInnerRef = useRef<HTMLDivElement>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [edgePadding, setEdgePadding] = useState(24);
+  const [edgePadding, setEdgePadding] = useState(0);
   const totalYears = story.milestones.length;
+
+  // ── mobile vertical tracker refs ─────────────────────────────────────────
+  const vTrackerRef = useRef<HTMLDivElement>(null);
+  const vLineFillRef = useRef<HTMLDivElement>(null);
+  const vDotRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   // ── helpers ───────────────────────────────────────────────────────────────
 
@@ -274,8 +279,9 @@ export function Story({ data }: { data?: StoryData }) {
     };
   }, [activeIndex, getDotPositions, syncFillAndDots]);
 
-  // ── edge padding (same as original) ──────────────────────────────────────
+  // ── edge padding (lg+ horizontal scroller only) ───────────────────────────
   useEffect(() => {
+    if (window.innerWidth < 1024) return;
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
@@ -504,6 +510,12 @@ export function Story({ data }: { data?: StoryData }) {
       }, 80);
     };
 
+    // Ensure first item is visible on initial load before scroll position is known
+    const firstStoryItem = items[0]?.querySelector<HTMLElement>("[data-story-item]");
+    if (firstStoryItem) {
+      firstStoryItem.style.opacity = "1";
+      firstStoryItem.style.transform = "scale(1)";
+    }
     // Initialize
     updateActiveStyles();
 
@@ -517,6 +529,99 @@ export function Story({ data }: { data?: StoryData }) {
       window.removeEventListener("resize", updateActiveStyles);
     };
   }, [activeIndex, story.milestones.length, syncFillAndDots]);
+
+  // ── mobile vertical tracker: position dots + drive fill on window scroll ──
+  useEffect(() => {
+    const col = vTrackerRef.current;
+    const scroller = scrollerRef.current;
+    if (!col || !scroller) return;
+
+    let frameId = 0;
+
+    const getDocTop = (el: HTMLElement) => {
+      let t = 0;
+      let n: HTMLElement | null = el;
+      while (n) { t += n.offsetTop; n = n.offsetParent as HTMLElement | null; }
+      return t;
+    };
+
+    const positionAndFill = () => {
+      const items = Array.from(scroller.querySelectorAll<HTMLLIElement>("li[data-milestone]"));
+      if (items.length === 0) return;
+
+      const colTop = getDocTop(col);
+
+      // Position each dot at its item's vertical center
+      const dotYs: number[] = items.map((item) => {
+        const y = getDocTop(item) + item.offsetHeight / 2 - colTop;
+        return y;
+      });
+
+      vDotRefs.current.forEach((dot, i) => {
+        if (!dot || dotYs[i] == null) return;
+        dot.style.top = `${dotYs[i] - 5}px`;
+        dot.style.opacity = "1";
+      });
+
+      // Drive fill height based on scroll position
+      const vFill = vLineFillRef.current;
+      if (!vFill || dotYs.length === 0) return;
+
+      const viewportCenter = window.innerHeight / 2;
+      const itemViewportCenters = items.map((item) => {
+        const r = item.getBoundingClientRect();
+        return r.top + r.height / 2;
+      });
+
+      let aIdx = 0;
+      for (let i = 0; i < itemViewportCenters.length; i++) {
+        if (itemViewportCenters[i] <= viewportCenter) aIdx = i;
+      }
+      const bIdx = Math.min(aIdx + 1, items.length - 1);
+
+      let fillH: number;
+      if (aIdx === bIdx) {
+        fillH = dotYs[aIdx];
+      } else {
+        const span = itemViewportCenters[bIdx] - itemViewportCenters[aIdx];
+        const t = span !== 0
+          ? Math.max(0, Math.min(1, (viewportCenter - itemViewportCenters[aIdx]) / span))
+          : 0;
+        fillH = dotYs[aIdx] + t * (dotYs[bIdx] - dotYs[aIdx]);
+      }
+
+      vFill.style.height = `${fillH}px`;
+
+      // Sync vDot active/lit states with current active index
+      vDotRefs.current.forEach((dot, i) => {
+        if (!dot) return;
+        dot.dataset.active = i === aIdx ? "true" : "false";
+        dot.dataset.lit = i <= aIdx ? "true" : "false";
+      });
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(positionAndFill);
+    };
+
+    // Initial position after fonts load
+    const init = () => requestAnimationFrame(positionAndFill);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(init);
+    } else {
+      setTimeout(init, 100);
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", positionAndFill);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", positionAndFill);
+    };
+  }, [story.milestones.length]);
 
   // ── initialize ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -635,15 +740,40 @@ export function Story({ data }: { data?: StoryData }) {
             </div>
           </div>
 
-          {/* ── Milestone list (original layout) ── */}
-          <ol
-            ref={scrollerRef}
-            className="no-scrollbar story-scroller min-w-0 flex flex-col gap-8 overflow-x-auto px-6 lg:flex-row md:gap-16 md:pt-4 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4=')_20_20,grab] active:cursor-grabbing lg:w-auto lg:flex-none"
-            style={{
-              paddingLeft: edgePadding,
-              paddingRight: edgePadding,
-            }}
-          >
+          {/* ── Mobile vertical tracker + milestone list ── */}
+          <div className="flex flex-row lg:block">
+            {/* Vertical tracker — left of content on mobile/tablet, hidden on lg+ */}
+            <div ref={vTrackerRef} className="relative mr-3 w-4 shrink-0 lg:hidden">
+              {/* Rail */}
+              <div className="absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 bg-white/10" />
+              {/* Fill */}
+              <div
+                ref={vLineFillRef}
+                className="absolute left-1/2 top-0 w-[1.5px] -translate-x-1/2 bg-linear-to-b from-brand to-[#E85223]"
+                style={{ height: 0, boxShadow: "0 0 14px rgba(255,80,10,0.6)" }}
+              />
+              {/* Dots aligned to each item's vertical center */}
+              {story.milestones.map((m, idx) => (
+                <span
+                  key={m.year + idx + "-vdot"}
+                  ref={(el) => { vDotRefs.current[idx] = el; }}
+                  data-lit={idx === 0 ? "true" : "false"}
+                  data-active={idx === 0 ? "true" : "false"}
+                  className="story-tick-dot absolute left-1/2 -translate-x-1/2 rounded-full border transition-[width,height,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                  style={{ opacity: 0 }}
+                />
+              ))}
+            </div>
+
+            {/* Milestone list */}
+            <ol
+              ref={scrollerRef}
+              className="no-scrollbar story-scroller min-w-0 flex flex-col gap-8 overflow-x-auto lg:flex-row md:gap-16 md:pt-4 md:pb-4 cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxOCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTIgMjBMMTYgMTZNMTIgMjBMMTYgMjRNMTIgMjBIMjgiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CiAgPHBhdGggZD0iTTI4IDIwTDI0IDE2TTI4IDIwTDI0IDI0IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zj4=')_20_20,grab] active:cursor-grabbing lg:w-auto lg:flex-none"
+              style={{
+                paddingLeft: edgePadding,
+                paddingRight: edgePadding,
+              }}
+            >
             {story.milestones.map((m, idx) => (
               <li
                 key={m.year + idx}
@@ -667,7 +797,8 @@ export function Story({ data }: { data?: StoryData }) {
                 </div>
               </li>
             ))}
-          </ol>
+            </ol>
+          </div>
         </div>
       </div>
     </SectionsWrapper>

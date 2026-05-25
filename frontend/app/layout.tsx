@@ -163,7 +163,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                   {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
                   <SanityLive onError={handleError} />
                   <Nav />
-                  <main className="transition-opacity min-h-screen duration-500">
+                  <main className="transition-opacity min-h-screen duration-500 pt-16 lg:pt-20">
                     {children}
                     <IntroVisitMarker />
                   </main>

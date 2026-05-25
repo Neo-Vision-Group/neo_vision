@@ -71,7 +71,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate h-[calc(100svh-4rem)] lg:h-[calc(100svh-3.5rem)] flex w-full flex-col bg-transparent"
+        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-3.5rem)] flex w-full flex-col bg-transparent"
       )}
     >
 
@@ -95,7 +95,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
               className={cn(
                 "[&_p]:my-0",
                 "[&_p]:font-funnel",
-                "[&_p]:text-[28px]",
+                "[&_p]:text-[48px]",
                 "[&_p]:leading-none",
                 "[&_p]:tracking-[-0.3px]",
                 "md:[&_p]:text-[64px]",
@@ -146,7 +146,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="absolute bottom-3 left-0 right-0 flex flex-col items-stretch px-3 md:px-6 lg:left-auto lg:items-end lg:px-8 xl:px-10"
+            className="relative px-3 pb-6 pt-0 flex flex-col items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:px-8 xl:px-10"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
