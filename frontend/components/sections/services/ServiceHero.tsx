@@ -208,14 +208,14 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           </div>
         </div>
 
-        <div className="relative w-full pb-3 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
+        <div className="relative w-full pb-6 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
           {railItems.length > 0 ? (
             <RevealOnScroll
               as="div"
               className="flex w-full flex-col"
               stagger={0.08}
             >
-              <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-stretch p-3">
+              <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-stretch pt-3">
                 {railItems.map((item, index) => (
                   <div key={item.key} className="contents">
                     {index > 0 ? (
@@ -235,12 +235,12 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
                           target={item.cta.link?.openInNewTab ? "_blank" : undefined}
                           rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
                           variant="primary"
-                          className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm"
+                          className="min-h-14 md:min-h-16 lg:min-h-20 flex-1"
                         >
                           {item.cta.buttonText}
                         </Button>
                       ) : (
-                        <Button variant="primary" className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm">
+                        <Button variant="primary" className="min-h-14 md:min-h-16 lg:min-h-20 flex-1">
                           {item.cta.buttonText}
                         </Button>
                       );
@@ -351,7 +351,7 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   }
 
   return (
-    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 bg-black/4 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f] bg-white-light">
       {value ? (
         <ScrambleText
           text={value}

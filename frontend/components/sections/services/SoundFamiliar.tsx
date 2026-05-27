@@ -37,7 +37,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
       <div className="flex flex-col gap-12 pb-24">
         {cleanData?.heading && (
           <div className="px-6 lg:px-8 xl:px-16">
-            <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+            <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
               {cleanData.heading}
             </h2>
           </div>
@@ -56,7 +56,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                     (idx + 1) % 2 !== 0 && "md:border-r md:border-black/20 md:dark:border-white/20"
                   )}
                 >
-                  <article className="group relative isolate flex flex-col gap-12 border border-white/10 bg-decoration-dark dark:border-white/20 dark:bg-[#0f0f0f] p-12 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40">
+                  <article className="group relative isolate flex flex-col gap-12 border border-white/10 bg-white-light dark:border-white/20 dark:bg-[#0f0f0f] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40">
                     <div
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
@@ -71,7 +71,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                       />
                     </div>
                     <h3 className="font-betatron text-[32px] text-brand">{p.title}</h3>
-                    <p className="font-funnel text-muted-light dark:text-muted-dark">{p.body}</p>
+                    <p className="font-funnel text-muted-light dark:text-muted-dark text-[18px]">{p.body}</p>
                   </article>
                 </div>
               ))}

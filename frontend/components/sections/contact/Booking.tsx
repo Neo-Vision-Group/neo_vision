@@ -188,9 +188,9 @@ export function Booking({ data }: { data?: BookingData }) {
 
   return (
     <SectionsWrapper eyebrow={cleanData?.eyebrow} id="booking">
-      <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16 bg-white dark:bg-[#0f0f0f]">
+      <div className="flex flex-col gap-12 bg-white dark:bg-[#0f0f0f]">
         {/* Heading */}
-        <div className="px-6">
+        <div>
           {cleanData?.heading && (
             <SplitTextReveal
               colorReveal

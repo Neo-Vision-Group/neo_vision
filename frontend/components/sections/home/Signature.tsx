@@ -116,21 +116,21 @@ export function Signature({ data }: { data?: SignatureData }) {
   return (
     <SectionsWrapper id="signature-model" eyebrow={signature.eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="flex flex-col gap-6 px-8 lg:px-16">
+        <div className="flex flex-col gap-6 px-6 lg:px-16">
           {signature.heading?.length ? (
             <PortableTextRenderer
               value={signature.heading}
               className={cn(
                 "[&_p]:my-0",
                 "[&_p]:font-funnel",
-                "[&_p]:text-[28px]",
-                "[&_p]:leading-8.5",
+                "[&_p]:text-[48px]",
+                "[&_p]:leading-12",
                 "[&_p]:tracking-[-0.3px]",
                 "[&_p]:text-foreground",
                 "md:[&_p]:text-[36px]",
-                "md:[&_p]:leading-11",
+                "md:[&_p]:leading-12",
                 "lg:[&_p]:text-[48px]",
-                "lg:[&_p]:leading-14.5",
+                "lg:[&_p]:leading-12",
                 "lg:[&_p]:tracking-[-0.4px]",
                 "[&_p:first-of-type]:font-normal",
                 "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
@@ -148,7 +148,7 @@ export function Signature({ data }: { data?: SignatureData }) {
         <div className="flex flex-col md:px-0">
           <div className="py-6 px-6 lg:px-16">
             {signature.secondaryLine ? (
-              <p className="text-3xl leading-[1.3] md:text-100 pb-24">
+              <p className="text-[24px] leading-[1.3] md:text-100 pb-24">
                 {signature.secondaryLine}
               </p>
             ) : null}
@@ -240,18 +240,18 @@ function StepCard({
       </div>
 
       <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
-        <div className="flex items-start gap-6">
-          <span className="font-betatron text-4xl leading-none text-brand">
+        <div className="flex items-center gap-6">
+          <span className="font-betatron text-[48px] leading-none text-brand">
             {step.number}
           </span>
           <div className="flex flex-1 flex-col">
-            <h3 className="text-[20px] font-medium leading-[1.3] tracking-[-0.15px] text-foreground md:text-100">
+            <h3 className="text-[24px]! leading-[1.3] tracking-[-0.15px]">
               {step.title}
             </h3>
-            <p className="text-body text-foreground">{step.duration}</p>
+            <p className="text-[16px]">{step.duration}</p>
           </div>
         </div>
-        <p className="text-body text-foreground">{step.body}</p>
+        <p className="text-[18px] text-muted-light dark:text-muted-dark">{step.body}</p>
       </div>
     </div>
   );

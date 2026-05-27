@@ -87,7 +87,7 @@ export function Place({ data }: { data?: PlaceData }) {
             }}
           />
 
-          <div className="relative z-10 flex w-full items-end justify-center px-6 pb-8 pt-24 md:px-10 md:pb-10 md:pt-28 lg:px-12 lg:pb-12 lg:pt-32">
+          <div className="relative z-10 flex w-full items-end justify-center px-6 pb-16 pt-24 md:px-10 md:pb-20 md:pt-28 lg:px-24 lg:pb-48 lg:pt-32">
             <p className="max-w-[18ch] text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-dark dark:text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
               {message}
             </p>

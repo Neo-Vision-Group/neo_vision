@@ -28,7 +28,7 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12">
         {heading ? (
-          <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+          <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
             {heading}
           </h2>
         ) : null}
@@ -41,11 +41,11 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
             {items.map((item, idx) => (
               <article
                 key={(item.text ?? "item") + idx}
-                className="flex items-center gap-3 bg-surface p-6"
+                className="flex gap-3 bg-surface p-6"
               >
-                <div className="flex h-6 w-6 shrink-0 items-center justify-center bg-brand">
+                <div className="flex h-3 w-3 md:h-6 md:w-6 shrink-0 items-center justify-center bg-brand mt-2">
                 </div>
-                <span className="text-body-2 text-black dark:text-white">{item.text}</span>
+                <span className="text-[18px] font-funnel text-black dark:text-white">{item.text}</span>
               </article>
             ))}
           </RevealOnScroll>

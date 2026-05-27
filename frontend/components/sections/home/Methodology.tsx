@@ -4,6 +4,9 @@ import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+
+const methodologyCardHoverGraphic = "/images/graphic.webp";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -74,7 +77,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
             type="words"
             stagger={0.04}
             colorReveal
-            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+            className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           >
             {methodology.heading}
           </SplitTextReveal>
@@ -96,7 +99,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
                 <div
                   key={step.number}
                   className={cn(
-                    "border-b border-black/20 dark:border-white/20 p-6",
+                    "border-b border-black/20 dark:border-white/20",
                     columnIndex === 0 && "md:border-r"
                   )}
                 >
@@ -124,7 +127,32 @@ function MethodologyCard({
   step: { number: string; title: string; body: string };
 }) {
   return (
-    <div className="group/card flex h-full flex-col gap-8 border border-black/10 bg-[#f7f7f7] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">
+    <div className="group/card-shell relative h-full p-6">
+      <div className="pointer-events-none absolute inset-6 transition-all duration-300 ease-out group-hover/card-shell:inset-0 lg:inset-6">
+        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-300 ease-out group-hover/card-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-300 ease-out group-hover/card-shell:opacity-100"
+          >
+            <Image
+              src={methodologyCardHoverGraphic}
+              alt=""
+              fill
+              className="absolute inset-0 object-cover invert dark:invert-0"
+            />
+            <div
+              className="absolute inset-0 mix-blend-screen dark:hidden"
+              style={{ background: "#ff4404" }}
+            />
+            <div
+              className="absolute inset-0 hidden mix-blend-multiply dark:block"
+              style={{ background: "#ff4404" }}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/card-shell:-translate-y-0.5 md:p-8">
         <span className="font-betatron text-5xl leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
           {step.number}
         </span>
@@ -136,6 +164,7 @@ function MethodologyCard({
             {step.body}
           </p>
         </div>
+      </div>
     </div>
   );
 }

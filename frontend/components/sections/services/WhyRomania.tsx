@@ -54,7 +54,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
               type="words"
               colorReveal
               stagger={0.04}
-              className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
+              className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
             >
               {cleanData.title}
             </SplitTextReveal>
@@ -87,7 +87,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
                     >
                       <article className="group relative isolate flex flex-col gap-12 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">
                         {highlight.stat ? (
-                          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
+                          <p className="font-funnel text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[32px] md:tracking-[-2.88px]">
                             {highlight.stat}
                           </p>
                         ) : null}

@@ -47,23 +47,23 @@ export type Breadcrumb = {
 
 export type RealityHeading = {
   faded?: string
-  bold: string
+  bold?: string
 }
 
 export type CompareHeading = {
-  highlighted: string
-  regular: string
+  highlighted?: string
+  regular?: string
 }
 
 export type Closing = {
-  lead: string
-  highlight: string
-  followup: string
+  lead?: string
+  highlight?: string
+  followup?: string
 }
 
 export type PortfolioCtaHeading = {
-  regular: string
-  bold: string
+  regular?: string
+  bold?: string
 }
 
 export type FreeResourcesHeading = {
@@ -93,7 +93,7 @@ export type Card = {
 
 export type StudyApproachHeading = {
   faded?: string
-  bold: string
+  bold?: string
 }
 
 export type Callout = {
@@ -104,17 +104,17 @@ export type Callout = {
 export type Comparison = {
   beforeLabel?: string
   afterLabel?: string
-  rows: Array<{
-    label: string
-    before: string
-    after: string
+  rows?: Array<{
+    label?: string
+    before?: string
+    after?: string
     _key: string
   }>
 }
 
 export type StudyTestimonialQuote = {
-  quote: string
-  attribution: string
+  quote?: string
+  attribution?: string
   source?: string
   accent?: boolean
 }
@@ -125,8 +125,8 @@ export type StudyMoreLikeThisHeading = {
 }
 
 export type StudyClosingCtaHeading = {
-  regular: string
-  bold: string
+  regular?: string
+  bold?: string
 }
 
 export type SanityImageAssetReference = {
@@ -224,12 +224,12 @@ export type ObjectImage = {
 export type Steps = {
   _type: 'steps'
   eyebrow?: string
-  intro: string
-  highlight: string
-  items: Array<{
-    title: string
-    duration: string
-    body: string
+  intro?: string
+  highlight?: string
+  items?: Array<{
+    title?: string
+    duration?: string
+    body?: string
     _key: string
   }>
   visual?: {
@@ -245,16 +245,16 @@ export type Steps = {
 export type ServiceNavigator = {
   _type: 'serviceNavigator'
   eyebrow?: string
-  headingRegular: string
-  headingBold: string
-  cards: Array<{
-    prompt: string
+  headingRegular?: string
+  headingBold?: string
+  cards?: Array<{
+    prompt?: string
     details?: string
-    cta: Button
+    cta?: Button
     _key: string
   }>
   closingText?: string
-  closingCta: Button
+  closingCta?: Button
 }
 
 export type SoundFamiliar = {
@@ -262,7 +262,7 @@ export type SoundFamiliar = {
   eyebrow?: string
   heading?: string
   painPoints?: Array<{
-    title: string
+    title?: string
     body?: string
     _key: string
   }>
@@ -271,9 +271,9 @@ export type SoundFamiliar = {
 export type IsThisForYou = {
   _type: 'isThisForYou'
   eyebrow?: string
-  heading: string
-  items: Array<{
-    text: string
+  heading?: string
+  items?: Array<{
+    text?: string
     _key: string
   }>
 }
@@ -285,7 +285,7 @@ export type FreeResources = {
   body?: string
   footnote?: string
   items?: Array<{
-    title: string
+    title?: string
     badge?: string
     description?: string
     file?: ResourceFile
@@ -306,11 +306,11 @@ export type TechStack = {
   _type: 'techStack'
   eyebrow?: string
   headingRegular?: string
-  headingBold: string
+  headingBold?: string
   groups?: Array<{
-    title: string
+    title?: string
     items?: Array<{
-      name: string
+      name?: string
       logo?: Logo
       _type: 'item'
       _key: string
@@ -324,11 +324,11 @@ export type TechStack = {
 export type Press = {
   _type: 'press'
   eyebrow?: string
-  heading: string
-  cardTitle: string
-  cardBody: string
-  ctaLabel: string
-  file: {
+  heading?: string
+  cardTitle?: string
+  cardBody?: string
+  ctaLabel?: string
+  file?: {
     asset?: SanityFileAssetReference
     media?: unknown
     _type: 'file'
@@ -351,7 +351,7 @@ export type Awards = {
   _type: 'awards'
   eyebrow?: string
   items?: Array<{
-    title: string
+    title?: string
     recognitions?: Array<string>
     cta?: Button
     _type: 'item'
@@ -377,7 +377,7 @@ export type ProjectReference = {
 export type StudyMoreLikeThis = {
   _type: 'studyMoreLikeThis'
   heading?: StudyMoreLikeThisHeading
-  items: Array<
+  items?: Array<
     {
       _key: string
     } & ProjectReference
@@ -387,7 +387,7 @@ export type StudyMoreLikeThis = {
 export type StudyTechStack = {
   _type: 'studyTechStack'
   eyebrow?: string
-  tools: Array<string>
+  tools?: Array<string>
 }
 
 export type StudyTestimonial = {
@@ -401,9 +401,9 @@ export type StudyNumbers = {
   eyebrow?: string
   heading?: string
   footnote?: string
-  stats: Array<{
-    value: string
-    label: string
+  stats?: Array<{
+    value?: string
+    label?: string
     description?: string
     _key: string
   }>
@@ -413,10 +413,10 @@ export type StudyWhatWeBuilt = {
   _type: 'studyWhatWeBuilt'
   eyebrow?: string
   heading?: string
-  features: Array<{
-    number: string
-    title: string
-    body: string
+  features?: Array<{
+    number?: string
+    title?: string
+    body?: string
     image?: ObjectImage
     _key: string
   }>
@@ -440,11 +440,11 @@ export type StudyApproach = {
 export type StudyChallenge = {
   _type: 'studyChallenge'
   eyebrow?: string
-  heading: string
+  heading?: string
   body?: string
   issues?: Array<{
-    tag: string
-    body: string
+    tag?: string
+    body?: string
     _key: string
   }>
 }
@@ -452,12 +452,12 @@ export type StudyChallenge = {
 export type StudyHero = {
   _type: 'studyHero'
   eyebrow?: string
-  heading: string
+  heading?: string
   subheading?: string
   chapters?: Array<string>
   details?: Array<{
-    label: string
-    value: string
+    label?: string
+    value?: string
     _key: string
   }>
   heroImage?: {
@@ -471,7 +471,7 @@ export type StudyHero = {
 
 export type StudyHeroImage = {
   _type: 'studyHeroImage'
-  image: {
+  image?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -483,7 +483,7 @@ export type StudyHeroImage = {
 
 export type InsightBlock = {
   _type: 'insightBlock'
-  title: string
+  title?: string
   text?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -517,14 +517,14 @@ export type PostReference = {
 
 export type InsightsGrid = {
   _type: 'insightsGrid'
-  items: Array<
+  items?: Array<
     {
       _key: string
     } & PostReference
   >
   categoryFilters?: Array<{
-    label: string
-    value: string
+    label?: string
+    value?: string
     _type: 'filter'
     _key: string
   }>
@@ -532,9 +532,9 @@ export type InsightsGrid = {
 
 export type PortfolioMetrics = {
   _type: 'portfolioMetrics'
-  items: Array<{
-    value: string
-    label: string
+  items?: Array<{
+    value?: string
+    label?: string
     _key: string
   }>
 }
@@ -542,13 +542,13 @@ export type PortfolioMetrics = {
 export type PortfolioCta = {
   _type: 'portfolioCta'
   heading?: PortfolioCtaHeading
-  body: string
+  body?: string
   cta?: Button
 }
 
 export type PortfolioGrid = {
   _type: 'portfolioGrid'
-  items: Array<
+  items?: Array<
     {
       _key: string
     } & ProjectReference
@@ -557,17 +557,17 @@ export type PortfolioGrid = {
 
 export type PortfolioFeatured = {
   _type: 'portfolioFeatured'
-  caseStudy: ProjectReference
+  caseStudy?: ProjectReference
 }
 
 export type WhyRomania = {
   _type: 'whyRomania'
   eyebrow?: string
-  title: string
-  body: BlockContentTextOnly
+  title?: string
+  body?: BlockContentTextOnly
   highlights?: Array<{
-    stat: string
-    description: string
+    stat?: string
+    description?: string
     _type: 'highlight'
     _key: string
   }>
@@ -576,21 +576,21 @@ export type WhyRomania = {
 export type Compare = {
   _type: 'compare'
   eyebrow?: string
-  heading: CompareHeading
-  rows: Array<{
-    label: string
+  heading?: CompareHeading
+  rows?: Array<{
+    label?: string
     _key: string
   }>
-  columns: Array<{
-    name: string
+  columns?: Array<{
+    name?: string
     highlightColumn?: boolean
-    values: Array<{
+    values?: Array<{
       available?: boolean
       _key: string
     }>
     _key: string
   }>
-  closing: Closing
+  closing?: Closing
 }
 
 export type Reality = {
@@ -599,7 +599,7 @@ export type Reality = {
   heading?: RealityHeading
   body?: string
   points?: Array<{
-    title: string
+    title?: string
     body?: string
     _key: string
   }>
@@ -632,10 +632,10 @@ export type ServiceReference = {
 
 export type AiServices = {
   _type: 'aiServices'
-  eyebrow: string
-  services: Array<{
-    service: ServiceReference
-    cta: Button
+  eyebrow?: string
+  services?: Array<{
+    service?: ServiceReference
+    cta?: Button
     _type: 'aiServiceCard'
     _key: string
   }>
@@ -649,13 +649,13 @@ export type ServiceHero = {
   description?: string
   cta?: Button
   leadingHighlights?: Array<{
-    value: string
-    label: string
+    value?: string
+    label?: string
     _key: string
   }>
   trailingHighlights?: Array<{
-    value: string
-    label: string
+    value?: string
+    label?: string
     _key: string
   }>
 }
@@ -675,9 +675,9 @@ export type Faq = {
   _type: 'faq'
   eyebrow?: string
   heading?: string
-  items: Array<{
-    question: string
-    answer: Array<{
+  items?: Array<{
+    question?: string
+    answer?: Array<{
       children?: Array<{
         marks?: Array<string>
         text?: string
@@ -715,20 +715,20 @@ export type WhatWeDo = {
   eyebrow?: string
   heading?: string
   ctaSection?: CtaSection
-  cards: Array<{
+  cards?: Array<{
     kind?: 'engineering' | 'ai'
     label?: string
     labelImage?: LabelImage
     labelImageLight?: LabelImageLight
     labelImageDark?: LabelImageDark
-    title: string
+    title?: string
     body?: string
     services?: Array<
       {
         _key: string
       } & ServiceReference
     >
-    cta: Button
+    cta?: Button
     texture?: boolean
     _key: string
   }>
@@ -743,14 +743,14 @@ export type TestimonialReference = {
 
 export type Testimonials = {
   _type: 'testimonials'
-  eyebrow: string
-  logos: Array<{
-    name: string
-    logoLight: LogoLight
+  eyebrow?: string
+  logos?: Array<{
+    name?: string
+    logoLight?: LogoLight
     logoDark?: LogoDark
     _key: string
   }>
-  testimonials: Array<
+  testimonials?: Array<
     {
       _key: string
     } & TestimonialReference
@@ -767,13 +767,13 @@ export type TeamMemberReference = {
 export type Team = {
   _type: 'team'
   eyebrow?: string
-  heading: string
-  members: Array<
+  heading?: string
+  members?: Array<
     {
       _key: string
     } & TeamMemberReference
   >
-  closingStatement: string
+  closingStatement?: string
 }
 
 export type Story = {
@@ -822,17 +822,17 @@ export type Signature = {
 export type Pricing = {
   _type: 'pricing'
   eyebrow?: string
-  headingPrimary: string
+  headingPrimary?: string
   headingSecondary?: string
-  tiers: Array<{
-    width: 'half' | 'full'
-    priceLayout: 'stacked' | 'split' | 'inline'
+  tiers?: Array<{
+    width?: 'half' | 'full'
+    priceLayout?: 'stacked' | 'split' | 'inline'
     badge?: string
-    title: string
-    price: string
+    title?: string
+    price?: string
     meta?: string
     description?: string
-    ctaStyle: 'textLink' | 'button'
+    ctaStyle?: 'textLink' | 'button'
     cta?: Button
     _type: 'tier'
     _key: string
@@ -841,10 +841,10 @@ export type Pricing = {
 
 export type Portfolio = {
   _type: 'portfolio'
-  eyebrow: string
-  heading: string
-  cards: Array<{
-    project: ProjectReference
+  eyebrow?: string
+  heading?: string
+  cards?: Array<{
+    project?: ProjectReference
     _key: string
   }>
   cta?: Button
@@ -853,8 +853,8 @@ export type Portfolio = {
 export type Origin = {
   _type: 'origin'
   eyebrow?: string
-  heading: string
-  body: string
+  heading?: string
+  body?: string
   subtext?: string
 }
 
@@ -871,9 +871,9 @@ export type Methodology = {
 
 export type Cta = {
   _type: 'cta'
-  heading: string
-  body: string
-  cta: Button
+  heading?: string
+  body?: string
+  cta?: Button
   subtext?: string
 }
 
@@ -885,7 +885,7 @@ export type HomeHero = {
   primaryCta?: Button
   stats?: string
   dimensionLine?: string
-  ctaText: string
+  ctaText?: BlockContentTextOnly
   secondaryCta?: Button
 }
 
@@ -893,17 +893,17 @@ export type Booking = {
   _type: 'booking'
   eyebrow?: string
   heading?: Heading
-  callTitle: string
-  teamMember: TeamMemberReference
+  callTitle?: string
+  teamMember?: TeamMemberReference
   whatToExpectHeading?: string
-  expectations: Array<string>
+  expectations?: Array<string>
   schedulerUrl?: string
 }
 
 export type CookieSettings = {
   _type: 'cookieSettings'
   enabled?: boolean
-  bannerTitle: string
+  bannerTitle?: string
   bannerDescription?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -922,18 +922,18 @@ export type CookieSettings = {
     _type: 'block'
     _key: string
   }>
-  preferencesTitle: string
-  preferencesDescription: string
-  acceptAllLabel: string
-  initialSaveLabel: string
-  customizeLabel: string
-  rejectAllLabel: string
-  savePreferencesLabel: string
-  backLabel: string
-  footerButtonLabel: string
+  preferencesTitle?: string
+  preferencesDescription?: string
+  acceptAllLabel?: string
+  initialSaveLabel?: string
+  customizeLabel?: string
+  rejectAllLabel?: string
+  savePreferencesLabel?: string
+  backLabel?: string
+  footerButtonLabel?: string
   categories?: Array<{
-    title: string
-    description: string
+    title?: string
+    description?: string
     required?: boolean
     defaultEnabled?: boolean
     lockedLabel?: string
@@ -944,17 +944,17 @@ export type CookieSettings = {
 export type ContactHero = {
   _type: 'contactHero'
   eyebrow?: string
-  heading: string
-  description: string
+  heading?: string
+  description?: string
   stats?: Array<{
-    number: number
+    number?: number
     suffix?: string
-    label: string
+    label?: string
     _key: string
   }>
-  steps: Array<{
-    title: string
-    description: string
+  steps?: Array<{
+    title?: string
+    description?: string
     _key: string
   }>
   formConfig?: FormConfig
@@ -966,9 +966,9 @@ export type PageHero = {
   heading?: BlockContentTextOnly
   subheading?: string
   stats?: Array<{
-    number: number
+    number?: number
     suffix?: string
-    label: string
+    label?: string
     _key: string
   }>
   featured?: ProjectReference | PostReference
@@ -1125,18 +1125,18 @@ export type BlockContent = Array<
 
 export type SanityImageCrop = {
   _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
+  top?: number
+  bottom?: number
+  left?: number
+  right?: number
 }
 
 export type SanityImageHotspot = {
   _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
+  x?: number
+  y?: number
+  height?: number
+  width?: number
 }
 
 export type Button = {
@@ -1151,16 +1151,16 @@ export type ContactSubmission = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  email: string
+  name?: string
+  email?: string
   company?: string
   phone?: string
   projectType?: string
   budget?: string
   hearAboutUs?: string
-  message: string
+  message?: string
   source?: string
-  receivedAt: string
+  receivedAt?: string
   status?: 'new' | 'reviewed' | 'responded' | 'archived'
   notes?: string
 }
@@ -1171,9 +1171,9 @@ export type Testimonial = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  attribution: string
-  quote: string
+  name?: string
+  attribution?: string
+  quote?: string
   profilePicture?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1189,9 +1189,9 @@ export type Person = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  firstName: string
-  lastName: string
-  picture: {
+  firstName?: string
+  lastName?: string
+  picture?: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
@@ -1207,7 +1207,7 @@ export type SeoSettings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  siteName: string
+  siteName?: string
   defaultSeo?: Seo
   googleSiteVerification?: string
   bingSiteVerification?: string
@@ -1222,7 +1222,7 @@ export type SiteSettings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
+  title?: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -1254,7 +1254,7 @@ export type SiteSettings = {
     metadataBase?: string
     _type: 'image'
   }
-  brandName: string
+  brandName?: string
   logoPicture?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1275,16 +1275,16 @@ export type SiteSettings = {
   tiktok?: string
   cta?: Button
   navLinks?: Array<{
-    label: string
+    label?: string
     page?: PageReference
     href?: string
     _key: string
   }>
   footerColumns?: Array<{
-    title: string
+    title?: string
     links?: Array<{
-      label: string
-      linkType: 'page' | 'service' | 'href'
+      label?: string
+      linkType?: 'page' | 'service' | 'href'
       page?: PageReference
       service?: ServiceReference
       href?: string
@@ -1301,14 +1301,21 @@ export type SiteSettings = {
   cookieSettings?: CookieSettings
 }
 
+export type InsightCategoryReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'insightCategory'
+}
+
 export type Post = {
   _id: string
   _type: 'post'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
-  slug: Slug
+  title?: string
+  slug?: Slug
   publishedAt?: string
   excerpt?: string
   coverImage?: {
@@ -1319,12 +1326,7 @@ export type Post = {
     _type: 'image'
   }
   author?: TeamMemberReference
-  category?:
-    | 'ai-transformation'
-    | 'engineering'
-    | 'design-research'
-    | 'systems-playbooks'
-    | 'operators-notes'
+  category?: InsightCategoryReference
   readTime?: number
   featured?: boolean
   relatedInsights?: Array<
@@ -1494,16 +1496,33 @@ export type Post = {
   seo?: Seo
 }
 
+export type InsightCategory = {
+  _id: string
+  _type: 'insightCategory'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug?: Slug
+  description?: string
+}
+
+export type Slug = {
+  _type: 'slug'
+  current?: string
+  source?: string
+}
+
 export type TeamMember = {
   _id: string
   _type: 'teamMember'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  order: number
-  role: string
-  bio: string
+  name?: string
+  order?: number
+  role?: string
+  bio?: string
   portrait?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1513,20 +1532,14 @@ export type TeamMember = {
   }
 }
 
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type Page = {
   _id: string
   _type: 'page'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  slug: Slug
+  name?: string
+  slug?: Slug
   pageType?: 'home' | 'services' | 'insights' | 'caseStudies'
   pageBuilder?: Array<
     | ({
@@ -1696,13 +1709,13 @@ export type Project = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  client: string
-  title: string
-  year: string
-  slug: Slug
-  category: ServiceReference
-  industry: IndustryReference
-  tagline: string
+  client?: string
+  title?: string
+  year?: string
+  slug?: Slug
+  category?: ServiceReference
+  industry?: IndustryReference
+  tagline?: string
   metric?: string
   metricLabel?: string
   thumb?: {
@@ -1874,8 +1887,8 @@ export type Industry = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  slug: Slug
+  name?: string
+  slug?: Slug
   order?: number
 }
 
@@ -1885,12 +1898,12 @@ export type Service = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  name: string
-  price: string
-  category: 'engineering' | 'ai'
-  tag: string
-  slug: Slug
-  duration: string
+  name?: string
+  price?: string
+  category?: 'engineering' | 'ai'
+  tag?: string
+  slug?: Slug
+  duration?: string
   pageBuilder?: Array<
     | ({
         _key: string
@@ -2093,7 +2106,7 @@ export type AssistInstructionContextReference = {
 
 export type SanityAssistInstructionContext = {
   _type: 'sanity.assist.instruction.context'
-  reference: AssistInstructionContextReference
+  reference?: AssistInstructionContextReference
 }
 
 export type AssistInstructionContext = {
@@ -2121,7 +2134,7 @@ export type AssistInstructionContext = {
 
 export type SanityAssistInstructionUserInput = {
   _type: 'sanity.assist.instruction.userInput'
-  message: string
+  message?: string
   description?: string
 }
 
@@ -2213,9 +2226,9 @@ export type SanityImagePalette = {
 
 export type SanityImageDimensions = {
   _type: 'sanity.imageDimensions'
-  height: number
-  width: number
-  aspectRatio: number
+  height?: number
+  width?: number
+  aspectRatio?: number
 }
 
 export type SanityImageMetadata = {
@@ -2241,14 +2254,14 @@ export type SanityFileAsset = {
   title?: string
   description?: string
   altText?: string
-  sha1hash: string
-  extension: string
-  mimeType: string
-  size: number
-  assetId: string
+  sha1hash?: string
+  extension?: string
+  mimeType?: string
+  size?: number
+  assetId?: string
   uploadId?: string
-  path: string
-  url: string
+  path?: string
+  url?: string
   source?: SanityAssetSourceData
 }
 
@@ -2270,14 +2283,14 @@ export type SanityImageAsset = {
   title?: string
   description?: string
   altText?: string
-  sha1hash: string
-  extension: string
-  mimeType: string
-  size: number
-  assetId: string
+  sha1hash?: string
+  extension?: string
+  mimeType?: string
+  size?: number
+  assetId?: string
   uploadId?: string
-  path: string
-  url: string
+  path?: string
+  url?: string
   metadata?: SanityImageMetadata
   source?: SanityAssetSourceData
 }
@@ -2391,9 +2404,11 @@ export type AllSanitySchemaTypes =
   | Person
   | SeoSettings
   | SiteSettings
+  | InsightCategoryReference
   | Post
-  | TeamMember
+  | InsightCategory
   | Slug
+  | TeamMember
   | Page
   | IndustryReference
   | Project
@@ -2430,7 +2445,7 @@ export type SitemapQueryResult = {
     _id: string
     _updatedAt: string
     pageType: 'caseStudies' | 'home' | 'insights' | 'services' | null
-    slug: string
+    slug: string | null
     seo: {
       canonicalUrl: string | null
       robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
@@ -2450,7 +2465,7 @@ export type SitemapQueryResult = {
     _id: string
     _updatedAt: string
     publishedAt: string | null
-    slug: string
+    slug: string | null
     seo: {
       canonicalUrl: string | null
       robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
@@ -2469,7 +2484,7 @@ export type SitemapQueryResult = {
   services: Array<{
     _id: string
     _updatedAt: string
-    slug: string
+    slug: string | null
     seo: {
       canonicalUrl: string | null
       robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
@@ -2488,7 +2503,7 @@ export type SitemapQueryResult = {
   projects: Array<{
     _id: string
     _updatedAt: string
-    slug: string
+    slug: string | null
     seo: {
       canonicalUrl: string | null
       robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
@@ -2515,7 +2530,7 @@ export type SettingsQueryResult = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
+  title?: string
   description?: Array<{
     children?: Array<{
       marks?: Array<string>
@@ -2550,14 +2565,14 @@ export type SettingsQueryResult = {
       title?: string
       description?: string
       altText?: string
-      sha1hash: string
-      extension: string
-      mimeType: string
-      size: number
-      assetId: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
       uploadId?: string
-      path: string
-      url: string
+      path?: string
+      url?: string
       metadata?: SanityImageMetadata
       source?: SanityAssetSourceData
     } | null
@@ -2568,7 +2583,7 @@ export type SettingsQueryResult = {
     metadataBase?: string
     _type: 'image'
   } | null
-  brandName: string
+  brandName?: string
   logoPicture: {
     asset: {
       _id: string
@@ -2581,14 +2596,14 @@ export type SettingsQueryResult = {
       title?: string
       description?: string
       altText?: string
-      sha1hash: string
-      extension: string
-      mimeType: string
-      size: number
-      assetId: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
       uploadId?: string
-      path: string
-      url: string
+      path?: string
+      url?: string
       metadata?: SanityImageMetadata
       source?: SanityAssetSourceData
     } | null
@@ -2622,15 +2637,15 @@ export type SettingsQueryResult = {
   } | null
   navLinks: Array<{
     _key: string
-    name: string
+    name: string | null
     slug: string | null
   }> | null
   footerColumns: Array<{
     _key: string
-    title: string
+    title: string | null
     links: Array<{
       _key: string
-      label: string
+      label: string | null
       accent: boolean | null
       href: string | null
     }> | null
@@ -2642,7 +2657,7 @@ export type SettingsQueryResult = {
   >
   cookieSettings: {
     enabled: boolean | null
-    bannerTitle: string
+    bannerTitle: string | null
     bannerDescription: Array<{
       children?: Array<{
         marks?: Array<string>
@@ -2667,19 +2682,19 @@ export type SettingsQueryResult = {
       _type: 'block'
       _key: string
     }> | null
-    preferencesTitle: string
-    preferencesDescription: string
-    acceptAllLabel: string
-    initialSaveLabel: string
-    customizeLabel: string
-    rejectAllLabel: string
-    savePreferencesLabel: string
-    backLabel: string
-    footerButtonLabel: string
+    preferencesTitle: string | null
+    preferencesDescription: string | null
+    acceptAllLabel: string | null
+    initialSaveLabel: string | null
+    customizeLabel: string | null
+    rejectAllLabel: string | null
+    savePreferencesLabel: string | null
+    backLabel: string | null
+    footerButtonLabel: string | null
     categories: Array<{
       _key: string
-      title: string
-      description: string
+      title: string | null
+      description: string | null
       required: boolean | null
       defaultEnabled: boolean | null
       lockedLabel: string | null
@@ -2691,7 +2706,7 @@ export type SettingsQueryResult = {
 // Variable: seoSettingsQuery
 // Query: *[_type == "seoSettings" && (_id == "seoSettings" || _id == "drafts.seoSettings")][0]{      siteName,  defaultSeo{    ...,    ogImage   {    ...,    asset->  },    twitterImage   {    ...,    asset->  },    socialImage   {    ...,    asset->  },    alternateLanguages[]{      ...,      languageCode,      url,      isDefault    }  },  googleSiteVerification,  bingSiteVerification,  pinterestVerification,  yandexVerification,  facebookDomainVerification  }
 export type SeoSettingsQueryResult = {
-  siteName: string
+  siteName: string | null
   defaultSeo: {
     _type: 'seo'
     metaTitle?: string
@@ -2726,14 +2741,14 @@ export type SeoSettingsQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2762,14 +2777,14 @@ export type SeoSettingsQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2795,14 +2810,14 @@ export type SeoSettingsQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2842,8 +2857,8 @@ export type SeoSettingsQueryResult = {
 export type PageQueryResult = {
   _id: string
   _type: 'page'
-  name: string
-  slug: Slug
+  name: string | null
+  slug: Slug | null
   pageType: 'caseStudies' | 'home' | 'insights' | 'services' | null
   seo: {
     _type: 'seo'
@@ -2879,14 +2894,14 @@ export type PageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2915,14 +2930,14 @@ export type PageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2948,14 +2963,14 @@ export type PageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -2988,7 +3003,7 @@ export type PageQueryResult = {
     | {
         _key: string
         _type: 'aiServices'
-        eyebrow: string
+        eyebrow?: string
         services: Array<{
           service: {
             _id: string
@@ -2996,12 +3011,12 @@ export type PageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -3155,7 +3170,7 @@ export type PageQueryResult = {
                 } & WhyRomania)
             >
             seo?: Seo
-          }
+          } | null
           cta: {
             _type: 'button'
             buttonText?: string
@@ -3169,17 +3184,17 @@ export type PageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _type: 'aiServiceCard'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'awards'
         eyebrow: string | null
         items: Array<{
-          title: string
+          title: string | null
           recognitions: Array<string> | null
           cta: {
             _type: 'button'
@@ -3209,14 +3224,14 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -3231,10 +3246,10 @@ export type PageQueryResult = {
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
-        callTitle: string
+        callTitle: string | null
         teamMember: {
-          name: string
-          role: string
+          name: string | null
+          role: string | null
           portrait: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -3242,9 +3257,9 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
         whatToExpectHeading: string | null
-        expectations: Array<string>
+        expectations: Array<string> | null
         schedulerUrl: string | null
       }
     | {
@@ -3252,40 +3267,40 @@ export type PageQueryResult = {
         _type: 'compare'
         eyebrow?: string
         heading: {
-          highlighted: string
-          regular: string
-        }
+          highlighted: string | null
+          regular: string | null
+        } | null
         rows: Array<{
-          label: string
-        }>
+          label: string | null
+        }> | null
         columns: Array<{
-          name: string
+          name: string | null
           highlightColumn: boolean | null
           values: Array<{
             available: boolean | null
-          }>
-        }>
+          }> | null
+        }> | null
         closing: {
-          lead: string
-          highlight: string
-          followup: string
-        }
+          lead: string | null
+          highlight: string | null
+          followup: string | null
+        } | null
       }
     | {
         _key: string
         _type: 'contactHero'
         eyebrow: string | null
-        heading: string
-        description: string
+        heading: string | null
+        description: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         steps: Array<{
-          title: string
-          description: string
-        }>
+          title: string | null
+          description: string | null
+        }> | null
         formConfig: {
           services: Array<string> | null
           budgetRanges: Array<string> | null
@@ -3296,8 +3311,8 @@ export type PageQueryResult = {
     | {
         _key: string
         _type: 'cta'
-        heading: string
-        body: string
+        heading: string | null
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -3311,7 +3326,7 @@ export type PageQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
         subtext: string | null
       }
     | {
@@ -3325,12 +3340,12 @@ export type PageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -3496,8 +3511,8 @@ export type PageQueryResult = {
         eyebrow?: string
         heading?: string
         items: Array<{
-          question: string
-          answer: Array<{
+          question?: string
+          answer?: Array<{
             children?: Array<{
               marks?: Array<string>
               text?: string
@@ -3516,7 +3531,7 @@ export type PageQueryResult = {
             _key: string
           }>
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -3531,7 +3546,7 @@ export type PageQueryResult = {
         body?: string
         footnote?: string
         items: Array<{
-          title: string
+          title: string | null
           badge?: string
           description: string | null
           file: ResourceFile | null
@@ -3563,7 +3578,7 @@ export type PageQueryResult = {
         } | null
         stats?: string
         dimensionLine?: string
-        ctaText: string
+        ctaText?: BlockContentTextOnly
         secondaryCta: {
           _type: 'button'
           buttonText?: string
@@ -3600,7 +3615,7 @@ export type PageQueryResult = {
     | {
         _key: string
         _type: 'insightBlock'
-        title: string
+        title?: string
         text: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -3681,17 +3696,21 @@ export type PageQueryResult = {
         _type: 'insightsGrid'
         items: Array<{
           _id: string
-          title: string
-          slug: Slug
+          title: string | null
+          slug: Slug | null
           excerpt: string | null
-          category: null
+          category: {
+            _id: string
+            title: string | null
+            slug: Slug | null
+          } | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
           cover: string | null
           author: {
-            name: string
-            role: string
+            name: string | null
+            role: string | null
             portrait: {
               asset?: SanityImageAssetReference
               media?: unknown
@@ -3700,20 +3719,20 @@ export type PageQueryResult = {
               _type: 'image'
             } | null
           } | null
-        }>
+        }> | null
         categoryFilters: Array<{
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'isThisForYou'
         eyebrow?: string
-        heading: string
+        heading?: string
         items: Array<{
-          text: string
-        }>
+          text: string | null
+        }> | null
       }
     | {
         _key: string
@@ -3730,8 +3749,8 @@ export type PageQueryResult = {
         _key: string
         _type: 'origin'
         eyebrow?: string
-        heading: string
-        body: string
+        heading?: string
+        body?: string
         subtext?: string
       }
     | {
@@ -3741,34 +3760,38 @@ export type PageQueryResult = {
         heading: BlockContentTextOnly | null
         subheading: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         featured:
           | {
               _type: 'post'
               _id: string
-              slug: Slug
-              title: string
+              slug: Slug | null
+              title: string | null
               excerpt: string | null
-              category: null
+              category: {
+                _id: string
+                title: string | null
+                slug: Slug | null
+              } | null
               publishedAt: string | null
               readTime: number | null
               cover: string | null
               author: {
-                name: string
+                name: string | null
               } | null
             }
           | {
               _type: 'project'
               _id: string
-              slug: Slug
-              client: string
-              year: string
-              category: string
-              industry: string
-              tagline: string
+              slug: Slug | null
+              client: string | null
+              year: string | null
+              category: string | null
+              industry: string | null
+              tagline: string | null
               cover: string | null
             }
           | null
@@ -3789,14 +3812,14 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -3809,21 +3832,21 @@ export type PageQueryResult = {
     | {
         _key: string
         _type: 'portfolio'
-        eyebrow: string
-        heading: string
+        eyebrow: string | null
+        heading: string | null
         cards: Array<{
           project: {
             _id: string
-            title: string
-            client: string
-            year: string
-            slug: Slug
-            category: string
-            tagline: string
+            title: string | null
+            client: string | null
+            year: string | null
+            slug: Slug | null
+            category: string | null
+            tagline: string | null
             thumb: string | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -3843,7 +3866,7 @@ export type PageQueryResult = {
         _key: string
         _type: 'portfolioCta'
         heading: PortfolioCtaHeading | null
-        body: string
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -3864,12 +3887,12 @@ export type PageQueryResult = {
         _type: 'portfolioFeatured'
         caseStudy: {
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -3879,19 +3902,19 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'portfolioGrid'
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -3901,24 +3924,24 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'portfolioMetrics'
         items: Array<{
-          value: string
-          label: string
-        }>
+          value: string | null
+          label: string | null
+        }> | null
       }
     | {
         _key: string
         _type: 'press'
         eyebrow: string | null
-        heading: string
-        cardTitle: string
-        cardBody: string
-        ctaLabel: string
+        heading: string | null
+        cardTitle: string | null
+        cardBody: string | null
+        ctaLabel: string | null
         file: {
           asset: {
             _id: string
@@ -3931,35 +3954,35 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             source?: SanityAssetSourceData
           } | null
           media?: unknown
           _type: 'file'
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        headingPrimary: string
+        headingPrimary?: string
         headingSecondary?: string
         tiers: Array<{
-          width: 'full' | 'half'
-          priceLayout: 'inline' | 'split' | 'stacked'
+          width?: 'full' | 'half'
+          priceLayout?: 'inline' | 'split' | 'stacked'
           badge?: string
-          title: string
-          price: string
+          title?: string
+          price?: string
           meta?: string
           description?: string
-          ctaStyle: 'button' | 'textLink'
+          ctaStyle?: 'button' | 'textLink'
           cta: {
             _type: 'button'
             buttonText?: string
@@ -3976,7 +3999,7 @@ export type PageQueryResult = {
           } | null
           _type: 'tier'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -3984,11 +4007,11 @@ export type PageQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         points: Array<{
-          title: string
+          title: string | null
           body: string | null
         }> | null
         cta: {
@@ -4032,14 +4055,14 @@ export type PageQueryResult = {
           } | null
         } | null
         leadingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         trailingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
-        serviceName: string
+        serviceName: string | null
         serviceCategory: null
         serviceDescription: null
         servicePrice: null
@@ -4049,10 +4072,10 @@ export type PageQueryResult = {
         _key: string
         _type: 'serviceNavigator'
         eyebrow?: string
-        headingRegular: string
-        headingBold: string
+        headingRegular?: string
+        headingBold?: string
         cards: Array<{
-          prompt: string
+          prompt?: string
           details?: string
           cta: {
             _type: 'button'
@@ -4067,9 +4090,9 @@ export type PageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         closingText?: string
         closingCta: {
           _type: 'button'
@@ -4084,7 +4107,7 @@ export type PageQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
       }
     | {
         _key: string
@@ -4150,7 +4173,7 @@ export type PageQueryResult = {
         eyebrow?: string
         heading?: string
         painPoints: Array<{
-          title: string
+          title: string | null
           body: string | null
           _key: string
         }> | null
@@ -4159,14 +4182,14 @@ export type PageQueryResult = {
         _key: string
         _type: 'steps'
         eyebrow?: string
-        intro: string
-        highlight: string
+        intro?: string
+        highlight?: string
         items: Array<{
-          title: string
-          duration: string
-          body: string
+          title: string | null
+          duration: string | null
+          body: string | null
           _key: string
-        }>
+        }> | null
         visual: {
           asset: {
             _id: string
@@ -4179,14 +4202,14 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -4213,7 +4236,7 @@ export type PageQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         callout: {
@@ -4225,20 +4248,20 @@ export type PageQueryResult = {
         _key: string
         _type: 'studyChallenge'
         eyebrow?: string
-        heading: string
+        heading?: string
         body?: string
         issues: Array<{
           _key: string
-          tag: string
-          body: string
+          tag: string | null
+          body: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'studyClosingCta'
         heading: {
-          regular: string
-          bold: string
+          regular: string | null
+          bold: string | null
         } | null
         body: string | null
         cta: {
@@ -4260,13 +4283,13 @@ export type PageQueryResult = {
         _key: string
         _type: 'studyHero'
         eyebrow?: string
-        heading: string
+        heading?: string
         subheading?: string
         chapters?: Array<string>
         details: Array<{
           _key: string
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
         heroImage: {
           asset: {
@@ -4280,14 +4303,14 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -4312,14 +4335,14 @@ export type PageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -4327,7 +4350,7 @@ export type PageQueryResult = {
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
           _type: 'image'
-        }
+        } | null
         alt?: string
       }
     | {
@@ -4340,10 +4363,10 @@ export type PageQueryResult = {
           afterLabel: string | null
           rows: Array<{
             _key: string
-            label: string
-            before: string
-            after: string
-          }>
+            label: string | null
+            before: string | null
+            after: string | null
+          }> | null
         } | null
       }
     | {
@@ -4355,16 +4378,16 @@ export type PageQueryResult = {
         } | null
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -4374,24 +4397,24 @@ export type PageQueryResult = {
         footnote?: string
         stats: Array<{
           _key: string
-          value: string
-          label: string
+          value: string | null
+          label: string | null
           description: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'studyTechStack'
         eyebrow?: string
-        tools: Array<string>
+        tools: Array<string> | null
       }
     | {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
         quote: {
-          quote: string
-          attribution: string
+          quote: string | null
+          attribution: string | null
           source: string | null
           accent: boolean | null
         } | null
@@ -4403,9 +4426,9 @@ export type PageQueryResult = {
         heading?: string
         features: Array<{
           _key: string
-          number: string
-          title: string
-          body: string
+          number: string | null
+          title: string | null
+          body: string | null
           image: {
             asset: {
               _id: string
@@ -4418,14 +4441,14 @@ export type PageQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -4434,23 +4457,23 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'team'
         eyebrow?: string
-        heading: string
+        heading?: string
         members: Array<{
           _id: string
           _type: 'teamMember'
           _createdAt: string
           _updatedAt: string
           _rev: string
-          name: string
-          order: number
-          role: string
-          bio: string
+          name?: string
+          order?: number
+          role?: string
+          bio?: string
           portrait: {
             asset: {
               _id: string
@@ -4463,14 +4486,14 @@ export type PageQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -4479,19 +4502,19 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
-        closingStatement: string
+        }> | null
+        closingStatement?: string
       }
     | {
         _key: string
         _type: 'techStack'
         eyebrow: string | null
         headingRegular: string | null
-        headingBold: string
+        headingBold: string | null
         groups: Array<{
-          title: string
+          title: string | null
           items: Array<{
-            name: string
+            name: string | null
             logo: {
               asset: {
                 _id: string
@@ -4504,14 +4527,14 @@ export type PageQueryResult = {
                 title?: string
                 description?: string
                 altText?: string
-                sha1hash: string
-                extension: string
-                mimeType: string
-                size: number
-                assetId: string
+                sha1hash?: string
+                extension?: string
+                mimeType?: string
+                size?: number
+                assetId?: string
                 uploadId?: string
-                path: string
-                url: string
+                path?: string
+                url?: string
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
@@ -4527,16 +4550,16 @@ export type PageQueryResult = {
     | {
         _key: string
         _type: 'testimonials'
-        eyebrow: string
+        eyebrow: string | null
         logos: Array<{
-          name: string
+          name: string | null
           logoLight: string | null
           logoDark: string | null
-        }>
+        }> | null
         testimonials: Array<{
-          name: string
-          attribution: string
-          quote: string
+          name: string | null
+          attribution: string | null
+          quote: string | null
           profilePicture: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -4544,7 +4567,7 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -4558,7 +4581,7 @@ export type PageQueryResult = {
           labelImage?: LabelImage
           labelImageLight?: LabelImageLight
           labelImageDark?: LabelImageDark
-          title: string
+          title?: string
           body?: string
           services: Array<{
             _id: string
@@ -4566,12 +4589,12 @@ export type PageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -4739,10 +4762,10 @@ export type PageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           texture?: boolean
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -4759,7 +4782,7 @@ export type PageQueryResult = {
         _key: string
         _type: 'whyRomania'
         eyebrow?: string
-        title: string
+        title: string | null
         body: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -4781,10 +4804,10 @@ export type PageQueryResult = {
           level?: number
           _type: 'block'
           _key: string
-        }>
+        }> | null
         highlights: Array<{
-          stat: string
-          description: string
+          stat: string | null
+          description: string | null
         }> | null
       }
   > | null
@@ -4796,8 +4819,8 @@ export type PageQueryResult = {
 export type HomePageQueryResult = {
   _id: string
   _type: 'page'
-  name: string
-  slug: Slug
+  name: string | null
+  slug: Slug | null
   pageType: 'home'
   seo: {
     _type: 'seo'
@@ -4833,14 +4856,14 @@ export type HomePageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -4869,14 +4892,14 @@ export type HomePageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -4902,14 +4925,14 @@ export type HomePageQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -4942,7 +4965,7 @@ export type HomePageQueryResult = {
     | {
         _key: string
         _type: 'aiServices'
-        eyebrow: string
+        eyebrow?: string
         services: Array<{
           service: {
             _id: string
@@ -4950,12 +4973,12 @@ export type HomePageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -5109,7 +5132,7 @@ export type HomePageQueryResult = {
                 } & WhyRomania)
             >
             seo?: Seo
-          }
+          } | null
           cta: {
             _type: 'button'
             buttonText?: string
@@ -5123,17 +5146,17 @@ export type HomePageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _type: 'aiServiceCard'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'awards'
         eyebrow: string | null
         items: Array<{
-          title: string
+          title: string | null
           recognitions: Array<string> | null
           cta: {
             _type: 'button'
@@ -5163,14 +5186,14 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -5185,10 +5208,10 @@ export type HomePageQueryResult = {
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
-        callTitle: string
+        callTitle: string | null
         teamMember: {
-          name: string
-          role: string
+          name: string | null
+          role: string | null
           portrait: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -5196,9 +5219,9 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
         whatToExpectHeading: string | null
-        expectations: Array<string>
+        expectations: Array<string> | null
         schedulerUrl: string | null
       }
     | {
@@ -5206,40 +5229,40 @@ export type HomePageQueryResult = {
         _type: 'compare'
         eyebrow?: string
         heading: {
-          highlighted: string
-          regular: string
-        }
+          highlighted: string | null
+          regular: string | null
+        } | null
         rows: Array<{
-          label: string
-        }>
+          label: string | null
+        }> | null
         columns: Array<{
-          name: string
+          name: string | null
           highlightColumn: boolean | null
           values: Array<{
             available: boolean | null
-          }>
-        }>
+          }> | null
+        }> | null
         closing: {
-          lead: string
-          highlight: string
-          followup: string
-        }
+          lead: string | null
+          highlight: string | null
+          followup: string | null
+        } | null
       }
     | {
         _key: string
         _type: 'contactHero'
         eyebrow: string | null
-        heading: string
-        description: string
+        heading: string | null
+        description: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         steps: Array<{
-          title: string
-          description: string
-        }>
+          title: string | null
+          description: string | null
+        }> | null
         formConfig: {
           services: Array<string> | null
           budgetRanges: Array<string> | null
@@ -5250,8 +5273,8 @@ export type HomePageQueryResult = {
     | {
         _key: string
         _type: 'cta'
-        heading: string
-        body: string
+        heading: string | null
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -5265,7 +5288,7 @@ export type HomePageQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
         subtext: string | null
       }
     | {
@@ -5279,12 +5302,12 @@ export type HomePageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -5450,8 +5473,8 @@ export type HomePageQueryResult = {
         eyebrow?: string
         heading?: string
         items: Array<{
-          question: string
-          answer: Array<{
+          question?: string
+          answer?: Array<{
             children?: Array<{
               marks?: Array<string>
               text?: string
@@ -5470,7 +5493,7 @@ export type HomePageQueryResult = {
             _key: string
           }>
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -5485,7 +5508,7 @@ export type HomePageQueryResult = {
         body?: string
         footnote?: string
         items: Array<{
-          title: string
+          title: string | null
           badge?: string
           description: string | null
           file: ResourceFile | null
@@ -5517,7 +5540,7 @@ export type HomePageQueryResult = {
         } | null
         stats?: string
         dimensionLine?: string
-        ctaText: string
+        ctaText?: BlockContentTextOnly
         secondaryCta: {
           _type: 'button'
           buttonText?: string
@@ -5554,7 +5577,7 @@ export type HomePageQueryResult = {
     | {
         _key: string
         _type: 'insightBlock'
-        title: string
+        title?: string
         text: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -5635,17 +5658,21 @@ export type HomePageQueryResult = {
         _type: 'insightsGrid'
         items: Array<{
           _id: string
-          title: string
-          slug: Slug
+          title: string | null
+          slug: Slug | null
           excerpt: string | null
-          category: null
+          category: {
+            _id: string
+            title: string | null
+            slug: Slug | null
+          } | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
           cover: string | null
           author: {
-            name: string
-            role: string
+            name: string | null
+            role: string | null
             portrait: {
               asset?: SanityImageAssetReference
               media?: unknown
@@ -5654,20 +5681,20 @@ export type HomePageQueryResult = {
               _type: 'image'
             } | null
           } | null
-        }>
+        }> | null
         categoryFilters: Array<{
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'isThisForYou'
         eyebrow?: string
-        heading: string
+        heading?: string
         items: Array<{
-          text: string
-        }>
+          text: string | null
+        }> | null
       }
     | {
         _key: string
@@ -5684,8 +5711,8 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'origin'
         eyebrow?: string
-        heading: string
-        body: string
+        heading?: string
+        body?: string
         subtext?: string
       }
     | {
@@ -5695,34 +5722,38 @@ export type HomePageQueryResult = {
         heading: BlockContentTextOnly | null
         subheading: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         featured:
           | {
               _type: 'post'
               _id: string
-              slug: Slug
-              title: string
+              slug: Slug | null
+              title: string | null
               excerpt: string | null
-              category: null
+              category: {
+                _id: string
+                title: string | null
+                slug: Slug | null
+              } | null
               publishedAt: string | null
               readTime: number | null
               cover: string | null
               author: {
-                name: string
+                name: string | null
               } | null
             }
           | {
               _type: 'project'
               _id: string
-              slug: Slug
-              client: string
-              year: string
-              category: string
-              industry: string
-              tagline: string
+              slug: Slug | null
+              client: string | null
+              year: string | null
+              category: string | null
+              industry: string | null
+              tagline: string | null
               cover: string | null
             }
           | null
@@ -5743,14 +5774,14 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -5763,21 +5794,21 @@ export type HomePageQueryResult = {
     | {
         _key: string
         _type: 'portfolio'
-        eyebrow: string
-        heading: string
+        eyebrow: string | null
+        heading: string | null
         cards: Array<{
           project: {
             _id: string
-            title: string
-            client: string
-            year: string
-            slug: Slug
-            category: string
-            tagline: string
+            title: string | null
+            client: string | null
+            year: string | null
+            slug: Slug | null
+            category: string | null
+            tagline: string | null
             thumb: string | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -5797,7 +5828,7 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'portfolioCta'
         heading: PortfolioCtaHeading | null
-        body: string
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -5818,12 +5849,12 @@ export type HomePageQueryResult = {
         _type: 'portfolioFeatured'
         caseStudy: {
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -5833,19 +5864,19 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'portfolioGrid'
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -5855,24 +5886,24 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'portfolioMetrics'
         items: Array<{
-          value: string
-          label: string
-        }>
+          value: string | null
+          label: string | null
+        }> | null
       }
     | {
         _key: string
         _type: 'press'
         eyebrow: string | null
-        heading: string
-        cardTitle: string
-        cardBody: string
-        ctaLabel: string
+        heading: string | null
+        cardTitle: string | null
+        cardBody: string | null
+        ctaLabel: string | null
         file: {
           asset: {
             _id: string
@@ -5885,35 +5916,35 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             source?: SanityAssetSourceData
           } | null
           media?: unknown
           _type: 'file'
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        headingPrimary: string
+        headingPrimary?: string
         headingSecondary?: string
         tiers: Array<{
-          width: 'full' | 'half'
-          priceLayout: 'inline' | 'split' | 'stacked'
+          width?: 'full' | 'half'
+          priceLayout?: 'inline' | 'split' | 'stacked'
           badge?: string
-          title: string
-          price: string
+          title?: string
+          price?: string
           meta?: string
           description?: string
-          ctaStyle: 'button' | 'textLink'
+          ctaStyle?: 'button' | 'textLink'
           cta: {
             _type: 'button'
             buttonText?: string
@@ -5930,7 +5961,7 @@ export type HomePageQueryResult = {
           } | null
           _type: 'tier'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -5938,11 +5969,11 @@ export type HomePageQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         points: Array<{
-          title: string
+          title: string | null
           body: string | null
         }> | null
         cta: {
@@ -5986,14 +6017,14 @@ export type HomePageQueryResult = {
           } | null
         } | null
         leadingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         trailingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
-        serviceName: string
+        serviceName: string | null
         serviceCategory: null
         serviceDescription: null
         servicePrice: null
@@ -6003,10 +6034,10 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'serviceNavigator'
         eyebrow?: string
-        headingRegular: string
-        headingBold: string
+        headingRegular?: string
+        headingBold?: string
         cards: Array<{
-          prompt: string
+          prompt?: string
           details?: string
           cta: {
             _type: 'button'
@@ -6021,9 +6052,9 @@ export type HomePageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         closingText?: string
         closingCta: {
           _type: 'button'
@@ -6038,7 +6069,7 @@ export type HomePageQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
       }
     | {
         _key: string
@@ -6104,7 +6135,7 @@ export type HomePageQueryResult = {
         eyebrow?: string
         heading?: string
         painPoints: Array<{
-          title: string
+          title: string | null
           body: string | null
           _key: string
         }> | null
@@ -6113,14 +6144,14 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'steps'
         eyebrow?: string
-        intro: string
-        highlight: string
+        intro?: string
+        highlight?: string
         items: Array<{
-          title: string
-          duration: string
-          body: string
+          title: string | null
+          duration: string | null
+          body: string | null
           _key: string
-        }>
+        }> | null
         visual: {
           asset: {
             _id: string
@@ -6133,14 +6164,14 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -6167,7 +6198,7 @@ export type HomePageQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         callout: {
@@ -6179,20 +6210,20 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'studyChallenge'
         eyebrow?: string
-        heading: string
+        heading?: string
         body?: string
         issues: Array<{
           _key: string
-          tag: string
-          body: string
+          tag: string | null
+          body: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'studyClosingCta'
         heading: {
-          regular: string
-          bold: string
+          regular: string | null
+          bold: string | null
         } | null
         body: string | null
         cta: {
@@ -6214,13 +6245,13 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'studyHero'
         eyebrow?: string
-        heading: string
+        heading?: string
         subheading?: string
         chapters?: Array<string>
         details: Array<{
           _key: string
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
         heroImage: {
           asset: {
@@ -6234,14 +6265,14 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -6266,14 +6297,14 @@ export type HomePageQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -6281,7 +6312,7 @@ export type HomePageQueryResult = {
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
           _type: 'image'
-        }
+        } | null
         alt?: string
       }
     | {
@@ -6294,10 +6325,10 @@ export type HomePageQueryResult = {
           afterLabel: string | null
           rows: Array<{
             _key: string
-            label: string
-            before: string
-            after: string
-          }>
+            label: string | null
+            before: string | null
+            after: string | null
+          }> | null
         } | null
       }
     | {
@@ -6309,16 +6340,16 @@ export type HomePageQueryResult = {
         } | null
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -6328,24 +6359,24 @@ export type HomePageQueryResult = {
         footnote?: string
         stats: Array<{
           _key: string
-          value: string
-          label: string
+          value: string | null
+          label: string | null
           description: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'studyTechStack'
         eyebrow?: string
-        tools: Array<string>
+        tools: Array<string> | null
       }
     | {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
         quote: {
-          quote: string
-          attribution: string
+          quote: string | null
+          attribution: string | null
           source: string | null
           accent: boolean | null
         } | null
@@ -6357,9 +6388,9 @@ export type HomePageQueryResult = {
         heading?: string
         features: Array<{
           _key: string
-          number: string
-          title: string
-          body: string
+          number: string | null
+          title: string | null
+          body: string | null
           image: {
             asset: {
               _id: string
@@ -6372,14 +6403,14 @@ export type HomePageQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -6388,23 +6419,23 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'team'
         eyebrow?: string
-        heading: string
+        heading?: string
         members: Array<{
           _id: string
           _type: 'teamMember'
           _createdAt: string
           _updatedAt: string
           _rev: string
-          name: string
-          order: number
-          role: string
-          bio: string
+          name?: string
+          order?: number
+          role?: string
+          bio?: string
           portrait: {
             asset: {
               _id: string
@@ -6417,14 +6448,14 @@ export type HomePageQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -6433,19 +6464,19 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
-        closingStatement: string
+        }> | null
+        closingStatement?: string
       }
     | {
         _key: string
         _type: 'techStack'
         eyebrow: string | null
         headingRegular: string | null
-        headingBold: string
+        headingBold: string | null
         groups: Array<{
-          title: string
+          title: string | null
           items: Array<{
-            name: string
+            name: string | null
             logo: {
               asset: {
                 _id: string
@@ -6458,14 +6489,14 @@ export type HomePageQueryResult = {
                 title?: string
                 description?: string
                 altText?: string
-                sha1hash: string
-                extension: string
-                mimeType: string
-                size: number
-                assetId: string
+                sha1hash?: string
+                extension?: string
+                mimeType?: string
+                size?: number
+                assetId?: string
                 uploadId?: string
-                path: string
-                url: string
+                path?: string
+                url?: string
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
@@ -6481,16 +6512,16 @@ export type HomePageQueryResult = {
     | {
         _key: string
         _type: 'testimonials'
-        eyebrow: string
+        eyebrow: string | null
         logos: Array<{
-          name: string
+          name: string | null
           logoLight: string | null
           logoDark: string | null
-        }>
+        }> | null
         testimonials: Array<{
-          name: string
-          attribution: string
-          quote: string
+          name: string | null
+          attribution: string | null
+          quote: string | null
           profilePicture: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -6498,7 +6529,7 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -6512,7 +6543,7 @@ export type HomePageQueryResult = {
           labelImage?: LabelImage
           labelImageLight?: LabelImageLight
           labelImageDark?: LabelImageDark
-          title: string
+          title?: string
           body?: string
           services: Array<{
             _id: string
@@ -6520,12 +6551,12 @@ export type HomePageQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -6693,10 +6724,10 @@ export type HomePageQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           texture?: boolean
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -6713,7 +6744,7 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'whyRomania'
         eyebrow?: string
-        title: string
+        title: string | null
         body: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -6735,10 +6766,10 @@ export type HomePageQueryResult = {
           level?: number
           _type: 'block'
           _key: string
-        }>
+        }> | null
         highlights: Array<{
-          stat: string
-          description: string
+          stat: string | null
+          description: string | null
         }> | null
       }
   > | null
@@ -6749,12 +6780,12 @@ export type HomePageQueryResult = {
 // Query: *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {    "slug": slug.current,    _type,    _updatedAt,  }
 export type SitemapDataResult = Array<
   | {
-      slug: string
+      slug: string | null
       _type: 'page'
       _updatedAt: string
     }
   | {
-      slug: string
+      slug: string | null
       _type: 'post'
       _updatedAt: string
     }
@@ -6766,8 +6797,8 @@ export type SitemapDataResult = Array<
 export type AllPostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
-  title: string
-  slug: string
+  title: string | 'Untitled'
+  slug: string | null
   excerpt: string | null
   coverImage: {
     asset?: SanityImageAssetReference
@@ -6783,7 +6814,11 @@ export type AllPostsQueryResult = Array<{
     lastName: null
     picture: null
   } | null
-  category: null
+  category: {
+    _id: string
+    title: string | null
+    slug: Slug | null
+  } | null
 }>
 
 // Source: sanity/lib/queries.ts
@@ -6792,8 +6827,8 @@ export type AllPostsQueryResult = Array<{
 export type MorePostsQueryResult = Array<{
   _id: string
   status: 'draft' | 'published'
-  title: string
-  slug: string
+  title: string | 'Untitled'
+  slug: string | null
   excerpt: string | null
   coverImage: {
     asset?: SanityImageAssetReference
@@ -6809,7 +6844,11 @@ export type MorePostsQueryResult = Array<{
     lastName: null
     picture: null
   } | null
-  category: null
+  category: {
+    _id: string
+    title: string | null
+    slug: Slug | null
+  } | null
 }>
 
 // Source: sanity/lib/queries.ts
@@ -6819,8 +6858,8 @@ export type PostQueryResult = {
   content: null
   _id: string
   status: 'draft' | 'published'
-  title: string
-  slug: string
+  title: string | 'Untitled'
+  slug: string | null
   excerpt: string | null
   coverImage: {
     asset?: SanityImageAssetReference
@@ -6836,21 +6875,25 @@ export type PostQueryResult = {
     lastName: null
     picture: null
   } | null
-  category: null
+  category: {
+    _id: string
+    title: string | null
+    slug: Slug | null
+  } | null
 } | null
 
 // Source: sanity/lib/queries.ts
 // Variable: postPagesSlugs
 // Query: *[_type == "post" && defined(slug.current)]  {"slug": slug.current}
 export type PostPagesSlugsResult = Array<{
-  slug: string
+  slug: string | null
 }>
 
 // Source: sanity/lib/queries.ts
 // Variable: pagesSlugs
 // Query: *[_type == "page" && defined(slug.current)]  {"slug": slug.current}
 export type PagesSlugsResult = Array<{
-  slug: string
+  slug: string | null
 }>
 
 // Source: sanity/lib/queries.ts
@@ -6858,17 +6901,21 @@ export type PagesSlugsResult = Array<{
 // Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc, _updatedAt desc) {    _id,    title,    slug,    excerpt,    "category": category->{_id, title, slug},    publishedAt,    readTime,    featured,    "cover": coverImage.asset->url,    author->{name, role, portrait},  }
 export type ALL_INSIGHTS_QUERY_RESULT = Array<{
   _id: string
-  title: string
-  slug: Slug
+  title: string | null
+  slug: Slug | null
   excerpt: string | null
-  category: null
+  category: {
+    _id: string
+    title: string | null
+    slug: Slug | null
+  } | null
   publishedAt: string | null
   readTime: number | null
   featured: boolean | null
   cover: string | null
   author: {
-    name: string
-    role: string
+    name: string | null
+    role: string | null
     portrait: {
       asset?: SanityImageAssetReference
       media?: unknown
@@ -6885,8 +6932,8 @@ export type ALL_INSIGHTS_QUERY_RESULT = Array<{
 export type INSIGHT_BY_SLUG_QUERY_RESULT = {
   _id: string
   _type: 'post'
-  title: string
-  slug: Slug
+  title: string | null
+  slug: Slug | null
   seo: {
     _type: 'seo'
     metaTitle?: string
@@ -6921,14 +6968,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -6957,14 +7004,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -6990,14 +7037,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -7037,14 +7084,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
       title?: string
       description?: string
       altText?: string
-      sha1hash: string
-      extension: string
-      mimeType: string
-      size: number
-      assetId: string
+      sha1hash?: string
+      extension?: string
+      mimeType?: string
+      size?: number
+      assetId?: string
       uploadId?: string
-      path: string
-      url: string
+      path?: string
+      url?: string
       metadata?: SanityImageMetadata
       source?: SanityAssetSourceData
     } | null
@@ -7054,7 +7101,11 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     _type: 'image'
   } | null
   cover: string | null
-  category: null
+  category: {
+    _id: string
+    title: string | null
+    slug: Slug | null
+  } | null
   publishedAt: string | null
   readTime: number | null
   featured: boolean | null
@@ -7066,7 +7117,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | {
         _key: string
         _type: 'aiServices'
-        eyebrow: string
+        eyebrow?: string
         services: Array<{
           service: {
             _id: string
@@ -7074,12 +7125,12 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -7233,7 +7284,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
                 } & WhyRomania)
             >
             seo?: Seo
-          }
+          } | null
           cta: {
             _type: 'button'
             buttonText?: string
@@ -7247,17 +7298,17 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _type: 'aiServiceCard'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'awards'
         eyebrow: string | null
         items: Array<{
-          title: string
+          title: string | null
           recognitions: Array<string> | null
           cta: {
             _type: 'button'
@@ -7287,14 +7338,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -7309,10 +7360,10 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
-        callTitle: string
+        callTitle: string | null
         teamMember: {
-          name: string
-          role: string
+          name: string | null
+          role: string | null
           portrait: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -7320,9 +7371,9 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
         whatToExpectHeading: string | null
-        expectations: Array<string>
+        expectations: Array<string> | null
         schedulerUrl: string | null
       }
     | {
@@ -7330,40 +7381,40 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _type: 'compare'
         eyebrow?: string
         heading: {
-          highlighted: string
-          regular: string
-        }
+          highlighted: string | null
+          regular: string | null
+        } | null
         rows: Array<{
-          label: string
-        }>
+          label: string | null
+        }> | null
         columns: Array<{
-          name: string
+          name: string | null
           highlightColumn: boolean | null
           values: Array<{
             available: boolean | null
-          }>
-        }>
+          }> | null
+        }> | null
         closing: {
-          lead: string
-          highlight: string
-          followup: string
-        }
+          lead: string | null
+          highlight: string | null
+          followup: string | null
+        } | null
       }
     | {
         _key: string
         _type: 'contactHero'
         eyebrow: string | null
-        heading: string
-        description: string
+        heading: string | null
+        description: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         steps: Array<{
-          title: string
-          description: string
-        }>
+          title: string | null
+          description: string | null
+        }> | null
         formConfig: {
           services: Array<string> | null
           budgetRanges: Array<string> | null
@@ -7374,8 +7425,8 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | {
         _key: string
         _type: 'cta'
-        heading: string
-        body: string
+        heading: string | null
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -7389,7 +7440,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
         subtext: string | null
       }
     | {
@@ -7403,12 +7454,12 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -7574,8 +7625,8 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         eyebrow?: string
         heading?: string
         items: Array<{
-          question: string
-          answer: Array<{
+          question?: string
+          answer?: Array<{
             children?: Array<{
               marks?: Array<string>
               text?: string
@@ -7594,7 +7645,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             _key: string
           }>
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -7609,7 +7660,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         body?: string
         footnote?: string
         items: Array<{
-          title: string
+          title: string | null
           badge?: string
           description: string | null
           file: ResourceFile | null
@@ -7641,7 +7692,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         } | null
         stats?: string
         dimensionLine?: string
-        ctaText: string
+        ctaText?: BlockContentTextOnly
         secondaryCta: {
           _type: 'button'
           buttonText?: string
@@ -7678,7 +7729,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | {
         _key: string
         _type: 'insightBlock'
-        title: string
+        title?: string
         text: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -7759,17 +7810,21 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _type: 'insightsGrid'
         items: Array<{
           _id: string
-          title: string
-          slug: Slug
+          title: string | null
+          slug: Slug | null
           excerpt: string | null
-          category: null
+          category: {
+            _id: string
+            title: string | null
+            slug: Slug | null
+          } | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
           cover: string | null
           author: {
-            name: string
-            role: string
+            name: string | null
+            role: string | null
             portrait: {
               asset?: SanityImageAssetReference
               media?: unknown
@@ -7778,20 +7833,20 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               _type: 'image'
             } | null
           } | null
-        }>
+        }> | null
         categoryFilters: Array<{
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'isThisForYou'
         eyebrow?: string
-        heading: string
+        heading?: string
         items: Array<{
-          text: string
-        }>
+          text: string | null
+        }> | null
       }
     | {
         _key: string
@@ -7808,8 +7863,8 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'origin'
         eyebrow?: string
-        heading: string
-        body: string
+        heading?: string
+        body?: string
         subtext?: string
       }
     | {
@@ -7819,34 +7874,38 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         heading: BlockContentTextOnly | null
         subheading: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         featured:
           | {
               _type: 'post'
               _id: string
-              slug: Slug
-              title: string
+              slug: Slug | null
+              title: string | null
               excerpt: string | null
-              category: null
+              category: {
+                _id: string
+                title: string | null
+                slug: Slug | null
+              } | null
               publishedAt: string | null
               readTime: number | null
               cover: string | null
               author: {
-                name: string
+                name: string | null
               } | null
             }
           | {
               _type: 'project'
               _id: string
-              slug: Slug
-              client: string
-              year: string
-              category: string
-              industry: string
-              tagline: string
+              slug: Slug | null
+              client: string | null
+              year: string | null
+              category: string | null
+              industry: string | null
+              tagline: string | null
               cover: string | null
             }
           | null
@@ -7867,14 +7926,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -7887,21 +7946,21 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | {
         _key: string
         _type: 'portfolio'
-        eyebrow: string
-        heading: string
+        eyebrow: string | null
+        heading: string | null
         cards: Array<{
           project: {
             _id: string
-            title: string
-            client: string
-            year: string
-            slug: Slug
-            category: string
-            tagline: string
+            title: string | null
+            client: string | null
+            year: string | null
+            slug: Slug | null
+            category: string | null
+            tagline: string | null
             thumb: string | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -7921,7 +7980,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'portfolioCta'
         heading: PortfolioCtaHeading | null
-        body: string
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -7942,12 +8001,12 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _type: 'portfolioFeatured'
         caseStudy: {
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -7957,19 +8016,19 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'portfolioGrid'
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -7979,24 +8038,24 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'portfolioMetrics'
         items: Array<{
-          value: string
-          label: string
-        }>
+          value: string | null
+          label: string | null
+        }> | null
       }
     | {
         _key: string
         _type: 'press'
         eyebrow: string | null
-        heading: string
-        cardTitle: string
-        cardBody: string
-        ctaLabel: string
+        heading: string | null
+        cardTitle: string | null
+        cardBody: string | null
+        ctaLabel: string | null
         file: {
           asset: {
             _id: string
@@ -8009,35 +8068,35 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             source?: SanityAssetSourceData
           } | null
           media?: unknown
           _type: 'file'
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        headingPrimary: string
+        headingPrimary?: string
         headingSecondary?: string
         tiers: Array<{
-          width: 'full' | 'half'
-          priceLayout: 'inline' | 'split' | 'stacked'
+          width?: 'full' | 'half'
+          priceLayout?: 'inline' | 'split' | 'stacked'
           badge?: string
-          title: string
-          price: string
+          title?: string
+          price?: string
           meta?: string
           description?: string
-          ctaStyle: 'button' | 'textLink'
+          ctaStyle?: 'button' | 'textLink'
           cta: {
             _type: 'button'
             buttonText?: string
@@ -8054,7 +8113,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           } | null
           _type: 'tier'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -8062,11 +8121,11 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         points: Array<{
-          title: string
+          title: string | null
           body: string | null
         }> | null
         cta: {
@@ -8110,21 +8169,15 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           } | null
         } | null
         leadingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         trailingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         serviceName: null
-        serviceCategory:
-          | 'ai-transformation'
-          | 'design-research'
-          | 'engineering'
-          | 'operators-notes'
-          | 'systems-playbooks'
-          | null
+        serviceCategory: InsightCategoryReference | null
         serviceDescription: null
         servicePrice: null
         serviceDuration: null
@@ -8133,10 +8186,10 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'serviceNavigator'
         eyebrow?: string
-        headingRegular: string
-        headingBold: string
+        headingRegular?: string
+        headingBold?: string
         cards: Array<{
-          prompt: string
+          prompt?: string
           details?: string
           cta: {
             _type: 'button'
@@ -8151,9 +8204,9 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         closingText?: string
         closingCta: {
           _type: 'button'
@@ -8168,7 +8221,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
       }
     | {
         _key: string
@@ -8234,7 +8287,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         eyebrow?: string
         heading?: string
         painPoints: Array<{
-          title: string
+          title: string | null
           body: string | null
           _key: string
         }> | null
@@ -8243,14 +8296,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'steps'
         eyebrow?: string
-        intro: string
-        highlight: string
+        intro?: string
+        highlight?: string
         items: Array<{
-          title: string
-          duration: string
-          body: string
+          title: string | null
+          duration: string | null
+          body: string | null
           _key: string
-        }>
+        }> | null
         visual: {
           asset: {
             _id: string
@@ -8263,14 +8316,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -8297,7 +8350,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         callout: {
@@ -8309,20 +8362,20 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'studyChallenge'
         eyebrow?: string
-        heading: string
+        heading?: string
         body?: string
         issues: Array<{
           _key: string
-          tag: string
-          body: string
+          tag: string | null
+          body: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'studyClosingCta'
         heading: {
-          regular: string
-          bold: string
+          regular: string | null
+          bold: string | null
         } | null
         body: string | null
         cta: {
@@ -8344,13 +8397,13 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'studyHero'
         eyebrow?: string
-        heading: string
+        heading?: string
         subheading?: string
         chapters?: Array<string>
         details: Array<{
           _key: string
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
         heroImage: {
           asset: {
@@ -8364,14 +8417,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -8396,14 +8449,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -8411,7 +8464,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
           _type: 'image'
-        }
+        } | null
         alt?: string
       }
     | {
@@ -8424,10 +8477,10 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           afterLabel: string | null
           rows: Array<{
             _key: string
-            label: string
-            before: string
-            after: string
-          }>
+            label: string | null
+            before: string | null
+            after: string | null
+          }> | null
         } | null
       }
     | {
@@ -8439,16 +8492,16 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         } | null
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -8458,24 +8511,24 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         footnote?: string
         stats: Array<{
           _key: string
-          value: string
-          label: string
+          value: string | null
+          label: string | null
           description: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'studyTechStack'
         eyebrow?: string
-        tools: Array<string>
+        tools: Array<string> | null
       }
     | {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
         quote: {
-          quote: string
-          attribution: string
+          quote: string | null
+          attribution: string | null
           source: string | null
           accent: boolean | null
         } | null
@@ -8487,9 +8540,9 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         heading?: string
         features: Array<{
           _key: string
-          number: string
-          title: string
-          body: string
+          number: string | null
+          title: string | null
+          body: string | null
           image: {
             asset: {
               _id: string
@@ -8502,14 +8555,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -8518,23 +8571,23 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'team'
         eyebrow?: string
-        heading: string
+        heading?: string
         members: Array<{
           _id: string
           _type: 'teamMember'
           _createdAt: string
           _updatedAt: string
           _rev: string
-          name: string
-          order: number
-          role: string
-          bio: string
+          name?: string
+          order?: number
+          role?: string
+          bio?: string
           portrait: {
             asset: {
               _id: string
@@ -8547,14 +8600,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -8563,19 +8616,19 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
-        closingStatement: string
+        }> | null
+        closingStatement?: string
       }
     | {
         _key: string
         _type: 'techStack'
         eyebrow: string | null
         headingRegular: string | null
-        headingBold: string
+        headingBold: string | null
         groups: Array<{
-          title: string
+          title: string | null
           items: Array<{
-            name: string
+            name: string | null
             logo: {
               asset: {
                 _id: string
@@ -8588,14 +8641,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
                 title?: string
                 description?: string
                 altText?: string
-                sha1hash: string
-                extension: string
-                mimeType: string
-                size: number
-                assetId: string
+                sha1hash?: string
+                extension?: string
+                mimeType?: string
+                size?: number
+                assetId?: string
                 uploadId?: string
-                path: string
-                url: string
+                path?: string
+                url?: string
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
@@ -8611,16 +8664,16 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
     | {
         _key: string
         _type: 'testimonials'
-        eyebrow: string
+        eyebrow: string | null
         logos: Array<{
-          name: string
+          name: string | null
           logoLight: string | null
           logoDark: string | null
-        }>
+        }> | null
         testimonials: Array<{
-          name: string
-          attribution: string
-          quote: string
+          name: string | null
+          attribution: string | null
+          quote: string | null
           profilePicture: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -8628,7 +8681,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -8642,7 +8695,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           labelImage?: LabelImage
           labelImageLight?: LabelImageLight
           labelImageDark?: LabelImageDark
-          title: string
+          title?: string
           body?: string
           services: Array<{
             _id: string
@@ -8650,12 +8703,12 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -8823,10 +8876,10 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           texture?: boolean
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -8843,7 +8896,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'whyRomania'
         eyebrow?: string
-        title: string
+        title: string | null
         body: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -8865,17 +8918,17 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           level?: number
           _type: 'block'
           _key: string
-        }>
+        }> | null
         highlights: Array<{
-          stat: string
-          description: string
+          stat: string | null
+          description: string | null
         }> | null
       }
   > | null
   author: {
-    name: string
-    role: string
-    bio: string
+    name: string | null
+    role: string | null
+    bio: string | null
     portrait: {
       asset?: SanityImageAssetReference
       media?: unknown
@@ -8886,16 +8939,20 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
   } | null
   relatedInsights: Array<{
     _id: string
-    title: string
-    slug: Slug
+    title: string | null
+    slug: Slug | null
     excerpt: string | null
-    category: null
+    category: {
+      _id: string
+      title: string | null
+      slug: Slug | null
+    } | null
     publishedAt: string | null
     readTime: number | null
     cover: string | null
     author: {
-      name: string
-      role: string
+      name: string | null
+      role: string | null
       portrait: {
         asset?: SanityImageAssetReference
         media?: unknown
@@ -8911,7 +8968,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
 // Variable: ALL_INSIGHT_SLUGS_QUERY
 // Query: *[_type == "post" && defined(slug.current)]{    "slug": slug.current  }
 export type ALL_INSIGHT_SLUGS_QUERY_RESULT = Array<{
-  slug: string
+  slug: string | null
 }>
 
 // Source: sanity/lib/queries.ts
@@ -8919,12 +8976,12 @@ export type ALL_INSIGHT_SLUGS_QUERY_RESULT = Array<{
 // Query: *[_type == "project" && defined(slug.current)] | order(_createdAt desc) {    _id,    client,    year,    slug,    "category": category->name,    "industry": industry->name,    tagline,    metric,    metricLabel,    thumb  }
 export type AllProjectsQueryResult = Array<{
   _id: string
-  client: string
-  year: string
-  slug: Slug
-  category: string
-  industry: string
-  tagline: string
+  client: string | null
+  year: string | null
+  slug: Slug | null
+  category: string | null
+  industry: string | null
+  tagline: string | null
   metric: string | null
   metricLabel: string | null
   thumb: {
@@ -8942,9 +8999,9 @@ export type AllProjectsQueryResult = Array<{
 export type ProjectBySlugQueryResult = {
   _id: string
   _type: 'project'
-  client: string
-  year: string
-  slug: Slug
+  client: string | null
+  year: string | null
+  slug: Slug | null
   seo: {
     _type: 'seo'
     metaTitle?: string
@@ -8979,14 +9036,14 @@ export type ProjectBySlugQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -9015,14 +9072,14 @@ export type ProjectBySlugQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -9048,14 +9105,14 @@ export type ProjectBySlugQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -9082,9 +9139,9 @@ export type ProjectBySlugQueryResult = {
     formatDetection?: string
     alternateLanguages: null
   } | null
-  category: string
-  industry: string
-  tagline: string
+  category: string | null
+  industry: string | null
+  tagline: string | null
   metric: string | null
   metricLabel: string | null
   thumb: {
@@ -9098,7 +9155,7 @@ export type ProjectBySlugQueryResult = {
     | {
         _key: string
         _type: 'aiServices'
-        eyebrow: string
+        eyebrow?: string
         services: Array<{
           service: {
             _id: string
@@ -9106,12 +9163,12 @@ export type ProjectBySlugQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -9265,7 +9322,7 @@ export type ProjectBySlugQueryResult = {
                 } & WhyRomania)
             >
             seo?: Seo
-          }
+          } | null
           cta: {
             _type: 'button'
             buttonText?: string
@@ -9279,17 +9336,17 @@ export type ProjectBySlugQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _type: 'aiServiceCard'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'awards'
         eyebrow: string | null
         items: Array<{
-          title: string
+          title: string | null
           recognitions: Array<string> | null
           cta: {
             _type: 'button'
@@ -9319,14 +9376,14 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -9341,10 +9398,10 @@ export type ProjectBySlugQueryResult = {
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
-        callTitle: string
+        callTitle: string | null
         teamMember: {
-          name: string
-          role: string
+          name: string | null
+          role: string | null
           portrait: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -9352,9 +9409,9 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
         whatToExpectHeading: string | null
-        expectations: Array<string>
+        expectations: Array<string> | null
         schedulerUrl: string | null
       }
     | {
@@ -9362,40 +9419,40 @@ export type ProjectBySlugQueryResult = {
         _type: 'compare'
         eyebrow?: string
         heading: {
-          highlighted: string
-          regular: string
-        }
+          highlighted: string | null
+          regular: string | null
+        } | null
         rows: Array<{
-          label: string
-        }>
+          label: string | null
+        }> | null
         columns: Array<{
-          name: string
+          name: string | null
           highlightColumn: boolean | null
           values: Array<{
             available: boolean | null
-          }>
-        }>
+          }> | null
+        }> | null
         closing: {
-          lead: string
-          highlight: string
-          followup: string
-        }
+          lead: string | null
+          highlight: string | null
+          followup: string | null
+        } | null
       }
     | {
         _key: string
         _type: 'contactHero'
         eyebrow: string | null
-        heading: string
-        description: string
+        heading: string | null
+        description: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         steps: Array<{
-          title: string
-          description: string
-        }>
+          title: string | null
+          description: string | null
+        }> | null
         formConfig: {
           services: Array<string> | null
           budgetRanges: Array<string> | null
@@ -9406,8 +9463,8 @@ export type ProjectBySlugQueryResult = {
     | {
         _key: string
         _type: 'cta'
-        heading: string
-        body: string
+        heading: string | null
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -9421,7 +9478,7 @@ export type ProjectBySlugQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
         subtext: string | null
       }
     | {
@@ -9435,12 +9492,12 @@ export type ProjectBySlugQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -9606,8 +9663,8 @@ export type ProjectBySlugQueryResult = {
         eyebrow?: string
         heading?: string
         items: Array<{
-          question: string
-          answer: Array<{
+          question?: string
+          answer?: Array<{
             children?: Array<{
               marks?: Array<string>
               text?: string
@@ -9626,7 +9683,7 @@ export type ProjectBySlugQueryResult = {
             _key: string
           }>
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -9641,7 +9698,7 @@ export type ProjectBySlugQueryResult = {
         body?: string
         footnote?: string
         items: Array<{
-          title: string
+          title: string | null
           badge?: string
           description: string | null
           file: ResourceFile | null
@@ -9673,7 +9730,7 @@ export type ProjectBySlugQueryResult = {
         } | null
         stats?: string
         dimensionLine?: string
-        ctaText: string
+        ctaText?: BlockContentTextOnly
         secondaryCta: {
           _type: 'button'
           buttonText?: string
@@ -9710,7 +9767,7 @@ export type ProjectBySlugQueryResult = {
     | {
         _key: string
         _type: 'insightBlock'
-        title: string
+        title?: string
         text: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -9791,17 +9848,21 @@ export type ProjectBySlugQueryResult = {
         _type: 'insightsGrid'
         items: Array<{
           _id: string
-          title: string
-          slug: Slug
+          title: string | null
+          slug: Slug | null
           excerpt: string | null
-          category: null
+          category: {
+            _id: string
+            title: string | null
+            slug: Slug | null
+          } | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
           cover: string | null
           author: {
-            name: string
-            role: string
+            name: string | null
+            role: string | null
             portrait: {
               asset?: SanityImageAssetReference
               media?: unknown
@@ -9810,20 +9871,20 @@ export type ProjectBySlugQueryResult = {
               _type: 'image'
             } | null
           } | null
-        }>
+        }> | null
         categoryFilters: Array<{
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'isThisForYou'
         eyebrow?: string
-        heading: string
+        heading?: string
         items: Array<{
-          text: string
-        }>
+          text: string | null
+        }> | null
       }
     | {
         _key: string
@@ -9840,8 +9901,8 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'origin'
         eyebrow?: string
-        heading: string
-        body: string
+        heading?: string
+        body?: string
         subtext?: string
       }
     | {
@@ -9851,34 +9912,38 @@ export type ProjectBySlugQueryResult = {
         heading: BlockContentTextOnly | null
         subheading: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         featured:
           | {
               _type: 'post'
               _id: string
-              slug: Slug
-              title: string
+              slug: Slug | null
+              title: string | null
               excerpt: string | null
-              category: null
+              category: {
+                _id: string
+                title: string | null
+                slug: Slug | null
+              } | null
               publishedAt: string | null
               readTime: number | null
               cover: string | null
               author: {
-                name: string
+                name: string | null
               } | null
             }
           | {
               _type: 'project'
               _id: string
-              slug: Slug
-              client: string
-              year: string
-              category: string
-              industry: string
-              tagline: string
+              slug: Slug | null
+              client: string | null
+              year: string | null
+              category: string | null
+              industry: string | null
+              tagline: string | null
               cover: string | null
             }
           | null
@@ -9899,14 +9964,14 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -9919,21 +9984,21 @@ export type ProjectBySlugQueryResult = {
     | {
         _key: string
         _type: 'portfolio'
-        eyebrow: string
-        heading: string
+        eyebrow: string | null
+        heading: string | null
         cards: Array<{
           project: {
             _id: string
-            title: string
-            client: string
-            year: string
-            slug: Slug
-            category: string
-            tagline: string
+            title: string | null
+            client: string | null
+            year: string | null
+            slug: Slug | null
+            category: string | null
+            tagline: string | null
             thumb: string | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -9953,7 +10018,7 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'portfolioCta'
         heading: PortfolioCtaHeading | null
-        body: string
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -9974,12 +10039,12 @@ export type ProjectBySlugQueryResult = {
         _type: 'portfolioFeatured'
         caseStudy: {
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -9989,19 +10054,19 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'portfolioGrid'
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -10011,24 +10076,24 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'portfolioMetrics'
         items: Array<{
-          value: string
-          label: string
-        }>
+          value: string | null
+          label: string | null
+        }> | null
       }
     | {
         _key: string
         _type: 'press'
         eyebrow: string | null
-        heading: string
-        cardTitle: string
-        cardBody: string
-        ctaLabel: string
+        heading: string | null
+        cardTitle: string | null
+        cardBody: string | null
+        ctaLabel: string | null
         file: {
           asset: {
             _id: string
@@ -10041,35 +10106,35 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             source?: SanityAssetSourceData
           } | null
           media?: unknown
           _type: 'file'
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        headingPrimary: string
+        headingPrimary?: string
         headingSecondary?: string
         tiers: Array<{
-          width: 'full' | 'half'
-          priceLayout: 'inline' | 'split' | 'stacked'
+          width?: 'full' | 'half'
+          priceLayout?: 'inline' | 'split' | 'stacked'
           badge?: string
-          title: string
-          price: string
+          title?: string
+          price?: string
           meta?: string
           description?: string
-          ctaStyle: 'button' | 'textLink'
+          ctaStyle?: 'button' | 'textLink'
           cta: {
             _type: 'button'
             buttonText?: string
@@ -10086,7 +10151,7 @@ export type ProjectBySlugQueryResult = {
           } | null
           _type: 'tier'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -10094,11 +10159,11 @@ export type ProjectBySlugQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         points: Array<{
-          title: string
+          title: string | null
           body: string | null
         }> | null
         cta: {
@@ -10142,15 +10207,15 @@ export type ProjectBySlugQueryResult = {
           } | null
         } | null
         leadingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         trailingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         serviceName: null
-        serviceCategory: ServiceReference
+        serviceCategory: ServiceReference | null
         serviceDescription: null
         servicePrice: null
         serviceDuration: null
@@ -10159,10 +10224,10 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'serviceNavigator'
         eyebrow?: string
-        headingRegular: string
-        headingBold: string
+        headingRegular?: string
+        headingBold?: string
         cards: Array<{
-          prompt: string
+          prompt?: string
           details?: string
           cta: {
             _type: 'button'
@@ -10177,9 +10242,9 @@ export type ProjectBySlugQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         closingText?: string
         closingCta: {
           _type: 'button'
@@ -10194,7 +10259,7 @@ export type ProjectBySlugQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
       }
     | {
         _key: string
@@ -10260,7 +10325,7 @@ export type ProjectBySlugQueryResult = {
         eyebrow?: string
         heading?: string
         painPoints: Array<{
-          title: string
+          title: string | null
           body: string | null
           _key: string
         }> | null
@@ -10269,14 +10334,14 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'steps'
         eyebrow?: string
-        intro: string
-        highlight: string
+        intro?: string
+        highlight?: string
         items: Array<{
-          title: string
-          duration: string
-          body: string
+          title: string | null
+          duration: string | null
+          body: string | null
           _key: string
-        }>
+        }> | null
         visual: {
           asset: {
             _id: string
@@ -10289,14 +10354,14 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -10323,7 +10388,7 @@ export type ProjectBySlugQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         callout: {
@@ -10335,20 +10400,20 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'studyChallenge'
         eyebrow?: string
-        heading: string
+        heading?: string
         body?: string
         issues: Array<{
           _key: string
-          tag: string
-          body: string
+          tag: string | null
+          body: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'studyClosingCta'
         heading: {
-          regular: string
-          bold: string
+          regular: string | null
+          bold: string | null
         } | null
         body: string | null
         cta: {
@@ -10370,13 +10435,13 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'studyHero'
         eyebrow?: string
-        heading: string
+        heading?: string
         subheading?: string
         chapters?: Array<string>
         details: Array<{
           _key: string
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
         heroImage: {
           asset: {
@@ -10390,14 +10455,14 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -10422,14 +10487,14 @@ export type ProjectBySlugQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -10437,7 +10502,7 @@ export type ProjectBySlugQueryResult = {
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
           _type: 'image'
-        }
+        } | null
         alt?: string
       }
     | {
@@ -10450,10 +10515,10 @@ export type ProjectBySlugQueryResult = {
           afterLabel: string | null
           rows: Array<{
             _key: string
-            label: string
-            before: string
-            after: string
-          }>
+            label: string | null
+            before: string | null
+            after: string | null
+          }> | null
         } | null
       }
     | {
@@ -10465,16 +10530,16 @@ export type ProjectBySlugQueryResult = {
         } | null
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -10484,24 +10549,24 @@ export type ProjectBySlugQueryResult = {
         footnote?: string
         stats: Array<{
           _key: string
-          value: string
-          label: string
+          value: string | null
+          label: string | null
           description: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'studyTechStack'
         eyebrow?: string
-        tools: Array<string>
+        tools: Array<string> | null
       }
     | {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
         quote: {
-          quote: string
-          attribution: string
+          quote: string | null
+          attribution: string | null
           source: string | null
           accent: boolean | null
         } | null
@@ -10513,9 +10578,9 @@ export type ProjectBySlugQueryResult = {
         heading?: string
         features: Array<{
           _key: string
-          number: string
-          title: string
-          body: string
+          number: string | null
+          title: string | null
+          body: string | null
           image: {
             asset: {
               _id: string
@@ -10528,14 +10593,14 @@ export type ProjectBySlugQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -10544,23 +10609,23 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'team'
         eyebrow?: string
-        heading: string
+        heading?: string
         members: Array<{
           _id: string
           _type: 'teamMember'
           _createdAt: string
           _updatedAt: string
           _rev: string
-          name: string
-          order: number
-          role: string
-          bio: string
+          name?: string
+          order?: number
+          role?: string
+          bio?: string
           portrait: {
             asset: {
               _id: string
@@ -10573,14 +10638,14 @@ export type ProjectBySlugQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -10589,19 +10654,19 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
-        closingStatement: string
+        }> | null
+        closingStatement?: string
       }
     | {
         _key: string
         _type: 'techStack'
         eyebrow: string | null
         headingRegular: string | null
-        headingBold: string
+        headingBold: string | null
         groups: Array<{
-          title: string
+          title: string | null
           items: Array<{
-            name: string
+            name: string | null
             logo: {
               asset: {
                 _id: string
@@ -10614,14 +10679,14 @@ export type ProjectBySlugQueryResult = {
                 title?: string
                 description?: string
                 altText?: string
-                sha1hash: string
-                extension: string
-                mimeType: string
-                size: number
-                assetId: string
+                sha1hash?: string
+                extension?: string
+                mimeType?: string
+                size?: number
+                assetId?: string
                 uploadId?: string
-                path: string
-                url: string
+                path?: string
+                url?: string
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
@@ -10637,16 +10702,16 @@ export type ProjectBySlugQueryResult = {
     | {
         _key: string
         _type: 'testimonials'
-        eyebrow: string
+        eyebrow: string | null
         logos: Array<{
-          name: string
+          name: string | null
           logoLight: string | null
           logoDark: string | null
-        }>
+        }> | null
         testimonials: Array<{
-          name: string
-          attribution: string
-          quote: string
+          name: string | null
+          attribution: string | null
+          quote: string | null
           profilePicture: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -10654,7 +10719,7 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -10668,7 +10733,7 @@ export type ProjectBySlugQueryResult = {
           labelImage?: LabelImage
           labelImageLight?: LabelImageLight
           labelImageDark?: LabelImageDark
-          title: string
+          title?: string
           body?: string
           services: Array<{
             _id: string
@@ -10676,12 +10741,12 @@ export type ProjectBySlugQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -10849,10 +10914,10 @@ export type ProjectBySlugQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           texture?: boolean
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -10869,7 +10934,7 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'whyRomania'
         eyebrow?: string
-        title: string
+        title: string | null
         body: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -10891,10 +10956,10 @@ export type ProjectBySlugQueryResult = {
           level?: number
           _type: 'block'
           _key: string
-        }>
+        }> | null
         highlights: Array<{
-          stat: string
-          description: string
+          stat: string | null
+          description: string | null
         }> | null
       }
   > | null
@@ -10907,8 +10972,8 @@ export type ProjectBySlugQueryResult = {
 export type ServiceQueryResult = {
   _id: string
   _type: 'service'
-  name: string
-  slug: Slug
+  name: string | null
+  slug: Slug | null
   seo: {
     _type: 'seo'
     metaTitle?: string
@@ -10943,14 +11008,14 @@ export type ServiceQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -10979,14 +11044,14 @@ export type ServiceQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -11012,14 +11077,14 @@ export type ServiceQueryResult = {
         title?: string
         description?: string
         altText?: string
-        sha1hash: string
-        extension: string
-        mimeType: string
-        size: number
-        assetId: string
+        sha1hash?: string
+        extension?: string
+        mimeType?: string
+        size?: number
+        assetId?: string
         uploadId?: string
-        path: string
-        url: string
+        path?: string
+        url?: string
         metadata?: SanityImageMetadata
         source?: SanityAssetSourceData
       } | null
@@ -11046,15 +11111,15 @@ export type ServiceQueryResult = {
     formatDetection?: string
     alternateLanguages: null
   } | null
-  price: string
-  category: 'ai' | 'engineering'
-  tag: string
-  duration: string
+  price: string | null
+  category: 'ai' | 'engineering' | null
+  tag: string | null
+  duration: string | null
   pageBuilder: Array<
     | {
         _key: string
         _type: 'aiServices'
-        eyebrow: string
+        eyebrow?: string
         services: Array<{
           service: {
             _id: string
@@ -11062,12 +11127,12 @@ export type ServiceQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -11221,7 +11286,7 @@ export type ServiceQueryResult = {
                 } & WhyRomania)
             >
             seo?: Seo
-          }
+          } | null
           cta: {
             _type: 'button'
             buttonText?: string
@@ -11235,17 +11300,17 @@ export type ServiceQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _type: 'aiServiceCard'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'awards'
         eyebrow: string | null
         items: Array<{
-          title: string
+          title: string | null
           recognitions: Array<string> | null
           cta: {
             _type: 'button'
@@ -11275,14 +11340,14 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -11297,10 +11362,10 @@ export type ServiceQueryResult = {
         _type: 'booking'
         eyebrow?: string
         heading: Heading | null
-        callTitle: string
+        callTitle: string | null
         teamMember: {
-          name: string
-          role: string
+          name: string | null
+          role: string | null
           portrait: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -11308,9 +11373,9 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
         whatToExpectHeading: string | null
-        expectations: Array<string>
+        expectations: Array<string> | null
         schedulerUrl: string | null
       }
     | {
@@ -11318,40 +11383,40 @@ export type ServiceQueryResult = {
         _type: 'compare'
         eyebrow?: string
         heading: {
-          highlighted: string
-          regular: string
-        }
+          highlighted: string | null
+          regular: string | null
+        } | null
         rows: Array<{
-          label: string
-        }>
+          label: string | null
+        }> | null
         columns: Array<{
-          name: string
+          name: string | null
           highlightColumn: boolean | null
           values: Array<{
             available: boolean | null
-          }>
-        }>
+          }> | null
+        }> | null
         closing: {
-          lead: string
-          highlight: string
-          followup: string
-        }
+          lead: string | null
+          highlight: string | null
+          followup: string | null
+        } | null
       }
     | {
         _key: string
         _type: 'contactHero'
         eyebrow: string | null
-        heading: string
-        description: string
+        heading: string | null
+        description: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         steps: Array<{
-          title: string
-          description: string
-        }>
+          title: string | null
+          description: string | null
+        }> | null
         formConfig: {
           services: Array<string> | null
           budgetRanges: Array<string> | null
@@ -11362,8 +11427,8 @@ export type ServiceQueryResult = {
     | {
         _key: string
         _type: 'cta'
-        heading: string
-        body: string
+        heading: string | null
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -11377,7 +11442,7 @@ export type ServiceQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
         subtext: string | null
       }
     | {
@@ -11391,12 +11456,12 @@ export type ServiceQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -11562,8 +11627,8 @@ export type ServiceQueryResult = {
         eyebrow?: string
         heading?: string
         items: Array<{
-          question: string
-          answer: Array<{
+          question?: string
+          answer?: Array<{
             children?: Array<{
               marks?: Array<string>
               text?: string
@@ -11582,7 +11647,7 @@ export type ServiceQueryResult = {
             _key: string
           }>
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -11597,7 +11662,7 @@ export type ServiceQueryResult = {
         body?: string
         footnote?: string
         items: Array<{
-          title: string
+          title: string | null
           badge?: string
           description: string | null
           file: ResourceFile | null
@@ -11629,7 +11694,7 @@ export type ServiceQueryResult = {
         } | null
         stats?: string
         dimensionLine?: string
-        ctaText: string
+        ctaText?: BlockContentTextOnly
         secondaryCta: {
           _type: 'button'
           buttonText?: string
@@ -11666,7 +11731,7 @@ export type ServiceQueryResult = {
     | {
         _key: string
         _type: 'insightBlock'
-        title: string
+        title?: string
         text: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -11747,17 +11812,21 @@ export type ServiceQueryResult = {
         _type: 'insightsGrid'
         items: Array<{
           _id: string
-          title: string
-          slug: Slug
+          title: string | null
+          slug: Slug | null
           excerpt: string | null
-          category: null
+          category: {
+            _id: string
+            title: string | null
+            slug: Slug | null
+          } | null
           publishedAt: string | null
           readTime: number | null
           featured: boolean | null
           cover: string | null
           author: {
-            name: string
-            role: string
+            name: string | null
+            role: string | null
             portrait: {
               asset?: SanityImageAssetReference
               media?: unknown
@@ -11766,20 +11835,20 @@ export type ServiceQueryResult = {
               _type: 'image'
             } | null
           } | null
-        }>
+        }> | null
         categoryFilters: Array<{
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'isThisForYou'
         eyebrow?: string
-        heading: string
+        heading?: string
         items: Array<{
-          text: string
-        }>
+          text: string | null
+        }> | null
       }
     | {
         _key: string
@@ -11796,8 +11865,8 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'origin'
         eyebrow?: string
-        heading: string
-        body: string
+        heading?: string
+        body?: string
         subtext?: string
       }
     | {
@@ -11807,34 +11876,38 @@ export type ServiceQueryResult = {
         heading: BlockContentTextOnly | null
         subheading: string | null
         stats: Array<{
-          number: number
+          number: number | null
           suffix: string | null
-          label: string
+          label: string | null
         }> | null
         featured:
           | {
               _type: 'post'
               _id: string
-              slug: Slug
-              title: string
+              slug: Slug | null
+              title: string | null
               excerpt: string | null
-              category: null
+              category: {
+                _id: string
+                title: string | null
+                slug: Slug | null
+              } | null
               publishedAt: string | null
               readTime: number | null
               cover: string | null
               author: {
-                name: string
+                name: string | null
               } | null
             }
           | {
               _type: 'project'
               _id: string
-              slug: Slug
-              client: string
-              year: string
-              category: string
-              industry: string
-              tagline: string
+              slug: Slug | null
+              client: string | null
+              year: string | null
+              category: string | null
+              industry: string | null
+              tagline: string | null
               cover: string | null
             }
           | null
@@ -11855,14 +11928,14 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -11875,21 +11948,21 @@ export type ServiceQueryResult = {
     | {
         _key: string
         _type: 'portfolio'
-        eyebrow: string
-        heading: string
+        eyebrow: string | null
+        heading: string | null
         cards: Array<{
           project: {
             _id: string
-            title: string
-            client: string
-            year: string
-            slug: Slug
-            category: string
-            tagline: string
+            title: string | null
+            client: string | null
+            year: string | null
+            slug: Slug | null
+            category: string | null
+            tagline: string | null
             thumb: string | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -11909,7 +11982,7 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'portfolioCta'
         heading: PortfolioCtaHeading | null
-        body: string
+        body: string | null
         cta: {
           _type: 'button'
           buttonText?: string
@@ -11930,12 +12003,12 @@ export type ServiceQueryResult = {
         _type: 'portfolioFeatured'
         caseStudy: {
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -11945,19 +12018,19 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'portfolioGrid'
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: {
@@ -11967,24 +12040,24 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'portfolioMetrics'
         items: Array<{
-          value: string
-          label: string
-        }>
+          value: string | null
+          label: string | null
+        }> | null
       }
     | {
         _key: string
         _type: 'press'
         eyebrow: string | null
-        heading: string
-        cardTitle: string
-        cardBody: string
-        ctaLabel: string
+        heading: string | null
+        cardTitle: string | null
+        cardBody: string | null
+        ctaLabel: string | null
         file: {
           asset: {
             _id: string
@@ -11997,35 +12070,35 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             source?: SanityAssetSourceData
           } | null
           media?: unknown
           _type: 'file'
-        }
+        } | null
       }
     | {
         _key: string
         _type: 'pricing'
         eyebrow?: string
-        headingPrimary: string
+        headingPrimary?: string
         headingSecondary?: string
         tiers: Array<{
-          width: 'full' | 'half'
-          priceLayout: 'inline' | 'split' | 'stacked'
+          width?: 'full' | 'half'
+          priceLayout?: 'inline' | 'split' | 'stacked'
           badge?: string
-          title: string
-          price: string
+          title?: string
+          price?: string
           meta?: string
           description?: string
-          ctaStyle: 'button' | 'textLink'
+          ctaStyle?: 'button' | 'textLink'
           cta: {
             _type: 'button'
             buttonText?: string
@@ -12042,7 +12115,7 @@ export type ServiceQueryResult = {
           } | null
           _type: 'tier'
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -12050,11 +12123,11 @@ export type ServiceQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         points: Array<{
-          title: string
+          title: string | null
           body: string | null
         }> | null
         cta: {
@@ -12098,27 +12171,27 @@ export type ServiceQueryResult = {
           } | null
         } | null
         leadingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
         trailingHighlights: Array<{
-          value: string
-          label: string
+          value: string | null
+          label: string | null
         }> | null
-        serviceName: string
-        serviceCategory: 'ai' | 'engineering'
+        serviceName: string | null
+        serviceCategory: 'ai' | 'engineering' | null
         serviceDescription: null
-        servicePrice: string
-        serviceDuration: string
+        servicePrice: string | null
+        serviceDuration: string | null
       }
     | {
         _key: string
         _type: 'serviceNavigator'
         eyebrow?: string
-        headingRegular: string
-        headingBold: string
+        headingRegular?: string
+        headingBold?: string
         cards: Array<{
-          prompt: string
+          prompt?: string
           details?: string
           cta: {
             _type: 'button'
@@ -12133,9 +12206,9 @@ export type ServiceQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           _key: string
-        }>
+        }> | null
         closingText?: string
         closingCta: {
           _type: 'button'
@@ -12150,7 +12223,7 @@ export type ServiceQueryResult = {
             project: string | null
             openInNewTab?: boolean
           } | null
-        }
+        } | null
       }
     | {
         _key: string
@@ -12216,7 +12289,7 @@ export type ServiceQueryResult = {
         eyebrow?: string
         heading?: string
         painPoints: Array<{
-          title: string
+          title: string | null
           body: string | null
           _key: string
         }> | null
@@ -12225,14 +12298,14 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'steps'
         eyebrow?: string
-        intro: string
-        highlight: string
+        intro?: string
+        highlight?: string
         items: Array<{
-          title: string
-          duration: string
-          body: string
+          title: string | null
+          duration: string | null
+          body: string | null
           _key: string
-        }>
+        }> | null
         visual: {
           asset: {
             _id: string
@@ -12245,14 +12318,14 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -12279,7 +12352,7 @@ export type ServiceQueryResult = {
         eyebrow?: string
         heading: {
           faded: string | null
-          bold: string
+          bold: string | null
         } | null
         body?: string
         callout: {
@@ -12291,20 +12364,20 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'studyChallenge'
         eyebrow?: string
-        heading: string
+        heading?: string
         body?: string
         issues: Array<{
           _key: string
-          tag: string
-          body: string
+          tag: string | null
+          body: string | null
         }> | null
       }
     | {
         _key: string
         _type: 'studyClosingCta'
         heading: {
-          regular: string
-          bold: string
+          regular: string | null
+          bold: string | null
         } | null
         body: string | null
         cta: {
@@ -12326,13 +12399,13 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'studyHero'
         eyebrow?: string
-        heading: string
+        heading?: string
         subheading?: string
         chapters?: Array<string>
         details: Array<{
           _key: string
-          label: string
-          value: string
+          label: string | null
+          value: string | null
         }> | null
         heroImage: {
           asset: {
@@ -12346,14 +12419,14 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -12378,14 +12451,14 @@ export type ServiceQueryResult = {
             title?: string
             description?: string
             altText?: string
-            sha1hash: string
-            extension: string
-            mimeType: string
-            size: number
-            assetId: string
+            sha1hash?: string
+            extension?: string
+            mimeType?: string
+            size?: number
+            assetId?: string
             uploadId?: string
-            path: string
-            url: string
+            path?: string
+            url?: string
             metadata?: SanityImageMetadata
             source?: SanityAssetSourceData
           } | null
@@ -12393,7 +12466,7 @@ export type ServiceQueryResult = {
           hotspot?: SanityImageHotspot
           crop?: SanityImageCrop
           _type: 'image'
-        }
+        } | null
         alt?: string
       }
     | {
@@ -12406,10 +12479,10 @@ export type ServiceQueryResult = {
           afterLabel: string | null
           rows: Array<{
             _key: string
-            label: string
-            before: string
-            after: string
-          }>
+            label: string | null
+            before: string | null
+            after: string | null
+          }> | null
         } | null
       }
     | {
@@ -12421,16 +12494,16 @@ export type ServiceQueryResult = {
         } | null
         items: Array<{
           _id: string
-          client: string
-          slug: Slug
-          year: string
-          category: string
-          industry: string
-          tagline: string
+          client: string | null
+          slug: Slug | null
+          year: string | null
+          category: string | null
+          industry: string | null
+          tagline: string | null
           metric: string | null
           metricLabel: string | null
           thumb: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -12440,24 +12513,24 @@ export type ServiceQueryResult = {
         footnote?: string
         stats: Array<{
           _key: string
-          value: string
-          label: string
+          value: string | null
+          label: string | null
           description: string | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'studyTechStack'
         eyebrow?: string
-        tools: Array<string>
+        tools: Array<string> | null
       }
     | {
         _key: string
         _type: 'studyTestimonial'
         eyebrow?: string
         quote: {
-          quote: string
-          attribution: string
+          quote: string | null
+          attribution: string | null
           source: string | null
           accent: boolean | null
         } | null
@@ -12469,9 +12542,9 @@ export type ServiceQueryResult = {
         heading?: string
         features: Array<{
           _key: string
-          number: string
-          title: string
-          body: string
+          number: string | null
+          title: string | null
+          body: string | null
           image: {
             asset: {
               _id: string
@@ -12484,14 +12557,14 @@ export type ServiceQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -12500,23 +12573,23 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
         _type: 'team'
         eyebrow?: string
-        heading: string
+        heading?: string
         members: Array<{
           _id: string
           _type: 'teamMember'
           _createdAt: string
           _updatedAt: string
           _rev: string
-          name: string
-          order: number
-          role: string
-          bio: string
+          name?: string
+          order?: number
+          role?: string
+          bio?: string
           portrait: {
             asset: {
               _id: string
@@ -12529,14 +12602,14 @@ export type ServiceQueryResult = {
               title?: string
               description?: string
               altText?: string
-              sha1hash: string
-              extension: string
-              mimeType: string
-              size: number
-              assetId: string
+              sha1hash?: string
+              extension?: string
+              mimeType?: string
+              size?: number
+              assetId?: string
               uploadId?: string
-              path: string
-              url: string
+              path?: string
+              url?: string
               metadata?: SanityImageMetadata
               source?: SanityAssetSourceData
             } | null
@@ -12545,19 +12618,19 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
-        closingStatement: string
+        }> | null
+        closingStatement?: string
       }
     | {
         _key: string
         _type: 'techStack'
         eyebrow: string | null
         headingRegular: string | null
-        headingBold: string
+        headingBold: string | null
         groups: Array<{
-          title: string
+          title: string | null
           items: Array<{
-            name: string
+            name: string | null
             logo: {
               asset: {
                 _id: string
@@ -12570,14 +12643,14 @@ export type ServiceQueryResult = {
                 title?: string
                 description?: string
                 altText?: string
-                sha1hash: string
-                extension: string
-                mimeType: string
-                size: number
-                assetId: string
+                sha1hash?: string
+                extension?: string
+                mimeType?: string
+                size?: number
+                assetId?: string
                 uploadId?: string
-                path: string
-                url: string
+                path?: string
+                url?: string
                 metadata?: SanityImageMetadata
                 source?: SanityAssetSourceData
               } | null
@@ -12593,16 +12666,16 @@ export type ServiceQueryResult = {
     | {
         _key: string
         _type: 'testimonials'
-        eyebrow: string
+        eyebrow: string | null
         logos: Array<{
-          name: string
+          name: string | null
           logoLight: string | null
           logoDark: string | null
-        }>
+        }> | null
         testimonials: Array<{
-          name: string
-          attribution: string
-          quote: string
+          name: string | null
+          attribution: string | null
+          quote: string | null
           profilePicture: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -12610,7 +12683,7 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -12624,7 +12697,7 @@ export type ServiceQueryResult = {
           labelImage?: LabelImage
           labelImageLight?: LabelImageLight
           labelImageDark?: LabelImageDark
-          title: string
+          title?: string
           body?: string
           services: Array<{
             _id: string
@@ -12632,12 +12705,12 @@ export type ServiceQueryResult = {
             _createdAt: string
             _updatedAt: string
             _rev: string
-            name: string
-            price: string
-            category: 'ai' | 'engineering'
-            tag: string
-            slug: Slug
-            duration: string
+            name?: string
+            price?: string
+            category?: 'ai' | 'engineering'
+            tag?: string
+            slug?: Slug
+            duration?: string
             pageBuilder?: Array<
               | ({
                   _key: string
@@ -12805,10 +12878,10 @@ export type ServiceQueryResult = {
               project: string | null
               openInNewTab?: boolean
             } | null
-          }
+          } | null
           texture?: boolean
           _key: string
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -12825,7 +12898,7 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'whyRomania'
         eyebrow?: string
-        title: string
+        title: string | null
         body: Array<{
           children?: Array<{
             marks?: Array<string>
@@ -12847,10 +12920,10 @@ export type ServiceQueryResult = {
           level?: number
           _type: 'block'
           _key: string
-        }>
+        }> | null
         highlights: Array<{
-          stat: string
-          description: string
+          stat: string | null
+          description: string | null
         }> | null
       }
   > | null
@@ -12861,7 +12934,7 @@ export type ServiceQueryResult = {
 // Query: *[_type == "service" && defined(slug.current)]{    _id,    slug,  }
 export type AllServicesQueryResult = Array<{
   _id: string
-  slug: Slug
+  slug: Slug | null
 }>
 
 // Query TypeMap

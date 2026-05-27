@@ -68,7 +68,7 @@ function StatCard({
 }) {
   if (variant === "contactDark") {
     return (
-      <div className="flex flex-1 flex-col items-start justify-center border border-white/20 dark:bg-[#0f0f0f] bg-white p-6 md:min-h-22">
+      <div className="flex flex-1 flex-col items-start justify-center border border-transparent bg-white-light dark:bg-black p-6 md:min-h-22 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5">
         <div className="flex w-full flex-col gap-3">
           <div className="font-betatron text-4xl leading-[1.2] text-brand">
             <CountingNumber

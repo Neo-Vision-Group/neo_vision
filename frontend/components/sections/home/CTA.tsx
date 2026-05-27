@@ -62,19 +62,17 @@ export function ClosingCta({ data }: { data?: CtaData }) {
       className="relative isolate flex min-h-100 w-full items-center justify-center overflow-hidden bg-white dark:bg-dark px-6 py-24 md:py-32 lg:p-48"
     >
       {/* Light mode background */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-        <div className="absolute inset-0 bg-white" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-white dark:hidden">
         <Image
           src="/images/graphic.webp"
           alt=""
           fill
-          className="absolute inset-0 object-cover mix-blend-difference"
-          style={{
-            filter: "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
-            opacity: 0.4,
-          }}
+          className="absolute inset-0 object-cover invert"
         />
-        <div className="absolute inset-0 bg-brand mix-blend-screen opacity-25" />
+        <div
+          className="absolute inset-0 mix-blend-screen"
+          style={{ background: "#ff4404" }}
+        />
         {/* Gradient mask */}
         <div
           className="absolute inset-0"

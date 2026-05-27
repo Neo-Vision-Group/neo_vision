@@ -93,7 +93,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const steps = cleanData?.steps || [];
   
   return (
-    <section ref={sectionRef} className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-transparent">
+    <section ref={sectionRef} className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden bg-transparent">
 
       <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-12">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
@@ -136,7 +136,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                     </div>
 
                     {/* Step content */}
-                    <div className="pb-8 pl-4">
+                    <div className="pl-4">
                       <div className="flex items-start gap-6">
                         <p className="font-betatron text-4xl leading-[1.2] text-brand">
                           0{idx + 1}.

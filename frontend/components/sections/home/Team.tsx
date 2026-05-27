@@ -132,7 +132,7 @@ export function Team({ data }: { data?: TeamData }) {
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow}>
       <div className="flex flex-col gap-12">
         <SplitTextReveal
-          className="block text-balance text-3xl leading-9 tracking-[-0.3px] whitespace-normal md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="block text-balance text-3xl leading-12 tracking-[-0.3px] whitespace-normal md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"
           as="h2"
           stagger={0.04}
@@ -158,7 +158,7 @@ export function Team({ data }: { data?: TeamData }) {
                   className="flex w-full shrink-0 snap-start flex-col gap-8 lg:flex-row lg:justify-between lg:items-stretch"
                 >
                   <div className="flex min-w-0 flex-1 flex-col justify-between">
-                    <div className="flex min-w-0 w-full flex-col gap-12 md:gap-16 md:py-6 lg:pr-12">
+                    <div className="flex min-w-0 w-full flex-col gap-12 pb-20 md:gap-16 md:py-6 md:pb-20 lg:pr-12">
                       <div className="flex min-w-0 flex-col gap-12 text-left">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col">
@@ -203,12 +203,12 @@ export function Team({ data }: { data?: TeamData }) {
           </div>
 
           {hasMultiple && (
-            <div className="flex items-center gap-3 pt-8">
+            <div className="pointer-events-none absolute bottom-0 left-0 flex items-center gap-3 py-6 lg:pr-12">
               <button
                 type="button"
                 aria-label="Previous team member"
                 onClick={() => scroll("prev")}
-                className="group flex size-12 items-center justify-center transition-colors"
+                className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
               >
                 <TeamArrowLeft key={arrowColor} color={arrowColor} />
               </button>
@@ -216,7 +216,7 @@ export function Team({ data }: { data?: TeamData }) {
                 type="button"
                 aria-label="Next team member"
                 onClick={() => scroll("next")}
-                className="group flex size-12 items-center justify-center transition-colors"
+                className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
               >
                 <TeamArrowRight key={arrowColor} color={arrowColor} />
               </button>

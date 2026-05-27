@@ -12,7 +12,7 @@ export const homeHero = defineType({
         defineField({ name: "primaryCta", type: "button" }),
         defineField({ name: "stats", type: "text", rows: 2 }),
         defineField({ name: "dimensionLine", type: "string", initialValue: "A NEW DIMENSION." }),
-        defineField({ name: 'ctaText', type: 'text', rows: 2, validation: (Rule) => Rule.required() }),
+        defineField({ name: 'ctaText', type: 'blockContentTextOnly', validation: (Rule) => Rule.required() }),
         defineField({ name: "secondaryCta", type: "button" }),
     ]
 })

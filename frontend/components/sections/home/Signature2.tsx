@@ -267,7 +267,7 @@ function StepRailItem({
           <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
           </p>
-          <h3 className="max-w-[10ch] text-100 font-bold leading-[1.2] text-foreground">
+          <h3 className="text-100 font-bold leading-[1.2] text-foreground">
             {step.title}
           </h3>
         </div>

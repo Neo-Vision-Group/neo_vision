@@ -112,7 +112,7 @@ export function Industries({ data }: { data: IndustryData }) {
 
             {metrics.length > 0 ? (
                 <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
-                    <dl className="flex flex-col md:flex-row justify-start gap-12 lg:gap-48 px-6 py-8 text-black dark:text-[#EFEFEF]">
+                    <dl className="flex flex-col md:flex-row justify-center gap-12 lg:gap-48 px-6 py-8 text-black dark:text-[#EFEFEF]">
                         {metrics.map((item, idx) => {
                             const value = item.value ?? "";
                             const suffix = item.prefix ?? "";
@@ -124,12 +124,12 @@ export function Industries({ data }: { data: IndustryData }) {
                             return (
                                 <div
                                     key={(item.label ?? "metric") + idx}
-                                    className="flex flex-col gap-6"
+                                    className="flex flex-col gap-6 items-center md:items-start"
                                 >
-                                    <dt className="whitespace-nowrap font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[80px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+                                    <dt className="whitespace-nowrap font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}
                                     </dt>
-                                    <dd className="font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-4xl md:tracking-[-1px]">
+                                    <dd className="font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-[24px] md:tracking-[-1px]">
                                         {item.label}
                                     </dd>
                                 </div>
