@@ -702,7 +702,20 @@ export type Faq = {
 export type Why = {
   _type: 'why'
   eyebrow?: string
-  heading?: string
+  heading?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: null
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
   points?: Array<{
     title?: string
     body?: string
@@ -4771,7 +4784,20 @@ export type PageQueryResult = {
         _key: string
         _type: 'why'
         eyebrow?: string
-        heading?: string
+        heading?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal'
+          listItem?: never
+          markDefs?: null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
         points?: Array<{
           title?: string
           body?: string
@@ -6733,7 +6759,20 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'why'
         eyebrow?: string
-        heading?: string
+        heading?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal'
+          listItem?: never
+          markDefs?: null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
         points?: Array<{
           title?: string
           body?: string
@@ -8885,7 +8924,20 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'why'
         eyebrow?: string
-        heading?: string
+        heading?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal'
+          listItem?: never
+          markDefs?: null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
         points?: Array<{
           title?: string
           body?: string
@@ -10923,7 +10975,20 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'why'
         eyebrow?: string
-        heading?: string
+        heading?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal'
+          listItem?: never
+          markDefs?: null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
         points?: Array<{
           title?: string
           body?: string
@@ -12887,7 +12952,20 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'why'
         eyebrow?: string
-        heading?: string
+        heading?: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'normal'
+          listItem?: never
+          markDefs?: null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
         points?: Array<{
           title?: string
           body?: string
