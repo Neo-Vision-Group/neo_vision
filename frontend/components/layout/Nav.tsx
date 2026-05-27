@@ -18,7 +18,7 @@ export default async function Nav() {
     .map(
       (page: RawNavPage, index: number): NavPageType => ({
         _key: page._key ?? `nav-link-${index}`,
-        name: page.name,
+        name: page.name!,
         slug: page.slug as string,
       })
     )
