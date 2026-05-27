@@ -215,13 +215,51 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               className="flex w-full flex-col"
               stagger={0.08}
             >
-              <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-stretch pt-3">
+              {/* Mobile layout: 2-col grid for highlights + full-width CTA below */}
+              <div className="flex flex-col gap-2 pt-3 md:hidden">
+                {(() => {
+                  const highlightItems = railItems.filter((i) => i.kind === "highlight");
+                  const ctaItem = railItems.find((i) => i.kind === "cta");
+                  return (
+                    <>
+                      {highlightItems.length > 0 && (
+                        <div className="grid grid-cols-2 gap-2">
+                          {highlightItems.map((item) => (
+                            <HighlightCard key={item.key} card={(item as Extract<RailItem, { kind: "highlight" }>).card} />
+                          ))}
+                        </div>
+                      )}
+                      {ctaItem && ctaItem.kind === "cta" && (() => {
+                        const resolvedHref = ctaItem.cta.link ? linkResolver(ctaItem.cta.link) : null;
+                        return resolvedHref ? (
+                          <Button
+                            href={resolvedHref}
+                            target={ctaItem.cta.link?.openInNewTab ? "_blank" : undefined}
+                            rel={ctaItem.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+                            variant="primary"
+                            className="min-h-14 w-full"
+                          >
+                            {ctaItem.cta.buttonText}
+                          </Button>
+                        ) : (
+                          <Button variant="primary" className="min-h-14 w-full">
+                            {ctaItem.cta.buttonText}
+                          </Button>
+                        );
+                      })()}
+                    </>
+                  );
+                })()}
+              </div>
+
+              {/* Desktop layout: horizontal flex row with dividers */}
+              <div className="hidden md:flex md:flex-row md:items-stretch md:gap-3 pt-3">
                 {railItems.map((item, index) => (
                   <div key={item.key} className="contents">
                     {index > 0 ? (
                       <div
                         aria-hidden="true"
-                        className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                        className="w-px self-stretch bg-black/10 dark:bg-white/20"
                       />
                     ) : null}
 

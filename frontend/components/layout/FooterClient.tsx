@@ -96,11 +96,11 @@ export function Footer({
           </div>
         </div>
 
-        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand p-8 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:py-12 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
+        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand px-8 pt-8 pb-28 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:pt-12 md:pb-28 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
           {/* NEO VISION textured text - half visible at bottom, centered in this section */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center overflow-visible px-4 md:px-8"
+            className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center overflow-hidden"
             style={{ height: 'clamp(80px, 21cqw, 180px)' }}
           >
             <span
@@ -108,6 +108,7 @@ export function Footer({
               style={{
                 fontSize: 'clamp(120px, 29cqw, 240px)',
                 transform: 'translateY(10%)',
+                maxWidth: '100%',
               }}
             >
               NEO VISION

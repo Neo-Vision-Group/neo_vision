@@ -67,11 +67,11 @@ export function Industries({ data }: { data: IndustryData }) {
                         <div
                             key={(item.industry ?? "ind") + index}
                             className={cn(
-                                "border-b border-black/20 dark:border-white/20 p-4 md:p-6",
+                                "border-b border-black/20 dark:border-white/20 p-4 md:p-6 flex flex-col",
                                 getRightBorderClasses(index),
                             )}
                         >
-                            <article className="group relative isolate flex flex-col gap-3 border border-black/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+                            <article className="group relative isolate flex flex-1 flex-col gap-3 border border-black/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
                                 <div
                                     aria-hidden="true"
                                     className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
@@ -124,7 +124,7 @@ export function Industries({ data }: { data: IndustryData }) {
                             return (
                                 <div
                                     key={(item.label ?? "metric") + idx}
-                                    className="flex flex-col gap-6 items-center md:items-start"
+                                    className="flex flex-1 flex-col gap-6 items-center md:items-start"
                                 >
                                     <dt className="whitespace-nowrap font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}

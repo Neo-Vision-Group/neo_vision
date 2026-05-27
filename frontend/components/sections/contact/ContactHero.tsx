@@ -37,6 +37,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const [activeTab, setActiveTab] = useState<"message" | "call">("message");
+  const [messageTabHovered, setMessageTabHovered] = useState(false);
   const [callTabHovered, setCallTabHovered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const stepsWrapperRef = useRef<HTMLDivElement>(null);
@@ -164,11 +165,14 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
               <button
                 type="button"
                 onClick={() => setActiveTab("message")}
+                onMouseEnter={() => setMessageTabHovered(true)}
+                onMouseLeave={() => setMessageTabHovered(false)}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
-                  activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
+                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300",
+                  activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
+                <AnimatedBorder isHovered={messageTabHovered && activeTab !== "message"} />
                 Send a message
                 {activeTab === "message" && (
                   <>

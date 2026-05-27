@@ -52,11 +52,11 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                 <div
                   key={(p.title ?? "pp") + idx}
                   className={cn(
-                    "p-4 md:p-6 border-b border-black/20 dark:border-white/20",
+                    "p-4 md:p-6 border-b border-black/20 dark:border-white/20 flex flex-col",
                     (idx + 1) % 2 !== 0 && "md:border-r md:border-black/20 md:dark:border-white/20"
                   )}
                 >
-                  <article className="group relative isolate flex flex-col gap-12 border border-white/10 bg-white-light dark:border-white/20 dark:bg-[#0f0f0f] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40">
+                  <article className="group relative isolate flex flex-1 flex-col gap-12 border border-white/10 bg-white-light dark:border-white/20 dark:bg-[#0f0f0f] p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40">
                     <div
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"

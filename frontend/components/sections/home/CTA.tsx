@@ -73,14 +73,25 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           className="absolute inset-0 mix-blend-screen"
           style={{ background: "#ff4404" }}
         />
-        {/* Gradient mask */}
+        {/* Gradient mask — vertical (all breakpoints) */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `
-              linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.95) 92%, #ffffff 100%),
-              linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.95) 92%, #ffffff 100%)
-            `,
+            backgroundImage: `linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.95) 92%, #ffffff 100%)`,
+          }}
+        />
+        {/* Gradient mask — horizontal, wide stops on mobile */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{
+            backgroundImage: `linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.8) 80%, #ffffff 100%)`,
+          }}
+        />
+        {/* Gradient mask — horizontal, tight stops on desktop */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{
+            backgroundImage: `linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.95) 92%, #ffffff 100%)`,
           }}
         />
       </div>
