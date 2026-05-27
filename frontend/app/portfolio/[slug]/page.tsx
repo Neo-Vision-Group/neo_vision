@@ -61,7 +61,7 @@ const loadProjectForMetadata = cache(async (slug: string) => {
 
 export async function generateStaticParams() {
   const projects = await client.fetch<AllProjectsQueryResult>(allProjectsQuery)
-  return projects.map((project) => ({slug: project.slug.current}))
+  return projects.filter((project) => project.slug?.current != null).map((project) => ({slug: project.slug!.current!}))
 }
 
 export async function generateMetadata({
