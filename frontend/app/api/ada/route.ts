@@ -19,32 +19,25 @@
 import {
   AnthropicCallError,
   callAdaText,
-  callAdversary,
 } from '@/lib/ada-anthropic'
-import {
-  ADVERSARY_INPUT_PROMPT,
-  ADVERSARY_INPUT_PROMPT_VERSION,
-} from '@/lib/ada-jailbreak-adversary-input'
 import {
   ADVERSARY_OUTPUT_PROMPT_VERSION,
   buildAdversaryOutputPrompt,
 } from '@/lib/ada-jailbreak-adversary-output'
 import {
   LEVEL_1_PROMPT_VERSION,
-  buildLevel1Prompt,
-} from '@/lib/ada-jailbreak-level-1'
-import {
   LEVEL_2_PROMPT_VERSION,
-  buildLevel2Prompt,
-} from '@/lib/ada-jailbreak-level-2'
-import {
-  LEVEL_3_PROMPT_VERSION,
-  buildLevel3Prompt,
-} from '@/lib/ada-jailbreak-level-3'
-import {
   LEVEL_3_BLOCKED_RESPONSE,
-  level2OutputFilter,
-} from '@/lib/ada-output-filter'
+  LEVEL_3_PROMPT_VERSION,
+  buildLevel1Prompt,
+  buildLevel2Prompt,
+  buildLevel3Prompt,
+  getLevelConfig,
+  makeRegexFilter,
+  parseAdversaryResponse,
+  pickRefusal,
+} from '@/lib/ada-jailbreak-config'
+import { level2OutputFilter } from '@/lib/ada-output-filter'
 import { passwordForLevel } from '@/lib/ada-passwords'
 import { updatePressure } from '@/lib/ada-pressure'
 import {
@@ -294,8 +287,21 @@ async function dispatchTurn(
   }
 
   const level = state.level as 1 | 2 | 3
-  const userMessage = body.user_message
+  const userMessage = body.user_message.trim()
   const password = passwordForLevel(level)
+
+  // Existing session + empty message = reconnect, welcome back
+  if (userMessage.length === 0 && state.history.length > 0) {
+    const lastAda = state.history.findLast((m) => m.role === 'ada')
+    return {
+      status: 'continuing',
+      ada_says: lastAda?.content ?? "you're back. what were we saying?",
+      level,
+      pressure: state.pressure ?? 0,
+      timer_seconds: state.timerStartedAt ? Math.floor((Date.now() - state.timerStartedAt) / 1000) : 0,
+      blocked: false,
+    }
+  }
 
   let result: { ada_says: string; blocked: boolean }
   if (level === 1) {
@@ -370,57 +376,55 @@ async function runLevel2Turn(
 }
 
 /**
- * Level 3 — parallel input adversary + sequential output adversary
- * (amendment 1).
+ * Level 3 — GRAVITAS (hard)
  *
- * The input check runs in parallel with Ada's main call so wall-clock
- * latency is dominated by max(adaCall, inputAdvCall) rather than their
- * sum. If the input check blocks, Ada's response is discarded and the
- * canned line is returned.
+ * Defenses (in order):
+ * 1. System prompt (Ada is the senior guard, calm, names attacks)
+ * 2. Regex output filter (catches verbatim, leet, separated, reversed)
+ * 3. Adversary model check (the "friend" - evaluates if response leaks password)
  *
- * The output check runs sequentially after Ada returns because it needs
- * Ada's actual text as input.
+ * The regex filter runs first (cheap). If it catches something, we block immediately.
+ * The adversary check runs only if regex passes (expensive Claude call).
+ * If adversary detects a leak, we return a refusal.
  */
 async function runLevel3Turn(
   state: SessionState,
   userMessage: string,
   password: string,
 ): Promise<{ ada_says: string; blocked: boolean }> {
-  const [adaResult, inputAdvResult] = await Promise.allSettled([
-    callAdaText({
-      systemPrompt: buildLevel3Prompt(password),
-      systemPromptVersion: LEVEL_3_PROMPT_VERSION,
-      history: state.history,
-      userMessage,
-    }),
-    callAdversary({
-      systemPrompt: ADVERSARY_INPUT_PROMPT,
-      systemPromptVersion: ADVERSARY_INPUT_PROMPT_VERSION,
-      history: [],
-      userMessage,
-    }),
-  ])
+  const config = getLevelConfig(3)
 
-  if (
-    inputAdvResult.status === 'fulfilled' &&
-    inputAdvResult.value.shouldBlock
-  ) {
-    return { ada_says: LEVEL_3_BLOCKED_RESPONSE, blocked: true }
-  }
-  if (adaResult.status === 'rejected') {
-    throw adaResult.reason
+  // Step 1: Call Ada
+  const adaResult = await callAdaText({
+    systemPrompt: buildLevel3Prompt(password),
+    systemPromptVersion: LEVEL_3_PROMPT_VERSION,
+    history: state.history,
+    userMessage,
+  })
+  const adaText = adaResult.text
+
+  // Step 2: Regex filter (cheap, catches obvious leaks)
+  const filter = makeRegexFilter("L3")
+  const filterResult = filter(adaText, password)
+  if (filterResult.blocked) {
+    return { ada_says: pickRefusal(config), blocked: true }
   }
 
-  const adaText = adaResult.value.text
-
-  const outputAdv = await callAdversary({
-    systemPrompt: buildAdversaryOutputPrompt(password, userMessage, adaText),
+  // Step 3: Adversary check (expensive, catches subtle leaks)
+  // The adversary returns JSON: { "leaks": boolean, "reason": string }
+  const adversaryPrompt = buildAdversaryOutputPrompt(password, userMessage, adaText)
+  const adversaryTextResult = await callAdaText({
+    systemPrompt: adversaryPrompt,
     systemPromptVersion: ADVERSARY_OUTPUT_PROMPT_VERSION,
     history: [],
     userMessage: 'screen',
   })
-  if (outputAdv.shouldBlock) {
+
+  // Parse the adversary response - default to blocking if parsing fails
+  const check = parseAdversaryResponse(adversaryTextResult.text)
+  if (check.leaks) {
     return { ada_says: LEVEL_3_BLOCKED_RESPONSE, blocked: true }
   }
+
   return { ada_says: adaText, blocked: false }
 }

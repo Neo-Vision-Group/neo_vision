@@ -253,7 +253,16 @@ export default function TerminalPage() {
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ session_id: id, user_message: '' }),
         })
-        if (!res.ok) throw new Error(`opening failed: ${res.status}`)
+        if (!res.ok) {
+          if (res.status === 429) {
+            const errBody = (await res.json()) as { error?: string; retry_after_seconds?: number }
+            const msg = errBody.error ?? 'rate limited. try again later.'
+            setIsThinking(false)
+            appendAdaMessage(msg, true)
+            return
+          }
+          throw new Error(`opening failed: ${res.status}`)
+        }
         const body = (await res.json()) as JailbreakResponseBody
         setIsThinking(false)
         applyJailbreakResponse(body)
@@ -296,10 +305,15 @@ export default function TerminalPage() {
       const body = (await res.json()) as JailbreakResponseBody | { error: string }
       setIsThinking(false)
       if (!res.ok || 'error' in body) {
-        appendAdaMessage(
-          'something broke on my side. not you. try sending again.',
-          true,
-        )
+        if (res.status === 429) {
+          const errMsg = (body as { error?: string }).error ?? 'rate limited. try again later.'
+          appendAdaMessage(errMsg, true)
+        } else {
+          appendAdaMessage(
+            'something broke on my side. not you. try sending again.',
+            true,
+          )
+        }
         return
       }
       applyJailbreakResponse(body)
