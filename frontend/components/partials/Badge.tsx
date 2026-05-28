@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatedBorder } from "../AnimatedBorder";
 
-export default function Badge({ text }: { text: string }) {
+export default function Badge({ text, isActive }: { text: string; isActive?: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -12,7 +12,7 @@ export default function Badge({ text }: { text: string }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-        <AnimatedBorder isHovered={isHovered} />
+        <AnimatedBorder isHovered={isHovered || !!isActive} />
         <p className="text-dark dark:text-white font-funnel text-[18px]">{text}</p>
     </div>
   );

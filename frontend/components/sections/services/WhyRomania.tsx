@@ -1,10 +1,9 @@
 import {SectionsWrapper} from '@/components/SectionsWrapper'
 import {PortableTextRenderer} from '@/components/partials/PortableTextRenderer'
-import {SplitTextReveal} from '@/components/partials/motion/SplitTextReveal'
 import {cn} from '@/lib/utils'
 import {cleanStega} from '@/sanity/lib/utils'
 import dynamic from 'next/dynamic'
-import type {PortableTextBlock} from '@portabletext/react'
+import type {PortableTextBlock} from '@portabletext/types'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -22,7 +21,7 @@ type WhyRomaniaHighlight = {
 
 export type WhyRomaniaData = {
   eyebrow?: string
-  title?: string
+  title?: PortableTextBlock[]
   body?: PortableTextBlock[]
   highlights?: WhyRomaniaHighlight[]
 }
@@ -40,7 +39,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
     highlightRows.push(highlights.slice(index, index + 2))
   }
 
-  if (!cleanData?.title && !cleanData?.body?.length && highlights.length === 0) {
+  if (!cleanData?.title?.length && !cleanData?.body?.length && highlights.length === 0) {
     return null
   }
 
@@ -48,16 +47,26 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
     <SectionsWrapper eyebrow={eyebrow} classNameOverride="px-0 pb-24">
       <div className="flex flex-col gap-16">
         <div className="flex flex-col gap-12 px-6 lg:px-16">
-          {cleanData?.title ? (
-            <SplitTextReveal
-              as="h2"
-              type="words"
-              colorReveal
-              stagger={0.04}
-              className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
-            >
-              {cleanData.title}
-            </SplitTextReveal>
+          {cleanData?.title?.length ? (
+            <PortableTextRenderer
+              value={cleanData.title}
+              className={cn(
+                '[&_p]:my-0',
+                '[&_p]:text-[28px]',
+                '[&_p]:leading-12',
+                '[&_p]:tracking-[-0.3px]',
+                'md:[&_p]:text-[36px]',
+                'md:[&_p]:leading-12',
+                'lg:[&_p]:text-[44px]',
+                'lg:[&_p]:leading-14',
+                '2xl:[&_p]:text-5xl',
+                '2xl:[&_p]:leading-[57.6px]',
+                '2xl:[&_p]:tracking-[-1px]',
+                '[&_p]:font-normal',
+                '[&_p]:text-black/70 dark:[&_p]:text-[#efefefb3]',
+                '[&_p:last-of-type]:font-bold [&_p:last-of-type]:text-black dark:[&_p:last-of-type]:text-white',
+              )}
+            />
           ) : null}
 
           {cleanData?.body?.length ? (
@@ -82,7 +91,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
                       key={highlight._key ?? `highlight-${rowIndex}-${columnIndex}`}
                       className={cn(
                         'p-6',
-                        columnIndex === 0 && 'md:border-r md:border-black/10 md:dark:border-white/10',
+                        columnIndex === 0 && 'border-b border-black/10 dark:border-white/10 md:border-b-0 md:border-r md:border-black/10 md:dark:border-white/10',
                       )}
                     >
                       <article className="group relative isolate flex flex-col gap-12 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">

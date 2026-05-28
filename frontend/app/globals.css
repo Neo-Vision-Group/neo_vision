@@ -138,6 +138,15 @@ h4 {
   color-scheme: light !important;
 }
 
+@keyframes pin-pulse {
+  0%, to { opacity: 0.8; }
+  50%     { opacity: 0.35; }
+}
+
+.pin-pulse {
+  animation: pin-pulse 2s infinite;
+}
+
 @utility container {
   margin: 0 auto;
   padding: 0 2rem;

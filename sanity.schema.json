@@ -181,7 +181,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -197,14 +197,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "regular": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -220,21 +220,21 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "highlight": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "followup": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -250,14 +250,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "bold": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -417,7 +417,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -477,21 +477,21 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "before": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "after": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -507,7 +507,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -523,14 +523,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "attribution": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "source": {
           "type": "objectAttribute",
@@ -583,14 +583,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "bold": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -1144,14 +1144,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "highlight": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "items": {
           "type": "objectAttribute",
@@ -1165,21 +1165,21 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "duration": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -1195,7 +1195,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "visual": {
           "type": "objectAttribute",
@@ -1279,14 +1279,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "headingBold": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cards": {
           "type": "objectAttribute",
@@ -1300,7 +1300,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "details": {
                   "type": "objectAttribute",
@@ -1315,7 +1315,7 @@
                     "type": "inline",
                     "name": "button"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -1331,7 +1331,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "closingText": {
           "type": "objectAttribute",
@@ -1346,7 +1346,7 @@
             "type": "inline",
             "name": "button"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -1390,7 +1390,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
@@ -1443,7 +1443,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "items": {
           "type": "objectAttribute",
@@ -1457,7 +1457,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -1473,7 +1473,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -1532,7 +1532,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "badge": {
                   "type": "objectAttribute",
@@ -1660,7 +1660,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "groups": {
           "type": "objectAttribute",
@@ -1674,7 +1674,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "items": {
                   "type": "objectAttribute",
@@ -1688,7 +1688,7 @@
                           "value": {
                             "type": "string"
                           },
-                          "optional": true
+                          "optional": false
                         },
                         "logo": {
                           "type": "objectAttribute",
@@ -1779,28 +1779,28 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cardTitle": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cardBody": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "ctaLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "file": {
           "type": "objectAttribute",
@@ -1831,7 +1831,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -1938,7 +1938,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "recognitions": {
                   "type": "objectAttribute",
@@ -2109,7 +2109,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -2142,7 +2142,7 @@
               "type": "string"
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -2224,14 +2224,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "label": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "description": {
                   "type": "objectAttribute",
@@ -2254,7 +2254,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -2298,21 +2298,21 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "title": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "image": {
                   "type": "objectAttribute",
@@ -2336,7 +2336,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -2450,7 +2450,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "body": {
           "type": "objectAttribute",
@@ -2471,14 +2471,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -2524,7 +2524,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "subheading": {
           "type": "objectAttribute",
@@ -2555,14 +2555,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "value": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -2688,7 +2688,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "alt": {
           "type": "objectAttribute",
@@ -2718,7 +2718,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "text": {
           "type": "objectAttribute",
@@ -2990,7 +2990,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "categoryFilters": {
           "type": "objectAttribute",
@@ -3004,14 +3004,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "value": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "_type": {
                   "type": "objectAttribute",
@@ -3064,14 +3064,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "label": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -3087,7 +3087,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -3118,7 +3118,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cta": {
           "type": "objectAttribute",
@@ -3164,7 +3164,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -3188,7 +3188,7 @@
             "type": "inline",
             "name": "project.reference"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -3216,9 +3216,10 @@
         "title": {
           "type": "objectAttribute",
           "value": {
-            "type": "string"
+            "type": "inline",
+            "name": "blockContentTextOnly"
           },
-          "optional": true
+          "optional": false
         },
         "body": {
           "type": "objectAttribute",
@@ -3226,7 +3227,7 @@
             "type": "inline",
             "name": "blockContentTextOnly"
           },
-          "optional": true
+          "optional": false
         },
         "highlights": {
           "type": "objectAttribute",
@@ -3240,14 +3241,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "description": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "_type": {
                   "type": "objectAttribute",
@@ -3301,7 +3302,7 @@
             "type": "inline",
             "name": "compare.heading"
           },
-          "optional": true
+          "optional": false
         },
         "rows": {
           "type": "objectAttribute",
@@ -3315,7 +3316,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -3331,7 +3332,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "columns": {
           "type": "objectAttribute",
@@ -3345,7 +3346,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "highlightColumn": {
                   "type": "objectAttribute",
@@ -3382,7 +3383,7 @@
                       }
                     }
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -3398,7 +3399,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "closing": {
           "type": "objectAttribute",
@@ -3406,7 +3407,7 @@
             "type": "inline",
             "name": "closing"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -3458,7 +3459,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
@@ -3653,7 +3654,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "services": {
           "type": "objectAttribute",
@@ -3668,7 +3669,7 @@
                     "type": "inline",
                     "name": "service.reference"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "cta": {
                   "type": "objectAttribute",
@@ -3676,7 +3677,7 @@
                     "type": "inline",
                     "name": "button"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "_type": {
                   "type": "objectAttribute",
@@ -3699,7 +3700,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -3769,14 +3770,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "label": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -3806,14 +3807,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "label": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -3941,7 +3942,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "answer": {
                   "type": "objectAttribute",
@@ -4120,7 +4121,7 @@
                       }
                     }
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -4136,7 +4137,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -4164,112 +4165,7 @@
         "heading": {
           "type": "objectAttribute",
           "value": {
-            "type": "array",
-            "of": {
-              "type": "object",
-              "attributes": {
-                "children": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "array",
-                    "of": {
-                      "type": "object",
-                      "attributes": {
-                        "marks": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "array",
-                            "of": {
-                              "type": "string"
-                            }
-                          },
-                          "optional": true
-                        },
-                        "text": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string"
-                          },
-                          "optional": true
-                        },
-                        "_type": {
-                          "type": "objectAttribute",
-                          "value": {
-                            "type": "string",
-                            "value": "span"
-                          }
-                        }
-                      },
-                      "rest": {
-                        "type": "object",
-                        "attributes": {
-                          "_key": {
-                            "type": "objectAttribute",
-                            "value": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "optional": true
-                },
-                "style": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "union",
-                    "of": [
-                      {
-                        "type": "string",
-                        "value": "normal"
-                      }
-                    ]
-                  },
-                  "optional": true
-                },
-                "listItem": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "union",
-                    "of": []
-                  },
-                  "optional": true
-                },
-                "markDefs": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "null"
-                  },
-                  "optional": true
-                },
-                "level": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "number"
-                  },
-                  "optional": true
-                },
-                "_type": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "string",
-                    "value": "block"
-                  }
-                }
-              },
-              "rest": {
-                "type": "object",
-                "attributes": {
-                  "_key": {
-                    "type": "objectAttribute",
-                    "value": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
+            "type": "string"
           },
           "optional": true
         },
@@ -4408,7 +4304,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "body": {
                   "type": "objectAttribute",
@@ -4445,7 +4341,7 @@
                     "type": "inline",
                     "name": "button"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "texture": {
                   "type": "objectAttribute",
@@ -4468,7 +4364,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -4521,7 +4417,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "logos": {
           "type": "objectAttribute",
@@ -4535,7 +4431,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "logoLight": {
                   "type": "objectAttribute",
@@ -4543,7 +4439,7 @@
                     "type": "inline",
                     "name": "logoLight"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "logoDark": {
                   "type": "objectAttribute",
@@ -4567,7 +4463,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "testimonials": {
           "type": "objectAttribute",
@@ -4589,7 +4485,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -4649,7 +4545,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "members": {
           "type": "objectAttribute",
@@ -4671,14 +4567,14 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "closingStatement": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -4984,7 +4880,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "headingSecondary": {
           "type": "objectAttribute",
@@ -5015,7 +4911,7 @@
                       }
                     ]
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "priceLayout": {
                   "type": "objectAttribute",
@@ -5036,7 +4932,7 @@
                       }
                     ]
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "badge": {
                   "type": "objectAttribute",
@@ -5050,14 +4946,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "price": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "meta": {
                   "type": "objectAttribute",
@@ -5088,7 +4984,7 @@
                       }
                     ]
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "cta": {
                   "type": "objectAttribute",
@@ -5119,7 +5015,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -5142,14 +5038,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "heading": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cards": {
           "type": "objectAttribute",
@@ -5164,7 +5060,7 @@
                     "type": "inline",
                     "name": "project.reference"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -5180,7 +5076,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "cta": {
           "type": "objectAttribute",
@@ -5218,14 +5114,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "body": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "subtext": {
           "type": "objectAttribute",
@@ -5322,14 +5218,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "body": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "cta": {
           "type": "objectAttribute",
@@ -5337,7 +5233,7 @@
             "type": "inline",
             "name": "button"
           },
-          "optional": true
+          "optional": false
         },
         "subtext": {
           "type": "objectAttribute",
@@ -5411,7 +5307,7 @@
             "type": "inline",
             "name": "blockContentTextOnly"
           },
-          "optional": true
+          "optional": false
         },
         "secondaryCta": {
           "type": "objectAttribute",
@@ -5457,7 +5353,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "teamMember": {
           "type": "objectAttribute",
@@ -5465,7 +5361,7 @@
             "type": "inline",
             "name": "teamMember.reference"
           },
-          "optional": true
+          "optional": false
         },
         "whatToExpectHeading": {
           "type": "objectAttribute",
@@ -5482,7 +5378,7 @@
               "type": "string"
             }
           },
-          "optional": true
+          "optional": false
         },
         "schedulerUrl": {
           "type": "objectAttribute",
@@ -5519,7 +5415,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "bannerDescription": {
           "type": "objectAttribute",
@@ -5653,63 +5549,63 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "preferencesDescription": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "acceptAllLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "initialSaveLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "customizeLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "rejectAllLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "savePreferencesLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "backLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "footerButtonLabel": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "categories": {
           "type": "objectAttribute",
@@ -5723,14 +5619,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "description": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "required": {
                   "type": "objectAttribute",
@@ -5797,14 +5693,14 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "description": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "stats": {
           "type": "objectAttribute",
@@ -5818,7 +5714,7 @@
                   "value": {
                     "type": "number"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "suffix": {
                   "type": "objectAttribute",
@@ -5832,7 +5728,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -5862,14 +5758,14 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "description": {
                   "type": "objectAttribute",
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -5885,7 +5781,7 @@
               }
             }
           },
-          "optional": true
+          "optional": false
         },
         "formConfig": {
           "type": "objectAttribute",
@@ -5945,7 +5841,7 @@
                   "value": {
                     "type": "number"
                   },
-                  "optional": true
+                  "optional": false
                 },
                 "suffix": {
                   "type": "objectAttribute",
@@ -5959,7 +5855,7 @@
                   "value": {
                     "type": "string"
                   },
-                  "optional": true
+                  "optional": false
                 }
               },
               "rest": {
@@ -7205,28 +7101,28 @@
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "bottom": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "left": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "right": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -7249,28 +7145,28 @@
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "y": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "height": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "width": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -7346,14 +7242,14 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "email": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "company": {
         "type": "objectAttribute",
@@ -7395,7 +7291,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "source": {
         "type": "objectAttribute",
@@ -7409,7 +7305,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "status": {
         "type": "objectAttribute",
@@ -7485,21 +7381,21 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "attribution": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "quote": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "profilePicture": {
         "type": "objectAttribute",
@@ -7590,14 +7486,14 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "lastName": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "picture": {
         "type": "objectAttribute",
@@ -7651,7 +7547,7 @@
             }
           }
         },
-        "optional": true
+        "optional": false
       }
     }
   },
@@ -7695,7 +7591,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "defaultSeo": {
         "type": "objectAttribute",
@@ -7782,7 +7678,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "description": {
         "type": "objectAttribute",
@@ -8036,7 +7932,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "logoPicture": {
         "type": "objectAttribute",
@@ -8182,7 +8078,7 @@
                 "value": {
                   "type": "string"
                 },
-                "optional": true
+                "optional": false
               },
               "page": {
                 "type": "objectAttribute",
@@ -8227,7 +8123,7 @@
                 "value": {
                   "type": "string"
                 },
-                "optional": true
+                "optional": false
               },
               "links": {
                 "type": "objectAttribute",
@@ -8241,7 +8137,7 @@
                         "value": {
                           "type": "string"
                         },
-                        "optional": true
+                        "optional": false
                       },
                       "linkType": {
                         "type": "objectAttribute",
@@ -8262,7 +8158,7 @@
                             }
                           ]
                         },
-                        "optional": true
+                        "optional": false
                       },
                       "page": {
                         "type": "objectAttribute",
@@ -8428,7 +8324,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -8436,7 +8332,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "publishedAt": {
         "type": "objectAttribute",
@@ -9414,7 +9310,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -9422,7 +9318,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "description": {
         "type": "objectAttribute",
@@ -9451,7 +9347,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "source": {
           "type": "objectAttribute",
@@ -9503,28 +9399,28 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "order": {
         "type": "objectAttribute",
         "value": {
           "type": "number"
         },
-        "optional": true
+        "optional": false
       },
       "role": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "bio": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "portrait": {
         "type": "objectAttribute",
@@ -9615,7 +9511,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -9623,7 +9519,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "pageType": {
         "type": "objectAttribute",
@@ -10492,21 +10388,21 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "title": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "year": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -10514,7 +10410,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "category": {
         "type": "objectAttribute",
@@ -10522,7 +10418,7 @@
           "type": "inline",
           "name": "service.reference"
         },
-        "optional": true
+        "optional": false
       },
       "industry": {
         "type": "objectAttribute",
@@ -10530,14 +10426,14 @@
           "type": "inline",
           "name": "industry.reference"
         },
-        "optional": true
+        "optional": false
       },
       "tagline": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "metric": {
         "type": "objectAttribute",
@@ -11419,7 +11315,7 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -11427,7 +11323,7 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "order": {
         "type": "objectAttribute",
@@ -11478,14 +11374,14 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "price": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "category": {
         "type": "objectAttribute",
@@ -11502,14 +11398,14 @@
             }
           ]
         },
-        "optional": true
+        "optional": false
       },
       "tag": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "slug": {
         "type": "objectAttribute",
@@ -11517,14 +11413,14 @@
           "type": "inline",
           "name": "slug"
         },
-        "optional": true
+        "optional": false
       },
       "duration": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "pageBuilder": {
         "type": "objectAttribute",
@@ -12527,7 +12423,7 @@
             "type": "inline",
             "name": "assist.instruction.context.reference"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -12706,7 +12602,7 @@
           "value": {
             "type": "string"
           },
-          "optional": true
+          "optional": false
         },
         "description": {
           "type": "objectAttribute",
@@ -13221,21 +13117,21 @@
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "width": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         },
         "aspectRatio": {
           "type": "objectAttribute",
           "value": {
             "type": "number"
           },
-          "optional": true
+          "optional": false
         }
       }
     }
@@ -13390,35 +13286,35 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "extension": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "mimeType": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "size": {
         "type": "objectAttribute",
         "value": {
           "type": "number"
         },
-        "optional": true
+        "optional": false
       },
       "assetId": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "uploadId": {
         "type": "objectAttribute",
@@ -13432,14 +13328,14 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "url": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "source": {
         "type": "objectAttribute",
@@ -13563,35 +13459,35 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "extension": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "mimeType": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "size": {
         "type": "objectAttribute",
         "value": {
           "type": "number"
         },
-        "optional": true
+        "optional": false
       },
       "assetId": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "uploadId": {
         "type": "objectAttribute",
@@ -13605,14 +13501,14 @@
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "url": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
         },
-        "optional": true
+        "optional": false
       },
       "metadata": {
         "type": "objectAttribute",

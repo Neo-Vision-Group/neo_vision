@@ -177,51 +177,72 @@ export function Team({ data }: { data?: TeamData }) {
                           </p>
                         </div>
                       </div>
+                      {hasMultiple && (
+                        <div className="hidden lg:flex items-center gap-3">
+                          <button
+                            type="button"
+                            aria-label="Previous team member"
+                            onClick={() => scroll("prev")}
+                            className="group flex size-12 items-center justify-center transition-colors"
+                          >
+                            <TeamArrowLeft key={arrowColor} color={arrowColor} />
+                          </button>
+                          <button
+                            type="button"
+                            aria-label="Next team member"
+                            onClick={() => scroll("next")}
+                            className="group flex size-12 items-center justify-center transition-colors"
+                          >
+                            <TeamArrowRight key={arrowColor} color={arrowColor} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  <div className="relative aspect-square w-full max-w-[360px] self-center shrink-0 overflow-hidden bg-white dark:bg-dark lg:self-start lg:max-w-none lg:w-108">
-                    <BinaryGlitchField key={`${i}-${animKeys[i] ?? 0}`} isDark={isDarkTheme} />
-                    <div className="absolute inset-0" />
-                    {portraitUrl && (
-                      <div className="absolute inset-0 z-10 overflow-hidden">
-                        <div className="relative size-full">
-                          <Image
-                            src={portraitUrl}
-                            alt={member.name}
-                            className="object-cover"
-                            fill
-                            sizes="(min-width: 1024px) 432px, 100vw"
-                          />
-                        </div>
+                  <div className="relative w-full max-w-[360px] self-center lg:self-start lg:max-w-none lg:w-108">
+                    {hasMultiple && (
+                      <div className="pointer-events-none absolute -top-20 right-0 z-20 flex items-center gap-3 py-6 lg:hidden">
+                        <button
+                          type="button"
+                          aria-label="Previous team member"
+                          onClick={() => scroll("prev")}
+                          className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
+                        >
+                          <TeamArrowLeft key={arrowColor} color={arrowColor} />
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Next team member"
+                          onClick={() => scroll("next")}
+                          className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
+                        >
+                          <TeamArrowRight key={arrowColor} color={arrowColor} />
+                        </button>
                       </div>
                     )}
+                    <div className="relative aspect-square w-full max-w-[360px] shrink-0 overflow-hidden bg-white dark:bg-dark lg:max-w-none lg:w-108">
+                      <BinaryGlitchField key={`${i}-${animKeys[i] ?? 0}`} isDark={isDarkTheme} />
+                      <div className="absolute inset-0" />
+                      {portraitUrl && (
+                        <div className="absolute inset-0 z-10 overflow-hidden">
+                          <div className="relative size-full">
+                            <Image
+                              src={portraitUrl}
+                              alt={member.name}
+                              className="object-contain"
+                              fill
+                              sizes="(min-width: 1024px) 432px, 100vw"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               );
             })}
           </div>
-
-          {hasMultiple && (
-            <div className="pointer-events-none absolute bottom-0 left-0 flex items-center gap-3 py-6 lg:pr-12">
-              <button
-                type="button"
-                aria-label="Previous team member"
-                onClick={() => scroll("prev")}
-                className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
-              >
-                <TeamArrowLeft key={arrowColor} color={arrowColor} />
-              </button>
-              <button
-                type="button"
-                aria-label="Next team member"
-                onClick={() => scroll("next")}
-                className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
-              >
-                <TeamArrowRight key={arrowColor} color={arrowColor} />
-              </button>
-            </div>
-          )}
         </div>
 
         {team.closingStatement && (
@@ -266,18 +287,15 @@ function BinaryGlitchField({ isDark }: { isDark: boolean }) {
 
   if (!mounted) return null;
 
+  const dotColor = isDark ? "220,220,220" : "30,30,30";
+
   return (
     <div className="absolute inset-[-8%] overflow-hidden">
       <div className="absolute inset-0" />
       <div
-        className="absolute inset-0 font-opening-hours-mono text-[22px] uppercase leading-[1.05] tracking-[0.24em] md:text-[28px]"
+        className="absolute inset-0 font-mono text-[22px] leading-[1.05] md:text-[28px] select-none"
         style={{
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
-          backgroundImage: isDark
-            ? "linear-gradient(180deg, rgba(220,220,220,0.5) 0%, rgba(220,220,220,0) 60%)"
-            : "linear-gradient(180deg, rgba(30,30,30,0.45) 0%, rgba(30,30,30,0) 60%)",
+          color: `rgb(${dotColor})`,
         }}
       >
         {lines.map((line, index) => (
@@ -288,6 +306,10 @@ function BinaryGlitchField({ isDark }: { isDark: boolean }) {
               transform: `translate3d(${index % 2 === 0 ? "-3%" : "1%"}, ${
                 index * 92
               }%, 0)`,
+              maskImage: `radial-gradient(circle at center, rgba(0,0,0,1) 0.5px, transparent 1.2px)`,
+              maskSize: '2.5px 2.5px',
+              WebkitMaskImage: `radial-gradient(circle at center, rgba(0,0,0,1) 0.5px, transparent 1.2px)`,
+              WebkitMaskSize: '2.5px 2.5px',
             }}
           >
             {line}

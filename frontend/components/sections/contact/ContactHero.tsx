@@ -164,7 +164,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             <div className="flex gap-6">
               <button
                 type="button"
-                onClick={() => setActiveTab("message")}
+                onClick={() => { setActiveTab("message"); setMessageTabHovered(false); }}
                 onMouseEnter={() => setMessageTabHovered(true)}
                 onMouseLeave={() => setMessageTabHovered(false)}
                 className={cn(
@@ -172,7 +172,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                   activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
-                <AnimatedBorder isHovered={messageTabHovered && activeTab !== "message"} />
+                {activeTab !== "message" && <AnimatedBorder isHovered={messageTabHovered} />}
                 Send a message
                 {activeTab === "message" && (
                   <>
@@ -185,7 +185,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("call")}
+                onClick={() => { setActiveTab("call"); setCallTabHovered(false); }}
                 onMouseEnter={() => setCallTabHovered(true)}
                 onMouseLeave={() => setCallTabHovered(false)}
                 className={cn(
@@ -193,7 +193,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                   activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
-                <AnimatedBorder isHovered={callTabHovered && activeTab !== "call"} />
+                {activeTab !== "call" && <AnimatedBorder isHovered={callTabHovered} />}
                 Book a call
                 {activeTab === "call" && (
                   <>

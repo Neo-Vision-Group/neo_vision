@@ -96,28 +96,17 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
     return null;
   }
 
-  const logoRows: Logo[][] = [];
-  for (let i = 0; i < trustedBy.logos.length; i += 3) {
-    logoRows.push([...trustedBy.logos.slice(i, i + 3)]);
-  }
-
   return (
     <SectionsWrapper id="trusted-by" eyebrow={trustedBy.eyebrow} classNameOverride="px-0">
       <div className="flex flex-col gap-12">
         {/* Logo grid */}
-        <div className="flex flex-col -mt-12">
-          {logoRows.map((row, rIdx) => (
-            <div key={rIdx}>
-              <div className="grid grid-cols-1 md:grid-cols-2 divide-x dark:divide-white/20 divide-black/20 lg:grid-cols-3">
-                {row.map((logoItem, cIdx) => {
-                  return (
-                    <div key={cIdx} className="p-6">
-                      <LogoItem logoItem={logoItem} />
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="h-px w-full dark:bg-white/20 bg-black/20" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 -mt-12">
+          {trustedBy.logos.map((logoItem, idx) => (
+            <div
+              key={idx}
+              className="p-6 border-b border-r dark:border-white/20 border-black/20"
+            >
+              <LogoItem logoItem={logoItem} />
             </div>
           ))}
         </div>

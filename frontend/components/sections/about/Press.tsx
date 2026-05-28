@@ -81,7 +81,7 @@ export function Press({data}: {data?: PressData}) {
         ) : null}
 
         <div>
-          <article className="group border border-brand bg-white-light p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/70 hover:-translate-y-0.5">
+          <article className="group border border-brand bg-white-light dark:bg-black p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/70 hover:-translate-y-0.5">
             <div className="flex flex-col items-start gap-8">
               <div className="flex flex-col gap-3">
                 {cardTitle ? (

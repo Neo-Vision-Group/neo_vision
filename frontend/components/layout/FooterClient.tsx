@@ -101,14 +101,13 @@ export function Footer({
           <div
             aria-hidden="true"
             className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center overflow-hidden"
-            style={{ height: 'clamp(80px, 21cqw, 180px)' }}
+            style={{ height: 'clamp(70px, 14vw, 160px)' }}
           >
             <span
-              className="font-betatron whitespace-nowrap uppercase leading-none text-white dark:text-brand"
+              className="font-betatron whitespace-nowrap uppercase leading-none text-white dark:text-brand text-center"
               style={{
-                fontSize: 'clamp(120px, 29cqw, 240px)',
+                fontSize: 'clamp(64px, 14vw, 180px)',
                 transform: 'translateY(10%)',
-                maxWidth: '100%',
               }}
             >
               NEO VISION

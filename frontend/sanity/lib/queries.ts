@@ -243,6 +243,13 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "whatWeDo" => {
       ...,
+      ctaSection {
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
       cards[]{
         ...,
         cta {
@@ -423,7 +430,13 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "whyRomania" => {
       ...,
-      title,
+      title[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      },
       body[]{
         ...,
         markDefs[]{

@@ -85,7 +85,7 @@ export function Compare({data}: {data?: CompareData}) {
               <table className="w-full table-fixed border-collapse">
                 <thead>
                   <tr className="border-b border-black/10 dark:border-white/20">
-                    <th className="w-25 md:w-[25%] px-2 py-0 text-left md:sticky md:left-0 bg-white dark:bg-black" />
+                    <th className="w-25 md:w-[25%] px-2 py-0 text-left sticky left-0 z-10 bg-white dark:bg-black" />
                     {columns.map((column, columnIndex) => {
                       const highlighted = Boolean(column.highlightColumn)
 

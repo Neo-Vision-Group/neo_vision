@@ -154,7 +154,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
         </RevealOnScroll>
 
         {ctaLabel && ctaHref ? (
-          <div className="flex justify-center px-6 pb-4">
+          <div className="flex justify-center px-6 pb-16">
             <Button href={ctaHref} variant="primary">
               {ctaLabel}
             </Button>
@@ -226,8 +226,8 @@ function CaseRow({ item }: { item: ProjectItem }) {
         </div>
       </div>
 
-      <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-300 ease-out group-hover/work-shell:bg-transparent lg:flex-row">
-        <div className="flex w-full shrink-0 flex-col justify-end p-4 lg:w-1/4">
+            <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
+        <div className="order-3 flex w-full shrink-0 flex-col justify-end p-4 md:order-2 md:w-1/2 lg:order-1 lg:w-1/4">
           <div className="flex flex-col gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
@@ -246,7 +246,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </Link>
         </div>
 
-        <div className="relative min-h-48 min-w-0 flex-1 p-4 md:min-h-64">
+        <div className="order-2 relative min-h-48 min-w-0 flex-1 p-4 md:order-3 md:w-full md:min-h-64 lg:order-2 lg:w-auto">
           <div className="relative h-full w-full overflow-hidden">
             {item.imageUrl && (
               <Image
@@ -263,7 +263,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
           </div>
         </div>
 
-        <div className="flex w-full shrink-0 flex-col justify-between gap-6 p-4 lg:w-1/4 lg:py-6">
+        <div className="order-1 flex w-full shrink-0 flex-col justify-between gap-6 p-4 md:order-1 md:w-1/2 lg:order-3 lg:w-1/4 lg:py-6">
           <Link href={item.ctaHref}>
             <Button variant="primary">{item.ctaLabel}</Button>
           </Link>

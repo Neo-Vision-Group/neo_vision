@@ -27,13 +27,15 @@ export function StudyTestimonial({ data }: { data?: StudyTestimonialData }) {
       id="testimonial"
       eyebrow={eyebrow}
     >
-      <TestimonialQuote
-        quote={quote.quote}
-        attribution={quote.attribution ?? ""}
-        source={quote.source ?? undefined}
-        accent={quote.accent ?? false}
-        variant="study"
-      />
+      <div className="pb-16">
+        <TestimonialQuote
+          quote={quote.quote}
+          attribution={quote.attribution ?? ""}
+          source={quote.source ?? undefined}
+          accent={quote.accent ?? false}
+          variant="study"
+        />
+      </div>
     </SectionsWrapper>
   );
 }

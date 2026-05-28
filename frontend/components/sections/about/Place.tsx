@@ -79,6 +79,26 @@ export function Place({ data }: { data?: PlaceData }) {
             />
           </div>
 
+          {/* City badge — flat overlay, not affected by the 3D map transform */}
+          <div
+            className="absolute z-10 flex items-center gap-3 pointer-events-none"
+            style={{ left: '54%', top: '24%' }}
+          >
+            <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
+              <span className="pin-pulse absolute rounded-full border-2 border-[#ff4100] opacity-80" style={{ width: 50, height: 50 }} />
+              <span className="pin-pulse absolute rounded-full border border-[#ff4100] opacity-40" style={{ width: 90, height: 90, animationDelay: '1s' }} />
+              <span className="absolute rounded-full bg-[#ff4100]" style={{ width: 20, height: 20 }} />
+            </div>
+            <div
+              className="flex items-center h-11 px-4 rounded-lg border border-[#ff4100]"
+              style={{ background: 'rgba(255,65,0,0.15)' }}
+            >
+              <span className="font-funnel text-lg font-bold tracking-tight text-white leading-none">
+                Bucharest, Romania
+              </span>
+            </div>
+          </div>
+
           <div
             className="absolute inset-0 dark:[--place-fade:var(--color-dark,#040404)]"
             style={{
