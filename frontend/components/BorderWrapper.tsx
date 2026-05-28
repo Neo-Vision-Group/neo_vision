@@ -1,3 +1,4 @@
+import React from "react";
 import type { ElementType, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -6,6 +7,7 @@ interface BorderWrapperProps {
   as?: ElementType;
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 interface DividerProps {
@@ -17,6 +19,7 @@ export function BorderWrapper({
   as: Component = "span",
   children,
   className = "",
+  style,
 }: BorderWrapperProps) {
   return (
     <Component
@@ -24,6 +27,7 @@ export function BorderWrapper({
         "relative inline-flex",
         className
       )}
+      style={style}
     >
       <span
         aria-hidden="true"

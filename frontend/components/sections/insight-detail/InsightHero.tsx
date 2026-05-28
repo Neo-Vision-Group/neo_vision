@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import Badge from "@/components/partials/Badge";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import type { InsightDoc } from "@/app/insights/[slug]/page";
@@ -70,7 +69,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
   const categoryLabel = formatCategory(post.category);
   const slug = resolveSlug(post.slug);
   const coverImageUrl = post.coverImage
-    ? urlForImage(post.coverImage)?.width(1600).height(900).fit("crop").url()
+    ? urlForImage(post.coverImage)?.width(1200).height(1200).fit("crop").url()
     : post.cover || null;
 
   return (
@@ -109,7 +108,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 {post.title}
               </h1>
               {post.excerpt ? (
-                <p className="max-w-[40ch] text-[16px] leading-[1.4] text-black/80 dark:text-white/78 md:text-[18px] xl:text-[20px]">
+                <p className="text-[16px] leading-[1.4] text-black/80 dark:text-white/78 md:text-[18px] xl:text-[20px]">
                   {post.excerpt}
                 </p>
               ) : null}
@@ -120,13 +119,12 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 <div className="flex items-center gap-3">
                   <div className="relative h-10 w-10 shrink-0 bg-black/6 dark:bg-white/6">
                     {post.author.portrait ? (
-                      <BorderWrapper>
+                      <BorderWrapper className="h-full w-full">
                         <Image
                           src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
                           alt={post.author.name}
-                          width={40}
-                          height={40}
-                          className="h-full w-full object-cover"
+                          fill
+                          className="object-cover"
                         />
                       </BorderWrapper>
                     ) : (
@@ -188,17 +186,26 @@ export function InsightHero({ post }: { post: InsightDoc }) {
             </div>
           </div>
 
-          {/* Right column — cover image, contained to show full image */}
+          {/* Right column — fixed square ~70vh, flush to right */}
           {coverImageUrl ? (
-            <div className="relative flex w-full flex-1 items-center justify-center overflow-hidden lg:min-h-[400px] lg:w-auto lg:px-6">
-              <div className="relative aspect-video w-full max-w-full">
-                <Image
-                  src={coverImageUrl}
-                  alt={post.title ?? "Insight cover image"}
-                  fill
-                  sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 48px), calc(100vw - 32px)"
-                  className="object-contain"
-                />
+            <div className="flex min-w-0 flex-1 items-center justify-end lg:pr-0">
+              <div
+                className="relative shrink-0"
+                style={{ width: "min(70vh, 100%)", height: "min(70vh, 100%)", aspectRatio: "1 / 1" }}
+              >
+                <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
+                  <Image
+                    src={coverImageUrl}
+                    alt={post.title ?? "Insight cover image"}
+                    fill
+                    sizes="(min-width: 1024px) 70vh, (min-width: 768px) calc(100vw - 96px), calc(100vw - 32px)"
+                    className="object-cover"
+                  />
+                </div>
+                {/* BorderWrapper-style overflow corners — spans live on the outer wrapper so they aren't clipped */}
+                <span aria-hidden="true" className="pointer-events-none absolute left-0 top-[-2.5%] h-[105%] w-px bg-brand" />
+                <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[125%] bg-brand" />
+                <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[125%] bg-brand" />
               </div>
             </div>
           ) : null}
