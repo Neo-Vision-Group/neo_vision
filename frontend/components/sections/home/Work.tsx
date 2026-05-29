@@ -132,7 +132,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
               type="words"
               stagger={0.04}
               colorReveal
-              className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+              className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
             >
               {heading}
             </SplitTextReveal>
@@ -232,7 +232,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="text-caption tracking-[-0.16px]">
               Date
             </span>
-            <span className="font-betatron text-4xl leading-9 tracking-[-0.2px] text-foreground">
+            <span className="font-betatron text-4xl leading-12 tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>
@@ -272,7 +272,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="text-caption capitalize tracking-[-0.16px] text-brand">
               {item.category}
             </span>
-            <span className="font-funnel dark:text-white text-black text-4xl leading-9 tracking-[-0.2px]">
+            <span className="font-funnel dark:text-white text-black text-[32px] leading-12 tracking-[-1px]">
               {item.name}
             </span>
             <p className="text-funnel dark:text-[#efefefb3] text-[#040404b3] text-[18px]">{item.tagline}</p>

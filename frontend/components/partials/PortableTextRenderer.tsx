@@ -22,7 +22,7 @@ type ImageBlock = { _type: "image"; asset?: { url?: string }; alt?: string };
 const components: PortableTextComponents = {
   block: {
     normal: ({ children }) => (
-      <p className="my-5 text-[18px] font-funnel text-foreground/85 leading-normal">
+      <p className="my-5 font-funnel text-foreground/85 leading-normal">
         {children}
       </p>
     ),

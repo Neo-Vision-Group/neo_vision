@@ -157,7 +157,7 @@ function MethodologyCard({
           {step.number}
         </span>
         <div className="flex flex-col">
-          <h3 className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-4xl xl:leading-9">
+          <h3 className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 xl:text-4xl xl:leading-12">
             {step.title}
           </h3>
           <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">

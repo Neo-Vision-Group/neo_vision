@@ -53,7 +53,7 @@ export function Industries({ data }: { data: IndustryData }) {
         <SectionsWrapper eyebrow={data.eyebrow} classNameOverride="px-0 pb-24">
             <div className="flex flex-col gap-12">
             <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16">
-                <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]">
+                <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]">
                     <span className="text-foreground/70">{data.heading} </span>
                 </h2>
             </div>

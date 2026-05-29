@@ -85,7 +85,7 @@ export function Footer({
                   <Logo className="hidden h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:block" />
                 </>
               )}
-              <p className="min-w-0 font-betatron uppercase text-[32px] leading-8 tracking-[-0.2px] text-white md:text-[18px] md:leading-8 lg:text-[28px] lg:leading-9 2xl:text-[32px] 2xl:leading-[38px]">
+              <p className="min-w-0 font-betatron uppercase text-[32px] leading-8 tracking-[-0.2px] text-white md:text-[18px] md:leading-8 lg:text-[28px] lg:leading-12 2xl:text-[32px] 2xl:leading-[38px]">
                 {title}
               </p>
             </div>
@@ -116,7 +116,7 @@ export function Footer({
 
           {displayColumns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-funnel text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-9 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
+              <h3 className="font-funnel text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-12 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">

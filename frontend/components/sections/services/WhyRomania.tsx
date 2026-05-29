@@ -72,7 +72,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
           {cleanData?.body?.length ? (
             <PortableTextRenderer
               value={cleanData.body}
-              className="text-4xl leading-8 font-funnel md:text-[18px] md:leading-9"
+              className="text-4xl leading-8 font-funnel md:text-[18px] md:leading-12"
             />
           ) : null}
         </div>

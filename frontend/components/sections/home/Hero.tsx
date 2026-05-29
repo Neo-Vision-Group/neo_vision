@@ -1,5 +1,4 @@
 import { Button } from "../../../components/partials/Button";
-import { HeroBrandDotsBackground } from "../../../components/partials/HeroBrandDotsBackground";
 import type { DereferencedLink } from "../../../sanity/lib/types";
 import { cleanStega, linkResolver } from "../../../sanity/lib/utils";
 import dynamic from "next/dynamic";
@@ -67,10 +66,10 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="relative isolate flex h-[calc(100svh-4rem)] flex-col justify-between overflow-hidden bg-transparent"
+      className="relative isolate flex flex-col justify-between overflow-hidden"
     >
 
-      <div className="relative flex flex-col justify-center gap-6 px-3 pt-16 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
+      <div className="relative flex flex-col justify-center gap-6 px-6 pt-6 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
         <div className="flex w-full flex-col gap-3 md:gap-4">
           <SplitTextReveal
             as="span"
@@ -98,7 +97,7 @@ export function Hero({ data }: { data?: HeroData }) {
                 {hero.heading}
               </p>
             ) : null}
-            {hero.body ? <p className="text-[18px] text-xl">{hero.body}</p> : null}
+            {hero.body ? <p className="text-[14px] text-xl">{hero.body}</p> : null}
           </div>
           {hero.primaryCtaLabel && hero.primaryCtaHref ? (
             <div className="flex w-full">
@@ -121,10 +120,10 @@ export function Hero({ data }: { data?: HeroData }) {
             as="div"
             from="bottom"
             distance={16}
-            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16 2xl:pl-30"
+            className="flex pb-3 px-6 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16 2xl:pl-30"
           >
             {hero.stats ? (
-              <p className="w-full font-funnel text-[18px] text-center px-1.5 leading-normal">
+              <p className="w-full font-funnel text-[14px] text-center px-1.5 leading-normal">
                 {hero.stats}
               </p>
             ) : null}
@@ -135,7 +134,7 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="py-3 flex min-w-0 flex-1 flex-col items-start gap-8 md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 md:py-6">
+          <div className="py-3 flex min-w-0 flex-1 flex-col items-start md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 md:py-6">
             <SplitTextReveal
               as="p"
               type="words"
@@ -151,11 +150,11 @@ export function Hero({ data }: { data?: HeroData }) {
               from="right"
               distance={24}
               delay={0.15}
-              className="flex shrink-0 flex-col items-start gap-[18px] md:items-end"
+              className="flex shrink-0 w-full flex-col items-start gap-6 md:gap-[18px] md:items-end"
             >
               <PortableTextRenderer
                 value={hero.mergerNote}
-                className="font-funnel text-[18px] leading-normal text-foreground md:text-right [&_p]:my-0"
+                className="font-funnel text-[14px] leading-normal text-foreground md:text-right [&_p]:my-0"
               />
               {hero.secondaryCtaLabel && hero.secondaryCtaHref ? (
                 <Button

@@ -40,7 +40,7 @@ export function PortfolioCta({ data }: { data?: PortfolioCtaData }) {
 
   return (
     <div className="flex flex-col gap-8 border border-brand/40 bg-surface px-6 py-12 md:px-6 md:py-16 lg:px-8 xl:px-12 2xl:px-16">
-      <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+      <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
         {heading?.regular}{" "}
         <span className="font-bold">{heading?.bold}</span>
       </h2>

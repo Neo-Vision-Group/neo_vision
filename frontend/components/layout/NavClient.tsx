@@ -107,7 +107,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
     return '#'
   }
   
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -163,7 +163,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               className="h-8 w-auto"
             />
           ) : (
-            <Logo darkMode={mounted ? theme === 'dark' : false} />
+            <Logo darkMode={mounted ? resolvedTheme === 'dark' : true} />
           )}
           <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}

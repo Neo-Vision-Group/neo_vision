@@ -32,6 +32,8 @@ const nextConfig: NextConfig = {
     ] as any,
   },
 
+  allowedDevOrigins: ['*.trycloudflare.com'],
+
   // Required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
 
@@ -88,7 +90,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com; font-src 'self'; connect-src 'self' https://api.sanity.io https://cdn.sanity.io; frame-ancestors 'none';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com; font-src 'self'; connect-src 'self' https://api.sanity.io https://cdn.sanity.io wss:; frame-ancestors 'none';",
           },
         ],
       },

@@ -36,7 +36,7 @@ export function StudyMoreLikeThis({ data }: { data?: StudyMoreLikeThisData }) {
     >
       <div className="flex flex-col gap-12">
         {heading ? (
-          <h2 className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+          <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
             {heading.regular}{" "}
             <span className="font-bold">{heading.bold}</span>
           </h2>

@@ -240,7 +240,7 @@ function StepCard({
       </div>
 
       <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-3">
           <span className="font-betatron text-[48px] leading-none text-brand">
             {step.number}
           </span>
@@ -248,7 +248,7 @@ function StepCard({
             <h3 className="text-[24px]! leading-[1.3] tracking-[-0.15px]">
               {step.title}
             </h3>
-            <p className="text-[16px]">{step.duration}</p>
+            <p className="text-[14px]">{step.duration}</p>
           </div>
         </div>
         <p className="text-[18px] text-muted-light dark:text-muted-dark">{step.body}</p>
