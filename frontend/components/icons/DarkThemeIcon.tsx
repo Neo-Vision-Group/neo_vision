@@ -1,4 +1,4 @@
-export default function DarkThemeIcon({ color, width = 24, height = 24, className = "" }: { color: string, width?: number, height?: number, className?: string }) {
+export default function DarkThemeIcon({ width = 24, height = 24, className = "" }: { width?: number, height?: number, className?: string }) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} viewBox="0 0 24 24" fill="none" className={className}>
             <path opacity="0.5" fillRule="evenodd" clipRule="evenodd" d="M22 12.0004C22 17.5234 17.523 22.0004 12 22.0004C10.8691 22.0015 9.74615 21.8108 8.67901 21.4364C8.22985 20.3466 7.99915 19.1791 8.00001 18.0004C7.99726 15.8666 8.7553 13.8016 10.138 12.1764C10.7352 13.0472 11.5355 13.7595 12.4698 14.2515C13.404 14.7436 14.4441 15.0006 15.5 15.0004C16.6201 15.0006 17.7212 14.7113 18.6966 14.1606C19.672 13.6099 20.4885 12.8165 21.067 11.8574C21.307 11.4614 22 11.5374 22 12.0004Z" fill="#FF4100"/>

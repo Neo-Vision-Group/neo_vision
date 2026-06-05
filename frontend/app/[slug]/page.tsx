@@ -69,9 +69,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     fallbackDescription:
       page?.heading ??
       page?.subheading ??
-      extractPageBuilderDescription(
-        page?.pageBuilder as Array<Record<string, unknown>> | null | undefined
-      ),
+      extractPageBuilderDescription(page?.pageBuilder),
     schemaTypeFallback: getPageSchemaType(params.slug),
   })
 
@@ -96,15 +94,13 @@ export default async function Page(props: Props) {
     fallbackDescription:
       page.heading ??
       page.subheading ??
-      extractPageBuilderDescription(
-        page.pageBuilder as Array<Record<string, unknown>> | null | undefined
-      ),
+      extractPageBuilderDescription(page.pageBuilder),
     schemaTypeFallback: getPageSchemaType(params.slug),
   })
   const structuredData = buildRouteStructuredData({
     ...seoContext,
     routeType: 'page',
-    pageBuilder: page.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+    pageBuilder: page.pageBuilder,
   })
 
   return (

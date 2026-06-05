@@ -98,6 +98,23 @@ Now that you’ve deployed your Next.js application and Sanity Studio, you can o
 
 They will be able to access the deployed Studio, where you can collaborate together on creating content.
 
+## Security
+
+This project implements comprehensive security measures including:
+
+- **Rate Limiting:** 5 requests per 15 minutes per IP on contact form
+- **CSRF Protection:** Double-submit cookie pattern
+- **Input Sanitization:** All user inputs sanitized before storage
+- **Security Headers:** CSP, HSTS, X-Frame-Options, and more
+- **Audit Logging:** Full security event tracking with correlation IDs
+
+For detailed security information, see:
+- [`SECURITY.md`](./SECURITY.md) - Comprehensive security documentation
+- [`DEPLOYMENT-SECURITY-CHECKLIST.md`](./DEPLOYMENT-SECURITY-CHECKLIST.md) - Pre-deployment checklist
+- [`SECURITY-IMPLEMENTATION-SUMMARY.md`](./SECURITY-IMPLEMENTATION-SUMMARY.md) - Implementation details
+
+**Security Contact:** security@neovision.dev
+
 ## Resources
 
 - [Sanity documentation](https://www.sanity.io/docs)

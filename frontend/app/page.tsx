@@ -29,9 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
     origin,
     seo: homePage?.seo,
     fallbackTitle: homePage?.name,
-    fallbackDescription: extractPageBuilderDescription(
-      homePage?.pageBuilder as Array<Record<string, unknown>> | null | undefined
-    ),
+    fallbackDescription: extractPageBuilderDescription(homePage?.pageBuilder),
     schemaTypeFallback: 'WebPage',
   })
 
@@ -72,15 +70,13 @@ export default async function Page() {
     origin,
     seo: homePage.seo,
     fallbackTitle: homePage.name,
-    fallbackDescription: extractPageBuilderDescription(
-      homePage.pageBuilder as Array<Record<string, unknown>> | null | undefined
-    ),
+    fallbackDescription: extractPageBuilderDescription(homePage.pageBuilder),
     schemaTypeFallback: 'WebPage',
   })
   const structuredData = buildRouteStructuredData({
     ...seoContext,
     routeType: 'page',
-    pageBuilder: homePage.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+    pageBuilder: homePage.pageBuilder,
   })
 
   return (

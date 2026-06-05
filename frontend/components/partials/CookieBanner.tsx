@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import {PortableText} from '@portabletext/react'
-import {useEffect, useEffectEvent, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import type {ButtonHTMLAttributes, ReactNode} from 'react'
 import type {TypedObject} from '@portabletext/types'
 import {cn} from '@/lib/utils'
@@ -142,7 +142,9 @@ function persistPreferences(categories: CookieCategory[], preferences: Record<st
   }
 
   window.localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(payload))
-  document.cookie = 'neo_cookie_preferences_set=1; Max-Age=31536000; Path=/; SameSite=Lax'
+  const isProduction = process.env.NODE_ENV === 'production'
+  const secureFlag = isProduction ? ' Secure;' : ''
+  document.cookie = `neo_cookie_preferences_set=1; Max-Age=31536000; Path=/; SameSite=Strict;${secureFlag}`
 
   // Notify other components (e.g., analytics) that consent has changed
   dispatchConsentUpdate()
@@ -266,7 +268,8 @@ export default function CookieBanner({settings}: CookieBannerProps) {
     setIsVisible(storedPreferences === null)
   }, [settings?.enabled, categorySignature])
 
-  const reopenPreferences = useEffectEvent(() => {
+  const reopenPreferencesRef = useRef<() => void>(undefined)
+  reopenPreferencesRef.current = () => {
     if (!settings?.enabled || categories.length === 0) {
       return
     }
@@ -274,11 +277,11 @@ export default function CookieBanner({settings}: CookieBannerProps) {
     setPreferences(readStoredPreferences(categories) ?? buildDefaultPreferences(categories))
     setMode('customize')
     setIsVisible(true)
-  })
+  }
 
   useEffect(() => {
     const listener = () => {
-      reopenPreferences()
+      reopenPreferencesRef.current?.()
     }
 
     window.addEventListener(COOKIE_PREFERENCES_EVENT, listener)
@@ -286,7 +289,7 @@ export default function CookieBanner({settings}: CookieBannerProps) {
     return () => {
       window.removeEventListener(COOKIE_PREFERENCES_EVENT, listener)
     }
-  }, [reopenPreferences])
+  }, [])
 
   if (!settings?.enabled || categories.length === 0 || !isVisible) {
     return null

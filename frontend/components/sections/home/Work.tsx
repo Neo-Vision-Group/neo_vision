@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { Button } from "@/components/partials/Button";
@@ -67,12 +68,13 @@ type ProjectItem = {
   imageUrl: string | undefined;
 };
 
-function resolveImageUrl(image?: string) {
-  return image || undefined;
-}
-
 export function OurWork({ data }: { data?: PortfolioData }) {
   const cleanData = data ? cleanStega(data) : data;
+  const [imageErrors, setImageErrors] = React.useState<Set<string>>(new Set());
+
+  const handleImageError = (imageUrl: string) => {
+    setImageErrors(prev => new Set(prev).add(imageUrl));
+  };
 
   const ctaHref = linkResolver(cleanData?.cta?.link ?? undefined);
   const ctaLabel = cleanData?.cta?.buttonText?.trim();
@@ -87,11 +89,6 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           card.project?.title?.trim() || card.project?.client?.trim();
 
         if (!projectSlug || !projectName) {
-          console.warn(`[Work] Skipping card ${index}: missing slug or name`, {
-            projectSlug,
-            projectName,
-            card: card.project
-          });
           return null;
         }
 
@@ -112,9 +109,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
       })
       .filter((item): item is ProjectItem => item !== null) ?? [];
 
-  const items = itemsFromCards;
-
-  if (!heading && items.length === 0 && !ctaLabel) {
+  if (!heading && itemsFromCards.length === 0 && !ctaLabel) {
     return null;
   }
 
@@ -146,9 +141,9 @@ export function OurWork({ data }: { data?: PortfolioData }) {
           distance={24}
           className="flex flex-col gap-6"
         >
-          {items.map((item) => (
+          {itemsFromCards.map((item) => (
             <div key={item.key} className="px-2 xl:px-6 2xl:px-16">
-              <CaseRow item={item} />
+              <CaseRow item={item} imageErrors={imageErrors} onImageError={handleImageError} />
             </div>
           ))}
         </RevealOnScroll>
@@ -165,7 +160,7 @@ export function OurWork({ data }: { data?: PortfolioData }) {
   );
 }
 
-function CaseRow({ item }: { item: ProjectItem }) {
+function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; imageErrors: Set<string>; onImageError: (url: string) => void }) {
   return (
     <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
       <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
@@ -179,12 +174,10 @@ function CaseRow({ item }: { item: ProjectItem }) {
               src={workCardHoverGraphic}
               alt=""
               fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="absolute inset-0 h-full w-full object-cover invert"
             />
-            <div
-              className="absolute inset-0 mix-blend-screen"
-              style={{ background: "#ff4404" }}
-            />
+            <div className="absolute inset-0 bg-brand mix-blend-screen" />
             <div
               className="absolute inset-0"
               style={{
@@ -200,14 +193,12 @@ function CaseRow({ item }: { item: ProjectItem }) {
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10 hidden opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:block"
           >
-            <div
-              className="absolute inset-0"
-              style={{ background: "#040404" }}
-            />
+            <div className="absolute inset-0 bg-dark" />
             <Image
               src={workCardHoverGraphic}
               alt=""
               fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="absolute inset-0 h-full w-full object-cover mix-blend-screen"
               style={{
                 filter: "brightness(0.45) sepia(1) saturate(6) hue-rotate(-25deg) contrast(1.1)",
@@ -242,31 +233,31 @@ function CaseRow({ item }: { item: ProjectItem }) {
             rel="noopener noreferrer"
             className="bg-white/10 p-2 text-body dark:text-white text-black transition-colors hover:bg-white/15"
           >
-            See website
+            See website<span className="sr-only"> (opens in new tab)</span>
           </Link>
         </div>
 
         <div className="order-2 relative min-h-48 min-w-0 flex-1 p-4 md:order-3 md:w-full md:min-h-64 lg:order-2 lg:w-auto">
           <div className="relative h-full w-full overflow-hidden">
-            {item.imageUrl && (
+            {item.imageUrl && !imageErrors.has(item.imageUrl) ? (
               <Image
                 src={item.imageUrl}
                 alt={item.name}
                 className="object-cover transition-transform duration-500 ease-out group-hover/work-shell:scale-105"
                 fill
                 sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
-                onError={(e) => {
-                  console.error(`[Work] Image failed to load:`, item.imageUrl, e);
-                }}
+                onError={() => onImageError(item.imageUrl!)}
               />
-            )}
+            ) : item.imageUrl ? (
+              <div className="flex h-full w-full items-center justify-center bg-muted-light dark:bg-muted-dark">
+                <span className="font-betatron text-4xl text-brand opacity-50">NV</span>
+              </div>
+            ) : null}
           </div>
         </div>
 
         <div className="order-1 flex w-full shrink-0 flex-col justify-between gap-6 p-4 md:order-1 md:w-1/2 lg:order-3 lg:w-1/4 lg:py-6">
-          <Link href={item.ctaHref}>
-            <Button variant="primary">{item.ctaLabel}</Button>
-          </Link>
+          <Button href={item.ctaHref} variant="primary">{item.ctaLabel}</Button>
 
           <div className="flex flex-col">
             <span className="text-caption capitalize tracking-[-0.16px] text-brand">
@@ -275,7 +266,7 @@ function CaseRow({ item }: { item: ProjectItem }) {
             <span className="font-funnel dark:text-white text-black text-[32px] leading-12 tracking-[-1px]">
               {item.name}
             </span>
-            <p className="text-funnel dark:text-[#efefefb3] text-[#040404b3] text-[18px]">{item.tagline}</p>
+            <p className="text-funnel text-muted-light dark:text-muted-dark text-[18px]">{item.tagline}</p>
           </div>
         </div>
       </div>

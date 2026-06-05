@@ -1,13 +1,15 @@
 import path from 'node:path'
 import {fileURLToPath} from 'node:url'
 import type {NextConfig} from 'next'
+import type {RemotePattern} from 'next/dist/shared/lib/image-config'
 
 const configDir = path.dirname(fileURLToPath(import.meta.url))
 const workspaceRoot = path.resolve(configDir, '..')
 
+// CSP is now handled by middleware.ts with nonce-based script-src
+
 const nextConfig: NextConfig = {
   env: {
-    // Matches the behavior of `sanity dev` which sets styled-components to use the fastest way of inserting CSS rules in both dev and production. It's default behavior is to disable it in dev mode.
     SC_DISABLE_SPEEDY: 'false',
   },
   turbopack: {
@@ -23,19 +25,34 @@ const nextConfig: NextConfig = {
       ...(process.env.NODE_ENV === 'development'
         ? [
             {
-              protocol: 'https',
+              protocol: 'https' as const,
               hostname: 'images.unsplash.com',
               pathname: '/**',
-            },
+            } satisfies RemotePattern,
           ]
         : []),
-    ] as any,
+    ],
   },
 
   allowedDevOrigins: ['*.trycloudflare.com'],
 
-  // Required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+
+  async redirects() {
+    return [
+      {
+        source: '/:path*/',
+        destination: '/:path*',
+        permanent: true,
+        missing: [
+          {
+            type: 'header',
+            key: 'x-next-js-data',
+          },
+        ],
+      },
+    ];
+  },
 
   async rewrites() {
     return [
@@ -86,11 +103,11 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains; preload',
+            value: 'max-age=63072000; includeSubDomains',
           },
           {
-            key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://*.calendly.com; font-src 'self'; connect-src 'self' https://api.sanity.io https://*.api.sanity.io https://cdn.sanity.io https://calendly.com https://*.calendly.com wss:; frame-src https://calendly.com; frame-ancestors 'none';",
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
           },
         ],
       },

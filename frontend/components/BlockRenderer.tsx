@@ -259,13 +259,12 @@ export default function BlockRenderer({block, index, pageId, pageType}: BlockPro
     )
   }
   // Block doesn't exist yet
-  console.error(`[BlockRenderer] Unknown block type: ${block._type}`, {
-    blockKey: block._key,
-    availableTypes: Object.keys(Blocks),
-    blockData: block
-  })
-  
   if (process.env.NODE_ENV === 'development') {
+    console.error(`[BlockRenderer] Unknown block type: ${block._type}`, {
+      blockKey: block._key,
+      availableTypes: Object.keys(Blocks),
+      blockData: block
+    })
       return React.createElement(
         () => (
           <div className="w-full bg-gray-100 text-center text-gray-500 p-20 rounded">

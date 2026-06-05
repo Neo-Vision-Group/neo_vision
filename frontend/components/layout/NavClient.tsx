@@ -85,9 +85,9 @@ function ThemeToggle() {
       <AnimatedBorder isHovered={isHovered} />
       <div className="flex size-6 items-center justify-center">
         {theme === 'dark' ? (
-          <LightThemeIcon color="#FF4100" />
+          <LightThemeIcon />
         ) : (
-          <DarkThemeIcon color="#FF4100" />
+          <DarkThemeIcon />
         )}
       </div>
     </button>

@@ -250,6 +250,35 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       statusRef.current = 'leaving'
       setStatus('leaving')
 
+      // Check if user prefers reduced motion
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+      // Skip animations if user prefers reduced motion
+      if (prefersReducedMotion) {
+        if (mainRef.current) {
+          mainRef.current.classList.add('opacity-0')
+        }
+        
+        statusRef.current = 'waiting-for-route'
+        setStatus('waiting-for-route')
+
+        clearWaitingFallback()
+        waitingFallbackRef.current = window.setTimeout(() => {
+          waitingFallbackRef.current = null
+          if (statusRef.current === 'waiting-for-route') {
+            finishTransition()
+          }
+        }, 4000)
+
+        if (options.replace) {
+          router.replace(`${url.pathname}${url.search}${url.hash}`)
+        } else {
+          router.push(`${url.pathname}${url.search}${url.hash}`)
+        }
+        
+        return true
+      }
+
       const timeline = gsap.timeline({
         defaults: {ease: 'power3.inOut'},
         onComplete: () => {

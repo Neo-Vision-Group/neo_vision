@@ -1,7 +1,11 @@
 import {settingsQuery} from '@/sanity/lib/queries'
 import {sanityFetch} from '@/sanity/lib/live'
 import {NavPageType} from '@/sanity/lib/types'
+import {SettingsQueryResult} from '@/sanity.types'
 import NavClient from './NavClient'
+
+type RawNavPage = NonNullable<NonNullable<SettingsQueryResult>['navLinks']>[number]
+type RawCtaLink = NonNullable<NonNullable<NonNullable<SettingsQueryResult>['cta']>['link']>
 
 export default async function Nav() {
   const {data: settings} = await sanityFetch({
@@ -9,8 +13,6 @@ export default async function Nav() {
   })
 
   const logoUrl = settings?.logoPicture?.asset?.url
-  type RawNavPage = NonNullable<NonNullable<typeof settings>['navLinks']>[number]
-  type RawCtaLink = NonNullable<NonNullable<NonNullable<typeof settings>['cta']>['link']>
   const pages = (settings?.navLinks ?? [])
     .filter(
       (page: RawNavPage | null | undefined): page is RawNavPage => Boolean(page?.name && page?.slug)

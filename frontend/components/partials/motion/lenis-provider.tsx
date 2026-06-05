@@ -13,8 +13,15 @@ export default function LenisProvider({children}: LenisProviderProps) {
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    // Check if user prefers reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    // Disable smooth scrolling if user prefers reduced motion
+    if (prefersReducedMotion) {
+      return
+    }
+
     const lenis = new Lenis({
-      duration: 1.15,
       lerp: 0.1,
       smoothWheel: true,
       syncTouch: false,

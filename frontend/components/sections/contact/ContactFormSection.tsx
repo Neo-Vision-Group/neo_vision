@@ -94,6 +94,10 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
 
   return (
     <div className="flex flex-1 flex-col gap-12">
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {submitState === "ok" && "Message sent successfully! We'll get back to you within 24 hours."}
+        {submitState === "error" && errorMessage && `Error: ${errorMessage}`}
+      </div>
       {submitState === "ok" ? (
         <div className="flex flex-col gap-4 border border-brand/40 bg-surface p-8">
           <h3 className="font-funnel text-[28px] font-medium text-foreground">
@@ -111,90 +115,111 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
 
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3 md:flex-row">
-              <FormField label="Your name *" error={errors.name?.message}>
-                <input
-                  type="text"
-                  autoComplete="name"
-                  placeholder="Jane Smith"
-                  {...register("name")}
-                  className={inputClasses(!!errors.name)}
-                />
+              <FormField label="Your name *" error={errors.name?.message} id="contact-name">
+                {(props) => (
+                  <input
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Jane Smith"
+                    {...register("name")}
+                    {...props}
+                    className={inputClasses(!!errors.name)}
+                  />
+                )}
               </FormField>
-              <FormField label="Your email *" error={errors.email?.message}>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="jane@company.com"
-                  {...register("email")}
-                  className={inputClasses(!!errors.email, true)}
-                />
+              <FormField label="Your email *" error={errors.email?.message} id="contact-email">
+                {(props) => (
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="jane@company.com"
+                    {...register("email")}
+                    {...props}
+                    className={inputClasses(!!errors.email, true)}
+                  />
+                )}
               </FormField>
             </div>
 
-            <FormField label="Company" error={errors.company?.message}>
-              <input
-                type="text"
-                autoComplete="organization"
-                placeholder="Acme Corp (optional)"
-                {...register("company")}
-                className={inputClasses(!!errors.company)}
-              />
+            <FormField label="Company" error={errors.company?.message} id="contact-company">
+              {(props) => (
+                <input
+                  type="text"
+                  autoComplete="organization"
+                  placeholder="Acme Corp (optional)"
+                  {...register("company")}
+                  {...props}
+                  className={inputClasses(!!errors.company)}
+                />
+              )}
             </FormField>
 
-            <FormField label="Service" error={errors.projectType?.message}>
-              <DropdownField
-                placeholder="Select a service..."
-                options={services}
-                value={projectTypeField.field.value}
-                onChange={projectTypeField.field.onChange}
-                onBlur={projectTypeField.field.onBlur}
-                name={projectTypeField.field.name}
-                hasError={!!errors.projectType}
-              />
+            <FormField label="Service" error={errors.projectType?.message} id="contact-service">
+              {() => (
+                <DropdownField
+                  placeholder="Select a service..."
+                  options={services}
+                  value={projectTypeField.field.value}
+                  onChange={projectTypeField.field.onChange}
+                  onBlur={projectTypeField.field.onBlur}
+                  name={projectTypeField.field.name}
+                  hasError={!!errors.projectType}
+                />
+              )}
             </FormField>
 
             <div className="flex flex-col gap-3 md:flex-row">
-              <FormField label="Estimated budget range" error={errors.budget?.message}>
-                <DropdownField
-                  placeholder="Select range..."
-                  options={budgetRanges}
-                  value={budgetField.field.value}
-                  onChange={budgetField.field.onChange}
-                  onBlur={budgetField.field.onBlur}
-                  name={budgetField.field.name}
-                  hasError={!!errors.budget}
-                />
+              <FormField label="Estimated budget range" error={errors.budget?.message} id="contact-budget">
+                {() => (
+                  <DropdownField
+                    placeholder="Select range..."
+                    options={budgetRanges}
+                    value={budgetField.field.value}
+                    onChange={budgetField.field.onChange}
+                    onBlur={budgetField.field.onBlur}
+                    name={budgetField.field.name}
+                    hasError={!!errors.budget}
+                  />
+                )}
               </FormField>
-              <FormField label="Phone number" error={errors.phone?.message}>
-                <input
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="+1 (555) 123-4567 (optional)"
-                  {...register("phone")}
-                  className={inputClasses(!!errors.phone)}
-                />
+              <FormField label="Phone number" error={errors.phone?.message} id="contact-phone">
+                {(props) => (
+                  <input
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="+1 (555) 123-4567 (optional)"
+                    {...register("phone")}
+                    {...props}
+                    className={inputClasses(!!errors.phone)}
+                  />
+                )}
               </FormField>
             </div>
 
-            <FormField label="How did you hear about us?" error={errors.hearAboutUs?.message}>
-              <DropdownField
-                placeholder="Select an option..."
-                options={hearAboutUsOptions}
-                value={hearAboutUsField.field.value}
-                onChange={hearAboutUsField.field.onChange}
-                onBlur={hearAboutUsField.field.onBlur}
-                name={hearAboutUsField.field.name}
-                hasError={!!errors.hearAboutUs}
-              />
+            <FormField label="How did you hear about us?" error={errors.hearAboutUs?.message} id="contact-hear-about">
+              {() => (
+                <DropdownField
+                  placeholder="Select an option..."
+                  options={hearAboutUsOptions}
+                  value={hearAboutUsField.field.value}
+                  onChange={hearAboutUsField.field.onChange}
+                  onBlur={hearAboutUsField.field.onBlur}
+                  name={hearAboutUsField.field.name}
+                  hasError={!!errors.hearAboutUs}
+                />
+              )}
             </FormField>
 
-            <FormField label="Tell us about your project" error={errors.message?.message}>
-              <textarea
-                rows={4}
-                placeholder="What are you trying to achieve? Even rough ideas help..."
-                {...register("message")}
-                className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
-              />
+            <FormField label="Tell us about your project" error={errors.message?.message} id="contact-message">
+              {(props) => (
+                <textarea
+                  rows={4}
+                  placeholder="What are you trying to achieve? Even rough ideas help..."
+                  {...register("message")}
+                  {...props}
+                  className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
+                />
+              )}
             </FormField>
           </div>
 
@@ -221,18 +246,30 @@ function FormField({
   label,
   error,
   children,
+  id,
 }: {
   label: string;
   error?: string;
-  children: React.ReactNode;
+  children: (props: {
+    id: string;
+    'aria-invalid': boolean;
+    'aria-describedby'?: string;
+  }) => React.ReactNode;
+  id: string;
 }) {
+  const errorId = `${id}-error`;
+  
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-[#efefef]">
+      <label htmlFor={id} className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-[#efefef]">
         {label}
       </label>
-      {children}
-      {error && <span className="text-[14px] text-brand">{error}</span>}
+      {children({
+        id,
+        'aria-invalid': !!error,
+        'aria-describedby': error ? errorId : undefined,
+      })}
+      {error && <span id={errorId} className="text-[14px] text-brand" role="alert">{error}</span>}
     </div>
   );
 }

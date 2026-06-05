@@ -198,6 +198,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                     src={coverImageUrl}
                     alt={post.title ?? "Insight cover image"}
                     fill
+                    priority
                     sizes="(min-width: 1024px) 70vh, (min-width: 768px) calc(100vw - 96px), calc(100vw - 32px)"
                     className="object-cover"
                   />
