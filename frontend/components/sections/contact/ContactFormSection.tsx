@@ -19,6 +19,8 @@ type ContactFormSectionProps = {
 export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const [submitState, setSubmitState] = useState<"idle" | "ok" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [csrfHeaderName, setCsrfHeaderName] = useState<string>("x-csrf-token");
 
   const {
     control,
@@ -46,13 +48,47 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const budgetField = useController({ control, name: "budget" });
   const hearAboutUsField = useController({ control, name: "hearAboutUs" });
 
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    async function fetchCsrfToken() {
+      try {
+        const res = await fetch("/api/csrf");
+        if (res.ok) {
+          const data = await res.json();
+          setCsrfToken(data.token);
+          setCsrfHeaderName(data.headerName);
+        }
+      } catch (err) {
+        console.error("Failed to fetch CSRF token:", err);
+      }
+    }
+    fetchCsrfToken();
+  }, []);
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      const headers: Record<string, string> = {
+        "content-type": "application/json",
+      };
+      
+      // Include CSRF token if available
+      if (csrfToken) {
+        headers[csrfHeaderName] = csrfToken;
+      }
+
+      // Add timeout to prevent indefinite loading (15 seconds)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers,
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
+
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
         const errMsg = json.error ?? "Something went wrong";
@@ -77,11 +113,20 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         has_phone: !!formData.phone,
       });
     } catch (err) {
-      setErrorMessage("Something went wrong");
+      const isAbortError = err instanceof Error && err.name === "AbortError";
+      const errMsg = isAbortError 
+        ? "Request timed out. Please try again." 
+        : "Something went wrong";
+      
+      setErrorMessage(errMsg);
       setSubmitState("error");
-      posthog.captureException(err);
+      
+      if (!isAbortError) {
+        posthog.captureException(err);
+      }
+      
       posthog.capture("contact_form_error", {
-        error_message: "network_error",
+        error_message: isAbortError ? "timeout" : "network_error",
         source: formData.source,
       });
     }

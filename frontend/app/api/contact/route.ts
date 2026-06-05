@@ -33,7 +33,9 @@ export async function POST(req: NextRequest) {
     const ip = getIP(req);
     rateLimitResult = await checkContactRateLimit(ip);
   } else {
-    console.warn("[api/contact] Upstash Redis not configured, using in-memory rate limiter (not production-safe)");
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[api/contact] Upstash Redis not configured, using in-memory rate limiter (not production-safe)");
+    }
     rateLimitResult = await rateLimit(req, {
       interval: 15 * 60 * 1000,
       uniqueTokenPerInterval: 5,
@@ -78,7 +80,7 @@ export async function POST(req: NextRequest) {
   if (process.env.NODE_ENV === 'production') {
     const hasLocalhost = allowedOrigins.some(o => o.includes('localhost'));
     if (hasLocalhost) {
-      console.error('[SECURITY] Localhost origin allowed in production!');
+      logSecurityEvent(req, "blocked", "Localhost origin configured in production");
     }
   }
   
@@ -154,9 +156,26 @@ export async function POST(req: NextRequest) {
   // 1. Write to Sanity (fail loudly — this is our durable record)
   const correlationId = logSecurityEvent(req, "success", "Contact form submission started");
   
+  // Validate Sanity write token is configured
+  if (!process.env.SANITY_WRITE_TOKEN || process.env.SANITY_WRITE_TOKEN === 'your_write_token') {
+    logSecurityEvent(req, "failure", "SANITY_WRITE_TOKEN not configured", { correlationId });
+    if (process.env.NODE_ENV === "development") {
+      console.error("[api/contact] SANITY_WRITE_TOKEN not configured");
+    }
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Service configuration error. Please contact support.",
+      },
+      { status: 500 }
+    );
+  }
+  
   try {
     const client = sanityWriteClient();
-    await client.create({
+    
+    // Add timeout to prevent hanging (10 seconds)
+    const writePromise = client.create({
       _type: "contactSubmission",
       name: sanitizeHtml(data.name),
       email: sanitizeHtml(data.email),
@@ -170,6 +189,12 @@ export async function POST(req: NextRequest) {
       receivedAt,
       status: "new",
     });
+    
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Sanity write timeout")), 10000)
+    );
+    
+    await Promise.race([writePromise, timeoutPromise]);
   } catch (err) {
     logSecurityEvent(req, "failure", "Sanity write failed", { correlationId });
     if (process.env.NODE_ENV === "development") {
@@ -221,7 +246,12 @@ export async function POST(req: NextRequest) {
       const resend = new Resend(resendKey);
       const from = process.env.RESEND_FROM || "onboarding@resend.dev";
       const to = process.env.CONTACT_TO || "nvt.dev@neovision.dev";
-      await resend.emails.send({
+      
+      if (process.env.NODE_ENV === "development") {
+        console.log("[api/contact] Sending notification email from:", from, "to:", to);
+      }
+      
+      const notificationResult = await resend.emails.send({
         from,
         to,
         replyTo: data.email,
@@ -240,7 +270,12 @@ export async function POST(req: NextRequest) {
         }),
       });
 
-      await resend.emails.send({
+      if (process.env.NODE_ENV === "development") {
+        console.log("[api/contact] Notification email sent:", notificationResult);
+        console.log("[api/contact] Sending confirmation email to:", data.email);
+      }
+
+      const confirmationResult = await resend.emails.send({
         from,
         to: data.email,
         subject: `Thanks for reaching out to Neo Vision!`,
@@ -259,12 +294,17 @@ export async function POST(req: NextRequest) {
         }),
       });
 
+      if (process.env.NODE_ENV === "development") {
+        console.log("[api/contact] Confirmation email sent:", confirmationResult);
+      }
+
     } catch (err) {
       if (process.env.NODE_ENV === "development") {
         console.error("[api/contact] Resend email failed (submission saved)", err);
       }
+      logSecurityEvent(req, "failure", "Email sending failed", { correlationId });
     }
-  } else {
+  } else if (process.env.NODE_ENV === "development") {
     console.warn(
       "[api/contact] RESEND_API_KEY not set — submission saved to Sanity only."
     );

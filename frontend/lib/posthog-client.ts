@@ -60,7 +60,9 @@ export async function initPostHog(): Promise<PostHog | null> {
       posthogInstance = posthog.default
       return posthog.default
     } catch (error) {
-      console.error('Failed to initialize PostHog:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to initialize PostHog:', error)
+      }
       return null
     } finally {
       initPromise = null
