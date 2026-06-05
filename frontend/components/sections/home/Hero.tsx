@@ -66,10 +66,10 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="relative isolate flex flex-col justify-between overflow-hidden"
+      className="relative isolate flex flex-col xl:h-[calc(100svh-4rem)] justify-between gap-auto overflow-hidden"
     >
 
-      <div className="relative flex flex-col justify-center gap-6 px-6 pt-6 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
+      <div className="relative flex flex-col h-full gap-6 px-6 pt-6 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
         <div className="flex w-full flex-col gap-3 md:gap-4">
           <SplitTextReveal
             as="span"

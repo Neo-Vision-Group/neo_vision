@@ -90,7 +90,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com; font-src 'self'; connect-src 'self' https://api.sanity.io https://cdn.sanity.io wss:; frame-ancestors 'none';",
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://assets.calendly.com; img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://*.calendly.com; font-src 'self'; connect-src 'self' https://api.sanity.io https://*.api.sanity.io https://cdn.sanity.io https://calendly.com https://*.calendly.com wss:; frame-src https://calendly.com; frame-ancestors 'none';",
           },
         ],
       },

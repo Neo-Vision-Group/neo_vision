@@ -93,7 +93,7 @@ export function Place({ data }: { data?: PlaceData }) {
               className="flex items-center h-11 px-4 rounded-lg border border-[#ff4100]"
               style={{ background: 'rgba(255,65,0,0.15)' }}
             >
-              <span className="font-funnel text-lg font-bold tracking-tight text-white leading-none">
+              <span className="font-funnel text-lg font-bold tracking-tight text-black dark:text-white leading-none">
                 Bucharest, Romania
               </span>
             </div>

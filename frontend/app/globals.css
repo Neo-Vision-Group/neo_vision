@@ -131,12 +131,6 @@ h4 {
   }
 }
 
-.calendly-theme-shell,
-.calendly-theme-shell div,
-.calendly-theme-shell iframe {
-  background-color: var(--calendly-bg, #ffffff) !important;
-  color-scheme: light !important;
-}
 
 @keyframes pin-pulse {
   0%, to { opacity: 0.8; }

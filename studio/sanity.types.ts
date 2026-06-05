@@ -563,7 +563,7 @@ export type PortfolioFeatured = {
 export type WhyRomania = {
   _type: 'whyRomania'
   eyebrow?: string
-  title: string
+  title: BlockContentTextOnly
   body: BlockContentTextOnly
   highlights?: Array<{
     stat: string
@@ -885,7 +885,7 @@ export type HomeHero = {
   primaryCta?: Button
   stats?: string
   dimensionLine?: string
-  ctaText: string
+  ctaText: BlockContentTextOnly
   secondaryCta?: Button
 }
 
@@ -1301,6 +1301,13 @@ export type SiteSettings = {
   cookieSettings?: CookieSettings
 }
 
+export type InsightCategoryReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'insightCategory'
+}
+
 export type Post = {
   _id: string
   _type: 'post'
@@ -1319,12 +1326,7 @@ export type Post = {
     _type: 'image'
   }
   author?: TeamMemberReference
-  category?:
-    | 'ai-transformation'
-    | 'engineering'
-    | 'design-research'
-    | 'systems-playbooks'
-    | 'operators-notes'
+  category?: InsightCategoryReference
   readTime?: number
   featured?: boolean
   relatedInsights?: Array<
@@ -1494,6 +1496,23 @@ export type Post = {
   seo?: Seo
 }
 
+export type InsightCategory = {
+  _id: string
+  _type: 'insightCategory'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  description?: string
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
+}
+
 export type TeamMember = {
   _id: string
   _type: 'teamMember'
@@ -1511,12 +1530,6 @@ export type TeamMember = {
     crop?: SanityImageCrop
     _type: 'image'
   }
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
 }
 
 export type Page = {
@@ -2391,9 +2404,11 @@ export type AllSanitySchemaTypes =
   | Person
   | SeoSettings
   | SiteSettings
+  | InsightCategoryReference
   | Post
-  | TeamMember
+  | InsightCategory
   | Slug
+  | TeamMember
   | Page
   | IndustryReference
   | Project
