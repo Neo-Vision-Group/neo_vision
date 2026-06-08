@@ -393,12 +393,12 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="font-betatron text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
+          className="text-center text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[16px] md:text-[18px] lg:text-[22px] font-bold leading-[1.2] text-foreground">
+        <p className="font-funnel text-center text-[16px] md:text-[18px] lg:text-[22px] leading-[1.2] text-foreground">
           {label}
         </p>
       ) : null}

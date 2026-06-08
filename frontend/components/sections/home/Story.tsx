@@ -693,6 +693,14 @@ export function Story({ data }: { data?: StoryData }) {
         if (trackerInner) {
           trackerInner.style.transform = `translateX(-${scroller.scrollLeft}px)`;
         }
+        // Pre-fill to first dot before animating active state
+        const lineFill = lineFillRef.current;
+        const positions = cachedDotPositionsRef.current;
+        if (lineFill && positions.length > 0) {
+          lineFill.style.transition = "none";
+          lineFill.style.width = positions[0] + "px";
+          cachedFillWidthRef.current = positions[0];
+        }
         syncFillAndDots(0);
       }, 100);
     };
@@ -726,7 +734,7 @@ export function Story({ data }: { data?: StoryData }) {
           {/* ── Tracker row (line + tick dots) ── */}
           <div
             ref={trackerContainerRef}
-            className="relative mb-8 hidden md:mb-12 lg:block overflow-hidden"
+            className="relative mb-8 hidden md:mb-12 lg:block overflow-x-clip overflow-y-visible"
             style={{ height: 40 }}
           >
             {/* Inner wrapper — translates with scroller.scrollLeft so the active
@@ -770,15 +778,16 @@ export function Story({ data }: { data?: StoryData }) {
                     }}
                   >
                     {/* Pulse rings — shown via CSS when parent data-active="true" */}
-                    <span className="story-tick-ring-1 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14 }} />
-                    <span className="story-tick-ring-2 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14 }} />
-                    <span className="story-tick-ring-3 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14 }} />
+                    <span className="story-tick-ring-1 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14, left: 88 }} />
+                    <span className="story-tick-ring-2 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14, left: 88 }} />
+                    <span className="story-tick-ring-3 pointer-events-none absolute rounded-full border border-brand" style={{ width: 14, height: 14, left: 88 }} />
                     {/* Dot — sits on the line; all state driven by CSS data-attribute selectors */}
                     <span
                       ref={(el) => { dotRefs.current[idx] = el; }}
                       data-lit={idx === activeIndex ? "true" : "false"}
                       data-active={idx === activeIndex ? "true" : "false"}
-                      className="story-tick-dot absolute rounded-full border transition-[width,height,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                      className="story-tick-dot absolute border transition-[width,height,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                      style={{ left: 88 }}
                     />
                   </button>
                 ))}
@@ -805,7 +814,7 @@ export function Story({ data }: { data?: StoryData }) {
                   ref={(el) => { vDotRefs.current[idx] = el; }}
                   data-lit={idx === 0 ? "true" : "false"}
                   data-active={idx === 0 ? "true" : "false"}
-                  className="story-tick-dot absolute left-1/2 -translate-x-1/2 rounded-full border transition-[width,height,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                  className="story-tick-dot absolute left-1/2 -translate-x-1/2 border transition-[width,height,box-shadow,border-color,background-color] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   style={{ opacity: 0 }}
                 />
               ))}

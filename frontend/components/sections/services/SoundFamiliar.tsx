@@ -70,7 +70,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                         style={{ background: "#7a1a00" }}
                       />
                     </div>
-                    <h3 className="font-betatron text-[32px] text-brand">{p.title}</h3>
+                    <h3 className="text-[32px] text-brand">{p.title}</h3>
                     <p className="font-funnel text-muted-light dark:text-muted-dark text-[18px]">{p.body}</p>
                   </article>
                 </div>

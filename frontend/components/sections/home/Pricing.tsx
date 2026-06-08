@@ -187,24 +187,26 @@ function PricingCard({
       )}
     >
       <div className="flex flex-1 flex-col gap-6">
-        {hasBadge ? (
-          <Badge text={tier.badge!} />
-        ) : null}
-
         {priceLayout === 'split' ? (
-          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
-              {tier?.title}
-            </h3>
+          <div className="flex flex-col gap-4">
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                {tier?.title}
+              </h3>
+              {hasBadge ? <Badge text={tier.badge!} /> : null}
+            </div>
             <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
               {tier?.price}
             </p>
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
-              {tier?.title}
-            </h3>
+            <div className="flex items-start justify-between gap-4">
+              <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
+                {tier?.title}
+              </h3>
+              {hasBadge ? <Badge text={tier.badge!} /> : null}
+            </div>
 
             {priceLayout === 'inline' ? (
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
