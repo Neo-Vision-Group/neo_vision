@@ -61,7 +61,7 @@ export function TestimonialQuote({
         &ldquo;
       </span>
 
-      <blockquote className="flex-1 font-funnel text-[22px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 2xl:text-4xl 2xl:leading-10">
+      <blockquote className="flex-1 font-funnel text-[22px] font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 2xl:text-4xl 2xl:leading-10">
         {quote}
       </blockquote>
 

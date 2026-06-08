@@ -141,7 +141,7 @@ export function Reality({data}: {data?: RealityData}) {
         ) : null}
 
         {cleanData?.cta?.buttonText && ctaHref ? (
-          <div className="px-6 lg:px-12">
+          <div className="px-6 pb-16 lg:px-12">
             <Button
               href={ctaHref}
               variant="primary"

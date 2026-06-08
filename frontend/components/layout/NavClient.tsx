@@ -41,6 +41,14 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
+      onClick={() => {
+        posthog.capture('nav_link_clicked', {
+          link_text: typeof children === 'string' ? children : href,
+          link_href: href,
+          destination_type: href.startsWith('http') ? 'external' : 'internal',
+          from_page: typeof window !== 'undefined' ? window.location.pathname : '',
+        })
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
@@ -76,7 +84,15 @@ function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark'
+        setTheme(newTheme)
+        posthog.capture('theme_toggled', {
+          from_theme: theme,
+          to_theme: newTheme,
+          page: typeof window !== 'undefined' ? window.location.pathname : '',
+        })
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="relative flex size-10 items-center justify-center"
@@ -85,9 +101,9 @@ function ThemeToggle() {
       <AnimatedBorder isHovered={isHovered} />
       <div className="flex size-6 items-center justify-center">
         {theme === 'dark' ? (
-          <LightThemeIcon color="#FF4100" />
+          <LightThemeIcon />
         ) : (
-          <DarkThemeIcon color="#FF4100" />
+          <DarkThemeIcon />
         )}
       </div>
     </button>
@@ -107,7 +123,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
     return '#'
   }
   
-  const { theme } = useTheme()
+  const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -122,6 +138,11 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
     if (open) {
+      posthog.capture('nav_menu_opened', {
+        trigger: 'click',
+        current_page: typeof window !== 'undefined' ? window.location.pathname : '',
+      })
+      
       const prev = document.documentElement.style.overflow
       document.documentElement.style.overflow = 'hidden'
       return () => {
@@ -144,7 +165,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 w-full bg-white/80 backdrop-blur dark:bg-black/80 lg:bg-[#EFEFEF] lg:backdrop-blur-[13.5px] dark:lg:bg-black will-change-transform">
-      <div className="flex h-16 items-center justify-between gap-4 px-6 md:gap-8 md:px-12 lg:h-20 lg:gap-12 lg:px-16 2xl:px-30">
+      <div className="flex h-16 items-center justify-between gap-4 px-6 md:gap-8 md:px-6 lg:h-20 lg:gap-12 lg:px-16 2xl:px-30">
         {/* Logo */}
         <Link
           href="/"
@@ -163,7 +184,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               className="h-8 w-auto"
             />
           ) : (
-            <Logo darkMode={mounted ? theme === 'dark' : false} />
+            <Logo darkMode={mounted ? resolvedTheme === 'dark' : true} />
           )}
           <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}

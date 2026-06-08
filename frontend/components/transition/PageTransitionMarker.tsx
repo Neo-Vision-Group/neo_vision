@@ -1,6 +1,6 @@
 'use client'
 
-import {Suspense, useEffect, useRef} from 'react'
+import {Suspense, useEffect} from 'react'
 import {usePathname, useSearchParams} from 'next/navigation'
 
 import {
@@ -14,22 +14,21 @@ function PageTransitionMarkerInner() {
   const search = searchParams.toString()
   const routeKey = getRouteKey(pathname, search ? `?${search}` : '')
 
-  const dispatchRef = useRef<() => void>(null as unknown as () => void)
-  dispatchRef.current = () => {
-    window.dispatchEvent(
-      new CustomEvent(PAGE_TRANSITION_ROUTE_READY_EVENT, {
-        detail: {
-          routeKey,
-        },
-      }),
-    )
-  }
-
   useEffect(() => {
-    dispatchRef.current()
+    const dispatch = () => {
+      window.dispatchEvent(
+        new CustomEvent(PAGE_TRANSITION_ROUTE_READY_EVENT, {
+          detail: {
+            routeKey,
+          },
+        }),
+      )
+    }
+
+    dispatch()
 
     const retryTimer = window.setTimeout(() => {
-      dispatchRef.current()
+      dispatch()
     }, 120)
 
     return () => window.clearTimeout(retryTimer)

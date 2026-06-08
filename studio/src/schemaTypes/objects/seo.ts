@@ -409,7 +409,7 @@ export const seo = defineType({
       type: 'boolean',
       description:
         'Declare that this page should emit breadcrumb structured data when frontend support is added.',
-      initialValue: false,
+      initialValue: true,
       fieldset: 'structuredData',
     }),
     defineField({

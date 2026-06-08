@@ -111,7 +111,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
-        <div className="relative z-20 px-6 py-3 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-12">
+        <div className="relative z-20 px-6 py-7 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-12">
           <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
             {details.map((item, index) => (
               <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
@@ -161,7 +161,6 @@ function useScrambleText(text: string | undefined, duration = 2000) {
 
   useEffect(() => {
     if (!text || !hasStarted) {
-      setDisplayText(text || "");
       return;
     }
 
@@ -198,7 +197,7 @@ function useScrambleText(text: string | undefined, duration = 2000) {
     return () => clearInterval(interval);
   }, [text, hasStarted, duration]);
 
-  return { displayText, elementRef };
+  return { displayText: hasStarted ? displayText : text || "", elementRef };
 }
 
 function ScrambleText({
@@ -226,7 +225,7 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-black/4 p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}

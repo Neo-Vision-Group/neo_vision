@@ -50,23 +50,23 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               .map((paragraph, index) => (
                 <p
                   key={`${paragraph.slice(0, 24)}-${index}`}
-                  className="max-w-[72ch] text-[18px] leading-normal px-6 lg:px-16 text-black dark:text-white md:text-[20px] md:leading-7"
+                  className="text-[18px] leading-normal px-6 lg:px-16 text-black dark:text-white md:text-[20px] md:leading-7"
                 >
                   {paragraph}
                 </p>
               ))
           : null}
         {issues.length > 0 ? (
-          <div className="border-t border-white/15 dark:border-white/15">
+          <div className="border-t border-black/15 dark:border-white/15">
             <RevealOnScroll
               as="div"
               stagger={0.06}
-              className="grid grid-cols-1 border-l border-white/15 md:grid-cols-2 dark:border-white/15"
+              className="grid grid-cols-1 border-l border-black/15 md:grid-cols-2 dark:border-white/15"
             >
               {issues.map((iss, idx) => (
                 <article
                   key={(iss.tag ?? "iss") + idx}
-                  className="border-b border-r border-white/15 p-6 dark:border-white/15"
+                  className="border-b border-r border-black/15 p-6 dark:border-white/15"
                 >
                   <div className="group relative isolate flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f]">
                     <div

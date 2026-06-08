@@ -98,6 +98,51 @@ export const post = defineType({
       ],
     }),
     defineField({
+      name: 'sources',
+      title: 'Sources & Citations',
+      type: 'array',
+      description: 'References and sources cited in this article. Improves GEO citation rate and credibility for AI engines.',
+      of: [
+        {
+          type: 'object',
+          name: 'source',
+          fields: [
+            {
+              name: 'title',
+              type: 'string',
+              title: 'Source Title',
+              description: 'Name of the source, publication, or reference',
+              validation: (r) => r.required(),
+            },
+            {
+              name: 'url',
+              type: 'url',
+              title: 'Source URL',
+              description: 'Link to the original source',
+            },
+            {
+              name: 'author',
+              type: 'string',
+              title: 'Author/Publisher',
+              description: 'Optional author or publisher name',
+            },
+            {
+              name: 'publishedDate',
+              type: 'date',
+              title: 'Publication Date',
+              description: 'When the source was published',
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'author',
+            },
+          },
+        },
+      ],
+    }),
+    defineField({
       name: 'pageBuilder',
       title: 'Page Builder',
       type: 'array',

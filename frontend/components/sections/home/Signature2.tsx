@@ -149,6 +149,82 @@ export function Signature2({data}: {data?: Signature2Data}) {
   )
 }
 
+/*
+ * DrawBorder — animated perimeter trace using CSS scale transforms.
+ *
+ * The draw starts from the midpoint of the LEFT (outer) edge and
+ * simultaneously travels in two directions:
+ *   ① Left-side top half   → upward   (transform-origin: bottom-left)
+ *   ② Left-side bot half   → downward (transform-origin: top-left)
+ *   ③ Top edge             → left→right, origin: left
+ *   ④ Bottom edge          → left→right, origin: left       (same delay as ③)
+ *   ⑤ Right-side top half  → top-right corner down to mid-right, origin: top
+ *   ⑥ Right-side bot half  → bot-right corner up  to mid-right, origin: bottom
+ *
+ * Timing (total ~1.0 s, eased):
+ *   ①②  0 ms   → 350 ms   (left vertical halves, 0.35 s)
+ *   ③④  350 ms → 750 ms   (top & bottom horizontals, 0.4 s, delay 0.35 s)
+ *   ⑤⑥  750 ms → 1000 ms  (right vertical halves, 0.25 s, delay 0.75 s)
+ *
+ * When isActive flips back to false the spans reset to scale 0 instantly (no transition).
+ */
+function DrawBorder({isActive, delayStart = 0, exitDelayStart = 0}: {isActive: boolean; delayStart?: number; exitDelayStart?: number}) {
+  const ease = 'cubic-bezier(0.4, 0, 0.2, 1)'
+
+  const seg = (
+    pos: {top?: string; bottom?: string; left?: string; right?: string; width: string; height: string},
+    enterOrigin: string,
+    exitOrigin: string,
+    enterDuration: number,
+    enterDelay: number,
+    exitDuration: number,
+    exitDelay: number,
+    axis: 'X' | 'Y',
+  ) => (
+    <span
+      aria-hidden="true"
+      className="absolute bg-brand"
+      style={{
+        top: pos.top,
+        bottom: pos.bottom,
+        left: pos.left,
+        right: pos.right,
+        width: pos.width,
+        height: pos.height,
+        transformOrigin: isActive ? enterOrigin : exitOrigin,
+        transform: isActive ? 'scale(1)' : (axis === 'X' ? 'scaleX(0)' : 'scaleY(0)'),
+        transition: isActive
+          ? `transform ${enterDuration}ms ${ease} ${delayStart + enterDelay}ms`
+          : `transform ${exitDuration}ms ${ease} ${exitDelayStart + exitDelay}ms`,
+      }}
+    />
+  )
+
+  /*
+   * Exit (erase) starts from the left side — same side as the draw start.
+   * Total exit ~600 ms.
+   *   ①②  0 ms   → 200 ms  (left vertical halves collapse inward)
+   *   ③④  200 ms → 450 ms  (horizontals retract left→right, origin: left)
+   *   ⑤⑥  450 ms → 600 ms  (right vertical halves open outward)
+   */
+  return (
+    <>
+      {/* ① left-side top half: enters growing upward (origin bottom-left), exits retracting upward away from midpoint (origin top-left) */}
+      {seg({top: '0', left: '0', width: '1px', height: '50%'}, 'bottom left', 'top left', 350, 0, 200, 0, 'Y')}
+      {/* ② left-side bottom half: enters growing downward (origin top-left), exits retracting downward away from midpoint (origin bottom-left) */}
+      {seg({bottom: '0', left: '0', width: '1px', height: '50%'}, 'top left', 'bottom left', 350, 0, 200, 0, 'Y')}
+      {/* ③ top edge: enters left→right (origin left), exits erasing left→right (origin right, scaleX(0) shrinks from left) */}
+      {seg({top: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 400, 350, 250, 200, 'X')}
+      {/* ④ bottom edge: same as ③ */}
+      {seg({bottom: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 400, 350, 250, 200, 'X')}
+      {/* ⑤ right-side top half: enters top-down (origin top), exits retracting upward away from midpoint (origin top) */}
+      {seg({top: '0', right: '0', width: '1px', height: '50%'}, 'top', 'top', 250, 750, 150, 450, 'Y')}
+      {/* ⑥ right-side bottom half: enters bottom-up (origin bottom), exits retracting downward away from midpoint (origin bottom) */}
+      {seg({bottom: '0', right: '0', width: '1px', height: '50%'}, 'bottom', 'bottom', 250, 750, 150, 450, 'Y')}
+    </>
+  )
+}
+
 function StepRailItem({
   index,
   step,
@@ -165,14 +241,23 @@ function StepRailItem({
   const hasGraphic = step.highlighted && Boolean(step.graphic)
   const workCardHoverGraphic = '/images/graphic.webp'
 
+  /*
+   * Exit stagger: the background color fades out left-to-right in sync with
+   * the DrawBorder exit sequence (left edges → horizontals → right edges).
+   * index 0 (leftmost) exits first, each subsequent card is delayed by 150ms.
+   * This creates the left-to-right uncoloring wave.
+   */
+  const exitDelayMs = index * 150
+
   return (
     <>
       <article
         className={cn(
-          'relative isolate min-h-45 overflow-hidden border bg-surface p-8 md:min-h-45 transition-all duration-500 ease-out',
-          isActive ? 'border-brand' : 'border-black/20 dark:border-white/20',
+          'relative isolate min-h-45 overflow-hidden border bg-surface p-8 md:min-h-45',
+          'border-black/20 dark:border-white/20',
         )}
       >
+        <DrawBorder isActive={isActive} delayStart={index > 0 ? 500 : 0} exitDelayStart={exitDelayMs} />
         {hasGraphic ? (
           <>
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
@@ -181,6 +266,7 @@ function StepRailItem({
                 src={step.graphic || ''}
                 alt=""
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="absolute inset-0 object-cover mix-blend-difference"
                 style={{
                   filter:
@@ -209,6 +295,7 @@ function StepRailItem({
                 src={step.graphic || ''}
                 alt=""
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="absolute inset-0 object-cover mix-blend-multiply"
                 style={{
                   filter:
@@ -231,10 +318,13 @@ function StepRailItem({
         {!hasGraphic ? (
           <div
             aria-hidden="true"
-            className={cn(
-              'absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black transition-opacity duration-500 ease-out',
-              isActive ? 'opacity-100' : 'opacity-0'
-            )}
+            className="absolute inset-0 -z-10 overflow-hidden bg-white dark:bg-black"
+            style={{
+              opacity: isActive ? 1 : 0,
+              transition: isActive
+                ? 'opacity 500ms ease-out 0ms'
+                : `opacity 350ms ease-out ${exitDelayMs}ms`,
+            }}
           >
             <Image
               src={workCardHoverGraphic}
@@ -267,20 +357,48 @@ function StepRailItem({
           <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
           </p>
-          <h3 className="max-w-[10ch] text-100 font-bold leading-[1.2] text-foreground">
+          <h3 className="text-100 font-bold leading-[1.2] text-foreground">
             {step.title}
           </h3>
         </div>
       </article>
 
       {showConnector ? (
-        <div
-          aria-hidden="true"
-          className={cn(
-            'hidden h-px w-6 self-center xl:block transition-colors duration-500 ease-out',
-            isConnectorActive ? 'bg-brand' : 'bg-black/20 dark:bg-white/20'
-          )}
-        />
+        <>
+          {/* Horizontal connector — xl grid only */}
+          <div
+            aria-hidden="true"
+            className="relative hidden h-px w-6 self-center overflow-hidden xl:block"
+          >
+            <span className="absolute inset-0 bg-black/20 dark:bg-white/20" />
+            <span
+              className="absolute inset-0 bg-brand origin-left"
+              style={{
+                transform: isConnectorActive ? 'scaleX(1)' : 'scaleX(0)',
+                transition: isConnectorActive
+                  ? 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 200ms'
+                  : 'none',
+              }}
+            />
+          </div>
+
+          {/* Vertical connector — single-column mobile only */}
+          <div
+            aria-hidden="true"
+            className="relative mx-auto h-4 w-px overflow-hidden md:hidden"
+          >
+            <span className="absolute inset-0 bg-black/20 dark:bg-white/20" />
+            <span
+              className="absolute inset-0 bg-brand origin-top"
+              style={{
+                transform: isConnectorActive ? 'scaleY(1)' : 'scaleY(0)',
+                transition: isConnectorActive
+                  ? 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 200ms'
+                  : 'none',
+              }}
+            />
+          </div>
+        </>
       ) : null}
     </>
   )

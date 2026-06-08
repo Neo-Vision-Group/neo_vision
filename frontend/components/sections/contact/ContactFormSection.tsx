@@ -16,9 +16,38 @@ type ContactFormSectionProps = {
   formConfig?: ContactHeroData["formConfig"];
 };
 
+// Calculate lead quality score based on form data
+function calculateLeadScore(formData: ContactFormData): number {
+  let score = 5; // Base score
+  
+  // Budget range scoring
+  if (formData.budget) {
+    if (formData.budget.includes('100k+') || formData.budget.includes('$100')) score += 3;
+    else if (formData.budget.includes('50k') || formData.budget.includes('$50')) score += 2;
+    else if (formData.budget.includes('25k') || formData.budget.includes('$25')) score += 1;
+  }
+  
+  // Company presence
+  if (formData.company) score += 1;
+  
+  // Phone number presence (shows higher intent)
+  if (formData.phone) score += 1;
+  
+  // Message length (detailed messages show higher intent)
+  if (formData.message && formData.message.length > 100) score += 1;
+  
+  return Math.min(score, 10); // Cap at 10
+}
+
 export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const [submitState, setSubmitState] = useState<"idle" | "ok" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [csrfHeaderName, setCsrfHeaderName] = useState<string>("x-csrf-token");
+  const [formStarted, setFormStarted] = useState(false);
+  const [formStartTime, setFormStartTime] = useState<number | null>(null);
+  const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
+  const [utmParams, setUtmParams] = useState<Record<string, string>>({});
 
   const {
     control,
@@ -46,13 +75,104 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const budgetField = useController({ control, name: "budget" });
   const hearAboutUsField = useController({ control, name: "hearAboutUs" });
 
+  // Track form start and field completion
+  const handleFieldFocus = (fieldName: string) => {
+    if (!formStarted) {
+      setFormStarted(true);
+      setFormStartTime(Date.now());
+      posthog.capture('contact_form_started', {
+        source: typeof window !== 'undefined' ? window.location.pathname : '/contact',
+        referrer: typeof document !== 'undefined' ? document.referrer : '',
+        ...utmParams,
+      });
+    }
+  };
+
+  const handleFieldComplete = (fieldName: string, value: unknown) => {
+    if (value && !completedFields.has(fieldName)) {
+      const newCompleted = new Set(completedFields);
+      newCompleted.add(fieldName);
+      setCompletedFields(newCompleted);
+      
+      posthog.capture('contact_form_field_completed', {
+        field_name: fieldName,
+        source: typeof window !== 'undefined' ? window.location.pathname : '/contact',
+      });
+    }
+  };
+
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    async function fetchCsrfToken() {
+      try {
+        const res = await fetch("/api/csrf");
+        if (res.ok) {
+          const data = await res.json();
+          setCsrfToken(data.token);
+          setCsrfHeaderName(data.headerName);
+        }
+      } catch (err) {
+        console.error("Failed to fetch CSRF token:", err);
+      }
+    }
+    fetchCsrfToken();
+  }, []);
+
+  // Capture UTM parameters on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const params = new URLSearchParams(window.location.search);
+    const utms: Record<string, string> = {};
+    
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+      const value = params.get(key);
+      if (value) utms[key] = value;
+    });
+    
+    setUtmParams(utms);
+  }, []);
+
+  // Track form abandonment on unmount
+  useEffect(() => {
+    return () => {
+      if (formStarted && submitState === 'idle' && completedFields.size > 0) {
+        const timeSpent = formStartTime ? (Date.now() - formStartTime) / 1000 : 0;
+        posthog.capture('contact_form_abandoned', {
+          fields_completed: Array.from(completedFields),
+          fields_count: completedFields.size,
+          time_spent: timeSpent,
+          source: window.location.pathname,
+          ...utmParams,
+        });
+      }
+    };
+  }, [formStarted, submitState, completedFields, formStartTime, utmParams]);
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      const headers: Record<string, string> = {
+        "content-type": "application/json",
+      };
+      
+      // Include CSRF token if available
+      if (csrfToken) {
+        headers[csrfHeaderName] = csrfToken;
+      }
+
+      // Add timeout to prevent indefinite loading (15 seconds)
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers,
         body: JSON.stringify(formData),
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
+
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
         const errMsg = json.error ?? "Something went wrong";
@@ -66,8 +186,30 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         });
         return;
       }
-      reset();
-      setSubmitState("ok");
+      // Identify user with their email and enrich profile
+      posthog.identify(formData.email, {
+        email: formData.email,
+        name: formData.name,
+        company: formData.company || undefined,
+        phone: formData.phone || undefined,
+        project_type: formData.projectType,
+        budget_range: formData.budget,
+        acquisition_source: formData.hearAboutUs,
+        first_contact_page: formData.source,
+        first_contact_date: new Date().toISOString(),
+      });
+
+      // Set user properties for segmentation
+      const leadQualityScore = calculateLeadScore(formData);
+      posthog.setPersonProperties({
+        is_lead: true,
+        lead_quality: leadQualityScore,
+        has_company: !!formData.company,
+        has_phone: !!formData.phone,
+      });
+
+      const timeSpent = formStartTime ? (Date.now() - formStartTime) / 1000 : 0;
+      
       posthog.capture("contact_form_submitted", {
         project_type: formData.projectType,
         budget: formData.budget,
@@ -75,13 +217,29 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         source: formData.source,
         has_company: !!formData.company,
         has_phone: !!formData.phone,
+        time_spent: timeSpent,
+        fields_completed: completedFields.size,
+        lead_quality_score: leadQualityScore,
+        ...utmParams,
       });
+
+      reset();
+      setSubmitState("ok");
     } catch (err) {
-      setErrorMessage("Something went wrong");
+      const isAbortError = err instanceof Error && err.name === "AbortError";
+      const errMsg = isAbortError 
+        ? "Request timed out. Please try again." 
+        : "Something went wrong";
+      
+      setErrorMessage(errMsg);
       setSubmitState("error");
-      posthog.captureException(err);
+      
+      if (!isAbortError) {
+        posthog.captureException(err);
+      }
+      
       posthog.capture("contact_form_error", {
-        error_message: "network_error",
+        error_message: isAbortError ? "timeout" : "network_error",
         source: formData.source,
       });
     }
@@ -94,6 +252,10 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
 
   return (
     <div className="flex flex-1 flex-col gap-12">
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {submitState === "ok" && "Message sent successfully! We'll get back to you within 24 hours."}
+        {submitState === "error" && errorMessage && `Error: ${errorMessage}`}
+      </div>
       {submitState === "ok" ? (
         <div className="flex flex-col gap-4 border border-brand/40 bg-surface p-8">
           <h3 className="font-funnel text-[28px] font-medium text-foreground">
@@ -111,90 +273,135 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
 
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-3 md:flex-row">
-              <FormField label="Your name *" error={errors.name?.message}>
-                <input
-                  type="text"
-                  autoComplete="name"
-                  placeholder="Jane Smith"
-                  {...register("name")}
-                  className={inputClasses(!!errors.name)}
-                />
+              <FormField label="Your name *" error={errors.name?.message} id="contact-name">
+                {(props) => (
+                  <input
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Jane Smith"
+                    {...register("name", {
+                      onBlur: (e) => handleFieldComplete('name', e.target.value)
+                    })}
+                    {...props}
+                    onFocus={() => handleFieldFocus('name')}
+                    className={inputClasses(!!errors.name)}
+                  />
+                )}
               </FormField>
-              <FormField label="Your email *" error={errors.email?.message}>
-                <input
-                  type="email"
-                  autoComplete="email"
-                  placeholder="jane@company.com"
-                  {...register("email")}
-                  className={inputClasses(!!errors.email, true)}
-                />
+              <FormField label="Your email *" error={errors.email?.message} id="contact-email">
+                {(props) => (
+                  <input
+                    type="email"
+                    autoComplete="email"
+                    placeholder="jane@company.com"
+                    {...register("email")}
+                    {...props}
+                    className={inputClasses(!!errors.email, true)}
+                  />
+                )}
               </FormField>
             </div>
 
-            <FormField label="Company" error={errors.company?.message}>
-              <input
-                type="text"
-                autoComplete="organization"
-                placeholder="Acme Corp (optional)"
-                {...register("company")}
-                className={inputClasses(!!errors.company)}
-              />
+            <FormField label="Company" error={errors.company?.message} id="contact-company">
+              {(props) => (
+                <input
+                  type="text"
+                  autoComplete="organization"
+                  placeholder="Acme Corp (optional)"
+                  {...register("company", {
+                    onBlur: (e) => handleFieldComplete('company', e.target.value)
+                  })}
+                  {...props}
+                  onFocus={() => handleFieldFocus('company')}
+                  className={inputClasses(!!errors.company)}
+                />
+              )}
             </FormField>
 
-            <FormField label="Service" error={errors.projectType?.message}>
-              <DropdownField
-                placeholder="Select a service..."
-                options={services}
-                value={projectTypeField.field.value}
-                onChange={projectTypeField.field.onChange}
-                onBlur={projectTypeField.field.onBlur}
-                name={projectTypeField.field.name}
-                hasError={!!errors.projectType}
-              />
+            <FormField label="Service" error={errors.projectType?.message} id="contact-service">
+              {() => (
+                <DropdownField
+                  placeholder="Select a service..."
+                  options={services}
+                  value={projectTypeField.field.value}
+                  onChange={(value) => {
+                    projectTypeField.field.onChange(value);
+                    handleFieldComplete('projectType', value);
+                  }}
+                  onBlur={projectTypeField.field.onBlur}
+                  onFocus={() => handleFieldFocus('projectType')}
+                  name={projectTypeField.field.name}
+                  hasError={!!errors.projectType}
+                />
+              )}
             </FormField>
 
             <div className="flex flex-col gap-3 md:flex-row">
-              <FormField label="Estimated budget range" error={errors.budget?.message}>
-                <DropdownField
-                  placeholder="Select range..."
-                  options={budgetRanges}
-                  value={budgetField.field.value}
-                  onChange={budgetField.field.onChange}
-                  onBlur={budgetField.field.onBlur}
-                  name={budgetField.field.name}
-                  hasError={!!errors.budget}
-                />
+              <FormField label="Estimated budget range" error={errors.budget?.message} id="contact-budget">
+                {() => (
+                  <DropdownField
+                    placeholder="Select range..."
+                    options={budgetRanges}
+                    value={budgetField.field.value}
+                    onChange={(value) => {
+                      budgetField.field.onChange(value);
+                      handleFieldComplete('budget', value);
+                    }}
+                    onBlur={budgetField.field.onBlur}
+                    onFocus={() => handleFieldFocus('budget')}
+                    name={budgetField.field.name}
+                    hasError={!!errors.budget}
+                  />
+                )}
               </FormField>
-              <FormField label="Phone number" error={errors.phone?.message}>
-                <input
-                  type="tel"
-                  autoComplete="tel"
-                  placeholder="+1 (555) 123-4567 (optional)"
-                  {...register("phone")}
-                  className={inputClasses(!!errors.phone)}
-                />
+              <FormField label="Phone number" error={errors.phone?.message} id="contact-phone">
+                {(props) => (
+                  <input
+                    type="tel"
+                    autoComplete="tel"
+                    placeholder="+1 (555) 123-4567 (optional)"
+                    {...register("phone", {
+                      onBlur: (e) => handleFieldComplete('phone', e.target.value)
+                    })}
+                    {...props}
+                    onFocus={() => handleFieldFocus('phone')}
+                    className={inputClasses(!!errors.phone)}
+                  />
+                )}
               </FormField>
             </div>
 
-            <FormField label="How did you hear about us?" error={errors.hearAboutUs?.message}>
-              <DropdownField
-                placeholder="Select an option..."
-                options={hearAboutUsOptions}
-                value={hearAboutUsField.field.value}
-                onChange={hearAboutUsField.field.onChange}
-                onBlur={hearAboutUsField.field.onBlur}
-                name={hearAboutUsField.field.name}
-                hasError={!!errors.hearAboutUs}
-              />
+            <FormField label="How did you hear about us?" error={errors.hearAboutUs?.message} id="contact-hear-about">
+              {() => (
+                <DropdownField
+                  placeholder="Select an option..."
+                  options={hearAboutUsOptions}
+                  value={hearAboutUsField.field.value}
+                  onChange={(value) => {
+                    hearAboutUsField.field.onChange(value);
+                    handleFieldComplete('hearAboutUs', value);
+                  }}
+                  onBlur={hearAboutUsField.field.onBlur}
+                  onFocus={() => handleFieldFocus('hearAboutUs')}
+                  name={hearAboutUsField.field.name}
+                  hasError={!!errors.hearAboutUs}
+                />
+              )}
             </FormField>
 
-            <FormField label="Tell us about your project" error={errors.message?.message}>
-              <textarea
-                rows={4}
-                placeholder="What are you trying to achieve? Even rough ideas help..."
-                {...register("message")}
-                className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
-              />
+            <FormField label="Tell us about your project" error={errors.message?.message} id="contact-message">
+              {(props) => (
+                <textarea
+                  rows={4}
+                  placeholder="What are you trying to achieve? Even rough ideas help..."
+                  {...register("message", {
+                    onBlur: (e) => handleFieldComplete('message', e.target.value)
+                  })}
+                  {...props}
+                  onFocus={() => handleFieldFocus('message')}
+                  className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
+                />
+              )}
             </FormField>
           </div>
 
@@ -221,18 +428,30 @@ function FormField({
   label,
   error,
   children,
+  id,
 }: {
   label: string;
   error?: string;
-  children: React.ReactNode;
+  children: (props: {
+    id: string;
+    'aria-invalid': boolean;
+    'aria-describedby'?: string;
+  }) => React.ReactNode;
+  id: string;
 }) {
+  const errorId = `${id}-error`;
+  
   return (
     <div className="flex flex-1 flex-col gap-2">
-      <label className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-[#efefef]">
+      <label htmlFor={id} className="font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] text-black dark:text-[#efefef]">
         {label}
       </label>
-      {children}
-      {error && <span className="text-[14px] text-brand">{error}</span>}
+      {children({
+        id,
+        'aria-invalid': !!error,
+        'aria-describedby': error ? errorId : undefined,
+      })}
+      {error && <span id={errorId} className="text-[14px] text-brand" role="alert">{error}</span>}
     </div>
   );
 }
@@ -251,6 +470,7 @@ function DropdownField({
   value,
   onChange,
   onBlur,
+  onFocus,
   name,
   hasError,
 }: {
@@ -259,11 +479,14 @@ function DropdownField({
   value?: string;
   onChange: (value: string) => void;
   onBlur: () => void;
+  onFocus?: () => void;
   name: string;
   hasError: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const listboxId = useId();
   const selectedLabel = value && value.length > 0 ? value : placeholder;
   const hasSelection = !!value;
@@ -272,12 +495,15 @@ function DropdownField({
     function handlePointerDown(event: MouseEvent) {
       if (!wrapperRef.current?.contains(event.target as Node)) {
         setOpen(false);
+        setFocusedIndex(-1);
       }
     }
 
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setOpen(false);
+        setFocusedIndex(-1);
+        buttonRef.current?.focus();
       }
     }
 
@@ -290,15 +516,78 @@ function DropdownField({
     };
   }, []);
 
+  const handleButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!open) {
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+    } else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setOpen((current) => !current);
+      if (!open) {
+        setFocusedIndex(0);
+      }
+    }
+  };
+
+  const handleListboxKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (options.length === 0) return;
+
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        setFocusedIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        break;
+      case "Home":
+        event.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        event.preventDefault();
+        setFocusedIndex(options.length - 1);
+        break;
+      case "Enter":
+      case " ":
+        event.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < options.length) {
+          onChange(options[focusedIndex]);
+          onBlur();
+          setOpen(false);
+          setFocusedIndex(-1);
+          buttonRef.current?.focus();
+        }
+        break;
+    }
+  };
+
   return (
     <div ref={wrapperRef} className="relative">
       <input type="hidden" name={name} value={value ?? ""} />
       <button
+        ref={buttonRef}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
-        onClick={() => setOpen((current) => !current)}
+        aria-activedescendant={
+          open && focusedIndex >= 0 && focusedIndex < options.length
+            ? `${listboxId}-option-${focusedIndex}`
+            : undefined
+        }
+        onClick={() => {
+          setOpen((current) => !current);
+          if (!open) {
+            setFocusedIndex(0);
+          }
+        }}
+        onKeyDown={handleButtonKeyDown}
+        onFocus={() => onFocus?.()}
         onBlur={() => {
           window.setTimeout(() => {
             if (!wrapperRef.current?.contains(document.activeElement)) {
@@ -336,15 +625,19 @@ function DropdownField({
         <div
           id={listboxId}
           role="listbox"
+          tabIndex={-1}
+          onKeyDown={handleListboxKeyDown}
           className="absolute left-0 right-0 top-full z-20 overflow-hidden border border-black/15 bg-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] dark:border-white/15 dark:bg-[#0f0f0f] dark:shadow-[0_24px_48px_rgba(0,0,0,0.4)]"
         >
           <div className="h-px w-full bg-brand" />
-          {options.map((option) => {
+          {options.map((option, index) => {
             const selected = option === value;
+            const focused = index === focusedIndex;
 
             return (
               <button
                 key={option}
+                id={`${listboxId}-option-${index}`}
                 type="button"
                 role="option"
                 aria-selected={selected}
@@ -352,12 +645,16 @@ function DropdownField({
                   onChange(option);
                   onBlur();
                   setOpen(false);
+                  setFocusedIndex(-1);
                 }}
+                onMouseEnter={() => setFocusedIndex(index)}
                 className={cn(
                   "block w-full border-b border-black/20 px-6 py-3 text-left font-funnel text-[18px] leading-normal text-black transition-colors last:border-b-0 dark:border-white/20 dark:text-[#efefef]",
                   selected
                     ? "bg-brand/30"
-                    : "bg-white hover:bg-black/3 dark:bg-[#0f0f0f] dark:hover:bg-white/6"
+                    : focused
+                      ? "bg-black/6 dark:bg-white/10"
+                      : "bg-white hover:bg-black/3 dark:bg-[#0f0f0f] dark:hover:bg-white/6"
                 )}
               >
                 {option}

@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   type CSSProperties,
   type ReactNode,
@@ -248,7 +249,7 @@ export function HeroBrandDotsMediaProvider({children}: {children: ReactNode}) {
     }
   }, [])
 
-  const contextValue: HeroBrandDotsMediaContextValue = {
+  const contextValue = useMemo<HeroBrandDotsMediaContextValue>(() => ({
     registerCanvas(canvas) {
       const context = canvas.getContext('2d', {alpha: true})
       if (!context) return () => undefined
@@ -266,7 +267,7 @@ export function HeroBrandDotsMediaProvider({children}: {children: ReactNode}) {
         registrationsRef.current.delete(registration)
       }
     },
-  }
+  }), [])
 
   return (
     <HeroBrandDotsMediaContext.Provider value={contextValue}>

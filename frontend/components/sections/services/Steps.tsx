@@ -3,6 +3,7 @@ import {cleanStega} from '@/sanity/lib/utils'
 import {cn} from '@/lib/utils'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import Badge from '@/components/partials/Badge'
 
 const RevealOnScroll = dynamic(
   () =>
@@ -111,9 +112,7 @@ export function Steps({data}: {data?: StepsData}) {
                           </h4>
                         ) : null}
                         {item.duration ? (
-                          <span className="inline-flex font-funnel items-center bg-brand/20 px-2.5 py-1 text-[18px] leading-[1.2] text-black dark:text-white md:text-[18px] md:leading-normal">
-                            {item.duration}
-                          </span>
+                          <Badge text={item.duration} />
                         ) : null}
                       </div>
                     </div>
@@ -149,3 +148,4 @@ export function Steps({data}: {data?: StepsData}) {
     </SectionsWrapper>
   )
 }
+

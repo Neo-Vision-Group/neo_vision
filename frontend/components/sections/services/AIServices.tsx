@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import ArrowRightPixel from "@/components/icons/ArrowRightPixel";
@@ -88,6 +88,36 @@ export function AIServices({ data }: { data?: AIServicesData }) {
   const cleanData = data ? cleanStega(data) : data;
   const services = cleanData?.services?.filter((item) => item?.service?.name) ?? [];
 
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
+  const [activeCards, setActiveCards] = useState<boolean[]>(
+    () => new Array(services.length).fill(false),
+  );
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    cardRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveCards((prev) => {
+              const next = [...prev];
+              next[i] = true;
+              return next;
+            });
+            observer.disconnect();
+          }
+        },
+        { threshold: 1 },
+      );
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, [services.length]);
+
   if (services.length === 0) {
     return null;
   }
@@ -108,11 +138,12 @@ export function AIServices({ data }: { data?: AIServicesData }) {
           return (
             <article
               key={item._key ?? `${service.name}-${index}`}
+              ref={(el) => { cardRefs.current[index] = el; }}
               className="flex flex-col justify-between gap-12 border border-black/15 bg-black/4 p-8 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:p-12"
             >
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col gap-3">
-                  {service.tag ? <Badge text={service.tag} /> : null}
+                  {service.tag ? <Badge text={service.tag} isActive={activeCards[index]} /> : null}
 
                   <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                     {service.name}

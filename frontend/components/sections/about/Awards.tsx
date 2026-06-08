@@ -75,7 +75,7 @@ export function Awards({data}: {data?: AwardsData}) {
             return (
               <article
                 key={item?._key ?? `award-${index}`}
-                className="group border border-white/10 bg-[#E0E0E0] dark:bg-[#0F0F0F] p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5"
+                className="group border border-white/10 bg-white-light dark:bg-[#0F0F0F] p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5"
               >
               <div className="flex flex-col gap-6">
                 {item?.title ? (
@@ -84,7 +84,7 @@ export function Awards({data}: {data?: AwardsData}) {
                   </h3>
                 ) : null}
 
-                <div className="h-px w-full bg-white/10" />
+                <div className="h-px w-full bg-black/20 dark:bg-white/20" />
 
                 {recognitions.length > 0 ? (
                   <div className="flex flex-col gap-3">
@@ -129,6 +129,7 @@ export function Awards({data}: {data?: AwardsData}) {
                     src={badgeUrl}
                     alt={featuredTitle}
                     fill
+                    sizes="(min-width: 768px) 152px, 120px"
                     className="object-contain"
                   />
                 </div>

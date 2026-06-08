@@ -79,7 +79,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
-          "flex flex-1 flex-col justify-start gap-10 px-3 py-8 md:gap-14 md:px-6 md:py-20 lg:px-8 xl:px-12 2xl:px-30",
+          "flex flex-1 flex-col justify-start gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-20 lg:px-8 xl:px-12 2xl:px-30",
           featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
         )}>
           <div>
@@ -211,6 +211,7 @@ function FeaturedReferenceCard({
               src={item.cover}
               alt={title || ctaLabel}
               fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />

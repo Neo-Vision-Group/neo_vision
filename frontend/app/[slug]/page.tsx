@@ -5,7 +5,7 @@ import {cache} from 'react'
 import {resolveSiteOrigin} from '@/app/site-origin'
 import PageBuilderPage from '@/components/PageBuilder'
 import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
-import {debugSanityFetch} from '@/sanity/lib/debugFetch'
+import {sanityFetch} from '@/sanity/lib/live'
 import {pageQuery, pagesSlugs} from '@/sanity/lib/queries'
 import {
   buildRouteMetadata,
@@ -19,7 +19,7 @@ type Props = {
 }
 
 const loadPageForMetadata = cache(async (slug: string) => {
-  const {data} = await debugSanityFetch({
+  const {data} = await sanityFetch({
     query: pageQuery,
     params: {slug},
     stega: false,
@@ -44,7 +44,7 @@ function getPageSchemaType(slug: string) {
  * Learn more: https://nextjs.org/docs/app/api-reference/functions/generate-static-params
  */
 export async function generateStaticParams() {
-  const {data} = await debugSanityFetch({
+  const {data} = await sanityFetch({
     query: pagesSlugs,
     // // Use the published perspective in generateStaticParams
     perspective: 'published',
@@ -69,9 +69,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     fallbackDescription:
       page?.heading ??
       page?.subheading ??
-      extractPageBuilderDescription(
-        page?.pageBuilder as Array<Record<string, unknown>> | null | undefined
-      ),
+      extractPageBuilderDescription(page?.pageBuilder),
     schemaTypeFallback: getPageSchemaType(params.slug),
   })
 
@@ -81,10 +79,9 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 export default async function Page(props: Props) {
   const params = await props.params
   
-  const {data: page} = await debugSanityFetch({query: pageQuery, params})
+  const {data: page} = await sanityFetch({query: pageQuery, params})
 
   if (!page) {
-    console.warn(`[Route] No page found for slug: ${params.slug}`)
     notFound()
   }
 
@@ -97,15 +94,13 @@ export default async function Page(props: Props) {
     fallbackDescription:
       page.heading ??
       page.subheading ??
-      extractPageBuilderDescription(
-        page.pageBuilder as Array<Record<string, unknown>> | null | undefined
-      ),
+      extractPageBuilderDescription(page.pageBuilder),
     schemaTypeFallback: getPageSchemaType(params.slug),
   })
   const structuredData = buildRouteStructuredData({
     ...seoContext,
     routeType: 'page',
-    pageBuilder: page.pageBuilder as Array<Record<string, unknown>> | null | undefined,
+    pageBuilder: page.pageBuilder,
   })
 
   return (

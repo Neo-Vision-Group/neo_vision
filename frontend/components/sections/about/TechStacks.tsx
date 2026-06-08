@@ -69,7 +69,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
             as="h2"
             type="lines"
             scrollTriggered
-            className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
+            className="text-[28px] leading-12 text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-[57.6px] 2xl:tracking-[-1px]"
           >
             {`${headingRegular} ${headingBold}`.trim()}
           </SplitTextReveal>
@@ -115,6 +115,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                                     src={imageUrl}
                                     alt={item?.name ?? ''}
                                     fill
+                                    sizes="256px"
                                     className="object-contain"
                                   />
                                 </div>

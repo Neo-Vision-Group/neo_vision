@@ -38,7 +38,15 @@ export const testimonial = defineType({
             options: {
                 hotspot: true,
             },
-        })
+        }),
+        defineField({
+            name: 'rating',
+            title: 'Rating',
+            type: 'number',
+            description: 'Star rating (1-5) for structured data and rich results',
+            validation: (Rule) => Rule.min(1).max(5).integer(),
+            initialValue: 5,
+        }),
     ],
     preview: {
         select: {

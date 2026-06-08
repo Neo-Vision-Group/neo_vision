@@ -22,8 +22,8 @@ export function SectionsWrapper({
     <section id={id} className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
       <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
-        <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-12 pr-6 py-6">
-          <div className="font-betatron text-center md:text-left text-3xl text-black dark:text-[#efefef]">{eyebrow}</div>
+        <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-6 pr-6 py-6">
+          <div className="font-betatron text-center md:text-left text-3xl text-[24px] lg:text-3xl text-black dark:text-[#efefef]">{eyebrow}</div>
         </div>
         
         {/* Fixed: Horizontal line needs h-px and w-full. 
@@ -37,20 +37,6 @@ export function SectionsWrapper({
           />
         )}
       </aside>
-
-      {/* Mobile Borders */}
-      {/* <DrawLine
-        className="md:hidden absolute inset-y-0 left-3 w-px bg-black/20 dark:bg-white/20"
-        start="top 85%"
-        end="bottom 85%"
-        direction="vertical"
-      />
-      <DrawLine
-        className="md:hidden absolute inset-y-0 right-3 w-px bg-black/20 dark:bg-white/20"
-        start="top 85%"
-        end="bottom 85%"
-        direction="vertical"
-      /> */}
 
       {/* Vertical Separator: This one looks correct, but ensure parent has height */}
       <DrawLine

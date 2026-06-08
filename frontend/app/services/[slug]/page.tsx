@@ -54,7 +54,10 @@ export async function generateMetadata({params}: Props): Promise<Metadata> {
   const seoContext = await resolveSeoContext({
     pathname: `/services/${slug}`,
     origin,
-    seo: service?.seo,
+    seo: {
+      ...service?.seo,
+      enableFaqSchema: service?.seo?.enableFaqSchema ?? true,
+    },
     fallbackTitle: service?.name,
     fallbackDescription: extractPageBuilderDescription(
       service?.pageBuilder as Array<Record<string, unknown>> | null | undefined
@@ -76,7 +79,10 @@ export default async function ServiceDetailPage({params}: Props) {
   const seoContext = await resolveSeoContext({
     pathname: `/services/${slug}`,
     origin,
-    seo: service.data.seo,
+    seo: {
+      ...service.data.seo,
+      enableFaqSchema: service.data.seo?.enableFaqSchema ?? true,
+    },
     fallbackTitle: service.data.name,
     fallbackDescription: extractPageBuilderDescription(
       service.data.pageBuilder as Array<Record<string, unknown>> | null | undefined

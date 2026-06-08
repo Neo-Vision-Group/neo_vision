@@ -208,20 +208,58 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           </div>
         </div>
 
-        <div className="relative w-full pb-3 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
+        <div className="relative w-full pb-6 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
           {railItems.length > 0 ? (
             <RevealOnScroll
               as="div"
               className="flex w-full flex-col"
               stagger={0.08}
             >
-              <div className="flex flex-col gap-2 md:gap-3 md:flex-row md:items-stretch p-3">
+              {/* Mobile layout: 2-col grid for highlights + full-width CTA below */}
+              <div className="flex flex-col gap-2 pt-3 md:hidden">
+                {(() => {
+                  const highlightItems = railItems.filter((i) => i.kind === "highlight");
+                  const ctaItem = railItems.find((i) => i.kind === "cta");
+                  return (
+                    <>
+                      {highlightItems.length > 0 && (
+                        <div className="grid grid-cols-2 gap-2">
+                          {highlightItems.map((item) => (
+                            <HighlightCard key={item.key} card={(item as Extract<RailItem, { kind: "highlight" }>).card} />
+                          ))}
+                        </div>
+                      )}
+                      {ctaItem && ctaItem.kind === "cta" && (() => {
+                        const resolvedHref = ctaItem.cta.link ? linkResolver(ctaItem.cta.link) : null;
+                        return resolvedHref ? (
+                          <Button
+                            href={resolvedHref}
+                            target={ctaItem.cta.link?.openInNewTab ? "_blank" : undefined}
+                            rel={ctaItem.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
+                            variant="primary"
+                            className="min-h-14 w-full"
+                          >
+                            {ctaItem.cta.buttonText}
+                          </Button>
+                        ) : (
+                          <Button variant="primary" className="min-h-14 w-full">
+                            {ctaItem.cta.buttonText}
+                          </Button>
+                        );
+                      })()}
+                    </>
+                  );
+                })()}
+              </div>
+
+              {/* Desktop layout: horizontal flex row with dividers */}
+              <div className="hidden md:flex md:flex-row md:items-stretch md:gap-3 pt-3">
                 {railItems.map((item, index) => (
                   <div key={item.key} className="contents">
                     {index > 0 ? (
                       <div
                         aria-hidden="true"
-                        className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
+                        className="w-px self-stretch bg-black/10 dark:bg-white/20"
                       />
                     ) : null}
 
@@ -235,12 +273,12 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
                           target={item.cta.link?.openInNewTab ? "_blank" : undefined}
                           rel={item.cta.link?.openInNewTab ? "noopener noreferrer" : undefined}
                           variant="primary"
-                          className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm"
+                          className="min-h-14 md:min-h-16 lg:min-h-20 flex-1"
                         >
                           {item.cta.buttonText}
                         </Button>
                       ) : (
-                        <Button variant="primary" className="min-h-14 md:min-h-16 lg:min-h-20 flex-1 md:text-sm">
+                        <Button variant="primary" className="min-h-14 md:min-h-16 lg:min-h-20 flex-1">
                           {item.cta.buttonText}
                         </Button>
                       );
@@ -351,7 +389,7 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   }
 
   return (
-    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 bg-black/4 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f] bg-white-light">
       {value ? (
         <ScrambleText
           text={value}

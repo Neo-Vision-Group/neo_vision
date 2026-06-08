@@ -243,6 +243,13 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "whatWeDo" => {
       ...,
+      ctaSection {
+        ...,
+        cta {
+          ...,
+          ${linkFields}
+        }
+      },
       cards[]{
         ...,
         cta {
@@ -423,7 +430,13 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "whyRomania" => {
       ...,
-      title,
+      title[]{
+        ...,
+        markDefs[]{
+          ...,
+          ${linkReference}
+        }
+      },
       body[]{
         ...,
         markDefs[]{
@@ -826,14 +839,6 @@ export const homePageQuery = defineQuery(`
     heading,
     subheading,
     ${sharedPageBuilderProjection},
-  }
-`)
-
-export const sitemapData = defineQuery(`
-  *[_type == "page" || _type == "post" && defined(slug.current)] | order(_type asc) {
-    "slug": slug.current,
-    _type,
-    _updatedAt,
   }
 `)
 

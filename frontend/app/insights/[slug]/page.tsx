@@ -79,7 +79,7 @@ export async function generateStaticParams() {
     stega: false,
   })
 
-  return data?.map((entry: {slug: string}) => ({slug: entry.slug})) || []
+  return data?.filter((entry): entry is {slug: string} => entry.slug !== null).map((entry) => ({slug: entry.slug})) || []
 }
 
 export async function generateMetadata({
@@ -181,7 +181,7 @@ export default async function InsightDetailPage({
     <>
       <StructuredDataScript nodes={structuredData} />
       <InsightHero post={post} />
-      <div className="relative bg-white dark:bg-black">
+      <div className="relative bg-white dark:bg-dark">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex">
           <div className="relative mx-auto w-full max-w-330">
             <DrawLine

@@ -73,15 +73,15 @@ export function Press({data}: {data?: PressData}) {
     <SectionsWrapper eyebrow={eyebrow}>
       <RevealOnScroll as="div" stagger={0.08} className="flex flex-col gap-12 md:gap-16">
         {heading ? (
-          <div className="px-0 md:px-6 lg:px-12">
+          <div>
             <h2 className="text-[28px] leading-[1.2] tracking-[-0.4px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
               {heading}
             </h2>
           </div>
         ) : null}
 
-        <div className="px-0 md:px-3">
-          <article className="group border border-brand bg-surface p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/70 hover:-translate-y-0.5">
+        <div>
+          <article className="group border border-brand bg-white-light dark:bg-black p-8 md:p-12 transition-all duration-300 ease-out hover:border-brand/70 hover:-translate-y-0.5">
             <div className="flex flex-col items-start gap-8">
               <div className="flex flex-col gap-3">
                 {cardTitle ? (

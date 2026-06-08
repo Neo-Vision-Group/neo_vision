@@ -25,22 +25,22 @@
   h1, h2, h3, h4, h5, h6, p, button {
     @apply text-dark dark:text-white font-funnel;
   }
-}
 
-h1 {
-  @apply font-funnel text-8xl font-normal tracking-tight;
-}
+  h1 {
+    @apply font-funnel text-8xl font-normal tracking-tight;
+  }
 
-h2 {
-  @apply font-funnel text-5xl font-normal tracking-tight;
-}
+  h2 {
+    @apply font-funnel text-5xl font-normal tracking-tight;
+  }
 
-h3 {
-  @apply font-funnel text-3xl font-normal tracking-tight;
-}
+  h3 {
+    @apply font-funnel text-3xl font-normal tracking-tight;
+  }
 
-h4 {
-  @apply font-funnel text-[24px] font-normal tracking-tight;
+  h4 {
+    @apply font-funnel text-[24px] font-normal tracking-tight;
+  }
 }
 
 .first-load-progress-bar {
@@ -131,11 +131,14 @@ h4 {
   }
 }
 
-.calendly-theme-shell,
-.calendly-theme-shell div,
-.calendly-theme-shell iframe {
-  background-color: var(--calendly-bg, #ffffff) !important;
-  color-scheme: light !important;
+
+@keyframes pin-pulse {
+  0%, to { opacity: 0.8; }
+  50%     { opacity: 0.35; }
+}
+
+.pin-pulse {
+  animation: pin-pulse 2s infinite;
 }
 
 @utility container {

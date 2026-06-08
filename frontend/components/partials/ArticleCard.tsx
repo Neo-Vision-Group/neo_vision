@@ -85,7 +85,7 @@ export function ArticleCard({
           "relative bg-gray-100 dark:bg-black",
           featured
             ? "aspect-video md:aspect-3/2 md:w-1/2"
-            : "aspect-16/10"
+            : "aspect-square"
         )}
       >
         {article.cover ? (
@@ -113,11 +113,11 @@ export function ArticleCard({
 
       <div
         className={cn(
-          "flex flex-1 flex-col gap-12 p-6 md:p-8",
+          "flex flex-1 flex-col gap-4 p-6 md:p-8",
           featured ? "md:justify-center" : ""
         )}
       >
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-4">
             {/* Category badge */}
             {category ? <Badge text={category} /> : null}
@@ -135,13 +135,13 @@ export function ArticleCard({
           </div>
           
           {article.excerpt ? (
-            <p className="font-funnel-display text-[18px] leading-normal text-black/70 dark:text-white/70">
+            <p className="font-funnel-display text-[18px] leading-normal text-black/70 dark:text-white/70 line-clamp-4">
               {article.excerpt}
             </p>
           ) : null}
         </div>
         
-        <div className="mt-auto flex items-center gap-3 pt-4">
+        <div className="mt-auto flex items-center gap-3 pt-1">
           <span className="relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200 text-black dark:text-[#efefef] group-hover:text-brand">
             <AnimatedBorder groupHover />
             <ArrowRight

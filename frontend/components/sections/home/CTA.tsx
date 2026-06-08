@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/partials/Button";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
+import type { DereferencedLink } from "@/sanity/lib/types";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
@@ -26,7 +27,7 @@ export type CtaData = {
   body?: string;
   cta?: {
     buttonText?: string;
-    link?: any;
+    link?: DereferencedLink;
   };
   subtext?: string;
 };
@@ -62,27 +63,37 @@ export function ClosingCta({ data }: { data?: CtaData }) {
       className="relative isolate flex min-h-100 w-full items-center justify-center overflow-hidden bg-white dark:bg-dark px-6 py-24 md:py-32 lg:p-48"
     >
       {/* Light mode background */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">
-        <div className="absolute inset-0 bg-white" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden bg-white dark:hidden">
         <Image
           src="/images/graphic.webp"
           alt=""
           fill
-          className="absolute inset-0 object-cover mix-blend-difference"
-          style={{
-            filter: "brightness(0.8) sepia(1) saturate(3) hue-rotate(-30deg) contrast(1.1)",
-            opacity: 0.4,
-          }}
+          sizes="100vw"
+          className="absolute inset-0 object-cover invert"
         />
-        <div className="absolute inset-0 bg-brand mix-blend-screen opacity-25" />
-        {/* Gradient mask */}
+        <div
+          className="absolute inset-0 mix-blend-screen"
+          style={{ background: "#ff4404" }}
+        />
+        {/* Gradient mask — vertical (all breakpoints) */}
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `
-              linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.95) 92%, #ffffff 100%),
-              linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.95) 92%, #ffffff 100%)
-            `,
+            backgroundImage: `linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 50%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.95) 92%, #ffffff 100%)`,
+          }}
+        />
+        {/* Gradient mask — horizontal, wide stops on mobile */}
+        <div
+          className="absolute inset-0 md:hidden"
+          style={{
+            backgroundImage: `linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.8) 20%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 60%, rgba(255,255,255,0.8) 80%, #ffffff 100%)`,
+          }}
+        />
+        {/* Gradient mask — horizontal, tight stops on desktop */}
+        <div
+          className="absolute inset-0 hidden md:block"
+          style={{
+            backgroundImage: `linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0.95) 8%, rgba(255,255,255,0) 45%, rgba(255,255,255,0) 55%, rgba(255,255,255,0.95) 92%, #ffffff 100%)`,
           }}
         />
       </div>
@@ -97,6 +108,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           src="/images/graphic.webp"
           alt=""
           fill
+          sizes="100vw"
           className="absolute inset-0 object-cover mix-blend-multiply"
           style={{
             filter: "brightness(0.7) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.1)",

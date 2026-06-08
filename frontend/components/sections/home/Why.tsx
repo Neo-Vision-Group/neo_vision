@@ -68,7 +68,7 @@ export function Why({ data }: { data?: WhyData }) {
           type="words"
           stagger={0.04}
           colorReveal
-          className="text-[28px] leading-9 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
+          className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
         >
           {why.heading}
         </SplitTextReveal>
@@ -98,7 +98,7 @@ export function Why({ data }: { data?: WhyData }) {
                   style={{ background: "#7a1a00" }}
                 />
               </div>
-              <h3 className="text-[22px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-9 xl:text-4xl xl:leading-9">
+              <h3 className="text-[22px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-12 xl:text-4xl xl:leading-12">
                 {point.title}
               </h3>
               <div className="text-body text-foreground/70">

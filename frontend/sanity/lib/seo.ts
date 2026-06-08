@@ -309,6 +309,7 @@ function resolveAlternateLanguages(alternateLanguages?: AlternateLanguageLike[] 
   }
 
   const languages: Record<string, string> = {}
+  let hasDefault = false
 
   for (const alternate of alternateLanguages) {
     if (!alternate || isBlankString(alternate.languageCode) || isBlankString(alternate.url)) {
@@ -319,6 +320,14 @@ function resolveAlternateLanguages(alternateLanguages?: AlternateLanguageLike[] 
 
     if (alternate.isDefault) {
       languages['x-default'] = alternate.url!.trim()
+      hasDefault = true
+    }
+  }
+
+  if (!hasDefault && Object.keys(languages).length > 0) {
+    const firstUrl = Object.values(languages)[0]
+    if (firstUrl) {
+      languages['x-default'] = firstUrl
     }
   }
 
@@ -618,6 +627,37 @@ export function extractFaqEntries(pageBuilder?: Array<Record<string, unknown>> |
   return entries
 }
 
+export function extractTestimonials(pageBuilder?: Array<Record<string, unknown>> | null) {
+  const testimonials: Array<{
+    author: string
+    quote: string
+    rating?: number
+  }> = []
+
+  if (!pageBuilder) return testimonials
+
+  for (const block of pageBuilder) {
+    if (block?._type !== 'testimonials' && block?._type !== 'studyTestimonial') {
+      continue
+    }
+
+    const items = Array.isArray(block.items) ? block.items : 
+                  block.testimonial ? [block.testimonial] : []
+
+    for (const item of items as Array<Record<string, unknown>>) {
+      const author = pickString(toText(item.attribution))
+      const quote = pickString(toText(item.quote))
+      const rating = typeof item.rating === 'number' ? item.rating : undefined
+
+      if (author && quote) {
+        testimonials.push({author, quote, rating})
+      }
+    }
+  }
+
+  return testimonials
+}
+
 function parseCustomStructuredData(structuredData?: string | null) {
   if (isBlankString(structuredData)) {
     return []
@@ -747,9 +787,38 @@ function buildOrganizationReference(
 
   return {
     '@type': 'Organization',
+    '@id': `${origin}#organization`,
     name: organizationName,
     url: origin,
     logo: logoUrl,
+    "foundingDate": "2015-01-15",
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": 25,
+    },
+
+    "knowsAbout": [
+        "Artificial Intelligence",
+        "Software Development",
+        "Machine Learning",
+        "Generative Search",
+        "Ecommerce",
+        "Software as a Service"
+    ],
+    "areaServed": [
+        {
+          "@type": "AdministrativeArea",
+          "name": "Global"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "European Union"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "United States"
+        }
+    ],
     sameAs: sameAs.length > 0 ? sameAs : undefined,
   }
 }
@@ -773,6 +842,7 @@ function buildBasicPageStructuredData(input: RouteStructuredDataInput) {
 }
 
 function buildServiceStructuredData(input: RouteStructuredDataInput) {
+  const provider = buildOrganizationReference(input.origin, input.siteSettings, input.siteName)
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -780,7 +850,23 @@ function buildServiceStructuredData(input: RouteStructuredDataInput) {
     description: input.description,
     url: input.canonicalUrl,
     serviceType: pickString(input.service?.category, input.title),
-    provider: buildOrganizationReference(input.origin, input.siteSettings, input.siteName),
+    provider,
+    brand: provider,
+    serviceOutput: input.description,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${input.service?.name ?? input.title} Services`,
+      itemListElement: [
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: input.service?.name ?? input.title,
+            description: input.description,
+          },
+        },
+      ],
+    },
     areaServed: pickString(input.siteSettings?.location),
     offers: pickString(input.service?.price)
       ? {
@@ -814,12 +900,19 @@ function buildArticleStructuredData(input: RouteStructuredDataInput) {
       input.siteSettings?.ogImage
     )
   )
+  const articleBody = input.description ?? ''
+  const wordCount = articleBody ? articleBody.split(/\s+/).filter(Boolean).length : undefined
+  const keywords = input.resolvedSeo.metaKeywords?.join(', ')
 
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: input.title,
     description: input.description,
+    articleBody,
+    wordCount,
+    keywords,
+    inLanguage: pickString(input.resolvedSeo.locale, 'en'),
     url: input.canonicalUrl,
     mainEntityOfPage: input.canonicalUrl,
     datePublished: input.article?.publishedTime ?? undefined,
@@ -833,6 +926,35 @@ function buildArticleStructuredData(input: RouteStructuredDataInput) {
           }))
         : undefined,
     publisher: buildOrganizationReference(input.origin, input.siteSettings, input.siteName),
+  } satisfies StructuredDataNode
+}
+
+function buildCreativeWorkStructuredData(input: RouteStructuredDataInput) {
+  const imageUrl = resolveImageUrl(
+    pickObject(
+      input.fallbackImage,
+      input.resolvedSeo.ogImage,
+      input.resolvedSeo.twitterImage,
+      input.resolvedSeo.socialImage,
+      input.siteSettings?.ogImage
+    )
+  )
+  const keywords = input.resolvedSeo.metaKeywords?.join(', ')
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: input.title,
+    description: input.description,
+    url: input.canonicalUrl,
+    about: input.description,
+    keywords,
+    inLanguage: pickString(input.resolvedSeo.locale, 'en'),
+    image: imageUrl ? [imageUrl] : undefined,
+    author: buildOrganizationReference(input.origin, input.siteSettings, input.siteName),
+    creator: buildOrganizationReference(input.origin, input.siteSettings, input.siteName),
+    datePublished: input.article?.publishedTime ?? undefined,
+    dateModified: input.article?.modifiedTime ?? input.article?.publishedTime ?? undefined,
   } satisfies StructuredDataNode
 }
 
@@ -852,6 +974,68 @@ function buildFaqStructuredData(entries: Array<{question: string; answer: string
         text: entry.answer,
       },
     })),
+  } satisfies StructuredDataNode
+}
+
+function addSpeakableToNode(node: StructuredDataNode, speakableText?: string) {
+  if (!speakableText) return node
+
+  return {
+    ...node,
+    speakable: {
+      '@type': 'SpeakableSpecification',
+      cssSelector: ['.speakable-content'],
+      xpath: ['/html/head/meta[@name="description"]/@content'],
+    },
+  }
+}
+
+function buildReviewStructuredData(
+  testimonials: Array<{author: string; quote: string; rating?: number}>,
+  input: RouteStructuredDataInput
+) {
+  if (testimonials.length === 0) {
+    return null
+  }
+
+  const reviews = testimonials
+    .filter((t) => t.rating && t.rating >= 1 && t.rating <= 5)
+    .map((t) => ({
+      '@type': 'Review',
+      author: {
+        '@type': 'Person',
+        name: t.author,
+      },
+      reviewBody: t.quote,
+      reviewRating: {
+        '@type': 'Rating',
+        ratingValue: t.rating,
+        bestRating: 5,
+        worstRating: 1,
+      },
+    }))
+
+  if (reviews.length === 0) {
+    return null
+  }
+
+  const totalRating = testimonials
+    .filter((t) => t.rating)
+    .reduce((sum, t) => sum + (t.rating || 0), 0)
+  const avgRating = totalRating / reviews.length
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': input.routeType === 'service' ? 'Service' : 'Organization',
+    name: input.title,
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: avgRating.toFixed(1),
+      reviewCount: reviews.length,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    review: reviews,
   } satisfies StructuredDataNode
 }
 
@@ -949,6 +1133,16 @@ export function buildRouteMetadata(context: ResolvedSeoContext): Metadata {
 
   if (!isBlankString(context.resolvedSeo.formatDetection)) {
     otherMeta['format-detection'] = context.resolvedSeo.formatDetection!.trim()
+  }
+
+  const paginationPrev = pickString(context.resolvedSeo.paginationPrevUrl)
+  const paginationNext = pickString(context.resolvedSeo.paginationNextUrl)
+
+  if (paginationPrev) {
+    otherMeta['prev'] = paginationPrev
+  }
+  if (paginationNext) {
+    otherMeta['next'] = paginationNext
   }
 
   return {
@@ -1125,6 +1319,18 @@ export function buildGlobalStructuredData(input: {
     })
   }
 
+  nodes.push({
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        // This routes the query directly to Google, filtered strictly to your domain
+        "urlTemplate": "https://www.google.com/search?q=site:neovision.dev+{search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  })
+
   return nodes
 }
 
@@ -1135,29 +1341,36 @@ export function buildRouteStructuredData(input: RouteStructuredDataInput) {
 
   const nodes: StructuredDataNode[] = []
   const faqEntries = extractFaqEntries(input.pageBuilder)
+  const testimonials = extractTestimonials(input.pageBuilder)
 
-  switch (input.schemaType) {
-    case 'Article':
-      nodes.push(buildArticleStructuredData(input))
-      break
-    case 'Service':
-      nodes.push(buildServiceStructuredData(input))
-      break
-    case 'FAQPage': {
-      const faqNode = buildFaqStructuredData(faqEntries)
-      if (faqNode) {
-        nodes.push(faqNode)
-      } else {
-        nodes.push(buildBasicPageStructuredData(input))
+  if (input.routeType === 'project') {
+    nodes.push(buildCreativeWorkStructuredData(input))
+  } else {
+    switch (input.schemaType) {
+      case 'Article':
+        nodes.push(addSpeakableToNode(buildArticleStructuredData(input), input.description))
+        break
+      case 'Service':
+        nodes.push(addSpeakableToNode(buildServiceStructuredData(input), input.description))
+        break
+      case 'FAQPage': {
+        const faqNode = buildFaqStructuredData(faqEntries)
+        if (faqNode) {
+          nodes.push(faqNode)
+        } else {
+          nodes.push(buildBasicPageStructuredData(input))
+        }
+        break
       }
-      break
+      case 'AboutPage':
+        nodes.push(addSpeakableToNode(buildBasicPageStructuredData(input), input.description))
+        break
+      case 'ContactPage':
+      case 'WebPage':
+      default:
+        nodes.push(buildBasicPageStructuredData(input))
+        break
     }
-    case 'AboutPage':
-    case 'ContactPage':
-    case 'WebPage':
-    default:
-      nodes.push(buildBasicPageStructuredData(input))
-      break
   }
 
   if (input.resolvedSeo.enableFaqSchema && input.schemaType !== 'FAQPage') {
@@ -1165,6 +1378,11 @@ export function buildRouteStructuredData(input: RouteStructuredDataInput) {
     if (faqNode) {
       nodes.push(faqNode)
     }
+  }
+
+  const reviewNode = buildReviewStructuredData(testimonials, input)
+  if (reviewNode) {
+    nodes.push(reviewNode)
   }
 
   if (input.resolvedSeo.enableBreadcrumbSchema) {

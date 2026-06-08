@@ -17,14 +17,14 @@ import type {
 type ProjectBlock = NonNullable<NonNullable<ProjectBySlugQueryResult>['pageBuilder']>[number]
 
 function enrichProjectBlocks(project: NonNullable<ProjectBySlugQueryResult>): ProjectBlock[] {
-  const pageBuilder = (project.pageBuilder ?? []) as Array<Record<string, any>>
+  const pageBuilder = (project.pageBuilder ?? []) as Array<Record<string, unknown>>
 
   return pageBuilder.map((block) => {
     if (block._type !== 'studyHero') {
       return block as ProjectBlock
     }
 
-    const heroBlock = block as Record<string, any> & {
+    const heroBlock = block as Record<string, unknown> & {
       details?: Array<{_key?: string; label?: string; value?: string}>
     }
 
@@ -61,7 +61,7 @@ const loadProjectForMetadata = cache(async (slug: string) => {
 
 export async function generateStaticParams() {
   const projects = await client.fetch<AllProjectsQueryResult>(allProjectsQuery)
-  return projects.map((project) => ({slug: project.slug.current}))
+  return projects.filter((project) => project.slug?.current != null).map((project) => ({slug: project.slug!.current!}))
 }
 
 export async function generateMetadata({

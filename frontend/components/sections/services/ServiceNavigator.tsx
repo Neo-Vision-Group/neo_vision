@@ -227,7 +227,20 @@ export function ServiceNavigator({ data }: { data?: ServiceNavigatorData }) {
                   index % 2 === 0 && "lg:border-r lg:border-black/20 lg:dark:border-white/20"
                 )}
               >
-                <article className="flex h-full w-full flex-col justify-between gap-12 border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12">
+                <article className="group/why relative isolate flex h-full w-full flex-col justify-between gap-12 overflow-hidden border border-black/10 bg-black/4 p-8 dark:border-white/10 dark:bg-[#0f0f0f] md:p-12 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5">
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover/why:opacity-100"
+                  >
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: "#4a0e00" }}
+                    />
+                    <div
+                      className="absolute inset-0 mix-blend-multiply"
+                      style={{ background: "#7a1a00" }}
+                    />
+                  </div>
                   <div className="flex flex-col gap-3">
                     {card.prompt ? (
                       <h3 className="font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">

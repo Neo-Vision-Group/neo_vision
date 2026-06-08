@@ -16,9 +16,8 @@ export const whyRomania = defineType({
     defineField({
       name: 'title',
       title: 'Title',
-      type: 'string',
+      type: 'blockContentTextOnly',
       validation: (Rule) => Rule.required(),
-      initialValue: 'Based in Bucharest. Built for the world.',
     }),
     defineField({
       name: 'body',

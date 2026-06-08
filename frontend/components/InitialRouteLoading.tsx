@@ -1,5 +1,5 @@
 import {FirstLoadIntro} from '@/components/partials/FirstLoadIntro'
 
-export async function InitialRouteLoading({label: _label}: {label: string}) {
+export async function InitialRouteLoading() {
   return <FirstLoadIntro />
 }

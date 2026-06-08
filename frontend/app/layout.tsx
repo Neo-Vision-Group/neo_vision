@@ -1,10 +1,10 @@
 import './globals.css'
 
 import {SpeedInsights} from '@vercel/speed-insights/next'
-import type {Metadata} from 'next'
+import type {Metadata, Viewport} from 'next'
 import {Inter, IBM_Plex_Mono, Funnel_Display} from 'next/font/google'
 import localFont from 'next/font/local'
-import {draftMode} from 'next/headers'
+import {draftMode, headers} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
@@ -22,7 +22,6 @@ import Nav from '@/components/layout/Nav'
 import {StructuredDataScript} from '@/components/seo/StructuredDataScript'
 import {ScrollToTopOnNavigate} from '@/components/ScrollToTopOnNavigate'
 import {TransitionProvider} from '@/components/transition/TransitionProvider'
-import * as demo from '@/sanity/lib/demo'
 import {ThemeProvider} from '@/components/partials/theme/theme-provider'
 import {SanityLive} from '@/sanity/lib/live'
 import {buildGlobalMetadata, buildGlobalStructuredData, getGlobalSeoData} from '@/sanity/lib/seo'
@@ -36,10 +35,9 @@ export async function generateMetadata(): Promise<Metadata> {
     origin,
     siteSettings,
     seoSettings,
-    fallbackTitle: siteSettings?.title || demo.title,
+    fallbackTitle: siteSettings?.title || 'Neo Vision',
     fallbackDescription: siteSettings?.description
-      ? toPlainText(siteSettings.description)
-      : toPlainText(demo.description),
+      ? toPlainText(siteSettings.description) : 'AI-native engineering and transformation for companies that need working systems, not slide decks. We embed in your business, prove ROI, then scale it.'
   })
 }
 
@@ -86,8 +84,15 @@ const betatron = localFont({
   ],
 })
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+}
+
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const nonce = (await headers()).get('x-nonce') ?? undefined
   const origin = await resolveSiteOrigin()
   const {siteSettings, seoSettings} = await getGlobalSeoData()
   const globalStructuredData = buildGlobalStructuredData({
@@ -104,6 +109,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     >
       <head>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
@@ -141,6 +147,12 @@ export default async function RootLayout({children}: {children: React.ReactNode}
             <LenisProvider>
               <TransitionProvider>
                 <ScrollToTopOnNavigate />
+                <a
+                  href="#main-content"
+                  className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-brand focus:px-4 focus:py-2 focus:text-white focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2"
+                >
+                  Skip to main content
+                </a>
                 <section className="min-h-screen overflow-x-clip bg-transparent">
                   {/* The <Toaster> component is responsible for rendering toast notifications used in /app/client-utils.ts and /app/components/DraftModeToast.tsx */}
                   <Toaster />
@@ -154,7 +166,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                   {/* The <SanityLive> component is responsible for making all sanityFetch calls in your application live, so should always be rendered. */}
                   <SanityLive onError={handleError} />
                   <Nav />
-                  <main className="transition-opacity min-h-screen duration-500 pt-16 lg:pt-20">
+                  <main id="main-content" className="transition-opacity min-h-screen duration-500 pt-16 lg:pt-20">
                     {children}
                     <IntroVisitMarker />
                   </main>

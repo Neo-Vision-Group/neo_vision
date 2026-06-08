@@ -37,6 +37,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const cleanData = data ? cleanStega(data) : data;
 
   const [activeTab, setActiveTab] = useState<"message" | "call">("message");
+  const [messageTabHovered, setMessageTabHovered] = useState(false);
   const [callTabHovered, setCallTabHovered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const stepsWrapperRef = useRef<HTMLDivElement>(null);
@@ -93,7 +94,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
   const steps = cleanData?.steps || [];
   
   return (
-    <section ref={sectionRef} className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden border-b border-border bg-transparent">
+    <section ref={sectionRef} className="has-hero-pattern relative isolate flex w-full flex-col overflow-hidden bg-transparent">
 
       <div className="relative flex flex-col gap-12 px-6 pb-12 pt-16 lg:px-12">
         <div className="flex flex-col gap-12 lg:flex-row lg:items-start">
@@ -136,7 +137,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                     </div>
 
                     {/* Step content */}
-                    <div className="pb-8 pl-4">
+                    <div className="pl-4">
                       <div className="flex items-start gap-6">
                         <p className="font-betatron text-4xl leading-[1.2] text-brand">
                           0{idx + 1}.
@@ -163,12 +164,15 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             <div className="flex gap-6">
               <button
                 type="button"
-                onClick={() => setActiveTab("message")}
+                onClick={() => { setActiveTab("message"); setMessageTabHovered(false); }}
+                onMouseEnter={() => setMessageTabHovered(true)}
+                onMouseLeave={() => setMessageTabHovered(false)}
                 className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef]",
-                  activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] dark:bg-[#0f0f0f]"
+                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300",
+                  activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
+                {activeTab !== "message" && <AnimatedBorder isHovered={messageTabHovered} />}
                 Send a message
                 {activeTab === "message" && (
                   <>
@@ -181,7 +185,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("call")}
+                onClick={() => { setActiveTab("call"); setCallTabHovered(false); }}
                 onMouseEnter={() => setCallTabHovered(true)}
                 onMouseLeave={() => setCallTabHovered(false)}
                 className={cn(
@@ -189,7 +193,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                   activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
                 )}
               >
-                <AnimatedBorder isHovered={callTabHovered && activeTab !== "call"} />
+                {activeTab !== "call" && <AnimatedBorder isHovered={callTabHovered} />}
                 Book a call
                 {activeTab === "call" && (
                   <>

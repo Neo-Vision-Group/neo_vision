@@ -9,7 +9,6 @@ import {PageTransitionMarker} from '@/components/transition/PageTransitionMarker
 import {PageQueryResult} from '@/sanity.types'
 import {dataAttr} from '@/sanity/lib/utils'
 import {PageBuilderSection} from '@/sanity/lib/types'
-import { cn } from '@/lib/utils'
 
 type PageBuilderPageProps = {
   page: PageQueryResult
@@ -37,11 +36,8 @@ function RenderSections({
     return null
   }
 
-  const isInsightDetailPage = (page as {_type?: string} | null)?._type === 'post'
-
   return (
     <div
-      className={cn(isInsightDetailPage && '')}
       data-sanity={dataAttr({
         id: page._id,
         type: page._type,
@@ -50,10 +46,7 @@ function RenderSections({
     >
       <div>
         {pageBuilderSections.map((block: PageBuilderSection, index: number) => (
-          <div
-            key={block._key}
-            className={cn(isInsightDetailPage && '')}
-          >
+          <div key={block._key}>
             <BlockRenderer
               index={index}
               block={block}

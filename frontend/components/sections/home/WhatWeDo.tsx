@@ -6,6 +6,7 @@ import { Button } from "@/components/partials/Button";
 import ResolvedLink from "@/components/ResolvedLink";
 import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
+import type { DereferencedLink } from "@/sanity/lib/types";
 import dynamic from "next/dynamic";
 import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
 
@@ -30,13 +31,13 @@ export type WhatWeDoData = {
     title: string;
     body: string;
     services?: Array<{ name?: string, price?: string }>;
-    cta: { buttonText?: string; link?: any };
+    cta: { buttonText?: string; link?: DereferencedLink };
     texture?: boolean;
   }>;
   ctaSection?: {
     heading?: string;
     subheading?: string;
-    cta?: { buttonText?: string; link?: any };
+    cta?: { buttonText?: string; link?: DereferencedLink };
   };
 };
 
@@ -48,7 +49,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
   const ctaSectionLabel = cleanData?.ctaSection?.cta?.buttonText?.trim();
   const ctaSectionHeading = cleanData?.ctaSection?.heading?.trim();
   const ctaSectionSubheading = cleanData?.ctaSection?.subheading?.trim();
-  const hasCtaButton = ctaSectionLabel && (ctaSectionHref || ctaSectionLink);
+  const hasCtaButton = ctaSectionLabel && ctaSectionHref;
   const hasCtaSection = ctaSectionHeading || ctaSectionSubheading || hasCtaButton;
 
   const whatWeDo = {
@@ -132,7 +133,7 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
           ))}
         </RevealOnScroll>
         {hasCtaSection ? (
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between pb-16">
             <div className="flex flex-col gap-2">
               {ctaSectionHeading ? (
                 <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">

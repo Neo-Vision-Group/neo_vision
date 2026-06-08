@@ -85,14 +85,14 @@ export function Compare({data}: {data?: CompareData}) {
               <table className="w-full table-fixed border-collapse">
                 <thead>
                   <tr className="border-b border-black/10 dark:border-white/20">
-                    <th className="w-[26%] px-2 py-0 text-left" />
+                    <th className="w-25 md:w-[25%] px-2 py-0 text-left sticky left-0 z-10 bg-white dark:bg-black" />
                     {columns.map((column, columnIndex) => {
                       const highlighted = Boolean(column.highlightColumn)
 
                       return (
                         <th
                           key={column._key ?? `${column.name}-${columnIndex}`}
-                          className={`px-3 py-5 text-center text-[14px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] ${
+                          className={`px-3 py-5 text-center text-[14px] 2xl:text-[18px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] ${
                             highlighted
                               ? 'bg-brand text-white'
                               : 'text-black dark:text-white'
@@ -111,7 +111,7 @@ export function Compare({data}: {data?: CompareData}) {
                       key={row._key ?? `${row.label}-${rowIndex}`}
                       className="border-b border-black/10 dark:border-white/20"
                     >
-                      <th className="px-2 py-5 text-left text-[14px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
+                      <th className="px-2 py-5 min-w-45 sticky left-0 bg-white dark:bg-black text-left text-[14px] 2xl:text-[18px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
                         {row.label}
                       </th>
 

@@ -744,7 +744,7 @@ export function Story({ data }: { data?: StoryData }) {
                 <div className="absolute inset-x-0 top-0 h-px bg-white/10" />
                 <div
                   ref={lineFillRef}
-                  className="absolute left-0 top-0 h-[1.5px] bg-gradient-to-r from-brand to-[#E85223]"
+                  className="absolute left-0 top-0 h-[1.5px] bg-linear-to-r from-brand to-[#E85223]"
                   style={{
                     width: 0,
                     boxShadow: "0 0 14px rgba(255,80,10,0.6)",

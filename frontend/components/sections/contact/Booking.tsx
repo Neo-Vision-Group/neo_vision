@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import posthog from '@/lib/posthog-client';
@@ -48,49 +47,7 @@ export type BookingData = {
   schedulerUrl?: string;
 };
 
-declare global {
-  interface Window {
-    Calendly?: {
-      initInlineWidget: (options: {
-        url: string;
-        parentElement: HTMLElement;
-      }) => void;
-    };
-  }
-}
-
-const CALENDLY_SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
 type PortraitData = NonNullable<NonNullable<BookingData["teamMember"]>["portrait"]>;
-
-function loadCalendlyScript() {
-  return new Promise<void>((resolve, reject) => {
-    const existingScript = document.querySelector(
-      `script[src="${CALENDLY_SCRIPT_SRC}"]`
-    ) as HTMLScriptElement | null;
-
-    if (existingScript) {
-      if (window.Calendly) {
-        resolve();
-        return;
-      }
-
-      existingScript.addEventListener("load", () => resolve(), { once: true });
-      existingScript.addEventListener(
-        "error",
-        () => reject(new Error("Failed to load Calendly")),
-        { once: true }
-      );
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = CALENDLY_SCRIPT_SRC;
-    script.async = true;
-    script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Failed to load Calendly"));
-    document.body.appendChild(script);
-  });
-}
 
 function toValidHotspot(hotspot?: PortraitData["hotspot"]) {
   if (
@@ -130,12 +87,8 @@ export function Booking({ data }: { data?: BookingData }) {
   const cleanData = data ? cleanStega(data) : data;
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const calendlyContainerRef = useRef<HTMLDivElement>(null);
   const isDark = mounted && resolvedTheme === "dark";
-  const calendlyThemeStyles = {
-    "--calendly-bg": isDark ? "#0f0f0f" : "#ffffff",
-    colorScheme: "light",
-  } as CSSProperties;
+  const iframeScrollRelayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -143,54 +96,55 @@ export function Booking({ data }: { data?: BookingData }) {
 
   const baseUrl = cleanData?.schedulerUrl || process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendly.com/neovision/neo-vision-strategy-call";
   const calendlyUrl = isDark
-    ? `${baseUrl}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0f0f0f&text_color=efefef&primary_color=ff4100`
-    : `${baseUrl}?hide_event_type_details=1&hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=ff4100`;
+    ? `${baseUrl}?embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&background_color=040404&text_color=efefef&primary_color=ff4100`
+    : `${baseUrl}?embed_type=Inline&hide_event_type_details=1&hide_gdpr_banner=1&background_color=ffffff&text_color=1a1a1a&primary_color=ff4100`;
   const portraitHotspot = toValidHotspot(cleanData?.teamMember?.portrait?.hotspot);
   const portraitCrop = toValidCrop(cleanData?.teamMember?.portrait?.crop);
 
   useEffect(() => {
-    if (!mounted || !calendlyContainerRef.current) {
-      return;
-    }
+    const relay = iframeScrollRelayRef.current;
+    if (!relay || !mounted) return;
 
-    let isCancelled = false;
-
-    const renderCalendly = async () => {
-      try {
-        await loadCalendlyScript();
-
-        if (isCancelled || !calendlyContainerRef.current || !window.Calendly) {
-          return;
-        }
-
-        calendlyContainerRef.current.replaceChildren();
-        window.Calendly.initInlineWidget({
-          url: calendlyUrl,
-          parentElement: calendlyContainerRef.current,
-        });
-        posthog.capture("calendly_booking_viewed", {
-          scheduler_url: calendlyUrl,
-        });
-      } catch {
-        if (!isCancelled) {
-          calendlyContainerRef.current?.replaceChildren();
-        }
-      }
+    const handleWheel = (e: WheelEvent) => {
+      window.dispatchEvent(
+        new WheelEvent('wheel', {
+          deltaX: e.deltaX,
+          deltaY: e.deltaY,
+          deltaZ: e.deltaZ,
+          deltaMode: e.deltaMode,
+          bubbles: true,
+        })
+      );
     };
 
-    renderCalendly();
+    const handlePointerDown = () => {
+      relay.style.display = 'none';
+      const restore = () => { relay.style.display = ''; };
+      window.addEventListener('pointerup', restore, { once: true });
+      window.addEventListener('pointercancel', restore, { once: true });
+    };
+
+    relay.addEventListener('wheel', handleWheel, { passive: true });
+    relay.addEventListener('pointerdown', handlePointerDown);
 
     return () => {
-      isCancelled = true;
-      calendlyContainerRef.current?.replaceChildren();
+      relay.removeEventListener('wheel', handleWheel);
+      relay.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, [calendlyUrl, mounted]);
+  }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted) return;
+    posthog.capture("calendly_booking_viewed", {
+      scheduler_url: baseUrl,
+    });
+  }, [mounted, baseUrl]);
 
   return (
     <SectionsWrapper eyebrow={cleanData?.eyebrow} id="booking">
-      <div className="flex flex-col gap-12 px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-16 bg-white dark:bg-[#0f0f0f]">
+      <div className="flex flex-col gap-12">
         {/* Heading */}
-        <div className="px-6">
+        <div>
           {cleanData?.heading && (
             <SplitTextReveal
               colorReveal
@@ -204,17 +158,32 @@ export function Booking({ data }: { data?: BookingData }) {
         </div>
 
         {/* Calendly Widget + Details */}
-        <div className="flex flex-col gap-12 lg:flex-row md:gap-16 bg-white dark:bg-[#0f0f0f]">
+        <div className="flex flex-col gap-12 lg:flex-row md:gap-16">
           {/* Calendly Inline Widget */}
           <div
-            className="calendly-theme-shell flex-1 bg-white dark:bg-[#0f0f0f]"
-            style={calendlyThemeStyles}
+            className="calendly-theme-shell flex-1"
+            data-lenis-prevent
           >
-            <div
-              ref={calendlyContainerRef}
-              className="w-full bg-white dark:bg-[#0f0f0f]"
-              style={{ minWidth: "320px", minHeight: "1000px", height: "1500px" }}
-            />
+            {mounted && (
+              <div style={{ position: 'relative' }}>
+                <iframe
+                  src={calendlyUrl}
+                  width="100%"
+                  style={{
+                    minWidth: "320px",
+                    height: "900px",
+                    border: "none",
+                    background: isDark ? '#040404' : '#ffffff',
+                  }}
+                  title="Book a call"
+                />
+                <div
+                  ref={iframeScrollRelayRef}
+                  style={{ position: 'absolute', inset: 0 }}
+                  aria-hidden="true"
+                />
+              </div>
+            )}
           </div>
 
           {/* Call Details */}

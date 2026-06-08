@@ -96,7 +96,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
               {card.label}
             </p>
           ) : null}
-          <h3 className="text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-9 xl:text-4xl xl:leading-9">
+          <h3 className="text-100 leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 xl:text-4xl xl:leading-12">
             <span className="font-funnel text-[32px]">{titleText.regular}</span>
           </h3>
         </div>
@@ -115,9 +115,9 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
               idx !== 0 && "border-t border-decoration-dark dark:border-decoration-light"
             )}
           >
-            <span className="flex-1 dark:text-white-light text-dark-light font-funnel text-[18px]">{item.name}</span>
+            <span className="flex-1 dark:text-white-light text-dark-light font-funnel text-[14px] md:text-[18px]">{item.name}</span>
             <span
-              className="shrink-0 font-funnel text-right text-[18px] dark:text-white-light text-muted-light"
+              className="shrink-0 font-funnel text-right text-[18px] md:text-[18px] dark:text-white-light text-muted-light"
             >
               {item.price}
             </span>
@@ -127,7 +127,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
       )}
 
       {card.cta?.label && card.cta.href ? (
-        <div className="flex justify-start">
+        <div className="flex justify-center">
           <Button href={card.cta.href} variant={card.cta.variant}>
             {card.cta.label}
           </Button>

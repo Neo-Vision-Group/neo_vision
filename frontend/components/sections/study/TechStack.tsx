@@ -17,13 +17,13 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
   }
 
   return (
-    <SectionsWrapper id="tech-stack" eyebrow={eyebrow} classNameOverride="px-0 py-0">
+    <SectionsWrapper id="tech-stack" eyebrow={eyebrow} classNameOverride="px-0 py-0 -mt-12">
       <div className="">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {tools.map((t) => (
             <article
               key={t}
-              className="flex flex-col gap-3 p-6 border-r border-b border-white/20 dark:border-white/20"
+              className="flex flex-col gap-3 p-6 border-r border-b border-black/20 dark:border-white/20"
             >
             <div 
               aria-hidden="true"
