@@ -361,10 +361,6 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   }, [routeKey])
 
   useEffect(() => {
-    resetOverlay()
-  }, [resetOverlay])
-
-  useEffect(() => {
     function handleAnchorClick(event: MouseEvent) {
       if (event.defaultPrevented || !isPrimaryButtonClick(event)) {
         return
@@ -424,10 +420,13 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   }, [scheduleEnter])
 
   useEffect(() => {
+    // Only trigger enter if we're actually waiting and the route matches
+    // This prevents infinite loops from re-renders
     if (
       statusRef.current === 'waiting-for-route' &&
       pendingNavigationRef.current?.routeKey === routeKey &&
-      pendingRouteMetaRef.current
+      pendingRouteMetaRef.current &&
+      currentRouteMetaRef.current.routeKey !== routeKey
     ) {
       scheduleEnter(pendingRouteMetaRef.current)
     }
