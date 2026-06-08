@@ -302,39 +302,41 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
               </FormField>
             </div>
 
-            <FormField label="Company" error={errors.company?.message} id="contact-company">
-              {(props) => (
-                <input
-                  type="text"
-                  autoComplete="organization"
-                  placeholder="Acme Corp (optional)"
-                  {...register("company", {
-                    onBlur: (e) => handleFieldComplete('company', e.target.value)
-                  })}
-                  {...props}
-                  onFocus={() => handleFieldFocus('company')}
-                  className={inputClasses(!!errors.company)}
-                />
-              )}
-            </FormField>
+            <div className="flex flex-col gap-3 md:flex-row">
+              <FormField label="Company" error={errors.company?.message} id="contact-company">
+                {(props) => (
+                  <input
+                    type="text"
+                    autoComplete="organization"
+                    placeholder="Acme Corp (optional)"
+                    {...register("company", {
+                      onBlur: (e) => handleFieldComplete('company', e.target.value)
+                    })}
+                    {...props}
+                    onFocus={() => handleFieldFocus('company')}
+                    className={inputClasses(!!errors.company)}
+                  />
+                )}
+              </FormField>
 
-            <FormField label="Service" error={errors.projectType?.message} id="contact-service">
-              {() => (
-                <DropdownField
-                  placeholder="Select a service..."
-                  options={services}
-                  value={projectTypeField.field.value}
-                  onChange={(value) => {
-                    projectTypeField.field.onChange(value);
-                    handleFieldComplete('projectType', value);
-                  }}
-                  onBlur={projectTypeField.field.onBlur}
-                  onFocus={() => handleFieldFocus('projectType')}
-                  name={projectTypeField.field.name}
-                  hasError={!!errors.projectType}
-                />
-              )}
-            </FormField>
+              <FormField label="Service" error={errors.projectType?.message} id="contact-service">
+                {() => (
+                  <DropdownField
+                    placeholder="Select a service..."
+                    options={services}
+                    value={projectTypeField.field.value}
+                    onChange={(value) => {
+                      projectTypeField.field.onChange(value);
+                      handleFieldComplete('projectType', value);
+                    }}
+                    onBlur={projectTypeField.field.onBlur}
+                    onFocus={() => handleFieldFocus('projectType')}
+                    name={projectTypeField.field.name}
+                    hasError={!!errors.projectType}
+                  />
+                )}
+              </FormField>
+            </div>
 
             <div className="flex flex-col gap-3 md:flex-row">
               <FormField label="Estimated budget range" error={errors.budget?.message} id="contact-budget">

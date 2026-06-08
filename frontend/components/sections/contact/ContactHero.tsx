@@ -120,7 +120,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
 
             {/* Timeline steps */}
             {steps.length > 0 && (
-              <div ref={stepsWrapperRef} className="relative flex flex-col gap-0">
+              <div ref={stepsWrapperRef} className="relative flex flex-col gap-10">
                 {/* Single continuous line spanning first dot to last dot */}
                 {steps.length > 1 && (
                   <div className="absolute left-[5.5px] top-[22px] bottom-[22px] w-px bg-black/20 dark:bg-white/20 -translate-x-1/2">
