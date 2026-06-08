@@ -329,7 +329,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       activeTimelineRef.current = timeline
       return true
     },
-    [clearPendingEnter, finishTransition, killActiveTimeline, lockScroll, routeKey, router],
+    [clearPendingEnter, clearWaitingFallback, finishTransition, killActiveTimeline, lockScroll, routeKey, router],
   )
 
   useEffect(() => {

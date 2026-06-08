@@ -26,7 +26,6 @@ export function CountingNumber({
     hasAnimated.current = true;
 
     const startTime = Date.now();
-    const endTime = startTime + duration;
 
     const updateCount = () => {
       const now = Date.now();

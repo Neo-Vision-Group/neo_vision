@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useTheme } from "next-themes";
 import "./gsap-setup";

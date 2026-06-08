@@ -23,7 +23,7 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
           {tools.map((t) => (
             <article
               key={t}
-              className="flex flex-col gap-3 p-6 border-r border-b border-white/20 dark:border-white/20"
+              className="flex flex-col gap-3 p-6 border-r border-b border-black/20 dark:border-white/20"
             >
             <div 
               aria-hidden="true"

@@ -2,7 +2,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import {cn} from '@/lib/utils'
 import {Logo} from '../icons/Logo'
-import {openCookiePreferences} from '../partials/CookieBanner'
 
 type FooterLink = {
   label: string
@@ -35,7 +34,6 @@ type ContactItem = {
 
 export function Footer({
   columns,
-  cookiePreferencesLabel,
   title,
   email,
   logo,

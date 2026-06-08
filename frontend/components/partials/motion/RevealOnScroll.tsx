@@ -3,7 +3,6 @@
 import { useRef, type ElementType, type ReactNode } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./gsap-setup";
 import { cn } from "../../../lib/utils";
 import { scheduleScrollTriggerRefresh } from "./scheduleScrollTriggerRefresh";

@@ -120,10 +120,6 @@ type SitemapQueryResult = {
   }>
 }
 
-function absoluteUrl(origin: string, path: string): string {
-  return new URL(path, `${origin}/`).toString()
-}
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const origin = await resolveSiteOrigin()
   const {seoSettings} = await getGlobalSeoData()
