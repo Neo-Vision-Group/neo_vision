@@ -41,6 +41,14 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
   return (
     <Link
       href={href}
+      onClick={() => {
+        posthog.capture('nav_link_clicked', {
+          link_text: typeof children === 'string' ? children : href,
+          link_href: href,
+          destination_type: href.startsWith('http') ? 'external' : 'internal',
+          from_page: typeof window !== 'undefined' ? window.location.pathname : '',
+        })
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
@@ -76,7 +84,15 @@ function ThemeToggle() {
 
   return (
     <button
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark'
+        setTheme(newTheme)
+        posthog.capture('theme_toggled', {
+          from_theme: theme,
+          to_theme: newTheme,
+          page: typeof window !== 'undefined' ? window.location.pathname : '',
+        })
+      }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className="relative flex size-10 items-center justify-center"
@@ -122,6 +138,11 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
   // Lock body scroll while the mobile menu is open
   useEffect(() => {
     if (open) {
+      posthog.capture('nav_menu_opened', {
+        trigger: 'click',
+        current_page: typeof window !== 'undefined' ? window.location.pathname : '',
+      })
+      
       const prev = document.documentElement.style.overflow
       document.documentElement.style.overflow = 'hidden'
       return () => {

@@ -16,11 +16,38 @@ type ContactFormSectionProps = {
   formConfig?: ContactHeroData["formConfig"];
 };
 
+// Calculate lead quality score based on form data
+function calculateLeadScore(formData: ContactFormData): number {
+  let score = 5; // Base score
+  
+  // Budget range scoring
+  if (formData.budget) {
+    if (formData.budget.includes('100k+') || formData.budget.includes('$100')) score += 3;
+    else if (formData.budget.includes('50k') || formData.budget.includes('$50')) score += 2;
+    else if (formData.budget.includes('25k') || formData.budget.includes('$25')) score += 1;
+  }
+  
+  // Company presence
+  if (formData.company) score += 1;
+  
+  // Phone number presence (shows higher intent)
+  if (formData.phone) score += 1;
+  
+  // Message length (detailed messages show higher intent)
+  if (formData.message && formData.message.length > 100) score += 1;
+  
+  return Math.min(score, 10); // Cap at 10
+}
+
 export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const [submitState, setSubmitState] = useState<"idle" | "ok" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const [csrfHeaderName, setCsrfHeaderName] = useState<string>("x-csrf-token");
+  const [formStarted, setFormStarted] = useState(false);
+  const [formStartTime, setFormStartTime] = useState<number | null>(null);
+  const [completedFields, setCompletedFields] = useState<Set<string>>(new Set());
+  const [utmParams, setUtmParams] = useState<Record<string, string>>({});
 
   const {
     control,
@@ -48,6 +75,32 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
   const budgetField = useController({ control, name: "budget" });
   const hearAboutUsField = useController({ control, name: "hearAboutUs" });
 
+  // Track form start and field completion
+  const handleFieldFocus = (fieldName: string) => {
+    if (!formStarted) {
+      setFormStarted(true);
+      setFormStartTime(Date.now());
+      posthog.capture('contact_form_started', {
+        source: typeof window !== 'undefined' ? window.location.pathname : '/contact',
+        referrer: typeof document !== 'undefined' ? document.referrer : '',
+        ...utmParams,
+      });
+    }
+  };
+
+  const handleFieldComplete = (fieldName: string, value: any) => {
+    if (value && !completedFields.has(fieldName)) {
+      const newCompleted = new Set(completedFields);
+      newCompleted.add(fieldName);
+      setCompletedFields(newCompleted);
+      
+      posthog.capture('contact_form_field_completed', {
+        field_name: fieldName,
+        source: typeof window !== 'undefined' ? window.location.pathname : '/contact',
+      });
+    }
+  };
+
   // Fetch CSRF token on mount
   useEffect(() => {
     async function fetchCsrfToken() {
@@ -64,6 +117,37 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
     }
     fetchCsrfToken();
   }, []);
+
+  // Capture UTM parameters on mount
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const params = new URLSearchParams(window.location.search);
+    const utms: Record<string, string> = {};
+    
+    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+      const value = params.get(key);
+      if (value) utms[key] = value;
+    });
+    
+    setUtmParams(utms);
+  }, []);
+
+  // Track form abandonment on unmount
+  useEffect(() => {
+    return () => {
+      if (formStarted && submitState === 'idle' && completedFields.size > 0) {
+        const timeSpent = formStartTime ? (Date.now() - formStartTime) / 1000 : 0;
+        posthog.capture('contact_form_abandoned', {
+          fields_completed: Array.from(completedFields),
+          fields_count: completedFields.size,
+          time_spent: timeSpent,
+          source: window.location.pathname,
+          ...utmParams,
+        });
+      }
+    };
+  }, [formStarted, submitState, completedFields, formStartTime, utmParams]);
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
@@ -102,8 +186,30 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         });
         return;
       }
-      reset();
-      setSubmitState("ok");
+      // Identify user with their email and enrich profile
+      posthog.identify(formData.email, {
+        email: formData.email,
+        name: formData.name,
+        company: formData.company || undefined,
+        phone: formData.phone || undefined,
+        project_type: formData.projectType,
+        budget_range: formData.budget,
+        acquisition_source: formData.hearAboutUs,
+        first_contact_page: formData.source,
+        first_contact_date: new Date().toISOString(),
+      });
+
+      // Set user properties for segmentation
+      const leadQualityScore = calculateLeadScore(formData);
+      posthog.setPersonProperties({
+        is_lead: true,
+        lead_quality: leadQualityScore,
+        has_company: !!formData.company,
+        has_phone: !!formData.phone,
+      });
+
+      const timeSpent = formStartTime ? (Date.now() - formStartTime) / 1000 : 0;
+      
       posthog.capture("contact_form_submitted", {
         project_type: formData.projectType,
         budget: formData.budget,
@@ -111,7 +217,14 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         source: formData.source,
         has_company: !!formData.company,
         has_phone: !!formData.phone,
+        time_spent: timeSpent,
+        fields_completed: completedFields.size,
+        lead_quality_score: leadQualityScore,
+        ...utmParams,
       });
+
+      reset();
+      setSubmitState("ok");
     } catch (err) {
       const isAbortError = err instanceof Error && err.name === "AbortError";
       const errMsg = isAbortError 
@@ -166,8 +279,11 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                     type="text"
                     autoComplete="name"
                     placeholder="Jane Smith"
-                    {...register("name")}
+                    {...register("name", {
+                      onBlur: (e) => handleFieldComplete('name', e.target.value)
+                    })}
                     {...props}
+                    onFocus={() => handleFieldFocus('name')}
                     className={inputClasses(!!errors.name)}
                   />
                 )}
@@ -192,8 +308,11 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                   type="text"
                   autoComplete="organization"
                   placeholder="Acme Corp (optional)"
-                  {...register("company")}
+                  {...register("company", {
+                    onBlur: (e) => handleFieldComplete('company', e.target.value)
+                  })}
                   {...props}
+                  onFocus={() => handleFieldFocus('company')}
                   className={inputClasses(!!errors.company)}
                 />
               )}
@@ -205,8 +324,12 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                   placeholder="Select a service..."
                   options={services}
                   value={projectTypeField.field.value}
-                  onChange={projectTypeField.field.onChange}
+                  onChange={(value) => {
+                    projectTypeField.field.onChange(value);
+                    handleFieldComplete('projectType', value);
+                  }}
                   onBlur={projectTypeField.field.onBlur}
+                  onFocus={() => handleFieldFocus('projectType')}
                   name={projectTypeField.field.name}
                   hasError={!!errors.projectType}
                 />
@@ -220,8 +343,12 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                     placeholder="Select range..."
                     options={budgetRanges}
                     value={budgetField.field.value}
-                    onChange={budgetField.field.onChange}
+                    onChange={(value) => {
+                      budgetField.field.onChange(value);
+                      handleFieldComplete('budget', value);
+                    }}
                     onBlur={budgetField.field.onBlur}
+                    onFocus={() => handleFieldFocus('budget')}
                     name={budgetField.field.name}
                     hasError={!!errors.budget}
                   />
@@ -233,8 +360,11 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                     type="tel"
                     autoComplete="tel"
                     placeholder="+1 (555) 123-4567 (optional)"
-                    {...register("phone")}
+                    {...register("phone", {
+                      onBlur: (e) => handleFieldComplete('phone', e.target.value)
+                    })}
                     {...props}
+                    onFocus={() => handleFieldFocus('phone')}
                     className={inputClasses(!!errors.phone)}
                   />
                 )}
@@ -247,8 +377,12 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                   placeholder="Select an option..."
                   options={hearAboutUsOptions}
                   value={hearAboutUsField.field.value}
-                  onChange={hearAboutUsField.field.onChange}
+                  onChange={(value) => {
+                    hearAboutUsField.field.onChange(value);
+                    handleFieldComplete('hearAboutUs', value);
+                  }}
                   onBlur={hearAboutUsField.field.onBlur}
+                  onFocus={() => handleFieldFocus('hearAboutUs')}
                   name={hearAboutUsField.field.name}
                   hasError={!!errors.hearAboutUs}
                 />
@@ -260,8 +394,11 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
                 <textarea
                   rows={4}
                   placeholder="What are you trying to achieve? Even rough ideas help..."
-                  {...register("message")}
+                  {...register("message", {
+                    onBlur: (e) => handleFieldComplete('message', e.target.value)
+                  })}
                   {...props}
+                  onFocus={() => handleFieldFocus('message')}
                   className={cn(inputClasses(!!errors.message), "h-25 resize-none")}
                 />
               )}
@@ -333,6 +470,7 @@ function DropdownField({
   value,
   onChange,
   onBlur,
+  onFocus,
   name,
   hasError,
 }: {
@@ -341,6 +479,7 @@ function DropdownField({
   value?: string;
   onChange: (value: string) => void;
   onBlur: () => void;
+  onFocus?: () => void;
   name: string;
   hasError: boolean;
 }) {
@@ -381,6 +520,7 @@ function DropdownField({
         aria-expanded={open}
         aria-controls={listboxId}
         onClick={() => setOpen((current) => !current)}
+        onFocus={() => onFocus?.()}
         onBlur={() => {
           window.setTimeout(() => {
             if (!wrapperRef.current?.contains(document.activeElement)) {

@@ -55,6 +55,21 @@ export async function initPostHog(): Promise<PostHog | null> {
         defaults: '2026-01-30',
         capture_exceptions: true,
         debug: process.env.NODE_ENV === 'development',
+        
+        // Session recording configuration
+        session_recording: {
+          recordCrossOriginIframes: false,
+          maskAllInputs: true, // Mask sensitive form inputs
+          maskTextSelector: '[data-sensitive]', // Custom masking for sensitive elements
+          blockSelector: '[data-private]', // Block elements from recording
+        },
+        
+        // Autocapture configuration
+        autocapture: {
+          dom_event_allowlist: ['click', 'change', 'submit'],
+          url_allowlist: [typeof window !== 'undefined' ? window.location.origin : ''],
+          element_allowlist: ['button', 'a', 'input', 'select', 'textarea'],
+        },
       })
 
       posthogInstance = posthog.default
