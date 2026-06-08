@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
+import { timingSafeEqual } from "crypto";
 
 const CSRF_TOKEN_NAME = "csrf_token";
 const CSRF_HEADER_NAME = "x-csrf-token";
@@ -35,7 +36,19 @@ export async function validateCsrfToken(request: NextRequest): Promise<boolean> 
     return false;
   }
   
-  return cookieToken === headerToken;
+  // Constant-time comparison to prevent timing attacks
+  if (cookieToken.length !== headerToken.length) {
+    return false;
+  }
+  
+  try {
+    const cookieBuffer = Buffer.from(cookieToken, 'utf8');
+    const headerBuffer = Buffer.from(headerToken, 'utf8');
+    return timingSafeEqual(cookieBuffer, headerBuffer);
+  } catch {
+    // timingSafeEqual throws if buffers have different lengths (shouldn't happen due to check above)
+    return false;
+  }
 }
 
 export function getCsrfHeaderName(): string {

@@ -79,11 +79,11 @@ function TextLink({
   link?: PricingLink | null
   isDarkTheme: boolean
 }) {
+  const [isHovered, setIsHovered] = useState(false)
+
   if (!label?.trim() || !link) {
     return null
   }
-
-  const [isHovered, setIsHovered] = useState(false)
 
   const content = (
     <>

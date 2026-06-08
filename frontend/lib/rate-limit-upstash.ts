@@ -58,7 +58,18 @@ export async function checkContactRateLimit(
       reset: Math.ceil((reset - Date.now()) / 1000),
     };
   } catch (error) {
-    console.error("[rate-limit-upstash] Failed to check rate limit:", error);
+    // CRITICAL: Rate limiter is failing open — log for monitoring/alerting
+    console.error("[SECURITY] Rate limiter fail-open:", {
+      identifier,
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: new Date().toISOString(),
+    });
+    
+    // In production, this should trigger an alert (e.g., via error tracking service)
+    if (process.env.NODE_ENV === "production") {
+      console.error("[SECURITY] ALERT: Rate limiting degraded - requests are not being rate-limited");
+    }
+    
     // Fail open: allow the request if rate limiting service is down
     return {
       success: true,

@@ -88,7 +88,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
     }
   };
 
-  const handleFieldComplete = (fieldName: string, value: any) => {
+  const handleFieldComplete = (fieldName: string, value: unknown) => {
     if (value && !completedFields.has(fieldName)) {
       const newCompleted = new Set(completedFields);
       newCompleted.add(fieldName);
@@ -484,7 +484,9 @@ function DropdownField({
   hasError: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const listboxId = useId();
   const selectedLabel = value && value.length > 0 ? value : placeholder;
   const hasSelection = !!value;
@@ -493,12 +495,15 @@ function DropdownField({
     function handlePointerDown(event: MouseEvent) {
       if (!wrapperRef.current?.contains(event.target as Node)) {
         setOpen(false);
+        setFocusedIndex(-1);
       }
     }
 
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setOpen(false);
+        setFocusedIndex(-1);
+        buttonRef.current?.focus();
       }
     }
 
@@ -511,15 +516,77 @@ function DropdownField({
     };
   }, []);
 
+  const handleButtonKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!open) {
+        setOpen(true);
+        setFocusedIndex(0);
+      }
+    } else if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      setOpen((current) => !current);
+      if (!open) {
+        setFocusedIndex(0);
+      }
+    }
+  };
+
+  const handleListboxKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (options.length === 0) return;
+
+    switch (event.key) {
+      case "ArrowDown":
+        event.preventDefault();
+        setFocusedIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        setFocusedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+        break;
+      case "Home":
+        event.preventDefault();
+        setFocusedIndex(0);
+        break;
+      case "End":
+        event.preventDefault();
+        setFocusedIndex(options.length - 1);
+        break;
+      case "Enter":
+      case " ":
+        event.preventDefault();
+        if (focusedIndex >= 0 && focusedIndex < options.length) {
+          onChange(options[focusedIndex]);
+          onBlur();
+          setOpen(false);
+          setFocusedIndex(-1);
+          buttonRef.current?.focus();
+        }
+        break;
+    }
+  };
+
   return (
     <div ref={wrapperRef} className="relative">
       <input type="hidden" name={name} value={value ?? ""} />
       <button
+        ref={buttonRef}
         type="button"
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={listboxId}
-        onClick={() => setOpen((current) => !current)}
+        aria-activedescendant={
+          open && focusedIndex >= 0 && focusedIndex < options.length
+            ? `${listboxId}-option-${focusedIndex}`
+            : undefined
+        }
+        onClick={() => {
+          setOpen((current) => !current);
+          if (!open) {
+            setFocusedIndex(0);
+          }
+        }}
+        onKeyDown={handleButtonKeyDown}
         onFocus={() => onFocus?.()}
         onBlur={() => {
           window.setTimeout(() => {
@@ -558,15 +625,19 @@ function DropdownField({
         <div
           id={listboxId}
           role="listbox"
+          tabIndex={-1}
+          onKeyDown={handleListboxKeyDown}
           className="absolute left-0 right-0 top-full z-20 overflow-hidden border border-black/15 bg-white shadow-[0_20px_40px_rgba(0,0,0,0.12)] dark:border-white/15 dark:bg-[#0f0f0f] dark:shadow-[0_24px_48px_rgba(0,0,0,0.4)]"
         >
           <div className="h-px w-full bg-brand" />
-          {options.map((option) => {
+          {options.map((option, index) => {
             const selected = option === value;
+            const focused = index === focusedIndex;
 
             return (
               <button
                 key={option}
+                id={`${listboxId}-option-${index}`}
                 type="button"
                 role="option"
                 aria-selected={selected}
@@ -574,12 +645,16 @@ function DropdownField({
                   onChange(option);
                   onBlur();
                   setOpen(false);
+                  setFocusedIndex(-1);
                 }}
+                onMouseEnter={() => setFocusedIndex(index)}
                 className={cn(
                   "block w-full border-b border-black/20 px-6 py-3 text-left font-funnel text-[18px] leading-normal text-black transition-colors last:border-b-0 dark:border-white/20 dark:text-[#efefef]",
                   selected
                     ? "bg-brand/30"
-                    : "bg-white hover:bg-black/3 dark:bg-[#0f0f0f] dark:hover:bg-white/6"
+                    : focused
+                      ? "bg-black/6 dark:bg-white/10"
+                      : "bg-white hover:bg-black/3 dark:bg-[#0f0f0f] dark:hover:bg-white/6"
                 )}
               >
                 {option}

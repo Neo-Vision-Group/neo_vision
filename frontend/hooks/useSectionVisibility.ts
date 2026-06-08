@@ -13,7 +13,7 @@ interface SectionVisibilityOptions {
 export function useSectionVisibility(options: SectionVisibilityOptions) {
   const ref = useRef<HTMLElement>(null)
   const hasTracked = useRef(false)
-  const pageLoadTime = useRef<number>(Date.now())
+  const pageLoadTime = useRef<number>(0)
 
   useEffect(() => {
     pageLoadTime.current = Date.now()

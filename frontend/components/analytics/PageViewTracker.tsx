@@ -28,8 +28,9 @@ export function PageViewTracker({
     // Capture UTM parameters
     const params = new URLSearchParams(window.location.search)
     const utmParams: Record<string, string> = {}
-    
-    ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(key => {
+    const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+
+    utmKeys.forEach((key) => {
       const value = params.get(key)
       if (value) utmParams[key] = value
     })

@@ -1,6 +1,6 @@
 'use client'
 
-import {Suspense, useEffect, useRef} from 'react'
+import {Suspense, useEffect} from 'react'
 import {usePathname, useSearchParams} from 'next/navigation'
 
 import {

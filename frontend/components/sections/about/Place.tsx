@@ -71,6 +71,7 @@ export function Place({ data }: { data?: PlaceData }) {
               alt=""
               aria-hidden="true"
               fill
+              sizes="100vw"
               className="absolute inset-0 object-cover object-center"
               style={{
                 transform: 'rotateX(38deg) scale(1.6) translateY(-8%)',

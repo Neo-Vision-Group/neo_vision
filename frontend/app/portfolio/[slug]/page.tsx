@@ -17,14 +17,14 @@ import type {
 type ProjectBlock = NonNullable<NonNullable<ProjectBySlugQueryResult>['pageBuilder']>[number]
 
 function enrichProjectBlocks(project: NonNullable<ProjectBySlugQueryResult>): ProjectBlock[] {
-  const pageBuilder = (project.pageBuilder ?? []) as Array<Record<string, any>>
+  const pageBuilder = (project.pageBuilder ?? []) as Array<Record<string, unknown>>
 
   return pageBuilder.map((block) => {
     if (block._type !== 'studyHero') {
       return block as ProjectBlock
     }
 
-    const heroBlock = block as Record<string, any> & {
+    const heroBlock = block as Record<string, unknown> & {
       details?: Array<{_key?: string; label?: string; value?: string}>
     }
 

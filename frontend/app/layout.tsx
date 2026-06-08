@@ -4,7 +4,7 @@ import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata, Viewport} from 'next'
 import {Inter, IBM_Plex_Mono, Funnel_Display} from 'next/font/google'
 import localFont from 'next/font/local'
-import {draftMode} from 'next/headers'
+import {draftMode, headers} from 'next/headers'
 import {toPlainText} from 'next-sanity'
 import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
@@ -92,6 +92,7 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({children}: {children: React.ReactNode}) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const nonce = (await headers()).get('x-nonce') ?? undefined
   const origin = await resolveSiteOrigin()
   const {siteSettings, seoSettings} = await getGlobalSeoData()
   const globalStructuredData = buildGlobalStructuredData({
@@ -108,6 +109,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
     >
       <head>
         <script
+          nonce={nonce}
           dangerouslySetInnerHTML={{
             __html: `
               (function() {

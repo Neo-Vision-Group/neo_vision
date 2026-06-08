@@ -115,6 +115,7 @@ export function TechStacks({data}: {data?: TechStacksData}) {
                                     src={imageUrl}
                                     alt={item?.name ?? ''}
                                     fill
+                                    sizes="256px"
                                     className="object-contain"
                                   />
                                 </div>

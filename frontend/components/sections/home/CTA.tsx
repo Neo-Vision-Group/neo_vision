@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/partials/Button";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";
+import type { DereferencedLink } from "@/sanity/lib/types";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
@@ -26,7 +27,7 @@ export type CtaData = {
   body?: string;
   cta?: {
     buttonText?: string;
-    link?: any;
+    link?: DereferencedLink;
   };
   subtext?: string;
 };
@@ -67,6 +68,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           src="/images/graphic.webp"
           alt=""
           fill
+          sizes="100vw"
           className="absolute inset-0 object-cover invert"
         />
         <div
@@ -106,6 +108,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           src="/images/graphic.webp"
           alt=""
           fill
+          sizes="100vw"
           className="absolute inset-0 object-cover mix-blend-multiply"
           style={{
             filter: "brightness(0.7) sepia(1) saturate(4) hue-rotate(-25deg) contrast(1.1)",

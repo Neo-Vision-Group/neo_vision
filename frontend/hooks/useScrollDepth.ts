@@ -7,7 +7,7 @@ const MILESTONES = [25, 50, 75, 100] as const
 
 export function useScrollDepth(page?: string) {
   const reachedMilestones = useRef<Set<number>>(new Set())
-  const startTime = useRef<number>(Date.now())
+  const startTime = useRef<number>(0)
 
   useEffect(() => {
     // Reset on page change

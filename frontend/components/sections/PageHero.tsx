@@ -211,6 +211,7 @@ function FeaturedReferenceCard({
               src={item.cover}
               alt={title || ctaLabel}
               fill
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />

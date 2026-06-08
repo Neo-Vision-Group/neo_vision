@@ -6,6 +6,7 @@ import { Button } from "@/components/partials/Button";
 import ResolvedLink from "@/components/ResolvedLink";
 import { cleanStega, linkResolver, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
+import type { DereferencedLink } from "@/sanity/lib/types";
 import dynamic from "next/dynamic";
 import { SplitTextReveal } from "@/components/partials/motion/SplitTextReveal";
 
@@ -30,13 +31,13 @@ export type WhatWeDoData = {
     title: string;
     body: string;
     services?: Array<{ name?: string, price?: string }>;
-    cta: { buttonText?: string; link?: any };
+    cta: { buttonText?: string; link?: DereferencedLink };
     texture?: boolean;
   }>;
   ctaSection?: {
     heading?: string;
     subheading?: string;
-    cta?: { buttonText?: string; link?: any };
+    cta?: { buttonText?: string; link?: DereferencedLink };
   };
 };
 

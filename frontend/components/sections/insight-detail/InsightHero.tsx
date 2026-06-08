@@ -124,6 +124,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                           src={urlForImage(post.author.portrait)?.width(112).height(112).fit("crop").url() || ""}
                           alt={post.author.name}
                           fill
+                          sizes="40px"
                           className="object-cover"
                         />
                       </BorderWrapper>

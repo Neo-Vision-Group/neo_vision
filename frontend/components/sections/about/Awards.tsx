@@ -129,6 +129,7 @@ export function Awards({data}: {data?: AwardsData}) {
                     src={badgeUrl}
                     alt={featuredTitle}
                     fill
+                    sizes="(min-width: 768px) 152px, 120px"
                     className="object-contain"
                   />
                 </div>

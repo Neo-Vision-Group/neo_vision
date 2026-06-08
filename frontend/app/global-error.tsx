@@ -41,6 +41,8 @@ export default function GlobalError({
               >
                 Try again
               </button>
+              {/* global-error renders outside the App Router, so next/link is unavailable here */}
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
               <a
                 href="/"
                 className="inline-flex items-center justify-center border border-white px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white hover:text-black"

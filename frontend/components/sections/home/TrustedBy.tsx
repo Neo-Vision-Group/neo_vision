@@ -3,6 +3,7 @@
 import { HeroBrandDotsCanvas } from "@/components/partials/HeroBrandDotsMediaProvider";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import React, { useId } from "react";
@@ -20,13 +21,13 @@ export type Testimonial = {
   name: string;
   attribution: string;
   quote: string;
-  profilePicture?: any;
+  profilePicture?: SanityImageSource;
 };
 
 export type Logo = {
   name: string;
-  logoLight?: any;
-  logoDark?: any;
+  logoLight?: SanityImageSource;
+  logoDark?: SanityImageSource;
 };
 
 export type TrustedByData = {

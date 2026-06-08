@@ -269,15 +269,17 @@ export default function CookieBanner({settings}: CookieBannerProps) {
   }, [settings?.enabled, categorySignature])
 
   const reopenPreferencesRef = useRef<() => void>(undefined)
-  reopenPreferencesRef.current = () => {
-    if (!settings?.enabled || categories.length === 0) {
-      return
-    }
+  useEffect(() => {
+    reopenPreferencesRef.current = () => {
+      if (!settings?.enabled || categories.length === 0) {
+        return
+      }
 
-    setPreferences(readStoredPreferences(categories) ?? buildDefaultPreferences(categories))
-    setMode('customize')
-    setIsVisible(true)
-  }
+      setPreferences(readStoredPreferences(categories) ?? buildDefaultPreferences(categories))
+      setMode('customize')
+      setIsVisible(true)
+    }
+  }, [settings?.enabled, categorySignature])
 
   useEffect(() => {
     const listener = () => {

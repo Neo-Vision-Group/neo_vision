@@ -196,7 +196,7 @@ const Blocks = {
     return <InsightBlock data={block as InsightBlockQueryResponse} />
   },
   insightHero: ({block}: BlockProps) => {
-    return <InsightHero post={block as any} />
+    return <InsightHero post={block as React.ComponentProps<typeof InsightHero>['post']} />
   },
   booking: ({block}: BlockProps) => {
     return <Booking data={block as BookingData} />

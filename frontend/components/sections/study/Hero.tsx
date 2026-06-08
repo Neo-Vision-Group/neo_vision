@@ -161,7 +161,6 @@ function useScrambleText(text: string | undefined, duration = 2000) {
 
   useEffect(() => {
     if (!text || !hasStarted) {
-      setDisplayText(text || "");
       return;
     }
 
@@ -198,7 +197,7 @@ function useScrambleText(text: string | undefined, duration = 2000) {
     return () => clearInterval(interval);
   }, [text, hasStarted, duration]);
 
-  return { displayText, elementRef };
+  return { displayText: hasStarted ? displayText : text || "", elementRef };
 }
 
 function ScrambleText({

@@ -266,6 +266,7 @@ function StepRailItem({
                 src={step.graphic || ''}
                 alt=""
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="absolute inset-0 object-cover mix-blend-difference"
                 style={{
                   filter:
@@ -294,6 +295,7 @@ function StepRailItem({
                 src={step.graphic || ''}
                 alt=""
                 fill
+                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                 className="absolute inset-0 object-cover mix-blend-multiply"
                 style={{
                   filter:

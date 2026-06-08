@@ -5,6 +5,19 @@ import nextTs from 'eslint-config-next/typescript'
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    // The React Compiler rules shipped in eslint-config-next v16 flag several
+    // idiomatic, correct patterns as hard errors (e.g. the next-themes
+    // `setMounted(true)` hydration gate, syncing state on prop change, and
+    // `Date.now()` inside event handlers). This codebase does not use the
+    // React Compiler, so these are treated as advisory warnings rather than
+    // build-blocking errors. The genuine correctness rules
+    // (`rules-of-hooks`, `refs`, `exhaustive-deps`) are left untouched.
+    rules: {
+      'react-hooks/set-state-in-effect': 'warn',
+      'react-hooks/purity': 'warn',
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:
