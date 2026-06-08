@@ -1,6 +1,6 @@
 'use client'
 
-import {Suspense, useEffect} from 'react'
+import {Suspense, useEffect, useRef} from 'react'
 import {usePathname, useSearchParams} from 'next/navigation'
 
 import {
@@ -13,25 +13,27 @@ function PageTransitionMarkerInner() {
   const searchParams = useSearchParams()
   const search = searchParams.toString()
   const routeKey = getRouteKey(pathname, search ? `?${search}` : '')
+  const dispatchedRef = useRef<string | null>(null)
 
   useEffect(() => {
-    const dispatch = () => {
-      window.dispatchEvent(
-        new CustomEvent(PAGE_TRANSITION_ROUTE_READY_EVENT, {
-          detail: {
-            routeKey,
-          },
-        }),
-      )
+    // Only dispatch once per unique routeKey
+    if (dispatchedRef.current === routeKey) {
+      return
     }
-
-    dispatch()
-
-    const retryTimer = window.setTimeout(() => {
-      dispatch()
-    }, 120)
-
-    return () => window.clearTimeout(retryTimer)
+    
+    dispatchedRef.current = routeKey
+    
+    // Check if the current page has a hero pattern by looking for the class on any hero section
+    const hasHeroPattern = document.querySelector('.has-hero-pattern') !== null
+    
+    window.dispatchEvent(
+      new CustomEvent(PAGE_TRANSITION_ROUTE_READY_EVENT, {
+        detail: {
+          routeKey,
+          hasHeroPattern,
+        },
+      }),
+    )
   }, [routeKey])
 
   return (
