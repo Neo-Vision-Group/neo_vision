@@ -80,11 +80,12 @@
 .story-tick-dot {
   width: 10px;
   height: 10px;
-  border-color: rgba(128, 128, 128, 0.4);
-  background-color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .dark .story-tick-dot {
-  background-color: #040404;
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Dot: lit (passed by fill line) */

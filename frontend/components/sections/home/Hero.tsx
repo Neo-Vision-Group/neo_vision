@@ -152,7 +152,7 @@ export function Hero({ data }: { data?: HeroData }) {
               from="right"
               distance={24}
               delay={0.15}
-              className="flex shrink-0 w-full flex-col items-start gap-6 md:gap-[18px] md:items-end"
+              className="flex shrink-0 w-full md:w-auto flex-col items-start gap-6 md:gap-[18px] md:items-end"
             >
               <PortableTextRenderer
                 value={hero.mergerNote}

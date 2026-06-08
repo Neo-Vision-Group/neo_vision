@@ -228,6 +228,7 @@ export function Story({ data }: { data?: StoryData }) {
 
         lineFill.style.transition = "none";
         lineFill.style.width = liveFill + "px";
+        cachedFillWidthRef.current = liveFill;
 
         // Keep tracker dots in sync with the scroller's scroll position
         const trackerInner = trackerInnerRef.current;
@@ -258,7 +259,7 @@ export function Story({ data }: { data?: StoryData }) {
         });
       });
 
-      // Snap-on-settle: after scroll stops, find the closest milestone
+      // Update active index on settle (without snapping the line)
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         const items = Array.from(
@@ -275,13 +276,9 @@ export function Story({ data }: { data?: StoryData }) {
           if (dist < closestDist) { closestDist = dist; closestIndex = i; }
         });
 
-        lineFill.style.transition = "width 0.7s cubic-bezier(0.4, 0, 0.2, 1)";
-
         if (closestIndex !== activeIndex) {
           setActiveIndex(closestIndex);
-          requestAnimationFrame(() => syncFillAndDots(closestIndex));
-        } else {
-          syncFillAndDots(activeIndex);
+          applyDotStates(closestIndex);
         }
       }, 80);
     };
@@ -291,7 +288,7 @@ export function Story({ data }: { data?: StoryData }) {
       scroller.removeEventListener("scroll", onScroll);
       clearTimeout(scrollTimeout);
     };
-  }, [activeIndex, getDotPositions, syncFillAndDots]);
+  }, [activeIndex, getDotPositions, applyDotStates]);
 
   // ── edge padding (lg+ horizontal scroller only) ───────────────────────────
   useEffect(() => {
@@ -763,7 +760,7 @@ export function Story({ data }: { data?: StoryData }) {
                     key={m.year + idx}
                     ref={(el) => { tickRefs.current[idx] = el; }}
                     data-active={idx === activeIndex ? "true" : "false"}
-                    className="story-tick-btn relative flex h-full shrink-0 cursor-pointer items-center justify-center border-none bg-transparent p-0 focus-visible:outline-none w-full md:w-85 lg:w-100 xl:w-120 2xl:w-138"
+                    className="story-tick-btn relative flex h-full shrink-0 cursor-pointer items-center justify-start border-none bg-transparent p-0 focus-visible:outline-none w-full md:w-85 lg:w-100 xl:w-120 2xl:w-138"
                     style={{ opacity: idx === activeIndex ? 1 : idx < activeIndex ? 0.55 : 0.4 }}
                     aria-label={`Jump to ${m.year}`}
                     onClick={() => {
