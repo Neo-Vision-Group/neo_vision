@@ -97,15 +97,22 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Image — 16:9, sits at the bottom, gets clipped by section overflow-hidden */}
       {imageUrl ? (
-        <div className="relative mt-auto shrink-0 aspect-video overflow-hidden border-t border-brand/70 bg-[#f2f2f2] dark:bg-[#0f0f0f] mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30">
-          <Image
-            src={imageUrl}
-            alt={heading ?? "Hero image"}
-            fill
-            sizes="(min-width: 1280px) 1280px, 100vw"
-            className="object-cover"
-            priority
-          />
+        <div className="relative mt-auto shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30" style={{ aspectRatio: "16 / 9" }}>
+          <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
+            <Image
+              src={imageUrl}
+              alt={heading ?? "Hero image"}
+              fill
+              sizes="(min-width: 1280px) 1280px, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          {/* BorderWrapper-style overflow corners — spans live on the outer wrapper so they aren't clipped */}
+          <span aria-hidden="true" className="pointer-events-none absolute left-0 top-[-2.5%] h-[105%] w-px bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute right-0 top-[-2.5%] h-[105%] w-px bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[105%] bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[105%] bg-brand" />
         </div>
       ) : null}
 

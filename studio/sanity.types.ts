@@ -1181,6 +1181,7 @@ export type Testimonial = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  rating?: number
 }
 
 export type Person = {
@@ -1339,6 +1340,14 @@ export type Post = {
     value?: string
     label?: string
     _type: 'stat'
+    _key: string
+  }>
+  sources?: Array<{
+    title: string
+    url?: string
+    author?: string
+    publishedDate?: string
+    _type: 'source'
     _key: string
   }>
   pageBuilder?: Array<

@@ -50,7 +50,7 @@ function LogoItem({ logoItem }: { logoItem: Logo }) {
 
   return (
     <div className="group/logo flex flex-col items-center gap-2.5">
-      <div className="relative aspect-[102.5/57.65] w-full overflow-hidden">
+      <div className="relative aspect-[102.5/57.65] w-full -m-6 p-6">
         {logoUrl ? (
           <div className="relative z-10 h-full w-full p-5 md:p-6 transition-all duration-300 group-hover/logo:drop-shadow-[0_0_20px_rgba(249,115,22,0.75)]">
             <Image
