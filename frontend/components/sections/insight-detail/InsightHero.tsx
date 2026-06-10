@@ -189,7 +189,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
 
           {/* Right column — fixed square ~70vh, flush to right */}
           {coverImageUrl ? (
-            <div className="flex min-w-0 flex-1 items-center justify-center lg:justify-end lg:pr-0">
+            <div className="flex min-w-0 flex-1 items-center justify-center lg:justify-end lg:pr-0 px-6 md:px-0">
               <div
                 className="relative shrink-0 aspect-video"
                 style={{ width: "min(70vh, 100%)" }}
@@ -206,8 +206,12 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                 </div>
                 {/* BorderWrapper-style overflow corners — spans live on the outer wrapper so they aren't clipped */}
                 <span aria-hidden="true" className="pointer-events-none absolute left-0 top-[-2.5%] h-[105%] w-px bg-brand" />
-                <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[125%] bg-brand" />
-                <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[125%] bg-brand" />
+                <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[105%] bg-brand" />
+                <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[105%] bg-brand" />
+                <span
+                  aria-hidden="true"
+                  className="absolute lg:hidden right-0 top-[-2.5%] h-[105%] w-px bg-brand"
+                />
               </div>
             </div>
           ) : null}

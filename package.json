@@ -30,6 +30,7 @@
     "prettier": "^3.8.1"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.2"
+    "@gsap/react": "^2.1.2",
+    "swiper": "^12.2.0"
   }
 }

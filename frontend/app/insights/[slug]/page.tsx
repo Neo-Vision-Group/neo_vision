@@ -182,23 +182,25 @@ export default async function InsightDetailPage({
       <StructuredDataScript nodes={structuredData} />
       <InsightHero post={post} />
       <div className="relative bg-white dark:bg-dark">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex">
-          <div className="relative mx-auto w-full max-w-330">
-            <DrawLine
-              direction="vertical"
-              start="top bottom"
-              end="bottom top"
-              className="hidden md:absolute inset-y-0 left-0 w-px bg-black/10 dark:bg-white/10"
-            />
-            <DrawLine
-              direction="vertical"
-              start="top bottom"
-              end="bottom top"
-              className="hidden md:absolute inset-y-0 right-0 w-px bg-black/10 dark:bg-white/10"
-            />
+        <div className="relative mx-auto w-full max-w-330">
+          {/* Drawing lines - positioned absolutely within the scrolling content wrapper */}
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex justify-center overflow-hidden">
+            <div className="relative flex h-full w-full max-w-330">
+              <DrawLine
+                direction="vertical"
+                start="top 90%"
+                end="bottom 10%"
+                className="hidden md:block self-stretch w-px bg-black/10 dark:bg-white/10"
+              />
+              <div className="flex-1" />
+              <DrawLine
+                direction="vertical"
+                start="top 90%"
+                end="bottom 10%"
+                className="hidden md:block self-stretch w-px bg-black/10 dark:bg-white/10"
+              />
+            </div>
           </div>
-        </div>
-        <div className="mx-auto w-full max-w-330">
           {post.pageBuilder && post.pageBuilder.length > 0 ? (
             <PageBuilder deferRouteReadySignal page={post as PageQueryResult} />
           ) : null}

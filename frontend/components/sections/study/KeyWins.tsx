@@ -99,7 +99,7 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
           from="bottom"
           distance={28}
           duration={0.9}
-          className="grid grid-cols-1 gap-6 xl:grid-cols-2"
+          className="grid grid-cols-1 gap-6 pb-20 xl:grid-cols-2"
         >
           {cards.map((card) => (
             <article

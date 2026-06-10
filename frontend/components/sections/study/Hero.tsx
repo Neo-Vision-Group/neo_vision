@@ -97,7 +97,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Image — 16:9, sits at the bottom, gets clipped by section overflow-hidden */}
       {imageUrl ? (
-        <div className="relative mt-auto shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30" style={{ aspectRatio: "16 / 9" }}>
+        <div className="relative mt-auto shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30 mb-10 lg:mb-0" style={{ aspectRatio: "16 / 9" }}>
           <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
             <Image
               src={imageUrl}

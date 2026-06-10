@@ -196,11 +196,11 @@ function FeaturedReferenceCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col w-full mb-10 lg:max-w-3/4 2xl:max-w-2/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col w-full mb-10 lg:max-w-3/4 2xl:w-2/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex overflow-hidden w-full md:w-50 h-50">
+      <div className="relative flex overflow-hidden min-h-50">
         {item.cover ? (
           <>
             <Image
@@ -233,7 +233,7 @@ function FeaturedReferenceCard({
         </div>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 py-2 md:gap-8">
+      <div className="flex min-w-0 flex-1 max-w-3/4 flex-col justify-between gap-6 py-2 md:gap-8">
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-3">
             {label ? (
@@ -241,14 +241,14 @@ function FeaturedReferenceCard({
             ) : null}
 
             {title ? (
-              <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-[24px] lg:text-[28px] md:tracking-[-1px]">
+              <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:tracking-[-1px]">
                 {title}
               </p>
             ) : null}
           </div>
 
           {description ? (
-            <p className="capitalize font-funnel line-clamp-2 2xl:line-clamp-4 text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
+            <p className="capitalize font-funnel line-clamp-2 text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
               {description}
             </p>
           ) : null}

@@ -19,10 +19,6 @@ export const insightBlock = defineType({
       of: [
         {
           type: 'block',
-          styles: [
-            { title: 'Normal', value: 'normal' },
-            { title: 'H3', value: 'h3' },
-          ],
           marks: {
             decorators: [
               { title: 'Strong', value: 'strong' },

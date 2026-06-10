@@ -1,8 +1,9 @@
 'use client'
 
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from './gsap-setup'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { cn } from '../../../lib/utils'
 
 interface DrawLineProps {
@@ -63,20 +64,32 @@ export function DrawLine({
         })
       })
 
-      // Force a ScrollTrigger refresh after a tiny delay to catch layout shifts
-      setTimeout(() => {
-        if (typeof window !== 'undefined' && 'utils' in gsap && 'toArray' in gsap.utils) {
-          const markers = gsap.utils.toArray('.gsap-marker-start')
-          if (markers.length === 0) {
-            // Only refresh if markers aren't active to avoid cluttering dev
-            'install' in gsap ? null : null; // sanity check
-          }
-        }
-      }, 100);
-
     },
     { scope: ref, dependencies: [direction, start, end, scrub] }
   )
+
+  // Refresh ScrollTrigger when route/content is ready to recalculate positions
+  useEffect(() => {
+    const handleRouteReady = () => {
+      // Small delay to let layout settle after route renders
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh()
+      })
+    }
+
+    // Listen for route ready event from PageTransitionMarker
+    window.addEventListener('page-transition-route-ready', handleRouteReady)
+    
+    // Also refresh after initial mount in case content is still settling
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh()
+    }, 150)
+
+    return () => {
+      window.removeEventListener('page-transition-route-ready', handleRouteReady)
+      clearTimeout(timer)
+    }
+  }, [])
 
   return (
     <div
