@@ -460,7 +460,7 @@ function FormField({
 
 function inputClasses(hasError: boolean, isSpecial?: boolean) {
   return cn(
-    "w-full border focus:bg-brand-dark focus:border-brand focus-within:bg-brand-dark focus-within:border-brand border-black/10 bg-white px-6 py-3 font-funnel text-[18px] leading-normal text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
+    "w-full border focus:bg-brand-dark focus:border-brand focus-within:bg-brand-dark focus-within:border-brand border-black/10 bg-white px-6 py-3 font-funnel text-[14px] 2xl:text-[18px] leading-normal text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
     hasError && "border-brand",
     isSpecial && "bg-brand/30"
   );

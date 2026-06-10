@@ -85,7 +85,7 @@ export function ArticleCard({
           "relative bg-gray-100 dark:bg-black",
           featured
             ? "aspect-video md:aspect-3/2 md:w-1/2"
-            : "aspect-square"
+            : "aspect-video"
         )}
       >
         {article.cover ? (
@@ -97,7 +97,6 @@ export function ArticleCard({
               sizes={featured ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1536px) 33vw, (min-width: 1024px) 50vw, 100vw"}
               className="absolute inset-0 object-cover"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5]/20 from-35% to-[#ff4100]/30" />
           </>
         ) : (
           <div className="absolute inset-0 bg-linear-to-br from-gray-200 via-gray-100 to-brand/10" />
@@ -105,7 +104,7 @@ export function ArticleCard({
         
         {/* Author + read time badge */}
         {(article.author?.name || article.readTime) ? (
-          <div className="absolute left-2 bottom-2 bg-[rgba(255,65,0,0.3)] px-2 py-1 font-funnel text-[14px] leading-[1.2] tracking-[-0.2px] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[18px] md:leading-normal">
+          <div className="absolute left-2 bottom-2 bg-[rgba(255,65,0,1)] px-2 py-1 font-funnel text-[14px] leading-[1.2] tracking-[-0.2px] text-black dark:text-[#efefef] md:px-2.5 md:py-1.5 md:text-[14px] md:leading-normal">
             {`${article.author?.name ? `${article.author.name} · ` : ''}${article.readTime ? `${article.readTime} min` : ''}`}
           </div>
         ) : null}
@@ -126,8 +125,8 @@ export function ArticleCard({
               className={cn(
                 "font-funnel-display-bold tracking-[-0.2px] text-black dark:text-white",
                 featured
-                  ? "text-100 leading-8 md:text-4xl md:leading-10"
-                  : "text-100 leading-[1.2]"
+                  ? "text-[24px]! leading-8 md:text-4xl md:leading-10"
+                  : "text-[24px]! leading-[1.2]"
               )}
             >
               {article.title}

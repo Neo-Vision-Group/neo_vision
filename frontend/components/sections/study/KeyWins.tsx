@@ -14,6 +14,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type StudyKeyWinsData = {
   eyebrow?: string;
   heading?: string;
@@ -74,9 +82,15 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
     >
       <div className="flex flex-col gap-12">
         {heading ? (
-          <h2 className="max-w-[16ch] text-4xl leading-[1.1] tracking-[-1px] text-black dark:text-white md:text-[40px] lg:text-5xl">
+          <SplitTextReveal
+            as="h2"
+            type="words"
+            stagger={0.04}
+            colorReveal
+            className="max-w-[16ch] text-4xl leading-[1.1] tracking-[-1px] text-black dark:text-white md:text-[40px] lg:text-5xl"
+          >
             {heading}
-          </h2>
+          </SplitTextReveal>
         ) : null}
 
         <RevealOnScroll

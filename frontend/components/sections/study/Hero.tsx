@@ -61,7 +61,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
     >
 
       {/* Text content — padded */}
-      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-20 pb-6 md:gap-10 md:px-8 md:pt-24 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
+      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-10 pb-6 md:gap-10 md:px-8 md:pt-12 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
         <div className="font-funnel text-[16px] leading-none text-black/65 dark:text-white/70 md:text-[18px]">
           <span>Work</span>
           <span className="px-2 text-brand">/</span>

@@ -33,7 +33,7 @@ export function HeroBrandDotsSurface({className}: {className?: string}) {
       <div aria-hidden className={cn('absolute inset-0 bg-white dark:hidden', className)}>
         <HeroBrandDotsCanvas
           className="absolute inset-0 h-full w-full object-cover"
-          style={{filter: `url(#${filterId})`, opacity: 0.22}}
+          style={{filter: `url(#${filterId})`, opacity: 0.5}}
         />
       </div>
 

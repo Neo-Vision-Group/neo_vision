@@ -70,7 +70,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-3.5rem)] flex w-full flex-col bg-transparent"
+        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] flex w-full flex-col bg-transparent"
       )}
     >
 
@@ -145,7 +145,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="relative px-3 pb-6 pt-0 flex flex-col items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:px-8 xl:px-10"
+            className="relative px-3 pb-6 pt-0 flex flex-col items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
@@ -192,27 +192,22 @@ function FeaturedReferenceCard({
   }, []);
 
   const isDarkTheme = resolvedTheme === "dark";
-  const buttonColor = mounted && isDarkTheme
-    ? "#EFEFEF"
-    : "#040404";
-
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col w-full lg:max-w-3/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col w-full mb-10 lg:max-w-3/4 2xl:max-w-2/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex aspect-square overflow-hidden w-full md:w-57">
+      <div className="relative flex overflow-hidden w-full md:w-50 h-50">
         {item.cover ? (
           <>
             <Image
               src={item.cover}
               alt={title || ctaLabel}
               fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              className="absolute inset-0 object-cover"
+              className="absolute inset-0 object-cover aspect-square"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
           </>
@@ -246,14 +241,14 @@ function FeaturedReferenceCard({
             ) : null}
 
             {title ? (
-              <p className="font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-4xl md:tracking-[-1px]">
+              <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-[24px] lg:text-[28px] md:tracking-[-1px]">
                 {title}
               </p>
             ) : null}
           </div>
 
           {description ? (
-            <p className="max-w-[40ch] capitalize font-funnel text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
+            <p className="capitalize font-funnel line-clamp-2 2xl:line-clamp-4 text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
               {description}
             </p>
           ) : null}

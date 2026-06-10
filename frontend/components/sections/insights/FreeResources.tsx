@@ -81,7 +81,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
         <RevealOnScroll
           as="div"
           stagger={0.06}
-          className="grid grid-cols-1 md:grid-cols-2"
+          className="grid grid-cols-1 lg:grid-cols-2"
         >
           {items.map((item, idx) => (
             <div
@@ -169,7 +169,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
 
             <div className="flex flex-col gap-1">
               {item?.title ? (
-                <h3 className="text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:leading-[1.2] md:tracking-[-1px]">
+                <h3 className="text-[30px] leading-[1.08] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-[32px] md:leading-[1.2] md:tracking-[-1px]">
                   {item.title}
                 </h3>
               ) : null}

@@ -188,13 +188,13 @@ export default async function InsightDetailPage({
               direction="vertical"
               start="top bottom"
               end="bottom top"
-              className="absolute inset-y-0 left-0 w-px bg-black/10 dark:bg-white/10"
+              className="hidden md:absolute inset-y-0 left-0 w-px bg-black/10 dark:bg-white/10"
             />
             <DrawLine
               direction="vertical"
               start="top bottom"
               end="bottom top"
-              className="absolute inset-y-0 right-0 w-px bg-black/10 dark:bg-white/10"
+              className="hidden md:absolute inset-y-0 right-0 w-px bg-black/10 dark:bg-white/10"
             />
           </div>
         </div>

@@ -21,7 +21,7 @@ export function TestimonialQuote({
     return (
       <figure
         className={cn(
-          "flex h-full flex-col gap-12 bg-black/4 p-8 transition-shadow duration-300 ease-out hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.35)] dark:border-white/20 dark:bg-[#0f0f0f] dark:text-white md:p-12",
+          "flex h-full flex-col gap-12 bg-black/4 p-8 transition-shadow duration-300 ease-out hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.35),0_0_60px_0px_rgba(255,255,255,0.5)] dark:border-white/20 dark:bg-[#0f0f0f] dark:text-white dark:hover:shadow-[0_0_60px_0px_rgba(255,65,0,0.35),0_0_60px_0px_rgba(0,0,0,0.5)] md:p-12",
           className
         )}
       >
