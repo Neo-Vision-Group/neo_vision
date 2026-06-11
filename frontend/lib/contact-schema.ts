@@ -9,7 +9,6 @@ export const contactSchema = z.object({
   budget: z.string().max(50, "Budget must be 50 characters or less").optional(),
   hearAboutUs: z.string().max(100, "This field must be 100 characters or less").optional(),
   message: z.string().min(10, "Please tell us more about your project").max(2000, "Message must be 2000 characters or less"),
-  source: z.string().max(500, "Source must be 500 characters or less").optional(),
   website: z.string().optional(), // Honeypot field
 });
 export type ContactFormData = z.infer<typeof contactSchema>;

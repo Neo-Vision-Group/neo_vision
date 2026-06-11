@@ -9,21 +9,7 @@ import { checkContactRateLimit } from "@/lib/rate-limit-upstash";
 import { validateCsrfToken } from "@/lib/csrf";
 import { logSecurityEvent } from "@/lib/security-logger";
 import { sanitizeHtml } from "@/lib/sanitize";
-
-function getIP(request: NextRequest): string {
-  const xff = request.headers.get("x-forwarded-for");
-  const realIp = request.headers.get("x-real-ip");
-  
-  if (xff) {
-    return xff.split(",")[0].trim();
-  }
-  
-  if (realIp) {
-    return realIp;
-  }
-  
-  return "unknown";
-}
+import getIP from "@/lib/getIP";
 
 export async function POST(req: NextRequest) {
   // Rate limiting check - use Upstash if configured, fallback to in-memory
@@ -185,7 +171,6 @@ export async function POST(req: NextRequest) {
       budget: data.budget ? sanitizeHtml(data.budget) : undefined,
       hearAboutUs: data.hearAboutUs ? sanitizeHtml(data.hearAboutUs) : undefined,
       message: sanitizeHtml(data.message),
-      source: data.source ? sanitizeHtml(data.source) : "/contact",
       receivedAt,
       status: "new",
     });
@@ -226,7 +211,6 @@ export async function POST(req: NextRequest) {
         project_type: data.projectType || null,
         budget: data.budget || null,
         hear_about_us: data.hearAboutUs || null,
-        source: data.source || "/contact",
         has_company: !!data.company,
         has_phone: !!data.phone,
         correlation_id: correlationId,
@@ -265,7 +249,6 @@ export async function POST(req: NextRequest) {
           budget: data.budget,
           hearAboutUs: data.hearAboutUs,
           message: data.message,
-          source: data.source,
           receivedAt,
         }),
       });
@@ -288,7 +271,6 @@ export async function POST(req: NextRequest) {
           budget: data.budget,
           hearAboutUs: data.hearAboutUs,
           message: data.message,
-          source: data.source,
           receivedAt,
           forClient: true,
         }),

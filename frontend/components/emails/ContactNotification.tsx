@@ -24,6 +24,18 @@ function formatEmpty(value?: string) {
   return value && value.trim().length > 0 ? value : "Not provided";
 }
 
+function formatDate(isoString: string): string {
+  const date = new Date(isoString);
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short',
+  });
+}
+
 export function ContactNotification({
   name,
   email,
@@ -33,7 +45,6 @@ export function ContactNotification({
   budget,
   hearAboutUs,
   message,
-  source,
   receivedAt,
   forClient = false,
 }: {
@@ -45,7 +56,6 @@ export function ContactNotification({
   budget?: string;
   hearAboutUs?: string;
   message: string;
-  source?: string;
   receivedAt: string;
   forClient?: boolean;
 }) {
@@ -56,9 +66,8 @@ export function ContactNotification({
     ["Phone", formatEmpty(phone)],
     ["Project type", formatEmpty(projectType)],
     ["Budget", formatEmpty(budget)],
-    ["How they heard about us", formatEmpty(hearAboutUs)],
-    ["Source", formatEmpty(source || "/contact")],
-    ["Received", receivedAt],
+    ["How you heard about us", formatEmpty(hearAboutUs)],
+    ["Received", formatDate(receivedAt)],
   ];
 
   const heading = forClient
@@ -96,18 +105,12 @@ export function ContactNotification({
                 "linear-gradient(90deg, #ff5500 0%, #ff7a1a 52%, #f5d94f 100%)",
             }}
           >
-            <p
-              style={{
-                margin: 0,
-                color: "#111111",
-                fontSize: "12px",
-                fontWeight: 700,
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-              }}
-            >
-              Neo Vision
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="46" height="28" viewBox="0 0 46 28" fill="none">
+                <path d="M0 4.15624C0 3.88434 0.11653 3.61244 0.310747 3.37938L3.34053 0.388434C3.57359 0.155374 3.92318 0 4.27277 0C4.62237 0 4.97196 0.155374 5.20502 0.388434L17.0134 12.158L14.5663 14.5663L3.53475 3.53475V27.1904H0V4.15624ZM18.2952 27.1904V0H21.83V27.1904H18.2952Z" fill="#111111"/>
+                <path d="M28.6998 27.5788C28.3114 27.5788 28.0006 27.4234 27.7287 27.1904L24.7378 24.1994C24.5436 23.9664 24.427 23.6945 24.427 23.4226V0.388434H27.9618V24.0052L41.7512 10.177V0.388434H45.2859V9.4001C45.2859 10.7596 44.781 12.0415 43.8099 12.9737L29.6321 27.1904C29.3601 27.4234 29.0494 27.5788 28.6998 27.5788Z" fill="#111111"/>
+              </svg>
+            </div>
           </div>
 
           <div style={{ padding: "32px 24px 28px" }}>
@@ -178,8 +181,8 @@ export function ContactNotification({
                         style={{
                           ...labelStyle,
                           width: "152px",
-                          padding: "0 18px 16px 0",
-                          verticalAlign: "top",
+                          padding: "12px 18px 12px 0",
+                          verticalAlign: "middle",
                           borderBottom:
                             index === rows.length - 1
                               ? "none"
@@ -191,8 +194,8 @@ export function ContactNotification({
                       <td
                         style={{
                           ...valueStyle,
-                          padding: "0 0 16px",
-                          verticalAlign: "top",
+                          padding: "12px 0",
+                          verticalAlign: "middle",
                           borderBottom:
                             index === rows.length - 1
                               ? "none"

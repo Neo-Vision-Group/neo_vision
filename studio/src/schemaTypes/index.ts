@@ -1,5 +1,4 @@
-﻿import {person} from './documents/person'
-import {page} from './documents/page'
+﻿import {page} from './documents/page'
 import {post} from './documents/post'
 import {service} from './documents/service'
 import {teamMember} from './documents/teamMember'
@@ -67,6 +66,7 @@ import {place} from './objects/about/place'
 import {press} from './objects/about/press'
 import {techStack} from './objects/about/techStack'
 import {freeResources} from './objects/resources/freeResources'
+import {resourceRequest} from './documents/resourceRequests'
 // Export an array of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
@@ -76,7 +76,6 @@ export const schemaTypes = [
   // Documents
   page,
   post,
-  person,
   service,
   teamMember,
   project,
@@ -84,6 +83,7 @@ export const schemaTypes = [
   insightCategory,
   testimonial,
   contactSubmission,
+  resourceRequest,
   // Objects
   button,
   blockContent,

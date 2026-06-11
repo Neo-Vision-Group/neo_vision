@@ -1,7 +1,6 @@
 'use client'
 
 import {SectionsWrapper} from '@/components/SectionsWrapper'
-import ArrowDownIcon from '@/components/icons/ArrowDownIcon'
 import ArrowRightPixel from '@/components/icons/ArrowRightPixel'
 import {HeadingShape} from '@/components/sections/PageHero'
 import {AnimatedBorder} from '@/components/AnimatedBorder'
@@ -9,6 +8,7 @@ import {cleanStega} from '@/sanity/lib/utils'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
+import { ResourceRequestPopUp } from '@/components/partials/ResourceRequestPopUp'
 
 const RevealOnScroll = dynamic(
   () => import('@/components/partials/motion/RevealOnScroll').then((mod) => mod.RevealOnScroll),
@@ -31,6 +31,7 @@ export type FreeResourcesData = {
     }
     fileUrl?: string
     externalUrl?: string
+    emailIt?: boolean
   }>
 }
 
@@ -58,6 +59,23 @@ function Heading({value}: {value: HeadingShape}) {
 export function FreeResources({data}: {data?: FreeResourcesData}) {
   const cleanData = data ? cleanStega(data) : data
   const items = cleanData?.items ?? []
+  
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [selectedResource, setSelectedResource] = useState<NonNullable<FreeResourcesData['items']>[number] | null>(null)
+
+  const handleDownloadClick = (item: NonNullable<FreeResourcesData['items']>[number], e: React.MouseEvent) => {
+    if (item.emailIt) {
+      e.preventDefault()
+      setSelectedResource(item)
+      setIsPopupOpen(true)
+    }
+    // If emailIt is false, let the default link behavior handle the download
+  }
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false)
+    setSelectedResource(null)
+  }
 
   if (items.length === 0) {
     return null
@@ -86,9 +104,9 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
           {items.map((item, idx) => (
             <div
               key={idx}
-              className="border-black/15 last:border-b-0 dark:border-white/20 not-last:border-b md:last:border-b md:odd:border-r md:nth-last-[-n+2]:border-b-0"
+              className="h-full border-black/15 last:border-b-0 dark:border-white/20 not-last:border-b md:last:border-b md:odd:border-r md:nth-last-[-n+2]:border-b-0"
             >
-              <ResourceCard item={item} />
+              <ResourceCard item={item} onDownloadClick={handleDownloadClick} />
             </div>
           ))}
         </RevealOnScroll>
@@ -102,6 +120,22 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
           </div>
         ) : null}
       </div>
+
+      <ResourceRequestPopUp 
+        isOpen={isPopupOpen} 
+        resourceName={selectedResource?.title ?? 'resource'}
+        resourceObject={selectedResource ? {
+          // Include fileUrl if it exists (resolved URL from GROQ)
+          ...(selectedResource.fileUrl ? { fileUrl: selectedResource.fileUrl } : {}),
+          // Include file object with asset URL for file uploads
+          ...(selectedResource.file?.asset?.url ? { 
+            file: { asset: { url: selectedResource.file.asset.url } } 
+          } : {}),
+          // Include external URL if no file
+          ...(selectedResource.externalUrl ? { externalUrl: selectedResource.externalUrl } : {}),
+        } : undefined}
+        onClose={handleClosePopup}
+      />
     </SectionsWrapper>
   )
 }
@@ -134,7 +168,7 @@ function useDownload(url: string, filename?: string) {
   return {trigger, downloading}
 }
 
-function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[number]}) {
+function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesData['items']>[number], onDownloadClick?: (item: NonNullable<FreeResourcesData['items']>[number], e: React.MouseEvent) => void}) {
   const downloadUrl = item?.fileUrl ?? item?.file?.asset?.url ?? item?.externalUrl ?? ''
   const isExternal = !!item?.externalUrl && !item?.fileUrl && !item?.file?.asset?.url
   const hasUrl = Boolean(downloadUrl)
@@ -153,7 +187,7 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
   const {trigger, downloading} = useDownload(downloadUrl, item?.title ?? undefined)
 
   return (
-    <article className="p-4 md:p-6">
+    <article className="h-full p-4 md:p-6">
       <div className="group flex h-full min-h-70 flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
         <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
           <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-90" />
@@ -188,7 +222,13 @@ function ResourceCard({item}: {item: NonNullable<FreeResourcesData['items']>[num
               target={isExternal ? '_blank' : '_self'}
               rel={isExternal ? 'noopener noreferrer' : undefined}
               className="relative inline-flex items-center gap-3 self-start px-2 py-1 text-black transition-colors duration-200 group-hover:text-brand dark:text-[#efefef]"
-              onClick={isExternal ? undefined : trigger}
+              onClick={(e) => {
+                if (item.emailIt && onDownloadClick) {
+                  onDownloadClick(item, e)
+                } else if (!isExternal) {
+                  trigger(e)
+                }
+              }}
               aria-disabled={downloading}
             >
               <AnimatedBorder groupHover />
