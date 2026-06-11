@@ -68,7 +68,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
           <span className="text-brand">{heading}</span>
         </div>
 
-        <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-6">
+        <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-10">
           <div>
             {eyebrow ? (
               <p className="font-betatron text-[24px] leading-none uppercase text-brand md:text-[28px]">
@@ -76,8 +76,8 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
               </p>
             ) : null}
 
-            <SplitTextReveal as="h1" className="block w-full">
-              <span className="font-funnel text-[40px] leading-none tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
+            <SplitTextReveal as="h1" className="block w-full leading-[1.2]">
+              <span className="font-funnel text-[40px] leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
                 {heading}
               </span>
             </SplitTextReveal>

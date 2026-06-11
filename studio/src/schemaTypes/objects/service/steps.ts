@@ -45,7 +45,6 @@ export const steps = defineType({
               name: 'duration',
               title: 'Duration label',
               type: 'string',
-              validation: (Rule) => Rule.required(),
             }),
             defineField({
               name: 'body',

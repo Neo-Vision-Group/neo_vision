@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { forwardRef, useRef, useEffect } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import ArrowRight from "../icons/ArrowRightPixel";
@@ -44,30 +44,21 @@ function resolveThumbSrc(thumb: CaseStudyCardData["thumb"]): string | null {
     return cleanThumb.length > 0 ? cleanThumb : null;
   }
 
-  return urlForImage(thumb)?.width(900).height(900).fit("max").auto("format").url() ?? null;
+  return urlForImage(thumb)?.width(900).height(506).fit("max").auto("format").url() ?? null;
 }
 
 function CtaButton() {
-  const [isHovered, setIsHovered] = useState(false);
   return (
     <div className="mt-8 flex justify-start md:mt-10">
       <span
-        className={cn(
-          "relative inline-flex items-center gap-3 self-start px-2 py-1 transition-colors duration-200",
-          isHovered ? "text-brand" : "text-black dark:text-[#efefef]"
-        )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        className="relative inline-flex items-center gap-3 self-start px-2 py-1 text-black transition-colors duration-200 group-hover:text-brand dark:text-[#efefef]"
       >
-        <AnimatedBorder isHovered={isHovered} />
+        <AnimatedBorder groupHover />
         <ArrowRight
           color="currentColor"
           width={38}
           height={24}
-          className={cn(
-            "relative z-10 h-6 w-10 shrink-0 transition-transform duration-200",
-            isHovered && "translate-x-1"
-          )}
+          className="relative z-10 h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
         />
         <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
           Read case study
@@ -86,6 +77,22 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
   const slug = resolveSlug(item.slug);
   const href = slug ? `/portfolio/${slug}` : item.thumbHref ?? "/portfolio";
   const thumbSrc = resolveThumbSrc(item.thumb);
+  const imageRef = useRef<HTMLDivElement>(null);
+
+  // Measure image container height and set CSS variable for aspect-video width calculation
+  useEffect(() => {
+    const img = imageRef.current;
+    if (!img) return;
+
+    const updateHeight = () => {
+      const height = img.offsetHeight;
+      img.style.setProperty("--img-height", `${height}px`);
+    };
+
+    updateHeight();
+    window.addEventListener("resize", updateHeight);
+    return () => window.removeEventListener("resize", updateHeight);
+  }, []);
 
   return (
     <Link
@@ -98,10 +105,11 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
       )}
     >
       <div
+        ref={imageRef}
         className={cn(
-          "relative isolate flex overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
-          "w-full lg:w-1/3 lg:transition-[width] lg:duration-500 lg:ease-out lg:group-hover:w-2/3",
-          "aspect-square lg:aspect-auto",
+          "case-study-card-image relative isolate flex shrink-0 overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
+          "w-full lg:w-1/3 lg:transition-[width] lg:duration-500 lg:ease-out",
+          "aspect-square lg:aspect-video",
         )}
       >
         {thumbSrc ? (
@@ -109,8 +117,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
             src={thumbSrc}
             alt={item.client}
             fill
-            // sizes="(min-width: 1024px) 376px, (min-width: 768px) 320px, 100vw"
-            className="absolute inset-0 object-contain"
+            className="absolute inset-0 object-cover object-center transition-transform duration-500"
           />
         ) : (
           <div
@@ -142,13 +149,12 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
 
       <div
         className={cn(
-          "flex min-w-0 flex-col justify-between py-1 md:py-6",
-          "lg:w-2/3 lg:transition-[width] lg:duration-500 lg:ease-out lg:group-hover:w-1/3",
+          "flex min-w-0 flex-1 flex-col justify-between py-1 md:py-6",
           featured ? "md:min-h-92" : "md:min-h-92"
         )}
       >
         <div className="flex flex-col gap-3">
-          {item.category ? <Badge text={item.category} isActive={isActive} /> : null}
+          {item.category ? <Badge text={item.category} groupHover /> : null}
           <div className="flex flex-col gap-2">
             <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
               {item.client}

@@ -111,7 +111,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {subheading ? (
             <RevealOnScroll
               as="p"
-              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
+              className="max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
               delay={0.15}
             >
               {subheading}
@@ -145,7 +145,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="relative px-3 pb-6 pt-0 flex flex-col items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
+            className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
@@ -196,10 +196,10 @@ function FeaturedReferenceCard({
       href={href}
       className={cn(
         "group relative flex flex-col w-full mb-10 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
-        "md:flex-row md:gap-6 md:p-6"
+        "md:flex-row md:items-stretch md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex overflow-hidden self-stretch aspect-square">
+      <div className="relative flex overflow-hidden aspect-square w-full md:w-1/3 shrink-0">
         {item.cover ? (
           <>
             <Image
@@ -232,19 +232,17 @@ function FeaturedReferenceCard({
         </div>
       </div>
 
-      <div className="flex min-w-0 flex-1 max-w-3/4 flex-col justify-between gap-6 py-2 md:gap-8">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-3">
-            {label ? (
-              <Badge text={label} />
-            ) : null}
+      <div className="flex min-w-0 flex-1 flex-col justify-between gap-3 py-3">
+        <div className="flex flex-col gap-4">
+          {label ? (
+            <Badge text={label} />
+          ) : null}
 
-            {title ? (
-              <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:tracking-[-1px]">
-                {title}
-              </p>
-            ) : null}
-          </div>
+          {title ? (
+            <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:tracking-[-1px]">
+              {title}
+            </p>
+          ) : null}
 
           {description ? (
             <p className="capitalize font-funnel line-clamp-2 text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
@@ -253,7 +251,7 @@ function FeaturedReferenceCard({
           ) : null}
         </div>
 
-        <div className="inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
+        <div className="mt-auto inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
           <ThirdButton label={ctaLabel} />
         </div>
       </div>

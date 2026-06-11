@@ -194,3 +194,12 @@
     display: none;
   }
 }
+
+/* Case study card: image container expands to aspect-video on hover.
+   JS sets --img-height on the image container; CSS calculates the target width. */
+@media (min-width: 1024px) {
+  .group:hover .case-study-card-image {
+    /* width = height * (16/9) for aspect-video */
+    width: calc(var(--img-height, 300px) * 16 / 9);
+  }
+}

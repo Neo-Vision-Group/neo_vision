@@ -11,12 +11,12 @@ export default function Badge({ text, isActive, groupHover = false }: { text: st
     <div 
       className={cn(
         "relative w-fit bg-[#ff41004d] p-2 transition-colors duration-300",
-        groupHover ? "group-hover:bg-brand" : "hover:bg-brand"
+        isActive ? "bg-brand" : groupHover ? "group-hover:bg-brand" : "hover:bg-brand"
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-        <AnimatedBorder isHovered={!groupHover && (isHovered || !!isActive)} groupHover={groupHover} />
+        {!groupHover && <AnimatedBorder isHovered={!isActive && isHovered} />}
         <p className="text-dark dark:text-white font-funnel text-[18px]">{text}</p>
     </div>
   );

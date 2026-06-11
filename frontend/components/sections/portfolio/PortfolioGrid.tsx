@@ -60,7 +60,7 @@ function FilterButton({
       }`}
     >
       <AnimatedBorder isHovered={isActive || isHovered} />
-      <span className="relative z-10">{label}</span>
+      <span className="relative z-10 uppercase">{label}</span>
     </button>
   );
 }
@@ -248,7 +248,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           ) : (
             <div className="flex flex-col gap-6 p-0 lg:gap-8 lg:p-12">
               <RevealOnScroll
-                key={`${serviceFiltersSelected.join(',')}-${industryFiltersSelected.join(',')}`}
+                key={`${serviceFiltersSelected.join(',')}-${industryFiltersSelected.join(',')}-${visibleCount}`}
                 as="div"
                 stagger={0.06}
                 className="flex flex-col gap-4"
