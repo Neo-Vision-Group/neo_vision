@@ -67,7 +67,6 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
       hearAboutUs: "",
       message: "",
       website: "",
-      source: "/contact",
     },
   });
 
@@ -182,7 +181,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
           error_message: errMsg,
           project_type: formData.projectType,
           budget: formData.budget,
-          source: formData.source,
+          source: '/contact',
         });
         return;
       }
@@ -195,7 +194,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         project_type: formData.projectType,
         budget_range: formData.budget,
         acquisition_source: formData.hearAboutUs,
-        first_contact_page: formData.source,
+        first_contact_page: '/contact',
         first_contact_date: new Date().toISOString(),
       });
 
@@ -214,7 +213,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         project_type: formData.projectType,
         budget: formData.budget,
         hear_about_us: formData.hearAboutUs,
-        source: formData.source,
+        source: '/contact',
         has_company: !!formData.company,
         has_phone: !!formData.phone,
         time_spent: timeSpent,
@@ -240,7 +239,7 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
       
       posthog.capture("contact_form_error", {
         error_message: isAbortError ? "timeout" : "network_error",
-        source: formData.source,
+        source: '/contact',
       });
     }
   });
