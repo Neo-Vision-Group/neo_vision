@@ -51,12 +51,12 @@ export function ResourceRequestNotification({
   url?: string;
   forClient?: boolean;
 }) {
-  const rows: Array<[string, string]> = [
+  const rows: Array<[string, string | React.ReactNode]> = [
     ["Email", email],
     ["Resource requested", resourceRequested],
     ["Received", formatDate(receivedAt)],
     // Only show URL row if it's not a file
-    ...(!asFile && url ? [["URL", url]] as [string, string][] : []),
+    ...(!asFile && url ? [["URL", <a key="url" href={url} style={{ color: "#ff8a4c", textDecoration: "underline" }}>{url}</a>]] as [string, React.ReactNode][] : []),
   ];
 
   const heading = forClient
