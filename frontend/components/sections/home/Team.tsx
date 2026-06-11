@@ -200,8 +200,15 @@ export function Team({ data }: { data?: TeamData }) {
           >
             {team.members.map((member, i) => {
               const portraitUrl = member.portrait
-                ? urlForImage(member.portrait)?.width(858).height(1046).fit("crop").url()
-                : typeof member.portrait === 'string' ? member.portrait : null;
+                ? typeof member.portrait === 'string'
+                  ? member.portrait
+                  : (() => {
+                      const { crop, hotspot, ...rest } = member.portrait as Record<string, unknown>;
+                      void crop;
+                      void hotspot;
+                      return urlForImage(rest)?.width(858).fit("clip").url();
+                    })()
+                : null;
 
               return (
                 <div
@@ -260,15 +267,13 @@ export function Team({ data }: { data?: TeamData }) {
                       <div className="absolute inset-0" />
                       {portraitUrl && (
                         <div className="absolute inset-0 z-10 overflow-hidden">
-                          <div className="relative size-full">
-                            <Image
-                              src={portraitUrl}
-                              alt={member.name}
-                              className="object-cover object-top"
-                              fill
-                              sizes="(min-width: 1024px) 432px, 100vw"
-                            />
-                          </div>
+                          <Image
+                            src={portraitUrl}
+                            alt={member.name}
+                            className="object-contain"
+                            fill
+                            sizes="(min-width: 1024px) 432px, 100vw"
+                          />
                         </div>
                       )}
                     </div>
