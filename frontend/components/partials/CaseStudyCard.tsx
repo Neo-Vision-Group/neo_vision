@@ -44,7 +44,7 @@ function resolveThumbSrc(thumb: CaseStudyCardData["thumb"]): string | null {
     return cleanThumb.length > 0 ? cleanThumb : null;
   }
 
-  return urlForImage(thumb)?.width(900).height(900).fit("crop").auto("format").url() ?? null;
+  return urlForImage(thumb)?.width(900).height(900).fit("max").auto("format").url() ?? null;
 }
 
 function CtaButton() {
@@ -109,8 +109,8 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
             src={thumbSrc}
             alt={item.client}
             fill
-            sizes="(min-width: 1024px) 376px, (min-width: 768px) 320px, 100vw"
-            className="absolute inset-0 object-cover opacity-50 transition-opacity duration-300 group-hover:opacity-60"
+            // sizes="(min-width: 1024px) 376px, (min-width: 768px) 320px, 100vw"
+            className="absolute inset-0 object-contain"
           />
         ) : (
           <div

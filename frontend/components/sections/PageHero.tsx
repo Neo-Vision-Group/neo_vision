@@ -79,10 +79,10 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
-          "flex flex-1 flex-col justify-start gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-20 lg:px-8 xl:px-12 2xl:px-30",
+          "flex flex-1 flex-col justify-start gap-10 py-8 md:gap-14 md:py-20",
           featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
         )}>
-          <div>
+          <div className="px-6 lg:px-8 xl:px-12 2xl:px-30">
             {eyebrow ? (
               <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
                 {eyebrow}
@@ -102,8 +102,8 @@ export function PageHero({ data }: { data?: PageHeroData }) {
                 "lg:[&_p]:text-[96px]",
                 "lg:[&_p]:leading-none",
                 "lg:[&_p]:tracking-[-0.4px]",
-                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
-                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+                "dark:[&_p:first-of-type]:text-[#efefef] [&_p:first-of-type]:text-black",
+                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:font-bold",
               )}
             />
           </div>
@@ -111,7 +111,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {subheading ? (
             <RevealOnScroll
               as="p"
-              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground"
+              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
               delay={0.15}
             >
               {subheading}
@@ -121,7 +121,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {stats && stats.length > 0 ? (
             <RevealOnScroll
               as="div"
-              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
+              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20 p-3"
               stagger={0.08}
               delay={0.25}
             >
@@ -191,23 +191,22 @@ function FeaturedReferenceCard({
     setMounted(true);
   }, []);
 
-  const isDarkTheme = resolvedTheme === "dark";
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col w-full mb-10 lg:max-w-3/4 2xl:w-2/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "group relative flex flex-col w-full mb-10 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
         "md:flex-row md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex overflow-hidden min-h-50">
+      <div className="relative flex overflow-hidden self-stretch aspect-square">
         {item.cover ? (
           <>
             <Image
               src={item.cover}
               alt={title || ctaLabel}
               fill
-              className="absolute inset-0 object-cover aspect-square"
+              className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
           </>

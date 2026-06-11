@@ -119,7 +119,7 @@ export function ArticleCard({
         <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-4">
             {/* Category badge */}
-            {category ? <Badge text={category} /> : null}
+            {category ? <Badge text={category} groupHover /> : null}
             
             <h3
               className={cn(

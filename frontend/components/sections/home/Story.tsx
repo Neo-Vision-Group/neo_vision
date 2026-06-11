@@ -98,8 +98,8 @@ export function Story({ data }: { data?: StoryData }) {
         </SplitTextReveal>
 
         <div className="relative flex flex-col items-center">
-          {/* Single continuous line behind all dots */}
-          <div className="absolute w-screen h-px bg-dark/20 dark:bg-white/20 top-[96px] md:top-[116px] left-1/2 -translate-x-1/2" />
+          {/* Single continuous line behind all dots - aligned to center */}
+          <div className="absolute w-screen h-px bg-dark/20 dark:bg-white/20 top-[100px] md:top-[120px] left-1/2 -translate-x-1/2" />
 
           {/* Years Carousel (Swiper) */}
           <div className="relative w-full max-w-[400px] lg:max-w-[500px]">
@@ -125,18 +125,22 @@ export function Story({ data }: { data?: StoryData }) {
                       {m.year}
                     </h3>
 
-                    {/* Circle */}
+                    {/* Timeline dot with pulse rings */}
                     <div className="relative flex items-center justify-center w-full my-6 md:my-8">
-                      {/* Outer circle */}
-                      <div className="relative z-10 w-16 h-16 md:w-20 md:h-20 rounded-full bg-white-light dark:bg-dark-light border border-dark/20 dark:border-white/20 cursor-pointer transition-all duration-300">
-                        {/* Active inner circle */}
-                        <div
-                          className={cn(
-                            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                            "w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand border border-dark/20 dark:border-white/20",
-                            "transition-opacity duration-300",
-                            idx === activeIndex ? "opacity-100" : "opacity-0"
-                          )}
+                      <div
+                        className="story-tick-btn relative flex items-center justify-center w-20 h-20 cursor-pointer"
+                        data-active={idx === activeIndex ? "true" : "false"}
+                        onClick={() => swiper?.slideTo(idx)}
+                      >
+                        {/* Pulse rings - animated via CSS when data-active="true" */}
+                        <span className="story-tick-ring-1 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
+                        <span className="story-tick-ring-2 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
+                        <span className="story-tick-ring-3 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
+                        {/* Center square */}
+                        <span
+                          className="story-tick-dot absolute border transition-all duration-300"
+                          data-lit={idx === activeIndex ? "true" : "false"}
+                          data-active={idx === activeIndex ? "true" : "false"}
                         />
                       </div>
                     </div>

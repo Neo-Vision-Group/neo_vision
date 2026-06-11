@@ -90,7 +90,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                       <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                       <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                     </div>
-                    <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
+                    <span className="font-funnel text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                       {iss.tag}
                     </span>
                     <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">

@@ -118,7 +118,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
-        <div className="relative z-20 px-6 py-7 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-12">
+        <div className="relative z-20 p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
           <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
             {details.map((item, index) => (
               <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
@@ -236,12 +236,12 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-[28px] leading-none text-brand md:text-[16px] lg:text-[22px]"
+          className="font-funnel text-[32px] leading-none text-brand md:text-[32px] lg:text-[32px]"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-[12px] lg:text-[16px]">
+        <p className="font-funnel leading-none text-[14px]">
           {label}
         </p>
       ) : null}

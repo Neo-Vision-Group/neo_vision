@@ -78,8 +78,8 @@
 
 /* Dot: default state — matches section bg so it looks like a cutout on the line */
 .story-tick-dot {
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-color: rgba(255, 255, 255, 0.5);
   background-color: rgba(255, 255, 255, 0.15);
 }
@@ -96,8 +96,8 @@
 
 /* Dot: active (centered) — larger + glow */
 .story-tick-dot[data-active="true"] {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border-color: var(--brand);
   background-color: var(--brand);
   box-shadow: 0 0 24px rgba(255, 80, 10, 0.9);

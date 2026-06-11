@@ -264,7 +264,7 @@ export function Team({ data }: { data?: TeamData }) {
                             <Image
                               src={portraitUrl}
                               alt={member.name}
-                              className="object-contain"
+                              className="object-cover object-top"
                               fill
                               sizes="(min-width: 1024px) 432px, 100vw"
                             />
