@@ -202,7 +202,7 @@ export function HeroBrandDotsMediaProvider({children}: {children: ReactNode}) {
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const DRAW_INTERVAL = 1000 / 30  // cap redraws at 30 fps
+    const DRAW_INTERVAL = 1000 / 60  // cap redraws at 30 fps
 
     function tick(now: number) {
       const dt = Math.min(0.05, (now - lastTimeRef.current) / 1000)

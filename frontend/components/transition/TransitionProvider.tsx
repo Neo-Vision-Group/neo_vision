@@ -121,21 +121,12 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   }, [])
 
   const unlockScroll = useCallback(() => {
-    if (scrollLockRef.current === null) {
-      return
-    }
-
-    document.documentElement.style.overflow = scrollLockRef.current
-    scrollLockRef.current = null
+    // Scroll locking via overflow:hidden causes scrollbar reflow flicker.
+    // The fixed sweep overlay prevents meaningful scrolling during transitions.
   }, [])
 
   const lockScroll = useCallback(() => {
-    if (scrollLockRef.current !== null) {
-      return
-    }
-
-    scrollLockRef.current = document.documentElement.style.overflow
-    document.documentElement.style.overflow = 'hidden'
+    // No-op: see unlockScroll
   }, [])
 
   const resetOverlay = useCallback(() => {
@@ -170,11 +161,18 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
       statusRef.current = 'entering'
       setStatus('entering')
 
-      // Wait 1 second after route ready, then fade in content
+      // Wait 1 second after route ready, reset sweep, then fade in content
       window.setTimeout(() => {
+        // Reset the sweep panel transform before revealing content so no GSAP
+        // inline-transform snap happens mid-fade
+        if (sweepRef.current) {
+          gsap.set(sweepRef.current, {x: 0})
+        }
         if (mainRef.current) {
           mainRef.current.classList.remove('opacity-0')
-          window.setTimeout(finishTransition, routeMeta.hasHeroPattern ? 350 : 500)
+          // Wait for the full 500ms CSS transition to finish before unlocking
+          // scroll / resetting state — prevents layout shifts during the fade
+          window.setTimeout(finishTransition, 520)
         } else {
           finishTransition()
         }
@@ -337,7 +335,7 @@ function TransitionProviderInner({children}: {children: React.ReactNode}) {
   }, [status])
 
   useEffect(() => {
-    mainRef.current = document.querySelector('main')
+    mainRef.current = document.querySelector('#page-content') as HTMLElement | null
   }, [])
 
   useEffect(() => {

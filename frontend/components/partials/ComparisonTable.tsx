@@ -70,12 +70,12 @@ export function ComparisonTable({
   return (
     <div
       className={cn(
-        "w-full overflow-x-auto dark:bg-dark",
+        "w-full overflow-x-auto dark:bg-black",
         className,
       )}
     >
       <table className="min-w-full text-center">
-        <thead className="bg-white-dark dark:bg-dark-light">
+        <thead className="bg-white dark:bg-black">
           <tr>
             {normalizedHeaders.map((header, index) => (
               <th key={`${header}-${index}`} scope="col" className={getCellClasses(index, true)}>

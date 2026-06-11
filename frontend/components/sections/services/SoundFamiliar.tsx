@@ -11,6 +11,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type SoundFamiliarData = {
   eyebrow?: string;
   heading?: string;
@@ -37,9 +45,15 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
       <div className="flex flex-col gap-12 pb-24">
         {cleanData?.heading && (
           <div className="px-6 lg:px-8 xl:px-16">
-            <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+            <SplitTextReveal
+              as="h2"
+              type="words"
+              stagger={0.04}
+              colorReveal
+              className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14"
+            >
               {cleanData.heading}
-            </h2>
+            </SplitTextReveal>
           </div>
         )}
         <div className="border-t border-black/20 dark:border-white/20">
@@ -70,7 +84,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                         style={{ background: "#7a1a00" }}
                       />
                     </div>
-                    <h3 className="font-betatron text-[32px] text-brand">{p.title}</h3>
+                    <h3 className="text-[32px] text-brand">{p.title}</h3>
                     <p className="font-funnel text-muted-light dark:text-muted-dark text-[18px]">{p.body}</p>
                   </article>
                 </div>

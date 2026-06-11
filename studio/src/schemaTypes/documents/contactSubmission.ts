@@ -59,12 +59,6 @@ export const contactSubmission = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: "source",
-      title: "Source page",
-      type: "string",
-      description: 'Page the form was submitted from, e.g. "/contact", "/services/ai".',
-    }),
-    defineField({
       name: "receivedAt",
       title: "Received at",
       type: "datetime",

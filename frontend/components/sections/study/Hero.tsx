@@ -61,14 +61,14 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
     >
 
       {/* Text content — padded */}
-      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-20 pb-6 md:gap-10 md:px-8 md:pt-24 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
+      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-10 pb-6 md:gap-10 md:px-8 md:pt-12 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
         <div className="font-funnel text-[16px] leading-none text-black/65 dark:text-white/70 md:text-[18px]">
           <span>Work</span>
           <span className="px-2 text-brand">/</span>
           <span className="text-brand">{heading}</span>
         </div>
 
-        <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-6">
+        <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-10">
           <div>
             {eyebrow ? (
               <p className="font-betatron text-[24px] leading-none uppercase text-brand md:text-[28px]">
@@ -76,8 +76,8 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
               </p>
             ) : null}
 
-            <SplitTextReveal as="h1" className="block w-full">
-              <span className="font-funnel text-[40px] leading-none tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
+            <SplitTextReveal as="h1" className="block w-full leading-[1.2]">
+              <span className="font-funnel text-[40px] leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
                 {heading}
               </span>
             </SplitTextReveal>
@@ -97,21 +97,28 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Image — 16:9, sits at the bottom, gets clipped by section overflow-hidden */}
       {imageUrl ? (
-        <div className="relative mt-auto shrink-0 aspect-video overflow-hidden border-t border-brand/70 bg-[#f2f2f2] dark:bg-[#0f0f0f] mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30">
-          <Image
-            src={imageUrl}
-            alt={heading ?? "Hero image"}
-            fill
-            sizes="(min-width: 1280px) 1280px, 100vw"
-            className="object-cover"
-            priority
-          />
+        <div className="relative mt-auto shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30 mb-10 lg:mb-0" style={{ aspectRatio: "16 / 9" }}>
+          <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
+            <Image
+              src={imageUrl}
+              alt={heading ?? "Hero image"}
+              fill
+              sizes="(min-width: 1280px) 1280px, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
+          {/* BorderWrapper-style overflow corners — spans live on the outer wrapper so they aren't clipped */}
+          <span aria-hidden="true" className="pointer-events-none absolute left-0 top-[-2.5%] h-[105%] w-px bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute right-0 top-[-2.5%] h-[105%] w-px bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[105%] bg-brand" />
+          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[105%] bg-brand" />
         </div>
       ) : null}
 
       {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
-        <div className="relative z-20 px-6 py-7 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:px-12">
+        <div className="relative z-20 p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
           <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
             {details.map((item, index) => (
               <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
@@ -229,12 +236,12 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-[28px] leading-none text-brand md:text-[16px] lg:text-[22px]"
+          className="font-funnel text-[32px] leading-none text-brand md:text-[32px] lg:text-[32px]"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-none text-foreground md:text-[12px] lg:text-[16px]">
+        <p className="font-funnel leading-none text-[14px]">
           {label}
         </p>
       ) : null}

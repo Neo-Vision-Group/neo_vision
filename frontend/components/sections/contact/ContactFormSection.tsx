@@ -302,39 +302,41 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
               </FormField>
             </div>
 
-            <FormField label="Company" error={errors.company?.message} id="contact-company">
-              {(props) => (
-                <input
-                  type="text"
-                  autoComplete="organization"
-                  placeholder="Acme Corp (optional)"
-                  {...register("company", {
-                    onBlur: (e) => handleFieldComplete('company', e.target.value)
-                  })}
-                  {...props}
-                  onFocus={() => handleFieldFocus('company')}
-                  className={inputClasses(!!errors.company)}
-                />
-              )}
-            </FormField>
+            <div className="flex flex-col gap-3 md:flex-row">
+              <FormField label="Company" error={errors.company?.message} id="contact-company">
+                {(props) => (
+                  <input
+                    type="text"
+                    autoComplete="organization"
+                    placeholder="Acme Corp (optional)"
+                    {...register("company", {
+                      onBlur: (e) => handleFieldComplete('company', e.target.value)
+                    })}
+                    {...props}
+                    onFocus={() => handleFieldFocus('company')}
+                    className={inputClasses(!!errors.company)}
+                  />
+                )}
+              </FormField>
 
-            <FormField label="Service" error={errors.projectType?.message} id="contact-service">
-              {() => (
-                <DropdownField
-                  placeholder="Select a service..."
-                  options={services}
-                  value={projectTypeField.field.value}
-                  onChange={(value) => {
-                    projectTypeField.field.onChange(value);
-                    handleFieldComplete('projectType', value);
-                  }}
-                  onBlur={projectTypeField.field.onBlur}
-                  onFocus={() => handleFieldFocus('projectType')}
-                  name={projectTypeField.field.name}
-                  hasError={!!errors.projectType}
-                />
-              )}
-            </FormField>
+              <FormField label="Service" error={errors.projectType?.message} id="contact-service">
+                {() => (
+                  <DropdownField
+                    placeholder="Select a service..."
+                    options={services}
+                    value={projectTypeField.field.value}
+                    onChange={(value) => {
+                      projectTypeField.field.onChange(value);
+                      handleFieldComplete('projectType', value);
+                    }}
+                    onBlur={projectTypeField.field.onBlur}
+                    onFocus={() => handleFieldFocus('projectType')}
+                    name={projectTypeField.field.name}
+                    hasError={!!errors.projectType}
+                  />
+                )}
+              </FormField>
+            </div>
 
             <div className="flex flex-col gap-3 md:flex-row">
               <FormField label="Estimated budget range" error={errors.budget?.message} id="contact-budget">
@@ -458,7 +460,7 @@ function FormField({
 
 function inputClasses(hasError: boolean, isSpecial?: boolean) {
   return cn(
-    "w-full border focus:bg-brand-dark focus:border-brand focus-within:bg-brand-dark focus-within:border-brand border-black/10 bg-white px-6 py-3 font-funnel text-[18px] leading-normal text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
+    "w-full border focus:bg-brand-dark focus:border-brand focus-within:bg-brand-dark focus-within:border-brand border-black/10 bg-white px-6 py-3 font-funnel text-[14px] 2xl:text-[18px] leading-normal text-black placeholder:text-black/40 focus:outline-none dark:border-white/10 dark:bg-[#0f0f0f] dark:text-[#efefef] dark:placeholder:text-[#efefef]/40",
     hasError && "border-brand",
     isSpecial && "bg-brand/30"
   );

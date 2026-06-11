@@ -101,7 +101,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
                           </p>
                         ) : null}
                         {highlight.description ? (
-                          <p className="max-w-[22ch] text-100 font-bold leading-[1.2] text-foreground">
+                          <p className="max-w-[22ch] text-[24px] font-bold leading-[1.2] text-foreground">
                             {highlight.description}
                           </p>
                         ) : null}

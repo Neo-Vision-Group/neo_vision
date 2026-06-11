@@ -186,7 +186,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               {resolvedHeadlineLines.length > 0 ? (
                 <RevealOnScroll
                   as="h1"
-                  className="font-funnel text-[64px]! leading-none tracking-[-0.8px] text-foreground md:text-[32px] md:tracking-[-0.9px] lg:text-[48px] xl:text-[72px] 2xl:text-[96px] lg:tracking-[-1px]"
+                  className="font-funnel text-[96px]! leading-none tracking-[-0.8px] text-foreground md:text-[32px] md:tracking-[-0.9px] lg:text-[48px] xl:text-[72px] 2xl:text-[96px] lg:tracking-[-1px]"
                 >
                   {resolvedHeadlineLines.map((line, index) => (
                     <span key={`${line}-${index}`} className="block">
@@ -208,12 +208,13 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           </div>
         </div>
 
-        <div className="relative w-full pb-6 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
+        <div className="relative w-full pb-6 mb-12 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
           {railItems.length > 0 ? (
             <RevealOnScroll
               as="div"
               className="flex w-full flex-col"
               stagger={0.08}
+              start="top 100%"
             >
               {/* Mobile layout: 2-col grid for highlights + full-width CTA below */}
               <div className="flex flex-col gap-2 pt-3 md:hidden">
@@ -315,7 +316,7 @@ function useScrambleText(text: string | undefined, duration = 2000) {
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: "100px" }
     );
 
     observer.observe(element);
@@ -393,12 +394,12 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="font-betatron text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
+          className="text-center text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[16px] md:text-[18px] lg:text-[22px] font-bold leading-[1.2] text-foreground">
+        <p className="font-funnel text-center text-[16px] md:text-[18px] lg:text-[22px] leading-[1.2] text-foreground">
           {label}
         </p>
       ) : null}

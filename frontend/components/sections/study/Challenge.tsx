@@ -10,6 +10,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type StudyChallengeData = {
   eyebrow?: string;
   heading?: string;
@@ -38,9 +46,15 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
       <div className="flex flex-col gap-12 text-[#efefef]">
         {heading ? (
           <div className="flex flex-col gap-3 px-6 lg:px-16">
-            <h2 className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
+            <SplitTextReveal
+              as="h2"
+              type="words"
+              stagger={0.04}
+              colorReveal
+              className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl"
+            >
               {heading}
-            </h2>
+            </SplitTextReveal>
           </div>
         ) : null}
         {body
@@ -76,7 +90,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                       <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                       <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                     </div>
-                    <span className="font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
+                    <span className="font-funnel text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                       {iss.tag}
                     </span>
                     <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">

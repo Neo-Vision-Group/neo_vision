@@ -61,7 +61,7 @@ export function Steps({data}: {data?: StepsData}) {
   return (
     <SectionsWrapper eyebrow={eyebrow} id="steps">
       <div className="flex flex-col gap-12 md:gap-16">
-        <div className="max-w-225">
+        <div className="max-w-225 pl-px">
           <h2 className="font-funnel text-4xl leading-[1.15] tracking-[-0.8px] text-foreground md:text-[40px] lg:text-5xl lg:tracking-[-1px]">
             <span className="text-foreground/70">{intro} </span>
             <span className="font-bold text-foreground">{highlight}</span>

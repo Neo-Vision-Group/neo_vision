@@ -9,6 +9,15 @@ export default {
       padding: '2rem',
     },
     extend: {
+      animation: {
+        'wave-ring': 'wave-ring 1.2s ease-out infinite',
+      },
+      keyframes: {
+        'wave-ring': {
+          '0%': { transform: 'translate(-50%, -50%) scale(1)', opacity: '0.6' },
+          '100%': { transform: 'translate(-50%, -50%) scale(3)', opacity: '0' },
+        },
+      },
       boxShadow: {
         layer: '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
       },

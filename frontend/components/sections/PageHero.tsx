@@ -70,7 +70,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-3.5rem)] flex w-full flex-col bg-transparent"
+        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] flex w-full flex-col bg-transparent"
       )}
     >
 
@@ -79,10 +79,10 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
-          "flex flex-1 flex-col justify-start gap-10 px-6 py-8 md:gap-14 md:px-6 md:py-20 lg:px-8 xl:px-12 2xl:px-30",
+          "flex flex-1 flex-col justify-start gap-10 py-8 md:gap-14 md:py-20",
           featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
         )}>
-          <div>
+          <div className="px-6 lg:px-8 xl:px-12 2xl:px-30">
             {eyebrow ? (
               <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
                 {eyebrow}
@@ -102,8 +102,8 @@ export function PageHero({ data }: { data?: PageHeroData }) {
                 "lg:[&_p]:text-[96px]",
                 "lg:[&_p]:leading-none",
                 "lg:[&_p]:tracking-[-0.4px]",
-                "dark:[&_p:first-of-type]:text-[#efefefb3] [&_p:first-of-type]:text-black/70",
-                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:text-black",
+                "dark:[&_p:first-of-type]:text-[#efefef] [&_p:first-of-type]:text-black",
+                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:font-bold",
               )}
             />
           </div>
@@ -111,7 +111,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {subheading ? (
             <RevealOnScroll
               as="p"
-              className="max-w-170 font-funnel text-[18px] leading-normal text-foreground"
+              className="max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
               delay={0.15}
             >
               {subheading}
@@ -121,7 +121,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {stats && stats.length > 0 ? (
             <RevealOnScroll
               as="div"
-              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20"
+              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20 p-3"
               stagger={0.08}
               delay={0.25}
             >
@@ -145,7 +145,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="relative px-3 pb-6 pt-0 flex flex-col items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:px-8 xl:px-10"
+            className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />
@@ -191,27 +191,21 @@ function FeaturedReferenceCard({
     setMounted(true);
   }, []);
 
-  const isDarkTheme = resolvedTheme === "dark";
-  const buttonColor = mounted && isDarkTheme
-    ? "#EFEFEF"
-    : "#040404";
-
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col w-full lg:max-w-3/4 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
-        "md:flex-row md:gap-6 md:p-6"
+        "group relative flex flex-col w-full mb-10 gap-6 bg-[#EFEFEFB3] dark:bg-[#040404] border border-white/20 p-4 text-[#efefef] transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40",
+        "md:flex-row md:items-stretch md:gap-6 md:p-6"
       )}
     >
-      <div className="relative flex aspect-square overflow-hidden w-full md:w-57">
+      <div className="relative flex overflow-hidden aspect-square w-full md:w-1/3 shrink-0">
         {item.cover ? (
           <>
             <Image
               src={item.cover}
               alt={title || ctaLabel}
               fill
-              sizes="(min-width: 1024px) 50vw, 100vw"
               className="absolute inset-0 object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
@@ -238,28 +232,26 @@ function FeaturedReferenceCard({
         </div>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col justify-between gap-6 py-2 md:gap-8">
-        <div className="flex flex-col gap-3">
-          <div className="flex flex-col gap-3">
-            {label ? (
-              <Badge text={label} />
-            ) : null}
+      <div className="flex min-w-0 flex-1 flex-col justify-between gap-3 py-3">
+        <div className="flex flex-col gap-4">
+          {label ? (
+            <Badge text={label} />
+          ) : null}
 
-            {title ? (
-              <p className="font-funnel text-[28px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:text-4xl md:tracking-[-1px]">
-                {title}
-              </p>
-            ) : null}
-          </div>
+          {title ? (
+            <p className="font-funnel text-[24px] leading-[1.15] tracking-[-0.84px] dark:text-[#efefef] text-[#040404] md:tracking-[-1px]">
+              {title}
+            </p>
+          ) : null}
 
           {description ? (
-            <p className="max-w-[40ch] capitalize font-funnel text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
+            <p className="capitalize font-funnel line-clamp-2 text-[17px] leading-[1.55] dark:text-[#efefef]/70 text-[#040404] md:text-[18px] md:leading-normal">
               {description}
             </p>
           ) : null}
         </div>
 
-        <div className="inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
+        <div className="mt-auto inline-flex items-center gap-3 text-[#efefef] dark:text-[#efefef]">
           <ThirdButton label={ctaLabel} />
         </div>
       </div>

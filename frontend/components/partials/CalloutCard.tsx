@@ -26,10 +26,10 @@ export function CalloutCard({
         className
       )}
     >
-      <p className="capitalize font-betatron text-5xl leading-[1.2] tracking-[-2.88px] text-brand font-display">
+      <p className="capitalize font-funnel text-4xl leading-[1.2] tracking-[-2.88px] text-brand font-display">
         {label}
       </p>
-      <div className="text-[18px] leading-normal text-foreground">
+      <div className="text-[18px] leading-normal font-funnel">
         {children}
       </div>
     </aside>

@@ -1,18 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 import { AnimatedBorder } from "../AnimatedBorder";
 
-export default function Badge({ text, isActive }: { text: string; isActive?: boolean }) {
+export default function Badge({ text, isActive, groupHover = false }: { text: string; isActive?: boolean; groupHover?: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
     <div 
-      className="relative w-fit bg-[#ff41004d] hover:bg-brand p-2 transition-colors duration-300"
+      className={cn(
+        "relative w-fit bg-[#ff41004d] p-2 transition-colors duration-300",
+        isActive ? "bg-brand" : groupHover ? "group-hover:bg-brand" : "hover:bg-brand"
+      )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-        <AnimatedBorder isHovered={isHovered || !!isActive} />
+        {!groupHover && <AnimatedBorder isHovered={!isActive && isHovered} />}
         <p className="text-dark dark:text-white font-funnel text-[18px]">{text}</p>
     </div>
   );

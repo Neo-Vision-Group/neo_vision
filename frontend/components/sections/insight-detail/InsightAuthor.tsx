@@ -37,7 +37,7 @@ export function InsightAuthor({ author }: InsightAuthorProps) {
     >
       <div className="bg-white dark:bg-dark">
         <div className="border-t border-black/10 dark:border-white/10" />
-        <div className="flex flex-col gap-8 overflow-hidden px-4 py-8 md:px-6 lg:flex-row lg:justify-between lg:items-stretch">
+        <div className="flex flex-col gap-8 overflow-hidden px-4 py-8 md:px-6 lg:px-8 xl:px-16 2xl:px-30 lg:flex-row lg:justify-between lg:items-stretch">
           <div className="flex min-w-0 flex-1 flex-col justify-between">
             <div className="flex min-w-0 w-full flex-col gap-12 pb-6 md:gap-16 md:py-6 lg:pr-12">
               <div className="flex min-w-0 flex-col gap-6 text-left">

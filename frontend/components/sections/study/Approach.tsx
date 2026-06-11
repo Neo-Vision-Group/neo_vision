@@ -1,6 +1,15 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { CalloutCard } from "@/components/partials/CalloutCard";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type StudyApproachData = {
   eyebrow?: string;
@@ -34,10 +43,15 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
     >
       <div className="flex flex-col gap-8 text-[#efefef]">
         {heading ? (
-          <h2 className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
-            <span className="text-black dark:text-white">{heading.faded} </span>
-            <span className="text-black dark:text-white">{heading.bold}</span>
-          </h2>
+          <SplitTextReveal
+            as="h2"
+            type="words"
+            stagger={0.04}
+            colorReveal
+            className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl"
+          >
+            {[heading.faded, heading.bold].filter(Boolean).join(" ")}
+          </SplitTextReveal>
         ) : null}
         {body ? (
           <p className="max-w-[70ch] text-[18px] leading-normal text-black dark:text-white md:text-[20px] md:leading-7">

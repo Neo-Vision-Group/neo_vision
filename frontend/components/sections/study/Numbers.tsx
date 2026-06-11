@@ -1,5 +1,14 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega } from "@/sanity/lib/utils";
+import dynamic from "next/dynamic";
+
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
 
 export type StudyNumbersData = {
   eyebrow?: string;
@@ -28,9 +37,15 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
     >
       <div className="flex flex-col text-black dark:text-[#efefef]">
         {heading ? (
-          <h2 className="px-6 lg:px-16 pt-0 pb-8 lg:pb-12 font-funnel text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl">
+          <SplitTextReveal
+            as="h2"
+            type="words"
+            stagger={0.04}
+            colorReveal
+            className="px-6 lg:px-16 pt-0 pb-8 lg:pb-12 font-funnel text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl"
+          >
             {heading}
-          </h2>
+          </SplitTextReveal>
         ) : null}
 
         {/* Grid with borders on each card container */}
@@ -49,7 +64,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
                     <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                     <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                   </div>
-                  <p className="font-betatron text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
+                  <p className="font-funnel text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
                     {stat.value}
                   </p>
                   <div className="flex flex-col gap-1">

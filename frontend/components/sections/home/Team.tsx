@@ -54,41 +54,40 @@ export function Team({ data }: { data?: TeamData }) {
   const arrowColor = isDarkTheme ? "#efefef" : "#0f0f0f";
 
   const hasMultiple = team.members.length > 1;
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(true);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [animKeys, setAnimKeys] = useState<Record<number, number>>({});
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
 
-  const scrollAnimRef = useRef<number>(0);
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el || !hasMultiple) return;
 
-  const scroll = useCallback((dir: "prev" | "next") => {
+    const updateScrollState = () => {
+      const atStart = el.scrollLeft <= 1;
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 1;
+      setCanScrollPrev(!atStart);
+      setCanScrollNext(!atEnd);
+    };
+
+    updateScrollState();
+    el.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => el.removeEventListener("scroll", updateScrollState);
+  }, [hasMultiple]);
+
+  const scrollAnimRef = useRef<number>(0);
+  const autoStoppedRef = useRef(false);
+  const autoIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const scrollToIndex = useCallback((targetIndex: number) => {
     if (!scrollerRef.current) return;
     const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
     if (items.length === 0) return;
 
     const scrollerRect = scrollerRef.current.getBoundingClientRect();
-    const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
-
-    let currentIndex = 0;
-    let minDistance = Infinity;
-
-    items.forEach((item, i) => {
-      const el = item as HTMLElement;
-      const rect = el.getBoundingClientRect();
-      const itemCenter = rect.left + rect.width / 2;
-      const distance = Math.abs(scrollerCenter - itemCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        currentIndex = i;
-      }
-    });
-
-    const nextIndex =
-      dir === "next"
-        ? Math.min(currentIndex + 1, items.length - 1)
-        : Math.max(currentIndex - 1, 0);
-
-    const targetItem = items[nextIndex] as HTMLElement;
+    const targetItem = items[targetIndex] as HTMLElement;
     const targetRect = targetItem.getBoundingClientRect();
     const targetScrollLeft =
       scrollerRef.current.scrollLeft +
@@ -121,8 +120,61 @@ export function Team({ data }: { data?: TeamData }) {
 
     scrollAnimRef.current = requestAnimationFrame(step);
 
-    setAnimKeys(prev => ({ ...prev, [nextIndex]: (prev[nextIndex] ?? 0) + 1 }));
+    setAnimKeys(prev => ({ ...prev, [targetIndex]: (prev[targetIndex] ?? 0) + 1 }));
   }, [scrollerRef]);
+
+  const scroll = useCallback((dir: "prev" | "next") => {
+    if (!scrollerRef.current) return;
+    const items = Array.from(scrollerRef.current.querySelectorAll("[data-member]"));
+    if (items.length === 0) return;
+
+    const scrollerRect = scrollerRef.current.getBoundingClientRect();
+    const scrollerCenter = scrollerRect.left + scrollerRect.width / 2;
+
+    let currentIndex = 0;
+    let minDistance = Infinity;
+
+    items.forEach((item, i) => {
+      const el = item as HTMLElement;
+      const rect = el.getBoundingClientRect();
+      const itemCenter = rect.left + rect.width / 2;
+      const distance = Math.abs(scrollerCenter - itemCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        currentIndex = i;
+      }
+    });
+
+    const nextIndex =
+      dir === "next"
+        ? Math.min(currentIndex + 1, items.length - 1)
+        : Math.max(currentIndex - 1, 0);
+
+    scrollToIndex(nextIndex);
+  }, [scrollerRef, scrollToIndex]);
+
+  const handleArrowClick = useCallback((dir: "prev" | "next") => {
+    autoStoppedRef.current = true;
+    scroll(dir);
+  }, [scroll]);
+
+  useEffect(() => {
+    if (!hasMultiple) return;
+    autoIntervalRef.current = setInterval(() => {
+      if (autoStoppedRef.current) return;
+      const el = scrollerRef.current;
+      if (!el) return;
+      const atEnd = el.scrollLeft >= el.scrollWidth - el.clientWidth - 1;
+      if (atEnd) {
+        scrollToIndex(0);
+      } else {
+        scroll("next");
+      }
+    }, 4000);
+    return () => {
+      if (autoIntervalRef.current) clearInterval(autoIntervalRef.current);
+    };
+  }, [hasMultiple, scroll, scrollToIndex]);
 
   if (!team.heading && team.members.length === 0 && !team.closingStatement) {
     return null;
@@ -148,8 +200,15 @@ export function Team({ data }: { data?: TeamData }) {
           >
             {team.members.map((member, i) => {
               const portraitUrl = member.portrait
-                ? urlForImage(member.portrait)?.width(858).height(1046).fit("crop").url()
-                : typeof member.portrait === 'string' ? member.portrait : null;
+                ? typeof member.portrait === 'string'
+                  ? member.portrait
+                  : (() => {
+                      const { crop, hotspot, ...rest } = member.portrait as Record<string, unknown>;
+                      void crop;
+                      void hotspot;
+                      return urlForImage(rest)?.width(858).fit("clip").url();
+                    })()
+                : null;
 
               return (
                 <div
@@ -159,6 +218,28 @@ export function Team({ data }: { data?: TeamData }) {
                 >
                   <div className="flex min-w-0 flex-1 flex-col justify-between">
                     <div className="flex min-w-0 w-full flex-col gap-12 pb-20 md:gap-16 md:py-6 md:pb-20 lg:pr-12">
+                      {hasMultiple && (
+                        <div className="flex lg:hidden items-center gap-3">
+                          <button
+                            type="button"
+                            aria-label="Previous team member"
+                            onClick={() => handleArrowClick("prev")}
+                            disabled={!canScrollPrev}
+                            className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                          >
+                            <TeamArrowLeft color={arrowColor} />
+                          </button>
+                          <button
+                            type="button"
+                            aria-label="Next team member"
+                            onClick={() => handleArrowClick("next")}
+                            disabled={!canScrollNext}
+                            className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                          >
+                            <TeamArrowRight color={arrowColor} />
+                          </button>
+                        </div>
+                      )}
                       <div className="flex min-w-0 flex-col gap-12 text-left">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col">
@@ -177,64 +258,22 @@ export function Team({ data }: { data?: TeamData }) {
                           </p>
                         </div>
                       </div>
-                      {hasMultiple && (
-                        <div className="hidden lg:flex items-center gap-3">
-                          <button
-                            type="button"
-                            aria-label="Previous team member"
-                            onClick={() => scroll("prev")}
-                            className="group flex size-12 items-center justify-center transition-colors"
-                          >
-                            <TeamArrowLeft key={arrowColor} color={arrowColor} />
-                          </button>
-                          <button
-                            type="button"
-                            aria-label="Next team member"
-                            onClick={() => scroll("next")}
-                            className="group flex size-12 items-center justify-center transition-colors"
-                          >
-                            <TeamArrowRight key={arrowColor} color={arrowColor} />
-                          </button>
-                        </div>
-                      )}
                     </div>
                   </div>
 
                   <div className="relative w-full max-w-[360px] self-center lg:self-start lg:max-w-none lg:w-108">
-                    {hasMultiple && (
-                      <div className="pointer-events-none absolute -top-20 right-0 z-20 flex items-center gap-3 py-6 lg:hidden">
-                        <button
-                          type="button"
-                          aria-label="Previous team member"
-                          onClick={() => scroll("prev")}
-                          className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
-                        >
-                          <TeamArrowLeft key={arrowColor} color={arrowColor} />
-                        </button>
-                        <button
-                          type="button"
-                          aria-label="Next team member"
-                          onClick={() => scroll("next")}
-                          className="pointer-events-auto group flex size-12 items-center justify-center transition-colors"
-                        >
-                          <TeamArrowRight key={arrowColor} color={arrowColor} />
-                        </button>
-                      </div>
-                    )}
                     <div className="relative aspect-square w-full max-w-[360px] shrink-0 overflow-hidden bg-white dark:bg-dark lg:max-w-none lg:w-108">
                       <BinaryGlitchField key={`${i}-${animKeys[i] ?? 0}`} isDark={isDarkTheme} />
                       <div className="absolute inset-0" />
                       {portraitUrl && (
                         <div className="absolute inset-0 z-10 overflow-hidden">
-                          <div className="relative size-full">
-                            <Image
-                              src={portraitUrl}
-                              alt={member.name}
-                              className="object-contain"
-                              fill
-                              sizes="(min-width: 1024px) 432px, 100vw"
-                            />
-                          </div>
+                          <Image
+                            src={portraitUrl}
+                            alt={member.name}
+                            className="object-contain"
+                            fill
+                            sizes="(min-width: 1024px) 432px, 100vw"
+                          />
                         </div>
                       )}
                     </div>
@@ -243,6 +282,33 @@ export function Team({ data }: { data?: TeamData }) {
               );
             })}
           </div>
+
+          {hasMultiple && (
+            <>
+              {/* Desktop/Laptop (lg+) - bottom left, moved lower to avoid text overlap */}
+              <div className="hidden lg:flex absolute bottom-4 left-0 z-10 items-center gap-3">
+                <button
+                  type="button"
+                  aria-label="Previous team member"
+                  onClick={() => handleArrowClick("prev")}
+                  disabled={!canScrollPrev}
+                  className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                >
+                  <TeamArrowLeft color={arrowColor} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="Next team member"
+                  onClick={() => handleArrowClick("next")}
+                  disabled={!canScrollNext}
+                  className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                >
+                  <TeamArrowRight color={arrowColor} />
+                </button>
+              </div>
+
+            </>
+          )}
         </div>
 
         {team.closingStatement && (

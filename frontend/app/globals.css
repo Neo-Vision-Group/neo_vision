@@ -78,13 +78,14 @@
 
 /* Dot: default state — matches section bg so it looks like a cutout on the line */
 .story-tick-dot {
-  width: 10px;
-  height: 10px;
-  border-color: rgba(128, 128, 128, 0.4);
-  background-color: #ffffff;
+  width: 16px;
+  height: 16px;
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .dark .story-tick-dot {
-  background-color: #040404;
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Dot: lit (passed by fill line) */
@@ -95,8 +96,8 @@
 
 /* Dot: active (centered) — larger + glow */
 .story-tick-dot[data-active="true"] {
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   border-color: var(--brand);
   background-color: var(--brand);
   box-shadow: 0 0 24px rgba(255, 80, 10, 0.9);
@@ -189,8 +190,16 @@
 
 @utility no-scrollbar {
   -ms-overflow-style: none;
-  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Case study card: image container expands to aspect-video on hover.
+   JS sets --img-height on the image container; CSS calculates the target width. */
+@media (min-width: 1024px) {
+  .group:hover .case-study-card-image {
+    /* width = height * (16/9) for aspect-video */
+    width: calc(var(--img-height, 300px) * 16 / 9);
   }
 }

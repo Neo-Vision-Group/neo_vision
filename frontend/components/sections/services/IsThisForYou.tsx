@@ -9,6 +9,14 @@ const RevealOnScroll = dynamic(
   { ssr: false }
 );
 
+const SplitTextReveal = dynamic(
+  () =>
+    import("@/components/partials/motion/SplitTextReveal").then(
+      (mod) => mod.SplitTextReveal
+    ),
+  { ssr: false }
+);
+
 export type IsThisForYouData = {
   eyebrow?: string;
   heading?: string;
@@ -28,9 +36,15 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
     <SectionsWrapper eyebrow={eyebrow}>
       <div className="flex flex-col gap-12">
         {heading ? (
-          <h2 className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14">
+          <SplitTextReveal
+            as="h2"
+            type="words"
+            stagger={0.04}
+            colorReveal
+            className="text-[28px] leading-12 tracking-[-0.3px] text-foreground md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14"
+          >
             {heading}
-          </h2>
+          </SplitTextReveal>
         ) : null}
         {items.length > 0 ? (
           <RevealOnScroll

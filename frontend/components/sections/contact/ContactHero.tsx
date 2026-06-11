@@ -7,6 +7,8 @@ import { HeroStats, type HeroStat } from "@/components/sections/contact/HeroStat
 import { cleanStega } from "@/sanity/lib/utils";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "@/components/partials/motion/gsap-setup";
+import { ContactFormSection } from "./ContactFormSection";
+import { AnimatedBorder } from "@/components/AnimatedBorder";
 
 export type ContactHeroData = {
   eyebrow?: string;
@@ -30,14 +32,9 @@ type LegacyHeadingFormat = {
   bold?: string;
 };
 
-import { ContactFormSection } from "./ContactFormSection";
-import { AnimatedBorder } from "@/components/AnimatedBorder";
-
 export function ContactHero({ data }: { data?: ContactHeroData }) {
   const cleanData = data ? cleanStega(data) : data;
 
-  const [activeTab, setActiveTab] = useState<"message" | "call">("message");
-  const [messageTabHovered, setMessageTabHovered] = useState(false);
   const [callTabHovered, setCallTabHovered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const stepsWrapperRef = useRef<HTMLDivElement>(null);
@@ -120,7 +117,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
 
             {/* Timeline steps */}
             {steps.length > 0 && (
-              <div ref={stepsWrapperRef} className="relative flex flex-col gap-0">
+              <div ref={stepsWrapperRef} className="relative flex flex-col gap-10">
                 {/* Single continuous line spanning first dot to last dot */}
                 {steps.length > 1 && (
                   <div className="absolute left-[5.5px] top-[22px] bottom-[22px] w-px bg-black/20 dark:bg-white/20 -translate-x-1/2">
@@ -164,59 +161,32 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
             <div className="flex gap-6">
               <button
                 type="button"
-                onClick={() => { setActiveTab("message"); setMessageTabHovered(false); }}
-                onMouseEnter={() => setMessageTabHovered(true)}
-                onMouseLeave={() => setMessageTabHovered(false)}
-                className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300",
-                  activeTab === "message" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
-                )}
+                className="relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300 bg-brand/30"
               >
-                {activeTab !== "message" && <AnimatedBorder isHovered={messageTabHovered} />}
                 Send a message
-                {activeTab === "message" && (
-                  <>
-                    <div className="absolute -left-1.25 -right-1.25 -top-px h-px bg-brand" />
-                    <div className="absolute -bottom-px -left-1.25 -right-1.25 h-px bg-brand" />
-                    <div className="absolute -left-px -top-1.25 -bottom-1.25 w-px bg-brand" />
-                    <div className="absolute -right-px -top-1.25 -bottom-1.25 w-px bg-brand" />
-                  </>
-                )}
+                <div className="absolute -left-1.25 -right-1.25 -top-px h-px bg-brand" />
+                <div className="absolute -bottom-px -left-1.25 -right-1.25 h-px bg-brand" />
+                <div className="absolute -left-px -top-1.25 -bottom-1.25 w-px bg-brand" />
+                <div className="absolute -right-px -top-1.25 -bottom-1.25 w-px bg-brand" />
               </button>
               <button
                 type="button"
-                onClick={() => { setActiveTab("call"); setCallTabHovered(false); }}
+                onClick={() => {
+                  setCallTabHovered(false);
+                  document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+                }}
                 onMouseEnter={() => setCallTabHovered(true)}
                 onMouseLeave={() => setCallTabHovered(false)}
-                className={cn(
-                  "relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300",
-                  activeTab === "call" ? "bg-brand/30" : "bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
-                )}
+                className="relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300 bg-[#e8e8e8] hover:bg-brand/20 dark:bg-[#0f0f0f] dark:hover:bg-brand/20"
               >
-                {activeTab !== "call" && <AnimatedBorder isHovered={callTabHovered} />}
+                <AnimatedBorder isHovered={callTabHovered} />
                 Book a call
-                {activeTab === "call" && (
-                  <>
-                    <div className="absolute -left-1.25 -right-1.25 -top-px h-px bg-brand" />
-                    <div className="absolute -bottom-px -left-1.25 -right-1.25 h-px bg-brand" />
-                    <div className="absolute -left-px -top-1.25 -bottom-1.25 w-px bg-brand" />
-                    <div className="absolute -right-px -top-1.25 -bottom-1.25 w-px bg-brand" />
-                  </>
-                )}
               </button>
             </div>
 
-            {activeTab === "message" ? (
-              <div>
-                <ContactFormSection formConfig={cleanData?.formConfig} />
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4 p-8">
-                <p className="font-funnel text-[18px] text-black/70 dark:text-[#efefef]/70">
-                  Calendar booking integration coming soon.
-                </p>
-              </div>
-            )}
+            <div>
+              <ContactFormSection formConfig={cleanData?.formConfig} />
+            </div>
           </div>
         </div>
 

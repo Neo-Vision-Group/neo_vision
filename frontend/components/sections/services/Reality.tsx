@@ -122,7 +122,7 @@ export function Reality({data}: {data?: RealityData}) {
                         />
                       </div>
                       {point.title ? (
-                        <h3 className="font-betatron text-[30px] leading-[1.2] text-brand md:text-4xl">
+                        <h3 className="font-funnel text-[30px] leading-[1.2] text-brand md:text-4xl">
                           {point.title}
                         </h3>
                       ) : null}

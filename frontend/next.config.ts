@@ -36,18 +36,6 @@ const nextConfig: NextConfig = {
 
   allowedDevOrigins: ['*.trycloudflare.com'],
 
-  skipTrailingSlashRedirect: true,
-
-  async redirects() {
-    return [
-      {
-        source: '/:path+/',
-        destination: '/:path+',
-        permanent: true,
-      },
-    ];
-  },
-
   async rewrites() {
     return [
       {

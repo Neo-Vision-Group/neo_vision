@@ -91,6 +91,7 @@ export function Hero({ data }: { data?: HeroData }) {
           duration={0.8}
           delay={0.7}
           stagger={0.15}
+          start="top bottom"
           className="flex w-full max-w-165.25 flex-col gap-5 md:gap-6"
         >
           <div className="flex flex-col gap-2 text-foreground">
@@ -122,6 +123,7 @@ export function Hero({ data }: { data?: HeroData }) {
             as="div"
             from="bottom"
             distance={16}
+            start="top bottom"
             className="flex pb-3 px-6 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16 2xl:pl-30"
           >
             {hero.stats ? (
@@ -142,7 +144,6 @@ export function Hero({ data }: { data?: HeroData }) {
               type="words"
               stagger={0.015}
               duration={0.9}
-              scrollTriggered
               className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
@@ -152,7 +153,8 @@ export function Hero({ data }: { data?: HeroData }) {
               from="right"
               distance={24}
               delay={0.15}
-              className="flex shrink-0 w-full flex-col items-start gap-6 md:gap-[18px] md:items-end"
+              start="top bottom"
+              className="flex shrink-0 w-full md:w-auto flex-col items-start gap-6 md:gap-[18px] md:items-end"
             >
               <PortableTextRenderer
                 value={hero.mergerNote}

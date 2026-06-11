@@ -63,6 +63,15 @@ export const freeResources = defineType({
               type: 'url',
               description: 'Use if the resource is hosted elsewhere.',
             }),
+            defineField({
+              name: 'emailIt',
+              title: 'Email this resource',
+              type: 'boolean',
+              options: {
+                layout: 'checkbox' 
+              },
+              description: 'Check this box if you want this resource to be sent through email instead of directly accessed.'
+            })
           ],
         }),
       ],
