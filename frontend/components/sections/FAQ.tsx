@@ -73,7 +73,7 @@ export function FAQ({ data }: { data?: FaqData }) {
                 key={item.question}
                 onClick={() => setOpenIdx(open ? null : idx)}
                 className={cn(
-                  "group relative isolate overflow-hidden bg-white-dark dark:bg-dark-light transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40",
+                  "group relative isolate overflow-hidden bg-black/4 dark:bg-dark-light transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40",
                   open ? "border border-brand": "border border-decoration-dark dark:border-decoration-light",
                   "cursor-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSIxNCIgZmlsbD0iI2ZmNDEwMCIgLz4KICA8cGF0aCBkPSJNMTYgMTBWMjJNMTAgMTZIMjIiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPg==')_16_16,pointer]"
                 )}

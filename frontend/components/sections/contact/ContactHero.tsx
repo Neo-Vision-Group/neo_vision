@@ -190,7 +190,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           </div>
         </div>
 
-        <div className="w-full border-t border-black/10 dark:border-white/20">
+        <div className="w-full border-t pt-3 border-black/10 dark:border-white/20">
           <HeroStats stats={stats} delay={0.15} variant="contactDark" />
         </div>
       </div>

@@ -136,7 +136,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
       className="has-hero-pattern relative isolate flex min-h-[calc(100dvh-4rem)] w-full flex-col bg-transparent"
     >
 
-      <div className="relative flex flex-col h-full justify-between gap-6 pt-6 md:gap-8 md:pt-8 lg:gap-10 lg:pt-12 overflow-hidden">
+      <div className="relative flex flex-col h-full justify-between gap-6 pt-6 md:gap-8 md:pt-8 lg:gap-20 lg:pt-12 overflow-hidden">
         <div className="xl:px-16 2xl:px-30 lg:px-16 md:px-8 px-6 md:gap-5 gap-3 flex flex-col">
           {breadcrumbItems.length > 0 ? (
             <RevealOnScroll

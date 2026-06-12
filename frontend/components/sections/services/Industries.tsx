@@ -71,7 +71,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                 getRightBorderClasses(index),
                             )}
                         >
-                            <article className="group relative isolate flex flex-1 flex-col gap-3 border border-black/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+                            <article className="group relative isolate flex flex-1 flex-col gap-3 border border-black/10 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 bg-black/4 dark:bg-[#0F0F0F]">
                                 <div
                                     aria-hidden="true"
                                     className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
