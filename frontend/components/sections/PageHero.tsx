@@ -146,7 +146,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
         {featured ? (
           <RevealOnScroll
             as="div"
-            className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
+            className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 lg:max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
             delay={0.35}
           >
             <FeaturedReferenceCard item={featured} variant="sidebar" />

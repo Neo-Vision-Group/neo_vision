@@ -85,7 +85,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                         style={{ background: "#7a1a00" }}
                                     />
                                 </div>
-                                <h3 className="text-4xl leading-[1.05] font-clash text-brand font-medium sm:text-[40px] 2xl:text-5xl">{item.industry}</h3>
+                                <h3 className="md:text-3xl lg:text-4xl leading-[1.05] font-clash text-brand font-medium sm:text-[40px] 2xl:text-5xl">{item.industry}</h3>
                                 <p className="text-body-2 text-foreground/70">{item.description}</p>
                             </article>
                         </div>

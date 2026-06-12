@@ -71,7 +71,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               ))
           : null}
         {issues.length > 0 ? (
-          <div className="border-t border-black/15 dark:border-white/15">
+          <div className="mt-auto border-t border-black/15 dark:border-white/15">
             <RevealOnScroll
               as="div"
               stagger={0.06}
@@ -80,7 +80,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               {issues.map((iss, idx) => (
                 <article
                   key={(iss.tag ?? "iss") + idx}
-                  className="border-b border-r border-black/15 p-6 dark:border-white/15"
+                  className="border-b border-r border-black/15 p-6 dark:border-white/15 last:odd:col-span-full"
                 >
                   <div className="group relative isolate flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f]">
                     <div
@@ -90,7 +90,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                       <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                       <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                     </div>
-                    <span className="font-clash text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
+                    <span className="font-clash text-3xl lg:text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                       {iss.tag}
                     </span>
                     <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">

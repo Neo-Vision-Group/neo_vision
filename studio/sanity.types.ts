@@ -228,7 +228,7 @@ export type Steps = {
   highlight: string
   items: Array<{
     title: string
-    duration: string
+    duration?: string
     body: string
     _key: string
   }>
@@ -290,6 +290,7 @@ export type FreeResources = {
     description?: string
     file?: ResourceFile
     externalUrl?: string
+    emailIt?: boolean
     _type: 'resource'
     _key: string
   }>
@@ -491,7 +492,7 @@ export type InsightBlock = {
       _type: 'span'
       _key: string
     }>
-    style?: 'normal' | 'h3'
+    style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote'
     listItem?: 'bullet' | 'number'
     markDefs?: Array<{
       href?: string
@@ -1145,6 +1146,17 @@ export type Button = {
   link?: Link
 }
 
+export type ResourceRequest = {
+  _id: string
+  _type: 'resourceRequest'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  email?: string
+  resourceRequested?: string
+  receivedAt: string
+}
+
 export type ContactSubmission = {
   _id: string
   _type: 'contactSubmission'
@@ -1159,7 +1171,6 @@ export type ContactSubmission = {
   budget?: string
   hearAboutUs?: string
   message: string
-  source?: string
   receivedAt: string
   status?: 'new' | 'reviewed' | 'responded' | 'archived'
   notes?: string
@@ -1182,24 +1193,6 @@ export type Testimonial = {
     _type: 'image'
   }
   rating?: number
-}
-
-export type Person = {
-  _id: string
-  _type: 'person'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  firstName: string
-  lastName: string
-  picture: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
 }
 
 export type SeoSettings = {
@@ -1908,6 +1901,7 @@ export type Service = {
   _updatedAt: string
   _rev: string
   name: string
+  description: string
   price: string
   category: 'engineering' | 'ai'
   tag: string
@@ -2408,9 +2402,9 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Button
+  | ResourceRequest
   | ContactSubmission
   | Testimonial
-  | Person
   | SeoSettings
   | SiteSettings
   | InsightCategoryReference

@@ -166,23 +166,23 @@ export function ResourceRequestPopUp({
               damping: 28,
               mass: 1,
             }}
-            className="relative z-10 w-full max-w-[560px] bg-[#040404] p-12 border border-1 border-brand"
+            className="relative z-10 mx-4 w-full max-w-[560px] bg-white p-6 sm:p-8 lg:p-12 border border-1 border-brand"
           >
             {/* Content */}
         <div className="flex flex-col gap-6">
           {/* Header */}
           <div className="flex flex-col gap-2.5">
-            <h2 className="font-funnel text-2xl font-bold leading-[1.2] text-[#efefef]">
+            <h2 className="font-funnel text-2xl font-bold leading-[1.2] text-dark">
               Get the {resourceName}
             </h2>
-            <p className="font-funnel text-lg leading-[1.5] tracking-normal text-[#efefef]">
+            <p className="font-funnel text-lg leading-[1.5] tracking-normal text-dark/80">
               Drop your email and we'll send the {resourceName} straight to your inbox.
             </p>
           </div>
 
           {success ? (
-            <div className="rounded bg-green-500/20 px-6 py-4 text-center">
-              <p className="font-funnel text-lg text-green-400">
+            <div className="rounded bg-green-500/10 px-6 py-4 text-center border border-green-500/30">
+              <p className="font-funnel text-lg text-green-600">
                 Resource sent! Check your inbox.
               </p>
             </div>
@@ -190,7 +190,7 @@ export function ResourceRequestPopUp({
             <form onSubmit={onFormSubmit} className="flex flex-col gap-6">
               {/* Email Input */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="email" className="font-funnel text-sm leading-[1.2] text-[#efefef]">
+                <label htmlFor="email" className="font-funnel text-sm leading-[1.2] text-dark">
                   E-mail*
                 </label>
                 <input
@@ -198,7 +198,7 @@ export function ResourceRequestPopUp({
                   type="email"
                   placeholder="email@gmail.com"
                   disabled={isSubmitting}
-                  className="w-full bg-[#0f0f0f] px-6 py-3 font-funnel text-lg leading-[1.5] tracking-normal text-[#efefef] placeholder:text-[#efefef]/70 focus:outline-none focus:ring-2 focus:ring-[#ff4100] disabled:opacity-50"
+                  className="w-full bg-white-dark px-4 sm:px-6 py-3 font-funnel text-lg leading-[1.5] tracking-normal text-dark placeholder:text-dark/50 focus:outline-none focus:ring-2 focus:ring-brand disabled:opacity-50"
                   {...register('email')}
                 />
                 {errors.email && (

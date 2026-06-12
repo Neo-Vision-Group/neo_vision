@@ -97,7 +97,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Image — 16:9, sits at the bottom, gets clipped by section overflow-hidden */}
       {imageUrl ? (
-        <div className="relative mt-auto shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30 mb-10 lg:mb-0" style={{ aspectRatio: "16 / 9" }}>
+        <div className="relative shrink-0 mx-6 md:mx-8 lg:mx-12 xl:mx-12 2xl:mx-30 mb-10 lg:mb-0" style={{ aspectRatio: "16 / 9" }}>
           <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
             <Image
               src={imageUrl}
@@ -118,16 +118,10 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
 
       {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
-        <div className="relative z-20 p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
-          <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
-            {details.map((item, index) => (
-              <div key={item._key ?? `${item.label}-${item.value}`} className="contents">
-                {index > 0 ? (
-                  <div
-                    aria-hidden="true"
-                    className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
-                  />
-                ) : null}
+        <div className="relative z-20 mt-auto p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
+            {details.map((item, idx, arr) => (
+              <div key={item._key ?? `${item.label}-${item.value}`} className={cn("h-full", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
                 <HighlightCard card={item} />
               </div>
             ))}
@@ -232,7 +226,7 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex h-full min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}

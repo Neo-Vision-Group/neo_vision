@@ -186,7 +186,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               {resolvedHeadlineLines.length > 0 ? (
                 <RevealOnScroll
                   as="h1"
-                  className="font-funnel leading-none tracking-[-0.8px] text-foreground md:text-[32px]! md:tracking-[-0.9px] lg:text-[48px]! xl:text-[72px]! 2xl:text-[96px]! lg:tracking-[-1px]"
+                  className="font-funnel leading-none tracking-[-0.8px] text-foreground md:text-[48px]! md:tracking-[-0.9px] lg:text-[48px]! xl:text-[72px]! 2xl:text-[96px]! lg:tracking-[-1px]"
                 >
                   {resolvedHeadlineLines.map((line, index) => (
                     <span key={`${line}-${index}`} className="block">
