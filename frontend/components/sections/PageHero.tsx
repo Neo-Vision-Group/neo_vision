@@ -112,7 +112,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           {subheading ? (
             <RevealOnScroll
               as="p"
-              className="max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
+              className="lg:max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
               delay={0.15}
             >
               {subheading}
@@ -120,7 +120,7 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           ) : null}
 
           {stats && stats.length > 0 ? (
-            <div className="mt-auto w-full border-t border-black/10 p-3 dark:border-white/20">
+            <div className="mt-auto w-full border-t border-black/10 p-6 dark:border-white/20">
               <RevealOnScroll
                 as="div"
                 className="flex flex-col gap-3 md:flex-row md:items-stretch"

@@ -68,8 +68,8 @@ export function Footer({
     <footer className="relative text-white w-full overflow-x-clip overflow-y-hidden border-t border-black/20 bg-brand dark:border-white/15 dark:bg-dark">
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
         <div className="relative z-10 flex min-w-0 flex-col items-center text-center justify-between gap-10 px-6 py-8 md:w-1/4 md:flex-none md:py-10 lg:px-12 lg:py-12 xl:px-16">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center gap-4 md:gap-2">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex items-center justify-center gap-4 md:gap-2">
               {logo ? (
                 <Image
                   src={logo}
@@ -91,17 +91,19 @@ export function Footer({
             </div>
             <p className="text-body text-white">From 1 to 10</p>
           </div>
-          <div className="flex w-full shrink-0 justify-center overflow-hidden">
-            <iframe
-              src="https://widget.clutch.co/widgets/get/9?ref_domain=neovision.group&uid=1165133&rel_nofollow=true&ref_path=/"
-              width="260"
-              height="92"
-              className="block max-w-full"
-              scrolling="no"
-              style={{ border: 'none', overflow: 'hidden', display: 'block' }}
-              title="Clutch Reviews"
-              loading="lazy"
-            />
+          <div className="w-full shrink-0">
+            <div className="mx-auto w-[120px] max-w-full overflow-hidden">
+              <iframe
+                src="https://widget.clutch.co/widgets/get/9?ref_domain=neovision.group&uid=1165133&rel_nofollow=true&ref_path=/"
+                width="120"
+                height="90"
+                className="block h-[90px] w-full"
+                scrolling="no"
+                style={{ border: 'none', overflow: 'hidden', display: 'block' }}
+                title="Clutch Reviews"
+                loading="lazy"
+              />
+            </div>
           </div>
           <div className="flex flex-col items-center gap-4">
             <p className="text-body-2 text-white">{copyright}</p>

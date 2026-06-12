@@ -67,7 +67,7 @@ export function Industries({ data }: { data: IndustryData }) {
                         <div
                             key={(item.industry ?? "ind") + index}
                             className={cn(
-                                "border-b border-black/20 dark:border-white/20 p-4 md:p-6 flex flex-col",
+                                "border-b border-black/20 dark:border-white/20 p-6 flex flex-col",
                                 getRightBorderClasses(index),
                             )}
                         >

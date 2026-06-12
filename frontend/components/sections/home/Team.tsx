@@ -72,14 +72,25 @@ export function Team({ data }: { data?: TeamData }) {
       setCanScrollNext(!atEnd);
     };
 
+    const handleUserScroll = () => {
+      if (!isProgrammaticScrollRef.current) {
+        autoStoppedRef.current = true;
+      }
+    };
+
     updateScrollState();
     el.addEventListener("scroll", updateScrollState, { passive: true });
-    return () => el.removeEventListener("scroll", updateScrollState);
+    el.addEventListener("scroll", handleUserScroll, { passive: true });
+    return () => {
+      el.removeEventListener("scroll", updateScrollState);
+      el.removeEventListener("scroll", handleUserScroll);
+    };
   }, [hasMultiple]);
 
   const scrollAnimRef = useRef<number>(0);
   const autoStoppedRef = useRef(false);
   const autoIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isProgrammaticScrollRef = useRef(false);
 
   const scrollToIndex = useCallback((targetIndex: number) => {
     if (!scrollerRef.current) return;
@@ -105,6 +116,7 @@ export function Team({ data }: { data?: TeamData }) {
 
     const el = scrollerRef.current;
     el.style.scrollSnapType = "none";
+    isProgrammaticScrollRef.current = true;
 
     const step = (now: number) => {
       if (!scrollerRef.current) return;
@@ -115,6 +127,7 @@ export function Team({ data }: { data?: TeamData }) {
         scrollAnimRef.current = requestAnimationFrame(step);
       } else {
         scrollerRef.current.style.scrollSnapType = "";
+        isProgrammaticScrollRef.current = false;
       }
     };
 
@@ -214,10 +227,10 @@ export function Team({ data }: { data?: TeamData }) {
                 <div
                   key={i}
                   data-member
-                  className="flex w-full shrink-0 snap-start flex-col gap-8 lg:flex-row lg:justify-between lg:items-stretch"
+                  className="flex w-full shrink-0 snap-start flex-col md:gap-8 lg:flex-row lg:justify-between lg:items-stretch"
                 >
                   <div className="flex min-w-0 flex-1 flex-col justify-between">
-                    <div className="flex min-w-0 w-full flex-col gap-12 pb-20 md:gap-16 md:py-6 md:pb-20 lg:pr-12">
+                    <div className="flex min-w-0 w-full flex-col gap-12 pb-5 md:gap-16 md:py-6 md:pb-20 lg:pr-12">
                       {hasMultiple && (
                         <div className="flex lg:hidden items-center gap-3">
                           <button

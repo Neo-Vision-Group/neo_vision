@@ -78,7 +78,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[70px] font-clash dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
+            className="inline-block font-light uppercase text-[64px] font-clash dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>

@@ -11,7 +11,7 @@ export function InsightRelated({ related }: InsightRelatedProps) {
     <section id="related" className="py-16">
       <div>
         <div className="border-t border-black/10 dark:border-white/10" />
-        <div className="px-4 pt-12 md:px-6 lg:px-8 xl:px-10 2xl:px-30">
+        <div className="pt-12 px-6 lg:px-8 xl:px-10 2xl:px-30">
         <h2 className="mb-8 text-[36px] font-normal leading-[1.2] tracking-[-1px] text-foreground md:text-[44px]">
           <span className="font-bold">Keep reading.</span>
         </h2>

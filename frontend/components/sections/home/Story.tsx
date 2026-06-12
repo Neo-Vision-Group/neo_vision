@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -52,6 +52,44 @@ export function Story({ data }: { data?: StoryData }) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
 
+  if (!story.heading && story.milestones.length === 0) {
+    return null;
+  }
+
+  const hasMultiple = story.milestones.length > 1;
+  const canGoPrev = activeIndex > 0;
+  const canGoNext = activeIndex < story.milestones.length - 1;
+
+  // Touch state for swipe detection on text content
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+
+    const distance = touchStartX.current - touchEndX.current;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && canGoNext) {
+      swiper?.slideNext();
+    } else if (isRightSwipe && canGoPrev) {
+      swiper?.slidePrev();
+    }
+
+    touchStartX.current = null;
+    touchEndX.current = null;
+  };
+
   const isDark = !mounted || resolvedTheme === "dark";
   const arrowColor = isDark ? "#efefef" : "#0f0f0f";
 
@@ -74,14 +112,6 @@ export function Story({ data }: { data?: StoryData }) {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [swiper]);
-
-  if (!story.heading && story.milestones.length === 0) {
-    return null;
-  }
-
-  const hasMultiple = story.milestones.length > 1;
-  const canGoPrev = activeIndex > 0;
-  const canGoNext = activeIndex < story.milestones.length - 1;
 
   return (
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
@@ -165,24 +195,27 @@ export function Story({ data }: { data?: StoryData }) {
               </button>
             )}
 
-            {/* Text Content - funnel font, no card */}
+            {/* Text Content - funnel font, no card, with swipe support */}
             <div
-              className="relative min-h-[120px] md:min-h-[160px] flex-1 mx-16 md:mx-20"
+              className="relative min-h-[120px] md:min-h-[160px] flex-1 mx-16 md:mx-20 touch-pan-y"
               aria-live="polite"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
             >
               {story.milestones.map((m, idx) => (
                 <div
                   key={m.year}
                   className={cn(
-                    "absolute inset-0 transition-all duration-500 ease-out",
+                    "w-full transition-all duration-500 ease-out",
                     "font-funnel text-dark dark:text-white text-center",
-                    "flex items-center justify-center",
+                    "flex items-center justify-center p-4",
                     idx === activeIndex
                       ? "opacity-100 translate-y-0 z-10 pointer-events-auto"
-                      : "opacity-0 translate-y-10 z-0 pointer-events-none"
+                      : "opacity-0 translate-y-10 z-0 pointer-events-none absolute inset-0"
                   )}
                 >
-                  <p className="text-lg md:text-xl lg:text-2xl leading-relaxed">{m.body}</p>
+                  <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-full break-words">{m.body}</p>
                 </div>
               ))}
             </div>

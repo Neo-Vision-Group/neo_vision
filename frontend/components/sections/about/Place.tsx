@@ -64,8 +64,9 @@ export function Place({ data }: { data?: PlaceData }) {
         distance={24}
         className="w-full overflow-hidden"
       >
-        <div className="relative isolate flex w-full max-w-full aspect-4.5/2 min-h-70 items-end overflow-hidden bg-white dark:bg-[#040404] md:min-h-90 lg:min-h-105">
-          <div className="absolute inset-0 overflow-hidden" style={{ perspective: '800px' }}>
+        <div className="flex w-full flex-col bg-white dark:bg-[#040404] md:block md:relative md:isolate md:max-w-full md:aspect-[4.5/2] md:min-h-90 lg:min-h-105 md:overflow-hidden">
+          {/* Image area — full height on md+, fixed height on mobile */}
+          <div className="relative min-h-70 w-full overflow-hidden md:absolute md:inset-0 md:min-h-0" style={{ perspective: '800px' }}>
             <Image
               src="/images/map.min.svg"
               alt=""
@@ -83,7 +84,7 @@ export function Place({ data }: { data?: PlaceData }) {
           {/* City badge — flat overlay, not affected by the 3D map transform */}
           <div
             className="absolute z-10 flex items-center gap-3 pointer-events-none"
-            style={{ left: '54%', top: '24%' }}
+            style={{ left: '54%', top: '18%' }}
           >
             <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
               <span className="pin-pulse absolute rounded-full border-2 border-[#ff4100] opacity-80" style={{ width: 50, height: 50 }} />
@@ -101,14 +102,15 @@ export function Place({ data }: { data?: PlaceData }) {
           </div>
 
           <div
-            className="absolute inset-0 dark:[--place-fade:var(--color-dark,#040404)]"
+            className="hidden md:block absolute inset-0 dark:[--place-fade:var(--color-dark,#040404)]"
             style={{
               background:
                 'linear-gradient(180deg, var(--place-fade) 5.3%, transparent 30.5%), linear-gradient(0deg, var(--place-fade) 5.3%, transparent 24.4%)',
             }}
           />
 
-          <div className="relative z-10 flex w-full items-end justify-center px-6 pb-16 pt-24 md:px-10 md:pb-20 md:pt-28 lg:px-24 lg:pb-48 lg:pt-32">
+          {/* Text — below image on mobile, overlaid at bottom on md+ */}
+          <div className="relative z-10 flex w-full items-end justify-center px-6 py-10 md:absolute md:inset-0 md:pb-20 md:pt-28 md:px-10 lg:px-24 lg:pb-48 lg:pt-32">
             <p className="max-w-[18ch] text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-dark dark:text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
               {message}
             </p>

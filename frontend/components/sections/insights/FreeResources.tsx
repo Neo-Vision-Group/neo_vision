@@ -187,7 +187,7 @@ function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesD
   const {trigger, downloading} = useDownload(downloadUrl, item?.title ?? undefined)
 
   return (
-    <article className="h-full p-4 md:p-6">
+    <article className="h-full p-6">
       <div className="group flex h-full min-h-70 flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
         <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
           <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-90" />

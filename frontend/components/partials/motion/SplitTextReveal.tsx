@@ -105,6 +105,11 @@ export function SplitTextReveal({
           const split = SplitText.create(el, {
             type,
             mask: type,
+            linesClass: "split-line",
+          });
+          // Ensure mask line wrappers don't add extra spacing
+          el.querySelectorAll<HTMLElement>(".split-line").forEach((line) => {
+            line.style.lineHeight = "inherit";
           });
           const targets = type === "chars" ? split.chars : type === "words" ? split.words : split.lines;
 

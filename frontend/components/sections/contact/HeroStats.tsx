@@ -36,7 +36,7 @@ export function HeroStats({
       as="div"
       className={
         variant === "contactDark"
-          ? "flex flex-col gap-3 p-3 md:flex-row md:items-stretch md:gap-3"
+          ? "flex flex-col gap-3 md:flex-row md:items-stretch md:gap-3"
           : "flex flex-col gap-3 md:flex-row md:items-stretch"
       }
       stagger={0.1}

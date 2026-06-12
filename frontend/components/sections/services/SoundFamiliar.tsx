@@ -66,7 +66,7 @@ export function SoundFamiliar({ data }: { data?: SoundFamiliarData }) {
                 <div
                   key={(p.title ?? "pp") + idx}
                   className={cn(
-                    "p-4 md:p-6 border-b border-black/20 dark:border-white/20 flex flex-col",
+                    "p-6 border-b border-black/20 dark:border-white/20 flex flex-col",
                     (idx + 1) % 2 !== 0 && "md:border-r md:border-black/20 md:dark:border-white/20"
                   )}
                 >

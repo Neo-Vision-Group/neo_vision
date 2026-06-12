@@ -133,10 +133,10 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
   return (
     <section
       id="service-hero"
-      className="has-hero-pattern relative isolate flex min-h-[calc(100dvh-4rem)] md:h-[calc(100dvh-4rem)] w-full flex-col bg-transparent"
+      className="has-hero-pattern relative isolate flex min-h-[calc(100dvh-4rem)] w-full flex-col bg-transparent"
     >
 
-      <div className="relative flex flex-col gap-6 pt-6 md:h-full md:justify-between md:gap-8 md:pt-8 lg:gap-10 lg:pt-12 overflow-hidden">
+      <div className="relative flex flex-col h-full justify-between gap-6 pt-6 md:gap-8 md:pt-8 lg:gap-10 lg:pt-12 overflow-hidden">
         <div className="xl:px-16 2xl:px-30 lg:px-16 md:px-8 px-6 md:gap-5 gap-3 flex flex-col">
           {breadcrumbItems.length > 0 ? (
             <RevealOnScroll
@@ -186,7 +186,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               {resolvedHeadlineLines.length > 0 ? (
                 <RevealOnScroll
                   as="h1"
-                  className="font-funnel leading-none tracking-[-0.8px] text-foreground md:text-[48px]! md:tracking-[-0.9px] lg:text-[48px]! xl:text-[72px]! 2xl:text-[96px]! lg:tracking-[-1px]"
+                  className="font-funnel leading-none tracking-[-0.8px] text-foreground text-[48px]! md:tracking-[-0.9px] lg:text-[48px]! xl:text-[72px]! 2xl:text-[96px]! lg:tracking-[-1px]"
                 >
                   {resolvedHeadlineLines.map((line, index) => (
                     <span key={`${line}-${index}`} className="block">
@@ -200,7 +200,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
             {description ? (
               <RevealOnScroll
                 as="p"
-                className="max-w-170 font-funnel text-[14px] md:text-[16px] lg:text-[18px] leading-normal text-foreground/80 line-clamp-3 md:line-clamp-4"
+                className="max-w-170 font-funnel text-[14px] md:text-[16px] lg:text-[18px] leading-normal text-foreground/80"
               >
                 {description}
               </RevealOnScroll>
@@ -216,7 +216,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
               stagger={0.08}
               start="top 100%"
             >
-              {/* Mobile layout: 2-col grid for highlights + full-width CTA below */}
+              {/* Mobile layout: single column for highlights + full-width CTA below */}
               <div className="flex flex-col gap-2 pt-3 md:hidden">
                 {(() => {
                   const highlightItems = railItems.filter((i) => i.kind === "highlight");
@@ -224,7 +224,7 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
                   return (
                     <>
                       {highlightItems.length > 0 && (
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 gap-2">
                           {highlightItems.map((item) => (
                             <HighlightCard key={item.key} card={(item as Extract<RailItem, { kind: "highlight" }>).card} />
                           ))}

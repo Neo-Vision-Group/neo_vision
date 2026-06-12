@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -63,23 +64,21 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
       {/* Text content — padded */}
       <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-10 pb-6 md:gap-10 md:px-8 md:pt-12 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
         <div className="font-funnel text-[16px] leading-none text-black/65 dark:text-white/70 md:text-[18px]">
-          <span>Work</span>
+          <Link href="/portfolio" className="hover:text-black dark:hover:text-white transition-colors">Work</Link>
           <span className="px-2 text-brand">/</span>
           <span className="text-brand">{heading}</span>
         </div>
 
-        <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-10">
-          <div>
+        <div className="flex flex-col items-center gap-6 px-0 text-center md:gap-10">
+          <div className="flex flex-col gap-3 md:gap-4">
             {eyebrow ? (
               <p className="font-clash text-[24px] leading-none uppercase text-brand md:text-[28px]">
                 {eyebrow}
               </p>
             ) : null}
 
-            <SplitTextReveal as="h1" className="block w-full leading-[1.2]">
-              <span className="font-funnel text-[40px] leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
-                {heading}
-              </span>
+            <SplitTextReveal as="h1" className="block w-full font-funnel text-[40px] leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-[56px] lg:text-[96px]">
+              {heading}
             </SplitTextReveal>
           </div>
 
@@ -119,9 +118,9 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
       {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
       {details.length > 0 ? (
         <div className="relative z-20 mt-auto p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
             {details.map((item, idx, arr) => (
-              <div key={item._key ?? `${item.label}-${item.value}`} className={cn("h-full", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
+              <div key={item._key ?? `${item.label}-${item.value}`} className={cn("h-full lg:flex-1", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
                 <HighlightCard card={item} />
               </div>
             ))}
