@@ -166,7 +166,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
           <h1
             className="uppercase leading-[0.84] tracking-[-0.07em] text-foreground"
             style={{
-              fontFamily: 'var(--font-betatron)',
+              fontFamily: 'var(--font-clash)',
               fontSize: 'clamp(3.75rem, 11vw, 7.5rem)',
             }}
           >
@@ -189,7 +189,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
             <p
               className="min-w-14 text-right uppercase leading-none tracking-[-0.06em] text-foreground md:min-w-16"
               style={{
-                fontFamily: 'var(--font-betatron)',
+                fontFamily: 'var(--font-clash)',
                 fontSize: 'clamp(1.125rem, 2vw, 1.5rem)',
               }}
             >

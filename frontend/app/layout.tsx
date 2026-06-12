@@ -63,13 +63,6 @@ const funnelDisplay = Funnel_Display({
   preload: true,
 })
 
-const openingHoursMono = localFont({
-  src: './fonts/opening-hours-mono.woff2',
-  variable: '--font-opening-hours-mono',
-  display: 'swap',
-  preload: false,
-})
-
 const betatron = localFont({
   src: './fonts/betatron.woff2',
   variable: '--font-betatron',
@@ -82,6 +75,13 @@ const betatron = localFont({
         'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
     },
   ],
+})
+
+const clashDisplay = localFont({
+  src: './fonts/ClashDisplay-Variable.woff2',
+  variable: '--font-clash-display',
+  display: 'swap',
+  preload: true,
 })
 
 export const viewport: Viewport = {
@@ -104,7 +104,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${openingHoursMono.variable} bg-white text-black`}
+      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${clashDisplay.variable} bg-white text-black`}
       suppressHydrationWarning
     >
       <head>

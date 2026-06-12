@@ -115,7 +115,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
 
   const eyebrow = (
     <div className="flex flex-col items-start gap-5">
-      <p className="font-betatron dark:text-white text-black text-4xl leading-[1.2]">
+      <p className="font-clash dark:text-white text-black text-4xl leading-[1.2]">
         Category
       </p>
 

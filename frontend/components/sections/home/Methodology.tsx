@@ -154,7 +154,7 @@ function MethodologyCard({
       </div>
 
       <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/card-shell:-translate-y-0.5 md:p-8">
-        <span className="font-betatron text-5xl leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+        <span className="font-clash text-5xl leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
           {step.number}
         </span>
         <div className="flex flex-col">

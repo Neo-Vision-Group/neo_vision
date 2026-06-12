@@ -27,7 +27,7 @@ export function TestimonialQuote({
       >
         <span
           aria-hidden="true"
-          className="font-betatron text-5xl leading-none text-brand"
+          className="font-clash text-5xl leading-none text-brand"
         >
           &ldquo;
         </span>
@@ -56,7 +56,7 @@ export function TestimonialQuote({
       {/* Opening mark */}
       <span
         aria-hidden="true"
-        className="font-betatron text-64 leading-none text-brand md:text-[96px]"
+        className="font-clash text-64 leading-none text-brand md:text-[96px]"
       >
         &ldquo;
       </span>
@@ -70,7 +70,7 @@ export function TestimonialQuote({
       <figcaption className="flex flex-wrap items-center justify-between gap-4">
         <cite className="not-italic font-funnel text-body text-foreground">{attribution}</cite>
         {source ? (
-          <span className="inline-flex items-center gap-2 border border-white/20 px-3 py-1 font-betatron text-caption uppercase tracking-wider text-muted">
+          <span className="inline-flex items-center gap-2 border border-white/20 px-3 py-1 font-clash text-caption uppercase tracking-wider text-muted">
             {source}
           </span>
         ) : null}

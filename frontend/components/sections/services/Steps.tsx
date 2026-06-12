@@ -101,7 +101,7 @@ export function Steps({data}: {data?: StepsData}) {
                 <div className="px-0 pb-10 pl-4 md:pl-6 lg:px-8 lg:pb-14">
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center">
-                      <p className="font-betatron flex text-[44px] leading-none tracking-[-1px] text-brand md:text-[56px] md:leading-[1.2]">
+                      <p className="font-clash flex text-[44px] leading-none tracking-[-1px] text-brand md:text-[56px] md:leading-[1.2]">
                         {formatIndex(index)}.
                       </p>
 

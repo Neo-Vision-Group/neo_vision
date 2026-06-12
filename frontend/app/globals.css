@@ -2,6 +2,11 @@
 
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --font-clash: var(--font-clash-display), sans-serif;
+  --font-funnel: var(--font-funnel-display), sans-serif;
+}
+
 /* =========================================================================
  * CSS Variables for component theming (light/dark compatible)
  * ========================================================================= */
@@ -35,7 +40,7 @@
   }
 
   h3 {
-    @apply font-funnel text-3xl font-normal tracking-tight;
+    @apply text-3xl font-normal tracking-tight;
   }
 
   h4 {
@@ -80,12 +85,12 @@
 .story-tick-dot {
   width: 16px;
   height: 16px;
-  border-color: rgba(255, 255, 255, 0.5);
-  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(4, 4, 4, 0.4);
+  background-color: #ffffff;
 }
 .dark .story-tick-dot {
   border-color: rgba(255, 255, 255, 0.5);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--dark);
 }
 
 /* Dot: lit (passed by fill line) */
@@ -201,5 +206,192 @@
   .group:hover .case-study-card-image {
     /* width = height * (16/9) for aspect-video */
     width: calc(var(--img-height, 300px) * 16 / 9);
+  }
+}
+
+/* =========================================================================
+ * Animated Theme Toggle
+ * ========================================================================= */
+.theme-toggle {
+  --size: 24px;
+  --speed: 0.60s;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --accent: #FF4100;
+
+  width: var(--size);
+  height: var(--size);
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.18s var(--ease-out);
+}
+
+@media (min-width: 1024px) {
+  .theme-toggle {
+    --size: 28px;
+  }
+}
+
+.theme-toggle:hover {
+  transform: scale(1.06);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(255, 65, 0, 0.45);
+  border-radius: 4px;
+}
+
+.theme-toggle__inner {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+@media (min-width: 1024px) {
+  .theme-toggle__inner {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.theme-toggle .icon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--accent);
+  transition:
+    opacity var(--speed) var(--ease-out),
+    transform var(--speed) var(--spring);
+}
+
+@keyframes theme-toggle-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes theme-toggle-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes theme-toggle-sun-to-dark {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(90deg) scale(0);
+  }
+}
+
+@keyframes theme-toggle-moon-to-dark {
+  from {
+    transform: rotate(-90deg) scale(0);
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes theme-toggle-sun-to-light {
+  from {
+    transform: rotate(90deg) scale(0);
+  }
+  to {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+@keyframes theme-toggle-moon-to-light {
+  from {
+    transform: rotate(0deg) scale(1);
+  }
+  to {
+    transform: rotate(-90deg) scale(0);
+  }
+}
+
+.theme-toggle .icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .theme-toggle .icon svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.theme-toggle[data-anim="bloom"][data-theme="light"] .icon--sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle[data-anim="bloom"][data-theme="light"] .icon--moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0);
+}
+
+.theme-toggle[data-anim="bloom"][data-theme="dark"] .icon--sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0);
+}
+
+.theme-toggle[data-anim="bloom"][data-theme="dark"] .icon--moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle[data-anim="bloom"][data-transitioning="true"][data-direction="to-dark"] .icon--sun {
+  animation:
+    theme-toggle-fade-out var(--speed) var(--ease-out) both,
+    theme-toggle-sun-to-dark var(--speed) var(--spring) both;
+}
+
+.theme-toggle[data-anim="bloom"][data-transitioning="true"][data-direction="to-dark"] .icon--moon {
+  animation:
+    theme-toggle-fade-in var(--speed) var(--ease-out) both,
+    theme-toggle-moon-to-dark var(--speed) var(--spring) both;
+}
+
+.theme-toggle[data-anim="bloom"][data-transitioning="true"][data-direction="to-light"] .icon--sun {
+  animation:
+    theme-toggle-fade-in var(--speed) var(--ease-out) both,
+    theme-toggle-sun-to-light var(--speed) var(--spring) both;
+}
+
+.theme-toggle[data-anim="bloom"][data-transitioning="true"][data-direction="to-light"] .icon--moon {
+  animation:
+    theme-toggle-fade-out var(--speed) var(--ease-out) both,
+    theme-toggle-moon-to-light var(--speed) var(--spring) both;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .theme-toggle .icon {
+    transition-duration: 0.001ms !important;
+  }
+
+  .theme-toggle .icon {
+    animation-duration: 0.001ms !important;
   }
 }

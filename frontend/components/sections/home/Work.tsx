@@ -223,7 +223,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
             <span className="text-caption tracking-[-0.16px]">
               Date
             </span>
-            <span className="font-betatron text-4xl leading-12 tracking-[-0.2px] text-foreground">
+            <span className="font-clash text-4xl leading-12 tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>
@@ -250,7 +250,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
               />
             ) : item.imageUrl ? (
               <div className="flex h-full w-full items-center justify-center bg-muted-light dark:bg-muted-dark">
-                <span className="font-betatron text-4xl text-brand opacity-50">NV</span>
+                <span className="font-clash text-4xl text-brand opacity-50">NV</span>
               </div>
             ) : null}
           </div>

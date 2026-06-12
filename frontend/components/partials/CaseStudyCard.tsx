@@ -139,7 +139,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
                   {item.metricLabel}
                 </p>
               ) : null}
-              <p className="font-betatron text-[28px] leading-[1.2] tracking-[-1px] md:text-4xl">
+              <p className="font-clash text-[28px] leading-[1.2] tracking-[-1px] md:text-4xl">
                 {item.metric}
               </p>
             </div>
@@ -165,7 +165,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
               </p>
             ) : null}
             {item.industry && !item.category ? (
-              <p className="font-betatron text-3 uppercase tracking-wider text-black/55 dark:text-[#efefef]/55">
+              <p className="font-clash text-3 uppercase tracking-wider text-black/55 dark:text-[#efefef]/55">
                 {item.industry}
               </p>
             ) : null}

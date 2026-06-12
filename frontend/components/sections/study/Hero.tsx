@@ -71,7 +71,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
         <div className="flex flex-col items-center gap-4 px-0 text-center md:gap-10">
           <div>
             {eyebrow ? (
-              <p className="font-betatron text-[24px] leading-none uppercase text-brand md:text-[28px]">
+              <p className="font-clash text-[24px] leading-none uppercase text-brand md:text-[28px]">
                 {eyebrow}
               </p>
             ) : null}

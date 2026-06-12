@@ -89,7 +89,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
           ) : card.label ? (
             <p
               className={cn(
-                "font-betatron uppercase text-caption tracking-[-0.16px]",
+                "font-clash uppercase text-caption tracking-[-0.16px]",
                 card.kind === "ai" ? "text-brand" : "text-foreground"
               )}
             >

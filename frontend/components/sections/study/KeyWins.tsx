@@ -155,7 +155,7 @@ export function StudyKeyWins({ data }: { data?: StudyKeyWinsData }) {
 
               <div className="relative flex flex-col gap-10">
                 <div className="flex flex-col gap-4">
-                  <span className="font-betatron text-caption uppercase tracking-[-0.16px] text-black/55 dark:text-white/50">
+                  <span className="font-clash text-caption uppercase tracking-[-0.16px] text-black/55 dark:text-white/50">
                     {card.key === "before" ? "Before" : "After"}
                   </span>
                   <h3

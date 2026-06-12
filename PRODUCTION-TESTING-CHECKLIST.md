@@ -74,7 +74,7 @@ This document lists all features, integrations, and security measures that must 
 ### First-Visit Loading Experience
 - [ ] **Intro plays on first visit** — Clear session storage, reload
 - [ ] **Intro skipped on subsequent visits** — Reload page, verify no intro
-- [ ] **Betatron progress bar animates** — Watch loading percentage
+- [ ] **clash progress bar animates** — Watch loading percentage
 - [ ] **Hero background reused** — Verify no duplicate `hero.mp4` elements
 
 ### Page Transitions

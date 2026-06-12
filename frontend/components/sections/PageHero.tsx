@@ -75,16 +75,17 @@ export function PageHero({ data }: { data?: PageHeroData }) {
     >
 
       <div className={cn(
-        "flex h-full bg-none",
+        "flex flex-1 bg-none",
         featured ? "flex-col lg:items-stretch" : "flex-col"
       )}>
         <div className={cn(
-          "flex flex-1 flex-col justify-start gap-10 py-8 md:gap-14 md:py-20",
-          featured ? "lg:py-12 xl:py-14 2xl:py-16" : "lg:py-28 xl:py-16 2xl:py-20"
+          "flex flex-1 flex-col gap-10 py-8 md:gap-14 md:py-20",
+          featured ? "lg:py-12 xl:py-14 2xl:py-16 justify-start" : "lg:py-28 xl:py-16 2xl:py-20",
+          !featured && !stats?.length ? "justify-center" : "justify-start"
         )}>
           <div className="px-6 lg:px-8 xl:px-12 2xl:px-30">
             {eyebrow ? (
-              <p className="font-betatron text-4xl leading-[1.2] uppercase text-brand">
+              <p className="font-clash text-4xl leading-[1.2] uppercase text-brand">
                 {eyebrow}
               </p>
             ) : null}
@@ -119,13 +120,13 @@ export function PageHero({ data }: { data?: PageHeroData }) {
           ) : null}
 
           {stats && stats.length > 0 ? (
-            <RevealOnScroll
-              as="div"
-              className="mt-auto flex w-full flex-col border-t border-black/10 pt-3 dark:border-white/20 p-3"
-              stagger={0.08}
-              delay={0.25}
-            >
-              <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
+            <div className="mt-auto w-full border-t border-black/10 p-3 dark:border-white/20">
+              <RevealOnScroll
+                as="div"
+                className="flex flex-col gap-3 md:flex-row md:items-stretch"
+                stagger={0.08}
+                delay={0.25}
+              >
                 {stats.map((stat, index) => (
                   <div key={`stat-${index}`} className="contents">
                     {index > 0 ? (
@@ -137,8 +138,8 @@ export function PageHero({ data }: { data?: PageHeroData }) {
                     <StatCard stat={stat} />
                   </div>
                 ))}
-              </div>
-            </RevealOnScroll>
+              </RevealOnScroll>
+            </div>
           ) : null}
         </div>
 
@@ -311,15 +312,15 @@ function StatCard({ stat }: { stat: PageHeroStat }) {
   }
 
   return (
-    <article className="flex min-h-30 flex-1 flex-col justify-between gap-4 border border-black/10 bg-black/4 p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand">
+    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4">
       {displayValue ? (
-        <p className="font-betatron text-[28px] leading-[1.2] text-brand md:text-4xl">
+        <p className="font-funnel text-[32px] leading-none text-brand">
           {displayValue}
         </p>
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[22px] font-bold leading-[1.2] text-foreground md:text-100">
+        <p className="font-funnel text-[14px] leading-none text-foreground">
           {label}
         </p>
       ) : null}

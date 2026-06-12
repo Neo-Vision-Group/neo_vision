@@ -166,7 +166,7 @@ export function Signature({ data }: { data?: SignatureData }) {
               <StepCard
                 key={step.number}
                 step={step}
-                showBottomBorder={idx !== signature.steps.length - 1}
+                showBottomBorder={true}
                 showRightBorder={idx % 2 === 0}
               />
             ))}
@@ -242,7 +242,7 @@ function StepCard({
 
       <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
         <div className="flex items-center gap-3">
-          <span className="font-betatron text-[48px] leading-none text-brand">
+          <span className="font-clash text-[48px] leading-none text-brand">
             {step.number}
           </span>
           <div className="flex flex-1 flex-col">

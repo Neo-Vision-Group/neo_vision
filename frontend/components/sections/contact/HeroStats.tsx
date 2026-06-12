@@ -50,7 +50,7 @@ export function HeroStats({
           <StatCard stat={stat} variant={variant} />
           {idx < stats.length - 1 ? (
             <div className="hidden md:flex md:flex-row md:items-center md:self-stretch">
-              <div className="h-full w-px bg-white/20" />
+              <div className="h-full w-px bg-black/10 dark:bg-white/20" />
             </div>
           ) : null}
         </div>
@@ -68,32 +68,30 @@ function StatCard({
 }) {
   if (variant === "contactDark") {
     return (
-      <div className="flex flex-1 flex-col items-start justify-center border border-transparent bg-white-light dark:bg-black p-6 md:min-h-22 transition-all duration-300 ease-out hover:border-brand/40 hover:-translate-y-0.5">
-        <div className="flex w-full flex-col gap-3">
-          <div className="font-betatron text-4xl leading-[1.2] text-brand">
-            <CountingNumber
-              value={stat.number}
-              suffix={stat.suffix}
-              duration={2000}
-            />
-          </div>
-          <p className="w-full font-funnel text-[14px] leading-[1.2] tracking-[-0.5px] dark:text-[#efefef] text-foreground">
-            {stat.label}
-          </p>
+      <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4">
+        <div className="font-funnel text-[32px] leading-none text-brand">
+          <CountingNumber
+            value={stat.number}
+            suffix={stat.suffix}
+            duration={2000}
+          />
         </div>
-      </div>
+        <p className="font-funnel text-[14px] leading-none text-foreground">
+          {stat.label}
+        </p>
+      </article>
     );
   }
 
   return (
     <div className="flex flex-1 flex-col items-start justify-center border border-white/20 bg-[#EFEFEFB3] p-6 dark:bg-black">
       <div className="flex flex-col gap-3">
-        <div className="font-betatron text-4xl leading-[1.2] tracking-[-2.88px] text-brand">
+        <div className="font-clash text-4xl leading-[1.2] tracking-[-2.88px] text-brand">
           <CountingNumber
             value={stat.number}
             suffix={stat.suffix}
             duration={2000}
-            className="font-betatron text-4xl leading-[1.2] tracking-[-2.88px] text-brand"
+            className="font-clash text-4xl leading-[1.2] tracking-[-2.88px] text-brand"
           />
         </div>
         <p className="w-full font-funnel text-100 font-bold leading-[1.2] text-foreground">

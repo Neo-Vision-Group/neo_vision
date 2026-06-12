@@ -65,7 +65,7 @@ export const serviceHero = defineType({
       name: 'eyebrow',
       title: 'Eyebrow',
       type: 'string',
-      description: 'Small Betatron label above the headline.',
+      description: 'Small clash label above the headline.',
     }),
     defineField({
       name: 'headlineLines',

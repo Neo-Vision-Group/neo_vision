@@ -31,7 +31,7 @@ export const whatWeDo = defineType({
                   name: "label",
                   title: "Label Text",
                   type: "string",
-                  description: "Optional text label. Rendered in Betatron when no label image is provided.",
+                  description: "Optional text label. Rendered in clash when no label image is provided.",
                 },
                 {
                   name: "labelImage",

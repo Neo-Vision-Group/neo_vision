@@ -98,7 +98,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           {/* Left column - intro and steps */}
           <div className="flex flex-1 flex-col gap-6">
             <div className="flex flex-col gap-6 font-funnel text-black dark:text-[#efefef]">
-              <p className="font-betatron text-4xl leading-[1.2] text-brand">
+              <p className="font-clash text-4xl leading-[1.2] text-brand">
                 {eyebrow}
               </p>
 
@@ -136,7 +136,7 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
                     {/* Step content */}
                     <div className="pl-4">
                       <div className="flex items-start gap-6">
-                        <p className="font-betatron text-4xl leading-[1.2] text-brand">
+                        <p className="font-clash text-4xl leading-[1.2] text-brand">
                           0{idx + 1}.
                         </p>
                         <div className="flex flex-1 flex-col gap-1 pt-1">
@@ -190,7 +190,9 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           </div>
         </div>
 
-        <HeroStats stats={stats} delay={0.15} variant="contactDark" />
+        <div className="w-full border-t border-black/10 dark:border-white/20">
+          <HeroStats stats={stats} delay={0.15} variant="contactDark" />
+        </div>
       </div>
     </section>
   );

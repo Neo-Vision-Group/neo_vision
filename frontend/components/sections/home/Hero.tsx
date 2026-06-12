@@ -68,7 +68,7 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="relative isolate flex flex-col xl:h-[calc(100svh-4rem)] justify-between gap-auto overflow-hidden"
+      className="relative isolate flex flex-col min-h-[calc(100svh-4rem)] justify-between gap-auto overflow-hidden gap-10"
     >
 
       <div className="relative flex flex-col h-full gap-6 px-6 pt-6 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
@@ -78,7 +78,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[70px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
+            className="inline-block font-light uppercase text-[70px] font-clash dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>
@@ -144,7 +144,7 @@ export function Hero({ data }: { data?: HeroData }) {
               type="words"
               stagger={0.015}
               duration={0.9}
-              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="font-clash flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

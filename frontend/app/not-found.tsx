@@ -32,7 +32,7 @@ export default function NotFound() {
         <div className="relative flex min-w-0 flex-1 items-center justify-center">
           <div
             aria-hidden="true"
-            className="font-betatron select-none text-brand text-[clamp(8rem,25vw,24rem)] leading-none tracking-[0.04em] drop-shadow-[0_0_32px_rgba(255,65,0,0.12)]"
+            className="font-clash select-none text-brand text-[clamp(8rem,25vw,24rem)] leading-none tracking-[0.04em] drop-shadow-[0_0_32px_rgba(255,65,0,0.12)]"
           >
             404
           </div>

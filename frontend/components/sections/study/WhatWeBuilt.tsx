@@ -58,7 +58,7 @@ export function StudyWhatWeBuilt({ data }: { data?: StudyWhatWeBuiltData }) {
                 key={(f.title ?? "ft") + idx}
                 className="grid grid-cols-1 gap-6 border-b border-white/20 px-6 py-8 md:grid-cols-[auto_1fr_1fr] md:items-start md:gap-12 md:px-6 md:py-12 lg:px-8 xl:px-12"
               >
-                <span className="font-betatron text-5xl leading-none tracking-tight text-brand-hover md:text-[72px]">
+                <span className="font-clash text-5xl leading-none tracking-tight text-brand-hover md:text-[72px]">
                   {f.number}
                 </span>
                 <div className="flex flex-col gap-2">

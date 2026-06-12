@@ -121,7 +121,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
         </div>
 
         {steps.length > 0 ? (
-          <div className="flex flex-col gap-8 md:gap-10">
+          <div className="flex flex-col gap-8 overflow-visible md:gap-10">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)_24px_minmax(0,1fr)_24px_minmax(0,1fr)] xl:gap-0">
               {steps.map((step, index) => (
                 <StepRailItem
@@ -136,7 +136,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
             </div>
 
             {ctaLabel && ctaHref ? (
-              <div>
+              <div className="-mx-6 px-6 -my-4 py-4 lg:-mx-8 lg:px-8 xl:-mx-16 xl:px-16">
                 <Button href={ctaHref} variant="primary" className="min-h-12">
                   {ctaLabel}
                 </Button>
@@ -354,7 +354,7 @@ function StepRailItem({
         ) : null}
 
         <div className="flex h-full flex-col justify-between gap-10">
-          <p className="font-betatron text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
+          <p className="font-clash text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
             {String(index + 1).padStart(2, '0')}.
           </p>
           <h3 className="text-100 font-bold leading-[1.2] text-foreground">

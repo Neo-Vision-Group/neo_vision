@@ -85,7 +85,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                         style={{ background: "#7a1a00" }}
                                     />
                                 </div>
-                                <h3 className="text-4xl leading-[1.05] font-funnel text-brand font-medium sm:text-[40px] lg:text-5xl">{item.industry}</h3>
+                                <h3 className="text-4xl leading-[1.05] font-clash text-brand font-medium sm:text-[40px] 2xl:text-5xl">{item.industry}</h3>
                                 <p className="text-body-2 text-foreground/70">{item.description}</p>
                             </article>
                         </div>
@@ -126,7 +126,7 @@ export function Industries({ data }: { data: IndustryData }) {
                                     key={(item.label ?? "metric") + idx}
                                     className="flex flex-1 flex-col gap-6 items-center md:items-start"
                                 >
-                                    <dt className="whitespace-nowrap font-betatron text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
+                                    <dt className="whitespace-nowrap font-clash text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}
                                     </dt>
                                     <dd className="font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-[24px] md:tracking-[-1px]">

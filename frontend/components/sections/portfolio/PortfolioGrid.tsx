@@ -200,7 +200,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           <div className="flex flex-col gap-6 md:gap-5 lg:gap-10 lg:py-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-betatron text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                <p className="font-clash text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
                   Service:
                 </p>
                 <div className="flex flex-wrap gap-2 lg:gap-5">
@@ -218,7 +218,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
             {industryFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-betatron text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                <p className="font-clash text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
                   Industry:
                 </p>
                 <div className="flex flex-wrap gap-2 lg:gap-5">

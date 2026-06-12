@@ -12,7 +12,7 @@ export function proxy(request: NextRequest) {
     "img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://*.calendly.com https://plausible.io;",
     "font-src 'self';",
     "connect-src 'self' https://api.sanity.io https://*.api.sanity.io https://cdn.sanity.io https://calendly.com https://*.calendly.com https://plausible.io https://eu.i.posthog.com https://eu-assets.i.posthog.com wss:;",
-    "frame-src https://calendly.com;",
+    "frame-src 'self' https://calendly.com https://calendar.google.com https://widget.clutch.co;",
     "frame-ancestors 'none';",
     "base-uri 'self';",
     "form-action 'self';",

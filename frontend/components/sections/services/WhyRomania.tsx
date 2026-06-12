@@ -96,7 +96,7 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
                     >
                       <article className="group relative isolate flex flex-col gap-12 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">
                         {highlight.stat ? (
-                          <p className="font-funnel text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[32px] md:tracking-[-2.88px]">
+                          <p className="font-clash text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[32px] md:tracking-[-2.88px]">
                             {highlight.stat}
                           </p>
                         ) : null}

@@ -11,9 +11,8 @@ import { Button } from '@/components/partials/Button'
 import { NavPageType } from '@/sanity/lib/types'
 import Image from 'next/image'
 import { Logo } from '../icons/Logo'
-import DarkThemeIcon from '../icons/DarkThemeIcon'
-import LightThemeIcon from '../icons/LightThemeIcon'
 import { AnimatedBorder } from '../AnimatedBorder'
+import { AnimatedThemeToggle } from '../partials/AnimatedThemeToggle'
 
 type NavClientProps = {
   pages: NavPageType[]
@@ -61,52 +60,6 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
         {children}
       </span>
     </Link>
-  )
-}
-
-// Theme toggle with decorative corners
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-  const [isHovered, setIsHovered] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  if (!mounted) {
-    return (
-      <div className="relative flex h-13 items-center justify-center overflow-hidden p-1.5">
-        <div className="flex size-9.5 items-center justify-center bg-background" />
-      </div>
-    )
-  }
-
-  return (
-    <button
-      onClick={() => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark'
-        setTheme(newTheme)
-        posthog.capture('theme_toggled', {
-          from_theme: theme,
-          to_theme: newTheme,
-          page: typeof window !== 'undefined' ? window.location.pathname : '',
-        })
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative flex size-10 items-center justify-center"
-      aria-label="Toggle theme"
-    >
-      <AnimatedBorder isHovered={isHovered} />
-      <div className="flex size-6 items-center justify-center">
-        {theme === 'dark' ? (
-          <LightThemeIcon />
-        ) : (
-          <DarkThemeIcon />
-        )}
-      </div>
-    </button>
   )
 }
 
@@ -186,7 +139,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           ) : (
             <Logo darkMode={mounted ? resolvedTheme === 'dark' : true} />
           )}
-          <span className="text-2xl uppercase font-betatron leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
+          <span className="text-2xl uppercase font-clash leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
             {title}
           </span>
         </Link>
@@ -211,7 +164,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
           >
             {ctaText}
           </Button>
-          <ThemeToggle />
+          <AnimatedThemeToggle />
         </div>
 
         <div className="ml-auto flex items-center gap-3 lg:hidden">
@@ -290,7 +243,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               ) : (
                 <span />
               )}
-              <ThemeToggle />
+              <AnimatedThemeToggle />
             </div>
           </div>
         </div>

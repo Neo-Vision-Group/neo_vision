@@ -64,7 +64,7 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
                     <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                     <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                   </div>
-                  <p className="font-funnel text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
+                  <p className="font-clash text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
                     {stat.value}
                   </p>
                   <div className="flex flex-col gap-1">

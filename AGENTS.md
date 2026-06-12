@@ -64,7 +64,7 @@ Sanity Document (page / service / project)
 | `frontend/components/BlockRenderer.tsx`                       | Maps `block._type` string → React component. **Every new page block must be registered here.**                                                            |
 | `frontend/components/BlockErrorBoundary.tsx`                  | Isolates individual page block render failures so one broken section does not crash the whole page                                                        |
 | `frontend/components/RouteLoading.tsx`                        | Shared loading UI used by route-level `loading.tsx` files in the App Router                                                                               |
-| `frontend/components/partials/FirstLoadIntro.tsx`             | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and Betatron progress indicator                           |
+| `frontend/components/partials/FirstLoadIntro.tsx`             | One-time first-visit loading experience that reuses the hero background, hardcoded brand title, and clash progress indicator                           |
 | `frontend/components/partials/HeroBrandDotsMediaProvider.tsx` | App-shell-level owner for the shared `hero.mp4` media. It must stay mounted so hero, intro, and transition surfaces mirror one persistent playback source |
 | `frontend/components/transition/TransitionProvider.tsx`       | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal           |
 | `frontend/components/transition/PageTransitionMarker.tsx`     | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern             |
@@ -111,7 +111,7 @@ The intro component is responsible for:
 
 - Reusing the same visual background treatment as the hero sections
 - Hardcoding the website name for fast boot rendering
-- Animating a brand-colored loading bar with a Betatron percentage readout without depending on client hydration, so the motion starts during the streamed loading fallback
+- Animating a brand-colored loading bar with a clash percentage readout without depending on client hydration, so the motion starts during the streamed loading fallback
 - Persisting completion in session storage and a cookie via the root layout marker after the first page boot completes so the intro does not replay during in-site navigation or subsequent visits
 - Deferring to the app-shell page transition during in-site navigation so route-level `loading.tsx` fallbacks do not flash underneath the transition wipe
 - Reusing the app-shell-mounted hero media source instead of mounting its own `hero.mp4` instance
@@ -387,7 +387,7 @@ npm run dev          # Runs both concurrently (check package.json)
 - **Framework**: Next.js 15 (App Router)
 - **CMS**: Sanity v3
 - **Styling**: Tailwind CSS
-- **Fonts**: Inter, IBM Plex Mono, Funnel Display, Betatron (local)
+- **Fonts**: Inter, IBM Plex Mono, Funnel Display, clash (local)
 - **Deployment**: Vercel
 - **TypeScript**: Strict-ish (uses `any` casts in BlockRenderer for flexibility)
 

@@ -106,6 +106,9 @@ export function Booking({ data }: { data?: BookingData }) {
     if (!relay || !mounted) return;
 
     const handleWheel = (e: WheelEvent) => {
+      // Suppress native scroll so it doesn't fight Lenis' smooth scroll,
+      // then forward a cancelable wheel event for Lenis to handle.
+      e.preventDefault();
       window.dispatchEvent(
         new WheelEvent('wheel', {
           deltaX: e.deltaX,
@@ -113,6 +116,7 @@ export function Booking({ data }: { data?: BookingData }) {
           deltaZ: e.deltaZ,
           deltaMode: e.deltaMode,
           bubbles: true,
+          cancelable: true,
         })
       );
     };
@@ -124,7 +128,7 @@ export function Booking({ data }: { data?: BookingData }) {
       window.addEventListener('pointercancel', restore, { once: true });
     };
 
-    relay.addEventListener('wheel', handleWheel, { passive: true });
+    relay.addEventListener('wheel', handleWheel, { passive: false });
     relay.addEventListener('pointerdown', handlePointerDown);
 
     return () => {

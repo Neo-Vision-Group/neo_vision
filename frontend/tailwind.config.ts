@@ -2,13 +2,16 @@ import type {Config} from 'tailwindcss'
 import typography from '@tailwindcss/typography'
 
 export default {
-  content: ['./app/**/*.{ts,tsx}', './sanity/**/*.{ts,tsx}'],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './sanity/**/*.{ts,tsx}'],
   theme: {
     container: {
       center: true,
       padding: '2rem',
     },
     extend: {
+      fontFamily: {
+        clash: ['var(--font-clash-display)', 'sans-serif'],
+      },
       animation: {
         'wave-ring': 'wave-ring 1.2s ease-out infinite',
       },

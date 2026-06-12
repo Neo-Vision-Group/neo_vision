@@ -195,7 +195,7 @@ function PricingCard({
               </h3>
               {hasBadge ? <Badge text={tier.badge!} /> : null}
             </div>
-            <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
+            <p className="font-clash text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
               {tier?.price}
             </p>
           </div>
@@ -220,7 +220,7 @@ function PricingCard({
                 ) : null}
               </div>
             ) : (
-              <p className="font-betatron text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
+              <p className="font-clash text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
                 {tier?.price}
               </p>
             )}

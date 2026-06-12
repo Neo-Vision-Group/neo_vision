@@ -113,10 +113,10 @@ export function Story({ data }: { data?: StoryData }) {
               {story.milestones.map((m, idx) => (
                 <SwiperSlide key={m.year} className="flex flex-col items-center text-center">
                   <div className="flex flex-col items-center text-center">
-                    {/* Year - betatron font */}
+                    {/* Year - clash font */}
                     <h3
                       className={cn(
-                        "font-betatron text-[30px] md:text-[40px] tracking-[-1px] transition-colors duration-300",
+                        "font-clash text-[30px] md:text-[40px] tracking-[-1px] transition-colors duration-300",
                         idx === activeIndex
                           ? "text-brand"
                           : "text-dark dark:text-white"
