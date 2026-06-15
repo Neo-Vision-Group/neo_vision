@@ -164,7 +164,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
       <div className="relative z-10 flex min-h-svh items-center justify-center px-6 py-10">
         <div className="flex w-full max-w-3xl flex-col items-center justify-center gap-8 text-center md:gap-10">
           <h1
-            className="uppercase leading-[0.84] tracking-[-0.07em] text-foreground"
+            className="uppercase leading-[0.84] text-foreground"
             style={{
               fontFamily: 'var(--font-clash)',
               fontSize: 'clamp(3.75rem, 11vw, 7.5rem)',
@@ -174,7 +174,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
           </h1>
 
           <div className="flex w-full max-w-xl items-center justify-center gap-4 md:gap-6">
-            <div className="relative h-[3px] flex-1 overflow-hidden bg-foreground/10">
+            <div className="relative h-1 flex-1 overflow-hidden bg-foreground/10">
               <div
                 className="absolute inset-y-0 left-0 bg-brand"
                 style={{

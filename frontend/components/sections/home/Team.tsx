@@ -57,9 +57,27 @@ export function Team({ data }: { data?: TeamData }) {
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const [animKeys, setAnimKeys] = useState<Record<number, number>>({});
+  const [isFullyInView, setIsFullyInView] = useState(false);
 
   useEffect(() => { const id = setTimeout(() => setMounted(true), 0); return () => clearTimeout(id); }, []);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFullyInView(entry.isIntersecting && entry.intersectionRatio >= 1);
+      },
+      { threshold: 1 },
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const el = scrollerRef.current;
@@ -172,7 +190,7 @@ export function Team({ data }: { data?: TeamData }) {
   }, [scroll]);
 
   useEffect(() => {
-    if (!hasMultiple) return;
+    if (!hasMultiple || !isFullyInView) return;
     autoIntervalRef.current = setInterval(() => {
       if (autoStoppedRef.current) return;
       const el = scrollerRef.current;
@@ -186,8 +204,9 @@ export function Team({ data }: { data?: TeamData }) {
     }, 4000);
     return () => {
       if (autoIntervalRef.current) clearInterval(autoIntervalRef.current);
+      autoIntervalRef.current = null;
     };
-  }, [hasMultiple, scroll, scrollToIndex]);
+  }, [hasMultiple, isFullyInView, scroll, scrollToIndex]);
 
   if (!team.heading && team.members.length === 0 && !team.closingStatement) {
     return null;
@@ -195,7 +214,7 @@ export function Team({ data }: { data?: TeamData }) {
 
   return (
     <SectionsWrapper id="the-team" eyebrow={team.eyebrow}>
-      <div className="flex flex-col gap-12">
+      <div ref={sectionRef} className="flex flex-col gap-12">
         <SplitTextReveal
           className="block text-balance text-3xl leading-12 tracking-[-0.3px] whitespace-normal md:text-[36px] md:leading-12 lg:text-[44px] lg:leading-14 2xl:text-5xl 2xl:leading-14.5 2xl:tracking-[-0.4px]"
           type="words"

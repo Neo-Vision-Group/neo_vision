@@ -20,7 +20,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string().url().optional(),
   POSTHOG_SERVER_API_KEY: z.string().optional(),
-  PLAUSIBLE_SCRIPT_URL: z.string().url().optional(),
+  NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL: z.string().url().optional(),
   
   // Rate Limiting (Upstash Redis)
   UPSTASH_REDIS_REST_URL: z.string().url().optional(),

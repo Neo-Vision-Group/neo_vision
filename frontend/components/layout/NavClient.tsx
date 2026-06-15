@@ -10,7 +10,7 @@ import { HamburgerIcon } from '../icons/HamburgerIcon'
 import { Button } from '@/components/partials/Button'
 import { NavPageType } from '@/sanity/lib/types'
 import Image from 'next/image'
-import { Logo } from '../icons/Logo'
+import NavLogo from '../icons/NavLogo'
 import { AnimatedBorder } from '../AnimatedBorder'
 import { AnimatedThemeToggle } from '../partials/AnimatedThemeToggle'
 
@@ -137,11 +137,8 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               className="h-8 w-auto"
             />
           ) : (
-            <Logo darkMode={mounted ? resolvedTheme === 'dark' : true} />
+            <NavLogo darkMode={mounted ? resolvedTheme === 'dark' : true} />
           )}
-          <span className="text-2xl uppercase font-clash leading-none tracking-tight text-black dark:text-white lg:font-normal lg:tracking-normal">
-            {title}
-          </span>
         </Link>
 
         {/* Desktop Navigation */}

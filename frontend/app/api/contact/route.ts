@@ -8,7 +8,6 @@ import { rateLimit } from "@/lib/rate-limit";
 import { checkContactRateLimit } from "@/lib/rate-limit-upstash";
 import { validateCsrfToken } from "@/lib/csrf";
 import { logSecurityEvent } from "@/lib/security-logger";
-import { sanitizeHtml } from "@/lib/sanitize";
 import getIP from "@/lib/getIP";
 
 export async function POST(req: NextRequest) {
@@ -57,19 +56,21 @@ export async function POST(req: NextRequest) {
   const origin = req.headers.get('origin');
   const referer = req.headers.get('referer');
   
-  const allowedOrigins = [
+  let allowedOrigins = [
     process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     ...(process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || []),
   ].filter(Boolean);
 
-  // Validate localhost is not allowed in production
+  // SEC-7: in production, do not merely log a configured localhost origin —
+  // drop it so it can never satisfy origin/referer validation.
   if (process.env.NODE_ENV === 'production') {
-    const hasLocalhost = allowedOrigins.some(o => o.includes('localhost'));
-    if (hasLocalhost) {
-      logSecurityEvent(req, "blocked", "Localhost origin configured in production");
+    const beforeCount = allowedOrigins.length;
+    allowedOrigins = allowedOrigins.filter(o => !o.includes('localhost') && !o.includes('127.0.0.1'));
+    if (allowedOrigins.length !== beforeCount) {
+      logSecurityEvent(req, "blocked", "Localhost origin configured in production (ignored)");
     }
   }
-  
+
   // Require both Origin AND Referer in production
   if (!origin || !referer) {
     logSecurityEvent(req, "blocked", "Missing origin or referer header");
@@ -78,20 +79,26 @@ export async function POST(req: NextRequest) {
       { status: 403 }
     );
   }
-  
-  const originUrl = new URL(origin);
-  const refererUrl = new URL(referer);
-  
-  const originAllowed = allowedOrigins.some(allowed => {
-    const allowedUrl = new URL(allowed);
-    return originUrl.hostname === allowedUrl.hostname;
-  });
-  
-  const refererAllowed = allowedOrigins.some(allowed => {
-    const allowedUrl = new URL(allowed);
-    return refererUrl.hostname === allowedUrl.hostname;
-  });
-  
+
+  // SEC-5: malformed Origin/Referer (or a malformed ALLOWED_ORIGINS entry) must
+  // yield a clean 403, never an unhandled exception (500).
+  const safeHostname = (value: string): string | null => {
+    try {
+      return new URL(value).hostname;
+    } catch {
+      return null;
+    }
+  };
+
+  const originHostname = safeHostname(origin);
+  const refererHostname = safeHostname(referer);
+  const allowedHostnames = allowedOrigins
+    .map(safeHostname)
+    .filter((h): h is string => h !== null);
+
+  const originAllowed = originHostname !== null && allowedHostnames.includes(originHostname);
+  const refererAllowed = refererHostname !== null && allowedHostnames.includes(refererHostname);
+
   if (!originAllowed || !refererAllowed) {
     logSecurityEvent(req, "blocked", "Origin/Referer validation failed", {
       origin,
@@ -160,17 +167,18 @@ export async function POST(req: NextRequest) {
   try {
     const client = sanityWriteClient();
     
-    // Add timeout to prevent hanging (10 seconds)
+    // SEC-8: store raw, Zod-validated values; rely on React/Sanity output
+    // encoding at render time instead of double-escaping into storage.
     const writePromise = client.create({
       _type: "contactSubmission",
-      name: sanitizeHtml(data.name),
-      email: sanitizeHtml(data.email),
-      company: data.company ? sanitizeHtml(data.company) : undefined,
-      phone: data.phone ? sanitizeHtml(data.phone) : undefined,
-      projectType: data.projectType ? sanitizeHtml(data.projectType) : undefined,
-      budget: data.budget ? sanitizeHtml(data.budget) : undefined,
-      hearAboutUs: data.hearAboutUs ? sanitizeHtml(data.hearAboutUs) : undefined,
-      message: sanitizeHtml(data.message),
+      name: data.name,
+      email: data.email,
+      company: data.company || undefined,
+      phone: data.phone || undefined,
+      projectType: data.projectType || undefined,
+      budget: data.budget || undefined,
+      hearAboutUs: data.hearAboutUs || undefined,
+      message: data.message,
       receivedAt,
       status: "new",
     });

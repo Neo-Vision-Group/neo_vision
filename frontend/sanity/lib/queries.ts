@@ -16,6 +16,26 @@ const linkFields = /* groq */ `
       }
 `
 
+const portableTextWithLinks = /* groq */ `
+  ...,
+  _type == "image" => {
+    ...,
+    asset->{
+      url,
+      metadata{
+        dimensions{
+          width,
+          height
+        }
+      }
+    }
+  },
+  markDefs[]{
+    ...,
+    ${linkReference}
+  }
+`
+
 const postFields = /* groq */ `
   _id,
   "status": select(_originalId in path("drafts.**") => "draft", "published"),
@@ -170,30 +190,18 @@ const sharedPageBuilderProjection = /* groq */ `
     _type == "insightBlock" => {
       ...,
       text[]{
-        ...,
-        markDefs[]{
-          ...,
-          ${linkReference}
-        }
+        ${portableTextWithLinks}
       },
       quote {
         attribution,
         quote[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
+          ${portableTextWithLinks}
         }
       },
       card {
         label,
         body[]{
-          ...,
-          markDefs[]{
-            ...,
-            ${linkReference}
-          }
+          ${portableTextWithLinks}
         }
       }
     },
@@ -734,6 +742,12 @@ export const settingsQuery = defineQuery(`
   *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{
     ...,
     phoneNumber,
+    instagram,
+    facebook,
+    linkedin,
+    github,
+    x,
+    tiktok,
     logoPicture {
       ...,
       asset->
@@ -772,6 +786,11 @@ export const settingsQuery = defineQuery(`
           linkType == "href" => href
         )
       }
+    },
+    legalLinks[]->{
+      _id,
+      name,
+      "href": "/" + slug.current
     },
     cookieSettings{
       enabled,
@@ -857,12 +876,8 @@ export const morePostsQuery = defineQuery(`
 export const postQuery = defineQuery(`
   *[_type == "post" && slug.current == $slug] [0] {
     content[]{
-    ...,
-    markDefs[]{
-      ...,
-      ${linkReference}
-    }
-  },
+      ${portableTextWithLinks}
+    },
     ${postFields}
   }
 `)
@@ -989,4 +1004,21 @@ export const allServicesQuery = defineQuery(`
     _id,
     slug,
   }
+`)
+
+// Server-side re-resolution of a single `freeResources` item, keyed by the
+// hosting page slug + the item `_key`. Used by /api/resource to avoid trusting
+// any client-supplied URL (SEC-1). Returns the canonical, editor-set values only.
+export const resourceByKeyQuery = defineQuery(`
+  *[_type in ["page", "service", "project", "post"] && (
+    ($pageSlug == "" && _type == "page" && pageType == "home") ||
+    ($pageSlug != "" && slug.current == $pageSlug)
+  )][0]{
+    "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey][0]{
+      title,
+      externalUrl,
+      emailIt,
+      "fileUrl": file.asset->url
+    }
+  }.item
 `)

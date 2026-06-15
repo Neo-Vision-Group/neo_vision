@@ -13,20 +13,13 @@ const popupSchema = z.object({
 
 type PopupFormData = z.infer<typeof popupSchema>
 
-interface ResourceObject {
-  file?: {
-    asset?: {
-      url?: string
-    }
-  }
-  fileUrl?: string
-  externalUrl?: string
-}
-
 interface ResourceRequestPopUpProps {
   isOpen: boolean
   resourceName?: string
-  resourceObject?: ResourceObject
+  /** Slug of the page hosting the resource ("" for the home page). */
+  pageSlug?: string
+  /** The freeResources item `_key` — used to re-resolve the resource server-side. */
+  itemKey?: string
   onSubmit?: (email: string) => Promise<void>
   onClose?: () => void
 }
@@ -34,7 +27,8 @@ interface ResourceRequestPopUpProps {
 export function ResourceRequestPopUp({ 
   isOpen, 
   resourceName = 'resource',
-  resourceObject,
+  pageSlug,
+  itemKey,
   onSubmit,
   onClose 
 }: ResourceRequestPopUpProps) {
@@ -76,7 +70,7 @@ export function ResourceRequestPopUp({
   const onFormSubmit = handleSubmit(async (formData) => {
     setSubmitError(null)
 
-    if (!resourceObject) {
+    if (!itemKey || pageSlug === undefined) {
       setSubmitError('Resource information is missing')
       return
     }
@@ -112,8 +106,8 @@ export function ResourceRequestPopUp({
           headers,
           body: JSON.stringify({
             email: formData.email,
-            resourceRequested: resourceName,
-            resourceObject,
+            pageSlug,
+            itemKey,
             website: '', // Honeypot field
           }),
         })
@@ -176,7 +170,7 @@ export function ResourceRequestPopUp({
               Get the {resourceName}
             </h2>
             <p className="font-funnel text-lg leading-[1.5] tracking-normal text-dark/80 dark:text-white-light/80">
-              Drop your email and we'll send the {resourceName} straight to your inbox.
+              Drop your email and we&apos;ll send the {resourceName} straight to your inbox.
             </p>
           </div>
 

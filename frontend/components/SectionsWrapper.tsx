@@ -23,7 +23,7 @@ export function SectionsWrapper({
       <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start pt-24">
         {!hideBorders && (<div className="h-px w-full bg-black/20 dark:bg-white/20" />)}
         <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-6 pr-6 py-6">
-          <div className="font-clash text-center md:text-left text-3xl text-[24px] lg:text-3xl text-black dark:text-[#efefef]">{eyebrow}</div>
+          <div className="font-clash text-center md:text-left text-3xl text-[24px] lg:text-3xl text-black dark:text-[#efefef] font-bold">{eyebrow}</div>
         </div>
         
         {/* Fixed: Horizontal line needs h-px and w-full. 

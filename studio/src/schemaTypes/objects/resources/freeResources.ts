@@ -62,6 +62,16 @@ export const freeResources = defineType({
               title: 'External URL',
               type: 'url',
               description: 'Use if the resource is hosted elsewhere.',
+              validation: (Rule) =>
+                Rule.uri({scheme: ['http', 'https']}).custom((value, context) => {
+                  const parent = context.parent as {file?: unknown; emailIt?: boolean} | undefined
+                  // An emailable resource must have a downloadable source: either an
+                  // uploaded file or an external URL (feeds the /api/resource email flow).
+                  if (parent?.emailIt && !parent.file && !value) {
+                    return 'Provide a file or an external URL for an emailable resource.'
+                  }
+                  return true
+                }),
             }),
             defineField({
               name: 'emailIt',

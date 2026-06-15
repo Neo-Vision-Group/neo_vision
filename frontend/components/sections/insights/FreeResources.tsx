@@ -7,6 +7,7 @@ import {AnimatedBorder} from '@/components/AnimatedBorder'
 import {cleanStega} from '@/sanity/lib/utils'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ResourceRequestPopUp } from '@/components/partials/ResourceRequestPopUp'
 
@@ -21,6 +22,7 @@ export type FreeResourcesData = {
   body?: string
   footnote?: string
   items?: Array<{
+    _key?: string
     title?: string
     badge?: string
     description?: string
@@ -59,7 +61,12 @@ function Heading({value}: {value: HeadingShape}) {
 export function FreeResources({data}: {data?: FreeResourcesData}) {
   const cleanData = data ? cleanStega(data) : data
   const items = cleanData?.items ?? []
-  
+
+  // Derive the hosting page slug from the current path so the server can
+  // re-resolve the resource (SEC-1). "/" → "" (home); "/insights" → "insights".
+  const pathname = usePathname()
+  const pageSlug = pathname === '/' ? '' : (pathname ?? '').replace(/^\/+/, '')
+
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [selectedResource, setSelectedResource] = useState<NonNullable<FreeResourcesData['items']>[number] | null>(null)
 
@@ -124,16 +131,8 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
       <ResourceRequestPopUp 
         isOpen={isPopupOpen} 
         resourceName={selectedResource?.title ?? 'resource'}
-        resourceObject={selectedResource ? {
-          // Include fileUrl if it exists (resolved URL from GROQ)
-          ...(selectedResource.fileUrl ? { fileUrl: selectedResource.fileUrl } : {}),
-          // Include file object with asset URL for file uploads
-          ...(selectedResource.file?.asset?.url ? { 
-            file: { asset: { url: selectedResource.file.asset.url } } 
-          } : {}),
-          // Include external URL if no file
-          ...(selectedResource.externalUrl ? { externalUrl: selectedResource.externalUrl } : {}),
-        } : undefined}
+        pageSlug={pageSlug}
+        itemKey={selectedResource?._key}
         onClose={handleClosePopup}
       />
     </SectionsWrapper>

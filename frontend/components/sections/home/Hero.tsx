@@ -78,7 +78,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[64px] font-clash dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
+            className="inline-block font-light uppercase text-[64px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>
@@ -124,7 +124,7 @@ export function Hero({ data }: { data?: HeroData }) {
             from="bottom"
             distance={16}
             start="top bottom"
-            className="flex pb-3 px-6 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16 2xl:pl-30"
+            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16"
           >
             {hero.stats ? (
               <p className="w-full font-funnel text-[14px] text-center px-1.5 leading-normal">
@@ -138,13 +138,13 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="py-3 flex min-w-0 flex-1 flex-col items-start md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 md:py-6">
+          <div className="py-3 flex min-w-0 flex-1 flex-col items-start md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 md:py-12">
             <SplitTextReveal
               as="p"
               type="words"
               stagger={0.015}
               duration={0.9}
-              className="font-clash flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>

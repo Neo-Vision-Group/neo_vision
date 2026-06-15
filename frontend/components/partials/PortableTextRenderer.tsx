@@ -17,7 +17,19 @@ type ComparisonTableBlock = {
   headers?: string[];
   rows?: { cells?: string[] }[];
 };
-type ImageBlock = { _type: "image"; asset?: { url?: string }; alt?: string };
+type ImageBlock = {
+  _type: "image";
+  asset?: {
+    url?: string;
+    metadata?: {
+      dimensions?: {
+        width?: number;
+        height?: number;
+      };
+    };
+  };
+  alt?: string;
+};
 
 const components: PortableTextComponents = {
   block: {
@@ -111,12 +123,18 @@ const components: PortableTextComponents = {
     },
     image: ({ value }: { value: ImageBlock }) => {
       const url = value.asset?.url;
-      if (!url) return null;
+      const width = value.asset?.metadata?.dimensions?.width;
+      const height = value.asset?.metadata?.dimensions?.height;
+
+      if (!url || !width || !height) return null;
+
       return (
         <figure className="my-10">
           <Image
             src={url}
             alt={value.alt ?? ""}
+            width={width}
+            height={height}
             className="w-full border border-white/10"
           />
         </figure>

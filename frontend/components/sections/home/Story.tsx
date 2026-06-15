@@ -52,10 +52,6 @@ export function Story({ data }: { data?: StoryData }) {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme } = useTheme();
 
-  if (!story.heading && story.milestones.length === 0) {
-    return null;
-  }
-
   const hasMultiple = story.milestones.length > 1;
   const canGoPrev = activeIndex > 0;
   const canGoNext = activeIndex < story.milestones.length - 1;
@@ -113,6 +109,10 @@ export function Story({ data }: { data?: StoryData }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [swiper]);
 
+  if (!story.heading && story.milestones.length === 0) {
+    return null;
+  }
+
   return (
     <SectionsWrapper id="our-story" eyebrow={story.eyebrow}>
       <div className="flex flex-col gap-12 overflow-hidden">
@@ -146,7 +146,7 @@ export function Story({ data }: { data?: StoryData }) {
                     {/* Year - clash font */}
                     <h3
                       className={cn(
-                        "font-clash text-[30px] md:text-[40px] tracking-[-1px] transition-colors duration-300",
+                        "font-clash text-[32px] md:text-[48px] tracking-[-1px] transition-colors duration-300",
                         idx === activeIndex
                           ? "text-brand"
                           : "text-dark dark:text-white"

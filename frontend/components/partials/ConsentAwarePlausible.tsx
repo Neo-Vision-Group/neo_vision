@@ -17,7 +17,7 @@ export function ConsentAwarePlausible({ children }: ConsentAwarePlausibleProps) 
 
   return (
     <PlausibleProvider
-      src={process.env.PLAUSIBLE_SCRIPT_URL}
+      src={process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_URL}
       enabled={process.env.NODE_ENV === 'production'}
       init={{
         captureOnLocalhost: false,

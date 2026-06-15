@@ -5,9 +5,10 @@ export function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   
   // Build CSP header with nonce
+  const isDev = process.env.NODE_ENV === 'development'
   const cspHeader = [
     "default-src 'self';",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://assets.calendly.com https://plausible.io https://eu-assets.i.posthog.com;`,
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ''} https://assets.calendly.com https://plausible.io https://eu-assets.i.posthog.com https://widget.clutch.co;`,
     "style-src 'self' 'unsafe-inline' https://assets.calendly.com;",
     "img-src 'self' data: https://cdn.sanity.io https://images.unsplash.com https://*.calendly.com https://plausible.io;",
     "font-src 'self';",
