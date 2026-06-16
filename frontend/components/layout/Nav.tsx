@@ -45,8 +45,7 @@ export default async function Nav() {
   return (
     <NavClient
       pages={pages}
-      title={settings?.brandName || settings?.title || 'Neo xAi'}
-      email={settings?.email}
+      title={settings?.brandName || settings?.title || 'Neo Vision'}
       logo={logoUrl}
       cta={cta}
     />
