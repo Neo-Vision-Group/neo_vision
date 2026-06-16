@@ -602,7 +602,21 @@ const sharedPageBuilderProjection = /* groq */ `
     },
     _type == "studyTechStack" => {
       ...,
-      tools[]
+      tools[]{
+        _key,
+        name,
+        logo {
+          asset->{
+            _id,
+            url,
+            metadata {
+              dimensions
+            }
+          },
+          hotspot,
+          crop
+        }
+      }
     },
     _type == "studyMoreLikeThis" => {
       ...,

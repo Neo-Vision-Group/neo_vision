@@ -221,6 +221,14 @@ export type ObjectImage = {
   _type: 'image'
 }
 
+export type TechToolLogo = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "techTool.logo.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type Steps = {
   _type: 'steps'
   eyebrow?: string
@@ -388,7 +396,12 @@ export type StudyMoreLikeThis = {
 export type StudyTechStack = {
   _type: 'studyTechStack'
   eyebrow?: string
-  tools: Array<string>
+  tools: Array<{
+    name: string
+    logo?: TechToolLogo
+    _type: 'techTool'
+    _key: string
+  }>
 }
 
 export type StudyTestimonial = {
@@ -1525,6 +1538,7 @@ export type TeamMember = {
   order: number
   role: string
   bio: string
+  linkedin?: string
   portrait?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -2337,6 +2351,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAssetReference
   | ResourceFile
   | ObjectImage
+  | TechToolLogo
   | Steps
   | ServiceNavigator
   | SoundFamiliar
