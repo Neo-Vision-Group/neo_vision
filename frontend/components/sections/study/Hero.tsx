@@ -69,7 +69,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
           <span className="text-brand">{heading}</span>
         </div>
 
-        <div className="flex flex-col items-center gap-6 px-0 text-center md:gap-10">
+        <div className="flex flex-col items-center gap-6 px-0 text-center ">
           <div className="flex flex-col gap-3 md:gap-4">
             {eyebrow ? (
               <p className="font-clash text-[24px] leading-none uppercase text-brand md:text-[28px]">

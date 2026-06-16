@@ -1,19 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { CaseStudyCard, type CaseStudyCardData } from "@/components/partials/CaseStudyCard";
-import { Button } from "@/components/partials/Button";
 import { cleanStega } from "@/sanity/lib/utils";
-import dynamic from "next/dynamic";
-
-const RevealOnScroll = dynamic(
-  () =>
-    import("@/components/partials/motion/RevealOnScroll").then(
-      (mod) => mod.RevealOnScroll
-    ),
-  { ssr: false }
-);
 
 export type PortfolioGridData = {
   items?: Array<{
@@ -142,8 +132,40 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const visibleItems = normalizedItems.slice(0, visibleCount);
   const hasMore = normalizedItems.length > visibleCount;
 
-  const [activeCards, setActiveCards] = useState<boolean[]>([]);
+  const [activeCards, setActiveCards] = useState<boolean[]>(() =>
+    new Array(INITIAL_VISIBLE_ITEMS).fill(true)
+  );
   const observersRef = useRef<Map<number, IntersectionObserver>>(new Map());
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  const loadMore = useCallback(() => {
+    if (!hasMore || isLoadingMore) return;
+    setIsLoadingMore(true);
+    // Small delay to show loading state and prevent rapid-fire triggers
+    setTimeout(() => {
+      setVisibleCount((count) => count + LOAD_MORE_COUNT);
+      setIsLoadingMore(false);
+    }, 150);
+  }, [hasMore, isLoadingMore]);
+
+  // Infinite scroll observer
+  useEffect(() => {
+    const sentinel = loadMoreRef.current;
+    if (!sentinel || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          loadMore();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasMore, loadMore]);
 
   const attachRef = (el: HTMLAnchorElement | null, idx: number) => {
     const existing = observersRef.current.get(idx);
@@ -246,35 +268,62 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
             </div>
           ) : (
             <div className="flex flex-col gap-6 p-0 lg:gap-8 lg:p-12">
-              <RevealOnScroll
-                key={`${serviceFiltersSelected.join(',')}-${industryFiltersSelected.join(',')}-${visibleCount}`}
-                as="div"
-                stagger={0.06}
+              <div
+                key={`${serviceFiltersSelected.join(',')}-${industryFiltersSelected.join(',')}`}
                 className="flex flex-col gap-4"
               >
                 {visibleItems.map((item, idx) => (
-                  <CaseStudyCard
-                    key={item._id ?? (item.client || "") + idx}
-                    ref={(el) => attachRef(el, idx)}
-                    item={item as CaseStudyCardData}
-                    isActive={activeCards[idx] ?? false}
-                  />
-                ))}
-              </RevealOnScroll>
-
-              {hasMore ? (
-                <div className="flex justify-center pt-2">
-                  <Button
-                    type="button"
-                    variant="primary"
-                    size="md"
-                    onClick={() => setVisibleCount((count) => count + LOAD_MORE_COUNT)}
-                    className="min-w-38"
+                  <div
+                    key={`${item._id ?? item.client ?? "item"}-${idx}`}
+                    className={`transition-all duration-500 ease-out ${
+                      activeCards[idx]
+                        ? "opacity-100 translate-y-0"
+                        : "opacity-0 translate-y-6"
+                    }`}
+                    style={{ transitionDelay: `${(idx % LOAD_MORE_COUNT) * 60}ms` }}
                   >
-                    Load more projects
-                  </Button>
+                    <CaseStudyCard
+                      ref={(el) => attachRef(el, idx)}
+                      item={item as CaseStudyCardData}
+                      isActive={activeCards[idx] ?? false}
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {hasMore && (
+                <div
+                  ref={loadMoreRef}
+                  className="flex justify-center py-8"
+                  aria-hidden="true"
+                >
+                  {isLoadingMore && (
+                    <div className="flex items-center gap-2 text-black/60 dark:text-white/60">
+                      <svg
+                        className="h-5 w-5 animate-spin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        />
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        />
+                      </svg>
+                      <span className="font-funnel text-sm">Loading...</span>
+                    </div>
+                  )}
                 </div>
-              ) : null}
+              )}
             </div>
           )}
         </div>

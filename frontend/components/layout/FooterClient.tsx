@@ -99,7 +99,7 @@ function SocialLink({
       onMouseLeave={() => setIsHovered(false)}
       className="group inline-flex items-center gap-3 text-[18px] leading-normal text-white transition-colors hover:text-black dark:hover:text-brand"
     >
-      <span className="relative flex h-8 w-8 items-center justify-center">
+      <span className="relative flex h-[2em] w-[2em] items-center justify-center">
         <AnimatedBorder isHovered={isHovered} />
         <SocialIcon platform={platform} />
       </span>
@@ -119,7 +119,7 @@ function getSocialPlatform(href: string) {
 }
 
 function SocialIcon({platform}: {platform: NonNullable<ReturnType<typeof getSocialPlatform>>}) {
-  const shared = 'h-4 w-4 shrink-0'
+  const shared = 'h-[1.5em] w-[1.5em] shrink-0'
 
   switch (platform) {
     case 'instagram':
@@ -173,7 +173,7 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer className="relative text-white w-full overflow-x-clip overflow-y-hidden border-t border-black/20 bg-brand dark:border-white/15 dark:bg-dark">
-      <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch lg:h-146">
+      <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch">
         <div className="relative z-10 flex min-w-0 flex-col items-center text-center justify-between gap-10 px-6 py-8 md:w-1/4 md:flex-none md:py-10 lg:px-12 lg:py-12 xl:px-16">
           <div className="flex flex-col items-center gap-6">
             <div className="flex items-center justify-center gap-4 md:gap-2">
@@ -195,7 +195,6 @@ export function Footer({
           </div>
           <div className="flex flex-col items-center">
             <p className="text-body-2 text-white">{copyright}</p>
-            <ClutchWidget nonce={nonce} />
             {legalLinks.map((link) => (
               <Link
                 key={link._key}
@@ -208,7 +207,7 @@ export function Footer({
           </div>
         </div>
 
-        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-6 border-t border-black/20 bg-brand px-8 pt-8 pb-28 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-6 md:px-8 md:pt-12 md:pb-28 lg:gap-6 dark:border-white/15 lg:px-12 overflow-x-clip @container">
+        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-3 border-t border-black/20 bg-brand px-8 pt-8 pb-28 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-3 md:px-8 md:pt-12 md:pb-28 lg:gap-3 dark:border-white/15 lg:px-12 overflow-x-clip @container">
           {/* NEO VISION textured text - half visible at bottom, centered in this section */}
           <div
             aria-hidden="true"
@@ -228,11 +227,11 @@ export function Footer({
 
           {columns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-funnel text-center text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-12 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
+              <h3 className="font-clash text-center uppercase text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-12 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">
-                {col.links?.map((link) => (
+                {col.links?.map((link, linkIdx) => (
                   <li key={link._key || link.href}>
                     {link.href ? (
                       (() => {
@@ -273,6 +272,11 @@ export function Footer({
                     )}
                   </li>
                 ))}
+                {col.title.toLowerCase().includes('contact') && (
+                  <li>
+                    <ClutchWidget nonce={nonce} />
+                  </li>
+                )}
               </ul>
             </div>
           ))}
