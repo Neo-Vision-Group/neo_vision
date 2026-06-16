@@ -138,7 +138,7 @@ export function Hero({ data }: { data?: HeroData }) {
           <div aria-hidden="true" className="hidden shrink-0 self-stretch bg-decoration-dark dark:bg-decoration-light md:block md:w-px" />
 
           {/* Display line + merger note + CTA */}
-          <div className="py-3 flex min-w-0 flex-1 flex-col items-start md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 md:py-12">
+          <div className="py-3 flex min-w-0 flex-1 flex-col items-start md:flex-row md:items-start md:justify-between md:gap-6 md:pl-6 lg:pl-12 px-6 md:px-12 lg:px-16 2xl:px-30 2xl:py-12">
             <SplitTextReveal
               as="p"
               type="words"
