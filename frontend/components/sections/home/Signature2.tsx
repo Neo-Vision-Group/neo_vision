@@ -385,7 +385,7 @@ function StepRailItem({
           {/* Vertical connector — single-column mobile only */}
           <div
             aria-hidden="true"
-            className="relative mx-auto h-4 w-px overflow-hidden md:hidden"
+            className="relative -my-4 mx-auto h-12 w-px overflow-hidden md:hidden"
           >
             <span className="absolute inset-0 bg-black/20 dark:bg-white/20" />
             <span

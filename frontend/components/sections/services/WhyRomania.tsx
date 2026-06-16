@@ -94,14 +94,14 @@ export function WhyRomania({data}: {data?: WhyRomaniaData}) {
                         columnIndex === 0 && 'border-b border-black/10 dark:border-white/10 md:border-b-0 md:border-r md:border-black/10 md:dark:border-white/10',
                       )}
                     >
-                      <article className="group relative isolate flex flex-col gap-12 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">
+                      <article className="group relative isolate flex h-full flex-col gap-12 border border-black/10 bg-black/4 p-6 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F] md:p-8">
                         {highlight.stat ? (
                           <p className="font-clash text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-[32px] md:tracking-[-2.88px]">
                             {highlight.stat}
                           </p>
                         ) : null}
                         {highlight.description ? (
-                          <p className="max-w-[22ch] text-[24px] font-bold leading-[1.2] text-foreground">
+                          <p className="max-w-[22ch] text-[24px] leading-[1.2] text-foreground">
                             {highlight.description}
                           </p>
                         ) : null}

@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export type TestimonialQuoteProps = {
   quote: string;
@@ -7,6 +8,7 @@ export type TestimonialQuoteProps = {
   accent?: boolean;
   className?: string;
   variant?: "default" | "study";
+  profilePictureUrl?: string | null;
 };
 
 export function TestimonialQuote({
@@ -16,6 +18,7 @@ export function TestimonialQuote({
   accent = false,
   className,
   variant = "default",
+  profilePictureUrl,
 }: TestimonialQuoteProps) {
   if (variant === "study") {
     return (
@@ -25,12 +28,15 @@ export function TestimonialQuote({
           className
         )}
       >
-        <span
-          aria-hidden="true"
-          className="font-clash text-5xl leading-none text-brand"
-        >
-          &ldquo;
-        </span>
+        {profilePictureUrl && (
+          <Image
+            src={profilePictureUrl}
+            alt={attribution}
+            className="h-16 w-16 shrink-0 rounded-full object-cover"
+            width={96}
+            height={96}
+          />
+        )}
 
         <div className="flex flex-col gap-6">
           <cite className="not-italic font-funnel text-[18px] leading-normal text-brand">
@@ -38,7 +44,7 @@ export function TestimonialQuote({
             {source ? `, ${source}` : ""}
           </cite>
           <blockquote className="text-[28px] font-funnel leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-4xl">
-            {quote}
+            &ldquo;{quote}&rdquo;
           </blockquote>
         </div>
       </figure>

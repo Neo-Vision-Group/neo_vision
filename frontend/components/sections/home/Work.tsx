@@ -217,9 +217,9 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
         </div>
       </div>
 
-            <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-700 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
+      <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-700 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
         <div className="order-3 flex w-full shrink-0 flex-col items-center justify-center p-4 md:order-2 md:w-1/2 lg:order-1 lg:w-1/4">
-          <div className="flex flex-col items-center gap-0 bg-brand p-2 text-white">
+          <div className="flex w-full flex-col items-center gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
             </span>
@@ -231,7 +231,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
             href={item.thumbHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/10 p-2 text-body text-center dark:text-white text-black transition-colors hover:bg-white/15"
+            className="bg-white/10 p-2 text-body w-full text-center dark:text-white text-black transition-colors hover:bg-white/15"
           >
             See website<span className="sr-only"> (opens in new tab)</span>
           </Link>

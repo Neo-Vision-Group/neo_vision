@@ -2,8 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import Script from 'next/script'
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import {AnimatedBorder} from '@/components/AnimatedBorder'
 import {cn} from '@/lib/utils'
 import NavLogo from '../icons/NavLogo'
@@ -33,49 +32,22 @@ type FooterProps = {
   nonce?: string
 }
 
-const CLUTCH_WIDGET_SCRIPT_ID = 'clutch-widget-script'
-const CLUTCH_WIDGET_SCRIPT_SRC = 'https://widget.clutch.co/static/js/widget.js'
-
-type ClutchWindow = Window & {
-  CLUTCHCO?: {
-    Init?: () => void
-  }
-}
-
-function initializeClutchWidget() {
-  if (typeof window === 'undefined') return
-
-  const clutchWindow = window as ClutchWindow
-  clutchWindow.CLUTCHCO?.Init?.()
-}
-
-function ClutchWidget({nonce}: {nonce?: string}) {
-  useEffect(() => {
-    initializeClutchWidget()
-  }, [])
-
+function ClutchLogo() {
   return (
-    <div className="flex w-full items-center justify-center">
-      <Script
-        id={CLUTCH_WIDGET_SCRIPT_ID}
-        src={CLUTCH_WIDGET_SCRIPT_SRC}
-        strategy="afterInteractive"
-        nonce={nonce}
-        onLoad={initializeClutchWidget}
+    <Link
+      href="https://clutch.co/profile/neo-vision-technologies"
+      target="_blank"
+      rel="noreferrer"
+      className="block"
+    >
+      <Image
+        src="/images/clutch-logo-light.svg"
+        alt="Clutch"
+        width={100}
+        height={28}
+        className="h-7 w-auto"
       />
-      <div
-        className="clutch-widget block shrink-0"
-        style={{margin: '0 auto', width: '50px'}}
-        data-url="https://widget.clutch.co/"
-        data-widget-type="10"
-        data-height="auto"
-        data-nofollow="false"
-        data-expandifr="true"
-        data-shape="round"
-        data-scale="100"
-        data-clutchcompany-id="1165133"
-      />
-    </div>
+    </Link>
   )
 }
 
@@ -176,7 +148,7 @@ export function Footer({
       <div className="relative flex min-w-0 flex-col md:flex-row md:items-stretch">
         <div className="relative z-10 flex min-w-0 flex-col items-center text-center justify-between gap-10 px-6 py-8 md:w-1/4 md:flex-none md:py-10 lg:px-12 lg:py-12 xl:px-16">
           <div className="flex flex-col items-center gap-6">
-            <div className="flex items-center justify-center gap-4 md:gap-2">
+            <div className="flex flex-col items-center justify-center gap-4 md:gap-2">
               {logo ? (
                 <Image
                   src={logo}
@@ -191,10 +163,10 @@ export function Footer({
                   <NavLogo className="h-12 w-10 shrink-0 md:h-16 md:w-12 lg:h-20 lg:w-15 2xl:h-25 2xl:w-20 dark:hidden"/>
                 </>
               )}
+              <p className="text-body-2 text-white">{copyright}</p>
             </div>
           </div>
           <div className="flex flex-col items-center">
-            <p className="text-body-2 text-white">{copyright}</p>
             {legalLinks.map((link) => (
               <Link
                 key={link._key}
@@ -211,7 +183,7 @@ export function Footer({
           {/* NEO VISION textured text - half visible at bottom, centered in this section */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center overflow-hidden"
+            className="pointer-events-none absolute inset-x-0 -bottom-4 z-0 flex justify-center"
             style={{ height: 'clamp(70px, 14vw, 160px)' }}
           >
             <span
@@ -274,7 +246,9 @@ export function Footer({
                 ))}
                 {col.title.toLowerCase().includes('contact') && (
                   <li>
-                    <ClutchWidget nonce={nonce} />
+                    <div className="flex justify-center">
+                      <ClutchLogo />
+                    </div>
                   </li>
                 )}
               </ul>

@@ -5,6 +5,8 @@ import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import TeamArrowLeft from '@/components/icons/TeamArrowLeft'
 import TeamArrowRight from '@/components/icons/TeamArrowRight'
+import LinkedInIcon from '@/components/icons/LinkedInIcon'
+import { AnimatedBorder } from '@/components/AnimatedBorder'
 import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -21,6 +23,7 @@ export type TeamMember = {
   name: string;
   role: string;
   bio: string;
+  linkedin?: string;
   portrait?: Record<string, unknown>;
   order?: number;
 };
@@ -275,9 +278,23 @@ export function Team({ data }: { data?: TeamData }) {
                       <div className="flex min-w-0 flex-col gap-12 text-left">
                         <div className="flex flex-col gap-6">
                           <div className="flex min-w-0 flex-col">
-                            <p className="font-funnel text-[32px] leading-[1.08] tracking-[-0.9px] text-muted dark:text-muted md:text-[48px] lg:text-[56px]">
-                              {member.name}
-                            </p>
+                            <div className="flex items-center justify-between gap-4">
+                              <p className="font-funnel text-[32px] leading-[1.08] tracking-[-0.9px] text-muted dark:text-muted md:text-[48px] lg:text-[56px]">
+                                {member.name}
+                              </p>
+                              {member.linkedin && (
+                                <a
+                                  href={member.linkedin}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  aria-label={`${member.name} on LinkedIn`}
+                                  className="group group/linkedin relative flex size-[50px] shrink-0 items-center justify-center bg-[var(--bg-card)] transition-colors hover:bg-[rgba(255,65,0,0.3)] active:bg-[var(--brand)]"
+                                >
+                                  <LinkedInIcon className="size-6 text-black dark:text-white transition-colors group-active/linkedin:text-white" />
+                                  <AnimatedBorder groupHover />
+                                </a>
+                              )}
+                            </div>
                             <p className="font-funnel text-64 text-muted dark:text-muted md:text-[18px]">
                               {member.role}
                             </p>

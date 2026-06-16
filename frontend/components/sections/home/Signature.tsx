@@ -252,7 +252,7 @@ function StepCard({
             <p className="text-[14px]">{step.duration}</p>
           </div>
         </div>
-        <p className="text-[18px] text-muted-light dark:text-muted-dark">{step.body}</p>
+        <p className="text-[18px] md:text-[24px] text-muted-light dark:text-muted-dark">{step.body}</p>
       </div>
     </div>
   );

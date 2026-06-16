@@ -594,6 +594,13 @@ const sharedPageBuilderProjection = /* groq */ `
     _type == "studyTestimonial" => {
       ...,
       quote {
+        profilePicture {
+          asset->{
+            _id,
+            url,
+            metadata { lqip, dimensions }
+          }
+        },
         quote,
         attribution,
         source,

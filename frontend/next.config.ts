@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.sanity.io',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.brandfetch.io',
+        pathname: '/**',
+      },
       ...(process.env.NODE_ENV === 'development'
         ? [
             {

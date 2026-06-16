@@ -1,10 +1,12 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { TestimonialQuote } from "@/components/partials/TestimonialQuote";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url";
 
 export type StudyTestimonialData = {
   eyebrow?: string;
   quote?: {
+    profilePicture?: SanityImageSource;
     quote?: string;
     attribution?: string;
     source?: string | null;
@@ -22,6 +24,10 @@ export function StudyTestimonial({ data }: { data?: StudyTestimonialData }) {
     return null;
   }
 
+  const profilePictureUrl = quote.profilePicture
+    ? urlForImage(quote.profilePicture).width(200).height(200).fit("crop").url()
+    : null;
+
   return (
     <SectionsWrapper
       id="testimonial"
@@ -34,6 +40,7 @@ export function StudyTestimonial({ data }: { data?: StudyTestimonialData }) {
           source={quote.source ?? undefined}
           accent={quote.accent ?? false}
           variant="study"
+          profilePictureUrl={profilePictureUrl}
         />
       </div>
     </SectionsWrapper>

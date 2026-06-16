@@ -104,7 +104,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${clashDisplay.variable} bg-white text-black`}
+      className={`${inter.variable} ${ibmPlexMono.variable} ${funnelDisplay.variable} ${betatron.variable} ${clashDisplay.variable} dark`}
       suppressHydrationWarning
     >
       <head>
@@ -116,14 +116,17 @@ export default async function RootLayout({children}: {children: React.ReactNode}
               (function() {
                 try {
                   var theme = localStorage.getItem('theme');
-                  var systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                  var resolvedTheme = theme || systemTheme;
+                  // Default to dark mode unless user explicitly chose light
+                  var resolvedTheme = theme || 'dark';
                   if (resolvedTheme === 'dark') {
                     document.documentElement.classList.add('dark');
                   } else {
                     document.documentElement.classList.remove('dark');
                   }
-                } catch (e) {}
+                } catch (e) {
+                  // Fallback to dark mode on error
+                  document.documentElement.classList.add('dark');
+                }
               })();
             `,
           }}
@@ -134,8 +137,8 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           <StructuredDataScript nodes={globalStructuredData} />
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
-            enableSystem
+            defaultTheme="dark"
+            enableSystem={false}
             disableTransitionOnChange
             enableColorScheme={false}
           >

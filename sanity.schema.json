@@ -518,6 +518,14 @@
     "value": {
       "type": "object",
       "attributes": {
+        "profilePicture": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "profilePicture"
+          },
+          "optional": true
+        },
         "quote": {
           "type": "objectAttribute",
           "value": {
@@ -1090,6 +1098,54 @@
           "value": {
             "type": "inline",
             "name": "object.image.media"
+          },
+          "optional": true
+        },
+        "hotspot": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageHotspot"
+          },
+          "optional": true
+        },
+        "crop": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageCrop"
+          },
+          "optional": true
+        },
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "image"
+          }
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
+    "name": "profilePicture",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "asset": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "sanity.imageAsset.reference"
+          },
+          "optional": true
+        },
+        "media": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "profilePicture.media"
           },
           "optional": true
         },

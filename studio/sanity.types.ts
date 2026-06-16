@@ -113,6 +113,7 @@ export type Comparison = {
 }
 
 export type StudyTestimonialQuote = {
+  profilePicture?: ProfilePicture
   quote: string
   attribution: string
   source?: string
@@ -216,6 +217,14 @@ export type ResourceFile = {
 export type ObjectImage = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "object.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
+export type ProfilePicture = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "profilePicture.media" in schema
   hotspot?: SanityImageHotspot
   crop?: SanityImageCrop
   _type: 'image'
@@ -2351,6 +2360,7 @@ export type AllSanitySchemaTypes =
   | SanityFileAssetReference
   | ResourceFile
   | ObjectImage
+  | ProfilePicture
   | TechToolLogo
   | Steps
   | ServiceNavigator

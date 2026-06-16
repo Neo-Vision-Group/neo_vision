@@ -18,6 +18,14 @@ export const studyTestimonial = defineType({
       type: 'object',
       fields: [
         defineField({
+          name: 'profilePicture',
+          title: 'Profile Picture',
+          type: 'image',
+          options: {
+            hotspot: true
+          }
+        }),
+        defineField({
           name: 'quote',
           title: 'Quote Text',
           type: 'text',
