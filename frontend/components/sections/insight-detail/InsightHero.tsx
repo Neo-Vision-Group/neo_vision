@@ -96,14 +96,14 @@ export function InsightHero({ post }: { post: InsightDoc }) {
 
         <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch">
           {/* Left column — text content, padded to match navbar */}
-          <div className="flex flex-col gap-4 px-4 md:gap-5 md:px-12 lg:w-1/2 lg:shrink-0 lg:px-16 2xl:px-30">
+          <div className="flex flex-col gap-8 px-4 md:gap-12 md:px-12 lg:w-1/2 lg:shrink-0 lg:gap-16 lg:px-16 2xl:px-30">
             {categoryLabel ? (
               <div className="self-start">
                 <Badge text={categoryLabel} />
               </div>
             ) : null}
 
-            <div className="flex flex-col gap-3 md:gap-4">
+            <div className="flex flex-col gap-2 md:gap-2">
               <h1 className="text-[28px]! font-normal! leading-[1.1]! tracking-[-0.02em]! md:text-[40px]! xl:text-[52px]! 2xl:text-[72px]!">
                 {post.title}
               </h1>
@@ -114,9 +114,9 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               ) : null}
             </div>
 
-            <div className="mt-auto flex flex-col items-start gap-3 md:gap-4">
+            <div className="mt-auto flex flex-col items-start gap-4 md:gap-5">
               {post.author?.name ? (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4 md:gap-5">
                   <div className="relative h-10 w-10 shrink-0 bg-black/6 dark:bg-white/6">
                     {post.author.portrait ? (
                       <BorderWrapper className="h-full w-full">
@@ -151,7 +151,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               ) : null}
 
               {slug ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 md:gap-6">
                   <ShareButton
                     href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
                     target="_blank"

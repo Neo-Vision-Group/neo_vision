@@ -120,7 +120,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
         <div className="relative z-20 mt-auto p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
             {details.map((item, idx, arr) => (
-              <div key={item._key ?? `${item.label}-${item.value}`} className={cn("h-full lg:flex-1", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
+              <div key={item._key ?? `${item.label}-${item.value}`} className={cn("lg:flex-1", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
                 <HighlightCard card={item} />
               </div>
             ))}
@@ -225,16 +225,16 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex h-full min-h-30 min-w-0 flex-1 flex-col h-full justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex h-full min-h-30 min-w-0 flex-col justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-[32px] leading-none text-brand md:text-[32px] lg:text-[32px]"
+          className="font-funnel text-center text-[48px] leading-none text-brand md:text-[48px] lg:text-[48px]"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel leading-none text-[14px]">
+        <p className="font-funnel text-center leading-none text-[24px]">
           {label}
         </p>
       ) : null}

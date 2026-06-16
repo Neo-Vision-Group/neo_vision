@@ -88,7 +88,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
 
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % steps.length)
-    }, 2000)
+    }, 3500)
 
     return () => clearInterval(interval)
   }, [isVisible, steps.length])
@@ -210,17 +210,17 @@ function DrawBorder({isActive, delayStart = 0, exitDelayStart = 0}: {isActive: b
   return (
     <>
       {/* ① left-side top half: enters growing upward (origin bottom-left), exits retracting upward away from midpoint (origin top-left) */}
-      {seg({top: '0', left: '0', width: '1px', height: '50%'}, 'bottom left', 'top left', 350, 0, 200, 0, 'Y')}
+      {seg({top: '0', left: '0', width: '1px', height: '50%'}, 'bottom left', 'top left', 525, 0, 300, 0, 'Y')}
       {/* ② left-side bottom half: enters growing downward (origin top-left), exits retracting downward away from midpoint (origin bottom-left) */}
-      {seg({bottom: '0', left: '0', width: '1px', height: '50%'}, 'top left', 'bottom left', 350, 0, 200, 0, 'Y')}
+      {seg({bottom: '0', left: '0', width: '1px', height: '50%'}, 'top left', 'bottom left', 525, 0, 300, 0, 'Y')}
       {/* ③ top edge: enters left→right (origin left), exits erasing left→right (origin right, scaleX(0) shrinks from left) */}
-      {seg({top: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 400, 350, 250, 200, 'X')}
+      {seg({top: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, 525, 375, 300, 'X')}
       {/* ④ bottom edge: same as ③ */}
-      {seg({bottom: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 400, 350, 250, 200, 'X')}
+      {seg({bottom: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, 525, 375, 300, 'X')}
       {/* ⑤ right-side top half: enters top-down (origin top), exits retracting upward away from midpoint (origin top) */}
-      {seg({top: '0', right: '0', width: '1px', height: '50%'}, 'top', 'top', 250, 750, 150, 450, 'Y')}
+      {seg({top: '0', right: '0', width: '1px', height: '50%'}, 'top', 'top', 375, 1125, 225, 675, 'Y')}
       {/* ⑥ right-side bottom half: enters bottom-up (origin bottom), exits retracting downward away from midpoint (origin bottom) */}
-      {seg({bottom: '0', right: '0', width: '1px', height: '50%'}, 'bottom', 'bottom', 250, 750, 150, 450, 'Y')}
+      {seg({bottom: '0', right: '0', width: '1px', height: '50%'}, 'bottom', 'bottom', 375, 1125, 225, 675, 'Y')}
     </>
   )
 }
@@ -322,8 +322,8 @@ function StepRailItem({
             style={{
               opacity: isActive ? 1 : 0,
               transition: isActive
-                ? 'opacity 500ms ease-out 0ms'
-                : `opacity 350ms ease-out ${exitDelayMs}ms`,
+                ? 'opacity 750ms ease-out 0ms'
+                : `opacity 525ms ease-out ${exitDelayMs}ms`,
             }}
           >
             <Image
@@ -355,7 +355,7 @@ function StepRailItem({
 
         <div className="flex h-full flex-col justify-between gap-10">
           <p className="font-clash text-[40px] leading-[1.2] tracking-[-2.4px] text-brand md:text-5xl md:tracking-[-2.88px]">
-            {String(index + 1).padStart(2, '0')}.
+            {String(index + 1).padStart(2, '0')}
           </p>
           <h3 className="text-100 font-bold leading-[1.2] text-foreground">
             {step.title}
@@ -376,7 +376,7 @@ function StepRailItem({
               style={{
                 transform: isConnectorActive ? 'scaleX(1)' : 'scaleX(0)',
                 transition: isConnectorActive
-                  ? 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 200ms'
+                  ? 'transform 450ms cubic-bezier(0.4, 0, 0.2, 1) 300ms'
                   : 'none',
               }}
             />
@@ -393,7 +393,7 @@ function StepRailItem({
               style={{
                 transform: isConnectorActive ? 'scaleY(1)' : 'scaleY(0)',
                 transition: isConnectorActive
-                  ? 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1) 200ms'
+                  ? 'transform 450ms cubic-bezier(0.4, 0, 0.2, 1) 300ms'
                   : 'none',
               }}
             />

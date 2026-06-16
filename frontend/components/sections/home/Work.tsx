@@ -162,12 +162,12 @@ export function OurWork({ data }: { data?: PortfolioData }) {
 
 function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; imageErrors: Set<string>; onImageError: (url: string) => void }) {
   return (
-    <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-300 ease-out">
-      <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-300 ease-out group-hover/work-shell:inset-0">
-        <div className="relative isolate h-full w-full overflow-hidden transition-all duration-300 ease-out">
+    <div className="group/work-shell relative isolate flex justify-center overflow-hidden py-6 transition-all duration-700 ease-out">
+      <div className="pointer-events-none absolute inset-x-6 inset-y-6 transition-all duration-700 ease-out group-hover/work-shell:inset-0">
+        <div className="relative isolate h-full w-full overflow-hidden transition-all duration-700 ease-out">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:hidden"
+            className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-700 ease-out group-hover/work-shell:opacity-100 dark:hidden"
           >
             <div className="absolute inset-0 bg-white" />
             <Image
@@ -191,7 +191,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 hidden opacity-0 transition-opacity duration-300 ease-out group-hover/work-shell:opacity-100 dark:block"
+            className="pointer-events-none absolute inset-0 -z-10 hidden opacity-0 transition-opacity duration-700 ease-out group-hover/work-shell:opacity-100 dark:block"
           >
             <div className="absolute inset-0 bg-dark" />
             <Image
@@ -217,9 +217,9 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
         </div>
       </div>
 
-            <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-300 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
-        <div className="order-3 flex w-full shrink-0 flex-col justify-end p-4 md:order-2 md:w-1/2 lg:order-1 lg:w-1/4">
-          <div className="flex flex-col gap-0 bg-brand p-2 text-white">
+            <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-700 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
+        <div className="order-3 flex w-full shrink-0 flex-col items-center justify-center p-4 md:order-2 md:w-1/2 lg:order-1 lg:w-1/4">
+          <div className="flex flex-col items-center gap-0 bg-brand p-2 text-white">
             <span className="text-caption tracking-[-0.16px]">
               Date
             </span>
@@ -231,7 +231,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
             href={item.thumbHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white/10 p-2 text-body dark:text-white text-black transition-colors hover:bg-white/15"
+            className="bg-white/10 p-2 text-body text-center dark:text-white text-black transition-colors hover:bg-white/15"
           >
             See website<span className="sr-only"> (opens in new tab)</span>
           </Link>
@@ -243,7 +243,7 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
               <Image
                 src={item.imageUrl}
                 alt={item.name}
-                className="object-cover transition-transform duration-500 ease-out group-hover/work-shell:scale-105"
+                className="object-cover transition-transform duration-700 ease-out group-hover/work-shell:scale-105"
                 fill
                 sizes="(min-width: 1024px) 50vw, (min-width: 768px) calc(100vw - 64px), calc(100vw - 48px)"
                 onError={() => onImageError(item.imageUrl!)}

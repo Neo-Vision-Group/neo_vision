@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AnimatedBorder } from "../AnimatedBorder";
 
-export default function Badge({ text, isActive, groupHover = false }: { text: string; isActive?: boolean; groupHover?: boolean }) {
+export default function Badge({ text, isActive, groupHover = false, showBorder = true }: { text: string; isActive?: boolean; groupHover?: boolean; showBorder?: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -16,7 +16,7 @@ export default function Badge({ text, isActive, groupHover = false }: { text: st
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-        {!groupHover && <AnimatedBorder isHovered={!isActive && isHovered} />}
+        {showBorder && !groupHover && <AnimatedBorder isHovered={!isActive && isHovered} />}
         <p className="text-dark dark:text-white font-funnel text-[18px]">{text}</p>
     </div>
   );

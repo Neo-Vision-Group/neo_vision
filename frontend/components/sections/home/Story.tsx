@@ -128,10 +128,8 @@ export function Story({ data }: { data?: StoryData }) {
         </SplitTextReveal>
 
         <div className="relative flex flex-col items-center">
-          {/* Single continuous line behind all dots - aligned to center */}
-          <div className="absolute w-screen h-px bg-dark/20 dark:bg-white/20 top-[100px] md:top-[120px] left-1/2 -translate-x-1/2" />
 
-          {/* Years Carousel (Swiper) */}
+          {/* Years Carousel */}
           <div className="relative w-full max-w-[400px] lg:max-w-[500px]">
             <Swiper
               slidesPerView={1}
@@ -157,12 +155,16 @@ export function Story({ data }: { data?: StoryData }) {
 
                     {/* Timeline dot with pulse rings */}
                     <div className="relative flex items-center justify-center w-full my-6 md:my-8">
+                      {/* Line lives here — top-1/2 centers it on the dot. Only rendered on active slide to avoid duplicates. */}
+                      {idx === activeIndex && (
+                        <div className="absolute w-screen h-px bg-dark/20 dark:bg-white/20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none" />
+                      )}
                       <div
                         className="story-tick-btn relative flex items-center justify-center w-20 h-20 cursor-pointer"
                         data-active={idx === activeIndex ? "true" : "false"}
                         onClick={() => swiper?.slideTo(idx)}
                       >
-                        {/* Pulse rings - animated via CSS when data-active="true" */}
+                        {/* Pulse rings */}
                         <span className="story-tick-ring-1 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
                         <span className="story-tick-ring-2 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
                         <span className="story-tick-ring-3 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />

@@ -111,7 +111,7 @@ export function Compare({data}: {data?: CompareData}) {
                       key={row._key ?? `${row.label}-${rowIndex}`}
                       className="border-b border-black/10 dark:border-white/20"
                     >
-                      <th className="px-2 py-5 min-w-45 sticky left-0 bg-white dark:bg-black text-left text-[14px] 2xl:text-[18px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
+                      <th className="px-2 py-5 min-w-45 sticky left-0 bg-white dark:bg-black text-center text-[14px] 2xl:text-[18px] font-funnel font-normal leading-[1.2] tracking-[-0.5px] text-black dark:text-white">
                         {row.label}
                       </th>
 

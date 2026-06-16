@@ -34,6 +34,12 @@ export const teamMember = defineType({
             validation: (Rule) => Rule.required(),
         }),
         defineField({
+            name: 'linkedin',
+            title: 'LinkedIn URL',
+            type: 'url',
+            validation: (Rule) => Rule.uri({ allowRelative: false, scheme: ['https'] }),
+        }),
+        defineField({
             name: 'portrait',
             title: 'Portrait Image',
             type: 'image',

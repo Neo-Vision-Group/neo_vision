@@ -58,7 +58,7 @@ function CtaButton() {
           color="currentColor"
           width={38}
           height={24}
-          className="relative z-10 h-6 w-10 shrink-0 transition-transform duration-200 group-hover:translate-x-1"
+          className="relative z-10 h-6 w-10 shrink-0 transition-transform duration-700 group-hover:translate-x-1"
         />
         <span className="relative z-10 font-funnel text-100 font-bold leading-[1.2]">
           Read case study
@@ -99,7 +99,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
       ref={ref}
       href={href}
       className={cn(
-        "group relative flex flex-col gap-6 bg-[#f0f0f0] dark:bg-[#040404] overflow-hidden border border-black/15 p-4 transition-all duration-300 ease-out hover:border-black/25 dark:border-white/10 dark:hover:border-white/20 md:gap-6 md:p-6",
+        "group relative flex flex-col gap-6 bg-[#f0f0f0] dark:bg-[#040404] overflow-hidden border border-black/15 p-4 transition-all duration-700 ease-out hover:border-black/25 dark:border-white/10 dark:hover:border-white/20 md:gap-6 md:p-6",
         featured ? "md:flex-row md:items-stretch" : "lg:flex-row lg:items-stretch",
         className
       )}
@@ -108,7 +108,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
         ref={imageRef}
         className={cn(
           "case-study-card-image relative isolate flex shrink-0 overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
-          "w-full lg:w-1/3 lg:transition-[width] lg:duration-500 lg:ease-out",
+          "w-full lg:w-1/3 lg:transition-[width] lg:duration-1000 lg:ease-out",
           "aspect-square lg:aspect-video",
         )}
       >
@@ -117,7 +117,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
             src={thumbSrc}
             alt={item.client}
             fill
-            className="absolute inset-0 object-cover object-center transition-transform duration-500"
+            className="absolute inset-0 object-cover object-center transition-transform duration-1000"
           />
         ) : (
           <div

@@ -47,7 +47,7 @@ export function Methodology({ data }: { data?: MethodologyData }) {
           }
 
           return {
-            number: `${String(idx + 1).padStart(2, "0")}.`,
+            number: `${String(idx + 1).padStart(2, "0")}`,
             title,
             body,
           };
@@ -128,11 +128,11 @@ function MethodologyCard({
 }) {
   return (
     <div className="group/card-shell relative h-full p-6">
-      <div className="pointer-events-none absolute inset-6 transition-all duration-300 ease-out group-hover/card-shell:inset-0 lg:inset-6">
-        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-300 ease-out group-hover/card-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+      <div className="pointer-events-none absolute inset-4 transition-all duration-500 ease-in-out group-hover/card-shell:inset-0 lg:inset-4">
+        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-500 ease-in-out group-hover/card-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-300 ease-out group-hover/card-shell:opacity-100"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-500 ease-in-out group-hover/card-shell:opacity-100"
           >
             <Image
               src={methodologyCardHoverGraphic}
@@ -153,12 +153,12 @@ function MethodologyCard({
         </div>
       </div>
 
-      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/card-shell:-translate-y-0.5 md:p-8">
+      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-500 ease-in-out group-hover/card-shell:-translate-y-0.5 md:p-8">
         <span className="font-clash text-5xl leading-none tracking-[-3.84px] text-brand md:text-80 md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
           {step.number}
         </span>
         <div className="flex flex-col">
-          <h3 className="text-100 font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 xl:text-4xl xl:leading-12">
+          <h3 className="font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 xl:!text-[32px] xl:leading-12">
             {step.title}
           </h3>
           <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">

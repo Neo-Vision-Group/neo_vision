@@ -93,7 +93,7 @@ export function Signature({ data }: { data?: SignatureData }) {
           }
 
           return {
-            number: `${String(idx + 1).padStart(2, "0")}.`,
+            number: `${String(idx + 1).padStart(2, "0")}`,
             title,
             duration,
             body,
@@ -215,11 +215,11 @@ function StepCard({
         !showBottomBorder && "border-t dark:border-white/20 md:border-t-0 border-black/20"
       )}
     >
-      <div className="pointer-events-none absolute inset-6 transition-all duration-300 ease-out group-hover/step-shell:inset-0 lg:inset-6">
-        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-300 ease-out group-hover/step-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
+      <div className="pointer-events-none absolute inset-4 transition-all duration-500 ease-in-out group-hover/step-shell:inset-0 lg:inset-4">
+        <div className="relative isolate h-full w-full overflow-hidden border border-black/10 bg-[#f7f7f7] transition-all duration-500 ease-in-out group-hover/step-shell:border-brand/40 dark:border-white/10 dark:bg-[#0F0F0F]">
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-300 ease-out group-hover/step-shell:opacity-100"
+            className="pointer-events-none absolute inset-0 -z-10 overflow-hidden opacity-0 transition-opacity duration-500 ease-in-out group-hover/step-shell:opacity-100"
           >
             <Image
               src={signatureStepHoverGraphic}
@@ -240,13 +240,13 @@ function StepCard({
         </div>
       </div>
 
-      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-300 ease-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
+      <div className="relative z-10 flex h-full flex-col gap-8 p-6 transition-transform duration-500 ease-in-out group-hover/step-shell:-translate-y-0.5 lg:p-8">
         <div className="flex items-center gap-3">
           <span className="font-clash text-[48px] leading-none text-brand">
             {step.number}
           </span>
           <div className="flex flex-1 flex-col">
-            <h3 className="text-[24px]! leading-[1.3] tracking-[-0.15px]">
+            <h3 className="text-[24px] xl:!text-[32px] leading-[1.3] tracking-[-0.15px]">
               {step.title}
             </h3>
             <p className="text-[14px]">{step.duration}</p>

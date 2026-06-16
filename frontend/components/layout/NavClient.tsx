@@ -17,7 +17,6 @@ import { AnimatedThemeToggle } from '../partials/AnimatedThemeToggle'
 type NavClientProps = {
   pages: NavPageType[]
   title: string
-  email?: string | null
   logo?: string
   cta?: {
     buttonText?: string
@@ -63,7 +62,7 @@ function NavItem({ href, children }: { href: string; children: React.ReactNode }
   )
 }
 
-export default function NavClient({ pages, title, email, logo, cta }: NavClientProps) {
+export default function NavClient({ pages, title, logo, cta }: NavClientProps) {
   // Build CTA href from link object
   const getCtaHref = () => {
     if (!cta?.link) return '#'
@@ -151,7 +150,7 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
         </div>
 
         {/* CTA & Theme Toggle */}
-        <div className="hidden items-center gap-2 lg:flex">
+        <div className="hidden items-center gap-4 lg:flex md:gap-8 lg:gap-12">
           <Button
             href={ctaHref}
             variant="primary"
@@ -235,11 +234,6 @@ export default function NavClient({ pages, title, email, logo, cta }: NavClientP
               {ctaText}
             </Button>
             <div className="flex items-center justify-between gap-4">
-              {email ? (
-                <p className="text-caption text-black/70 dark:text-white/70">{email}</p>
-              ) : (
-                <span />
-              )}
               <AnimatedThemeToggle />
             </div>
           </div>

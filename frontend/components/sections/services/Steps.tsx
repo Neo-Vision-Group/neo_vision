@@ -112,7 +112,7 @@ export function Steps({data}: {data?: StepsData}) {
                           </h4>
                         ) : null}
                         {item.duration ? (
-                          <Badge text={item.duration} />
+                          <Badge text={item.duration} showBorder={false} />
                         ) : null}
                       </div>
                     </div>

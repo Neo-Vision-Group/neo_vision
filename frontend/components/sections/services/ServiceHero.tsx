@@ -136,8 +136,8 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
       className="has-hero-pattern relative isolate flex min-h-[calc(100dvh-4rem)] w-full flex-col bg-transparent"
     >
 
-      <div className="relative flex flex-col h-full justify-between gap-6 pt-6 md:gap-8 md:pt-8 lg:gap-20 lg:pt-12 overflow-hidden">
-        <div className="xl:px-16 2xl:px-30 lg:px-16 md:px-8 px-6 md:gap-5 gap-3 flex flex-col">
+      {/* Text content — padded */}
+      <div className="relative shrink-0 flex flex-col gap-6 px-6 pt-10 pb-6 md:gap-10 md:px-8 md:pt-12 md:pb-6 lg:px-12 xl:px-12 2xl:px-30">
           {breadcrumbItems.length > 0 ? (
             <RevealOnScroll
               as="div"
@@ -208,7 +208,8 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
           </div>
         </div>
 
-        <div className="relative w-full pb-6 mb-12 px-6 lg:px-12 border-t border-black/10 dark:border-white/20">
+      {/* Cards — flows below text on mobile, absolutely pinned to section bottom on lg+ */}
+        <div className="relative z-20 mt-auto p-6 border-t border-black/10 dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
           {railItems.length > 0 ? (
             <RevealOnScroll
               as="div"
@@ -290,7 +291,6 @@ export function ServiceHero({ data }: { data?: ServiceHeroData }) {
             </RevealOnScroll>
           ) : null}
         </div>
-      </div>
     </section>
   );
 }
@@ -394,12 +394,12 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="text-center text-[20px] md:text-[24px] lg:text-[28px] leading-[1.2] text-brand"
+          className="text-center text-[48px] leading-[1.2] text-brand"
         />
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-center text-[16px] md:text-[18px] lg:text-[22px] leading-[1.2] text-foreground">
+        <p className="font-funnel text-center text-[24px] leading-[1.2] text-foreground">
           {label}
         </p>
       ) : null}

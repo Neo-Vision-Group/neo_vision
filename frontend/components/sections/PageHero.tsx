@@ -74,85 +74,88 @@ export function PageHero({ data }: { data?: PageHeroData }) {
       )}
     >
 
-      <div className={cn(
-        "flex flex-1 bg-none",
-        featured ? "flex-col lg:items-stretch" : "flex-col"
-      )}>
-        <div className={cn(
-          "flex flex-1 flex-col gap-10 py-8 md:gap-14 md:py-20",
-          featured ? "lg:py-12 xl:py-14 2xl:py-16 justify-start" : "lg:py-28 xl:py-16 2xl:py-20",
-          !featured && !stats?.length ? "justify-center" : "justify-start"
-        )}>
-          <div className="px-6 lg:px-8 xl:px-12 2xl:px-30">
-            {eyebrow ? (
-              <p className="font-clash text-4xl leading-[1.2] uppercase text-brand">
-                {eyebrow}
-              </p>
-            ) : null}
-
-            <PortableTextRenderer
-              value={cleanData?.heading}
-              className={cn(
-                "[&_p]:my-0",
-                "[&_p]:font-funnel",
-                "[&_p]:text-[48px]",
-                "[&_p]:leading-none",
-                "[&_p]:tracking-[-0.3px]",
-                "md:[&_p]:text-[64px]",
-                "md:[&_p]:leading-none",
-                "lg:[&_p]:text-[96px]",
-                "lg:[&_p]:leading-none",
-                "lg:[&_p]:tracking-[-0.4px]",
-                "dark:[&_p:first-of-type]:text-[#efefef] [&_p:first-of-type]:text-black",
-                "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:font-bold",
-              )}
-            />
-          </div>
-
-          {subheading ? (
-            <RevealOnScroll
-              as="p"
-              className="lg:max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
-              delay={0.15}
-            >
-              {subheading}
-            </RevealOnScroll>
+      {/* Text content — padded */}
+      <div className="relative shrink-0 flex flex-col gap-10 py-8 md:gap-14 md:py-20 lg:py-28 xl:py-16 2xl:py-20">
+        <div className="px-6 lg:px-8 xl:px-12 2xl:px-30">
+          {eyebrow ? (
+            <p className="font-clash text-4xl leading-[1.2] uppercase text-brand">
+              {eyebrow}
+            </p>
           ) : null}
 
-          {stats && stats.length > 0 ? (
-            <div className="mt-auto w-full border-t border-black/10 p-6 dark:border-white/20">
-              <RevealOnScroll
-                as="div"
-                className="flex flex-col gap-3 md:flex-row md:items-stretch"
-                stagger={0.08}
-                delay={0.25}
-              >
-                {stats.map((stat, index) => (
-                  <div key={`stat-${index}`} className="contents">
-                    {index > 0 ? (
-                      <div
-                        aria-hidden="true"
-                        className="hidden md:block md:w-px md:self-stretch md:bg-black/10 dark:md:bg-white/20"
-                      />
-                    ) : null}
-                    <StatCard stat={stat} />
-                  </div>
-                ))}
-              </RevealOnScroll>
-            </div>
-          ) : null}
+          <PortableTextRenderer
+            value={cleanData?.heading}
+            className={cn(
+              "[&_p]:my-0",
+              "[&_p]:font-funnel",
+              "[&_p]:text-[48px]",
+              "[&_p]:leading-none",
+              "[&_p]:tracking-[-0.3px]",
+              "md:[&_p]:text-[64px]",
+              "md:[&_p]:leading-none",
+              "lg:[&_p]:text-[96px]",
+              "lg:[&_p]:leading-none",
+              "lg:[&_p]:tracking-[-0.4px]",
+              "dark:[&_p:first-of-type]:text-[#efefef] [&_p:first-of-type]:text-black",
+              "dark:[&_p:last-of-type]:text-white [&_p:last-of-type]:font-bold",
+            )}
+          />
         </div>
 
-        {featured ? (
+        {subheading ? (
           <RevealOnScroll
-            as="div"
-            className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 lg:max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
-            delay={0.35}
+            as="p"
+            className="lg:max-w-1/2 font-funnel text-[18px] leading-normal text-foreground px-6 lg:px-8 xl:px-12 2xl:px-30"
+            delay={0.15}
           >
-            <FeaturedReferenceCard item={featured} variant="sidebar" />
+            {subheading}
           </RevealOnScroll>
         ) : null}
       </div>
+
+      {/* Stats — flows below text on mobile, absolutely pinned to section bottom on lg+ */}
+      {stats && stats.length > 0 ? (
+        <div className="relative z-20 mt-auto p-6 border-t border-black/10 dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
+          <RevealOnScroll
+            as="div"
+            className="flex w-full flex-col"
+            stagger={0.08}
+            delay={0.25}
+          >
+            {/* Mobile layout: single column for stats */}
+            <div className="flex flex-col gap-2 pt-3 md:hidden">
+              {stats.map((stat, index) => (
+                <StatCard key={`stat-${index}`} stat={stat} />
+              ))}
+            </div>
+
+            {/* Desktop layout: horizontal flex row with dividers */}
+            <div className="hidden md:flex md:flex-row md:items-stretch md:gap-3 pt-3">
+              {stats.map((stat, index) => (
+                <div key={`stat-${index}`} className="contents">
+                  {index > 0 ? (
+                    <div
+                      aria-hidden="true"
+                      className="w-px self-stretch bg-black/10 dark:bg-white/20"
+                    />
+                  ) : null}
+                  <StatCard stat={stat} />
+                </div>
+              ))}
+            </div>
+          </RevealOnScroll>
+        </div>
+      ) : null}
+
+      {featured ? (
+        <RevealOnScroll
+          as="div"
+          className="relative px-3 pb-6 pt-0 flex flex-col xl:min-w-2/3 xl:max-w-2/3 lg:max-w-2/3 items-stretch md:px-6 lg:absolute lg:bottom-3 lg:left-auto lg:right-0 lg:pb-0 lg:pt-0 lg:items-end lg:pr-8 xl:pr-16 2xl:pr-30"
+          delay={0.35}
+        >
+          <FeaturedReferenceCard item={featured} variant="sidebar" />
+        </RevealOnScroll>
+      ) : null}
     </section>
   );
 }
@@ -312,15 +315,15 @@ function StatCard({ stat }: { stat: PageHeroStat }) {
   }
 
   return (
-    <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4">
+    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f] bg-white-light">
       {displayValue ? (
-        <p className="font-funnel text-[32px] leading-none text-brand">
+        <p className="text-center text-[48px] leading-[1.2] text-brand">
           {displayValue}
         </p>
       ) : null}
 
       {label ? (
-        <p className="font-funnel text-[14px] leading-none text-foreground">
+        <p className="font-funnel text-center text-[24px] leading-[1.2] text-foreground">
           {label}
         </p>
       ) : null}

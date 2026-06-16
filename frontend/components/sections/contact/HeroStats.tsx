@@ -69,14 +69,14 @@ function StatCard({
   if (variant === "contactDark") {
     return (
       <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4">
-        <div className="font-funnel text-[32px] leading-none text-brand">
+        <div className="font-funnel text-center text-[48px] leading-none text-brand">
           <CountingNumber
             value={stat.number}
             suffix={stat.suffix}
             duration={2000}
           />
         </div>
-        <p className="font-funnel text-[14px] leading-none text-foreground">
+        <p className="font-funnel text-center text-[24px] leading-none text-foreground">
           {stat.label}
         </p>
       </article>
