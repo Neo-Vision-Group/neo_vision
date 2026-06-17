@@ -19,7 +19,7 @@ export const studyTechStack = defineType({
       of: [
         {
           type: 'reference',
-          to: [{type: 'techStack'}],
+          to: [{type: 'technicalStack'}],
           preview: {
             select: {
               title: 'name',

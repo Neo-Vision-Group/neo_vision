@@ -1,24 +1,12 @@
 import Image from "next/image";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
-import { cleanStega } from "@/sanity/lib/utils";
+import { cleanStega, urlForImage } from "@/sanity/lib/utils";
+import type { SanityImageSource } from "@sanity/image-url";
 
 type TechTool = {
   _key?: string;
   name?: string;
-  logo?: {
-    asset?: {
-      _id?: string;
-      url?: string;
-      metadata?: {
-        dimensions?: {
-          width?: number;
-          height?: number;
-        };
-      };
-    };
-    hotspot?: { x?: number; y?: number };
-    crop?: { top?: number; bottom?: number; left?: number; right?: number };
-  };
+  image?: SanityImageSource;
 };
 
 export type StudyTechStackData = {
@@ -41,7 +29,9 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
       <div className="">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {tools.map((tool) => {
-            const logoUrl = tool.logo?.asset?.url;
+            const imageUrl = tool.image
+              ? urlForImage(tool.image).width(240).height(135).fit("max").auto("format").url()
+              : null;
             const toolName = tool.name ?? "";
 
             return (
@@ -49,14 +39,14 @@ export function StudyTechStack({ data }: { data?: StudyTechStackData }) {
                 key={tool._key ?? toolName}
                 className="flex flex-col gap-3 p-6 border-r border-b border-black/20 dark:border-white/20"
               >
-                {logoUrl ? (
-                  <div className="aspect-[102.5/57.65] w-full flex items-center justify-center bg-black/5 dark:bg-white/5 rounded">
+                {imageUrl ? (
+                  <div className="relative aspect-[102.5/57.65] w-full flex items-center justify-center bg-black/5 dark:bg-white/5 rounded p-4">
                     <Image
-                      src={logoUrl}
+                      src={imageUrl}
                       alt={`${toolName} logo`}
-                      width={120}
-                      height={68}
-                      className="object-contain max-h-[68px] w-auto"
+                      fill
+                      sizes="(max-width: 768px) 50vw, 25vw"
+                      className="object-contain p-4"
                     />
                   </div>
                 ) : (

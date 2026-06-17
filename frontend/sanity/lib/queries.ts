@@ -740,22 +740,16 @@ const sharedPageBuilderProjection = /* groq */ `
         asset->
       }
     },
-    _type == "techStack" => {
+    _type == "studyTechStack" => {
       ...,
       eyebrow,
-      headingRegular,
-      headingBold,
-      groups[]{
-        title,
-        tools[]->{
-          name,
-          logo {
-            ...,
-            asset->
-          }
+      tools[]->{
+        name,
+        image {
+          ...,
+          asset->
         }
-      },
-      closingNote
+      }
     },
   }
 `
