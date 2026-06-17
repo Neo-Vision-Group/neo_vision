@@ -16,6 +16,7 @@ import Badge from "./Badge";
 export type CaseStudyCardData = {
   _id?: string;
   client: string;
+  title: string;
   slug?: { current?: string } | string | null;
   year?: string | null;
   category?: string | null;
@@ -157,7 +158,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
           {item.category ? <Badge text={item.category} groupHover /> : null}
           <div className="flex flex-col gap-2">
             <p className="font-funnel text-[28px] leading-[1.1] tracking-[-0.84px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
-              {item.client}
+              {item.title}
             </p>
             {item.tagline ? (
               <p className="line-clamp-4 font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">

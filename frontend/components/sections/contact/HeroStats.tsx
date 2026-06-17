@@ -68,7 +68,7 @@ function StatCard({
 }) {
   if (variant === "contactDark") {
     return (
-      <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-between gap-2 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4">
+      <article className="flex min-h-30 min-w-0 flex-1 flex-col justify-center gap-1 border border-black/10 bg-white-dark p-6 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:min-h-0 md:gap-0.5 md:p-3 lg:gap-1 lg:p-4">
         <div className="font-funnel text-center text-[48px] leading-none text-brand">
           <CountingNumber
             value={stat.number}

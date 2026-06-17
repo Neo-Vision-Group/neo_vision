@@ -16,8 +16,7 @@ export const portfolioGrid = defineType({
           type: 'reference',
           to: [{ type: 'project' }]
         }
-      ],
-      validation: (Rule) => Rule.required()
+      ]
     })
   ],
   preview: {

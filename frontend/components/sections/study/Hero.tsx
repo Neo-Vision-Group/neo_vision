@@ -225,7 +225,7 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex h-full min-h-30 min-w-0 flex-col justify-between gap-2 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-1 md:p-3 lg:gap-2 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex h-full min-h-30 min-w-0 flex-col justify-center gap-1 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-0.5 md:p-3 lg:gap-1 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}

@@ -131,6 +131,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
   const visibleItems = normalizedItems.slice(0, visibleCount);
   const hasMore = normalizedItems.length > visibleCount;
+  const preloadItem = hasMore ? normalizedItems[visibleCount] : null;
 
   const [activeCards, setActiveCards] = useState<boolean[]>(() =>
     new Array(INITIAL_VISIBLE_ITEMS).fill(true)
@@ -142,11 +143,8 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const loadMore = useCallback(() => {
     if (!hasMore || isLoadingMore) return;
     setIsLoadingMore(true);
-    // Small delay to show loading state and prevent rapid-fire triggers
-    setTimeout(() => {
-      setVisibleCount((count) => count + LOAD_MORE_COUNT);
-      setIsLoadingMore(false);
-    }, 150);
+    setVisibleCount((count) => count + LOAD_MORE_COUNT);
+    setIsLoadingMore(false);
   }, [hasMore, isLoadingMore]);
 
   // Infinite scroll observer
@@ -160,7 +158,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           loadMore();
         }
       },
-      { rootMargin: "200px" }
+      { rootMargin: "800px" }
     );
 
     observer.observe(sentinel);
@@ -217,14 +215,14 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
   return (
     <div className="flex flex-col border-y border-black/20 dark:border-white/20 md:flex-row md:w-full bg-white dark:bg-dark">
-        <aside className="border-b border-black/20 dark:border-white/20 md:sticky md:w-1/4 md:flex-none md:self-start md:border-b-0 px-5 py-6 md:pl-6 2xl:pl-30 md:pr-5 md:py-0 md:pt-12">
+        <aside className="border-b border-black/20 dark:border-white/20 md:sticky md:top-16 lg:top-20 md:w-1/4 md:flex-none md:self-start md:border-b-0 px-5 py-6 md:pl-6 2xl:pl-30 md:pr-5 md:py-0 md:pt-12">
           <div className="flex flex-col gap-6 md:gap-5 lg:gap-10 lg:pb-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-clash text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                <p className="font-clash font-bold text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
                   Service:
                 </p>
-                <div className="flex flex-wrap gap-2 lg:gap-5">
+                <div className="flex lg:-ml-2.5 flex-wrap gap-3">
                   {serviceFilters.map((filter) => (
                     <FilterButton
                       key={filter.value ?? filter.label}
@@ -239,10 +237,10 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
             {industryFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-clash text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                <p className="font-clash font-bold text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
                   Industry:
                 </p>
-                <div className="flex flex-wrap gap-2 lg:gap-5">
+                <div className="flex lg:-ml-2.5 flex-wrap gap-3">
                   {industryFilters.map((filter) => (
                     <FilterButton
                       key={filter.value ?? filter.label}
@@ -290,6 +288,19 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                   </div>
                 ))}
               </div>
+
+              {preloadItem && (
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none overflow-hidden"
+                  style={{ height: 0, visibility: "hidden" }}
+                >
+                  <CaseStudyCard
+                    item={preloadItem as CaseStudyCardData}
+                    isActive={false}
+                  />
+                </div>
+              )}
 
               {hasMore && (
                 <div

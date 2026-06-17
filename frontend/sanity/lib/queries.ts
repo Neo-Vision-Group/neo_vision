@@ -676,6 +676,7 @@ const sharedPageBuilderProjection = /* groq */ `
       items[]->{
         _id,
         client,
+        title,
         slug,
         year,
         "category": category->name,
@@ -746,7 +747,7 @@ const sharedPageBuilderProjection = /* groq */ `
       headingBold,
       groups[]{
         title,
-        items[]{
+        tools[]->{
           name,
           logo {
             ...,

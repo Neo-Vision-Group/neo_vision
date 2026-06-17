@@ -18,30 +18,12 @@ export const studyTechStack = defineType({
       type: 'array',
       of: [
         {
-          type: 'object',
-          name: 'techTool',
-          title: 'Technology',
-          fields: [
-            defineField({
-              name: 'name',
-              title: 'Name',
-              type: 'string',
-              validation: (Rule) => Rule.required()
-            }),
-            defineField({
-              name: 'logo',
-              title: 'Logo',
-              type: 'image',
-              description: 'Upload a logo for this technology (optional)',
-              options: {
-                hotspot: true
-              }
-            })
-          ],
+          type: 'reference',
+          to: [{type: 'techStack'}],
           preview: {
             select: {
               title: 'name',
-              media: 'logo'
+              media: 'image'
             }
           }
         }

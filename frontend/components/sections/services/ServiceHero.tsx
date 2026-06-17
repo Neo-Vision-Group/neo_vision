@@ -390,7 +390,7 @@ function HighlightCard({ card }: { card: ServiceHeroHighlight }) {
   }
 
   return (
-    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-between gap-1 md:gap-2 border border-black/10 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f] bg-white-light">
+    <article className="flex min-h-14 md:min-h-16 lg:min-h-20 flex-1 flex-col justify-center gap-0.5 md:gap-1 border border-black/10 p-2 md:p-3 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f] bg-white-light">
       {value ? (
         <ScrambleText
           text={value}
