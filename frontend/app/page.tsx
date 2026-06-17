@@ -11,6 +11,7 @@ import {
   extractPageBuilderDescription,
   resolveSeoContext,
 } from '@/sanity/lib/seo'
+import type {HomePageQueryResult} from '@/sanity.types'
 
 const loadHomePageForMetadata = cache(async () => {
   const {data} = await sanityFetch({
@@ -18,7 +19,7 @@ const loadHomePageForMetadata = cache(async () => {
     stega: false,
   })
 
-  return data
+  return data as HomePageQueryResult | null
 })
 
 export async function generateMetadata(): Promise<Metadata> {

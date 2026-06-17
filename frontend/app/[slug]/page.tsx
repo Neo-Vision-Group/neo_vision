@@ -13,6 +13,7 @@ import {
   extractPageBuilderDescription,
   resolveSeoContext,
 } from '@/sanity/lib/seo'
+import type {PageQueryResult} from '@/sanity.types'
 
 type Props = {
   params: Promise<{slug: string}>
@@ -25,7 +26,7 @@ const loadPageForMetadata = cache(async (slug: string) => {
     stega: false,
   })
 
-  return data
+  return data as PageQueryResult | null
 })
 
 function getPageSchemaType(slug: string) {
