@@ -2,6 +2,8 @@
 
 @plugin "@tailwindcss/typography";
 
+@source inline("md:text-[16px] lg:text-[24px]");
+
 @theme {
   --font-clash: var(--font-clash-display), sans-serif;
   --font-funnel: var(--font-funnel-display), sans-serif;

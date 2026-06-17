@@ -124,7 +124,7 @@ export function Industries({ data }: { data: IndustryData }) {
                             return (
                                 <div
                                     key={(item.label ?? "metric") + idx}
-                                    className="flex flex-1 flex-col gap-6 items-center md:items-start"
+                                    className="flex flex-1 flex-col gap-6 items-center"
                                 >
                                     <dt className="whitespace-nowrap font-clash text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
                                         {displayValue}

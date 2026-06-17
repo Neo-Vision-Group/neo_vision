@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -37,6 +36,10 @@ export type StudyHeroData = {
       url?: string;
     };
   };
+  // Fallback fields from parent project document
+  projectTitle?: string;
+  projectTagline?: string;
+  projectThumb?: string;
 };
 
 export function StudyHero({ data }: { data?: StudyHeroData }) {
@@ -47,11 +50,11 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   }
 
   const eyebrow = cleanData.eyebrow;
-  const heading = cleanData.heading;
-  const subheading = cleanData.subheading;
+  const heading = cleanData.heading || cleanData.projectTitle;
+  const subheading = cleanData.subheading || cleanData.projectTagline;
   const details =
     cleanData.details?.filter((item) => item?.label && item?.value) ?? [];
-  const imageUrl = cleanData.heroImage?.asset?.url;
+  const imageUrl = cleanData.heroImage?.asset?.url || cleanData.projectThumb;
 
 
   return (
@@ -103,7 +106,7 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
               alt={heading ?? "Hero image"}
               fill
               sizes="(min-width: 1280px) 1280px, 100vw"
-              className="object-cover"
+              className="object-contain"
               priority
             />
           </div>

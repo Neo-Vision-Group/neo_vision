@@ -58,6 +58,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const [isMobileLayout, setIsMobileLayout] = useState(false)
   const sectionRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -92,6 +93,17 @@ export function Signature2({data}: {data?: Signature2Data}) {
 
     return () => clearInterval(interval)
   }, [isVisible, steps.length])
+
+  // Detect mobile layout for border animation variant
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 767px)')
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobileLayout(e.matches)
+    }
+    handleChange(mediaQuery)
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
 
   if (!headingFaded && !headingBold && !body && steps.length === 0 && !ctaLabel) {
     return null
@@ -131,6 +143,7 @@ export function Signature2({data}: {data?: Signature2Data}) {
                   showConnector={index < steps.length - 1}
                   isActive={isVisible && index === activeIndex}
                   isConnectorActive={isVisible && index + 1 <= activeIndex}
+                  variant={isMobileLayout ? 'mobile' : 'desktop'}
                 />
               ))}
             </div>
@@ -152,24 +165,51 @@ export function Signature2({data}: {data?: Signature2Data}) {
 /*
  * DrawBorder — animated perimeter trace using CSS scale transforms.
  *
- * The draw starts from the midpoint of the LEFT (outer) edge and
- * simultaneously travels in two directions:
- *   ① Left-side top half   → upward   (transform-origin: bottom-left)
- *   ② Left-side bot half   → downward (transform-origin: top-left)
- *   ③ Top edge             → left→right, origin: left
- *   ④ Bottom edge          → left→right, origin: left       (same delay as ③)
- *   ⑤ Right-side top half  → top-right corner down to mid-right, origin: top
- *   ⑥ Right-side bot half  → bot-right corner up  to mid-right, origin: bottom
+ * DESKTOP (variant='desktop'):
+ *   The draw starts from the midpoint of the LEFT (outer) edge and
+ *   simultaneously travels in two directions:
+ *     ① Left-side top half   → upward   (transform-origin: bottom-left)
+ *     ② Left-side bot half   → downward (transform-origin: top-left)
+ *     ③ Top edge             → left→right, origin: left
+ *     ④ Bottom edge          → left→right, origin: left
+ *     ⑤ Right-side top half  → top-right corner down to mid-right, origin: top
+ *     ⑥ Right-side bot half  → bot-right corner up  to mid-right, origin: bottom
  *
- * Timing (total ~1.0 s, eased):
- *   ①②  0 ms   → 350 ms   (left vertical halves, 0.35 s)
- *   ③④  350 ms → 750 ms   (top & bottom horizontals, 0.4 s, delay 0.35 s)
- *   ⑤⑥  750 ms → 1000 ms  (right vertical halves, 0.25 s, delay 0.75 s)
+ *   Timing (total ~1.0 s, eased):
+ *     ①②  0 ms   → 350 ms   (left vertical halves, 0.35 s)
+ *     ③④  350 ms → 750 ms   (top & bottom horizontals, 0.4 s, delay 0.35 s)
+ *     ⑤⑥  750 ms → 1000 ms  (right vertical halves, 0.25 s, delay 0.75 s)
+ *
+ * MOBILE (variant='mobile'):
+ *   The draw is "inverted" from desktop — top starts from center,
+ *   verticals draw top-to-bottom, bottom draws last from edges inward:
+ *     ③a Top-left half       → center→left, origin: right (center)
+ *     ③b Top-right half      → center→right, origin: left (center)
+ *     ① Left full edge       → top→bottom, origin: top
+ *     ⑤ Right full edge      → top→bottom, origin: top
+ *     ④a Bottom-left half    → left→center, origin: left (edges inward)
+ *     ④b Bottom-right half   → right→center, origin: right (edges inward)
+ *
+ *   Timing (total ~1.0 s, eased):
+ *     ③a③b       0 ms   → 300 ms  (top halves from center, 0.3 s)
+ *     ①⑤         300 ms → 700 ms  (full verticals, 0.4 s, delay 0.3 s)
+ *     ④a④b       700 ms → 1000 ms (bottom halves from edges, 0.3 s, delay 0.7 s)
  *
  * When isActive flips back to false the spans reset to scale 0 instantly (no transition).
  */
-function DrawBorder({isActive, delayStart = 0, exitDelayStart = 0}: {isActive: boolean; delayStart?: number; exitDelayStart?: number}) {
+function DrawBorder({
+  isActive,
+  delayStart = 0,
+  exitDelayStart = 0,
+  variant = 'desktop',
+}: {
+  isActive: boolean
+  delayStart?: number
+  exitDelayStart?: number
+  variant?: 'desktop' | 'mobile'
+}) {
   const ease = 'cubic-bezier(0.4, 0, 0.2, 1)'
+  const isMobile = variant === 'mobile'
 
   const seg = (
     pos: {top?: string; bottom?: string; left?: string; right?: string; width: string; height: string},
@@ -200,27 +240,64 @@ function DrawBorder({isActive, delayStart = 0, exitDelayStart = 0}: {isActive: b
     />
   )
 
-  /*
-   * Exit (erase) starts from the left side — same side as the draw start.
-   * Total exit ~600 ms.
-   *   ①②  0 ms   → 200 ms  (left vertical halves collapse inward)
-   *   ③④  200 ms → 450 ms  (horizontals retract left→right, origin: left)
-   *   ⑤⑥  450 ms → 600 ms  (right vertical halves open outward)
-   */
+  // Desktop timing
+  const dLeftEnterDelay = 0
+  const dHorizEnterDelay = 525
+  const dRightEnterDelay = 1125
+  const dLeftExitDelay = 0
+  const dHorizExitDelay = 300
+  const dRightExitDelay = 675
+
+  // Mobile timing: top first (center→edges), then verticals, then bottom last (edges→center)
+  const mTopEnterDelay = 0
+  const mVertEnterDelay = 300
+  const mBottomEnterDelay = 700
+  const mTopExitDelay = 0
+  const mVertExitDelay = 200
+  const mBottomExitDelay = 450
+
+  const leftEnterDelay = isMobile ? mVertEnterDelay : dLeftEnterDelay
+  const horizEnterDelay = isMobile ? mTopEnterDelay : dHorizEnterDelay
+  const rightEnterDelay = isMobile ? mVertEnterDelay : dRightEnterDelay
+  const leftExitDelay = isMobile ? mVertExitDelay : dLeftExitDelay
+  const horizExitDelay = isMobile ? mTopExitDelay : dHorizExitDelay
+  const rightExitDelay = isMobile ? mVertExitDelay : dRightExitDelay
+
+  if (isMobile) {
+    // Mobile: top (center→edges), verticals (top→bottom), bottom last (edges→center)
+    return (
+      <>
+        {/* Top-left half: from center to left */}
+        {seg({top: '0', left: '0', width: '50%', height: '1px'}, 'right', 'left', 300, mTopEnterDelay, 200, mTopExitDelay, 'X')}
+        {/* Top-right half: from center to right */}
+        {seg({top: '0', right: '0', width: '50%', height: '1px'}, 'left', 'right', 300, mTopEnterDelay, 200, mTopExitDelay, 'X')}
+        {/* Left vertical - full top to bottom */}
+        {seg({top: '0', left: '0', width: '1px', height: '100%'}, 'top', 'bottom', 400, mVertEnterDelay, 250, mVertExitDelay, 'Y')}
+        {/* Right vertical - full top to bottom */}
+        {seg({top: '0', right: '0', width: '1px', height: '100%'}, 'top', 'bottom', 400, mVertEnterDelay, 250, mVertExitDelay, 'Y')}
+        {/* Bottom-left half: from left to center (edges inward) */}
+        {seg({bottom: '0', left: '0', width: '50%', height: '1px'}, 'left', 'right', 300, mBottomEnterDelay, 150, mBottomExitDelay, 'X')}
+        {/* Bottom-right half: from right to center (edges inward) */}
+        {seg({bottom: '0', right: '0', width: '50%', height: '1px'}, 'right', 'left', 300, mBottomEnterDelay, 150, mBottomExitDelay, 'X')}
+      </>
+    )
+  }
+
+  // Desktop: original behavior (left edge split, full horizontals, right edge split)
   return (
     <>
-      {/* ① left-side top half: enters growing upward (origin bottom-left), exits retracting upward away from midpoint (origin top-left) */}
-      {seg({top: '0', left: '0', width: '1px', height: '50%'}, 'bottom left', 'top left', 525, 0, 300, 0, 'Y')}
-      {/* ② left-side bottom half: enters growing downward (origin top-left), exits retracting downward away from midpoint (origin bottom-left) */}
-      {seg({bottom: '0', left: '0', width: '1px', height: '50%'}, 'top left', 'bottom left', 525, 0, 300, 0, 'Y')}
-      {/* ③ top edge: enters left→right (origin left), exits erasing left→right (origin right, scaleX(0) shrinks from left) */}
-      {seg({top: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, 525, 375, 300, 'X')}
-      {/* ④ bottom edge: same as ③ */}
-      {seg({bottom: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, 525, 375, 300, 'X')}
-      {/* ⑤ right-side top half: enters top-down (origin top), exits retracting upward away from midpoint (origin top) */}
-      {seg({top: '0', right: '0', width: '1px', height: '50%'}, 'top', 'top', 375, 1125, 225, 675, 'Y')}
-      {/* ⑥ right-side bottom half: enters bottom-up (origin bottom), exits retracting downward away from midpoint (origin bottom) */}
-      {seg({bottom: '0', right: '0', width: '1px', height: '50%'}, 'bottom', 'bottom', 375, 1125, 225, 675, 'Y')}
+      {/* ① left-side top half */}
+      {seg({top: '0', left: '0', width: '1px', height: '50%'}, 'bottom left', 'top left', 525, dLeftEnterDelay, 300, dLeftExitDelay, 'Y')}
+      {/* ② left-side bottom half */}
+      {seg({bottom: '0', left: '0', width: '1px', height: '50%'}, 'top left', 'bottom left', 525, dLeftEnterDelay, 300, dLeftExitDelay, 'Y')}
+      {/* ③ top edge */}
+      {seg({top: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, dHorizEnterDelay, 375, dHorizExitDelay, 'X')}
+      {/* ④ bottom edge */}
+      {seg({bottom: '0', left: '0', width: '100%', height: '1px'}, 'left', 'right', 600, dHorizEnterDelay, 375, dHorizExitDelay, 'X')}
+      {/* ⑤ right-side top half */}
+      {seg({top: '0', right: '0', width: '1px', height: '50%'}, 'top', 'top', 375, dRightEnterDelay, 225, dRightExitDelay, 'Y')}
+      {/* ⑥ right-side bottom half */}
+      {seg({bottom: '0', right: '0', width: '1px', height: '50%'}, 'bottom', 'bottom', 375, dRightEnterDelay, 225, dRightExitDelay, 'Y')}
     </>
   )
 }
@@ -231,12 +308,14 @@ function StepRailItem({
   showConnector,
   isActive,
   isConnectorActive,
+  variant = 'desktop',
 }: {
   index: number
   step: {title: string; highlighted: boolean; graphic?: string}
   showConnector: boolean
   isActive: boolean
   isConnectorActive: boolean
+  variant?: 'desktop' | 'mobile'
 }) {
   const hasGraphic = step.highlighted && Boolean(step.graphic)
   const workCardHoverGraphic = '/images/graphic.webp'
@@ -257,7 +336,7 @@ function StepRailItem({
           'border-black/20 dark:border-white/20',
         )}
       >
-        <DrawBorder isActive={isActive} delayStart={index > 0 ? 500 : 0} exitDelayStart={exitDelayMs} />
+        <DrawBorder isActive={isActive} delayStart={index > 0 ? 500 : 0} exitDelayStart={exitDelayMs} variant={variant} />
         {hasGraphic ? (
           <>
             <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 dark:hidden">

@@ -528,7 +528,10 @@ const sharedPageBuilderProjection = /* groq */ `
       heroImage {
         ...,
         asset->
-      }
+      },
+      "projectTitle": ^.title,
+      "projectTagline": ^.tagline,
+      "projectThumb": ^.thumb.asset->url
     },
     _type == "studyHeroImage" => {
       ...,
