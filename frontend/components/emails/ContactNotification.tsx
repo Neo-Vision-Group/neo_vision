@@ -55,7 +55,7 @@ export function ContactNotification({
   projectType?: string;
   budget?: string;
   hearAboutUs?: string;
-  message: string;
+  message: string | undefined;
   receivedAt: string;
   forClient?: boolean;
 }) {

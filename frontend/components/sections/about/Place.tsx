@@ -83,7 +83,7 @@ export function Place({ data }: { data?: PlaceData }) {
 
           {/* City badge — flat overlay, not affected by the 3D map transform */}
           <div
-            className="absolute z-10 flex items-center gap-3 pointer-events-none"
+            className="absolute z-10 flex flex-col items-center gap-3 pointer-events-none"
             style={{ left: '54%', top: '25%' }}
           >
             <div className="relative flex items-center justify-center w-5 h-5 shrink-0">
@@ -92,8 +92,7 @@ export function Place({ data }: { data?: PlaceData }) {
               <span className="absolute rounded-full bg-[#ff4100]" style={{ width: 20, height: 20 }} />
             </div>
             <div
-              className="flex items-center h-11 ml-4 px-4 rounded-lg border"
-              style={{ background: 'rgba(255,65,0,0.15)' }}
+              className="flex items-center h-11 mt-5 px-4 rounded-lg border"
             >
               <span className="font-funnel text-lg font-bold tracking-tight text-black dark:text-white leading-none">
                 Bucharest, Romania
@@ -110,8 +109,8 @@ export function Place({ data }: { data?: PlaceData }) {
           />
 
           {/* Text — below image on mobile, overlaid at bottom on md+ */}
-          <div className="relative z-10 flex w-full items-end justify-center px-6 py-10 md:absolute md:inset-0 md:pb-20 md:pt-28 md:px-10 lg:px-24 lg:pb-48 lg:pt-32">
-            <p className="max-w-[18ch] text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-dark dark:text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
+          <div className="relative z-10 flex w-full items-center justify-center px-6 py-10 md:absolute md:inset-0 md:px-10 lg:px-24">
+            <p className="max-w-[18ch] lg:mt-30 2xl:mt-15 text-center font-funnel text-[28px] font-normal leading-[1.2] tracking-[-0.8px] text-dark dark:text-[#efefef] md:max-w-[24ch] md:text-[36px] md:tracking-[-0.9px] lg:max-w-230 lg:text-5xl lg:tracking-[-1px]">
               {message}
             </p>
           </div>

@@ -175,11 +175,11 @@ export default async function RootLayout({children}: {children: React.ReactNode}
                   <SanityLive onError={handleError} />
                   <Nav />
                   <div id="page-content" className="transition-opacity duration-500">
-                  <main id="main-content" className="min-h-screen pt-16 lg:pt-20">
-                    {children}
-                    <IntroVisitMarker />
-                  </main>
-                  <Footer />
+                    <main id="main-content" className="min-h-screen pt-16 lg:pt-20">
+                      {children}
+                      <IntroVisitMarker />
+                    </main>
+                    <Footer />
                   </div>
                   <CookieBanner settings={siteSettings?.cookieSettings} />
                 </section>
