@@ -139,7 +139,7 @@ export function Signature({ data }: { data?: SignatureData }) {
             />
           ) : null}
           {signature.body ? (
-            <p className="max-w-195 dark:text-[#efefefb3] text-[#040404b3]">
+            <p className="max-w-195 text-[18px] dark:text-[#efefefb3] text-[#040404b3]">
               {signature.body}
             </p>
           ) : null}
@@ -148,7 +148,7 @@ export function Signature({ data }: { data?: SignatureData }) {
         <div className="flex flex-col md:px-0">
           <div className="py-6 px-6 lg:px-16">
             {signature.secondaryLine ? (
-              <p className="text-[24px] leading-[1.3] md:text-100 pb-24">
+              <p className="text-[32px] leading-[1.3] md:text-100 pb-24">
                 {signature.secondaryLine}
               </p>
             ) : null}
@@ -246,13 +246,13 @@ function StepCard({
             {step.number}
           </span>
           <div className="flex flex-1 flex-col">
-            <h3 className="text-[24px] xl:!text-[32px] leading-[1.3] tracking-[-0.15px]">
+            <h3 className="text-[24px] xl:text-[32px]! leading-[1.3] tracking-[-0.15px]">
               {step.title}
             </h3>
-            <p className="text-[14px]">{step.duration}</p>
+            <p className="text-[18px]">{step.duration}</p>
           </div>
         </div>
-        <p className="text-[18px] md:text-[24px] text-muted-light dark:text-muted-dark">{step.body}</p>
+        <p className="text-[18px] text-muted-light dark:text-muted-dark">{step.body}</p>
       </div>
     </div>
   );
@@ -283,10 +283,10 @@ function ValueCard({
           style={{ background: "#ff4404" }}
         />
       </div>
-      <p className="text-center text-4xl leading-[1.2] text-foreground md:text-[40px]">
+      <p className="text-center leading-[1.2] text-foreground md:text-[40px]">
         {valueCard.value}
       </p>
-      <div className="text-center text-body text-foreground">
+      <div className="text-center text-[18px] text-foreground">
         {valueCard.body.map((line, idx) => (
           <p key={idx}>{line}</p>
         ))}

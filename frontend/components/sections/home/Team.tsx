@@ -260,18 +260,18 @@ export function Team({ data }: { data?: TeamData }) {
                             aria-label="Previous team member"
                             onClick={() => handleArrowClick("prev")}
                             disabled={!canScrollPrev}
-                            className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                            className="group flex size-12 items-center justify-center disabled:transition-colors disabled:opacity-30"
                           >
-                            <TeamArrowLeft color={arrowColor} />
+                            <TeamArrowLeft color={arrowColor} disabled={!canScrollPrev} />
                           </button>
                           <button
                             type="button"
                             aria-label="Next team member"
                             onClick={() => handleArrowClick("next")}
                             disabled={!canScrollNext}
-                            className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
+                            className="group flex size-12 items-center justify-center disabled:transition-colors disabled:opacity-30"
                           >
-                            <TeamArrowRight color={arrowColor} />
+                            <TeamArrowRight color={arrowColor} disabled={!canScrollNext} />
                           </button>
                         </div>
                       )}
@@ -295,7 +295,7 @@ export function Team({ data }: { data?: TeamData }) {
                                 </a>
                               )}
                             </div>
-                            <p className="font-funnel text-64 text-muted dark:text-muted md:text-[18px]">
+                            <p className="font-funnel text-64 text-muted dark:text-muted md:text-[14px]">
                               {member.role}
                             </p>
                           </div>
@@ -343,7 +343,7 @@ export function Team({ data }: { data?: TeamData }) {
                   disabled={!canScrollPrev}
                   className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
                 >
-                  <TeamArrowLeft color={arrowColor} />
+                  <TeamArrowLeft color={arrowColor} disabled={!canScrollPrev} />
                 </button>
                 <button
                   type="button"
@@ -352,7 +352,7 @@ export function Team({ data }: { data?: TeamData }) {
                   disabled={!canScrollNext}
                   className="group flex size-12 items-center justify-center transition-colors disabled:opacity-30"
                 >
-                  <TeamArrowRight color={arrowColor} />
+                  <TeamArrowRight color={arrowColor} disabled={!canScrollNext} />
                 </button>
               </div>
 
@@ -361,7 +361,7 @@ export function Team({ data }: { data?: TeamData }) {
         </div>
 
         {team.closingStatement && (
-          <div className="leading-8 text-foreground">
+          <div className="">
             <ClosingStatement parts={team.closingStatement} />
           </div>
         )}
@@ -450,7 +450,7 @@ function ClosingStatement({
   parts: string;
 }) {
   return (
-    <span className="dark:text-[#efefef] text-[#040404] text-xl md:text-2xl lg:text-3xl font-funnel">
+    <span className="dark:text-[#efefef] text-[#040404] text-[32px] font-funnel">
       {parts}
     </span>
   );

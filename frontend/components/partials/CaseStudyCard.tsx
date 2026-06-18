@@ -109,8 +109,8 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
         ref={imageRef}
         className={cn(
           "case-study-card-image relative isolate flex shrink-0 overflow-hidden border border-black/10 bg-[#040404] dark:border-white/5",
-          "w-full lg:w-1/3 lg:transition-[width] lg:duration-1000 lg:ease-out",
-          "aspect-square lg:aspect-video",
+          "w-full lg:w-[28%] lg:self-start lg:transition-[width] lg:duration-1000 lg:ease-out xl:w-1/3",
+          "aspect-square",
         )}
       >
         {thumbSrc ? (
@@ -151,7 +151,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
       <div
         className={cn(
           "flex min-w-0 flex-1 flex-col justify-between py-1 md:py-6",
-          featured ? "md:min-h-92" : "md:min-h-92"
+          featured ? "md:min-h-80 xl:min-h-92" : "2xl:min-h-92"
         )}
       >
         <div className="flex flex-col gap-3">
@@ -161,7 +161,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
               {item.title}
             </p>
             {item.tagline ? (
-              <p className="line-clamp-4 font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
+              <p className="lg:line-clamp-2 2xl:line-clamp-4 font-funnel text-[18px] leading-normal text-black/70 dark:text-[#efefef]/70 md:text-body-2">
                 {item.tagline}
               </p>
             ) : null}

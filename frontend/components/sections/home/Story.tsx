@@ -130,13 +130,13 @@ export function Story({ data }: { data?: StoryData }) {
         <div className="relative flex flex-col items-center">
 
           {/* Years Carousel */}
-          <div className="relative w-full max-w-[400px] lg:max-w-[500px]">
+          <div className="relative w-full max-w-100 lg:max-w-120">
             <Swiper
               slidesPerView={1}
               spaceBetween={0}
               onSwiper={setSwiper}
               onSlideChange={(s) => setActiveIndex(s.activeIndex)}
-              className="!overflow-visible"
+              className="overflow-visible!"
             >
               {story.milestones.map((m, idx) => (
                 <SwiperSlide key={m.year} className="flex flex-col items-center text-center">
@@ -144,7 +144,7 @@ export function Story({ data }: { data?: StoryData }) {
                     {/* Year - clash font */}
                     <h3
                       className={cn(
-                        "font-clash text-[32px] md:text-[48px] tracking-[-1px] transition-colors duration-300",
+                        "font-clash font-bold text-[32px] md:text-[55px] tracking-[-1px] transition-colors duration-300",
                         idx === activeIndex
                           ? "text-brand"
                           : "text-dark dark:text-white"
@@ -157,10 +157,10 @@ export function Story({ data }: { data?: StoryData }) {
                     <div className="relative flex items-center justify-center w-full my-6 md:my-8">
                       {/* Line lives here — top-1/2 centers it on the dot. Only rendered on active slide to avoid duplicates. */}
                       {idx === activeIndex && (
-                        <div className="absolute w-screen h-px bg-dark/20 dark:bg-white/20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none" />
+                        <div className="absolute z-0 w-screen h-px bg-dark/20 dark:bg-white/20 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none" />
                       )}
                       <div
-                        className="story-tick-btn relative flex items-center justify-center w-20 h-20 cursor-pointer"
+                        className="story-tick-btn relative z-10 flex items-center justify-center w-20 h-20 cursor-pointer"
                         data-active={idx === activeIndex ? "true" : "false"}
                         onClick={() => swiper?.slideTo(idx)}
                       >
@@ -170,7 +170,7 @@ export function Story({ data }: { data?: StoryData }) {
                         <span className="story-tick-ring-3 pointer-events-none absolute rounded-full border border-brand" style={{ width: 20, height: 20 }} />
                         {/* Center square */}
                         <span
-                          className="story-tick-dot absolute border transition-all duration-300"
+                          className="story-tick-dot absolute z-10 border transition-all duration-300"
                           data-lit={idx === activeIndex ? "true" : "false"}
                           data-active={idx === activeIndex ? "true" : "false"}
                         />
@@ -183,7 +183,7 @@ export function Story({ data }: { data?: StoryData }) {
           </div>
 
           {/* Content Area with Side Arrows */}
-          <div className="relative flex items-center justify-center w-full max-w-2xl mt-12 md:mt-16 pt-8">
+          <div className="relative flex items-center justify-center w-full max-w-2xl">
             {/* Prev Arrow - left side */}
             {hasMultiple && (
               <button
@@ -193,13 +193,13 @@ export function Story({ data }: { data?: StoryData }) {
                 disabled={!canGoPrev}
                 className="absolute left-0 lg:-left-16 top-1/2 -translate-y-1/2 z-10 flex items-center justify-center transition-colors disabled:opacity-30 text-dark dark:text-white hover:text-brand"
               >
-                <TeamArrowLeft color={arrowColor} />
+                <TeamArrowLeft color={arrowColor} disabled={!canGoPrev} />
               </button>
             )}
 
             {/* Text Content - funnel font, no card, with swipe support */}
             <div
-              className="relative min-h-[120px] md:min-h-[160px] flex-1 mx-16 md:mx-20 touch-pan-y"
+              className="relative min-h-30 md:min-h-40 mx-16 md:mx-20 touch-pan-y"
               aria-live="polite"
               onTouchStart={onTouchStart}
               onTouchMove={onTouchMove}
@@ -217,7 +217,7 @@ export function Story({ data }: { data?: StoryData }) {
                       : "opacity-0 translate-y-10 z-0 pointer-events-none absolute inset-0"
                   )}
                 >
-                  <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-full break-words">{m.body}</p>
+                  <p className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-full wrap-words">{m.body}</p>
                 </div>
               ))}
             </div>

@@ -146,7 +146,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
           delay={0.2}
           className="flex w-full flex-col items-center gap-6"
         >
-          <div className="flex flex-col text-body text-foreground">
+          <div className="flex flex-col text-[18px] text-foreground">
             {body.map((line, idx) => (
               <p key={idx}>{line}</p>
             ))}
@@ -157,7 +157,7 @@ export function ClosingCta({ data }: { data?: CtaData }) {
             </Button>
           ) : null}
           {microcopy ? (
-            <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">{microcopy}</p>
+            <p className="text-funnel text-[14px] dark:text-[#EFEFEFB3] text-[#333333]">{microcopy}</p>
           ) : null}
         </RevealOnScroll>
       </div>

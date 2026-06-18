@@ -24,7 +24,8 @@ export const testimonials = defineType({
                     fields: [
                         { name: 'name', type: 'string', title: 'Company Name', validation: (Rule) => Rule.required() },
                         { name: 'logoLight', type: 'image', title: 'Logo (Light Mode)', validation: (Rule) => Rule.required(), description: 'Logo to display in light mode', options: { accept: 'image/svg+xml' } },
-                        { name: 'logoDark', type: 'image', title: 'Logo (Dark Mode)', description: 'Logo to display in dark mode', options: { accept: 'image/svg+xml' } }
+                        { name: 'logoDark', type: 'image', title: 'Logo (Dark Mode)', description: 'Logo to display in dark mode', options: { accept: 'image/svg+xml' } },
+                        { name: 'link', type: 'url', title: 'Company Website', description: 'Link to the company website', validation: (Rule) => Rule.uri({ allowRelative: false, scheme: ['http', 'https'] }) }
                     ],
                     preview: {
                         select: { title: 'name', media: 'logoLight' }

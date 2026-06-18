@@ -1,6 +1,5 @@
 "use client";
-
-import { HeroBrandDotsCanvas } from "@/components/partials/HeroBrandDotsMediaProvider";
+import Link from "next/link";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cleanStega, urlForImage } from "@/sanity/lib/utils";
 import type { SanityImageSource } from "@sanity/image-url";
@@ -28,6 +27,7 @@ export type Logo = {
   name: string;
   logoLight?: SanityImageSource;
   logoDark?: SanityImageSource;
+  link?: string;
 };
 
 export type TrustedByData = {
@@ -48,29 +48,55 @@ function LogoItem({ logoItem }: { logoItem: Logo }) {
   const logo = mounted && resolvedTheme === 'dark' ? logoItem.logoDark : logoItem.logoLight;
   const logoUrl = logo ? urlForImage(logo).width(410).height(230).url() : null;
 
-  return (
-    <div className="group/logo flex flex-col items-center gap-2.5">
-      <div className="relative aspect-[102.5/57.65] w-full -m-6 p-6">
-        {logoUrl ? (
-          <div className="relative z-10 h-full w-full p-5 md:p-6 transition-all duration-300 group-hover/logo:drop-shadow-[0_0_20px_rgba(249,115,22,0.75)]">
-            <Image
-              src={logoUrl}
-              alt={logoItem.name}
-              className="h-full w-full object-contain"
-              fill
-              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
-              suppressHydrationWarning
-            />
+  if (logoItem.link) {
+      return (
+        <Link href={logoItem.link} className="group/logo flex flex-col items-center gap-2.5">
+          <div className="relative aspect-[102.5/57.65] w-full -m-6 p-6">
+            {logoUrl ? (
+              <div className="relative z-10 h-full w-full p-5 md:p-6 transition-all duration-300 group-hover/logo:drop-shadow-[0_0_20px_rgba(249,115,22,0.75)]">
+                <Image
+                  src={logoUrl}
+                  alt={logoItem.name}
+                  className="h-full w-full object-contain"
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+                  suppressHydrationWarning
+                />
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </div>
-      {logoItem.name ? (
-        <span className="w-full text-center font-funnel text-[18px] leading-normal text-black dark:text-white">
-          {logoItem.name}
-        </span>
-      ) : null}
-    </div>
-  );
+          {logoItem.name ? (
+            <span className="w-full text-center font-funnel text-[18px] leading-normal text-black dark:text-white">
+              {logoItem.name}
+            </span>
+          ) : null}
+        </Link>
+      );
+  } else {
+      return (
+        <div className="group/logo flex flex-col items-center gap-2.5">
+          <div className="relative aspect-[102.5/57.65] w-full -m-6 p-6">
+            {logoUrl ? (
+              <div className="relative z-10 h-full w-full p-5 md:p-6 transition-all duration-300 group-hover/logo:drop-shadow-[0_0_20px_rgba(249,115,22,0.75)]">
+                <Image
+                  src={logoUrl}
+                  alt={logoItem.name}
+                  className="h-full w-full object-contain"
+                  fill
+                  sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+                  suppressHydrationWarning
+                />
+              </div>
+            ) : null}
+          </div>
+          {logoItem.name ? (
+            <span className="w-full text-center font-funnel text-[18px] leading-normal text-black dark:text-white">
+              {logoItem.name}
+            </span>
+          ) : null}
+        </div>
+      );
+  }
 }
 
 export function TrustedBy({ data }: { data?: TrustedByData }) {
@@ -134,7 +160,7 @@ export function TrustedBy({ data }: { data?: TrustedByData }) {
                       <div className="flex items-center gap-4">
                         <p className="text-[18px] leading-normal text-brand">{t.name}, {t.attribution}</p>
                       </div>
-                      <p className="text-[30px] leading-[1.2] tracking-[-1px] text-foreground 2xl:text-4xl">
+                      <p className="leading-[1.2] tracking-[-1px] text-foreground text-[32px]">
                         &ldquo;{t.quote}&rdquo;
                       </p>
                     </div>

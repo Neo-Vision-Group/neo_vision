@@ -23,6 +23,9 @@ export type PortfolioGridData = {
 const EMPTY_ITEMS: NonNullable<PortfolioGridData["items"]> = [];
 const INITIAL_VISIBLE_ITEMS = 3;
 const LOAD_MORE_COUNT = 3;
+const LOAD_MORE_ROOT_MARGIN = "1400px 0px";
+const CARD_REVEAL_ROOT_MARGIN = "0px 0px -12% 0px";
+const CARD_REVEAL_THRESHOLD = 0.2;
 
 function FilterButton({
   label,
@@ -131,21 +134,24 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
   const visibleItems = normalizedItems.slice(0, visibleCount);
   const hasMore = normalizedItems.length > visibleCount;
-  const preloadItem = hasMore ? normalizedItems[visibleCount] : null;
+  const preloadItems = normalizedItems.slice(visibleCount, visibleCount + LOAD_MORE_COUNT);
 
   const [activeCards, setActiveCards] = useState<boolean[]>(() =>
     new Array(INITIAL_VISIBLE_ITEMS).fill(true)
   );
   const observersRef = useRef<Map<number, IntersectionObserver>>(new Map());
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const isLoadingMoreRef = useRef(false);
 
   const loadMore = useCallback(() => {
-    if (!hasMore || isLoadingMore) return;
-    setIsLoadingMore(true);
-    setVisibleCount((count) => count + LOAD_MORE_COUNT);
-    setIsLoadingMore(false);
-  }, [hasMore, isLoadingMore]);
+    if (!hasMore || isLoadingMoreRef.current) return;
+    isLoadingMoreRef.current = true;
+    setVisibleCount((count) => Math.min(count + LOAD_MORE_COUNT, normalizedItems.length));
+  }, [hasMore, normalizedItems.length]);
+
+  useEffect(() => {
+    isLoadingMoreRef.current = false;
+  }, [visibleItems.length]);
 
   // Infinite scroll observer
   useEffect(() => {
@@ -158,7 +164,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           loadMore();
         }
       },
-      { rootMargin: "800px" }
+      { rootMargin: LOAD_MORE_ROOT_MARGIN }
     );
 
     observer.observe(sentinel);
@@ -185,7 +191,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           observersRef.current.delete(idx);
         }
       },
-      { threshold: 1 },
+      { rootMargin: CARD_REVEAL_ROOT_MARGIN, threshold: CARD_REVEAL_THRESHOLD },
     );
     observer.observe(el);
     observersRef.current.set(idx, observer);
@@ -203,9 +209,10 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   }, [visibleItems.length]);
 
   useEffect(() => {
+    const observers = observersRef.current;
     return () => {
-      observersRef.current.forEach((o) => o.disconnect());
-      observersRef.current.clear();
+      observers.forEach((o) => o.disconnect());
+      observers.clear();
     };
   }, [serviceFiltersSelected, industryFiltersSelected]);
 
@@ -219,8 +226,8 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
           <div className="flex flex-col gap-6 md:gap-5 lg:gap-10 lg:pb-6">
             {serviceFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-clash font-bold text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
-                  Service:
+                <p className="font-clash uppercase text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                  Service
                 </p>
                 <div className="flex lg:-ml-2.5 flex-wrap gap-3">
                   {serviceFilters.map((filter) => (
@@ -237,8 +244,8 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
             {industryFilters.length > 0 && (
               <div className="flex flex-col gap-4.5">
-                <p className="font-clash font-bold text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
-                  Industry:
+                <p className="font-clash uppercase text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
+                  Industry
                 </p>
                 <div className="flex lg:-ml-2.5 flex-wrap gap-3">
                   {industryFilters.map((filter) => (
@@ -289,16 +296,19 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                 ))}
               </div>
 
-              {preloadItem && (
+              {preloadItems.length > 0 && (
                 <div
                   aria-hidden="true"
                   className="pointer-events-none overflow-hidden"
                   style={{ height: 0, visibility: "hidden" }}
                 >
-                  <CaseStudyCard
-                    item={preloadItem as CaseStudyCardData}
-                    isActive={false}
-                  />
+                  {preloadItems.map((item, idx) => (
+                    <CaseStudyCard
+                      key={`preload-${item._id ?? item.client ?? "item"}-${idx}`}
+                      item={item as CaseStudyCardData}
+                      isActive={false}
+                    />
+                  ))}
                 </div>
               )}
 
@@ -307,33 +317,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
                   ref={loadMoreRef}
                   className="flex justify-center py-8"
                   aria-hidden="true"
-                >
-                  {isLoadingMore && (
-                    <div className="flex items-center gap-2 text-black/60 dark:text-white/60">
-                      <svg
-                        className="h-5 w-5 animate-spin"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                      >
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      <span className="font-funnel text-sm">Loading...</span>
-                    </div>
-                  )}
-                </div>
+                />
               )}
             </div>
           )}

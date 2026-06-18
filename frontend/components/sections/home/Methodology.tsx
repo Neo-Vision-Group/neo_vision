@@ -161,7 +161,7 @@ function MethodologyCard({
           <h3 className="font-medium leading-8 tracking-[-0.2px] text-foreground md:text-[28px] md:leading-12 xl:!text-[32px] xl:leading-12">
             {step.title}
           </h3>
-          <p className="text-funnel dark:text-[#EFEFEFB3] text-[#333333]">
+          <p className="text-funnel text-[18px] dark:text-[#EFEFEFB3] text-[#333333]">
             {step.body}
           </p>
         </div>

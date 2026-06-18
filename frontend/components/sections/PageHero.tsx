@@ -70,7 +70,8 @@ export function PageHero({ data }: { data?: PageHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] flex w-full flex-col bg-transparent"
+        "has-hero-pattern relative isolate min-h-[calc(100svh-4rem)] flex w-full flex-col bg-transparent",
+        !featured && !stats && "justify-center"
       )}
     >
 
@@ -212,7 +213,6 @@ function FeaturedReferenceCard({
               fill
               className="absolute inset-0 object-cover"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-[#c1c9c5] from-35% to-[#ff4100] mix-blend-multiply" />
           </>
         ) : (
           <div
@@ -239,7 +239,7 @@ function FeaturedReferenceCard({
       <div className="flex min-w-0 flex-1 flex-col justify-between gap-3 py-3">
         <div className="flex flex-col gap-4">
           {label ? (
-            <Badge text={label} />
+            <Badge text={label} groupHover showBorder={false} />
           ) : null}
 
           {title ? (
@@ -330,4 +330,3 @@ function StatCard({ stat }: { stat: PageHeroStat }) {
     </article>
   );
 }
-

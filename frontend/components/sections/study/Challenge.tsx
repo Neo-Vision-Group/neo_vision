@@ -64,7 +64,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
               .map((paragraph, index) => (
                 <p
                   key={`${paragraph.slice(0, 24)}-${index}`}
-                  className="text-[18px] leading-normal px-6 lg:px-16 text-black dark:text-white md:text-[20px] md:leading-7"
+                  className="text-[18px] leading-normal px-6 lg:px-16 text-black dark:text-white"
                 >
                   {paragraph}
                 </p>
@@ -82,7 +82,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                   key={(iss.tag ?? "iss") + idx}
                   className="border-b border-r border-black/15 p-6 dark:border-white/15 last:odd:col-span-full"
                 >
-                  <div className="group relative isolate flex min-h-[190px] flex-col justify-between border border-white/15 bg-black/4 p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f]">
+                  <div className="group relative isolate flex min-h-48 flex-col justify-between border border-white/15 bg-black/4 p-8 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f]">
                     <div
                       aria-hidden="true"
                       className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
@@ -93,7 +93,7 @@ export function StudyChallenge({ data }: { data?: StudyChallengeData }) {
                     <span className="font-clash text-3xl lg:text-5xl leading-[1.2] tracking-[-2.88px] text-brand">
                       {iss.tag}
                     </span>
-                    <p className="text-100 font-bold leading-[1.2] text-black dark:text-white">
+                    <p className="text-[24px] font-bold leading-[1.2] text-black dark:text-white">
                       {iss.body}
                     </p>
                   </div>

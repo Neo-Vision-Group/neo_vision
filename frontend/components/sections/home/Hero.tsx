@@ -78,7 +78,7 @@ export function Hero({ data }: { data?: HeroData }) {
             type="chars"
             stagger={0.025}
             duration={0.8}
-            className="inline-block font-light uppercase text-[64px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] xl:text-[200px]"
+            className="inline-block font-light uppercase text-[64px] font-betatron dark:text-white text-black leading-none tracking-tight md:text-[128px] lg:text-[100px] 2xl:text-[200px]"
           >
             {hero?.label}
           </SplitTextReveal>
@@ -100,7 +100,7 @@ export function Hero({ data }: { data?: HeroData }) {
                 {hero.heading}
               </p>
             ) : null}
-            {hero.body ? <p className="text-[14px] text-xl">{hero.body}</p> : null}
+            {hero.body ? <p className="text-[18px] text-xl">{hero.body}</p> : null}
           </div>
           {hero.primaryCtaLabel && hero.primaryCtaHref ? (
             <div className="flex w-full">
@@ -127,7 +127,7 @@ export function Hero({ data }: { data?: HeroData }) {
             className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16"
           >
             {hero.stats ? (
-              <p className="w-full font-funnel text-[14px] text-center px-1.5 leading-normal">
+              <p className="w-full font-funnel text-[18px] text-center px-1.5 leading-normal">
                 {hero.stats}
               </p>
             ) : null}
@@ -154,11 +154,11 @@ export function Hero({ data }: { data?: HeroData }) {
               distance={24}
               delay={0.15}
               start="top bottom"
-              className="flex min-w-0 w-full md:w-auto flex-col items-start gap-6 md:gap-[18px] md:items-end"
+              className="flex min-w-0 w-full md:w-auto flex-col items-start gap-6 md:gap-4.5 md:items-end"
             >
               <PortableTextRenderer
                 value={hero.mergerNote}
-                className="font-funnel text-[14px] leading-normal text-foreground md:text-right [&_p]:my-0"
+                className="font-funnel text-[18px] leading-normal text-foreground md:text-right [&_p]:my-0"
               />
               {hero.secondaryCtaLabel && hero.secondaryCtaHref ? (
                 <Button

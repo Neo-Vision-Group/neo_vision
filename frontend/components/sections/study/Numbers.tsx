@@ -54,9 +54,9 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
             return (
               <div
                 key={`${stat.value}-${index}`}
-                className="border-b border-r border-black/15 p-6 lg:p-8 dark:border-white/15"
+                className="h-full border-b border-r border-black/15 p-6 lg:p-8 dark:border-white/15"
               >
-                <div className="group relative isolate flex flex-col justify-between gap-8 border border-black/15 bg-black/5 p-6 lg:p-10 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/15 dark:bg-white/5">
+                <div className="group relative isolate flex h-full flex-col justify-center gap-8 border border-black/15 bg-black/5 p-6 lg:p-10 transition-all duration-300 ease-out hover:-translate-y-0.5 hover:border-brand/40 dark:border-white/15 dark:bg-white/5">
                   <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 ease-out dark:group-hover:opacity-100"
@@ -64,15 +64,15 @@ export function StudyNumbers({ data }: { data?: StudyNumbersData }) {
                     <div className="absolute inset-0" style={{ background: "#4a0e00" }} />
                     <div className="absolute inset-0 mix-blend-multiply" style={{ background: "#7a1a00" }} />
                   </div>
-                  <p className="font-clash text-[44px] leading-[1.1] tracking-[-1px] text-brand md:text-[56px]">
+                  <p className="font-clash text-[96px] text-brand">
                     {stat.value}
                   </p>
                   <div className="flex flex-col gap-1">
-                    <p className="font-funnel text-[20px] leading-[1.3] tracking-[-0.4px] text-black dark:text-[#efefef]">
+                    <p className="font-funnel text-[32px] leading-[1.3] tracking-[-0.4px] text-black dark:text-[#efefef]">
                       {stat.label}
                     </p>
                     {stat.description ? (
-                      <p className="font-funnel text-sm leading-[1.4] text-black/50 dark:text-[#efefef]/50">
+                      <p className="font-funnel text-[18px] leading-[1.4] text-black/50 dark:text-[#efefef]/50">
                         {stat.description}
                       </p>
                     ) : null}

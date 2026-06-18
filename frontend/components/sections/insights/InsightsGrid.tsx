@@ -115,11 +115,11 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
 
   const eyebrow = (
     <div className="flex flex-col items-start gap-5">
-      <p className="font-clash dark:text-white text-black text-4xl leading-[1.2]">
+      <p className="font-clash uppercase dark:text-white text-black text-4xl leading-[1.2]">
         Category
       </p>
 
-      <div className="flex flex-col items-start gap-5">
+      <div className="flex flex-wrap items-start gap-5">
         {categoryOptions.length === 0 ? (
           <p className="text-body text-foreground/60">No categories available.</p>
         ) : (

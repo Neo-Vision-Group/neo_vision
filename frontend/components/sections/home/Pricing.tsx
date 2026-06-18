@@ -182,7 +182,7 @@ function PricingCard({
   return (
     <article
       className={cn(
-        'flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 dark:border-white/20 dark:bg-dark-light md:p-12',
+        'group flex h-full flex-col gap-10 border border-black/15 bg-black/4 p-8 transition-colors duration-300 hover:border-brand dark:border-white/20 dark:bg-[#0f0f0f] dark:hover:border-brand md:p-12',
         isFullWidth && 'lg:col-span-2',
       )}
     >
@@ -193,7 +193,9 @@ function PricingCard({
               <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                 {tier?.title}
               </h3>
-              {hasBadge ? <Badge text={tier.badge!} showBorder={false} /> : null}
+              {hasBadge ? (
+                <Badge text={tier.badge!} groupHover isActive={false} />
+              ) : null}
             </div>
             <p className="font-clash text-[34px] leading-[1.1] tracking-[-0.04em] text-brand md:text-5xl">
               {tier?.price}
@@ -205,7 +207,9 @@ function PricingCard({
               <h3 className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-[#efefef]">
                 {tier?.title}
               </h3>
-              {hasBadge ? <Badge text={tier.badge!} showBorder={false} /> : null}
+              {hasBadge ? (
+                <Badge text={tier.badge!} groupHover isActive={false} />
+              ) : null}
             </div>
 
             {priceLayout === 'inline' ? (

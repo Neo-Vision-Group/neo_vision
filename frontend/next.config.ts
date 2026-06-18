@@ -96,6 +96,102 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  async redirects() {
+    return [
+      {
+        source: '/blog',
+        destination: '/insights',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/insights/:slug',
+        permanent: true,
+      },
+      {
+        source: '/services/landing-pages',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      
+      {
+        source: '/services/custom-websites',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/services/news-media-websites',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/services/award-winning-websites',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/services/ecommerce-solutions',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/services/award-winning-ecommerce-solutions',
+        destination: '/services/websites-ecommerce',
+        permanent: true,
+      },
+      {
+        source: '/services/custom-business-software',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/business-process-automation-software',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/digital-transformation',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/mobile-apps',
+        destination: '/services/mobile-app-development',
+        permanent: true,
+      },
+      {
+        source: '/services/web-apps',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/web3-development',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/extended-reality-development',
+        destination: '/services/custom-software',
+        permanent: true,
+      },
+      {
+        source: '/services/ai-integration',
+        destination: '/services/ai-agents',
+        permanent: true,
+      },
+      {
+        source: '/services/augmented-development-team',
+        destination: '/services/',
+        permanent: true,
+      },
+      {
+        source: '/services/white-label-development',
+        destination: '/services/',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 export default nextConfig

@@ -1,4 +1,5 @@
 import {defineField, defineType} from 'sanity'
+import { title } from '../../../lib/initialValues'
 
 export const whyRomania = defineType({
   name: 'whyRomania',
@@ -63,11 +64,7 @@ export const whyRomania = defineType({
   preview: {
     select: {
       title: 'eyebrow',
-      subtitle: 'title',
+      subttitle: 'This is the Why Romania section, which highlights the location, talent density, and operating advantages behind the team.',
     },
-    prepare: ({title, subtitle}) => ({
-      title: title ?? 'Why Romania',
-      subtitle,
-    }),
-  },
+  }
 })

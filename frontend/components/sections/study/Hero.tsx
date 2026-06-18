@@ -228,11 +228,11 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
   }
 
   return (
-    <article className="flex h-full min-h-30 min-w-0 flex-col justify-center gap-1 border border-black/10 bg-white-dark dark:bg-black p-6 md:min-h-0 md:gap-0.5 md:p-3 lg:gap-1 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
+    <article className="flex h-full min-h-30 min-w-0 flex-col justify-center gap-1 border border-black/10 bg-white-dark p-6 md:min-h-0 md:gap-0.5 md:p-3 lg:gap-4 lg:p-4 dark:border-white/20 dark:bg-[#0f0f0f]">
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-center text-[48px] leading-none text-brand md:text-[48px] lg:text-[48px]"
+          className="font-funnel text-center text-[48px] leading-none text-brand md:text-[30px] 2xl:text-[48px]"
         />
       ) : null}
 

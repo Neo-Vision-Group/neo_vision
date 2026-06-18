@@ -1250,6 +1250,11 @@ export function buildGlobalMetadata(input: {
     metadataBase: new URL(input.origin),
     title,
     description,
+    icons: {
+      icon: [{url: '/favicon.ico', type: 'image/x-icon'}],
+      shortcut: ['/favicon.ico'],
+      apple: [{url: '/favicon.ico', type: 'image/x-icon'}],
+    },
     applicationName: pickString(resolvedSeo.applicationName, siteName),
     category: pickString(resolvedSeo.category),
     referrer: pickString(resolvedSeo.referrer) as Metadata['referrer'],

@@ -55,10 +55,9 @@ export function IsThisForYou({ data }: { data?: IsThisForYouData }) {
             {items.map((item, idx) => (
               <article
                 key={(item.text ?? "item") + idx}
-                className="flex gap-3 bg-surface p-6"
+                className="flex gap-3 items-center bg-surface p-6"
               >
-                <div className="flex h-3 w-3 md:h-6 md:w-6 shrink-0 items-center justify-center bg-brand mt-2">
-                </div>
+                <div className="flex h-3 w-3 md:h-6 md:w-6 shrink-0 items-center justify-center bg-brand" />
                 <span className="text-[18px] font-funnel text-black dark:text-white">{item.text}</span>
               </article>
             ))}

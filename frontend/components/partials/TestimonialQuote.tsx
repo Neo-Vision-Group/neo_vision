@@ -28,25 +28,25 @@ export function TestimonialQuote({
           className
         )}
       >
-        {profilePictureUrl && (
-          <Image
-            src={profilePictureUrl}
-            alt={attribution}
-            className="h-16 w-16 shrink-0 rounded-full object-cover"
-            width={96}
-            height={96}
-          />
-        )}
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-row items-center gap-6">
+          {profilePictureUrl && (
+            <Image
+              src={profilePictureUrl}
+              alt={attribution}
+              className="h-16 w-16 shrink-0 rounded-full object-cover"
+              width={96}
+              height={96}
+            />
+          )}
           <cite className="not-italic font-funnel text-[18px] leading-normal text-brand">
-            - {attribution}
+            {attribution}
             {source ? `, ${source}` : ""}
           </cite>
-          <blockquote className="text-[28px] font-funnel leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-4xl">
-            &ldquo;{quote}&rdquo;
-          </blockquote>
         </div>
+        <blockquote className="text-[28px] font-funnel leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-4xl">
+          &ldquo;{quote}&rdquo;
+        </blockquote>
       </figure>
     );
   }

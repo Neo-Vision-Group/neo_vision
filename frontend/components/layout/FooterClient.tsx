@@ -166,6 +166,9 @@ export function Footer({
               <p className="text-body-2 text-white">{copyright}</p>
             </div>
           </div>
+          <div className="flex justify-center">
+            <ClutchLogo />
+          </div>
           <div className="flex flex-col items-center">
             {legalLinks.map((link) => (
               <Link
@@ -179,7 +182,7 @@ export function Footer({
           </div>
         </div>
 
-        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-3 border-t border-black/20 bg-brand px-8 pt-8 pb-28 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-3 md:px-8 md:pt-12 md:pb-28 lg:gap-3 dark:border-white/15 lg:px-12 overflow-x-clip @container">
+        <div className="relative z-10 grid min-w-0 grid-cols-1 gap-3 border-t border-black/20 bg-brand px-8 pt-8 pb-40 dark:bg-dark md:flex-1 md:grid-cols-3 md:border-l md:border-t-0 md:gap-3 md:px-8 md:pt-12 md:pb-40 lg:gap-3 dark:border-white/15 lg:px-12 overflow-x-clip @container">
           {/* NEO VISION textured text - half visible at bottom, centered in this section */}
           <div
             aria-hidden="true"
@@ -199,7 +202,7 @@ export function Footer({
 
           {columns.map((col) => (
             <div key={col._key || col.title} className="flex min-w-0 flex-col gap-6">
-              <h3 className="font-clash text-center uppercase text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-12 2xl:text-[32px] 2xl:leading-[38px] 2xl:tracking-[-1px]">
+              <h3 className="font-clash text-center uppercase text-[24px] leading-8 tracking-[-0.2px] text-white md:text-[28px] md:leading-12 2xl:text-[32px]">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-3">
@@ -244,13 +247,6 @@ export function Footer({
                     )}
                   </li>
                 ))}
-                {col.title.toLowerCase().includes('contact') && (
-                  <li>
-                    <div className="flex justify-center">
-                      <ClutchLogo />
-                    </div>
-                  </li>
-                )}
               </ul>
             </div>
           ))}

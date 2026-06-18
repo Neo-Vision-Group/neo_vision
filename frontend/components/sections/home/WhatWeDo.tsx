@@ -136,12 +136,12 @@ export function WhatWeDo({ data }: { data?: WhatWeDoData }) {
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between pb-16">
             <div className="flex flex-col gap-2">
               {ctaSectionHeading ? (
-                <p className="max-w-190 font-funnel text-[28px] leading-[1.2] tracking-[-0.8px] text-black dark:text-[#efefef] md:text-4xl md:tracking-[-1px]">
+                <p className="max-w-190 font-funnel text-[24px] text-black dark:text-[#efefef] leading-tight tracking-[-0.15px]">
                   {ctaSectionHeading}
                 </p>
               ) : null}
               {ctaSectionSubheading ? (
-                <p className="text-body text-black/70 dark:text-[#efefef]/70">
+                <p className="text-[18px] text-black/70 dark:text-[#efefef]/70">
                   {ctaSectionSubheading}
                 </p>
               ) : null}

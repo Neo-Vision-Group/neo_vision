@@ -1,5 +1,6 @@
 import './globals.css'
 import { Analytics } from "@vercel/analytics/next"
+import { GoogleAnalytics } from '@next/third-parties/google';
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata, Viewport} from 'next'
 import {Inter, IBM_Plex_Mono, Funnel_Display} from 'next/font/google'
@@ -133,6 +134,9 @@ export default async function RootLayout({children}: {children: React.ReactNode}
         />
       </head>
       <body className="overflow-x-clip">
+        <Analytics />
+        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        <SpeedInsights />
         <ConsentAwarePlausible>
           <StructuredDataScript nodes={globalStructuredData} />
           <ThemeProvider

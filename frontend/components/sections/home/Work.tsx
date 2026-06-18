@@ -219,11 +219,11 @@ function CaseRow({ item, imageErrors, onImageError }: { item: ProjectItem; image
 
       <div className="relative z-10 flex w-full max-w-270 flex-col transition-all duration-700 ease-out group-hover/work-shell:bg-transparent md:flex-row md:flex-wrap lg:flex-nowrap lg:flex-row">
         <div className="order-3 flex w-full shrink-0 flex-col items-center justify-center p-4 md:order-2 md:w-1/2 lg:order-1 lg:w-1/4">
-          <div className="flex w-full flex-col items-center gap-0 bg-brand p-2 text-white">
-            <span className="text-caption tracking-[-0.16px]">
+          <div className="flex w-full flex-col items-center gap-2 bg-brand p-2 text-white">
+            <span className="text-[20px] font-semibold text-white">
               Date
             </span>
-            <span className="font-clash text-4xl leading-12 tracking-[-0.2px] text-foreground">
+            <span className="font-clash text-4xl text-center leading-12 tracking-[-0.2px] text-foreground">
               {item.year}
             </span>
           </div>

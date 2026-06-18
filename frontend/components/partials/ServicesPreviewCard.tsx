@@ -100,7 +100,7 @@ export default function ServicesPreviewCard({ card }: { card: ServiceCard }) {
             <span className="font-funnel text-[32px]">{titleText.regular}</span>
           </h3>
         </div>
-        <div className="flex flex-col font-funnel text-xl dark:text-white-light text-muted-light">
+        <div className="flex flex-col font-funnel text-[18px] dark:text-white-light text-muted-light">
           {card.body}
         </div>
       </div>

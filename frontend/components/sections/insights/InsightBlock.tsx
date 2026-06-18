@@ -145,9 +145,9 @@ export function InsightBlock({ data }: InsightBlockProps) {
   const { title, text, sectionType, quote, table, card } = data
 
   return (
-    <section className="pb-16 md:pb-20">
+    <section className="pb-5">
       <article className="mx-auto min-w-0">
-        <div className="px-6 pt-16 md:px-6 lg:px-12 md:pt-20">
+        <div className="px-6 pt-5 md:px-6 lg:px-12">
           <h2 className="mb-8 text-[36px] font-medium leading-10 tracking-[-0.4px] text-foreground md:text-[56px] md:leading-16 xl:text-[72px] xl:leading-20">
             {title}
           </h2>

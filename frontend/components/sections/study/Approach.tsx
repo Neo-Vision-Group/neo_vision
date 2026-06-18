@@ -48,13 +48,13 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
             type="words"
             stagger={0.04}
             colorReveal
-            className="text-4xl leading-[1.2] tracking-[-1px] md:text-[40px] lg:text-5xl"
+            className="leading-[1.2] tracking-[-1px] text-[32px]"
           >
             {[heading.faded, heading.bold].filter(Boolean).join(" ")}
           </SplitTextReveal>
         ) : null}
         {body ? (
-          <p className="max-w-[70ch] text-[18px] leading-normal text-black dark:text-white md:text-[20px] md:leading-7">
+          <p className="text-[18px] leading-normal text-black dark:text-white">
             {body}
           </p>
         ) : null}

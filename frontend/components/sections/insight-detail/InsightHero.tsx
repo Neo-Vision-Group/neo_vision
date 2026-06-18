@@ -158,7 +158,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                     rel="noopener noreferrer"
                     aria-label="Share on LinkedIn"
                   >
-                    <span className="text-[18px] font-semibold leading-none">in</span>
+                    <span className="text-[22px] font-semibold leading-none">in</span>
                   </ShareButton>
                   <ShareButton
                     href={`https://x.com/intent/post?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
@@ -166,13 +166,13 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                     rel="noopener noreferrer"
                     aria-label="Share on X"
                   >
-                    <span className="text-[18px] font-semibold leading-none">X</span>
+                    <span className="text-[22px] font-semibold leading-none">X</span>
                   </ShareButton>
                   <ShareButton
                     href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
                     aria-label="Share by email"
                   >
-                    <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 18 18" fill="none" aria-hidden="true">
                       <path
                         d="M2.25 4.5H15.75V13.5H2.25V4.5ZM3.75 6L9 9.75L14.25 6"
                         stroke="currentColor"
@@ -192,7 +192,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
             <div className="flex min-w-0 flex-1 items-center justify-center lg:justify-end lg:pr-0 px-6 md:px-0">
               <div
                 className="relative shrink-0 aspect-video"
-                style={{ width: "min(70vh, 100%)" }}
+                style={{ width: "min(90vh, 100%)" }}
               >
                 <div className="absolute inset-0 overflow-hidden bg-[#f2f2f2] dark:bg-[#0f0f0f]">
                   <Image

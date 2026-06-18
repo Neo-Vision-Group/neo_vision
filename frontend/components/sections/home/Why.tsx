@@ -98,10 +98,10 @@ export function Why({ data }: { data?: WhyData }) {
                   style={{ background: "#7a1a00" }}
                 />
               </div>
-              <h3 className="text-[22px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[28px] lg:leading-12 xl:text-4xl xl:leading-12">
+              <h3 className="text-[32px] leading-7 tracking-[-0.2px] text-foreground md:text-100 md:leading-8 lg:text-[36px] lg:leading-12 xl:leading-12">
                 {point.title}
               </h3>
-              <div className="text-body text-foreground/70">
+              <div className="text-[18px] text-foreground/70">
                 {point.body.map((line, idx) => (
                   <p key={idx}>{line}</p>
                 ))}

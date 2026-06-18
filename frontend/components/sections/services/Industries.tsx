@@ -1,6 +1,7 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { cn } from "@/lib/utils";
 import dynamic from "next/dynamic";
+import { CountingNumber } from "@/components/partials/motion/CountingNumber";
 
 const RevealOnScroll = dynamic(
   () =>
@@ -114,21 +115,16 @@ export function Industries({ data }: { data: IndustryData }) {
                 <div className="px-6 md:px-6 lg:px-8 xl:px-12 2xl:px-12">
                     <dl className="flex flex-col md:flex-row justify-center gap-12 lg:gap-48 px-6 py-8 text-black dark:text-[#EFEFEF]">
                         {metrics.map((item, idx) => {
-                            const value = item.value ?? "";
+                            const parsedValue = Number(item.value);
+                            const value = Number.isFinite(parsedValue) ? parsedValue : 0;
                             const suffix = item.prefix ?? "";
-                            const displayValue =
-                                suffix && !value.endsWith(suffix)
-                                    ? `${value}${suffix}`
-                                    : value;
 
                             return (
                                 <div
                                     key={(item.label ?? "metric") + idx}
                                     className="flex flex-1 flex-col gap-6 items-center"
                                 >
-                                    <dt className="whitespace-nowrap font-clash text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]">
-                                        {displayValue}
-                                    </dt>
+                                    <CountingNumber className="whitespace-nowrap font-clash text-[64px] leading-none tracking-[-3.84px] text-brand md:text-[64px] md:tracking-[-4.8px] xl:text-[96px] xl:tracking-[-5.76px]" value={value} suffix={suffix} />
                                     <dd className="font-funnel text-[28px] leading-[1.2] tracking-[-0.84px] text-black dark:text-[#EFEFEF] md:text-[24px] md:tracking-[-1px]">
                                         {item.label}
                                     </dd>
