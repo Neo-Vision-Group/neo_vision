@@ -29,6 +29,19 @@
 }
 
 @layer base {
+  html {
+    background-color: var(--white);
+  }
+
+  html.dark {
+    background-color: var(--dark);
+  }
+
+  body {
+    min-height: 100%;
+    background-color: inherit;
+  }
+
   h1, h2, h3, h4, h5, h6, p, button {
     @apply text-dark dark:text-white font-funnel;
   }

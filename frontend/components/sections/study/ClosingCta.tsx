@@ -49,6 +49,7 @@ export function StudyClosingCta({ data }: { data?: StudyClosingCtaData }) {
             <Button
               href={cta.href}
               variant="primary"
+              data-cta-location="study_closing_cta"
               onClick={() => posthog.capture("study_cta_clicked", { cta_label: cta.label, destination: cta.href })}
             >
               {cta.label}

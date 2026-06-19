@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cn } from "../../lib/utils";
 import ArrowRight from "../icons/ArrowRight";
 import ArrowRightPixel from "../icons/ArrowRightPixel";
+import {trackCtaClick} from "@/lib/marketing-analytics";
 
 type ButtonVariant = "primary" | "secondary" | "ghost";
 type ButtonSize = "md" | "sm";
@@ -93,15 +94,38 @@ export function Button(props: ButtonProps) {
 
   if (isLink) {
     const linkProps = rest as Omit<AsLink, keyof BaseProps>;
+    const {
+      href,
+      target,
+      rel,
+      download,
+      onClick,
+      ...linkRest
+    } = linkProps;
+    const handleClick: React.MouseEventHandler<HTMLAnchorElement> = (event) => {
+      if (variant === "primary") {
+        const rawLocation = event.currentTarget.dataset.ctaLocation;
+        const ctaLocation = typeof rawLocation === "string" ? rawLocation : "button";
+        const ctaText = typeof children === "string" ? children : event.currentTarget.textContent?.trim() || "CTA";
+        trackCtaClick({
+          cta_text: ctaText,
+          cta_location: ctaLocation,
+          link_url: href,
+        });
+      }
+
+      onClick?.(event);
+    };
 
     return (
       <Link
-        href={linkProps.href}
-        target={linkProps.target}
-        rel={linkProps.rel}
-        download={linkProps.download}
-        onClick={linkProps.onClick}
+        href={href}
+        target={target}
+        rel={rel}
+        download={download}
+        onClick={handleClick}
         className={classes}
+        {...linkRest}
       >
         {content}
       </Link>

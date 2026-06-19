@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTheme } from "next-themes";
 import posthog from '@/lib/posthog-client';
+import { registerGoogleLinkerDomain, trackBookCall } from "@/lib/marketing-analytics";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import Image from "@/components/SanityImage";
 import { cleanStega } from "@/sanity/lib/utils";
@@ -143,6 +144,33 @@ export function Booking({ data }: { data?: BookingData }) {
       scheduler_url: baseUrl,
     });
   }, [mounted, baseUrl]);
+
+  useEffect(() => {
+    registerGoogleLinkerDomain(baseUrl);
+  }, [baseUrl]);
+
+  useEffect(() => {
+    const handleCalendlyMessage = (event: MessageEvent) => {
+      if (!event.data || typeof event.data !== "object") {
+        return;
+      }
+
+      const payload = event.data as { event?: string };
+      if (payload.event !== "calendly.event_scheduled") {
+        return;
+      }
+
+      trackBookCall({
+        method: 'calendly',
+        service: cleanData?.callTitle || cleanData?.heading?.bold || cleanData?.heading?.regular || undefined,
+      });
+    };
+
+    window.addEventListener('message', handleCalendlyMessage);
+    return () => {
+      window.removeEventListener('message', handleCalendlyMessage);
+    };
+  }, [cleanData?.callTitle, cleanData?.heading?.bold, cleanData?.heading?.regular]);
 
   return (
     <SectionsWrapper eyebrow={cleanData?.eyebrow} id="booking">

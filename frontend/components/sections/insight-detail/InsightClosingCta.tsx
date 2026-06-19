@@ -17,6 +17,7 @@ export function InsightClosingCta() {
           <Button
             href="/contact"
             variant="primary"
+            data-cta-location="insight_closing_cta"
             onClick={() => posthog.capture("insight_cta_clicked", { cta_label: "Book a call", destination: "/contact" })}
           >
             Book a call

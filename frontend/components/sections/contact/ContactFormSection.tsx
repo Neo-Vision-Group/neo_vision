@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import posthog from '@/lib/posthog-client';
+import { trackGenerateLead } from "@/lib/marketing-analytics";
 import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import ChevronIcon from "@/components/icons/ChevronIcon";
@@ -220,6 +221,12 @@ export function ContactFormSection({ formConfig }: ContactFormSectionProps) {
         fields_completed: completedFields.size,
         lead_quality_score: leadQualityScore,
         ...utmParams,
+      });
+      trackGenerateLead({
+        form_name: 'contact_form',
+        service: formData.projectType || undefined,
+        budget_range: formData.budget || undefined,
+        lead_source: formData.hearAboutUs || utmParams.utm_source || 'website',
       });
 
       reset();

@@ -155,6 +155,7 @@ export default function NavClient({ pages, title, logo, cta }: NavClientProps) {
             href={ctaHref}
             variant="primary"
             className="shrink-0"
+            data-cta-location="nav_desktop"
             onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'desktop' })}
             {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
           >
@@ -169,6 +170,7 @@ export default function NavClient({ pages, title, logo, cta }: NavClientProps) {
               href={ctaHref}
               size="sm"
               variant="primary"
+              data-cta-location="nav_mobile_top"
               onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'mobile_top' })}
               {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
             >
@@ -228,6 +230,7 @@ export default function NavClient({ pages, title, logo, cta }: NavClientProps) {
               href={ctaHref}
               variant="primary"
               className="w-full justify-between"
+              data-cta-location="nav_mobile_menu"
               onClick={() => posthog.capture('nav_cta_clicked', { cta_label: ctaText, destination: ctaHref, placement: 'mobile_menu' })}
               {...(ctaOpenInNewTab && { target: '_blank', rel: 'noopener noreferrer' })}
             >

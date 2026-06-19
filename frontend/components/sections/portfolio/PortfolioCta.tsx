@@ -54,6 +54,7 @@ export function PortfolioCta({ data }: { data?: PortfolioCtaData }) {
           <Button
             href={cta.href}
             variant="primary"
+            data-cta-location="portfolio_cta"
             onClick={() => posthog.capture("portfolio_cta_clicked", { cta_label: cta.label, destination: cta.href })}
           >
             {cta.label}

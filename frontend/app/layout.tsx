@@ -1,6 +1,5 @@
 import './globals.css'
 import { Analytics } from "@vercel/analytics/next"
-import { GoogleAnalytics } from '@next/third-parties/google';
 import {SpeedInsights} from '@vercel/speed-insights/next'
 import type {Metadata, Viewport} from 'next'
 import {Inter, IBM_Plex_Mono, Funnel_Display} from 'next/font/google'
@@ -11,6 +10,10 @@ import {VisualEditing} from 'next-sanity/visual-editing'
 import {Toaster} from 'sonner'
 import {resolveSiteOrigin} from '@/app/site-origin'
 import {handleError} from '@/app/client-utils'
+import {ContactClickTracker} from '@/components/analytics/ContactClickTracker'
+import {GoogleAnalyticsScripts} from '@/components/analytics/GoogleAnalyticsScripts'
+import {GoogleConsentTracker} from '@/components/analytics/GoogleConsentTracker'
+import {PageViewTracker} from '@/components/analytics/PageViewTracker'
 import Footer from '@/components/layout/Footer'
 import {IntroVisitMarker} from '@/components/IntroVisitMarker'
 import {FirstLoadIntroGate} from '@/components/partials/FirstLoadIntro'
@@ -133,11 +136,17 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           }}
         />
       </head>
-      <body className="overflow-x-clip">
+      <body className="overflow-x-clip bg-white text-dark dark:bg-dark dark:text-white">
         <Analytics />
-        <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID || ''} />
+        <GoogleAnalyticsScripts
+          gaId={process.env.NEXT_PUBLIC_GA_ID}
+          nonce={nonce}
+        />
         <SpeedInsights />
         <ConsentAwarePlausible>
+          <GoogleConsentTracker gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          <PageViewTracker />
+          <ContactClickTracker />
           <StructuredDataScript nodes={globalStructuredData} />
           <ThemeProvider
             attribute="class"
@@ -187,7 +196,6 @@ export default async function RootLayout({children}: {children: React.ReactNode}
             </LenisProvider>
           </HeroBrandDotsMediaProvider>
         </ThemeProvider>
-        <SpeedInsights />
         </ConsentAwarePlausible>
       </body>
     </html>

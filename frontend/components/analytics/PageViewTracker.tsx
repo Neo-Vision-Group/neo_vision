@@ -1,8 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import posthog from '@/lib/posthog-client'
+import {trackPageView} from '@/lib/marketing-analytics'
 
 interface PageViewTrackerProps {
   pageType?: 'home' | 'service' | 'portfolio' | 'insight' | 'contact' | 'about' | 'services' | 'insights' | 'caseStudies'
@@ -18,6 +19,7 @@ export function PageViewTracker({
   hasHeroPattern 
 }: PageViewTrackerProps) {
   const pathname = usePathname()
+  const searchParams = useSearchParams()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -35,17 +37,28 @@ export function PageViewTracker({
       if (value) utmParams[key] = value
     })
 
+    const search = searchParams?.toString()
+    const pagePath = search ? `${pathname}?${search}` : pathname
+    const pageLocation = `${window.location.origin}${pagePath}`
+    const resolvedTitle = pageTitle || document.title
+
     // Track page view with context
     posthog.capture('$pageview', {
       page_type: pageType || 'unknown',
       page_slug: pageSlug || pathname,
-      page_title: pageTitle || document.title,
+      page_title: resolvedTitle,
       has_hero_pattern: hasHeroPattern || false,
       theme,
       viewport_width: window.innerWidth,
       viewport_height: window.innerHeight,
       referrer: document.referrer,
       ...utmParams,
+    })
+    trackPageView({
+      page_location: pageLocation,
+      page_path: pagePath,
+      page_title: resolvedTitle,
+      page_referrer: document.referrer || undefined,
     })
 
     // Track campaign landing if UTM parameters present
@@ -56,7 +69,7 @@ export function PageViewTracker({
         referrer: document.referrer,
       })
     }
-  }, [pathname, pageType, pageSlug, pageTitle, hasHeroPattern])
+  }, [pathname, searchParams, pageType, pageSlug, pageTitle, hasHeroPattern])
 
   return null
 }

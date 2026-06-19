@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from './Button'
+import {trackResourceDownload} from '@/lib/marketing-analytics'
 
 const popupSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -120,6 +121,13 @@ export function ResourceRequestPopUp({
       }
       
       setSuccess(true)
+      const params = typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search)
+        : null
+      trackResourceDownload({
+        resource_name: resourceName,
+        lead_source: params?.get('utm_source') || 'website',
+      })
       // Auto close after 2 seconds on success
       setTimeout(() => {
         onClose?.()
