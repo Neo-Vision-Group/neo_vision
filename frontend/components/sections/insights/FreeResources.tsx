@@ -30,9 +30,6 @@ export type FreeResourcesData = {
     cta?: string
     file?: {
       type?: 'pdf' | 'image' | 'html'
-      asset?: {
-        asset?: {url: string}
-      }
     }
     fileUrl?: string
     externalLink?: string
@@ -171,8 +168,8 @@ function useDownload(url: string, filename?: string) {
 }
 
 function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesData['items']>[number], onDownloadClick?: (item: NonNullable<FreeResourcesData['items']>[number], e: React.MouseEvent) => void}) {
-  const downloadUrl = item?.fileUrl ?? item?.file?.asset?.asset?.url ?? item?.externalLink ?? ''
-  const isExternal = !!item?.externalLink && !item?.fileUrl && !item?.file?.asset?.asset?.url
+  const downloadUrl = item?.fileUrl ?? item?.externalLink ?? ''
+  const isExternal = !!item?.externalLink && !item?.fileUrl
   const hasUrl = Boolean(downloadUrl)
 
   const { resolvedTheme } = useTheme();
@@ -235,14 +232,14 @@ function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesD
             >
               <AnimatedBorder groupHover />
               <ArrowRightPixel color="currentColor" width={39} height={24} className="relative z-10 shrink-0" />
-              <span className="relative z-10 font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
+              <span className="relative z-10 font-funnel text-[22px] font-bold leading-[1.2]">
                 {downloading ? 'Downloading…' : 'Download'}
               </span>
             </a>
           ) : (
             <span className="inline-flex items-center gap-3 self-start text-black/40 dark:text-[#efefef]/40">
               <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
-              <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
+              <span className="font-funnel dark:text-white text-dark text-[22px] font-bold leading-[1.2]">
                 {item.cta ?? 'Download'}
               </span>
             </span>

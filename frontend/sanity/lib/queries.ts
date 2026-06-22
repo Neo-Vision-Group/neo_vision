@@ -512,6 +512,7 @@ const sharedPageBuilderProjection = /* groq */ `
       },
       items[]->{
         ...,
+        "fileUrl": file.asset.asset->url,
       }
     },
     _type == "studyHero" => {
@@ -1032,11 +1033,33 @@ export const resourceByKeyQuery = defineQuery(`
     ($pageSlug == "" && _type == "page" && pageType == "home") ||
     ($pageSlug != "" && slug.current == $pageSlug)
   )][0]{
-    "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey][0]{
+    "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey]->{
       title,
-      externalUrl,
-      emailIt,
-      "fileUrl": file.asset->url
+      externalLink,
+      askForEmail,
+      "fileUrl": file.asset.asset->url
     }
   }.item
+`)
+
+export const freeResourceBySlugQuery = defineQuery(`
+  *[_type == "freeResource" && slug.current == $slug][0]{
+    _id,
+    _type,
+    title,
+    slug,
+    ${seoFields},
+    description,
+    badge,
+    cta,
+    file {
+      type,
+      asset->{
+        url
+      }
+    },
+    externalLink,
+    askForEmail,
+    ${sharedPageBuilderProjection}
+  }
 `)

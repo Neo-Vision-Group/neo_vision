@@ -14,8 +14,8 @@ import { ResourceRequestNotification } from "@/components/emails/ResourceRequest
 
 type ResolvedResource = {
   title?: string | null;
-  externalUrl?: string | null;
-  emailIt?: boolean | null;
+  externalLink?: string | null;
+  askForEmail?: boolean | null;
   fileUrl?: string | null;
 } | null;
 
@@ -190,7 +190,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  if (!resolvedResource || resolvedResource.emailIt !== true) {
+  if (!resolvedResource || resolvedResource.askForEmail !== true) {
     logSecurityEvent(req, "blocked", "Unknown or non-emailable resource requested", { correlationId });
     return NextResponse.json(
       { ok: false, error: "Requested resource is not available." },
@@ -225,7 +225,7 @@ export async function POST(req: NextRequest) {
     }
     resolvedUrl = parsed.toString();
   } else {
-    const parsed = parseHttpUrl(resolvedResource.externalUrl);
+    const parsed = parseHttpUrl(resolvedResource.externalLink);
     const allowedExternalHosts = new Set(
       [
         process.env.NEXT_PUBLIC_SITE_URL,
