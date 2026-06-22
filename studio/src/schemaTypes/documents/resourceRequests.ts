@@ -22,5 +22,11 @@ export const resourceRequest = defineType({
             readOnly: true,
             validation: (r) => r.required(),
         }),
+        defineField({
+            name: 'freeResourceRequested',
+            title: 'Free Resource Requested',
+            type: 'reference',
+            to: [{type: 'freeResource'}]
+        })
     ]
 })
