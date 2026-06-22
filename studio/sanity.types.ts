@@ -454,7 +454,7 @@ export type StudyApproach = {
   _type: 'studyApproach'
   eyebrow?: string
   heading?: StudyApproachHeading
-  body?: string
+  body?: BlockContentTextOnly
   callout?: Callout
 }
 

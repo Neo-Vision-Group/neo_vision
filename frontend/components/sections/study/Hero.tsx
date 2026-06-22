@@ -132,7 +132,6 @@ export function StudyHero({ data, hideStats = false }: { data?: StudyHeroData; h
           <span aria-hidden="true" className="pointer-events-none absolute left-0 top-[-2.5%] h-[105%] w-px bg-brand" />
           <span aria-hidden="true" className="pointer-events-none absolute right-0 top-[-2.5%] h-[105%] w-px bg-brand" />
           <span aria-hidden="true" className="pointer-events-none absolute left-[-2.5%] top-0 h-px w-[105%] bg-brand" />
-          <span aria-hidden="true" className="pointer-events-none absolute bottom-0 left-[-2.5%] h-px w-[105%] bg-brand" />
         </div>
       ) : null}
 
