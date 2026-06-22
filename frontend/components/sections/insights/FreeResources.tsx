@@ -24,16 +24,19 @@ export type FreeResourcesData = {
   items?: Array<{
     _key?: string
     title?: string
-    badge?: string
+    slug?: string
     description?: string
+    badge?: string
+    cta?: string
     file?: {
+      type?: 'pdf' | 'image' | 'html'
       asset?: {
-        url?: string
+        asset?: {url: string}
       }
     }
     fileUrl?: string
-    externalUrl?: string
-    emailIt?: boolean
+    externalLink?: string
+    askForEmail?: boolean
   }>
 }
 
@@ -71,12 +74,12 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
   const [selectedResource, setSelectedResource] = useState<NonNullable<FreeResourcesData['items']>[number] | null>(null)
 
   const handleDownloadClick = (item: NonNullable<FreeResourcesData['items']>[number], e: React.MouseEvent) => {
-    if (item.emailIt) {
+    if (item.askForEmail) {
       e.preventDefault()
       setSelectedResource(item)
       setIsPopupOpen(true)
     }
-    // If emailIt is false, let the default link behavior handle the download
+    // If askForEmail is false, let the default link behavior handle the download
   }
 
   const handleClosePopup = () => {
@@ -168,8 +171,8 @@ function useDownload(url: string, filename?: string) {
 }
 
 function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesData['items']>[number], onDownloadClick?: (item: NonNullable<FreeResourcesData['items']>[number], e: React.MouseEvent) => void}) {
-  const downloadUrl = item?.fileUrl ?? item?.file?.asset?.url ?? item?.externalUrl ?? ''
-  const isExternal = !!item?.externalUrl && !item?.fileUrl && !item?.file?.asset?.url
+  const downloadUrl = item?.fileUrl ?? item?.file?.asset?.asset?.url ?? item?.externalLink ?? ''
+  const isExternal = !!item?.externalLink && !item?.fileUrl && !item?.file?.asset?.asset?.url
   const hasUrl = Boolean(downloadUrl)
 
   const { resolvedTheme } = useTheme();
@@ -187,7 +190,7 @@ function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesD
 
   return (
     <article className="h-full p-6">
-      <div className="group flex h-full min-h-70 flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-[228px] md:p-8">
+      <div className="group flex h-full min-h-70 flex-col gap-12 border border-black/15 bg-[#efefef] p-6 transition-transform duration-300 ease-out hover:-translate-y-1 hover:border-brand/40 dark:border-white/20 dark:bg-[#0f0f0f] md:min-h-57 md:p-8">
         <div className="flex h-11 w-11 items-center justify-center bg-brand md:h-12 md:w-12">
           <ArrowRightPixel color={buttonColor} className="h-5 w-5 text-black rotate-90" />
         </div>
@@ -222,7 +225,7 @@ function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesD
               rel={isExternal ? 'noopener noreferrer' : undefined}
               className="relative inline-flex items-center gap-3 self-start px-2 py-1 text-black transition-colors duration-200 group-hover:text-brand dark:text-[#efefef]"
               onClick={(e) => {
-                if (item.emailIt && onDownloadClick) {
+                if (item.askForEmail && onDownloadClick) {
                   onDownloadClick(item, e)
                 } else if (!isExternal) {
                   trigger(e)
@@ -240,7 +243,7 @@ function ResourceCard({item, onDownloadClick}: {item: NonNullable<FreeResourcesD
             <span className="inline-flex items-center gap-3 self-start text-black/40 dark:text-[#efefef]/40">
               <ArrowRightPixel color={buttonColor} width={39} height={24} className="shrink-0" />
               <span className="font-funnel text-[22px] font-bold leading-[1.2] md:text-100">
-                Download
+                {item.cta ?? 'Download'}
               </span>
             </span>
           )}

@@ -35,7 +35,6 @@ export const freeResource = defineType({
             name: 'badge',
             title: 'Badge',
             type: 'string',
-            validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "cta",
@@ -76,6 +75,12 @@ export const freeResource = defineType({
             type: 'url',
         }),
         defineField({
+            name: 'askForEmail',
+            title: 'Ask for Email',
+            type: 'boolean',
+            description: 'If enabled, users will be prompted to enter their email address before downloading the resource.',
+        }),
+        defineField({
             name: 'pageBuilder',
             title: 'Page Builder',
             type: 'array',
@@ -90,11 +95,5 @@ export const freeResource = defineType({
             description:
             'Page-level SEO overrides. Leave any field blank to inherit the default value from SEO Settings.',
         }),
-        defineField({
-            name: 'askForEmail',
-            title: 'Ask for Email',
-            type: 'boolean',
-            description: 'If enabled, users will be prompted to enter their email address before downloading the resource.',
-        })
     ]
 })

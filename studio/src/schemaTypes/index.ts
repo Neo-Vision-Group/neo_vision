@@ -68,6 +68,7 @@ import {techStack} from './objects/about/techStack'
 import {freeResources} from './objects/resources/freeResources'
 import {resourceRequest} from './documents/resourceRequests'
 import {technicalStack} from './documents/technicalStack'
+import {freeResource} from './documents/freeResource'
 // Export an arra y of all the schema types.  This is used in the Sanity Studio configuration. https://www.sanity.io/docs/studio/schema-types
 
 export const schemaTypes = [
@@ -86,6 +87,7 @@ export const schemaTypes = [
   contactSubmission,
   resourceRequest,
   technicalStack,
+  freeResource,
   // Objects
   button,
   blockContent,

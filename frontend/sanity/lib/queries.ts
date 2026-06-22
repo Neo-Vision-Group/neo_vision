@@ -510,13 +510,8 @@ const sharedPageBuilderProjection = /* groq */ `
         regular,
         trailing
       },
-      items[]{
+      items[]->{
         ...,
-        title,
-        description,
-        file,
-        externalUrl,
-        "fileUrl": file.asset->url
       }
     },
     _type == "studyHero" => {
