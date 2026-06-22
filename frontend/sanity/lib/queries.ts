@@ -1054,8 +1054,10 @@ export const freeResourceBySlugQuery = defineQuery(`
     cta,
     file {
       type,
-      asset->{
-        url
+      asset {
+        asset->{
+          url
+        }
       }
     },
     externalLink,

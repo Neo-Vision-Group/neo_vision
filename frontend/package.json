@@ -47,6 +47,7 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-hook-form": "^7.73.1",
+    "react-pdf": "^10.4.1",
     "resend": "^6.12.2",
     "sanity": "^5.20.0",
     "sanity-image": "^1.1.0",
