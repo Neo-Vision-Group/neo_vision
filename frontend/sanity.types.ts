@@ -230,14 +230,6 @@ export type ProfilePicture = {
   _type: 'image'
 }
 
-export type TechToolLogo = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "techTool.logo.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
 export type Steps = {
   _type: 'steps'
   eyebrow?: string
@@ -402,15 +394,21 @@ export type StudyMoreLikeThis = {
   >
 }
 
+export type TechnicalStackReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'technicalStack'
+}
+
 export type StudyTechStack = {
   _type: 'studyTechStack'
   eyebrow?: string
-  tools: Array<{
-    name: string
-    logo?: TechToolLogo
-    _type: 'techTool'
-    _key: string
-  }>
+  tools: Array<
+    {
+      _key: string
+    } & TechnicalStackReference
+  >
 }
 
 export type StudyTestimonial = {
@@ -571,7 +569,7 @@ export type PortfolioCta = {
 
 export type PortfolioGrid = {
   _type: 'portfolioGrid'
-  items: Array<
+  items?: Array<
     {
       _key: string
     } & ProjectReference
@@ -771,6 +769,7 @@ export type Testimonials = {
     name: string
     logoLight: LogoLight
     logoDark?: LogoDark
+    link?: string
     _key: string
   }>
   testimonials: Array<
@@ -1166,6 +1165,22 @@ export type Button = {
   _type: 'button'
   buttonText?: string
   link?: Link
+}
+
+export type TechnicalStack = {
+  _id: string
+  _type: 'technicalStack'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  image: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
 }
 
 export type ResourceRequest = {
@@ -2361,7 +2376,6 @@ export type AllSanitySchemaTypes =
   | ResourceFile
   | ObjectImage
   | ProfilePicture
-  | TechToolLogo
   | Steps
   | ServiceNavigator
   | SoundFamiliar
@@ -2374,6 +2388,7 @@ export type AllSanitySchemaTypes =
   | Awards
   | ProjectReference
   | StudyMoreLikeThis
+  | TechnicalStackReference
   | StudyTechStack
   | StudyTestimonial
   | StudyNumbers
@@ -2427,6 +2442,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Button
+  | TechnicalStack
   | ResourceRequest
   | ContactSubmission
   | Testimonial
@@ -3956,7 +3972,7 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -4441,7 +4457,37 @@ export type PageQueryResult = {
         _key: string
         _type: 'studyTechStack'
         eyebrow: string | null
-        tools: Array<null>
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
       }
     | {
         _key: string
@@ -4578,7 +4624,7 @@ export type PageQueryResult = {
           name: string
           logoLight: string | null
           logoDark: string | null
-          link: null
+          link: string | null
         }>
         testimonials: Array<{
           name: string
@@ -5953,7 +5999,7 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -6438,7 +6484,37 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'studyTechStack'
         eyebrow: string | null
-        tools: Array<null>
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
       }
     | {
         _key: string
@@ -6575,7 +6651,7 @@ export type HomePageQueryResult = {
           name: string
           logoLight: string | null
           logoDark: string | null
-          link: null
+          link: string | null
         }>
         testimonials: Array<{
           name: string
@@ -8124,7 +8200,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -8609,7 +8685,37 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         _key: string
         _type: 'studyTechStack'
         eyebrow: string | null
-        tools: Array<null>
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
       }
     | {
         _key: string
@@ -8746,7 +8852,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           name: string
           logoLight: string | null
           logoDark: string | null
-          link: null
+          link: string | null
         }>
         testimonials: Array<{
           name: string
@@ -10197,7 +10303,7 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -10682,7 +10788,37 @@ export type ProjectBySlugQueryResult = {
         _key: string
         _type: 'studyTechStack'
         eyebrow: string | null
-        tools: Array<null>
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
       }
     | {
         _key: string
@@ -10819,7 +10955,7 @@ export type ProjectBySlugQueryResult = {
           name: string
           logoLight: string | null
           logoDark: string | null
-          link: null
+          link: string | null
         }>
         testimonials: Array<{
           name: string
@@ -12196,7 +12332,7 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
-        }>
+        }> | null
       }
     | {
         _key: string
@@ -12681,7 +12817,37 @@ export type ServiceQueryResult = {
         _key: string
         _type: 'studyTechStack'
         eyebrow: string | null
-        tools: Array<null>
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
       }
     | {
         _key: string
@@ -12818,7 +12984,7 @@ export type ServiceQueryResult = {
           name: string
           logoLight: string | null
           logoDark: string | null
-          link: null
+          link: string | null
         }>
         testimonials: Array<{
           name: string

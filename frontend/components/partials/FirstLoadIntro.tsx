@@ -166,7 +166,7 @@ export function FirstLoadIntro({className}: {className?: string}) {
           <h1
             className="uppercase leading-[0.84] text-foreground"
             style={{
-              fontFamily: 'var(--font-clash)',
+              fontFamily: 'var(--font-betatron)',
               fontSize: 'clamp(3.75rem, 11vw, 7.5rem)',
             }}
           >

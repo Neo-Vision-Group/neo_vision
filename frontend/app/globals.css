@@ -30,16 +30,16 @@
 
 @layer base {
   html {
-    background-color: var(--white);
+    background-color: transparent;
   }
 
   html.dark {
-    background-color: var(--dark);
+    background-color: transparent;
   }
 
   body {
     min-height: 100%;
-    background-color: inherit;
+    background-color: transparent;
   }
 
   h1, h2, h3, h4, h5, h6, p, button {

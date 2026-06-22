@@ -555,6 +555,9 @@ const sharedPageBuilderProjection = /* groq */ `
         faded,
         bold
       },
+      body[]{
+        ${portableTextWithLinks}
+      },
       callout {
         label,
         body

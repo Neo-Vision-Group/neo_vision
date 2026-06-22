@@ -8,6 +8,7 @@ export function GoogleAnalyticsScripts({gaId, nonce}: GoogleAnalyticsScriptsProp
     <>
       <script
         nonce={nonce}
+        suppressHydrationWarning
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
@@ -30,6 +31,7 @@ export function GoogleAnalyticsScripts({gaId, nonce}: GoogleAnalyticsScriptsProp
           <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
           <script
             nonce={nonce}
+            suppressHydrationWarning
             dangerouslySetInnerHTML={{
               __html: `
                 window.__neoGaId = ${JSON.stringify(gaId)};

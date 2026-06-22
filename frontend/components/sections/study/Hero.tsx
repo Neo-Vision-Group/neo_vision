@@ -42,7 +42,22 @@ export type StudyHeroData = {
   projectThumb?: string;
 };
 
-export function StudyHero({ data }: { data?: StudyHeroData }) {
+export function StudyHeroStats({ details }: { details: StudyHeroDetail[] }) {
+  if (details.length === 0) return null;
+  return (
+    <div className="relative z-20 p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:p-3 lg:pb-8">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
+        {details.map((item, idx, arr) => (
+          <div key={item._key ?? `${item.label}-${item.value}`} className={cn("lg:flex-1", arr.length % 2 !== 0 && idx === arr.length - 1 ? "col-span-full" : undefined)}>
+            <HighlightCard card={item} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export function StudyHero({ data, hideStats = false }: { data?: StudyHeroData; hideStats?: boolean }) {
   const cleanData = data ? cleanStega(data) : data;
 
   if (!cleanData) {
@@ -60,7 +75,10 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
   return (
     <section
       className={cn(
-        "has-hero-pattern relative isolate flex min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] w-full flex-col lg:overflow-hidden bg-transparent text-black dark:text-white"
+        "has-hero-pattern relative isolate flex w-full flex-col bg-transparent text-black dark:text-white",
+        hideStats
+          ? "min-h-[calc(100svh-4rem)] lg:min-h-[calc(100svh-4rem)]"
+          : "min-h-[calc(100svh-4rem)] lg:h-[calc(100svh-4rem)] lg:max-h-[calc(100svh-4rem)] lg:overflow-hidden"
       )}
     >
 
@@ -118,8 +136,8 @@ export function StudyHero({ data }: { data?: StudyHeroData }) {
         </div>
       ) : null}
 
-      {/* Stats — flows below image on mobile, absolutely pinned to section bottom on lg+ */}
-      {details.length > 0 ? (
+      {/* Stats — flows below image on mobile / when not managed by scroll wrapper */}
+      {!hideStats && details.length > 0 ? (
         <div className="relative z-20 mt-auto p-6 border-t border-black/10 backdrop-blur-sm dark:border-white/20 lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-3 lg:pb-8">
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:flex lg:flex-row lg:items-stretch">
             {details.map((item, idx, arr) => (
@@ -232,7 +250,7 @@ function HighlightCard({ card }: { card: StudyHeroDetail }) {
       {value ? (
         <ScrambleText
           text={value}
-          className="font-funnel text-center text-[48px] leading-none text-brand md:text-[30px] 2xl:text-[48px]"
+          className="font-funnel text-center leading-none text-brand text-[30px] 2xl:text-[48px]"
         />
       ) : null}
 

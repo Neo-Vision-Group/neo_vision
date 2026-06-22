@@ -1,4 +1,3 @@
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { cn } from "@/lib/utils";
 import type { DereferencedLink } from "@/sanity/lib/types";
 import { cleanStega, linkResolver } from "@/sanity/lib/utils";

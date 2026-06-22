@@ -144,10 +144,11 @@ export function Hero({ data }: { data?: HeroData }) {
               type="words"
               stagger={0.015}
               duration={0.9}
-              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[76px]"
+              className="font-betatron flex-1 text-5xl uppercase leading-[1.12] tracking-[-0.8px] text-foreground [text-shadow:0_1px_6px_rgba(0,0,0,0.16)] dark:[text-shadow:0_1px_10px_rgba(0,0,0,0.42)] text-[32px] md:text-[32px] md:leading-[1.18] lg:text-[68px] lg:tracking-[-1px] 2xl:text-[91px]"
             >
               {hero.dimensionLine}
             </SplitTextReveal>
+
             <RevealOnScroll
               as="div"
               from="right"

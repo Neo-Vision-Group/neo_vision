@@ -69,6 +69,10 @@ Sanity Document (page / service / project)
 | `frontend/components/transition/TransitionProvider.tsx`       | Global client-side page transition shell — intercepts internal links, runs the GSAP route wipe, and waits for route-ready markers before reveal           |
 | `frontend/components/transition/PageTransitionMarker.tsx`     | Client marker rendered by final route content to signal that the incoming page is ready and whether its hero uses the shared halftone pattern             |
 | `frontend/components/partials/CookieBanner.tsx`               | Global client-side cookie consent banner/preferences panel driven by `siteSettings.cookieSettings` and reopened from the footer                           |
+| `frontend/components/analytics/GoogleAnalyticsScripts.tsx`    | Initializes Google tag globals, consent defaults, and manual GA4 bootstrapping with `send_page_view: false`                                               |
+| `frontend/components/analytics/GoogleConsentTracker.tsx`      | Syncs Consent Mode v2 updates from the cookie banner's stored preferences to Google tags                                                                   |
+| `frontend/components/analytics/PageViewTracker.tsx`           | Client-side SPA pageview tracker for route changes; pushes manual `page_view` events for analytics/debug tooling                                           |
+| `frontend/lib/marketing-analytics.ts`                         | Shared client helpers for `dataLayer` events, manual GA4 pageviews, Consent Mode updates, and cross-domain linker registration                             |
 | `studio/src/schemaTypes/pageBuilderBlocks.ts`                 | Shared registry for renderable page-builder block types and the reusable Studio insert-menu configuration used across all page-builder documents          |
 | `studio/src/schemaTypes/index.ts`                             | Registers all Sanity schema types (documents + objects)                                                                                                   |
 | `studio/src/schemaTypes/singletons/seoSettings.ts`            | Global SEO defaults singleton. Page-like documents override these values through their shared `seo` object field                                          |
@@ -133,6 +137,16 @@ The shared halftone persistence rule is driven by two conventions:
 - Hero sections that visually own the brand dots must include `.has-hero-pattern`
 - Final page content must render `PageTransitionMarker` with the correct `hasHeroPattern` value
 - The expensive hero graphic media must remain owned by the root layout app shell. Hero/intro/transition visuals may mirror it, but they should not mount their own separate `hero.mp4` elements
+
+### Marketing Analytics & Consent
+
+The root layout now owns manual Google analytics wiring for SPA navigation and consent-aware tags:
+
+- `GoogleAnalyticsScripts` sets `dataLayer`, the default denied Consent Mode v2 state, and GA bootstrapping with `send_page_view: false`
+- `GoogleConsentTracker` listens to the same cookie-preferences storage/event flow used by the banner and issues Google `consent update` calls
+- `PageViewTracker` is the single source of truth for manual SPA `page_view` events
+- Conversion-style events for GTM/GA4 should be pushed through `frontend/lib/marketing-analytics.ts` so event names/params stay aligned with marketing
+- Booking embeds that resolve to another domain should register their host through the shared linker helper so GA cross-domain measurement can include the scheduler domain
 
 The current hero sections that should carry `.has-hero-pattern` are:
 

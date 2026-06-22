@@ -33,7 +33,7 @@ export const studyApproach = defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'text'
+      type: 'blockContentTextOnly'
     }),
     defineField({
       name: 'callout',

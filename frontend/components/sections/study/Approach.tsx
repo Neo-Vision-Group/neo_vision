@@ -1,7 +1,9 @@
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { CalloutCard } from "@/components/partials/CalloutCard";
+import { PortableTextRenderer } from "@/components/partials/PortableTextRenderer";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
+import type { PortableTextBlock } from "@portabletext/react";
 
 const SplitTextReveal = dynamic(
   () =>
@@ -17,7 +19,7 @@ export type StudyApproachData = {
     faded?: string;
     bold?: string;
   };
-  body?: string;
+  body?: PortableTextBlock[];
   callout?: {
     label?: string;
     body?: string;
@@ -32,7 +34,7 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
   const body = cleanData?.body;
   const callout = cleanData?.callout;
 
-  if (!heading && !body && !callout) {
+  if (!heading && !body?.length && !callout) {
     return null;
   }
 
@@ -53,10 +55,11 @@ export function StudyApproach({ data }: { data?: StudyApproachData }) {
             {[heading.faded, heading.bold].filter(Boolean).join(" ")}
           </SplitTextReveal>
         ) : null}
-        {body ? (
-          <p className="text-[18px] leading-normal text-black dark:text-white">
-            {body}
-          </p>
+        {body?.length ? (
+          <PortableTextRenderer
+            value={body}
+            className="text-[18px] leading-normal text-black dark:text-white [&_p]:my-0 [&_p+p]:mt-4"
+          />
         ) : null}
         {callout?.body ? (
           <CalloutCard

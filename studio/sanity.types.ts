@@ -230,14 +230,6 @@ export type ProfilePicture = {
   _type: 'image'
 }
 
-export type TechToolLogo = {
-  asset?: SanityImageAssetReference
-  media?: unknown // Unable to locate the referenced type "techTool.logo.media" in schema
-  hotspot?: SanityImageHotspot
-  crop?: SanityImageCrop
-  _type: 'image'
-}
-
 export type Steps = {
   _type: 'steps'
   eyebrow?: string
@@ -402,15 +394,21 @@ export type StudyMoreLikeThis = {
   >
 }
 
+export type TechnicalStackReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'technicalStack'
+}
+
 export type StudyTechStack = {
   _type: 'studyTechStack'
   eyebrow?: string
-  tools: Array<{
-    name: string
-    logo?: TechToolLogo
-    _type: 'techTool'
-    _key: string
-  }>
+  tools: Array<
+    {
+      _key: string
+    } & TechnicalStackReference
+  >
 }
 
 export type StudyTestimonial = {
@@ -571,7 +569,7 @@ export type PortfolioCta = {
 
 export type PortfolioGrid = {
   _type: 'portfolioGrid'
-  items: Array<
+  items?: Array<
     {
       _key: string
     } & ProjectReference
@@ -771,6 +769,7 @@ export type Testimonials = {
     name: string
     logoLight: LogoLight
     logoDark?: LogoDark
+    link?: string
     _key: string
   }>
   testimonials: Array<
@@ -1166,6 +1165,22 @@ export type Button = {
   _type: 'button'
   buttonText?: string
   link?: Link
+}
+
+export type TechnicalStack = {
+  _id: string
+  _type: 'technicalStack'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  name: string
+  image: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
 }
 
 export type ResourceRequest = {
@@ -2361,7 +2376,6 @@ export type AllSanitySchemaTypes =
   | ResourceFile
   | ObjectImage
   | ProfilePicture
-  | TechToolLogo
   | Steps
   | ServiceNavigator
   | SoundFamiliar
@@ -2374,6 +2388,7 @@ export type AllSanitySchemaTypes =
   | Awards
   | ProjectReference
   | StudyMoreLikeThis
+  | TechnicalStackReference
   | StudyTechStack
   | StudyTestimonial
   | StudyNumbers
@@ -2427,6 +2442,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Button
+  | TechnicalStack
   | ResourceRequest
   | ContactSubmission
   | Testimonial

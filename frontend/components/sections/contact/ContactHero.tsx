@@ -2,7 +2,6 @@
 
 import { useState, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { HeroBrandDotsBackground } from "@/components/partials/HeroBrandDotsBackground";
 import { HeroStats, type HeroStat } from "@/components/sections/contact/HeroStats";
 import { cleanStega } from "@/sanity/lib/utils";
 import { useGSAP } from "@gsap/react";
@@ -156,9 +155,9 @@ export function ContactHero({ data }: { data?: ContactHeroData }) {
           </div>
 
           {/* Right column - Form container */}
-          <div suppressHydrationWarning className="flex flex-1 flex-col gap-12 bg-[#f7f7f7] dark:bg-[#040404] p-6 lg:p-6">
+          <div suppressHydrationWarning className="flex flex-1 flex-col gap-12 bg-[#f7f7f7] dark:bg-[#040404] lg:p-6">
             {/* Tab buttons */}
-            <div className="flex gap-6">
+            <div className="flex flex-col md:flex-row gap-6">
               <button
                 type="button"
                 className="relative flex flex-1 flex-col items-center justify-center p-2.5 font-funnel text-[18px] leading-normal text-black dark:text-[#efefef] transition-colors duration-300 bg-brand/30"

@@ -136,7 +136,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           }}
         />
       </head>
-      <body className="overflow-x-clip bg-white text-dark dark:bg-dark dark:text-white">
+      <body className="overflow-x-clip bg-transparent text-dark dark:text-white">
         <Analytics />
         <GoogleAnalyticsScripts
           gaId={process.env.NEXT_PUBLIC_GA_ID}

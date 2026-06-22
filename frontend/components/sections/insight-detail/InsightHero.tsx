@@ -74,8 +74,6 @@ export function InsightHero({ post }: { post: InsightDoc }) {
 
   return (
     <section className="has-hero-pattern bg-transparent relative isolate min-h-screen text-[#111111] dark:text-[#efefef]">
-      <div className="absolute inset-0 bg-white/55 dark:bg-black/35" />
-
       <div className="relative flex flex-col pt-8 pb-8 md:pt-10 md:pb-10">
         {/* Breadcrumb — padded to match navbar */}
         <nav className="mb-6 flex flex-wrap items-center gap-2 px-4 text-[14px] leading-[1.4] text-black/55 dark:text-white/55 md:px-12 md:text-[16px] lg:px-16 2xl:px-30">

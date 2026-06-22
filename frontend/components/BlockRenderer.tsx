@@ -34,7 +34,7 @@ import {PortfolioGrid, PortfolioGridData} from '@/components/sections/portfolio/
 import {PortfolioCta, PortfolioCtaData} from '@/components/sections/portfolio/PortfolioCta'
 import {PortfolioMetrics, PortfolioMetricsData} from '@/components/sections/portfolio/Metrics'
 import {StudyHeroImage, StudyHeroImageData} from '@/components/sections/study/HeroImage'
-import {StudyHero, StudyHeroData} from '@/components/sections/study/Hero'
+import {StudyHeroScroll as StudyHero, StudyHeroData} from '@/components/sections/study/StudyHeroScroll'
 import {StudyChallenge, StudyChallengeData} from '@/components/sections/study/Challenge'
 import {StudyApproach, StudyApproachData} from '@/components/sections/study/Approach'
 import {StudyKeyWins, StudyKeyWinsData} from '@/components/sections/study/KeyWins'
