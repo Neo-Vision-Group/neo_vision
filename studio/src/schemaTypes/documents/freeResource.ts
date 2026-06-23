@@ -81,6 +81,30 @@ export const freeResource = defineType({
             description: 'If enabled, users will be prompted to enter their email address before downloading the resource.',
         }),
         defineField({
+            name: 'downloadCta',
+            title: 'Download CTA',
+            description: 'Callout section shown at the bottom of the resource viewer, prompting the user to download.',
+            type: 'object',
+            fields: [
+                defineField({
+                    name: 'heading',
+                    title: 'Heading',
+                    type: 'string',
+                }),
+                defineField({
+                    name: 'subheading',
+                    title: 'Subheading',
+                    type: 'string',
+                }),
+                defineField({
+                    name: 'buttonText',
+                    title: 'Button Text',
+                    type: 'string',
+                    initialValue: 'Download',
+                }),
+            ],
+        }),
+        defineField({
             name: 'pageBuilder',
             title: 'Page Builder',
             type: 'array',

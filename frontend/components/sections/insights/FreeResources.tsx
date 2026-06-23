@@ -9,6 +9,8 @@ import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { redirect } from 'next/navigation';
+import { useLeadMagnet } from '@/hooks/useLeadMagnet'
 import { ResourceRequestPopUp } from '@/components/partials/ResourceRequestPopUp'
 
 const RevealOnScroll = dynamic(
@@ -59,6 +61,7 @@ function Heading({value}: {value: HeadingShape}) {
 }
 
 export function FreeResources({data}: {data?: FreeResourcesData}) {
+  const { hasAccess } = useLeadMagnet();
   const cleanData = data ? cleanStega(data) : data
   const items = cleanData?.items ?? []
 
@@ -74,7 +77,11 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
     if (item.askForEmail) {
       e.preventDefault()
       setSelectedResource(item)
-      setIsPopupOpen(true)
+      if (!hasAccess) {
+        setIsPopupOpen(true)
+      } else {
+        redirect('/free-resources/' + (item.slug ?? ''))
+      }
     }
     // If askForEmail is false, let the default link behavior handle the download
   }

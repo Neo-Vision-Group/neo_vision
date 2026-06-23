@@ -4,14 +4,11 @@ import {sanityFetch} from '@/sanity/lib/live'
 import {resolveSiteOrigin} from '@/app/site-origin'
 import {notFound} from 'next/navigation'
 import {buildRouteMetadata, buildRouteStructuredData, resolveSeoContext} from '@/sanity/lib/seo'
-import HTMLViewer from "@/components/sections/free-resources/HTMLViewer";
-import Image from "next/image";
-
 import type { PageBuilderSection } from "@/sanity/lib/types";
 import type { Seo } from "@/sanity.types";
 import { StructuredDataScript } from "@/components/seo/StructuredDataScript";
 
-import PDFViewerClient from '@/components/sections/free-resources/PDFViewerClient'
+import FreeResourceGate from '@/components/sections/free-resources/FreeResourceGate'
 
 export type FreeResourcesData = {
     _id: string
@@ -28,6 +25,11 @@ export type FreeResourcesData = {
     }
     externalLink?: string
     askForEmail?: boolean
+    downloadCta?: {
+        heading?: string
+        subheading?: string
+        buttonText?: string
+    }
     seo?: Seo | null
     pageBuilder?: PageBuilderSection[]
 }
@@ -95,7 +97,7 @@ export default async function FreeResourcePage({
     const freeResourceData = await loadFreeResource(slug)
 
     if (!freeResourceData) notFound()
-    
+
     const origin = await resolveSiteOrigin()
     const seoContext = await resolveSeoContext({
         pathname: `/insights/${slug}`,
@@ -116,20 +118,7 @@ export default async function FreeResourcePage({
         <>
             <StructuredDataScript nodes={structuredData} />
             <div>
-                {/* In here, i will check what type of file I have and display it accordingly */}
-                {freeResourceData.file && (
-                    <div>
-                        {freeResourceData.file.type === 'pdf' && (
-                            <PDFViewerClient fileUrl={freeResourceData.file.asset?.asset?.url ?? ''} />
-                        )}
-                        {freeResourceData.file.type === 'image' && (
-                            <Image src={freeResourceData.file.asset?.asset?.url ?? ''} alt={freeResourceData.title ?? 'Free Resource'} width={1200} height={800} />
-                        )}
-                        {freeResourceData.file.type === 'html' && (
-                            <HTMLViewer fileUrl={freeResourceData.file.asset?.asset?.url ?? ''} />
-                        )}
-                    </div>
-                )}
+                <FreeResourceGate resource={freeResourceData} />
             </div>
         </>
     )

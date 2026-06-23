@@ -39,20 +39,20 @@ function toHostname(value?: string | null): string | null {
 export async function POST(req: NextRequest) {
     let rateLimitResult;
 
-      if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-    const ip = getIP(req);
-    rateLimitResult = await checkResourceRequestRateLimit(ip);
-  } else {
-    if (process.env.NODE_ENV === "development") {
-      console.warn("[api/resource] Upstash Redis not configured, using in-memory rate limiter (not production-safe)");
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+      const ip = getIP(req);
+      rateLimitResult = await checkResourceRequestRateLimit(ip);
+    } else {
+      if (process.env.NODE_ENV === "development") {
+        console.warn("[api/resource] Upstash Redis not configured, using in-memory rate limiter (not production-safe)");
+      }
+      rateLimitResult = await rateLimit(req, {
+        interval: 15 * 60 * 1000,
+        uniqueTokenPerInterval: 5,
+      });
     }
-    rateLimitResult = await rateLimit(req, {
-      interval: 15 * 60 * 1000,
-      uniqueTokenPerInterval: 5,
-    });
-  }
 
-  if (!rateLimitResult.success) {
+    if (!rateLimitResult.success) {
     logSecurityEvent(req, "blocked", "Rate limit exceeded");
     return NextResponse.json(
       { ok: false, error: "Too many requests. Please try again later." },
@@ -66,65 +66,65 @@ export async function POST(req: NextRequest) {
         },
       }
     );
-  }
+    }
 
-  // CSRF protection
-  const csrfValid = await validateCsrfToken(req);
-  if (!csrfValid) {
+    // CSRF protection
+    const csrfValid = await validateCsrfToken(req);
+    if (!csrfValid) {
     logSecurityEvent(req, "blocked", "CSRF token validation failed");
     return NextResponse.json(
       { ok: false, error: "Invalid request. Please refresh the page and try again." },
       { status: 403 }
     );
-  }
-  // Origin validation (both Origin AND Referer must match)
-  const origin = req.headers.get('origin');
-  const referer = req.headers.get('referer');
-  
-  let allowedOrigins = [
+    }
+    // Origin validation (both Origin AND Referer must match)
+    const origin = req.headers.get('origin');
+    const referer = req.headers.get('referer');
+
+    let allowedOrigins = [
     process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     ...(process.env.ALLOWED_ORIGINS?.split(',').map(o => o.trim()) || []),
-  ].filter(Boolean);
+    ].filter(Boolean);
 
-  // SEC-7: in production, do not merely log a configured localhost origin —
-  // drop it so it can never satisfy origin/referer validation.
-  if (process.env.NODE_ENV === 'production') {
+    // SEC-7: in production, do not merely log a configured localhost origin —
+    // drop it so it can never satisfy origin/referer validation.
+    if (process.env.NODE_ENV === 'production') {
     const beforeCount = allowedOrigins.length;
     allowedOrigins = allowedOrigins.filter(o => !o.includes('localhost') && !o.includes('127.0.0.1'));
     if (allowedOrigins.length !== beforeCount) {
       logSecurityEvent(req, "blocked", "Localhost origin configured in production (ignored)");
     }
-  }
+    }
 
-  // Require both Origin AND Referer in production
-  if (!origin || !referer) {
+    // Require both Origin AND Referer in production
+    if (!origin || !referer) {
     logSecurityEvent(req, "blocked", "Missing origin or referer header");
     return NextResponse.json(
       { ok: false, error: "Invalid request." },
       { status: 403 }
     );
-  }
+    }
 
-  // SEC-5: malformed Origin/Referer (or a malformed ALLOWED_ORIGINS entry) must
-  // yield a clean 403, never an unhandled exception (500).
-  const safeHostname = (value: string): string | null => {
+    // SEC-5: malformed Origin/Referer (or a malformed ALLOWED_ORIGINS entry) must
+    // yield a clean 403, never an unhandled exception (500).
+    const safeHostname = (value: string): string | null => {
     try {
       return new URL(value).hostname;
     } catch {
       return null;
     }
-  };
+    };
 
-  const originHostname = safeHostname(origin);
-  const refererHostname = safeHostname(referer);
-  const allowedHostnames = allowedOrigins
+    const originHostname = safeHostname(origin);
+    const refererHostname = safeHostname(referer);
+    const allowedHostnames = allowedOrigins
     .map(safeHostname)
     .filter((h): h is string => h !== null);
 
-  const originAllowed = originHostname !== null && allowedHostnames.includes(originHostname);
-  const refererAllowed = refererHostname !== null && allowedHostnames.includes(refererHostname);
+    const originAllowed = originHostname !== null && allowedHostnames.includes(originHostname);
+    const refererAllowed = refererHostname !== null && allowedHostnames.includes(refererHostname);
 
-  if (!originAllowed || !refererAllowed) {
+    if (!originAllowed || !refererAllowed) {
     logSecurityEvent(req, "blocked", "Origin/Referer validation failed", {
       origin,
       referer,
@@ -133,77 +133,77 @@ export async function POST(req: NextRequest) {
       { ok: false, error: "Invalid request origin." },
       { status: 403 }
     );
-  }
-
-  let body: unknown;
-
-  try {
-    body = await req.json();
-  } catch {
-    logSecurityEvent(req, "blocked", "Invalid JSON body");
-    return NextResponse.json(
-      { ok: false, error: "Invalid JSON body." },
-      { status: 400 }
-    );
-  }
-
-  const parsed = resourceRequestSchema.safeParse(body);
-
-  if (!parsed.success) {
-    logSecurityEvent(req, "failure", "Validation failed", {
-      fieldCount: Object.keys(parsed.error.flatten().fieldErrors).length,
-    });
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "Validation failed.",
-        issues: parsed.error.flatten().fieldErrors,
-      },
-      { status: 400 }
-    );
-  }
-
-  const data = parsed.data;
-
-  // Honeypot — silently accept + drop
-  if (data.website && data.website.length > 0) {
-    logSecurityEvent(req, "blocked", "Honeypot triggered");
-    return NextResponse.json({ ok: true });
-  }
-
-  const receivedAt = new Date().toISOString();
-
-  const correlationId = logSecurityEvent(req, "success", "Resource request submitted");
-
-  // SEC-1: re-resolve the requested resource server-side from the CMS using the
-  // hosting page slug + item key. We never trust any client-supplied URL.
-  let resolvedResource: ResolvedResource = null;
-  try {
-    resolvedResource = await client.fetch<ResolvedResource>(
-      resourceByKeyQuery,
-      { pageSlug: data.pageSlug, itemKey: data.itemKey },
-      { stega: false }
-    );
-  } catch (err) {
-    if (process.env.NODE_ENV === "development") {
-      console.error("[api/resource] Resource lookup failed", err);
     }
-  }
 
-  if (!resolvedResource || resolvedResource.askForEmail !== true) {
-    logSecurityEvent(req, "blocked", "Unknown or non-emailable resource requested", { correlationId });
-    return NextResponse.json(
-      { ok: false, error: "Requested resource is not available." },
-      { status: 400 }
-    );
-  }
+    let body: unknown;
 
-  const resourceTitle = resolvedResource.title?.trim() || "resource";
-  const isFileDownload = !!resolvedResource.fileUrl;
+    try {
+      body = await req.json();
+    } catch {
+      logSecurityEvent(req, "blocked", "Invalid JSON body");
+      return NextResponse.json(
+        { ok: false, error: "Invalid JSON body." },
+        { status: 400 }
+      );
+    }
 
-  // Host-allowlist the resolved URL (defense-in-depth). File attachments must be
-  // fetched from the Sanity CDN; external links must be valid http(s) URLs.
-  const parseHttpUrl = (value?: string | null): URL | null => {
+    const parsed = resourceRequestSchema.safeParse(body);
+
+    if (!parsed.success) {
+      logSecurityEvent(req, "failure", "Validation failed", {
+        fieldCount: Object.keys(parsed.error.flatten().fieldErrors).length,
+      });
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Validation failed.",
+          issues: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
+    }
+
+    const data = parsed.data;
+
+    // Honeypot — silently accept + drop
+    if (data.website && data.website.length > 0) {
+      logSecurityEvent(req, "blocked", "Honeypot triggered");
+      return NextResponse.json({ ok: true });
+    }
+
+    const receivedAt = new Date().toISOString();
+
+    const correlationId = logSecurityEvent(req, "success", "Resource request submitted");
+
+    // SEC-1: re-resolve the requested resource server-side from the CMS using the
+    // hosting page slug + item key. We never trust any client-supplied URL.
+    let resolvedResource: ResolvedResource = null;
+    try {
+      resolvedResource = await client.fetch<ResolvedResource>(
+        resourceByKeyQuery,
+        { pageSlug: data.pageSlug, itemKey: data.itemKey },
+        { stega: false }
+      );
+    } catch (err) {
+      if (process.env.NODE_ENV === "development") {
+        console.error("[api/resource] Resource lookup failed", err);
+      }
+    }
+
+    if (!resolvedResource || resolvedResource.askForEmail !== true) {
+      logSecurityEvent(req, "blocked", "Unknown or non-emailable resource requested", { correlationId });
+      return NextResponse.json(
+        { ok: false, error: "Requested resource is not available." },
+        { status: 400 }
+      );
+    }
+
+    const resourceTitle = resolvedResource.title?.trim() || "resource";
+    const isFileDownload = !!resolvedResource.fileUrl;
+
+    // Host-allowlist the resolved URL (defense-in-depth). File attachments must be
+    // fetched from the Sanity CDN; external links must be valid http(s) URLs.
+    const parseHttpUrl = (value?: string | null): URL | null => {
     if (!value) return null;
     try {
       const url = new URL(value);
@@ -211,10 +211,10 @@ export async function POST(req: NextRequest) {
     } catch {
       return null;
     }
-  };
+    };
 
-  let resolvedUrl: string | undefined;
-  if (isFileDownload) {
+    let resolvedUrl: string | undefined;
+    if (isFileDownload) {
     const parsed = parseHttpUrl(resolvedResource.fileUrl);
     if (!parsed || parsed.hostname !== "cdn.sanity.io") {
       logSecurityEvent(req, "blocked", "Resolved file URL failed host allowlist", { correlationId });
@@ -224,7 +224,7 @@ export async function POST(req: NextRequest) {
       );
     }
     resolvedUrl = parsed.toString();
-  } else {
+    } else {
     const parsed = parseHttpUrl(resolvedResource.externalLink);
     const allowedExternalHosts = new Set(
       [
@@ -254,10 +254,10 @@ export async function POST(req: NextRequest) {
       );
     }
     resolvedUrl = parsed.toString();
-  }
+    }
 
-  // Validate Sanity write token is configured
-  if (!process.env.SANITY_WRITE_TOKEN || process.env.SANITY_WRITE_TOKEN === 'your_write_token') {
+    // Validate Sanity write token is configured
+    if (!process.env.SANITY_WRITE_TOKEN || process.env.SANITY_WRITE_TOKEN === 'your_write_token') {
     logSecurityEvent(req, "failure", "SANITY_WRITE_TOKEN not configured", { correlationId });
     if (process.env.NODE_ENV === "development") {
       console.error("[api/resource] SANITY_WRITE_TOKEN not configured");
@@ -269,37 +269,37 @@ export async function POST(req: NextRequest) {
       },
       { status: 500 }
     );
-  }
-
-  try {
-    const writeClient = sanityWriteClient();
-
-    // SEC-8: store raw, Zod-validated values; rely on React/Sanity output
-    // encoding at render time instead of double-escaping into storage.
-    const writePromise = writeClient.create({
-        _type: "resourceRequest",
-        email: data.email,
-        resourceRequested: resourceTitle,
-        receivedAt,
-    });
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Sanity write timeout")), 10000)
-    );
-    
-    await Promise.race([writePromise, timeoutPromise]);
-  } catch (err) {
-    logSecurityEvent(req, "failure", "Sanity write failed", { correlationId });
-    if (process.env.NODE_ENV === "development") {
-      console.error("[api/resource] Sanity write failed", err);
     }
-    return NextResponse.json(
-      {
-        ok: false,
-        error: "Unable to process your request. Please try again later.",
-      },
-      { status: 500 }
-    );
-  }
+
+    try {
+      const writeClient = sanityWriteClient();
+
+      // SEC-8: store raw, Zod-validated values; rely on React/Sanity output
+      // encoding at render time instead of double-escaping into storage.
+      const writePromise = writeClient.create({
+          _type: "resourceRequest",
+          email: data.email,
+          resourceRequested: resourceTitle,
+          receivedAt,
+      });
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Sanity write timeout")), 10000)
+      );
+
+      await Promise.race([writePromise, timeoutPromise]);
+    } catch (err) {
+      logSecurityEvent(req, "failure", "Sanity write failed", { correlationId });
+      if (process.env.NODE_ENV === "development") {
+        console.error("[api/resource] Sanity write failed", err);
+      }
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "Unable to process your request. Please try again later.",
+        },
+        { status: 500 }
+      );
+    }
 
     try {
         const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || 

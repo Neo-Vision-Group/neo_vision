@@ -18,6 +18,7 @@ interface ResourceRequestPopUpProps {
   isOpen: boolean
   resourceName?: string
   /** Slug of the page hosting the resource ("" for the home page). */
+  isClosable?: boolean
   pageSlug?: string
   /** The freeResources item `_key` — used to re-resolve the resource server-side. */
   itemKey?: string
@@ -28,6 +29,7 @@ interface ResourceRequestPopUpProps {
 export function ResourceRequestPopUp({ 
   isOpen, 
   resourceName = 'resource',
+  isClosable = true,
   pageSlug,
   itemKey,
   onSubmit,
@@ -60,13 +62,13 @@ export function ResourceRequestPopUp({
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
+      if (e.key === 'Escape' && isOpen && isClosable) {
         onClose?.()
       }
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, isClosable])
 
   const onFormSubmit = handleSubmit(async (formData) => {
     setSubmitError(null)
@@ -138,7 +140,7 @@ export function ResourceRequestPopUp({
   })
 
   const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+    if (e.target === e.currentTarget && isClosable) {
       onClose?.()
     }
   }

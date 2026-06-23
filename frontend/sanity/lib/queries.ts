@@ -1029,17 +1029,25 @@ export const allServicesQuery = defineQuery(`
 // hosting page slug + the item `_key`. Used by /api/resource to avoid trusting
 // any client-supplied URL (SEC-1). Returns the canonical, editor-set values only.
 export const resourceByKeyQuery = defineQuery(`
-  *[_type in ["page", "service", "project", "post"] && (
-    ($pageSlug == "" && _type == "page" && pageType == "home") ||
-    ($pageSlug != "" && slug.current == $pageSlug)
-  )][0]{
-    "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey]->{
+  coalesce(
+    *[_type in ["page", "service", "project", "post"] && (
+      ($pageSlug == "" && _type == "page" && pageType == "home") ||
+      ($pageSlug != "" && slug.current == $pageSlug)
+    )][0]{
+      "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey]->{
+        title,
+        externalLink,
+        askForEmail,
+        "fileUrl": file.asset.asset->url
+      }
+    }.item,
+    *[_type == "freeResource" && _id == $itemKey][0]{
       title,
       externalLink,
       askForEmail,
       "fileUrl": file.asset.asset->url
     }
-  }.item
+  )
 `)
 
 export const freeResourceBySlugQuery = defineQuery(`
@@ -1047,7 +1055,7 @@ export const freeResourceBySlugQuery = defineQuery(`
     _id,
     _type,
     title,
-    slug,
+    "slug": slug.current,
     ${seoFields},
     description,
     badge,
@@ -1062,6 +1070,11 @@ export const freeResourceBySlugQuery = defineQuery(`
     },
     externalLink,
     askForEmail,
+    downloadCta {
+      heading,
+      subheading,
+      buttonText
+    },
     ${sharedPageBuilderProjection}
   }
 `)
