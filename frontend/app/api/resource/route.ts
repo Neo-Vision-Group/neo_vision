@@ -7,10 +7,12 @@ import { logSecurityEvent } from "@/lib/security-logger";
 import { resourceRequestSchema } from "@/lib/resourceRequestSchema";
 import { sanityWriteClient } from "@/sanity/lib/write-client";
 import { client } from "@/sanity/lib/client";
-import { resourceByKeyQuery } from "@/sanity/lib/queries";
+import { resourceByKeyQuery, emailTemplateQuery } from "@/sanity/lib/queries";
+import { sanityFetch } from "@/sanity/lib/live";
 import { getPostHogClient } from "@/lib/posthog-server";
 import { Resend } from "resend";
 import { ResourceRequestNotification } from "@/components/emails/ResourceRequestNotification";
+import type { EmailPTBlock } from "@/components/emails/EmailPortableText";
 
 type ResolvedResource = {
   title?: string | null;
@@ -326,6 +328,19 @@ export async function POST(req: NextRequest) {
         }
     }
 
+    type EmailTemplateData = { subject?: string; title?: string; body?: EmailPTBlock[]; footer?: EmailPTBlock[] } | null;
+    let emailTemplateData: EmailTemplateData = null;
+
+    try {
+      const { data } = await sanityFetch({
+        query: emailTemplateQuery,
+        params: { type: 'resource' }
+      });
+      emailTemplateData = data as EmailTemplateData;
+    } catch (err) {
+      console.log("It seems like there isn't any template set up in santiy.")
+    }
+
     const resendKey = process.env.RESEND_API_KEY;
     if (resendKey) {
         try {
@@ -359,7 +374,7 @@ export async function POST(req: NextRequest) {
         const confirmationResult = await resend.emails.send({
             from,
             to: data.email,
-            subject: `Thanks for reaching out to Neo Vision!`,
+            subject: emailTemplateData?.subject || `Thanks for reaching out to Neo Vision!`,
             react: ResourceRequestNotification({
                     email: data.email,
                     resourceRequested: resourceTitle,
@@ -367,6 +382,11 @@ export async function POST(req: NextRequest) {
                     asFile: isFileDownload,
                     url: resolvedUrl,
                     forClient: true,
+                    content: emailTemplateData ? {
+                      title: emailTemplateData.title,
+                      body: emailTemplateData.body,
+                      footer: emailTemplateData.footer
+                    } : null,
                 }),
             ...(isFileDownload && resolvedUrl
                 ? {

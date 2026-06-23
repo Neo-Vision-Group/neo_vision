@@ -1,11 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from './Button'
+import ImageViewer from '@/components/sections/free-resources/ImageViewer'
 import {trackResourceDownload} from '@/lib/marketing-analytics'
 
 const popupSchema = z.object({
@@ -22,6 +23,8 @@ interface ResourceRequestPopUpProps {
   pageSlug?: string
   /** The freeResources item `_key` — used to re-resolve the resource server-side. */
   itemKey?: string
+  /** Optional image URL to show as a resource preview above the form. */
+  imageUrl?: string
   onSubmit?: (email: string) => Promise<void>
   onClose?: () => void
 }
@@ -32,6 +35,7 @@ export function ResourceRequestPopUp({
   isClosable = true,
   pageSlug,
   itemKey,
+  imageUrl,
   onSubmit,
   onClose 
 }: ResourceRequestPopUpProps) {
@@ -59,6 +63,8 @@ export function ResourceRequestPopUp({
     }
   }, [isOpen, reset])
 
+  const modalRef = useRef<HTMLDivElement>(null)
+
   // Close on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -69,6 +75,49 @@ export function ResourceRequestPopUp({
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [isOpen, onClose, isClosable])
+
+  // Focus trap
+  useEffect(() => {
+    if (!isOpen) return
+    const modal = modalRef.current
+    if (!modal) return
+
+    const focusableSelectors = [
+      'button:not([disabled])',
+      'input:not([disabled])',
+      'select:not([disabled])',
+      'textarea:not([disabled])',
+      '[href]',
+      '[tabindex]:not([tabindex="-1"])',
+    ].join(',')
+
+    const getFocusable = () => Array.from(modal.querySelectorAll<HTMLElement>(focusableSelectors))
+
+    const firstFocusable = getFocusable()[0]
+    firstFocusable?.focus()
+
+    const handleTab = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return
+      const focusable = getFocusable()
+      if (focusable.length === 0) return
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleTab)
+    return () => document.removeEventListener('keydown', handleTab)
+  }, [isOpen])
 
   const onFormSubmit = handleSubmit(async (formData) => {
     setSubmitError(null)
@@ -161,6 +210,10 @@ export function ResourceRequestPopUp({
 
           {/* Modal */}
           <motion.div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="resource-modal-heading"
             initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.98, y: 8 }}
@@ -176,13 +229,23 @@ export function ResourceRequestPopUp({
         <div className="flex flex-col gap-6">
           {/* Header */}
           <div className="flex flex-col gap-2.5">
-            <h2 className="font-funnel text-2xl font-bold leading-[1.2] text-dark dark:text-white-light">
+            <h2 id="resource-modal-heading" className="font-funnel text-2xl font-bold leading-[1.2] text-dark dark:text-white-light">
               Get the {resourceName}
             </h2>
             <p className="font-funnel text-lg leading-[1.5] tracking-normal text-dark/80 dark:text-white-light/80">
               Drop your email and we&apos;ll send the {resourceName} straight to your inbox.
             </p>
           </div>
+
+          {/* Resource preview */}
+          {imageUrl && (
+            <ImageViewer
+              src={imageUrl}
+              title={resourceName}
+              alt={resourceName}
+              compact
+            />
+          )}
 
           {success ? (
             <div className="rounded bg-green-500/10 dark:bg-green-500/20 px-6 py-4 text-center border border-green-500/30">

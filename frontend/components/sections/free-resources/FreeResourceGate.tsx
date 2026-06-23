@@ -1,7 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { ResourceRequestPopUp } from '@/components/partials/ResourceRequestPopUp'
-import Image from 'next/image'
 import dynamic from 'next/dynamic'
 import { useLeadMagnet } from '@/hooks/useLeadMagnet'
 import HTMLViewer from './HTMLViewer'
@@ -10,6 +9,11 @@ import type { FreeResourcesData } from '@/app/free-resources/[slug]/page'
 const PDFViewer = dynamic(() => import('./PDFViewer'), {
     ssr: false,
     loading: () => <p>Loading PDF Viewer...</p>,
+})
+
+const ImageViewer = dynamic(() => import('./ImageViewer'), {
+    ssr: false,
+    loading: () => <p>Loading Image Viewer...</p>,
 })
 
 export default function FreeResourceGate({ resource }: { resource: FreeResourcesData }) {
@@ -36,6 +40,10 @@ export default function FreeResourceGate({ resource }: { resource: FreeResources
 
     if (!resource.file) return null
 
+    if (resource.askForEmail && hasAccess === null) {
+        return <div className="min-h-[60vh]" />
+    }
+
     return (
         <div>
             {resource.file.type === 'pdf' && (
@@ -47,11 +55,12 @@ export default function FreeResourceGate({ resource }: { resource: FreeResources
                 />
             )}
             {resource.file.type === 'image' && (
-                <Image
+                <ImageViewer
                     src={resource.file.asset?.asset?.url ?? ''}
+                    title={resource.title}
                     alt={resource.title ?? 'Free Resource'}
-                    width={1200}
-                    height={800}
+                    downloadCta={resource.downloadCta}
+                    downloadUrl={resource.file.asset?.asset?.url}
                 />
             )}
             {resource.file.type === 'html' && (
@@ -66,6 +75,7 @@ export default function FreeResourceGate({ resource }: { resource: FreeResources
                 isClosable={false}
                 pageSlug={resource.slug ?? ''}
                 itemKey={resource?._id ?? ''}
+                imageUrl={resource.file.type === 'image' ? (resource.file.asset?.asset?.url ?? '') : undefined}
                 onClose={handleClosePopup}
             />
         </div>

@@ -87,6 +87,25 @@ const sitemapQuery = defineQuery(`
         maxImagePreview,
         maxVideoPreview
       }
+    },
+    "freeResources": *[_type == "freeResource" && defined(slug.current)]{
+      _id,
+      _updatedAt,
+      "slug": slug.current,
+      seo{
+        canonicalUrl,
+        robotsMode,
+        robots,
+        googleBot,
+        noIndex,
+        noFollow,
+        noArchive,
+        noSnippet,
+        noImageIndex,
+        maxSnippet,
+        maxImagePreview,
+        maxVideoPreview
+      }
     }
   }
 `)
@@ -113,6 +132,12 @@ type SitemapQueryResult = {
     seo?: Seo
   }>
   projects?: Array<{
+    _id: string
+    _updatedAt?: string
+    slug?: string
+    seo?: Seo
+  }>
+  freeResources?: Array<{
     _id: string
     _updatedAt?: string
     slug?: string
@@ -200,6 +225,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: canonicalUrl,
       lastModified: project._updatedAt ?? new Date().toISOString(),
       priority: 0.7,
+      changeFrequency: 'monthly',
+    })
+  }
+
+  for (const resource of payload.freeResources ?? []) {
+    if (!resource.slug) continue
+
+    const path = `/free-resources/${resource.slug}`
+    const resolvedSeo = mergeSeo(globalSeo, resource.seo)
+    if (hasNoIndex(resolvedSeo)) continue
+
+    const canonicalUrl = resolveCanonicalUrl(origin, path, resolvedSeo)
+    if (!isSameOriginUrl(origin, canonicalUrl)) continue
+
+    routeMap.set(path, {
+      url: canonicalUrl,
+      lastModified: resource._updatedAt ?? new Date().toISOString(),
+      priority: 0.6,
       changeFrequency: 'monthly',
     })
   }

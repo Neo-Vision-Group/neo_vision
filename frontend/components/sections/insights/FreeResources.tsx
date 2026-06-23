@@ -7,9 +7,8 @@ import {AnimatedBorder} from '@/components/AnimatedBorder'
 import {cleanStega} from '@/sanity/lib/utils'
 import { useTheme } from 'next-themes'
 import dynamic from 'next/dynamic'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { redirect } from 'next/navigation';
 import { useLeadMagnet } from '@/hooks/useLeadMagnet'
 import { ResourceRequestPopUp } from '@/components/partials/ResourceRequestPopUp'
 
@@ -64,6 +63,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
   const { hasAccess } = useLeadMagnet();
   const cleanData = data ? cleanStega(data) : data
   const items = cleanData?.items ?? []
+  const router = useRouter()
 
   // Derive the hosting page slug from the current path so the server can
   // re-resolve the resource (SEC-1). "/" → "" (home); "/insights" → "insights".
@@ -80,7 +80,7 @@ export function FreeResources({data}: {data?: FreeResourcesData}) {
       if (!hasAccess) {
         setIsPopupOpen(true)
       } else {
-        redirect('/free-resources/' + (item.slug ?? ''))
+        router.push('/free-resources/' + (item.slug ?? ''))
       }
     }
     // If askForEmail is false, let the default link behavior handle the download

@@ -1,74 +1,44 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { DrawLine } from '@/components/partials/motion/DrawLine';
+
+const SplitTextReveal = dynamic(
+  () => import('@/components/partials/motion/SplitTextReveal').then((mod) => mod.SplitTextReveal),
+  { ssr: false }
+);
 
 interface HTMLViewerProps {
   src: string;
   title: string;
 }
 
-const RESIZE_SCRIPT = `
-<script>
-(function() {
-  function sendHeight() {
-    var height = Math.max(
-      document.documentElement ? document.documentElement.scrollHeight : 0,
-      document.body ? document.body.scrollHeight : 0
-    );
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: 'RESIZE_IFRAME', height: height }, '*');
-    }
-  }
-  if (document.readyState === 'complete') {
-    sendHeight();
-  } else {
-    window.addEventListener('load', sendHeight);
-  }
-  window.addEventListener('resize', sendHeight);
-  setTimeout(sendHeight, 100);
-  setTimeout(sendHeight, 500);
-})();
-</script>
-`;
-
-function injectResizeScript(html: string): string {
-  const lower = html.toLowerCase();
-  const bodyClose = lower.lastIndexOf('</body>');
-  if (bodyClose !== -1) {
-    return html.slice(0, bodyClose) + RESIZE_SCRIPT + html.slice(bodyClose);
-  }
-  return html + RESIZE_SCRIPT;
+function embedHtmlUrl(sanityUrl: string): string {
+  return `/api/embed-html?url=${encodeURIComponent(sanityUrl)}`;
 }
 
 export default function HTMLViewer({ src, title }: HTMLViewerProps) {
-  const [html, setHtml] = useState<string | null>(null);
-  const [error, setError] = useState(false);
   const [height, setHeight] = useState('500px');
 
   useEffect(() => {
-    let cancelled = false;
-
-    const fetchHtml = async () => {
-      try {
-        const res = await fetch(src);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        if (!cancelled) setHtml(injectResizeScript(text));
-      } catch (err) {
-        console.error('[HTMLViewer] Failed to fetch HTML:', err);
-        if (!cancelled) setError(true);
-      }
-    };
-
-    fetchHtml();
-    return () => { cancelled = true; };
-  }, [src]);
-
-  useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.origin !== window.location.origin) return;
+      // Sandboxed iframes without allow-same-origin report origin as the
+      // string "null" (opaque origin). Accept that alongside the real origin.
+      if (event.origin !== window.location.origin && event.origin !== 'null') return;
       if (event.data?.type === 'RESIZE_IFRAME') {
         setHeight(`${event.data.height}px`);
+      }
+      if (event.data?.type === 'IFRAME_WHEEL') {
+        const deltaY = typeof event.data.deltaY === 'number' ? event.data.deltaY : 0;
+        const deltaX = typeof event.data.deltaX === 'number' ? event.data.deltaX : 0;
+        const wheelEvent = new WheelEvent('wheel', {
+          deltaY,
+          deltaX,
+          bubbles: true,
+          cancelable: true,
+        });
+        window.dispatchEvent(wheelEvent);
       }
     };
 
@@ -76,35 +46,72 @@ export default function HTMLViewer({ src, title }: HTMLViewerProps) {
     return () => window.removeEventListener('message', handleMessage);
   }, []);
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center py-32 text-brand font-funnel text-sm">
-        Failed to load HTML resource.
-      </div>
-    );
-  }
-
-  if (!html) {
-    return (
-      <div className="flex items-center justify-center py-32 text-black/40 dark:text-white/30 font-funnel text-sm">
-        Loading HTML resource…
-      </div>
-    );
-  }
-
   return (
-    <iframe
-      srcDoc={html}
-      title={title}
-      loading="lazy"
-      sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox"
-      style={{
-        width: '100%',
-        height: height,
-        backgroundColor: '#ffffff',
-        border: 'none',
-        transition: 'height 0.15s ease-out',
-      }}
-    />
+    <section className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
+      {/* Sidebar */}
+      <aside className="w-full md:sticky md:top-0 md:z-10 md:flex md:h-fit md:w-1/4 md:shrink-0 md:flex-col md:items-start pt-24">
+        <div className="h-px w-full bg-black/20 dark:bg-white/20" />
+        <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-6 pr-6 py-6 flex flex-col gap-4">
+          <p className="font-clash text-center md:text-left text-[24px] lg:text-3xl text-black dark:text-white font-bold">
+            {title}
+          </p>
+        </div>
+        <DrawLine
+          className="hidden md:block h-px w-full bg-black/20 dark:bg-white/20"
+          start="top 80%"
+          end="top 40%"
+          direction="horizontal"
+        />
+      </aside>
+
+      {/* Vertical separator */}
+      <DrawLine
+        className="hidden md:block w-px self-stretch bg-black/20 dark:bg-white/20"
+        start="top 85%"
+        end="bottom 85%"
+        direction="vertical"
+      />
+
+      {/* Main content */}
+      <div className="flex min-w-0 flex-1 flex-col gap-12 md:pt-24 pb-24">
+        <DrawLine
+          className="w-full h-px bg-black/20 dark:bg-white/20"
+          start="top 90%"
+          end="top 30%"
+          direction="horizontal"
+        />
+
+        {/* Section title */}
+        {title && (
+          <div className="px-6 lg:px-8 xl:px-16">
+            <SplitTextReveal
+              as="h1"
+              type="words"
+              stagger={0.04}
+              colorReveal
+              className="font-funnel text-4xl leading-[1.2] tracking-[-1px] text-black dark:text-white md:text-[40px] lg:text-5xl"
+            >
+              {title}
+            </SplitTextReveal>
+          </div>
+        )}
+
+        {/* HTML iframe */}
+        <div className="w-full px-6 lg:px-8 xl:px-16">
+          <iframe
+            src={embedHtmlUrl(src)}
+            title={title}
+            loading="lazy"
+            sandbox="allow-scripts allow-popups allow-forms allow-modals allow-popups-to-escape-sandbox"
+            style={{
+              width: '100%',
+              height: height,
+              border: 'none',
+              transition: 'height 0.15s ease-out',
+            }}
+          />
+        </div>
+      </div>
+    </section>
   );
 }

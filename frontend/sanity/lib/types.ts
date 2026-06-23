@@ -23,3 +23,10 @@ export type NavPageType = {
   name: string
   slug: string
 }
+
+export type emailTemplate = {
+  type: 'contact' | 'resource'
+  subject: string
+  title: string
+  body: string
+}

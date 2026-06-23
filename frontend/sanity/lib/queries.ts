@@ -1078,3 +1078,27 @@ export const freeResourceBySlugQuery = defineQuery(`
     ${sharedPageBuilderProjection}
   }
 `)
+
+export const emailTemplateQuery = defineQuery(`
+  *[_type == "emailTemplate" && type == $type][0]{
+    _id,
+    _type,
+    type,
+    subject,
+    title,
+    body[]{
+      ...,
+      markDefs[]{
+        ...,
+        "href": href
+      }
+    },
+    footer[]{
+      ...,
+      markDefs[]{
+        ...,
+        "href": href
+      }
+    }
+  }
+`)

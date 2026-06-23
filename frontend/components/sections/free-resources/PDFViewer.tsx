@@ -14,7 +14,7 @@ const SplitTextReveal = dynamic(
     { ssr: false }
 );
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL('pdfjs-dist/build/pdf.worker.mjs', import.meta.url).toString();
 
 type DownloadCta = {
     heading?: string
@@ -27,6 +27,7 @@ export default function PDFViewer({ fileUrl, title, downloadCta, downloadUrl }: 
     const [currentPage, setCurrentPage] = useState(1);
     const [inputValue, setInputValue] = useState('1');
     const [containerWidth, setContainerWidth] = useState<number | undefined>(undefined);
+    const [revealedPages, setRevealedPages] = useState<Set<number>>(() => new Set([1]));
 
     const pageRefs = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -131,6 +132,29 @@ export default function PDFViewer({ fileUrl, title, downloadCta, downloadUrl }: 
         return () => observers.forEach(o => o.disconnect());
     }, [numPages]);
 
+    // IntersectionObserver: lazy-reveal pages within 400px of the viewport
+    useEffect(() => {
+        if (!numPages) return;
+        const io = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
+                    const pageNum = Number((entry.target as HTMLElement).dataset.page);
+                    if (!pageNum) return;
+                    setRevealedPages((prev) => {
+                        if (prev.has(pageNum)) return prev;
+                        const next = new Set(prev);
+                        next.add(pageNum);
+                        return next;
+                    });
+                });
+            },
+            { rootMargin: '400px 0px' }
+        );
+        pageRefs.current.forEach((el) => { if (el) io.observe(el); });
+        return () => io.disconnect();
+    }, [numPages]);
+
     return (
         <section className="relative flex flex-col md:flex-row w-full md:items-start bg-white dark:bg-dark">
             {/* Sidebar */}
@@ -138,7 +162,7 @@ export default function PDFViewer({ fileUrl, title, downloadCta, downloadUrl }: 
                 <div className="h-px w-full bg-black/20 dark:bg-white/20" />
                 <div className="relative w-full pl-6 2xl:pl-30 lg:pl-16 md:pl-6 pr-6 py-6 flex flex-col gap-4">
                     <p className="font-clash text-center md:text-left text-[24px] lg:text-3xl text-black dark:text-white font-bold">
-                        Resource
+                        {title}
                     </p>
 
                     {numPages && (
@@ -227,14 +251,18 @@ export default function PDFViewer({ fileUrl, title, downloadCta, downloadUrl }: 
                             <div
                                 key={i}
                                 ref={el => { pageRefs.current[i] = el; }}
+                                data-page={i + 1}
+                                style={!revealedPages.has(i + 1) ? { minHeight: `${(containerWidth ?? 600) * 1.414}px` } : undefined}
                             >
-                                <Page
-                                    pageNumber={i + 1}
-                                    width={containerWidth}
-                                    renderTextLayer={false}
-                                    renderAnnotationLayer={false}
-                                    className="w-full shadow-lg"
-                                />
+                                {revealedPages.has(i + 1) && (
+                                    <Page
+                                        pageNumber={i + 1}
+                                        width={containerWidth}
+                                        renderTextLayer={false}
+                                        renderAnnotationLayer={false}
+                                        className="w-full shadow-lg"
+                                    />
+                                )}
                             </div>
                         ))}
                     </Document>

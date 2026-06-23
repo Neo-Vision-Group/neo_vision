@@ -3,12 +3,15 @@ import { Resend } from "resend";
 import { sanityWriteClient } from "@/sanity/lib/write-client";
 import { contactSchema } from "@/lib/contact-schema";
 import { ContactNotification } from "@/components/emails/ContactNotification";
+import type { EmailPTBlock } from "@/components/emails/EmailPortableText";
 import { getPostHogClient } from "@/lib/posthog-server";
 import { rateLimit } from "@/lib/rate-limit";
 import { checkContactRateLimit } from "@/lib/rate-limit-upstash";
 import { validateCsrfToken } from "@/lib/csrf";
 import { logSecurityEvent } from "@/lib/security-logger";
 import getIP from "@/lib/getIP";
+import { sanityFetch } from "@/sanity/lib/live";
+import { emailTemplateQuery } from "@/sanity/lib/queries";
 
 export async function POST(req: NextRequest) {
   // Rate limiting check - use Upstash if configured, fallback to in-memory
@@ -231,6 +234,19 @@ export async function POST(req: NextRequest) {
     }
   }
 
+  type EmailTemplateData = { subject?: string; title?: string; body?: EmailPTBlock[]; footer?: EmailPTBlock[] } | null;
+  let emailTemplateData: EmailTemplateData = null;
+
+  try {
+    const { data } = await sanityFetch({
+      query: emailTemplateQuery,
+      params: {type: 'contact'}
+    });
+    emailTemplateData = data as EmailTemplateData;
+  } catch (err) {
+    console.log("It seems like there isn't any template set up in santiy.")
+  }
+
   // 2. Send notification email (optional — degrade gracefully)
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {
@@ -269,7 +285,7 @@ export async function POST(req: NextRequest) {
       const confirmationResult = await resend.emails.send({
         from,
         to: data.email,
-        subject: `Thanks for reaching out to Neo Vision!`,
+        subject: emailTemplateData?.subject || `Thanks for reaching out to Neo Vision!`,
         react: ContactNotification({
           name: data.name,
           email: data.email,
@@ -281,6 +297,11 @@ export async function POST(req: NextRequest) {
           message: data.message,
           receivedAt,
           forClient: true,
+          content: emailTemplateData ? {
+            title: emailTemplateData.title,
+            body: emailTemplateData.body,
+            footer: emailTemplateData.footer
+          } : null,
         }),
       });
 

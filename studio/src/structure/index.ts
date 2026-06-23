@@ -1,6 +1,5 @@
 import {CogIcon, SearchIcon} from '@sanity/icons'
 import type {StructureBuilder, StructureResolver} from 'sanity/structure'
-import pluralize from 'pluralize-esm'
 
 /**
  * Structure builder is useful whenever you want to control how documents are grouped and
@@ -8,20 +7,27 @@ import pluralize from 'pluralize-esm'
  * Learn more: https://www.sanity.io/docs/structure-builder-introduction
  */
 
-const DISABLED_TYPES = ['siteSettings', 'seoSettings', 'assist.instruction.context']
+const documentTypeList = (S: StructureBuilder, type: string, title: string) =>
+  S.listItem().title(title).child(S.documentTypeList(type).title(title))
 
 export const structure: StructureResolver = (S: StructureBuilder) =>
   S.list()
     .title('Website Content')
     .items([
-      ...S.documentTypeListItems()
-        // Remove the "assist.instruction.context" and "settings" content  from the list of content types
-        .filter((listItem: any) => !DISABLED_TYPES.includes(listItem.getId()))
-        // Pluralize the title of each document type.  This is not required but just an option to consider.
-        .map((listItem) => {
-          return listItem.title(pluralize(listItem.getTitle() as string))
-        }),
-      // Settings Singleton in order to view/edit the one particular document for Settings.  Learn more about Singletons: https://www.sanity.io/docs/create-a-link-to-a-single-edit-page-in-your-main-document-type-list
+      // Content
+      S.divider().title('Content'),
+      documentTypeList(S, 'post', 'Insights'),
+      documentTypeList(S, 'project', 'Projects'),
+      documentTypeList(S, 'service', 'Services'),
+      documentTypeList(S, 'page', 'Pages'),
+
+      // Leads
+      S.divider().title('Leads'),
+      documentTypeList(S, 'contactSubmission', 'Contact Submissions'),
+      documentTypeList(S, 'resourceRequest', 'Resource Requests'),
+
+      // Settings
+      S.divider().title('Settings'),
       S.listItem()
         .title('Site Settings')
         .child(S.document().schemaType('siteSettings').documentId('siteSettings'))
@@ -30,4 +36,17 @@ export const structure: StructureResolver = (S: StructureBuilder) =>
         .title('SEO Settings')
         .child(S.document().schemaType('seoSettings').documentId('seoSettings'))
         .icon(SearchIcon),
+
+      // Categories
+      S.divider().title('Categories'),
+      documentTypeList(S, 'insightCategory', 'Insight Categories'),
+      documentTypeList(S, 'industry', 'Industry Categories'),
+
+      // Resources
+      S.divider().title('Resources'),
+      documentTypeList(S, 'teamMember', 'Team Members'),
+      documentTypeList(S, 'testimonial', 'Testimonials'),
+      documentTypeList(S, 'technicalStack', 'Technical Stacks'),
+      documentTypeList(S, 'freeResource', 'Free Resources'),
+      documentTypeList(S, 'emailTemplate', 'Email Templates')
     ])

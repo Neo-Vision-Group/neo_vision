@@ -5,6 +5,12 @@ import Lenis from 'lenis'
 
 import {gsap, ScrollTrigger} from '@/components/partials/motion/gsap-setup'
 
+declare global {
+  interface Window {
+    __lenis?: Lenis
+  }
+}
+
 type LenisProviderProps = {
   children: ReactNode
 }
@@ -28,6 +34,7 @@ export default function LenisProvider({children}: LenisProviderProps) {
     })
 
     lenisRef.current = lenis
+    window.__lenis = lenis
 
     const updateScrollTrigger = () => ScrollTrigger.update()
     const tick = (time: number) => {
@@ -43,6 +50,7 @@ export default function LenisProvider({children}: LenisProviderProps) {
       gsap.ticker.remove(tick)
       lenis.destroy()
       lenisRef.current = null
+      window.__lenis = undefined
     }
   }, [])
 
