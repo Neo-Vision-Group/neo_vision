@@ -28,7 +28,7 @@ export function GoogleAnalyticsScripts({gaId, nonce}: GoogleAnalyticsScriptsProp
       />
       {gaId ? (
         <>
-          <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+          <script async nonce={nonce} src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
           <script
             nonce={nonce}
             suppressHydrationWarning

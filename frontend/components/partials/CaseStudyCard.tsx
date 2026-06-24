@@ -118,6 +118,7 @@ export const CaseStudyCard = forwardRef<HTMLAnchorElement, {
             src={thumbSrc}
             alt={item.client}
             fill
+            sizes="(max-width: 1024px) 100vw, 33vw"
             className="absolute inset-0 object-cover object-center transition-transform duration-1000"
           />
         ) : (

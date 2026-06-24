@@ -147,7 +147,7 @@ export default async function RootLayout({children}: {children: React.ReactNode}
           <GoogleConsentTracker gaId={process.env.NEXT_PUBLIC_GA_ID} />
           <PageViewTracker />
           <ContactClickTracker />
-          <StructuredDataScript nodes={globalStructuredData} />
+          <StructuredDataScript nodes={globalStructuredData} nonce={nonce} />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"

@@ -68,7 +68,7 @@ export function Hero({ data }: { data?: HeroData }) {
   return (
     <section
       id="hero"
-      className="relative isolate flex flex-col min-h-[calc(100svh-4rem)] justify-between gap-auto overflow-hidden gap-10"
+      className="relative isolate flex flex-col min-h-[calc(100svh-4rem)] justify-between overflow-hidden gap-10"
     >
 
       <div className="relative flex flex-col h-full gap-6 px-6 pt-6 md:gap-10 md:px-12 md:pt-10 lg:px-16 lg:pt-10 2xl:gap-12 2xl:px-28 2xl:pt-20">
@@ -124,7 +124,7 @@ export function Hero({ data }: { data?: HeroData }) {
             from="bottom"
             distance={16}
             start="top bottom"
-            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-6 lg:py-0 2xl:py-8 md:px-1 lg:px-16"
+            className="flex pb-3 items-center py-6 text-left md:max-w-1/4 md:py-8 2xl:py-8 md:px-1 lg:px-16"
           >
             {hero.stats ? (
               <p className="w-full font-funnel text-[18px] text-center px-1.5 leading-normal">

@@ -54,12 +54,33 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const [serviceFiltersSelected, setServiceFiltersSelected] = useState<string[]>([]);
   const [industryFiltersSelected, setIndustryFiltersSelected] = useState<string[]>([]);
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_ITEMS);
+  const [activeCards, setActiveCards] = useState<boolean[]>(() =>
+    new Array(INITIAL_VISIBLE_ITEMS).fill(true)
+  );
+
+  const cardsRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToCards = () => {
+    const el = cardsRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY;
+    const target = Math.max(0, top - window.innerHeight * 0.2);
+    // Instant-jump first to prevent browser scroll-anchoring from fighting us
+    // as the DOM collapses, then smooth-scroll to the same target after paint.
+    window.scrollTo({ top: target, behavior: "instant" });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: target, behavior: "smooth" });
+      });
+    });
+  };
 
   // Reset filters when items change (use count as stable dependency)
   useEffect(() => {
     setServiceFiltersSelected([]);
     setIndustryFiltersSelected([]);
     setVisibleCount(INITIAL_VISIBLE_ITEMS);
+    setActiveCards(new Array(INITIAL_VISIBLE_ITEMS).fill(false));
   }, [itemCount]);
 
   const toggleServiceFilter = (value: string) => {
@@ -68,7 +89,17 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
       const next = exists ? prev.filter((v) => v !== value) : [...prev, value];
       return next;
     });
+    scrollToCards();
     setVisibleCount(INITIAL_VISIBLE_ITEMS);
+    setActiveCards(new Array(INITIAL_VISIBLE_ITEMS).fill(false));
+    filterJustChangedRef.current = true;
+    setTimeout(() => {
+      filterJustChangedRef.current = false;
+      const sentinel = loadMoreRef.current;
+      if (sentinel && sentinel.getBoundingClientRect().top < window.innerHeight + 1400) {
+        loadMoreCallbackRef.current();
+      }
+    }, 800);
   };
 
   const toggleIndustryFilter = (value: string) => {
@@ -77,7 +108,17 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
       const next = exists ? prev.filter((v) => v !== value) : [...prev, value];
       return next;
     });
+    scrollToCards();
     setVisibleCount(INITIAL_VISIBLE_ITEMS);
+    setActiveCards(new Array(INITIAL_VISIBLE_ITEMS).fill(false));
+    filterJustChangedRef.current = true;
+    setTimeout(() => {
+      filterJustChangedRef.current = false;
+      const sentinel = loadMoreRef.current;
+      if (sentinel && sentinel.getBoundingClientRect().top < window.innerHeight + 1400) {
+        loadMoreCallbackRef.current();
+      }
+    }, 800);
   };
 
   const filtered = useMemo(() => {
@@ -105,18 +146,19 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
   const hasMore = normalizedItems.length > visibleCount;
   const preloadItems = normalizedItems.slice(visibleCount, visibleCount + LOAD_MORE_COUNT);
 
-  const [activeCards, setActiveCards] = useState<boolean[]>(() =>
-    new Array(INITIAL_VISIBLE_ITEMS).fill(true)
-  );
   const observersRef = useRef<Map<number, IntersectionObserver>>(new Map());
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const isLoadingMoreRef = useRef(false);
+  const filterJustChangedRef = useRef(false);
+  const loadMoreCallbackRef = useRef<() => void>(() => {});
 
   const loadMore = useCallback(() => {
-    if (!hasMore || isLoadingMoreRef.current) return;
+    if (!hasMore || isLoadingMoreRef.current || filterJustChangedRef.current) return;
     isLoadingMoreRef.current = true;
     setVisibleCount((count) => Math.min(count + LOAD_MORE_COUNT, normalizedItems.length));
   }, [hasMore, normalizedItems.length]);
+
+  loadMoreCallbackRef.current = loadMore;
 
   useEffect(() => {
     isLoadingMoreRef.current = false;
@@ -233,7 +275,7 @@ export function PortfolioGrid({ data }: { data?: PortfolioGridData }) {
 
         <div className="hidden w-px shrink-0 bg-black/20 dark:bg-white/20 md:block" />
 
-        <div className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-0 lg:py-0">
+        <div ref={cardsRef} className="min-w-0 flex-1 px-4 py-6 md:px-6 md:py-8 lg:px-0 lg:py-0" style={{ overflowAnchor: "none" }}>
           {filtered.length === 0 ? (
             <div className="px-2 py-10 lg:px-6 lg:py-12">
               <p className="text-body text-black/60 dark:text-[#efefef]/60">

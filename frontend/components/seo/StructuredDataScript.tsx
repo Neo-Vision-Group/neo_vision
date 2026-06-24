@@ -3,9 +3,10 @@ import {validateStructuredData, sanitizeForJson} from '@/lib/sanitize'
 
 type StructuredDataScriptProps = {
   nodes?: Array<StructuredDataNode | null | undefined>
+  nonce?: string
 }
 
-export function StructuredDataScript({nodes = []}: StructuredDataScriptProps) {
+export function StructuredDataScript({nodes = [], nonce}: StructuredDataScriptProps) {
   const validNodes = nodes
     .filter(Boolean)
     .filter(validateStructuredData) as StructuredDataNode[]
@@ -21,6 +22,7 @@ export function StructuredDataScript({nodes = []}: StructuredDataScriptProps) {
         return (
           <script
             key={index}
+            nonce={nonce}
             type="application/ld+json"
             dangerouslySetInnerHTML={{__html: JSON.stringify(sanitized)}}
           />

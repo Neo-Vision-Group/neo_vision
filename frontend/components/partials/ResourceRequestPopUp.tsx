@@ -61,7 +61,7 @@ export function ResourceRequestPopUp({
       setSuccess(false)
       setSubmitError(null)
     }
-  }, [isOpen, reset])
+  }, [isOpen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const modalRef = useRef<HTMLDivElement>(null)
 
