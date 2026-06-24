@@ -45,7 +45,7 @@ const postFields = /* groq */ `
   coverImage,
   "cover": coverImage.asset->url,
   "date": coalesce(date, _updatedAt),
-  "author": author->{firstName, lastName, picture},
+  "author": author->{firstName, lastName, picture, slug},
   "category": category->{_id, title, slug},
 `
 
@@ -922,7 +922,7 @@ export const ALL_INSIGHTS_QUERY = defineQuery(`
     readTime,
     featured,
     "cover": coverImage.asset->url,
-    author->{name, role, portrait},
+    author->{name, role, portrait, slug},
   }
 `)
 
@@ -948,7 +948,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       label
     },
     ${sharedPageBuilderProjection},
-    author->{name, role, bio, portrait},
+    author->{name, role, bio, portrait, slug},
     relatedInsights[]->{
       _id,
       title,
@@ -1100,5 +1100,47 @@ export const emailTemplateQuery = defineQuery(`
         "href": href
       }
     }
+  }
+`)
+
+export const authorQuery = defineQuery(`
+  *[_type == "teamMember" && isAuthor == true && slug.current == $slug][0]{
+    _id,
+    _type,
+    name,
+    role,
+    bio,
+    "portrait": portrait.asset->url,
+    linkedin,
+    instagram,
+    facebook,
+    github,
+    x,
+    tiktok,
+    badges[],
+    ${seoFields},
+  }
+`)
+
+export const getInsightsByAuthor = defineQuery(`
+    *[_type == "post" && author._ref == $id] | order(publishedAt desc, _updatedAt desc)  {
+    _id,
+    _type,
+    title,
+    slug,
+    excerpt,
+    coverImage {
+      ...,
+      asset->
+    },
+    "cover": coverImage.asset->url,
+    "category": category->{_id, title, slug},
+    publishedAt,
+    readTime,
+    featured,
+    stats[]{
+      value,
+      label
+    },
   }
 `)

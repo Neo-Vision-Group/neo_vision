@@ -180,7 +180,7 @@ export default async function InsightDetailPage({
   return (
     <>
       <StructuredDataScript nodes={structuredData} />
-      <InsightHero post={post} />
+      <InsightHero post={post} origin={origin} />
       <div className="relative bg-white dark:bg-dark">
         <div className="relative mx-auto w-full max-w-330">
           {/* Drawing lines - positioned absolutely within the scrolling content wrapper */}

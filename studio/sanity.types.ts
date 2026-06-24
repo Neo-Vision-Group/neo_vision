@@ -201,19 +201,6 @@ export type Logo = {
   _type: 'image'
 }
 
-export type SanityFileAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
-}
-
-export type ResourceFile = {
-  asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "resource.file.media" in schema
-  _type: 'file'
-}
-
 export type ObjectImage = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "object.image.media" in schema
@@ -287,22 +274,24 @@ export type IsThisForYou = {
   }>
 }
 
+export type FreeResourceReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'freeResource'
+}
+
 export type FreeResources = {
   _type: 'freeResources'
   eyebrow?: string
   heading?: FreeResourcesHeading
   body?: string
   footnote?: string
-  items?: Array<{
-    title: string
-    badge?: string
-    description?: string
-    file?: ResourceFile
-    externalUrl?: string
-    emailIt?: boolean
-    _type: 'resource'
-    _key: string
-  }>
+  items?: Array<
+    {
+      _key: string
+    } & FreeResourceReference
+  >
 }
 
 export type StudyClosingCta = {
@@ -329,6 +318,13 @@ export type TechStack = {
     _key: string
   }>
   closingNote?: string
+}
+
+export type SanityFileAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
 }
 
 export type Press = {
@@ -1077,7 +1073,14 @@ export type Seo = {
     _type: 'image'
   }
   socialImageAlt?: string
-  schemaType?: 'WebPage' | 'AboutPage' | 'Service' | 'Article' | 'FAQPage' | 'ContactPage'
+  schemaType?:
+    | 'WebPage'
+    | 'AboutPage'
+    | 'Service'
+    | 'Article'
+    | 'FAQPage'
+    | 'ContactPage'
+    | 'ProfilePage'
   structuredDataMode?: 'inherit' | 'generated' | 'custom'
   structuredData?: string
   enableBreadcrumbSchema?: boolean
@@ -1167,6 +1170,53 @@ export type Button = {
   link?: Link
 }
 
+export type EmailTemplate = {
+  _id: string
+  _type: 'emailTemplate'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  type?: 'contact' | 'resource'
+  subject: string
+  title: string
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  footer?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
 export type TechnicalStack = {
   _id: string
   _type: 'technicalStack'
@@ -1192,6 +1242,194 @@ export type ResourceRequest = {
   email?: string
   resourceRequested?: string
   receivedAt: string
+  freeResourceRequested?: FreeResourceReference
+}
+
+export type FreeResource = {
+  _id: string
+  _type: 'freeResource'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  description?: string
+  badge?: string
+  cta: string
+  file?: {
+    type: 'pdf' | 'image' | 'html'
+    asset?: {
+      asset?: SanityFileAssetReference
+      media?: unknown
+      _type: 'file'
+    }
+  }
+  externalLink?: string
+  askForEmail?: boolean
+  downloadCta?: {
+    heading?: string
+    subheading?: string
+    buttonText?: string
+  }
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & Booking)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Signature2)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+    | ({
+        _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
+      } & AiServices)
+    | ({
+        _key: string
+      } & ServiceNavigator)
+    | ({
+        _key: string
+      } & Industries)
+    | ({
+        _key: string
+      } & Reality)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
+      } & Faq)
+    | ({
+        _key: string
+      } & InsightsGrid)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & Place)
+    | ({
+        _key: string
+      } & Press)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
+  >
+  seo?: Seo
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type ContactSubmission = {
@@ -1546,12 +1784,6 @@ export type InsightCategory = {
   description?: string
 }
 
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type TeamMember = {
   _id: string
   _type: 'teamMember'
@@ -1559,10 +1791,11 @@ export type TeamMember = {
   _updatedAt: string
   _rev: string
   name: string
+  slug: Slug
   order: number
   role: string
+  isAuthor?: boolean
   bio: string
-  linkedin?: string
   portrait?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1570,6 +1803,14 @@ export type TeamMember = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  linkedin?: string
+  instagram?: string
+  facebook?: string
+  github?: string
+  x?: string
+  tiktok?: string
+  badges?: Array<string>
+  seo?: Seo
 }
 
 export type Page = {
@@ -2372,17 +2613,17 @@ export type AllSanitySchemaTypes =
   | LabelImageLight
   | LabelImageDark
   | Logo
-  | SanityFileAssetReference
-  | ResourceFile
   | ObjectImage
   | ProfilePicture
   | Steps
   | ServiceNavigator
   | SoundFamiliar
   | IsThisForYou
+  | FreeResourceReference
   | FreeResources
   | StudyClosingCta
   | TechStack
+  | SanityFileAssetReference
   | Press
   | Place
   | Awards
@@ -2442,8 +2683,11 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Button
+  | EmailTemplate
   | TechnicalStack
   | ResourceRequest
+  | FreeResource
+  | Slug
   | ContactSubmission
   | Testimonial
   | SeoSettings
@@ -2451,7 +2695,6 @@ export type AllSanitySchemaTypes =
   | InsightCategoryReference
   | Post
   | InsightCategory
-  | Slug
   | TeamMember
   | Page
   | IndustryReference

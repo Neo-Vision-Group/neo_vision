@@ -373,6 +373,7 @@ export const seo = defineType({
           {title: 'Article', value: 'Article'},
           {title: 'FAQ Page', value: 'FAQPage'},
           {title: 'Contact Page', value: 'ContactPage'},
+          {title: 'Profile Page', value: 'ProfilePage'},
         ],
       },
       fieldset: 'structuredData',

@@ -106,6 +106,25 @@ const sitemapQuery = defineQuery(`
         maxImagePreview,
         maxVideoPreview
       }
+    },
+    "authors": *[_type == "teamMember" && isAuthor == true && defined(slug.current)]{
+      _id,
+      _updatedAt,
+      "slug": slug.current,
+      seo{
+        canonicalUrl,
+        robotsMode,
+        robots,
+        googleBot,
+        noIndex,
+        noFollow,
+        noArchive,
+        noSnippet,
+        noImageIndex,
+        maxSnippet,
+        maxImagePreview,
+        maxVideoPreview
+      }
     }
   }
 `)
@@ -154,6 +173,12 @@ type SitemapQueryResult = {
     seo?: SitemapSeo | null
   }>
   freeResources?: Array<{
+    _id: string
+    _updatedAt?: string
+    slug?: string
+    seo?: SitemapSeo | null
+  }>
+  authors?: Array<{
     _id: string
     _updatedAt?: string
     slug?: string
@@ -258,6 +283,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     routeMap.set(path, {
       url: canonicalUrl,
       lastModified: resource._updatedAt ?? new Date().toISOString(),
+      priority: 0.6,
+      changeFrequency: 'monthly',
+    })
+  }
+
+  for (const author of payload.authors ?? []) {
+    if (!author.slug) continue
+
+    const path = `/author/${author.slug}`
+    const resolvedSeo = mergeSeo(globalSeo, author.seo)
+    if (hasNoIndex(resolvedSeo)) continue
+
+    const canonicalUrl = resolveCanonicalUrl(origin, path, resolvedSeo)
+    if (!isSameOriginUrl(origin, canonicalUrl)) continue
+
+    routeMap.set(path, {
+      url: canonicalUrl,
+      lastModified: author._updatedAt ?? new Date().toISOString(),
       priority: 0.6,
       changeFrequency: 'monthly',
     })

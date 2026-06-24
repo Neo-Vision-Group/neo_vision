@@ -58,6 +58,21 @@ type ServiceMetadataInput = {
   duration?: string | null
 }
 
+type ProfileMetadataInput = {
+  name?: string | null
+  role?: string | null
+  bio?: string | null
+  image?: SeoImageLike | null
+  socialLinks?: {
+    linkedin?: string | null
+    instagram?: string | null
+    facebook?: string | null
+    github?: string | null
+    x?: string | null
+    tiktok?: string | null
+  } | null
+}
+
 type BreadcrumbInput = {
   rootLabel?: string | null
   categoryLabel?: string | null
@@ -108,9 +123,10 @@ export type ResolvedSeoContext = {
 }
 
 export type RouteStructuredDataInput = ResolvedSeoContext & {
-  routeType: 'page' | 'service' | 'project' | 'post'
+  routeType: 'page' | 'service' | 'project' | 'post' | 'author'
   pageBuilder?: Array<Record<string, unknown>> | null
   service?: ServiceMetadataInput
+  profile?: ProfileMetadataInput
   breadcrumb?: BreadcrumbInput
 }
 
@@ -958,6 +974,61 @@ function buildCreativeWorkStructuredData(input: RouteStructuredDataInput) {
   } satisfies StructuredDataNode
 }
 
+function buildProfilePageStructuredData(input: RouteStructuredDataInput) {
+  const imageUrl = resolveImageUrl(
+    pickObject(
+      input.profile?.image,
+      input.fallbackImage,
+      input.resolvedSeo.ogImage,
+      input.resolvedSeo.twitterImage,
+      input.resolvedSeo.socialImage,
+      input.siteSettings?.ogImage
+    )
+  )
+
+  const profile = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: input.profile?.name ?? input.title,
+    description: input.profile?.bio ?? input.description,
+    url: input.canonicalUrl,
+    image: imageUrl,
+    inLanguage: pickString(input.resolvedSeo.locale, 'en'),
+    isPartOf: input.siteName
+      ? {
+          '@type': 'WebSite',
+          name: input.siteName,
+          url: input.origin,
+        }
+      : undefined,
+    mainEntity: {
+      '@type': 'Person',
+      name: input.profile?.name ?? input.title,
+      description: input.profile?.bio,
+      jobTitle: input.profile?.role,
+      image: imageUrl,
+      sameAs: buildSocialLinks(input.profile?.socialLinks),
+    },
+  } satisfies StructuredDataNode
+
+  return addSpeakableToNode(profile, input.description)
+}
+
+function buildSocialLinks(socialLinks?: ProfileMetadataInput['socialLinks']) {
+  if (!socialLinks) return []
+
+  const links: string[] = []
+  
+  if (socialLinks.linkedin) links.push(socialLinks.linkedin)
+  if (socialLinks.instagram) links.push(socialLinks.instagram)
+  if (socialLinks.facebook) links.push(socialLinks.facebook)
+  if (socialLinks.github) links.push(socialLinks.github)
+  if (socialLinks.x) links.push(socialLinks.x)
+  if (socialLinks.tiktok) links.push(socialLinks.tiktok)
+
+  return links.length > 0 ? links : undefined
+}
+
 function buildFaqStructuredData(entries: Array<{question: string; answer: string}>) {
   if (entries.length === 0) {
     return null
@@ -1330,7 +1401,7 @@ export function buildGlobalStructuredData(input: {
       "target": {
         "@type": "EntryPoint",
         // This routes the query directly to Google, filtered strictly to your domain
-        "urlTemplate": "https://www.google.com/search?q=site:neovision.dev+{search_term_string}"
+        "urlTemplate": `https://www.google.com/search?q=site:${new URL(input.origin).hostname}+{search_term_string}`
       },
       "query-input": "required name=search_term_string"
     }
@@ -1369,6 +1440,9 @@ export function buildRouteStructuredData(input: RouteStructuredDataInput) {
       }
       case 'AboutPage':
         nodes.push(addSpeakableToNode(buildBasicPageStructuredData(input), input.description))
+        break
+      case 'ProfilePage':
+        nodes.push(buildProfilePageStructuredData(input))
         break
       case 'ContactPage':
       case 'WebPage':

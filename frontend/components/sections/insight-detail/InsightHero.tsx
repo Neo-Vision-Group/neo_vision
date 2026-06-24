@@ -64,7 +64,7 @@ function ShareButton({
   );
 }
 
-export function InsightHero({ post }: { post: InsightDoc }) {
+export function InsightHero({ post, origin = '' }: { post: InsightDoc; origin?: string }) {
   const publishedDate = formatDate(post.publishedAt);
   const categoryLabel = formatCategory(post.category);
   const slug = resolveSlug(post.slug);
@@ -151,7 +151,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
               {slug ? (
                 <div className="flex items-center gap-4 md:gap-6">
                   <ShareButton
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(`${origin}/insights/${slug}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Share on LinkedIn"
@@ -159,7 +159,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                     <span className="text-[22px] font-semibold leading-none">in</span>
                   </ShareButton>
                   <ShareButton
-                    href={`https://x.com/intent/post?url=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
+                    href={`https://x.com/intent/post?url=${encodeURIComponent(`${origin}/insights/${slug}`)}&text=${encodeURIComponent(post.title ?? "Insight")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Share on X"
@@ -167,7 +167,7 @@ export function InsightHero({ post }: { post: InsightDoc }) {
                     <span className="text-[22px] font-semibold leading-none">X</span>
                   </ShareButton>
                   <ShareButton
-                    href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`https://Neo Vision.com/insights/${slug}`)}`}
+                    href={`mailto:?subject=${encodeURIComponent(post.title ?? "Insight")}&body=${encodeURIComponent(`${origin}/insights/${slug}`)}`}
                     aria-label="Share by email"
                   >
                     <svg width="22" height="22" viewBox="0 0 18 18" fill="none" aria-hidden="true">
