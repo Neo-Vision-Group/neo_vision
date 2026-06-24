@@ -201,19 +201,6 @@ export type Logo = {
   _type: 'image'
 }
 
-export type SanityFileAssetReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
-}
-
-export type ResourceFile = {
-  asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "resource.file.media" in schema
-  _type: 'file'
-}
-
 export type ObjectImage = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "object.image.media" in schema
@@ -287,22 +274,24 @@ export type IsThisForYou = {
   }>
 }
 
+export type FreeResourceReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'freeResource'
+}
+
 export type FreeResources = {
   _type: 'freeResources'
   eyebrow?: string
   heading?: FreeResourcesHeading
   body?: string
   footnote?: string
-  items?: Array<{
-    title: string
-    badge?: string
-    description?: string
-    file?: ResourceFile
-    externalUrl?: string
-    emailIt?: boolean
-    _type: 'resource'
-    _key: string
-  }>
+  items?: Array<
+    {
+      _key: string
+    } & FreeResourceReference
+  >
 }
 
 export type StudyClosingCta = {
@@ -329,6 +318,13 @@ export type TechStack = {
     _key: string
   }>
   closingNote?: string
+}
+
+export type SanityFileAssetReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'sanity.fileAsset'
 }
 
 export type Press = {
@@ -1174,6 +1170,53 @@ export type Button = {
   link?: Link
 }
 
+export type EmailTemplate = {
+  _id: string
+  _type: 'emailTemplate'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  type?: 'contact' | 'resource'
+  subject: string
+  title: string
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  footer?: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs?: Array<{
+      href?: string
+      _type: 'link'
+      _key: string
+    }>
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+}
+
 export type TechnicalStack = {
   _id: string
   _type: 'technicalStack'
@@ -1199,6 +1242,194 @@ export type ResourceRequest = {
   email?: string
   resourceRequested?: string
   receivedAt: string
+  freeResourceRequested?: FreeResourceReference
+}
+
+export type FreeResource = {
+  _id: string
+  _type: 'freeResource'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  description?: string
+  badge?: string
+  cta: string
+  file?: {
+    type: 'pdf' | 'image' | 'html'
+    asset?: {
+      asset?: SanityFileAssetReference
+      media?: unknown
+      _type: 'file'
+    }
+  }
+  externalLink?: string
+  askForEmail?: boolean
+  downloadCta?: {
+    heading?: string
+    subheading?: string
+    buttonText?: string
+  }
+  pageBuilder?: Array<
+    | ({
+        _key: string
+      } & PageHero)
+    | ({
+        _key: string
+      } & ContactHero)
+    | ({
+        _key: string
+      } & Booking)
+    | ({
+        _key: string
+      } & HomeHero)
+    | ({
+        _key: string
+      } & Cta)
+    | ({
+        _key: string
+      } & Methodology)
+    | ({
+        _key: string
+      } & Origin)
+    | ({
+        _key: string
+      } & Portfolio)
+    | ({
+        _key: string
+      } & Pricing)
+    | ({
+        _key: string
+      } & Signature)
+    | ({
+        _key: string
+      } & Signature2)
+    | ({
+        _key: string
+      } & Story)
+    | ({
+        _key: string
+      } & Team)
+    | ({
+        _key: string
+      } & Testimonials)
+    | ({
+        _key: string
+      } & WhatWeDo)
+    | ({
+        _key: string
+      } & Why)
+    | ({
+        _key: string
+      } & EngineeringServices)
+    | ({
+        _key: string
+      } & ServiceHero)
+    | ({
+        _key: string
+      } & AiServices)
+    | ({
+        _key: string
+      } & ServiceNavigator)
+    | ({
+        _key: string
+      } & Industries)
+    | ({
+        _key: string
+      } & Reality)
+    | ({
+        _key: string
+      } & Compare)
+    | ({
+        _key: string
+      } & Steps)
+    | ({
+        _key: string
+      } & WhyRomania)
+    | ({
+        _key: string
+      } & Faq)
+    | ({
+        _key: string
+      } & InsightsGrid)
+    | ({
+        _key: string
+      } & PortfolioFeatured)
+    | ({
+        _key: string
+      } & PortfolioGrid)
+    | ({
+        _key: string
+      } & PortfolioCta)
+    | ({
+        _key: string
+      } & PortfolioMetrics)
+    | ({
+        _key: string
+      } & Awards)
+    | ({
+        _key: string
+      } & Place)
+    | ({
+        _key: string
+      } & Press)
+    | ({
+        _key: string
+      } & TechStack)
+    | ({
+        _key: string
+      } & FreeResources)
+    | ({
+        _key: string
+      } & InsightBlock)
+    | ({
+        _key: string
+      } & SoundFamiliar)
+    | ({
+        _key: string
+      } & IsThisForYou)
+    | ({
+        _key: string
+      } & StudyHeroImage)
+    | ({
+        _key: string
+      } & StudyHero)
+    | ({
+        _key: string
+      } & StudyChallenge)
+    | ({
+        _key: string
+      } & StudyApproach)
+    | ({
+        _key: string
+      } & StudyKeyWins)
+    | ({
+        _key: string
+      } & StudyWhatWeBuilt)
+    | ({
+        _key: string
+      } & StudyNumbers)
+    | ({
+        _key: string
+      } & StudyTestimonial)
+    | ({
+        _key: string
+      } & StudyTechStack)
+    | ({
+        _key: string
+      } & StudyMoreLikeThis)
+    | ({
+        _key: string
+      } & StudyClosingCta)
+  >
+  seo?: Seo
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type ContactSubmission = {
@@ -1553,12 +1784,6 @@ export type InsightCategory = {
   description?: string
 }
 
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type TeamMember = {
   _id: string
   _type: 'teamMember'
@@ -1566,10 +1791,11 @@ export type TeamMember = {
   _updatedAt: string
   _rev: string
   name: string
+  slug: Slug
   order: number
   role: string
+  isAuthor?: boolean
   bio: string
-  linkedin?: string
   portrait?: {
     asset?: SanityImageAssetReference
     media?: unknown
@@ -1577,6 +1803,14 @@ export type TeamMember = {
     crop?: SanityImageCrop
     _type: 'image'
   }
+  linkedin?: string
+  instagram?: string
+  facebook?: string
+  github?: string
+  x?: string
+  tiktok?: string
+  badges?: Array<string>
+  seo?: Seo
 }
 
 export type Page = {
@@ -2379,17 +2613,17 @@ export type AllSanitySchemaTypes =
   | LabelImageLight
   | LabelImageDark
   | Logo
-  | SanityFileAssetReference
-  | ResourceFile
   | ObjectImage
   | ProfilePicture
   | Steps
   | ServiceNavigator
   | SoundFamiliar
   | IsThisForYou
+  | FreeResourceReference
   | FreeResources
   | StudyClosingCta
   | TechStack
+  | SanityFileAssetReference
   | Press
   | Place
   | Awards
@@ -2449,8 +2683,11 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Button
+  | EmailTemplate
   | TechnicalStack
   | ResourceRequest
+  | FreeResource
+  | Slug
   | ContactSubmission
   | Testimonial
   | SeoSettings
@@ -2458,7 +2695,6 @@ export type AllSanitySchemaTypes =
   | InsightCategoryReference
   | Post
   | InsightCategory
-  | Slug
   | TeamMember
   | Page
   | IndustryReference
@@ -2491,11 +2727,13 @@ export type AllSanitySchemaTypes =
 // Source: app/free-resources/[slug]/page.tsx
 // Variable: allFreeResourceSlugsQuery
 // Query: *[_type == "freeResource" && defined(slug.current)]{"slug": slug.current}
-export type AllFreeResourceSlugsQueryResult = Array<never>
+export type AllFreeResourceSlugsQueryResult = Array<{
+  slug: string
+}>
 
 // Source: app/sitemap.ts
 // Variable: sitemapQuery
-// Query: {    "pages": *[      _type == "page" &&      (pageType == "home" || defined(slug.current))    ]{      _id,      _updatedAt,      pageType,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "posts": *[_type == "post" && defined(slug.current)]{      _id,      _updatedAt,      publishedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "services": *[_type == "service" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "projects": *[_type == "project" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "freeResources": *[_type == "freeResource" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    }  }
+// Query: {    "pages": *[      _type == "page" &&      (pageType == "home" || defined(slug.current))    ]{      _id,      _updatedAt,      pageType,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "posts": *[_type == "post" && defined(slug.current)]{      _id,      _updatedAt,      publishedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "services": *[_type == "service" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "projects": *[_type == "project" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "freeResources": *[_type == "freeResource" && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    },    "authors": *[_type == "teamMember" && isAuthor == true && defined(slug.current)]{      _id,      _updatedAt,      "slug": slug.current,      seo{        canonicalUrl,        robotsMode,        robots,        googleBot,        noIndex,        noFollow,        noArchive,        noSnippet,        noImageIndex,        maxSnippet,        maxImagePreview,        maxVideoPreview      }    }  }
 export type SitemapQueryResult = {
   pages: Array<{
     _id: string
@@ -2575,7 +2813,44 @@ export type SitemapQueryResult = {
       maxVideoPreview: number | null
     } | null
   }>
-  freeResources: Array<never>
+  freeResources: Array<{
+    _id: string
+    _updatedAt: string
+    slug: string
+    seo: {
+      canonicalUrl: string | null
+      robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
+      robots: string | null
+      googleBot: string | null
+      noIndex: boolean | null
+      noFollow: boolean | null
+      noArchive: boolean | null
+      noSnippet: boolean | null
+      noImageIndex: boolean | null
+      maxSnippet: number | null
+      maxImagePreview: string | null
+      maxVideoPreview: number | null
+    } | null
+  }>
+  authors: Array<{
+    _id: string
+    _updatedAt: string
+    slug: string
+    seo: {
+      canonicalUrl: string | null
+      robotsMode: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow' | null
+      robots: string | null
+      googleBot: string | null
+      noIndex: boolean | null
+      noFollow: boolean | null
+      noArchive: boolean | null
+      noSnippet: boolean | null
+      noImageIndex: boolean | null
+      maxSnippet: number | null
+      maxImagePreview: string | null
+      maxVideoPreview: number | null
+    } | null
+  }>
 }
 
 // Source: sanity/lib/queries.ts
@@ -3618,7 +3893,187 @@ export type PageQueryResult = {
         } | null
         body?: string
         footnote?: string
-        items: Array<null> | null
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
       }
     | {
         _key: string
@@ -4600,10 +5055,11 @@ export type PageQueryResult = {
           _updatedAt: string
           _rev: string
           name: string
+          slug: Slug
           order: number
           role: string
+          isAuthor?: boolean
           bio: string
-          linkedin?: string
           portrait: {
             asset: {
               _id: string
@@ -4632,6 +5088,14 @@ export type PageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
         }>
         closingStatement: string
       }
@@ -5663,7 +6127,187 @@ export type HomePageQueryResult = {
         } | null
         body?: string
         footnote?: string
-        items: Array<null> | null
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
       }
     | {
         _key: string
@@ -6645,10 +7289,11 @@ export type HomePageQueryResult = {
           _updatedAt: string
           _rev: string
           name: string
+          slug: Slug
           order: number
           role: string
+          isAuthor?: boolean
           bio: string
-          linkedin?: string
           portrait: {
             asset: {
               _id: string
@@ -6677,6 +7322,14 @@ export type HomePageQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
         }>
         closingStatement: string
       }
@@ -7027,7 +7680,7 @@ export type AllPostsQueryResult = Array<{
     firstName: null
     lastName: null
     picture: null
-    slug: null
+    slug: Slug
   } | null
   category: {
     _id: string
@@ -7058,7 +7711,7 @@ export type MorePostsQueryResult = Array<{
     firstName: null
     lastName: null
     picture: null
-    slug: null
+    slug: Slug
   } | null
   category: {
     _id: string
@@ -7090,7 +7743,7 @@ export type PostQueryResult = {
     firstName: null
     lastName: null
     picture: null
-    slug: null
+    slug: Slug
   } | null
   category: {
     _id: string
@@ -7140,7 +7793,7 @@ export type ALL_INSIGHTS_QUERY_RESULT = Array<{
       crop?: SanityImageCrop
       _type: 'image'
     } | null
-    slug: null
+    slug: Slug
   } | null
 }>
 
@@ -7886,7 +8539,187 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
         } | null
         body?: string
         footnote?: string
-        items: Array<null> | null
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
       }
     | {
         _key: string
@@ -8868,10 +9701,11 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
           _updatedAt: string
           _rev: string
           name: string
+          slug: Slug
           order: number
           role: string
+          isAuthor?: boolean
           bio: string
-          linkedin?: string
           portrait: {
             asset: {
               _id: string
@@ -8900,6 +9734,14 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
         }>
         closingStatement: string
       }
@@ -9237,7 +10079,7 @@ export type INSIGHT_BY_SLUG_QUERY_RESULT = {
       crop?: SanityImageCrop
       _type: 'image'
     } | null
-    slug: null
+    slug: Slug
   } | null
   relatedInsights: Array<{
     _id: string
@@ -10008,7 +10850,187 @@ export type ProjectBySlugQueryResult = {
         } | null
         body?: string
         footnote?: string
-        items: Array<null> | null
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
       }
     | {
         _key: string
@@ -10990,10 +12012,11 @@ export type ProjectBySlugQueryResult = {
           _updatedAt: string
           _rev: string
           name: string
+          slug: Slug
           order: number
           role: string
+          isAuthor?: boolean
           bio: string
-          linkedin?: string
           portrait: {
             asset: {
               _id: string
@@ -11022,6 +12045,14 @@ export type ProjectBySlugQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
         }>
         closingStatement: string
       }
@@ -12055,7 +13086,187 @@ export type ServiceQueryResult = {
         } | null
         body?: string
         footnote?: string
-        items: Array<null> | null
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
       }
     | {
         _key: string
@@ -13037,10 +14248,11 @@ export type ServiceQueryResult = {
           _updatedAt: string
           _rev: string
           name: string
+          slug: Slug
           order: number
           role: string
+          isAuthor?: boolean
           bio: string
-          linkedin?: string
           portrait: {
             asset: {
               _id: string
@@ -13069,6 +14281,14 @@ export type ServiceQueryResult = {
             crop?: SanityImageCrop
             _type: 'image'
           } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
         }>
         closingStatement: string
       }
@@ -13408,29 +14628,2538 @@ export type AllServicesQueryResult = Array<{
 // Source: sanity/lib/queries.ts
 // Variable: resourceByKeyQuery
 // Query: coalesce(    *[_type in ["page", "service", "project", "post"] && (      ($pageSlug == "" && _type == "page" && pageType == "home") ||      ($pageSlug != "" && slug.current == $pageSlug)    )][0]{      "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey]->{        title,        externalLink,        askForEmail,        "fileUrl": file.asset.asset->url      }    }.item,    *[_type == "freeResource" && _id == $itemKey][0]{      title,      externalLink,      askForEmail,      "fileUrl": file.asset.asset->url    }  )
-export type ResourceByKeyQueryResult = Array<null> | null
+export type ResourceByKeyQueryResult =
+  | Array<{
+      title: string
+      externalLink: string | null
+      askForEmail: boolean | null
+      fileUrl: string | null
+    }>
+  | {
+      title: string
+      externalLink: string | null
+      askForEmail: boolean | null
+      fileUrl: string | null
+    }
+  | null
 
 // Source: sanity/lib/queries.ts
 // Variable: freeResourceBySlugQuery
 // Query: *[_type == "freeResource" && slug.current == $slug][0]{    _id,    _type,    title,    "slug": slug.current,      seo{    ...,    ogImage   {    ...,    asset->  },    twitterImage   {    ...,    asset->  },    socialImage   {    ...,    asset->  },    alternateLanguages[]{      ...,      languageCode,      url,      isDefault    }  },    description,    badge,    cta,    file {      type,      asset {        asset->{          url        }      }    },    externalLink,    askForEmail,    downloadCta {      heading,      subheading,      buttonText    },      "pageBuilder": pageBuilder[]{    ...,    _type == "homeHero" => {      ...,      primaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      secondaryCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "serviceHero" => {      ...,      breadcrumb {        rootLabel,        categoryLabel,        currentLabel      },      headlineLines,      description,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      leadingHighlights[]{        value,        label      },      trailingHighlights[]{        value,        label      },      "serviceName": ^.name,      "serviceCategory": ^.category,      "serviceDescription": ^.description,      "servicePrice": ^.price,      "serviceDuration": ^.duration    },    _type == "pageHero" => {      ...,      eyebrow,      heading,      subheading,      stats[]{        number,        suffix,        label      },      featured->{        _type,        _id,        slug,        _type == "post" => {          title,          excerpt,          "category": category->{_id, title, slug},          publishedAt,          readTime,          "cover": coverImage.asset->url,          author->{name}        },        _type == "project" => {          client,          year,          "category": category->name,          "industry": industry->name,          tagline,          "cover": thumb.asset->url        }      }    },    _type == "contactHero" => {      ...,      eyebrow,      heading,      description,      stats[]{        number,        suffix,        label      },      steps[]{        title,        description      },      formConfig {        services,        budgetRanges,        timelines,        hearAboutUs      }    },    _type == "insightBlock" => {      ...,      text[]{          ...,  _type == "image" => {    ...,    asset->{      url,      metadata{        dimensions{          width,          height        }      }    }  },  markDefs[]{    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }  }      },      quote {        attribution,        quote[]{            ...,  _type == "image" => {    ...,    asset->{      url,      metadata{        dimensions{          width,          height        }      }    }  },  markDefs[]{    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }  }        }      },      card {        label,        body[]{            ...,  _type == "image" => {    ...,    asset->{      url,      metadata{        dimensions{          width,          height        }      }    }  },  markDefs[]{    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }  }        }      }    },    _type == "booking" => {      ...,      heading,      callTitle,      whatToExpectHeading,      expectations,      schedulerUrl,      teamMember->{        name,        role,        portrait      }    },    _type == "callToAction" => {      ...,      button {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "infoSection" => {      content[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      }    },    _type == "testimonials" => {      ...,      eyebrow,      logos[]{        name,        "logoLight": logoLight.asset->url,        "logoDark": logoDark.asset->url,        link,      },      testimonials[]->{        name,        attribution,        quote,        profilePicture      }    },    _type == "whatWeDo" => {      ...,      ctaSection {        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      cards[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        },        services[]->{          ...        }      }    },    _type == "signature" => {      ...,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "signature2" => {      ...,      steps[]{        ...,        title,        highlighted,        graphic      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "team" => {      ...,      members[]->{        ...,        portrait {          ...,          asset->        }      }    },    _type == "story" => {      ...,      milestones[]{        year,        body      }    },    _type == "portfolio" => {      ...,      eyebrow,      heading,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      cards[]{        ...,        project->{          _id,          title,          client,          year,          slug,          "category": category->name,          tagline,          "thumb": thumb.asset->url        }      }    },    _type == "pricing" => {      ...,      tiers[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      }    },    _type == "cta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      },      subtext    },    _type == "engineeringServices" => {      ...,      services[]{        ...,        service->{          ...        }      }    },    _type == "serviceNavigator" => {      ...,      cards[]{        ...,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      closingCta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "soundFamiliar" => {      ...,      painPoints[]{        ...,        title,        body      }    },    _type == "aiServices" => {      ...,      services[]{        ...,        service->{          ...        },        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      }    },    _type == "industries" => {      ...,      industries[]{        ...,        icon      }    },    _type == "reality" => {      ...,      heading {        faded,        bold      },      points[]{        title,        body      },      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "compare" => {      ...,      heading {        highlighted,        regular      },      rows[]{        label      },      columns[]{        name,        highlightColumn,        values[]{          available        }      },      closing {        lead,        highlight,        followup      }    },    _type == "whyRomania" => {      ...,      title[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      },      body[]{        ...,        markDefs[]{          ...,            _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }        }      },      highlights[]{        stat,        description      }    },    _type == "faq" => {      ...,      items[]{        ...      }    },    _type == "isThisForYou" => {      ...,      items[]{        text      }    },    _type == "steps" => {      ...,      items[]{        ...,        title,        duration,        body      },      visual {        ...,        asset->      }    },    _type == "insightsGrid" => {      ...,      categoryFilters[]{        label,        value      },      items[]->{        _id,        title,        slug,        excerpt,        "category": category->{_id, title, slug},        publishedAt,        readTime,        featured,        "cover": coverImage.asset->url,        author->{name, role, portrait}      }    },    _type == "freeResources" => {      ...,      heading {        faded,        bold,        regular,        trailing      },      items[]->{        ...,        "fileUrl": file.asset.asset->url,      }    },    _type == "studyHero" => {      ...,      details[]{        _key,        label,        value      },      heroImage {        ...,        asset->      },      "projectTitle": ^.title,      "projectTagline": ^.tagline,      "projectThumb": ^.thumb.asset->url    },    _type == "studyHeroImage" => {      ...,      image {        ...,        asset->      }    },    _type == "studyChallenge" => {      ...,      issues[]{        _key,        tag,        body      }    },    _type == "studyApproach" => {      ...,      heading {        faded,        bold      },      body[]{          ...,  _type == "image" => {    ...,    asset->{      url,      metadata{        dimensions{          width,          height        }      }    }  },  markDefs[]{    ...,      _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }  }      },      callout {        label,        body      }    },    _type == "studyKeyWins" => {      ...,      comparison {        beforeLabel,        afterLabel,        rows[]{          _key,          label,          before,          after        }      }    },    _type == "studyWhatWeBuilt" => {      ...,      features[]{        _key,        number,        title,        body,        image {          ...,          asset->        }      }    },    _type == "studyNumbers" => {      ...,      stats[]{        _key,        value,        label,        description      }    },    _type == "studyTestimonial" => {      ...,      quote {        profilePicture {          asset->{            _id,            url,            metadata { lqip, dimensions }          }        },        quote,        attribution,        source,        accent      }    },    _type == "studyTechStack" => {      ...,      tools[]{        _key,        name,        logo {          asset->{            _id,            url,            metadata {              dimensions            }          },          hotspot,          crop        }      }    },    _type == "studyMoreLikeThis" => {      ...,      heading {        regular,        bold      },      items[]->{        _id,        client,        slug,        year,        "category": category->name,        "industry": industry->name,        tagline,        metric,        metricLabel,        "thumb": thumb.asset->url      }    },    _type == "studyClosingCta" => {      ...,      heading {        regular,        bold      },      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "portfolioFeatured" => {      ...,      caseStudy->{        _id,        client,        slug,        year,        "category": category->name,        "industry": industry->name,        tagline,        metric,        metricLabel,        thumb      }    },    _type == "portfolioGrid" => {      ...,      items[]->{        _id,        client,        title,        slug,        year,        "category": category->name,        "industry": industry->name,        tagline,        metric,        metricLabel,        thumb      }    },    _type == "portfolioMetrics" => {      ...,      items[]{        value,        label      }    },    _type == "portfolioCta" => {      ...,      heading,      body,      cta {        ...,          link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }      }    },    _type == "place" => {      ...,      message,      backgroundGraphic {        ...,        asset->      }    },    _type == "awards" => {      ...,      eyebrow,      items[]{        title,        recognitions,        cta {          ...,            link {      ...,        _type == "link" => {    "page": page->slug.current,    "post": post->slug.current,    "service": service->slug.current,    "project": project->slug.current  }      }        }      },      featuredTitle,      featuredBadge {        ...,        asset->      }    },    _type == "press" => {      ...,      eyebrow,      heading,      cardTitle,      cardBody,      ctaLabel,      file {        ...,        asset->      }    },    _type == "studyTechStack" => {      ...,      eyebrow,      tools[]->{        name,        image {          ...,          asset->        }      }    },  }  }
-export type FreeResourceBySlugQueryResult = null
+export type FreeResourceBySlugQueryResult = {
+  _id: string
+  _type: 'freeResource'
+  title: string
+  slug: string
+  seo: {
+    _type: 'seo'
+    metaTitle?: string
+    metaDescription?: string
+    metaKeywords?: Array<string>
+    seoTitleSuffix?: string
+    canonicalUrl?: string
+    robotsMode?: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow'
+    robots?: string
+    googleBot?: string
+    noIndex?: boolean
+    noFollow?: boolean
+    noArchive?: boolean
+    noSnippet?: boolean
+    noImageIndex?: boolean
+    maxSnippet?: number
+    maxImagePreview?: string
+    maxVideoPreview?: number
+    paginationPrevUrl?: string
+    paginationNextUrl?: string
+    ogTitle?: string
+    ogDescription?: string
+    ogImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    ogType?: 'article' | 'profile' | 'website'
+    ogUrl?: string
+    ogSiteName?: string
+    ogLocale?: string
+    twitterCard?: 'summary_large_image' | 'summary'
+    twitterTitle?: string
+    twitterDescription?: string
+    twitterImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    twitterSite?: string
+    twitterCreator?: string
+    socialTitle?: string
+    socialDescription?: string
+    socialImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    socialImageAlt?: string
+    schemaType?:
+      | 'AboutPage'
+      | 'Article'
+      | 'ContactPage'
+      | 'FAQPage'
+      | 'ProfilePage'
+      | 'Service'
+      | 'WebPage'
+    structuredDataMode?: 'custom' | 'generated' | 'inherit'
+    structuredData?: string
+    enableBreadcrumbSchema?: boolean
+    enableFaqSchema?: boolean
+    searchTitle?: string
+    searchDescription?: string
+    breadcrumbTitle?: string
+    locale?: string
+    themeColor?: string
+    applicationName?: string
+    category?: string
+    referrer?: string
+    formatDetection?: string
+    alternateLanguages: null
+  } | null
+  description: string | null
+  badge: string | null
+  cta: string
+  file: {
+    type: 'html' | 'image' | 'pdf'
+    asset: {
+      asset: {
+        url: string
+      } | null
+    } | null
+  } | null
+  externalLink: string | null
+  askForEmail: boolean | null
+  downloadCta: {
+    heading: string | null
+    subheading: string | null
+    buttonText: string | null
+  } | null
+  pageBuilder: Array<
+    | {
+        _key: string
+        _type: 'aiServices'
+        eyebrow: string
+        services: Array<{
+          service: {
+            _id: string
+            _type: 'service'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            name: string
+            description: string
+            price: string
+            category: 'ai' | 'engineering'
+            tag: string
+            slug: Slug
+            duration: string
+            pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & AiServices)
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Booking)
+              | ({
+                  _key: string
+                } & Compare)
+              | ({
+                  _key: string
+                } & ContactHero)
+              | ({
+                  _key: string
+                } & Cta)
+              | ({
+                  _key: string
+                } & EngineeringServices)
+              | ({
+                  _key: string
+                } & Faq)
+              | ({
+                  _key: string
+                } & FreeResources)
+              | ({
+                  _key: string
+                } & HomeHero)
+              | ({
+                  _key: string
+                } & Industries)
+              | ({
+                  _key: string
+                } & InsightBlock)
+              | ({
+                  _key: string
+                } & InsightsGrid)
+              | ({
+                  _key: string
+                } & IsThisForYou)
+              | ({
+                  _key: string
+                } & Methodology)
+              | ({
+                  _key: string
+                } & Origin)
+              | ({
+                  _key: string
+                } & PageHero)
+              | ({
+                  _key: string
+                } & Place)
+              | ({
+                  _key: string
+                } & Portfolio)
+              | ({
+                  _key: string
+                } & PortfolioCta)
+              | ({
+                  _key: string
+                } & PortfolioFeatured)
+              | ({
+                  _key: string
+                } & PortfolioGrid)
+              | ({
+                  _key: string
+                } & PortfolioMetrics)
+              | ({
+                  _key: string
+                } & Press)
+              | ({
+                  _key: string
+                } & Pricing)
+              | ({
+                  _key: string
+                } & Reality)
+              | ({
+                  _key: string
+                } & ServiceHero)
+              | ({
+                  _key: string
+                } & ServiceNavigator)
+              | ({
+                  _key: string
+                } & Signature)
+              | ({
+                  _key: string
+                } & Signature2)
+              | ({
+                  _key: string
+                } & SoundFamiliar)
+              | ({
+                  _key: string
+                } & Steps)
+              | ({
+                  _key: string
+                } & Story)
+              | ({
+                  _key: string
+                } & StudyApproach)
+              | ({
+                  _key: string
+                } & StudyChallenge)
+              | ({
+                  _key: string
+                } & StudyClosingCta)
+              | ({
+                  _key: string
+                } & StudyHero)
+              | ({
+                  _key: string
+                } & StudyHeroImage)
+              | ({
+                  _key: string
+                } & StudyKeyWins)
+              | ({
+                  _key: string
+                } & StudyMoreLikeThis)
+              | ({
+                  _key: string
+                } & StudyNumbers)
+              | ({
+                  _key: string
+                } & StudyTechStack)
+              | ({
+                  _key: string
+                } & StudyTestimonial)
+              | ({
+                  _key: string
+                } & StudyWhatWeBuilt)
+              | ({
+                  _key: string
+                } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
+              | ({
+                  _key: string
+                } & Testimonials)
+              | ({
+                  _key: string
+                } & WhatWeDo)
+              | ({
+                  _key: string
+                } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
+            >
+            seo?: Seo
+          }
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          }
+          _type: 'aiServiceCard'
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'awards'
+        eyebrow: string | null
+        items: Array<{
+          title: string
+          recognitions: Array<string> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        }> | null
+        featuredTitle: string | null
+        featuredBadge: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'booking'
+        eyebrow?: string
+        heading: Heading | null
+        callTitle: string
+        teamMember: {
+          name: string
+          role: string
+          portrait: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }
+        whatToExpectHeading: string | null
+        expectations: Array<string>
+        schedulerUrl: string | null
+      }
+    | {
+        _key: string
+        _type: 'compare'
+        eyebrow?: string
+        heading: {
+          highlighted: string
+          regular: string
+        }
+        rows: Array<{
+          label: string
+        }>
+        columns: Array<{
+          name: string
+          highlightColumn: boolean | null
+          values: Array<{
+            available: boolean | null
+          }>
+        }>
+        closing: {
+          lead: string
+          highlight: string
+          followup: string
+        }
+      }
+    | {
+        _key: string
+        _type: 'contactHero'
+        eyebrow: string | null
+        heading: string
+        description: string
+        stats: Array<{
+          number: number
+          suffix: string | null
+          label: string
+        }> | null
+        steps: Array<{
+          title: string
+          description: string
+        }>
+        formConfig: {
+          services: Array<string> | null
+          budgetRanges: Array<string> | null
+          timelines: Array<string> | null
+          hearAboutUs: Array<string> | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'cta'
+        heading: string
+        body: string
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        }
+        subtext: string | null
+      }
+    | {
+        _key: string
+        _type: 'engineeringServices'
+        eyebrow?: string
+        services: Array<{
+          service: {
+            _id: string
+            _type: 'service'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            name: string
+            description: string
+            price: string
+            category: 'ai' | 'engineering'
+            tag: string
+            slug: Slug
+            duration: string
+            pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & AiServices)
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Booking)
+              | ({
+                  _key: string
+                } & Compare)
+              | ({
+                  _key: string
+                } & ContactHero)
+              | ({
+                  _key: string
+                } & Cta)
+              | ({
+                  _key: string
+                } & EngineeringServices)
+              | ({
+                  _key: string
+                } & Faq)
+              | ({
+                  _key: string
+                } & FreeResources)
+              | ({
+                  _key: string
+                } & HomeHero)
+              | ({
+                  _key: string
+                } & Industries)
+              | ({
+                  _key: string
+                } & InsightBlock)
+              | ({
+                  _key: string
+                } & InsightsGrid)
+              | ({
+                  _key: string
+                } & IsThisForYou)
+              | ({
+                  _key: string
+                } & Methodology)
+              | ({
+                  _key: string
+                } & Origin)
+              | ({
+                  _key: string
+                } & PageHero)
+              | ({
+                  _key: string
+                } & Place)
+              | ({
+                  _key: string
+                } & Portfolio)
+              | ({
+                  _key: string
+                } & PortfolioCta)
+              | ({
+                  _key: string
+                } & PortfolioFeatured)
+              | ({
+                  _key: string
+                } & PortfolioGrid)
+              | ({
+                  _key: string
+                } & PortfolioMetrics)
+              | ({
+                  _key: string
+                } & Press)
+              | ({
+                  _key: string
+                } & Pricing)
+              | ({
+                  _key: string
+                } & Reality)
+              | ({
+                  _key: string
+                } & ServiceHero)
+              | ({
+                  _key: string
+                } & ServiceNavigator)
+              | ({
+                  _key: string
+                } & Signature)
+              | ({
+                  _key: string
+                } & Signature2)
+              | ({
+                  _key: string
+                } & SoundFamiliar)
+              | ({
+                  _key: string
+                } & Steps)
+              | ({
+                  _key: string
+                } & Story)
+              | ({
+                  _key: string
+                } & StudyApproach)
+              | ({
+                  _key: string
+                } & StudyChallenge)
+              | ({
+                  _key: string
+                } & StudyClosingCta)
+              | ({
+                  _key: string
+                } & StudyHero)
+              | ({
+                  _key: string
+                } & StudyHeroImage)
+              | ({
+                  _key: string
+                } & StudyKeyWins)
+              | ({
+                  _key: string
+                } & StudyMoreLikeThis)
+              | ({
+                  _key: string
+                } & StudyNumbers)
+              | ({
+                  _key: string
+                } & StudyTechStack)
+              | ({
+                  _key: string
+                } & StudyTestimonial)
+              | ({
+                  _key: string
+                } & StudyWhatWeBuilt)
+              | ({
+                  _key: string
+                } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
+              | ({
+                  _key: string
+                } & Testimonials)
+              | ({
+                  _key: string
+                } & WhatWeDo)
+              | ({
+                  _key: string
+                } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
+            >
+            seo?: Seo
+          } | null
+          ctaLabel?: string
+          ctaHref?: string
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'faq'
+        eyebrow?: string
+        heading?: string
+        items: Array<{
+          question: string
+          answer: Array<{
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+            listItem?: 'bullet' | 'number'
+            markDefs?: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+            }>
+            level?: number
+            _type: 'block'
+            _key: string
+          }>
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'freeResources'
+        eyebrow?: string
+        heading: {
+          faded: string | null
+          bold: string | null
+          regular: string | null
+          trailing: string | null
+        } | null
+        body?: string
+        footnote?: string
+        items: Array<{
+          _id: string
+          _type: 'freeResource'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          title: string
+          slug: Slug
+          description?: string
+          badge?: string
+          cta: string
+          file?: {
+            type: 'html' | 'image' | 'pdf'
+            asset?: {
+              asset?: SanityFileAssetReference
+              media?: unknown
+              _type: 'file'
+            }
+          }
+          externalLink?: string
+          askForEmail?: boolean
+          downloadCta?: {
+            heading?: string
+            subheading?: string
+            buttonText?: string
+          }
+          pageBuilder?: Array<
+            | ({
+                _key: string
+              } & AiServices)
+            | ({
+                _key: string
+              } & Awards)
+            | ({
+                _key: string
+              } & Booking)
+            | ({
+                _key: string
+              } & Compare)
+            | ({
+                _key: string
+              } & ContactHero)
+            | ({
+                _key: string
+              } & Cta)
+            | ({
+                _key: string
+              } & EngineeringServices)
+            | ({
+                _key: string
+              } & Faq)
+            | ({
+                _key: string
+              } & FreeResources)
+            | ({
+                _key: string
+              } & HomeHero)
+            | ({
+                _key: string
+              } & Industries)
+            | ({
+                _key: string
+              } & InsightBlock)
+            | ({
+                _key: string
+              } & InsightsGrid)
+            | ({
+                _key: string
+              } & IsThisForYou)
+            | ({
+                _key: string
+              } & Methodology)
+            | ({
+                _key: string
+              } & Origin)
+            | ({
+                _key: string
+              } & PageHero)
+            | ({
+                _key: string
+              } & Place)
+            | ({
+                _key: string
+              } & Portfolio)
+            | ({
+                _key: string
+              } & PortfolioCta)
+            | ({
+                _key: string
+              } & PortfolioFeatured)
+            | ({
+                _key: string
+              } & PortfolioGrid)
+            | ({
+                _key: string
+              } & PortfolioMetrics)
+            | ({
+                _key: string
+              } & Press)
+            | ({
+                _key: string
+              } & Pricing)
+            | ({
+                _key: string
+              } & Reality)
+            | ({
+                _key: string
+              } & ServiceHero)
+            | ({
+                _key: string
+              } & ServiceNavigator)
+            | ({
+                _key: string
+              } & Signature)
+            | ({
+                _key: string
+              } & Signature2)
+            | ({
+                _key: string
+              } & SoundFamiliar)
+            | ({
+                _key: string
+              } & Steps)
+            | ({
+                _key: string
+              } & Story)
+            | ({
+                _key: string
+              } & StudyApproach)
+            | ({
+                _key: string
+              } & StudyChallenge)
+            | ({
+                _key: string
+              } & StudyClosingCta)
+            | ({
+                _key: string
+              } & StudyHero)
+            | ({
+                _key: string
+              } & StudyHeroImage)
+            | ({
+                _key: string
+              } & StudyKeyWins)
+            | ({
+                _key: string
+              } & StudyMoreLikeThis)
+            | ({
+                _key: string
+              } & StudyNumbers)
+            | ({
+                _key: string
+              } & StudyTechStack)
+            | ({
+                _key: string
+              } & StudyTestimonial)
+            | ({
+                _key: string
+              } & StudyWhatWeBuilt)
+            | ({
+                _key: string
+              } & Team)
+            | ({
+                _key: string
+              } & TechStack)
+            | ({
+                _key: string
+              } & Testimonials)
+            | ({
+                _key: string
+              } & WhatWeDo)
+            | ({
+                _key: string
+              } & Why)
+            | ({
+                _key: string
+              } & WhyRomania)
+          >
+          seo?: Seo
+          fileUrl: string | null
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'homeHero'
+        label?: string
+        heading?: string
+        body?: string
+        primaryCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        stats?: string
+        dimensionLine?: string
+        ctaText: BlockContentTextOnly
+        secondaryCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'industries'
+        eyebrow?: string
+        heading?: string
+        industries: Array<{
+          industry?: string
+          description?: string
+          _key: string
+          icon: null
+        }> | null
+        metrics?: Array<{
+          label?: string
+          value?: string
+          prefix?: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'insightBlock'
+        title: string
+        text: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }> | null
+        sectionType?: 'card' | 'none' | 'quote' | 'table'
+        quote: {
+          attribution: string | null
+          quote: Array<{
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+            listItem?: 'bullet' | 'number'
+            markDefs: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+              page: null
+              post: null
+              service: null
+              project: null
+            }> | null
+            level?: number
+            _type: 'block'
+            _key: string
+          }> | null
+        } | null
+        table?: Table
+        card: {
+          label: string | null
+          body: Array<{
+            children?: Array<{
+              marks?: Array<string>
+              text?: string
+              _type: 'span'
+              _key: string
+            }>
+            style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+            listItem?: 'bullet' | 'number'
+            markDefs: Array<{
+              href?: string
+              _type: 'link'
+              _key: string
+              page: null
+              post: null
+              service: null
+              project: null
+            }> | null
+            level?: number
+            _type: 'block'
+            _key: string
+          }> | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'insightsGrid'
+        items: Array<{
+          _id: string
+          title: string
+          slug: Slug
+          excerpt: string | null
+          category: {
+            _id: string
+            title: string
+            slug: Slug
+          } | null
+          publishedAt: string | null
+          readTime: number | null
+          featured: boolean | null
+          cover: string | null
+          author: {
+            name: string
+            role: string
+            portrait: {
+              asset?: SanityImageAssetReference
+              media?: unknown
+              hotspot?: SanityImageHotspot
+              crop?: SanityImageCrop
+              _type: 'image'
+            } | null
+          } | null
+        }>
+        categoryFilters: Array<{
+          label: string
+          value: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'isThisForYou'
+        eyebrow?: string
+        heading: string
+        items: Array<{
+          text: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'methodology'
+        eyebrow?: string
+        heading?: string
+        steps?: Array<{
+          title?: string
+          body?: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'origin'
+        eyebrow?: string
+        heading: string
+        body: string
+        subtext?: string
+      }
+    | {
+        _key: string
+        _type: 'pageHero'
+        eyebrow: string | null
+        heading: BlockContentTextOnly | null
+        subheading: string | null
+        stats: Array<{
+          number: number
+          suffix: string | null
+          label: string
+        }> | null
+        featured:
+          | {
+              _type: 'post'
+              _id: string
+              slug: Slug
+              title: string
+              excerpt: string | null
+              category: {
+                _id: string
+                title: string
+                slug: Slug
+              } | null
+              publishedAt: string | null
+              readTime: number | null
+              cover: string | null
+              author: {
+                name: string
+              } | null
+            }
+          | {
+              _type: 'project'
+              _id: string
+              slug: Slug
+              client: string
+              year: string
+              category: string
+              industry: string
+              tagline: string
+              cover: string | null
+            }
+          | null
+      }
+    | {
+        _key: string
+        _type: 'place'
+        message: string | null
+        backgroundGraphic: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'portfolio'
+        eyebrow: string
+        heading: string
+        cards: Array<{
+          project: {
+            _id: string
+            title: string
+            client: string
+            year: string
+            slug: Slug
+            category: string
+            tagline: string
+            thumb: string | null
+          }
+          _key: string
+        }>
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'portfolioCta'
+        heading: PortfolioCtaHeading | null
+        body: string
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'portfolioFeatured'
+        caseStudy: {
+          _id: string
+          client: string
+          slug: Slug
+          year: string
+          category: string
+          industry: string
+          tagline: string
+          metric: string | null
+          metricLabel: string | null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }
+      }
+    | {
+        _key: string
+        _type: 'portfolioGrid'
+        items: Array<{
+          _id: string
+          client: string
+          title: string
+          slug: Slug
+          year: string
+          category: string
+          industry: string
+          tagline: string
+          metric: string | null
+          metricLabel: string | null
+          thumb: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'portfolioMetrics'
+        items: Array<{
+          value: string
+          label: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'press'
+        eyebrow: string | null
+        heading: string
+        cardTitle: string
+        cardBody: string
+        ctaLabel: string
+        file: {
+          asset: {
+            _id: string
+            _type: 'sanity.fileAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          _type: 'file'
+        }
+      }
+    | {
+        _key: string
+        _type: 'pricing'
+        eyebrow?: string
+        headingPrimary: string
+        headingSecondary?: string
+        tiers: Array<{
+          width: 'full' | 'half'
+          priceLayout: 'inline' | 'split' | 'stacked'
+          badge?: string
+          title: string
+          price: string
+          meta?: string
+          description?: string
+          ctaStyle: 'button' | 'textLink'
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+          _type: 'tier'
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'reality'
+        eyebrow?: string
+        heading: {
+          faded: string | null
+          bold: string
+        } | null
+        body?: string
+        points: Array<{
+          title: string
+          body: string | null
+        }> | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'serviceHero'
+        breadcrumb: {
+          rootLabel: string | null
+          categoryLabel: string | null
+          currentLabel: string | null
+        } | null
+        eyebrow?: string
+        headlineLines: Array<string> | null
+        description: string | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        leadingHighlights: Array<{
+          value: string
+          label: string
+        }> | null
+        trailingHighlights: Array<{
+          value: string
+          label: string
+        }> | null
+        serviceName: null
+        serviceCategory: null
+        serviceDescription: string | null
+        servicePrice: null
+        serviceDuration: null
+      }
+    | {
+        _key: string
+        _type: 'serviceNavigator'
+        eyebrow?: string
+        headingRegular: string
+        headingBold: string
+        cards: Array<{
+          prompt: string
+          details?: string
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          }
+          _key: string
+        }>
+        closingText?: string
+        closingCta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        }
+      }
+    | {
+        _key: string
+        _type: 'signature'
+        eyebrow?: string
+        heading?: BlockContentTextOnly
+        body?: string
+        secondaryLine?: string
+        steps?: Array<{
+          title?: string
+          duration?: string
+          body?: string
+          _key: string
+        }>
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+        valueCard?: ValueCard
+      }
+    | {
+        _key: string
+        _type: 'signature2'
+        eyebrow?: string
+        headingFaded?: string
+        headingBold?: string
+        body?: string
+        steps: Array<{
+          title: string | null
+          highlighted: boolean | null
+          graphic: StepGraphic | null
+          _type: 'step'
+          _key: string
+        }> | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'soundFamiliar'
+        eyebrow?: string
+        heading?: string
+        painPoints: Array<{
+          title: string
+          body: string | null
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'steps'
+        eyebrow?: string
+        intro: string
+        highlight: string
+        items: Array<{
+          title: string
+          duration: string | null
+          body: string
+          _key: string
+        }>
+        visual: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        visualAlt?: string
+      }
+    | {
+        _key: string
+        _type: 'story'
+        eyebrow?: string
+        heading?: string
+        milestones: Array<{
+          year: string | null
+          body: string | null
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'studyApproach'
+        eyebrow?: string
+        heading: {
+          faded: string | null
+          bold: string
+        } | null
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }> | null
+        callout: {
+          label: string | null
+          body: string | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'studyChallenge'
+        eyebrow?: string
+        heading: string
+        body?: string
+        issues: Array<{
+          _key: string
+          tag: string
+          body: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'studyClosingCta'
+        heading: {
+          regular: string
+          bold: string
+        } | null
+        body: string | null
+        cta: {
+          _type: 'button'
+          buttonText?: string
+          link: {
+            _type: 'link'
+            linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+            href?: string
+            page: string | null
+            post: string | null
+            service: string | null
+            project: string | null
+            openInNewTab?: boolean
+          } | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'studyHero'
+        eyebrow?: string
+        heading: string
+        subheading?: string
+        chapters?: Array<string>
+        details: Array<{
+          _key: string
+          label: string
+          value: string
+        }> | null
+        heroImage: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        } | null
+        projectTitle: string
+        projectTagline: null
+        projectThumb: null
+      }
+    | {
+        _key: string
+        _type: 'studyHeroImage'
+        image: {
+          asset: {
+            _id: string
+            _type: 'sanity.imageAsset'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            originalFilename?: string
+            label?: string
+            title?: string
+            description?: string
+            altText?: string
+            sha1hash: string
+            extension: string
+            mimeType: string
+            size: number
+            assetId: string
+            uploadId?: string
+            path: string
+            url: string
+            metadata?: SanityImageMetadata
+            source?: SanityAssetSourceData
+          } | null
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        alt?: string
+      }
+    | {
+        _key: string
+        _type: 'studyKeyWins'
+        eyebrow?: string
+        heading?: string
+        comparison: {
+          beforeLabel: string | null
+          afterLabel: string | null
+          rows: Array<{
+            _key: string
+            label: string
+            before: string
+            after: string
+          }>
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'studyMoreLikeThis'
+        heading: {
+          regular: string | null
+          bold: string | null
+        } | null
+        items: Array<{
+          _id: string
+          client: string
+          slug: Slug
+          year: string
+          category: string
+          industry: string
+          tagline: string
+          metric: string | null
+          metricLabel: string | null
+          thumb: string | null
+        }>
+      }
+    | {
+        _key: string
+        _type: 'studyNumbers'
+        eyebrow?: string
+        heading?: string
+        footnote?: string
+        stats: Array<{
+          _key: string
+          value: string
+          label: string
+          description: string | null
+        }>
+      }
+    | {
+        _key: string
+        _type: 'studyTechStack'
+        eyebrow: string | null
+        tools: Array<{
+          name: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          }
+        }>
+      }
+    | {
+        _key: string
+        _type: 'studyTestimonial'
+        eyebrow?: string
+        quote: {
+          profilePicture: {
+            asset: {
+              _id: string
+              url: string
+              metadata: {
+                lqip: string | null
+                dimensions: SanityImageDimensions | null
+              } | null
+            } | null
+          } | null
+          quote: string
+          attribution: string
+          source: string | null
+          accent: boolean | null
+        } | null
+      }
+    | {
+        _key: string
+        _type: 'studyWhatWeBuilt'
+        eyebrow?: string
+        heading?: string
+        features: Array<{
+          _key: string
+          number: string
+          title: string
+          body: string
+          image: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown // Unable to locate the referenced type "object.image.media" in schema
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }>
+      }
+    | {
+        _key: string
+        _type: 'team'
+        eyebrow?: string
+        heading: string
+        members: Array<{
+          _id: string
+          _type: 'teamMember'
+          _createdAt: string
+          _updatedAt: string
+          _rev: string
+          name: string
+          slug: Slug
+          order: number
+          role: string
+          isAuthor?: boolean
+          bio: string
+          portrait: {
+            asset: {
+              _id: string
+              _type: 'sanity.imageAsset'
+              _createdAt: string
+              _updatedAt: string
+              _rev: string
+              originalFilename?: string
+              label?: string
+              title?: string
+              description?: string
+              altText?: string
+              sha1hash: string
+              extension: string
+              mimeType: string
+              size: number
+              assetId: string
+              uploadId?: string
+              path: string
+              url: string
+              metadata?: SanityImageMetadata
+              source?: SanityAssetSourceData
+            } | null
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+          linkedin?: string
+          instagram?: string
+          facebook?: string
+          github?: string
+          x?: string
+          tiktok?: string
+          badges?: Array<string>
+          seo?: Seo
+        }>
+        closingStatement: string
+      }
+    | {
+        _key: string
+        _type: 'techStack'
+        eyebrow?: string
+        headingRegular?: string
+        headingBold: string
+        groups?: Array<{
+          title: string
+          items?: Array<{
+            name: string
+            logo?: Logo
+            _type: 'item'
+            _key: string
+          }>
+          _type: 'group'
+          _key: string
+        }>
+        closingNote?: string
+      }
+    | {
+        _key: string
+        _type: 'testimonials'
+        eyebrow: string
+        logos: Array<{
+          name: string
+          logoLight: string | null
+          logoDark: string | null
+          link: string | null
+        }>
+        testimonials: Array<{
+          name: string
+          attribution: string
+          quote: string
+          profilePicture: {
+            asset?: SanityImageAssetReference
+            media?: unknown
+            hotspot?: SanityImageHotspot
+            crop?: SanityImageCrop
+            _type: 'image'
+          } | null
+        }>
+      }
+    | {
+        _key: string
+        _type: 'whatWeDo'
+        eyebrow?: string
+        heading?: string
+        ctaSection: {
+          heading?: string
+          subheading?: string
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          } | null
+        } | null
+        cards: Array<{
+          kind?: 'ai' | 'engineering'
+          label?: string
+          labelImage?: LabelImage
+          labelImageLight?: LabelImageLight
+          labelImageDark?: LabelImageDark
+          title: string
+          body?: string
+          services: Array<{
+            _id: string
+            _type: 'service'
+            _createdAt: string
+            _updatedAt: string
+            _rev: string
+            name: string
+            description: string
+            price: string
+            category: 'ai' | 'engineering'
+            tag: string
+            slug: Slug
+            duration: string
+            pageBuilder?: Array<
+              | ({
+                  _key: string
+                } & AiServices)
+              | ({
+                  _key: string
+                } & Awards)
+              | ({
+                  _key: string
+                } & Booking)
+              | ({
+                  _key: string
+                } & Compare)
+              | ({
+                  _key: string
+                } & ContactHero)
+              | ({
+                  _key: string
+                } & Cta)
+              | ({
+                  _key: string
+                } & EngineeringServices)
+              | ({
+                  _key: string
+                } & Faq)
+              | ({
+                  _key: string
+                } & FreeResources)
+              | ({
+                  _key: string
+                } & HomeHero)
+              | ({
+                  _key: string
+                } & Industries)
+              | ({
+                  _key: string
+                } & InsightBlock)
+              | ({
+                  _key: string
+                } & InsightsGrid)
+              | ({
+                  _key: string
+                } & IsThisForYou)
+              | ({
+                  _key: string
+                } & Methodology)
+              | ({
+                  _key: string
+                } & Origin)
+              | ({
+                  _key: string
+                } & PageHero)
+              | ({
+                  _key: string
+                } & Place)
+              | ({
+                  _key: string
+                } & Portfolio)
+              | ({
+                  _key: string
+                } & PortfolioCta)
+              | ({
+                  _key: string
+                } & PortfolioFeatured)
+              | ({
+                  _key: string
+                } & PortfolioGrid)
+              | ({
+                  _key: string
+                } & PortfolioMetrics)
+              | ({
+                  _key: string
+                } & Press)
+              | ({
+                  _key: string
+                } & Pricing)
+              | ({
+                  _key: string
+                } & Reality)
+              | ({
+                  _key: string
+                } & ServiceHero)
+              | ({
+                  _key: string
+                } & ServiceNavigator)
+              | ({
+                  _key: string
+                } & Signature)
+              | ({
+                  _key: string
+                } & Signature2)
+              | ({
+                  _key: string
+                } & SoundFamiliar)
+              | ({
+                  _key: string
+                } & Steps)
+              | ({
+                  _key: string
+                } & Story)
+              | ({
+                  _key: string
+                } & StudyApproach)
+              | ({
+                  _key: string
+                } & StudyChallenge)
+              | ({
+                  _key: string
+                } & StudyClosingCta)
+              | ({
+                  _key: string
+                } & StudyHero)
+              | ({
+                  _key: string
+                } & StudyHeroImage)
+              | ({
+                  _key: string
+                } & StudyKeyWins)
+              | ({
+                  _key: string
+                } & StudyMoreLikeThis)
+              | ({
+                  _key: string
+                } & StudyNumbers)
+              | ({
+                  _key: string
+                } & StudyTechStack)
+              | ({
+                  _key: string
+                } & StudyTestimonial)
+              | ({
+                  _key: string
+                } & StudyWhatWeBuilt)
+              | ({
+                  _key: string
+                } & Team)
+              | ({
+                  _key: string
+                } & TechStack)
+              | ({
+                  _key: string
+                } & Testimonials)
+              | ({
+                  _key: string
+                } & WhatWeDo)
+              | ({
+                  _key: string
+                } & Why)
+              | ({
+                  _key: string
+                } & WhyRomania)
+            >
+            seo?: Seo
+          }> | null
+          cta: {
+            _type: 'button'
+            buttonText?: string
+            link: {
+              _type: 'link'
+              linkType?: 'href' | 'page' | 'post' | 'project' | 'service'
+              href?: string
+              page: string | null
+              post: string | null
+              service: string | null
+              project: string | null
+              openInNewTab?: boolean
+            } | null
+          }
+          texture?: boolean
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'why'
+        eyebrow?: string
+        heading?: string
+        points?: Array<{
+          title?: string
+          body?: string
+          _key: string
+        }>
+      }
+    | {
+        _key: string
+        _type: 'whyRomania'
+        eyebrow?: string
+        title: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        body: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'blockquote' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<{
+            href?: string
+            _type: 'link'
+            _key: string
+            page: null
+            post: null
+            service: null
+            project: null
+          }> | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }>
+        highlights: Array<{
+          stat: string
+          description: string
+        }> | null
+      }
+  > | null
+} | null
 
 // Source: sanity/lib/queries.ts
 // Variable: emailTemplateQuery
 // Query: *[_type == "emailTemplate" && type == $type][0]{    _id,    _type,    type,    subject,    title,    body[]{      ...,      markDefs[]{        ...,        "href": href      }    },    footer[]{      ...,      markDefs[]{        ...,        "href": href      }    }  }
-export type EmailTemplateQueryResult = null
+export type EmailTemplateQueryResult = {
+  _id: string
+  _type: 'emailTemplate'
+  type: 'contact' | 'resource' | null
+  subject: string
+  title: string
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs: Array<{
+      href: string | null
+      _type: 'link'
+      _key: string
+    }> | null
+    level?: number
+    _type: 'block'
+    _key: string
+  }>
+  footer: Array<{
+    children?: Array<{
+      marks?: Array<string>
+      text?: string
+      _type: 'span'
+      _key: string
+    }>
+    style?: 'normal'
+    listItem?: never
+    markDefs: Array<{
+      href: string | null
+      _type: 'link'
+      _key: string
+    }> | null
+    level?: number
+    _type: 'block'
+    _key: string
+  }> | null
+} | null
 
 // Source: sanity/lib/queries.ts
 // Variable: authorQuery
-// Query: *[_type == "teamMember" && isAuthor == true && slug == $slug][0]{    _id,    _type,    name,    role,    bio,    portrait,    linkedin,    instagram,    facebook,    github,    x,    tiktok,    badges[],      seo{    ...,    ogImage   {    ...,    asset->  },    twitterImage   {    ...,    asset->  },    socialImage   {    ...,    asset->  },    alternateLanguages[]{      ...,      languageCode,      url,      isDefault    }  },  }
-export type AuthorQueryResult = null
+// Query: *[_type == "teamMember" && isAuthor == true && slug.current == $slug][0]{    _id,    _type,    name,    role,    bio,    "portrait": portrait.asset->url,    linkedin,    instagram,    facebook,    github,    x,    tiktok,    badges[],      seo{    ...,    ogImage   {    ...,    asset->  },    twitterImage   {    ...,    asset->  },    socialImage   {    ...,    asset->  },    alternateLanguages[]{      ...,      languageCode,      url,      isDefault    }  },  }
+export type AuthorQueryResult = {
+  _id: string
+  _type: 'teamMember'
+  name: string
+  role: string
+  bio: string
+  portrait: string | null
+  linkedin: string | null
+  instagram: string | null
+  facebook: string | null
+  github: string | null
+  x: string | null
+  tiktok: string | null
+  badges: Array<string> | null
+  seo: {
+    _type: 'seo'
+    metaTitle?: string
+    metaDescription?: string
+    metaKeywords?: Array<string>
+    seoTitleSuffix?: string
+    canonicalUrl?: string
+    robotsMode?: 'custom' | 'indexFollow' | 'inherit' | 'noIndexNoFollow'
+    robots?: string
+    googleBot?: string
+    noIndex?: boolean
+    noFollow?: boolean
+    noArchive?: boolean
+    noSnippet?: boolean
+    noImageIndex?: boolean
+    maxSnippet?: number
+    maxImagePreview?: string
+    maxVideoPreview?: number
+    paginationPrevUrl?: string
+    paginationNextUrl?: string
+    ogTitle?: string
+    ogDescription?: string
+    ogImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    ogType?: 'article' | 'profile' | 'website'
+    ogUrl?: string
+    ogSiteName?: string
+    ogLocale?: string
+    twitterCard?: 'summary_large_image' | 'summary'
+    twitterTitle?: string
+    twitterDescription?: string
+    twitterImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    twitterSite?: string
+    twitterCreator?: string
+    socialTitle?: string
+    socialDescription?: string
+    socialImage: {
+      asset: {
+        _id: string
+        _type: 'sanity.imageAsset'
+        _createdAt: string
+        _updatedAt: string
+        _rev: string
+        originalFilename?: string
+        label?: string
+        title?: string
+        description?: string
+        altText?: string
+        sha1hash: string
+        extension: string
+        mimeType: string
+        size: number
+        assetId: string
+        uploadId?: string
+        path: string
+        url: string
+        metadata?: SanityImageMetadata
+        source?: SanityAssetSourceData
+      } | null
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    } | null
+    socialImageAlt?: string
+    schemaType?:
+      | 'AboutPage'
+      | 'Article'
+      | 'ContactPage'
+      | 'FAQPage'
+      | 'ProfilePage'
+      | 'Service'
+      | 'WebPage'
+    structuredDataMode?: 'custom' | 'generated' | 'inherit'
+    structuredData?: string
+    enableBreadcrumbSchema?: boolean
+    enableFaqSchema?: boolean
+    searchTitle?: string
+    searchDescription?: string
+    breadcrumbTitle?: string
+    locale?: string
+    themeColor?: string
+    applicationName?: string
+    category?: string
+    referrer?: string
+    formatDetection?: string
+    alternateLanguages: null
+  } | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: getInsightsByAuthor
+// Query: *[_type == "post" && author._ref == $id] | order(publishedAt desc, _updatedAt desc)  {    _id,    _type,    title,    slug,    excerpt,    coverImage {      ...,      asset->    },    "cover": coverImage.asset->url,    "category": category->{_id, title, slug},    publishedAt,    readTime,    featured,    stats[]{      value,      label    },  }
+export type GetInsightsByAuthorResult = Array<{
+  _id: string
+  _type: 'post'
+  title: string
+  slug: Slug
+  excerpt: string | null
+  coverImage: {
+    asset: {
+      _id: string
+      _type: 'sanity.imageAsset'
+      _createdAt: string
+      _updatedAt: string
+      _rev: string
+      originalFilename?: string
+      label?: string
+      title?: string
+      description?: string
+      altText?: string
+      sha1hash: string
+      extension: string
+      mimeType: string
+      size: number
+      assetId: string
+      uploadId?: string
+      path: string
+      url: string
+      metadata?: SanityImageMetadata
+      source?: SanityAssetSourceData
+    } | null
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
+  cover: string | null
+  category: {
+    _id: string
+    title: string
+    slug: Slug
+  } | null
+  publishedAt: string | null
+  readTime: number | null
+  featured: boolean | null
+  stats: Array<{
+    value: string | null
+    label: string | null
+  }> | null
+}>
 
 // Query TypeMap
 import '@sanity/client'
 declare module '@sanity/client' {
   interface SanityQueries {
     '*[_type == "freeResource" && defined(slug.current)]{"slug": slug.current}': AllFreeResourceSlugsQueryResult
-    '\n  {\n    "pages": *[\n      _type == "page" &&\n      (pageType == "home" || defined(slug.current))\n    ]{\n      _id,\n      _updatedAt,\n      pageType,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "posts": *[_type == "post" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      publishedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "services": *[_type == "service" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "projects": *[_type == "project" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "freeResources": *[_type == "freeResource" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    }\n  }\n': SitemapQueryResult
+    '\n  {\n    "pages": *[\n      _type == "page" &&\n      (pageType == "home" || defined(slug.current))\n    ]{\n      _id,\n      _updatedAt,\n      pageType,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "posts": *[_type == "post" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      publishedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "services": *[_type == "service" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "projects": *[_type == "project" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "freeResources": *[_type == "freeResource" && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    },\n    "authors": *[_type == "teamMember" && isAuthor == true && defined(slug.current)]{\n      _id,\n      _updatedAt,\n      "slug": slug.current,\n      seo{\n        canonicalUrl,\n        robotsMode,\n        robots,\n        googleBot,\n        noIndex,\n        noFollow,\n        noArchive,\n        noSnippet,\n        noImageIndex,\n        maxSnippet,\n        maxImagePreview,\n        maxVideoPreview\n      }\n    }\n  }\n': SitemapQueryResult
     '\n  *[_type == "siteSettings" && (_id == "siteSettings" || _id == "drafts.siteSettings")][0]{\n    ...,\n    phoneNumber,\n    instagram,\n    facebook,\n    linkedin,\n    github,\n    x,\n    tiktok,\n    logoPicture {\n      ...,\n      asset->\n    },\n    ogImage {\n      ...,\n      asset->\n    },\n    navLinks[]{\n      _key,\n      "name": label,\n      "slug": "/" + page->slug.current\n    },\n    cta {\n      buttonText,\n      link {\n        linkType,\n        href,\n        "page": page->slug.current,\n        "post": post->slug.current,\n        "service": service->slug.current,\n        "project": project->slug.current,\n        openInNewTab\n      }\n    },\n    footerColumns[]{\n      _key,\n      title,\n      links[]{\n        _key,\n        label,\n        accent,\n        "href": select(\n          linkType == "page" => "/" + page->slug.current,\n          linkType == "service" => "/services/" + service->slug.current,\n          linkType == "href" => href\n        )\n      }\n    },\n    legalLinks[]->{\n      _id,\n      name,\n      "href": "/" + slug.current\n    },\n    cookieSettings{\n      enabled,\n      bannerTitle,\n      bannerDescription[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      preferencesTitle,\n      preferencesDescription,\n      acceptAllLabel,\n      initialSaveLabel,\n      customizeLabel,\n      rejectAllLabel,\n      savePreferencesLabel,\n      backLabel,\n      footerButtonLabel,\n      categories[]{\n        _key,\n        title,\n        description,\n        required,\n        defaultEnabled,\n        lockedLabel\n      }\n    }\n  }\n': SettingsQueryResult
     '\n  *[_type == "seoSettings" && (_id == "seoSettings" || _id == "drafts.seoSettings")][0]{\n    \n  siteName,\n  defaultSeo{\n    ...,\n    ogImage \n  {\n    ...,\n    asset->\n  }\n,\n    twitterImage \n  {\n    ...,\n    asset->\n  }\n,\n    socialImage \n  {\n    ...,\n    asset->\n  }\n,\n    alternateLanguages[]{\n      ...,\n      languageCode,\n      url,\n      isDefault\n    }\n  },\n  googleSiteVerification,\n  bingSiteVerification,\n  pinterestVerification,\n  yandexVerification,\n  facebookDomainVerification\n\n  }\n': SeoSettingsQueryResult
     '\n  *[_type == \'page\' && (\n    ($slug == "" && pageType == \'home\') ||\n    ($slug != "" && slug.current == $slug)\n  )][0]{\n    _id,\n    _type,\n    name,\n    slug,\n    pageType,\n    \n  seo{\n    ...,\n    ogImage \n  {\n    ...,\n    asset->\n  }\n,\n    twitterImage \n  {\n    ...,\n    asset->\n  }\n,\n    socialImage \n  {\n    ...,\n    asset->\n  }\n,\n    alternateLanguages[]{\n      ...,\n      languageCode,\n      url,\n      isDefault\n    }\n  }\n,\n    heading,\n    subheading,\n    \n  "pageBuilder": pageBuilder[]{\n    ...,\n    _type == "homeHero" => {\n      ...,\n      primaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      secondaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "serviceHero" => {\n      ...,\n      breadcrumb {\n        rootLabel,\n        categoryLabel,\n        currentLabel\n      },\n      headlineLines,\n      description,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      leadingHighlights[]{\n        value,\n        label\n      },\n      trailingHighlights[]{\n        value,\n        label\n      },\n      "serviceName": ^.name,\n      "serviceCategory": ^.category,\n      "serviceDescription": ^.description,\n      "servicePrice": ^.price,\n      "serviceDuration": ^.duration\n    },\n    _type == "pageHero" => {\n      ...,\n      eyebrow,\n      heading,\n      subheading,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      featured->{\n        _type,\n        _id,\n        slug,\n        _type == "post" => {\n          title,\n          excerpt,\n          "category": category->{_id, title, slug},\n          publishedAt,\n          readTime,\n          "cover": coverImage.asset->url,\n          author->{name}\n        },\n        _type == "project" => {\n          client,\n          year,\n          "category": category->name,\n          "industry": industry->name,\n          tagline,\n          "cover": thumb.asset->url\n        }\n      }\n    },\n    _type == "contactHero" => {\n      ...,\n      eyebrow,\n      heading,\n      description,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      steps[]{\n        title,\n        description\n      },\n      formConfig {\n        services,\n        budgetRanges,\n        timelines,\n        hearAboutUs\n      }\n    },\n    _type == "insightBlock" => {\n      ...,\n      text[]{\n        \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n      },\n      quote {\n        attribution,\n        quote[]{\n          \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n        }\n      },\n      card {\n        label,\n        body[]{\n          \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n        }\n      }\n    },\n    _type == "booking" => {\n      ...,\n      heading,\n      callTitle,\n      whatToExpectHeading,\n      expectations,\n      schedulerUrl,\n      teamMember->{\n        name,\n        role,\n        portrait\n      }\n    },\n    _type == "callToAction" => {\n      ...,\n      button {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "infoSection" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      }\n    },\n    _type == "testimonials" => {\n      ...,\n      eyebrow,\n      logos[]{\n        name,\n        "logoLight": logoLight.asset->url,\n        "logoDark": logoDark.asset->url,\n        link,\n      },\n      testimonials[]->{\n        name,\n        attribution,\n        quote,\n        profilePicture\n      }\n    },\n    _type == "whatWeDo" => {\n      ...,\n      ctaSection {\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        },\n        services[]->{\n          ...\n        }\n      }\n    },\n    _type == "signature" => {\n      ...,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "signature2" => {\n      ...,\n      steps[]{\n        ...,\n        title,\n        highlighted,\n        graphic\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "team" => {\n      ...,\n      members[]->{\n        ...,\n        portrait {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "story" => {\n      ...,\n      milestones[]{\n        year,\n        body\n      }\n    },\n    _type == "portfolio" => {\n      ...,\n      eyebrow,\n      heading,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      cards[]{\n        ...,\n        project->{\n          _id,\n          title,\n          client,\n          year,\n          slug,\n          "category": category->name,\n          tagline,\n          "thumb": thumb.asset->url\n        }\n      }\n    },\n    _type == "pricing" => {\n      ...,\n      tiers[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "cta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      subtext\n    },\n    _type == "engineeringServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "serviceNavigator" => {\n      ...,\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      closingCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "soundFamiliar" => {\n      ...,\n      painPoints[]{\n        ...,\n        title,\n        body\n      }\n    },\n    _type == "aiServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        },\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "industries" => {\n      ...,\n      industries[]{\n        ...,\n        icon\n      }\n    },\n    _type == "reality" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      points[]{\n        title,\n        body\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "compare" => {\n      ...,\n      heading {\n        highlighted,\n        regular\n      },\n      rows[]{\n        label\n      },\n      columns[]{\n        name,\n        highlightColumn,\n        values[]{\n          available\n        }\n      },\n      closing {\n        lead,\n        highlight,\n        followup\n      }\n    },\n    _type == "whyRomania" => {\n      ...,\n      title[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      body[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      highlights[]{\n        stat,\n        description\n      }\n    },\n    _type == "faq" => {\n      ...,\n      items[]{\n        ...\n      }\n    },\n    _type == "isThisForYou" => {\n      ...,\n      items[]{\n        text\n      }\n    },\n    _type == "steps" => {\n      ...,\n      items[]{\n        ...,\n        title,\n        duration,\n        body\n      },\n      visual {\n        ...,\n        asset->\n      }\n    },\n    _type == "insightsGrid" => {\n      ...,\n      categoryFilters[]{\n        label,\n        value\n      },\n      items[]->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        "category": category->{_id, title, slug},\n        publishedAt,\n        readTime,\n        featured,\n        "cover": coverImage.asset->url,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "freeResources" => {\n      ...,\n      heading {\n        faded,\n        bold,\n        regular,\n        trailing\n      },\n      items[]->{\n        ...,\n        "fileUrl": file.asset.asset->url,\n      }\n    },\n    _type == "studyHero" => {\n      ...,\n      details[]{\n        _key,\n        label,\n        value\n      },\n      heroImage {\n        ...,\n        asset->\n      },\n      "projectTitle": ^.title,\n      "projectTagline": ^.tagline,\n      "projectThumb": ^.thumb.asset->url\n    },\n    _type == "studyHeroImage" => {\n      ...,\n      image {\n        ...,\n        asset->\n      }\n    },\n    _type == "studyChallenge" => {\n      ...,\n      issues[]{\n        _key,\n        tag,\n        body\n      }\n    },\n    _type == "studyApproach" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      body[]{\n        \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n      },\n      callout {\n        label,\n        body\n      }\n    },\n    _type == "studyKeyWins" => {\n      ...,\n      comparison {\n        beforeLabel,\n        afterLabel,\n        rows[]{\n          _key,\n          label,\n          before,\n          after\n        }\n      }\n    },\n    _type == "studyWhatWeBuilt" => {\n      ...,\n      features[]{\n        _key,\n        number,\n        title,\n        body,\n        image {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "studyNumbers" => {\n      ...,\n      stats[]{\n        _key,\n        value,\n        label,\n        description\n      }\n    },\n    _type == "studyTestimonial" => {\n      ...,\n      quote {\n        profilePicture {\n          asset->{\n            _id,\n            url,\n            metadata { lqip, dimensions }\n          }\n        },\n        quote,\n        attribution,\n        source,\n        accent\n      }\n    },\n    _type == "studyTechStack" => {\n      ...,\n      tools[]{\n        _key,\n        name,\n        logo {\n          asset->{\n            _id,\n            url,\n            metadata {\n              dimensions\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    _type == "studyMoreLikeThis" => {\n      ...,\n      heading {\n        regular,\n        bold\n      },\n      items[]->{\n        _id,\n        client,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        "thumb": thumb.asset->url\n      }\n    },\n    _type == "studyClosingCta" => {\n      ...,\n      heading {\n        regular,\n        bold\n      },\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "portfolioFeatured" => {\n      ...,\n      caseStudy->{\n        _id,\n        client,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioGrid" => {\n      ...,\n      items[]->{\n        _id,\n        client,\n        title,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioMetrics" => {\n      ...,\n      items[]{\n        value,\n        label\n      }\n    },\n    _type == "portfolioCta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "place" => {\n      ...,\n      message,\n      backgroundGraphic {\n        ...,\n        asset->\n      }\n    },\n    _type == "awards" => {\n      ...,\n      eyebrow,\n      items[]{\n        title,\n        recognitions,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      featuredTitle,\n      featuredBadge {\n        ...,\n        asset->\n      }\n    },\n    _type == "press" => {\n      ...,\n      eyebrow,\n      heading,\n      cardTitle,\n      cardBody,\n      ctaLabel,\n      file {\n        ...,\n        asset->\n      }\n    },\n    _type == "studyTechStack" => {\n      ...,\n      eyebrow,\n      tools[]->{\n        name,\n        image {\n          ...,\n          asset->\n        }\n      }\n    },\n  }\n,\n  }\n': PageQueryResult
@@ -13450,6 +17179,7 @@ declare module '@sanity/client' {
     '\n  coalesce(\n    *[_type in ["page", "service", "project", "post"] && (\n      ($pageSlug == "" && _type == "page" && pageType == "home") ||\n      ($pageSlug != "" && slug.current == $pageSlug)\n    )][0]{\n      "item": pageBuilder[_type == "freeResources"][0].items[_key == $itemKey]->{\n        title,\n        externalLink,\n        askForEmail,\n        "fileUrl": file.asset.asset->url\n      }\n    }.item,\n    *[_type == "freeResource" && _id == $itemKey][0]{\n      title,\n      externalLink,\n      askForEmail,\n      "fileUrl": file.asset.asset->url\n    }\n  )\n': ResourceByKeyQueryResult
     '\n  *[_type == "freeResource" && slug.current == $slug][0]{\n    _id,\n    _type,\n    title,\n    "slug": slug.current,\n    \n  seo{\n    ...,\n    ogImage \n  {\n    ...,\n    asset->\n  }\n,\n    twitterImage \n  {\n    ...,\n    asset->\n  }\n,\n    socialImage \n  {\n    ...,\n    asset->\n  }\n,\n    alternateLanguages[]{\n      ...,\n      languageCode,\n      url,\n      isDefault\n    }\n  }\n,\n    description,\n    badge,\n    cta,\n    file {\n      type,\n      asset {\n        asset->{\n          url\n        }\n      }\n    },\n    externalLink,\n    askForEmail,\n    downloadCta {\n      heading,\n      subheading,\n      buttonText\n    },\n    \n  "pageBuilder": pageBuilder[]{\n    ...,\n    _type == "homeHero" => {\n      ...,\n      primaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      secondaryCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "serviceHero" => {\n      ...,\n      breadcrumb {\n        rootLabel,\n        categoryLabel,\n        currentLabel\n      },\n      headlineLines,\n      description,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      leadingHighlights[]{\n        value,\n        label\n      },\n      trailingHighlights[]{\n        value,\n        label\n      },\n      "serviceName": ^.name,\n      "serviceCategory": ^.category,\n      "serviceDescription": ^.description,\n      "servicePrice": ^.price,\n      "serviceDuration": ^.duration\n    },\n    _type == "pageHero" => {\n      ...,\n      eyebrow,\n      heading,\n      subheading,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      featured->{\n        _type,\n        _id,\n        slug,\n        _type == "post" => {\n          title,\n          excerpt,\n          "category": category->{_id, title, slug},\n          publishedAt,\n          readTime,\n          "cover": coverImage.asset->url,\n          author->{name}\n        },\n        _type == "project" => {\n          client,\n          year,\n          "category": category->name,\n          "industry": industry->name,\n          tagline,\n          "cover": thumb.asset->url\n        }\n      }\n    },\n    _type == "contactHero" => {\n      ...,\n      eyebrow,\n      heading,\n      description,\n      stats[]{\n        number,\n        suffix,\n        label\n      },\n      steps[]{\n        title,\n        description\n      },\n      formConfig {\n        services,\n        budgetRanges,\n        timelines,\n        hearAboutUs\n      }\n    },\n    _type == "insightBlock" => {\n      ...,\n      text[]{\n        \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n      },\n      quote {\n        attribution,\n        quote[]{\n          \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n        }\n      },\n      card {\n        label,\n        body[]{\n          \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n        }\n      }\n    },\n    _type == "booking" => {\n      ...,\n      heading,\n      callTitle,\n      whatToExpectHeading,\n      expectations,\n      schedulerUrl,\n      teamMember->{\n        name,\n        role,\n        portrait\n      }\n    },\n    _type == "callToAction" => {\n      ...,\n      button {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "infoSection" => {\n      content[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      }\n    },\n    _type == "testimonials" => {\n      ...,\n      eyebrow,\n      logos[]{\n        name,\n        "logoLight": logoLight.asset->url,\n        "logoDark": logoDark.asset->url,\n        link,\n      },\n      testimonials[]->{\n        name,\n        attribution,\n        quote,\n        profilePicture\n      }\n    },\n    _type == "whatWeDo" => {\n      ...,\n      ctaSection {\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        },\n        services[]->{\n          ...\n        }\n      }\n    },\n    _type == "signature" => {\n      ...,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "signature2" => {\n      ...,\n      steps[]{\n        ...,\n        title,\n        highlighted,\n        graphic\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "team" => {\n      ...,\n      members[]->{\n        ...,\n        portrait {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "story" => {\n      ...,\n      milestones[]{\n        year,\n        body\n      }\n    },\n    _type == "portfolio" => {\n      ...,\n      eyebrow,\n      heading,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      cards[]{\n        ...,\n        project->{\n          _id,\n          title,\n          client,\n          year,\n          slug,\n          "category": category->name,\n          tagline,\n          "thumb": thumb.asset->url\n        }\n      }\n    },\n    _type == "pricing" => {\n      ...,\n      tiers[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "cta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      },\n      subtext\n    },\n    _type == "engineeringServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        }\n      }\n    },\n    _type == "serviceNavigator" => {\n      ...,\n      cards[]{\n        ...,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      closingCta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "soundFamiliar" => {\n      ...,\n      painPoints[]{\n        ...,\n        title,\n        body\n      }\n    },\n    _type == "aiServices" => {\n      ...,\n      services[]{\n        ...,\n        service->{\n          ...\n        },\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      }\n    },\n    _type == "industries" => {\n      ...,\n      industries[]{\n        ...,\n        icon\n      }\n    },\n    _type == "reality" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      points[]{\n        title,\n        body\n      },\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "compare" => {\n      ...,\n      heading {\n        highlighted,\n        regular\n      },\n      rows[]{\n        label\n      },\n      columns[]{\n        name,\n        highlightColumn,\n        values[]{\n          available\n        }\n      },\n      closing {\n        lead,\n        highlight,\n        followup\n      }\n    },\n    _type == "whyRomania" => {\n      ...,\n      title[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      body[]{\n        ...,\n        markDefs[]{\n          ...,\n          \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n        }\n      },\n      highlights[]{\n        stat,\n        description\n      }\n    },\n    _type == "faq" => {\n      ...,\n      items[]{\n        ...\n      }\n    },\n    _type == "isThisForYou" => {\n      ...,\n      items[]{\n        text\n      }\n    },\n    _type == "steps" => {\n      ...,\n      items[]{\n        ...,\n        title,\n        duration,\n        body\n      },\n      visual {\n        ...,\n        asset->\n      }\n    },\n    _type == "insightsGrid" => {\n      ...,\n      categoryFilters[]{\n        label,\n        value\n      },\n      items[]->{\n        _id,\n        title,\n        slug,\n        excerpt,\n        "category": category->{_id, title, slug},\n        publishedAt,\n        readTime,\n        featured,\n        "cover": coverImage.asset->url,\n        author->{name, role, portrait}\n      }\n    },\n    _type == "freeResources" => {\n      ...,\n      heading {\n        faded,\n        bold,\n        regular,\n        trailing\n      },\n      items[]->{\n        ...,\n        "fileUrl": file.asset.asset->url,\n      }\n    },\n    _type == "studyHero" => {\n      ...,\n      details[]{\n        _key,\n        label,\n        value\n      },\n      heroImage {\n        ...,\n        asset->\n      },\n      "projectTitle": ^.title,\n      "projectTagline": ^.tagline,\n      "projectThumb": ^.thumb.asset->url\n    },\n    _type == "studyHeroImage" => {\n      ...,\n      image {\n        ...,\n        asset->\n      }\n    },\n    _type == "studyChallenge" => {\n      ...,\n      issues[]{\n        _key,\n        tag,\n        body\n      }\n    },\n    _type == "studyApproach" => {\n      ...,\n      heading {\n        faded,\n        bold\n      },\n      body[]{\n        \n  ...,\n  _type == "image" => {\n    ...,\n    asset->{\n      url,\n      metadata{\n        dimensions{\n          width,\n          height\n        }\n      }\n    }\n  },\n  markDefs[]{\n    ...,\n    \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n  }\n\n      },\n      callout {\n        label,\n        body\n      }\n    },\n    _type == "studyKeyWins" => {\n      ...,\n      comparison {\n        beforeLabel,\n        afterLabel,\n        rows[]{\n          _key,\n          label,\n          before,\n          after\n        }\n      }\n    },\n    _type == "studyWhatWeBuilt" => {\n      ...,\n      features[]{\n        _key,\n        number,\n        title,\n        body,\n        image {\n          ...,\n          asset->\n        }\n      }\n    },\n    _type == "studyNumbers" => {\n      ...,\n      stats[]{\n        _key,\n        value,\n        label,\n        description\n      }\n    },\n    _type == "studyTestimonial" => {\n      ...,\n      quote {\n        profilePicture {\n          asset->{\n            _id,\n            url,\n            metadata { lqip, dimensions }\n          }\n        },\n        quote,\n        attribution,\n        source,\n        accent\n      }\n    },\n    _type == "studyTechStack" => {\n      ...,\n      tools[]{\n        _key,\n        name,\n        logo {\n          asset->{\n            _id,\n            url,\n            metadata {\n              dimensions\n            }\n          },\n          hotspot,\n          crop\n        }\n      }\n    },\n    _type == "studyMoreLikeThis" => {\n      ...,\n      heading {\n        regular,\n        bold\n      },\n      items[]->{\n        _id,\n        client,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        "thumb": thumb.asset->url\n      }\n    },\n    _type == "studyClosingCta" => {\n      ...,\n      heading {\n        regular,\n        bold\n      },\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "portfolioFeatured" => {\n      ...,\n      caseStudy->{\n        _id,\n        client,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioGrid" => {\n      ...,\n      items[]->{\n        _id,\n        client,\n        title,\n        slug,\n        year,\n        "category": category->name,\n        "industry": industry->name,\n        tagline,\n        metric,\n        metricLabel,\n        thumb\n      }\n    },\n    _type == "portfolioMetrics" => {\n      ...,\n      items[]{\n        value,\n        label\n      }\n    },\n    _type == "portfolioCta" => {\n      ...,\n      heading,\n      body,\n      cta {\n        ...,\n        \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n      }\n    },\n    _type == "place" => {\n      ...,\n      message,\n      backgroundGraphic {\n        ...,\n        asset->\n      }\n    },\n    _type == "awards" => {\n      ...,\n      eyebrow,\n      items[]{\n        title,\n        recognitions,\n        cta {\n          ...,\n          \n  link {\n      ...,\n      \n  _type == "link" => {\n    "page": page->slug.current,\n    "post": post->slug.current,\n    "service": service->slug.current,\n    "project": project->slug.current\n  }\n\n      }\n\n        }\n      },\n      featuredTitle,\n      featuredBadge {\n        ...,\n        asset->\n      }\n    },\n    _type == "press" => {\n      ...,\n      eyebrow,\n      heading,\n      cardTitle,\n      cardBody,\n      ctaLabel,\n      file {\n        ...,\n        asset->\n      }\n    },\n    _type == "studyTechStack" => {\n      ...,\n      eyebrow,\n      tools[]->{\n        name,\n        image {\n          ...,\n          asset->\n        }\n      }\n    },\n  }\n\n  }\n': FreeResourceBySlugQueryResult
     '\n  *[_type == "emailTemplate" && type == $type][0]{\n    _id,\n    _type,\n    type,\n    subject,\n    title,\n    body[]{\n      ...,\n      markDefs[]{\n        ...,\n        "href": href\n      }\n    },\n    footer[]{\n      ...,\n      markDefs[]{\n        ...,\n        "href": href\n      }\n    }\n  }\n': EmailTemplateQueryResult
-    '\n  *[_type == "teamMember" && isAuthor == true && slug == $slug][0]{\n    _id,\n    _type,\n    name,\n    role,\n    bio,\n    portrait,\n    linkedin,\n    instagram,\n    facebook,\n    github,\n    x,\n    tiktok,\n    badges[],\n    \n  seo{\n    ...,\n    ogImage \n  {\n    ...,\n    asset->\n  }\n,\n    twitterImage \n  {\n    ...,\n    asset->\n  }\n,\n    socialImage \n  {\n    ...,\n    asset->\n  }\n,\n    alternateLanguages[]{\n      ...,\n      languageCode,\n      url,\n      isDefault\n    }\n  }\n,\n  }\n': AuthorQueryResult
+    '\n  *[_type == "teamMember" && isAuthor == true && slug.current == $slug][0]{\n    _id,\n    _type,\n    name,\n    role,\n    bio,\n    "portrait": portrait.asset->url,\n    linkedin,\n    instagram,\n    facebook,\n    github,\n    x,\n    tiktok,\n    badges[],\n    \n  seo{\n    ...,\n    ogImage \n  {\n    ...,\n    asset->\n  }\n,\n    twitterImage \n  {\n    ...,\n    asset->\n  }\n,\n    socialImage \n  {\n    ...,\n    asset->\n  }\n,\n    alternateLanguages[]{\n      ...,\n      languageCode,\n      url,\n      isDefault\n    }\n  }\n,\n  }\n': AuthorQueryResult
+    '\n    *[_type == "post" && author._ref == $id] | order(publishedAt desc, _updatedAt desc)  {\n    _id,\n    _type,\n    title,\n    slug,\n    excerpt,\n    coverImage {\n      ...,\n      asset->\n    },\n    "cover": coverImage.asset->url,\n    "category": category->{_id, title, slug},\n    publishedAt,\n    readTime,\n    featured,\n    stats[]{\n      value,\n      label\n    },\n  }\n': GetInsightsByAuthorResult
   }
 }

@@ -47,7 +47,7 @@ export default function AuthorHero(member: AuthorHeroParams) {
         .filter((s): s is string => Boolean(s?.length))
 
     return (
-        <section className="relative bg-transparent min-h-screen w-full pt-24 pb-16 flex flex-col gap-6 px-6 lg:px-8 xl:px-12 2xl:px-30">
+        <section className="relative bg-transparent min-h-screen w-full pt-24 pb-16 flex flex-col gap-6 px-6 lg:px-16 2xl:px-30">
             {/* Back button */}
             <div className="flex items-center">
                 <button
@@ -64,15 +64,15 @@ export default function AuthorHero(member: AuthorHeroParams) {
                 </button>
             </div>
 
-            {/* Main content row */}
-            <div className="flex flex-1 items-start gap-16 w-full">
+            {/* Main content row: stacked on mobile, side-by-side on lg+ */}
+            <div className="flex flex-1 flex-col-reverse items-start gap-10 w-full md:flex-row lg:gap-16">
                 {/* Left: text content */}
-                <div className="flex flex-1 min-w-0 flex-col gap-12">
+                <div className="flex flex-1 min-w-0 flex-col gap-8 lg:gap-12">
                     {/* Name + role + socials */}
                     <div className="flex flex-col gap-6 w-full">
-                        <div className="flex items-start gap-6 w-full">
+                        <div className="flex flex-wrap items-start gap-6 w-full">
                             <div className="flex flex-1 min-w-0 flex-col">
-                                <p className="font-funnel text-[48px] leading-[1.2] tracking-[-2px] text-foreground w-full">
+                                <p className="font-funnel text-[32px] leading-[1.2] tracking-[-1px] text-foreground w-full lg:text-[40px] xl:text-[48px] xl:tracking-[-2px]">
                                     {member.name}
                                 </p>
                                 <p className="font-funnel text-[18px] leading-[1.5] text-muted w-full">
@@ -80,7 +80,7 @@ export default function AuthorHero(member: AuthorHeroParams) {
                                 </p>
                             </div>
                             {socials.length > 0 && (
-                                <div className="flex items-start gap-5 shrink-0">
+                                <div className="flex flex-wrap items-start gap-4 shrink-0">
                                     {socials.map((social) => {
                                         const platform = getSocialPlatform(social)
                                         if (!platform) return null
@@ -91,7 +91,7 @@ export default function AuthorHero(member: AuthorHeroParams) {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 aria-label={`${member.name} on ${platform}`}
-                                                className="group relative flex size-[60px] shrink-0 items-center justify-center bg-[var(--bg-card)] transition-colors hover:bg-[rgba(255,65,0,0.3)] active:bg-brand"
+                                                className="group relative flex size-[50px] lg:size-[60px] shrink-0 items-center justify-center bg-[var(--bg-card)] transition-colors hover:bg-[rgba(255,65,0,0.3)] active:bg-brand"
                                             >
                                                 <SocialIcon platform={platform} />
                                                 <AnimatedBorder groupHover />
@@ -105,15 +105,13 @@ export default function AuthorHero(member: AuthorHeroParams) {
                     </div>
 
                     {/* Bio */}
-                    <div className="w-full">
-                        <p className="font-funnel text-[18px] leading-[1.5] text-foreground w-full">
-                            {member.bio}
-                        </p>
-                    </div>
+                    <p className="font-funnel text-[18px] leading-[1.5] text-foreground w-full">
+                        {member.bio}
+                    </p>
 
                     {/* Badges */}
                     {member.badges?.length > 0 && (
-                        <div className="flex flex-wrap gap-6">
+                        <div className="flex flex-wrap gap-4 lg:gap-6">
                             {member.badges.map((badge) => (
                                 <Badge key={badge} text={badge} />
                             ))}
@@ -121,8 +119,8 @@ export default function AuthorHero(member: AuthorHeroParams) {
                     )}
                 </div>
 
-                {/* Right: portrait card */}
-                <div className="relative aspect-square w-full max-w-[360px] shrink-0 overflow-hidden xl:max-w-none xl:w-[440px]">
+                {/* Right: portrait card — full width on mobile, fixed on lg+ */}
+                <div className="relative aspect-square w-full shrink-0 overflow-hidden md:w-[280px] lg:w-[360px] xl:w-[440px]">
                     <BinaryGlitchField isDark={isDarkTheme} />
                     {member.portrait && (
                         <div className="absolute inset-0 z-10 overflow-hidden">
@@ -131,7 +129,7 @@ export default function AuthorHero(member: AuthorHeroParams) {
                                 alt={member.name}
                                 className="object-contain object-bottom"
                                 fill
-                                sizes="(min-width: 1280px) 440px, 360px"
+                                sizes="(min-width: 1280px) 440px, (min-width: 1024px) 360px, (min-width: 768px) 280px, 100vw"
                             />
                         </div>
                     )}
