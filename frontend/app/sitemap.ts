@@ -110,38 +110,54 @@ const sitemapQuery = defineQuery(`
   }
 `)
 
+type SitemapSeo = Pick<
+  Seo,
+  | 'canonicalUrl'
+  | 'robotsMode'
+  | 'robots'
+  | 'googleBot'
+  | 'noIndex'
+  | 'noFollow'
+  | 'noArchive'
+  | 'noSnippet'
+  | 'noImageIndex'
+  | 'maxSnippet'
+  | 'maxImagePreview'
+  | 'maxVideoPreview'
+>
+
 type SitemapQueryResult = {
   pages?: Array<{
     _id: string
     _updatedAt?: string
     pageType?: string
     slug?: string
-    seo?: Seo
+    seo?: SitemapSeo | null
   }>
   posts?: Array<{
     _id: string
     _updatedAt?: string
     publishedAt?: string
     slug?: string
-    seo?: Seo
+    seo?: SitemapSeo | null
   }>
   services?: Array<{
     _id: string
     _updatedAt?: string
     slug?: string
-    seo?: Seo
+    seo?: SitemapSeo | null
   }>
   projects?: Array<{
     _id: string
     _updatedAt?: string
     slug?: string
-    seo?: Seo
+    seo?: SitemapSeo | null
   }>
   freeResources?: Array<{
     _id: string
     _updatedAt?: string
     slug?: string
-    seo?: Seo
+    seo?: SitemapSeo | null
   }>
 }
 
@@ -156,7 +172,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   })
 
   const routeMap = new Map<string, MetadataRoute.Sitemap[number]>()
-  const payload = (data ?? {}) as SitemapQueryResult
+  const payload = (data ?? {}) as unknown as SitemapQueryResult
 
   for (const page of payload.pages ?? []) {
     const path = page.pageType === 'home' ? '/' : `/${page.slug ?? ''}`
