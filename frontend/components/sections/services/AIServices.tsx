@@ -96,7 +96,7 @@ export function AIServices({ data }: { data?: AIServicesData }) {
     <SectionsWrapper
       id="ai-services"
       eyebrow={cleanData?.eyebrow ?? "AI TRANSFORMATION SERVICES"}
-      overrideEyebrowSize="md:text-[16px] lg:text-[18px] xl:text-[25px]"
+      overrideEyebrowSize="md:text-[16px] lg:text-[18px] xl:text-[25px] font-bold"
     >
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         {services.map((item, index) => {

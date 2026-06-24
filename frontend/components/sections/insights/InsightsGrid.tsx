@@ -2,13 +2,11 @@
 
 import { useMemo, useState } from "react";
 import posthog from '@/lib/posthog-client';
-import { AnimatedBorder } from "@/components/AnimatedBorder";
 import { SectionsWrapper } from "@/components/SectionsWrapper";
 import { ArticleCard, type ArticleCardData } from "@/components/partials/ArticleCard";
-import { cn } from "@/lib/utils";
 import { cleanStega } from "@/sanity/lib/utils";
 import dynamic from "next/dynamic";
-
+import FilterButton from "@/components/partials/FilterButton";
 const RevealOnScroll = dynamic(
   () =>
     import("@/components/partials/motion/RevealOnScroll").then(
@@ -21,38 +19,6 @@ export type InsightsGridData = {
   items?: Array<ArticleCardData & { category?: { _id: string; title: string; slug?: { current?: string } } | null }>;
   categoryFilters?: Array<{ label?: string; value?: string }>;
 };
-
-function InsightsFilterButton({
-  label,
-  active,
-  onClick,
-}: {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-}) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsHovered(true)}
-      onBlur={() => setIsHovered(false)}
-      className={cn(
-        "relative inline-flex items-center justify-start text-left border border-transparent bg-surface px-2.5 py-2 font-funnel text-[14px] leading-[1.2] transition-colors md:text-[18px] md:leading-normal",
-        active
-          ? "bg-brand/30 text-black dark:text-[#efefef]"
-          : "text-black/85 hover:text-black dark:text-[#efefef]/85 dark:hover:text-[#efefef]"
-      )}
-    >
-      <AnimatedBorder isHovered={active || isHovered} />
-      <span className="relative z-10">{label}</span>
-    </button>
-  );
-}
 
 function getArticleKey(article: ArticleCardData) {
   if (article._id) return article._id;
@@ -114,20 +80,20 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   }, [items, selectedCategories]);
 
   const eyebrow = (
-    <div className="flex flex-col items-start gap-5">
-      <p className="font-clash uppercase dark:text-white text-black text-4xl leading-[1.2]">
+    <div className="flex flex-col gap-4.5">
+      <h3 className="font-clash uppercase text-[24px] leading-[1.2] text-black dark:text-[#efefef] lg:text-3xl">
         Category
-      </p>
+      </h3>
 
-      <div className="flex flex-wrap items-start gap-5">
+      <div className="flex flex-wrap gap-3 lg:-ml-2.5">
         {categoryOptions.length === 0 ? (
           <p className="text-body text-foreground/60">No categories available.</p>
         ) : (
           categoryOptions.map((option) => (
-            <InsightsFilterButton
+            <FilterButton
               key={option.value}
               label={option.label}
-              active={selectedCategories.includes(option.value)}
+              isActive={selectedCategories.includes(option.value)}
               onClick={() => toggleCategory(option.value)}
             />
           ))
@@ -137,7 +103,7 @@ export function InsightsGrid({ data }: { data?: InsightsGridData }) {
   );
 
   return (
-    <SectionsWrapper id="all-insights" eyebrow={eyebrow}>
+    <SectionsWrapper id="all-insights" eyebrow={eyebrow} overrideEyebrowSize="text-[18px]">
       {filtered.length === 0 ? (
         <p className="text-body text-foreground/60">
           No posts match this filter. Try a different combination.
