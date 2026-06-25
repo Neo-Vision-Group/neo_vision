@@ -47,7 +47,30 @@ export const post = defineType({
       name: 'author',
       title: 'Author',
       type: 'reference',
-      to: [{type: 'teamMember'}],
+      to: [{ type: 'teamMember' }],
+      validation: (Rule) =>
+        Rule.required().custom(async (value, context) => {
+          // If no author is selected yet, let Rule.required() handle it
+          if (!value || !value._ref) {
+            return true;
+          }
+
+          // Access the Sanity client from the context
+          const client = context.getClient({ apiVersion: '2025-09-25' });
+
+          // Fetch the isAuthor field of the referenced teamMember
+          const isAuthor = await client.fetch(
+            `*[_id == $ref][0].isAuthor`,
+            { ref: value._ref }
+          );
+
+          // Return true if valid, or an error message string if invalid
+          if (isAuthor === true) {
+            return true;
+          }
+
+          return 'The selected team member must have "Is Author" checked.';
+        }),
     }),
     defineField({
       name: 'category',
