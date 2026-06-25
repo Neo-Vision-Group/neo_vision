@@ -26,6 +26,10 @@ import type { Seo } from "@/sanity.types";
 export type InsightAuthorData = {
   name?: string | null;
   role?: string | null;
+  isAuthor?: boolean
+  slug?: {
+    current: string | null
+  } | null;
   bio?: string | null;
   portrait?: SanityImageSource | null;
 };

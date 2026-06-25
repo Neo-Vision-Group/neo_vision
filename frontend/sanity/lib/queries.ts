@@ -958,7 +958,7 @@ export const INSIGHT_BY_SLUG_QUERY = defineQuery(`
       publishedAt,
       readTime,
       "cover": coverImage.asset->url,
-      author->{name, role, portrait},
+      author->{name, role, portrait, slug},
     }
   }
 `)

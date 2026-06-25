@@ -8,6 +8,7 @@ import { AnimatedBorder } from "@/components/AnimatedBorder";
 import type { InsightDoc } from "@/app/insights/[slug]/page";
 import { urlForImage } from "@/sanity/lib/utils";
 import { BorderWrapper } from "@/components/BorderWrapper";
+import { authorQuery } from "@/sanity/lib/queries";
 
 function formatDate(iso?: string | null) {
   if (!iso) return null;
@@ -72,6 +73,8 @@ export function InsightHero({ post, origin = '' }: { post: InsightDoc; origin?: 
     ? urlForImage(post.coverImage)?.width(1200).height(1200).fit("crop").url()
     : post.cover || null;
 
+  console.log(post.author)
+
   return (
     <section className="has-hero-pattern bg-transparent relative isolate min-h-screen text-[#111111] dark:text-[#efefef]">
       <div className="relative flex flex-col pt-8 pb-8 md:pt-10 md:pb-10">
@@ -115,7 +118,7 @@ export function InsightHero({ post, origin = '' }: { post: InsightDoc; origin?: 
             <div className="mt-auto flex flex-col items-start gap-4 md:gap-5">
               {post.author?.name ? (
                 <div className="flex items-center gap-4 md:gap-5">
-                  <div className="relative h-10 w-10 shrink-0 bg-black/6 dark:bg-white/6">
+                  <Link href={`/author/${post.author.slug?.current}`} className="relative h-10 w-10 shrink-0 bg-black/6 dark:bg-white/6">
                     {post.author.portrait ? (
                       <BorderWrapper className="h-full w-full">
                         <Image
@@ -135,10 +138,10 @@ export function InsightHero({ post, origin = '' }: { post: InsightDoc; origin?: 
                     <span className="absolute inset-x-0 bottom-0 h-px bg-brand" />
                     <span className="absolute inset-y-0 left-0 w-px bg-brand" />
                     <span className="absolute inset-y-0 right-0 w-px bg-brand" />
-                  </div>
+                  </Link>
 
                   <div className="flex flex-col">
-                    <p className="text-[16px] leading-[1.2] tracking-[-0.02em] md:text-[18px]">{post.author.name}</p>
+                    <Link href={`/author/${post.author.slug?.current}`} className="text-[16px] leading-[1.2] tracking-[-0.02em] md:text-[18px]">{post.author.name}</Link>
                     <p className="text-[12px] leading-[1.2] tracking-[-0.02em] text-black/60 dark:text-white/60 md:text-[14px] xl:text-[16px]">
                       {[post.author.role, publishedDate, post.readTime ? `${post.readTime} min read` : null]
                         .filter(Boolean)
